@@ -486,4 +486,126 @@ export const Components: Record<string, any> = {
       ) || "message"
     return { default: mod.default || mod[exportName] }
   }),
+  "app-shell-01": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/app-shell-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-02": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/app-shell-02/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-02"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-03": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/app-shell-03/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-03"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-04": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/app-shell-04/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-04"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-05": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/app-shell-05/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-05"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sign-in-01": React.lazy(async () => {
+    const mod = await import("@/styles/base-fabricator/blocks/sign-in-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sign-in-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sign-up-01": React.lazy(async () => {
+    const mod = await import("@/styles/base-fabricator/blocks/sign-up-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sign-up-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "forgot-password-01": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/forgot-password-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "forgot-password-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "finance-01": React.lazy(async () => {
+    const mod = await import("@/styles/base-fabricator/blocks/finance-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "finance-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "assistant-01": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/assistant-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "assistant-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "messenger-01": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/messenger-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "messenger-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "mail-01": React.lazy(async () => {
+    const mod = await import("@/styles/base-fabricator/blocks/mail-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "mail-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "calendar-app-01": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/calendar-app-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "calendar-app-01"
+    return { default: mod.default || mod[exportName] }
+  }),
 }

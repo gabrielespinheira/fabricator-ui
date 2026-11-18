@@ -1,0 +1,30 @@
+/* MARK: Radial Chart */
+
+  /* The chart fills its container's width, its rings centred above the
+     legend. */
+  .cn-radial-chart {
+    @apply w-full gap-(--density-12);
+  }
+
+  /* Square for full rings, as wide as the container up to 18rem; a half
+     gauge is about twice as wide as it is tall, up to 24rem. */
+  .cn-radial-chart-plot {
+    @apply aspect-square w-full max-w-72 data-[shape=half]:aspect-[20/11] data-[shape=half]:max-w-96;
+  }
+
+  /* While another ring is inspected or spotlit, this one fades back. */
+  .cn-radial-chart-ring {
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40;
+  }
+
+  /* The track: the whole target in a faint neutral, so the value reads as a
+     part of it. */
+  .cn-radial-chart-track {
+    @apply fill-muted;
+  }
+
+  /* The centre figure leads, large and tabular; its size comes from the
+     innermost ring. */
+  .cn-radial-chart-center {
+    @apply text-foreground leading-tight font-semibold tracking-tight tabular-nums select-none;
+  }

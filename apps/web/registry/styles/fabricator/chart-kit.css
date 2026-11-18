@@ -1,0 +1,130 @@
+/* MARK: Chart Kit */
+
+  /* The plot: its font size is the axis labels', which the layout measures
+     against. */
+  .cn-chart-plot {
+    @apply text-(length:--density-text-11) transition-opacity duration-feedback ease-feedback in-data-loading:opacity-50;
+  }
+
+  /* A series dims while another is spotlit from the legend, or while it
+     shrinks away after being hidden. */
+  .cn-chart-series {
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+  }
+
+  /* Gridlines: a hairline at each value tick, one step off the surface,
+     never dashed. The data is the only loud thing in a chart. */
+  .cn-chart-grid {
+    @apply stroke-border [shape-rendering:crispEdges];
+  }
+
+  /* Axis labels: small and grey, tabular so ticks line up. */
+  .cn-chart-axis {
+    @apply fill-muted-foreground text-(length:--density-text-11) tabular-nums select-none;
+  }
+
+  /* The crosshair glides between indices on the glide role; its line fades
+     in where it first lands. Reduced motion keeps the fade, drops the glide. */
+  .cn-chart-crosshair {
+    @apply transition-transform duration-glide ease-enter motion-reduce:transition-none;
+  }
+
+  .cn-chart-crosshair-line {
+    @apply stroke-foreground/20 animate-in fade-in-0 duration-tooltip ease-enter [shape-rendering:crispEdges];
+  }
+
+  /* The inspected point on each series: an 8px dot ringed by 2px of the
+     surface, so it stays legible where lines cross. */
+  .cn-chart-dot {
+    @apply transition-transform duration-glide ease-enter motion-reduce:transition-none;
+  }
+
+  .cn-chart-dot-mark {
+    @apply stroke-card [stroke-width:2] animate-in fade-in-0 duration-tooltip ease-enter;
+  }
+
+  /* The category under the pointer on bar charts: a faint wash behind its
+     bars that glides to the next category, Fluid Hover's highlight for
+     charts. */
+  .cn-chart-band {
+    @apply transition-transform duration-glide ease-enter motion-reduce:transition-none;
+  }
+
+  .cn-chart-band-mark {
+    @apply fill-hover animate-in fade-in-0 duration-tooltip ease-enter;
+  }
+
+  /* Bars dim while another series is spotlit, or while they shrink away. */
+  .cn-chart-bar {
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+  }
+
+  /* The tooltip's positioner only places it: no surface of its own, so the
+     tooltip is the one box inside. It stays invisible until measured and
+     placed, and glides only from the frame after, so it lands where it is
+     needed instead of sliding there. Its name is its own: the excluded
+     upstream Chart styles `cn-chart-tooltip` as a box, and a shared name
+     would merge that box in here. */
+  .cn-chart-tooltip-positioner {
+    @apply not-data-placed:invisible data-gliding:transition-transform data-gliding:duration-glide data-gliding:ease-enter motion-reduce:transition-none;
+  }
+
+  /* Two steps over the card a chart usually sits on (surface 3), as Chat
+     Input's menus and the Data Table's panels are, so the readout stands
+     apart from the card in both themes instead of matching it. */
+  .cn-chart-tooltip-content {
+    @apply bg-surface-5 shadow-surface-5 text-popover-foreground flex min-w-36 flex-col gap-(--density-6) rounded-lg px-(--density-10) py-(--density-8) text-(length:--density-text-12) motion-tooltip animate-in fade-in-0;
+  }
+
+  .cn-chart-tooltip-title {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chart-tooltip-row {
+    @apply gap-x-(--density-8) leading-5;
+  }
+
+  /* Rows key their series with a short stroke of its colour, dashed for a
+     dashed series. */
+  .cn-chart-tooltip-key {
+    @apply block h-0.5 w-2.5 rounded-full bg-current data-dashed:bg-transparent data-dashed:bg-[linear-gradient(to_right,currentColor_55%,transparent_55%)] data-dashed:bg-[length:4px_2px];
+  }
+
+  .cn-chart-tooltip-label {
+    @apply text-muted-foreground min-w-0;
+  }
+
+  /* Values lead: the reader has the series and wants the number. */
+  .cn-chart-tooltip-value {
+    @apply text-foreground ps-(--density-12) text-end font-medium tabular-nums;
+  }
+
+  /* A note the mark carries (an incident's summary): quieter than the
+     values, wrapping rather than widening the tooltip. */
+  .cn-chart-tooltip-note {
+    @apply text-muted-foreground max-w-60 leading-snug;
+  }
+
+  /* The legend: a wrapping row of toggles. A hidden series keeps its place,
+     greyed with a hollow key. */
+  .cn-chart-legend {
+    @apply gap-x-(--density-4) gap-y-0.5 text-(length:--density-text-12);
+  }
+
+  .cn-chart-legend-item {
+    @apply text-muted-foreground hover:text-foreground data-hidden:text-muted-foreground/60 h-(--density-24) gap-(--density-6) rounded-md px-(--density-6) transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring hover:bg-hover;
+  }
+
+  .cn-chart-legend-key {
+    @apply block shrink-0 bg-current data-[shape=square]:size-2 data-[shape=square]:rounded-[2px] data-[shape=line]:h-0.5 data-[shape=line]:w-3 data-[shape=line]:rounded-full in-data-hidden:bg-transparent in-data-hidden:ring-1 in-data-hidden:ring-current data-dashed:bg-[linear-gradient(to_right,currentColor_55%,transparent_55%)] data-dashed:bg-[length:4px_2px] transition-colors duration-feedback ease-feedback;
+  }
+
+  /* The inspector covers the plot. Focus draws the ring around the plot,
+     inset so it isn't clipped. */
+  .cn-chart-inspector {
+    @apply rounded-md focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
+  }
+
+  .cn-chart-empty {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }

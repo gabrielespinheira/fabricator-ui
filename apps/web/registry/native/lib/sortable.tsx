@@ -163,34 +163,36 @@ function useSortableItem({
         .onStart(() => {
           const row = rows.value[group]?.[id]
           if (!row) return
-          activeId.value = id
-          activeGroup.value = group
-          sourceIndex.value = row.index
-          targetIndex.value = row.index
-          sourceSize.value = row.size
+          activeId.set(id)
+          activeGroup.set(group)
+          sourceIndex.set(row.index)
+          targetIndex.set(row.index)
+          sourceSize.set(row.size)
           runOnJS(setIsDragging)(true)
           runOnJS(setDragging)(true)
         })
         .onUpdate((event) => {
           const distance =
             axis === "x" ? event.translationX : event.translationY
-          translation.value = distance
+          translation.set(distance)
           const row = rows.value[group]?.[id]
           if (!row) return
-          targetIndex.value = getDropIndex(
-            Object.values(rows.value[group] ?? {}),
-            row.index,
-            row.start + row.size / 2 + distance
+          targetIndex.set(
+            getDropIndex(
+              Object.values(rows.value[group] ?? {}),
+              row.index,
+              row.start + row.size / 2 + distance
+            )
           )
         })
         .onFinalize(() => {
-          const from = sourceIndex.value
-          const to = targetIndex.value
-          if (activeId.value === id) {
-            translation.value = withTiming(0, { duration, easing })
-            sourceIndex.value = -1
-            targetIndex.value = -1
-            activeId.value = ""
+          const from = sourceIndex.get()
+          const to = targetIndex.get()
+          if (activeId.get() === id) {
+            translation.set(withTiming(0, { duration, easing }))
+            sourceIndex.set(-1)
+            targetIndex.set(-1)
+            activeId.set("")
             runOnJS(setIsDragging)(false)
             runOnJS(finish)(id, group, from, to)
           }
@@ -215,18 +217,18 @@ function useSortableItem({
   )
 
   const style = useAnimatedStyle(() => {
-    const isActive = activeId.value === id
+    const isActive = activeId.get() === id
     const shift =
-      activeGroup.value === group
+      activeGroup.get() === group
         ? getRowShift({
             index,
-            sourceIndex: sourceIndex.value,
-            targetIndex: targetIndex.value,
-            sourceSize: sourceSize.value,
+            sourceIndex: sourceIndex.get(),
+            targetIndex: targetIndex.get(),
+            sourceSize: sourceSize.get(),
           })
         : 0
     const offset = isActive
-      ? translation.value
+      ? translation.get()
       : withTiming(shift, { duration, easing })
     return {
       zIndex: isActive ? 1 : 0,

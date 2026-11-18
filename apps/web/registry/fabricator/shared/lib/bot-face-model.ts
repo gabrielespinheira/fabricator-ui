@@ -1,3 +1,5 @@
+import { parseHex } from "./color-model"
+
 // Original silhouettes and timing shared by the DOM and React Native renderers.
 export const BOT_FACE_SHAPES = [
   "circle",
@@ -24,6 +26,7 @@ export const BOT_FACE_COLORS = [
   "warning",
   "destructive",
   "neutral",
+  "gray",
   "blue",
   "indigo",
   "violet",
@@ -34,7 +37,30 @@ export const BOT_FACE_COLORS = [
   "green",
   "teal",
 ] as const
-export type BotFaceColor = (typeof BOT_FACE_COLORS)[number]
+export type BotFaceNamedColor = (typeof BOT_FACE_COLORS)[number]
+export type BotFaceColor = BotFaceNamedColor | `#${string}`
+
+export function isBotFaceNamedColor(color: string): color is BotFaceNamedColor {
+  return BOT_FACE_COLORS.some((value) => value === color)
+}
+
+export function getBotFaceCustomColors(color: string) {
+  const parsed = color.startsWith("#") ? parseHex(color) : null
+  if (!parsed) throw new RangeError(`Invalid BotFace hex color: ${color}`)
+  const linear = [parsed.r, parsed.g, parsed.b].map((value) => {
+    const channel = value / 255
+    return channel <= 0.04045
+      ? channel / 12.92
+      : ((channel + 0.055) / 1.055) ** 2.4
+  })
+  const luminance = linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722
+  const blackContrast = (luminance + 0.05) / 0.05
+  const whiteContrast = 1.05 / (luminance + 0.05)
+  return {
+    fill: color,
+    eyes: blackContrast >= whiteContrast ? "#000000" : "#ffffff",
+  }
+}
 export type BotFaceEyes = "slant" | "dots" | "square"
 export type BotFaceSize = "sm" | "default" | "lg"
 export type BotFaceGaze = { x: number; y: number }

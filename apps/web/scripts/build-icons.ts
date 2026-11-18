@@ -40,8 +40,11 @@ function scanIconUsage() {
   // occurrence across bases, but only the first file is worth reporting.
   const warnings = new Map<string, string>()
 
-  const registryBasesDir = path.join(process.cwd(), "registry/bases")
-  const files = findTsxFiles(registryBasesDir)
+  // The Fabricator overlay (blocks, Chat Input…) renders its placeholders on
+  // the site too, so its icons belong in the same maps.
+  const files = ["registry/bases", "registry/fabricator"].flatMap((dir) =>
+    findTsxFiles(path.join(process.cwd(), dir))
+  )
   const libraryNames = Object.values(iconLibraries)
     .map((lib) => lib.name)
     .join("|")
@@ -255,8 +258,10 @@ const SITE_ICON_SOURCES = [
   "registry/bases/aria/ui",
   "registry/fabricator",
   "app/(app)/(root)/_components",
+  "app/(app)/blocks",
   "app/(view)/app-shell",
   "app/(view)/desktop",
+  "components/fabricator",
   "components/foundations",
   "lib",
 ]

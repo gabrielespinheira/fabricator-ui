@@ -7,6 +7,7 @@
 // only wires its container. Motion is CSS (transform, width, height, opacity)
 // on the Fabricator spring easings; no animation library is needed.
 import * as React from "react"
+import { useComposedRefs } from "@radix-ui/react-compose-refs"
 import { cn } from "cn"
 
 type Rect = { top: number; left: number; width: number; height: number }
@@ -447,31 +448,22 @@ function FluidHoverSelection({
   )
 }
 
-/** Merge the container ref with a ref passed by the consumer. */
-function useMergedRef<T>(...refs: Array<React.Ref<T> | undefined>) {
+/** Merge refs and provide one disposer even for callbacks that use null to detach. */
+function useMergedRef<T>(
+  ...refs: Array<React.Ref<T> | undefined>
+): React.RefCallback<T> {
+  const merged = useComposedRefs(...refs)
   return React.useCallback(
-    (value: T | null) => {
-      const cleanups: Array<() => void> = []
-      for (const ref of refs) {
-        if (typeof ref === "function") {
-          const cleanup = ref(value)
-          cleanups.push(
-            typeof cleanup === "function" ? cleanup : () => ref(null)
-          )
-        } else if (ref) {
-          ref.current = value
-          cleanups.push(() => {
-            ref.current = null
-          })
-        }
-      }
-      if (value !== null)
-        return () => {
-          for (const cleanup of cleanups) cleanup()
-        }
+    (node: T | null) => {
+      const cleanup = merged(node)
+      if (node === null) return
+      return typeof cleanup === "function"
+        ? cleanup
+        : () => {
+            merged(null)
+          }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    refs
+    [merged]
   )
 }
 

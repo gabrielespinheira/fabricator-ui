@@ -1,0 +1,202 @@
+---
+title: Treemap
+description: Hierarchical parts of a whole, as cells sized by value and coloured by their top-level group.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add treemap
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Treemap } from "@/components/ui/treemap"
+```
+
+```tsx
+<Treemap
+  data={QUARTERS.Q1}
+  label="Portfolio allocation"
+  formatValue={currency}
+  className="h-72 w-full"
+/>
+```
+
+## Composition
+
+- `Treemap`
+- `TreemapProps`
+
+## Examples
+
+```tsx showLineNumbers title="treemap-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
+
+import { formatChartNumber } from "@/registry/fabricator/shared/lib/chart-model"
+import { Button } from "@/components/ui/button"
+import { Treemap } from "@/components/ui/treemap"
+
+type Holding = { name: string; value?: number; children?: Holding[] }
+
+const QUARTERS = {
+  Q1: [
+    {
+      name: "Technology",
+      children: [
+        { name: "Northwind", value: 182_000 },
+        { name: "Contoso", value: 141_000 },
+        { name: "Tailspin", value: 96_000 },
+      ],
+    },
+    {
+      name: "Healthcare",
+      children: [
+        { name: "Fabrikam", value: 118_000 },
+        { name: "Litware", value: 72_000 },
+      ],
+    },
+    {
+      name: "Financials",
+      children: [
+        { name: "Woodgrove", value: 104_000 },
+        { name: "Adatum", value: 61_000 },
+      ],
+    },
+    { name: "Cash", value: 45_000 },
+  ],
+  Q2: [
+    {
+      name: "Technology",
+      children: [
+        { name: "Northwind", value: 214_000 },
+        { name: "Contoso", value: 126_000 },
+        { name: "Tailspin", value: 118_000 },
+      ],
+    },
+    {
+      name: "Healthcare",
+      children: [
+        { name: "Fabrikam", value: 109_000 },
+        { name: "Litware", value: 84_000 },
+      ],
+    },
+    {
+      name: "Financials",
+      children: [
+        { name: "Woodgrove", value: 97_000 },
+        { name: "Adatum", value: 70_000 },
+      ],
+    },
+    { name: "Cash", value: 62_000 },
+  ],
+  Q3: [
+    {
+      name: "Technology",
+      children: [
+        { name: "Northwind", value: 238_000 },
+        { name: "Tailspin", value: 131_000 },
+        { name: "Margie", value: 58_000 },
+      ],
+    },
+    {
+      name: "Healthcare",
+      children: [
+        { name: "Fabrikam", value: 121_000 },
+        { name: "Litware", value: 93_000 },
+      ],
+    },
+    {
+      name: "Financials",
+      children: [
+        { name: "Woodgrove", value: 88_000 },
+        { name: "Adatum", value: 79_000 },
+      ],
+    },
+    { name: "Cash", value: 38_000 },
+  ],
+} satisfies Record<string, Holding[]>
+
+const services = [
+  { service: "Compute", cost: 18_400 },
+  { service: "Database", cost: 9_700 },
+  { service: "Storage", cost: 6_200 },
+  { service: "Networking", cost: 4_100 },
+  { service: "Queues", cost: 1_300 },
+]
+
+const currency = (value: number) =>
+  `$${formatChartNumber(value, { compact: true })}`
+
+function QuarterSwitch() {
+  const [quarter, setQuarter] = React.useState<keyof typeof QUARTERS>("Q1")
+  return (
+    <>
+      <Treemap
+        data={QUARTERS[quarter]}
+        label={`Portfolio allocation, ${quarter}`}
+        formatValue={currency}
+        className="h-72 w-full"
+      />
+      <View className="flex-row gap-1">
+        {(["Q1", "Q2", "Q3"] as const).map((item) => (
+          <Button
+            key={item}
+            size="sm"
+            variant={quarter === item ? "secondary" : "ghost"}
+            accessibilityState={{ selected: quarter === item }}
+            onPress={() => setQuarter(item)}
+          >
+            {item}
+          </Button>
+        ))}
+      </View>
+    </>
+  )
+}
+
+export function TreemapExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Sectors and holdings" className="items-stretch">
+        <Treemap
+          data={QUARTERS.Q1}
+          label="Portfolio allocation"
+          formatValue={currency}
+          className="h-72 w-full"
+        />
+      </Example>
+      <Example title="Changing the data" className="items-stretch">
+        <QuarterSwitch />
+      </Example>
+      <Example title="One level" className="items-stretch">
+        <Treemap
+          data={services}
+          nameKey="service"
+          valueKey="cost"
+          label="Cloud spend by service"
+          formatValue={currency}
+          className="h-56 w-full"
+        />
+      </Example>
+      <Example title="Empty" className="items-stretch">
+        <Treemap
+          data={[]}
+          label="Portfolio allocation"
+          empty="No holdings yet"
+          className="h-40 w-full"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+```
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

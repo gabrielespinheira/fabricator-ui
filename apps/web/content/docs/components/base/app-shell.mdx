@@ -256,7 +256,7 @@ inspector.reveal("activity") // shows it, never closes
 - `AppShellHeader` shows the sidebar trigger while the sidebar is collapsed or on a phone (`trigger="always"` or `"never"` to choose), and draws a hairline once the content scrolls.
 - `AppShellBreadcrumb` takes `items`, the current page last. Past `maxItems` (4) the middle folds into a menu. On phones only the current page shows, and it opens a menu of its parents.
 - Put the page's heading in `AppShellPageTitle`. When it scrolls out of view, the header shows it in the breadcrumb's place.
-- `AppShellHeaderActions` describes actions once: buttons from tablets up, one menu on phones, where `primaryAction` becomes a floating button.
+- `AppShellHeaderActions` describes actions once: buttons from tablets up, one menu on phones, where `primaryAction` becomes a floating button. The same menu can hold the page's own settings: see [Page menu](#page-menu).
 - Pass `renderLink` to use your router's link: it returns the link element, without children.
 
 ```tsx
@@ -267,6 +267,50 @@ inspector.reveal("activity") // shows it, never closes
 ```
 
 `getBreadcrumbsFromPath(pathname, { labels, rootLabel, skip })` in the model derives crumbs from the path for pages that pass none.
+
+## Page menu
+
+The header's ellipsis can hold the page's own menu: what belongs to the whole page rather than to one card, such as what the page shows, how often it refreshes, sharing and export, and the page's settings. Pass its items as `menu`. The ellipsis then stays on every width, named by `menuLabel` ("Page options" by default). On phones the header's actions join it as its first group, so the header never shows two.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-page-menu"
+  type="frame"
+/>
+
+```tsx
+<AppShellHeaderActions
+  actions={[{ id: "share", label: "Share", icon: ShareIcon, onSelect: share }]}
+  menuLabel="Dashboard options"
+  menu={
+    <>
+      <DropdownMenuGroup>
+        <DropdownMenuLabel>View</DropdownMenuLabel>
+        <DropdownMenuCheckboxItem
+          checked={isComparing}
+          onCheckedChange={setIsComparing}
+        >
+          <HistoryIcon />
+          Compare with previous period
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuGroup>
+      <DropdownMenuSeparator />
+      <DropdownMenuGroup>
+        <DropdownMenuItem onClick={() => setIsSettingsOpen(true)}>
+          <SlidersHorizontalIcon />
+          Dashboard settings…
+        </DropdownMenuItem>
+      </DropdownMenuGroup>
+    </>
+  }
+/>
+```
+
+- Order the groups: what the page shows (toggles, and sub-menus for choices of more than two), then sharing and export, then the page's settings and resets, with anything destructive last in its own group.
+- Checkbox and radio items keep the menu open, so several settings can change at once; actions close it.
+- A setting that needs a field (a name, a currency, a target) opens a `Sheet` from an item ending in "…".
+- Give every row an icon, or none, so the labels share one edge.
+- The menu fits its longest row, never narrower than 224px.
 
 ## Shortcuts
 
@@ -437,10 +481,12 @@ Also takes the Sidebar provider's props and the props of a `<div>`.
 
 ### AppShellHeaderActions
 
-| Prop            | Type                                                     | Default |
-| --------------- | -------------------------------------------------------- | ------- |
-| `actions`       | `{ id, label, icon?, onSelect, shortcut?, disabled? }[]` | `[]`    |
-| `primaryAction` | the same shape                                           | -       |
+| Prop            | Type                                                     | Default          |
+| --------------- | -------------------------------------------------------- | ---------------- |
+| `actions`       | `{ id, label, icon?, onSelect, shortcut?, disabled? }[]` | `[]`             |
+| `primaryAction` | the same shape                                           | -                |
+| `menu`          | `React.ReactNode`: the page menu's groups and items      | -                |
+| `menuLabel`     | `string`: the name of the menu's ellipsis button         | `"Page options"` |
 
 ### AppShellContent
 

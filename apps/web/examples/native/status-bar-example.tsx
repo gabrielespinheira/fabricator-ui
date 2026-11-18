@@ -1,0 +1,146 @@
+import * as React from "react"
+import { Example, ExampleWrapper } from "@/examples/native/example"
+import { View } from "react-native"
+
+import { Button } from "@/registry/native/ui/button"
+import { StatusBar } from "@/registry/native/ui/status-bar"
+import { Text } from "@/registry/native/ui/text"
+
+const DAY = 86_400_000
+const END = Date.UTC(2026, 10, 15)
+
+type Event = { status: string; note: string }
+
+// `count` days ending on November 15, with the days that went wrong.
+function getDays(count: number, events: Record<number, Event> = {}) {
+  return Array.from({ length: count }, (_, index) => ({
+    date: new Date(END - (count - 1 - index) * DAY).toISOString().slice(0, 10),
+    status: events[index]?.status ?? "operational",
+    note: events[index]?.note,
+  }))
+}
+
+const api = getDays(60, {
+  12: { status: "degraded", note: "Slow responses from the EU region" },
+  31: { status: "outage", note: "Database failover, 42 minutes" },
+  32: { status: "degraded", note: "Recovering from the failover" },
+})
+
+const website = getDays(60, {
+  20: { status: "outage", note: "CDN outage in two regions, 25 minutes" },
+  44: { status: "degraded", note: "Images loading slowly" },
+  58: { status: "degraded", note: "Search results delayed" },
+})
+
+const payments = getDays(90, {
+  8: { status: "maintenance", note: "Database upgrade to version 17" },
+  21: { status: "degraded", note: "Webhook deliveries delayed" },
+  37: { status: "maintenance", note: "Network switch replacement" },
+  52: { status: "outage", note: "Payments unavailable for 18 minutes" },
+  66: { status: "maintenance", note: "Storage migration, read only" },
+  79: { status: "degraded", note: "Higher error rates on exports" },
+}).map((day, index) => (index < 2 ? { ...day, status: "" } : day))
+
+const calm = getDays(30)
+const stormy = getDays(30, {
+  25: { status: "degraded", note: "Queue backlog building" },
+  26: { status: "outage", note: "Workers down for 3 hours" },
+  27: { status: "outage", note: "Partial recovery, retries failing" },
+  28: { status: "degraded", note: "Draining the backlog" },
+})
+
+const STATUS_NAMES: Record<string, string> = {
+  operational: "Operational",
+  degraded: "Degraded",
+  outage: "Outage",
+}
+
+function Service({
+  name,
+  data,
+  legend,
+}: {
+  name: string
+  data: typeof api
+  legend: boolean
+}) {
+  const current = data[data.length - 1].status
+  return (
+    <View className="gap-2">
+      <View className="flex-row items-center justify-between">
+        <Text className="text-sm font-medium">{name}</Text>
+        <Text className="text-sm text-muted-foreground">
+          {STATUS_NAMES[current] ?? current}
+        </Text>
+      </View>
+      <StatusBar
+        data={data}
+        index="date"
+        noteKey="note"
+        label={`${name} status, the last 60 days`}
+        legend={legend}
+      />
+    </View>
+  )
+}
+
+function IncidentSwitch() {
+  const [hasIncident, setHasIncident] = React.useState(false)
+  return (
+    <>
+      <StatusBar
+        data={hasIncident ? stormy : calm}
+        index="date"
+        noteKey="note"
+        label="Background jobs status, the last 30 days"
+      />
+      <Button
+        size="sm"
+        variant="outline"
+        onPress={() => setHasIncident((value) => !value)}
+      >
+        {hasIncident ? "Resolve incident" : "Simulate incident"}
+      </Button>
+    </>
+  )
+}
+
+export function StatusBarExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Sixty days" className="items-stretch">
+        <StatusBar
+          data={api}
+          index="date"
+          noteKey="note"
+          label="API status, the last 60 days"
+        />
+      </Example>
+      <Example title="Two services" className="items-stretch gap-6">
+        <Service name="API" data={api} legend={false} />
+        <Service name="Website" data={website} legend />
+      </Example>
+      <Example title="Maintenance and notes" className="items-stretch">
+        <StatusBar
+          data={payments}
+          index="date"
+          noteKey="note"
+          statuses={{ maintenance: { label: "Planned maintenance" } }}
+          label="Payments status, the last 90 days"
+        />
+      </Example>
+      <Example title="Changing the data" className="items-stretch">
+        <IncidentSwitch />
+      </Example>
+      <Example title="Loading and empty" className="items-stretch">
+        <StatusBar data={calm} index="date" label="Jobs status" loading />
+        <StatusBar
+          data={[] as typeof calm}
+          index="date"
+          label="Jobs status"
+          empty="No checks yet"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}

@@ -1,0 +1,41 @@
+/* MARK: Pie Chart */
+
+  /* The chart fills its container's width, its pie centred above the
+     legend. */
+  .cn-pie-chart {
+    @apply w-full gap-(--density-12);
+  }
+
+  /* Pie and donut share the plot: square, as wide as the screen up to 18rem.
+     Beside a donut's list it keeps a fixed width so the list gets the
+     rest. */
+  .cn-chart-pie-plot {
+    @apply aspect-square w-full max-w-72 shrink-0 data-[layout=row]:w-56;
+  }
+
+  /* A donut's ring and list stack on a phone and sit side by side where
+     the chart is wide enough. */
+  .cn-chart-pie-body {
+    @apply gap-(--density-16) data-[layout=row]:flex-row data-[layout=row]:gap-(--density-24);
+  }
+
+  /* The opacity the other slices take while one is inspected. Read by the
+     plot, applied to SVG. */
+  .cn-chart-slice {
+    @apply opacity-40;
+  }
+
+  /* The share label's size, read by the plot to fit it inside the slice. */
+  .cn-chart-slice-label {
+    @apply text-(length:--density-text-11);
+  }
+
+  /* The label sits on a card-coloured pill, read as its fill, so its
+     contrast never depends on the slice's colour. */
+  .cn-chart-slice-label-pill {
+    @apply text-card;
+  }
+
+  .cn-chart-slice-label-text {
+    @apply text-foreground font-medium;
+  }

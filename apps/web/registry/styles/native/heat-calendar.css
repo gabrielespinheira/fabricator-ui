@@ -1,0 +1,62 @@
+/* MARK: Heat Calendar */
+
+  /* The chart fills its container's width; its height follows the cells.
+     The range and the key sit under the grid. */
+  .cn-heat-calendar {
+    @apply w-full gap-(--density-8);
+  }
+
+  /* With nothing to draw, the plot keeps room for the empty message. */
+  .cn-heat-calendar-plot {
+    @apply data-[empty=true]:h-32;
+  }
+
+  /* On a phone the grid scrolls sideways past its smallest cell, in the
+     room the weekday names leave, however wide the grid. */
+  .cn-heat-calendar-scroll {
+    @apply min-w-0;
+  }
+
+  /* An empty day: the faintest step of the text colour, read as the SVG
+     fill and its opacity, so it reads as a place in the grid on any
+     surface. Coloured levels paint over it. */
+  .cn-heat-calendar-cell {
+    @apply text-foreground opacity-8;
+  }
+
+  /* The lifted day sits over the grid and under the tooltip. */
+  .cn-heat-calendar-lift {
+    @apply z-10;
+  }
+
+  /* Raised off the grid with a soft shadow. */
+  .cn-heat-calendar-lift-mark {
+    @apply shadow-surface-2 rounded-sm;
+  }
+
+  /* The 2pt surface ring every mark keeps where it overlaps others. */
+  .cn-heat-calendar-lift-ring {
+    @apply bg-card;
+  }
+
+  /* The level paints over the empty cell inside the ring. */
+  .cn-heat-calendar-lift-level {
+    @apply z-10;
+  }
+
+  /* The range and the key: small and grey, under the grid. */
+  .cn-heat-calendar-footer {
+    @apply gap-x-(--density-12) gap-y-(--density-4);
+  }
+
+  .cn-heat-calendar-footer-text {
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums;
+  }
+
+  .cn-heat-calendar-key {
+    @apply gap-(--density-6);
+  }
+
+  .cn-heat-calendar-key-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }

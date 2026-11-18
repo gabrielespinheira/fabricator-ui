@@ -1,0 +1,38 @@
+/* MARK: Radar Chart */
+
+  /* The chart fills its container's width; 20rem tall until the screen
+     gives it a height, the radar centred in it above the legend. */
+  .cn-radar-chart {
+    @apply h-80 w-full gap-(--density-12);
+  }
+
+  /* The grid: four polygons and the spokes as hairlines in the border
+     colour, read as their stroke. */
+  .cn-radar-chart-grid {
+    @apply text-border;
+  }
+
+  /* The inspected axis' spoke steps forward, as the crosshair does. */
+  .cn-radar-chart-spoke {
+    @apply text-foreground/30;
+  }
+
+  /* Axis names: small and grey, read as the SVG text's fill and size. */
+  .cn-radar-chart-label {
+    @apply text-muted-foreground text-(length:--density-text-11);
+  }
+
+  /* The inspected axis' name, in the text colour. */
+  .cn-radar-chart-label-active {
+    @apply text-foreground;
+  }
+
+  /* The opacity a series' wash and outline take while another is spotlit,
+     or while it shrinks away. Read by the chart, applied to SVG. */
+  .cn-radar-chart-area {
+    @apply opacity-25;
+  }
+
+  .cn-radar-chart-series {
+    @apply opacity-25;
+  }

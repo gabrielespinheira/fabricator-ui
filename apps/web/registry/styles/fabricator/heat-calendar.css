@@ -1,0 +1,56 @@
+/* MARK: Heat Calendar */
+
+  /* The chart fills its container's width; its height follows the cells.
+     The range and the key sit under the grid. */
+  .cn-heat-calendar {
+    @apply w-full gap-(--density-8);
+  }
+
+  /* With nothing to draw, the plot keeps room for the empty message. */
+  .cn-heat-calendar-plot {
+    @apply data-empty:h-32;
+  }
+
+  /* Past the smallest cell the grid scrolls sideways; its edges fade so
+     the cut-off weeks read as more, with no scrollbar under the grid. */
+  .cn-heat-calendar-scroll {
+    @apply overscroll-x-contain scroll-fade-x [--scroll-fade-size:var(--density-24)] [scrollbar-width:none];
+  }
+
+  /* An empty day: the faintest step of the text colour, so it reads as a
+     place in the grid on any surface. Coloured levels paint over it. */
+  .cn-heat-calendar-cell {
+    @apply fill-foreground/8;
+  }
+
+  /* The lifted copy of the inspected day glides from cell to cell on the
+     glide role, Fluid Hover's highlight for a grid. Reduced motion keeps
+     the fade and drops the glide. */
+  .cn-heat-calendar-lift {
+    @apply pointer-events-none transition-transform duration-glide ease-enter motion-reduce:transition-none;
+  }
+
+  /* A quarter larger than the cell, with a soft shadow, fading in where it
+     first lands. */
+  .cn-heat-calendar-lift-mark {
+    @apply scale-125 drop-shadow-sm [transform-box:fill-box] origin-center animate-in fade-in-0 duration-tooltip ease-enter;
+  }
+
+  /* The 2px surface ring every mark keeps where it overlaps others. */
+  .cn-heat-calendar-lift-ring {
+    @apply fill-card;
+  }
+
+  /* The lifted cell's level eases between days as it glides. */
+  .cn-heat-calendar-lift-level {
+    @apply transition-[fill-opacity] duration-glide ease-enter motion-reduce:transition-none;
+  }
+
+  /* The range and the key: small and grey, under the grid. */
+  .cn-heat-calendar-footer {
+    @apply text-muted-foreground gap-x-(--density-12) gap-y-(--density-4) text-(length:--density-text-12) tabular-nums;
+  }
+
+  .cn-heat-calendar-key {
+    @apply gap-(--density-6);
+  }

@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.9.0](https://github.com/gabrielespinheira/fabricator-ui/compare/fabricator-ui@0.8.0...fabricator-ui@0.9.0) (2026-11-17)
+
+### Highlights
+
+Build from eight installable screens, fifteen charts and an event calendar. Explore SwiftUI and Kotlin Compose previews and try the React components in a Tauri mobile host.
+
+### Breaking changes
+
+- `create --mobile --no-web` now creates a monorepo with the Expo app in `apps/mobile`. Use `create -t expo` for a standalone project, or update scripts that expect the app at the repository root.
+
+### Features
+
+- Add sign-in, sign-up, password reset, finance, assistant, messenger, mail and calendar screens across Base UI, Radix and React Aria. The Blocks gallery previews them at desktop, tablet and phone widths.
+- Add Event Calendar and fifteen charts with shared layout and interaction models across web and React Native.
+- Add preview SwiftUI and Compose registries and CLI support for native-language projects, alongside a Tauri mobile explorer.
+- Add ten BotFace expressions, avatar tooltips and parting, and responsive App Shell page menus.
+- Expand the outline icon set to Lucide 1.73.0, preserving renamed icons as aliases.
+- Add Biome and Vite+ tooling choices, a Vite+ task runner option and dashboard, form and loading guidance for new projects.
+
+### Bug Fixes
+
+- Preserve the remainder of a recurring event series when deleting only its first occurrence.
+- Preserve time-only Date Picker edits and fit App Shell menus to their contents.
+- Keep the home page headline centered as platform names rotate, and link the docs brand to the home page.
+
 ## [0.8.0](https://github.com/gabrielespinheira/fabricator-ui/compare/fabricator-ui@0.7.0...fabricator-ui@0.8.0) (2026-11-13)
 
 ### Highlights

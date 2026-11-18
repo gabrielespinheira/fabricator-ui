@@ -1,0 +1,195 @@
+---
+title: Bump Chart
+description: Rank over time, as lines through each series' place at every index, so you see who overtook whom.
+base: aria
+component: true
+---
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="bump-chart-demo"
+  previewClassName="h-auto"
+/>
+
+Give it a row per index, the field that names each index (`index`) and a `config` that names the series; each row holds every series' rank under its config key. Rank 1 sits at the top and the ranks below it are evenly spaced, so the chart shows places, not sizes. Each series is a line in the next colour of the [chart palette](#colours), curving from place to place, with a ring at every point that holds its rank. When the plot has room, each series' name sits past its last point.
+
+Point at a line to dim the others, or point at a series in the legend. Point at the chart, drag a finger across it or tab to it and use the arrow keys: a crosshair finds the index and a tooltip lists every series there, top rank first, with how far it moved since the index before (`↑2`, `↓1`, or `–` for no change). The legend shows each series' latest rank and its last move, hides a series when pressed and spotlights it when pointed at.
+
+Bump Chart is part of the Fabricator style. It's drawn in SVG, so the same component ships for every base, and its layout comes from the same model as the React Native version.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add bump-chart
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies.</Step>
+
+```bash
+npm install d3-shape@3.2.1 d3-scale@4.0.3
+npm install -D @types/d3-shape@3.2.0 @types/d3-scale@4.0.9
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/chart-model.ts"
+  title="lib/chart-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/chart-cartesian-model.ts"
+  title="lib/chart-cartesian-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/chart-bump-model.ts"
+  title="lib/chart-bump-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/chart-kit.tsx"
+  title="components/ui/chart-kit.tsx"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/bump-chart.tsx"
+  title="components/ui/bump-chart.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { BumpChart } from "@/components/ui/bump-chart"
+import { type ChartConfig } from "@/components/ui/chart-kit"
+```
+
+```tsx
+const data = [
+  { month: "Jun", atlas: 1, pulse: 2, ledger: 3 },
+  { month: "Jul", atlas: 1, pulse: 3, ledger: 2 },
+  { month: "Aug", atlas: 2, pulse: 3, ledger: 1 },
+]
+
+const config = {
+  atlas: { label: "Atlas" },
+  pulse: { label: "Pulse" },
+  ledger: { label: "Ledger" },
+} satisfies ChartConfig
+
+<BumpChart data={data} index="month" config={config} label="Product rank by revenue" />
+```
+
+A missing rank breaks the series' line at that index. Ranks start at 1; the chart has as many places as the largest rank it shows, so ranks from a longer list (a league of twenty, five of them shown) keep their true places. The chart fills its container's width and is 18rem tall until you give it a height with `className`.
+
+## Examples
+
+### Ranking scores
+
+`ranking="score"` takes each series' score instead and ranks the series at every index, highest first; equal scores keep the order of `config`. The tooltip then gives each score with its rank, and hiding a series ranks the rest among themselves. Shuffle deals new scores: every point moves to its new place.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="bump-chart-shuffle"
+  previewClassName="h-auto"
+/>
+
+## Colours
+
+Series take the chart palette in the order of `config`, and keep their colour when another is hidden. Give a series its own with `color`: a palette slot, an upstream chart token (`chart-1` … `chart-5`), a role (`primary`, `info`, `success`, …), a CSS variable (`var(--brand)`) or any CSS colour.
+
+| Token              | Hue    | Token              | Hue     |
+| ------------------ | ------ | ------------------ | ------- |
+| `--chart-series-1` | blue   | `--chart-series-5` | magenta |
+| `--chart-series-2` | orange | `--chart-series-6` | green   |
+| `--chart-series-3` | aqua   | `--chart-series-7` | violet  |
+| `--chart-series-4` | amber  | `--chart-series-8` | red     |
+
+Rings are filled with the card colour and stroked in the series' colour, and the rank inside stays in the text colour, so it reads in both modes. Names past the lines are in the text colour too, beside the ring that keys them.
+
+## Motion
+
+- **Sweep:** the first time the chart scrolls into view, the lines sweep in from the start edge on the `reveal` role, and each ring appears as the sweep passes it. Once per mount.
+- **Morph:** when the ranks change, through `data`, `config`, `ranking` or the visible series, every point moves to its new place on the `move` role. A series being shown rises in from below; one being hidden sinks away. Data with a different number of indices redraws instead.
+- **Glide:** the crosshair and the tooltip glide between indices on the `glide` role.
+
+All three follow the [motion speed](/docs/foundations/motion) of the region they sit in. Reduce Motion and the `instant` speed draw the chart at once and drop the glide; `animate={false}` does the same for one chart.
+
+## API Reference
+
+### BumpChart
+
+All other props go to the root `<div>`.
+
+| Prop             | Type                                            | Default                       |
+| ---------------- | ----------------------------------------------- | ----------------------------- |
+| `data`           | `TDatum[]`                                      | required                      |
+| `config`         | `ChartConfig`                                   | required                      |
+| `index`          | `keyof TDatum`                                  | required                      |
+| `label`          | `string`                                        | required: the accessible name |
+| `ranking`        | `"rank" \| "score"`                             | `"rank"`                      |
+| `formatValue`    | `(value: number, key: string) => string`        | `1,234`, for scores           |
+| `formatIndex`    | `(value: string, datum: TDatum) => string`      | the field as text             |
+| `legend`         | `boolean`                                       | on for two or more series     |
+| `tooltip`        | `boolean`                                       | `true`                        |
+| `animate`        | `boolean`                                       | `true`                        |
+| `loading`        | `boolean`                                       | `false`                       |
+| `empty`          | `ReactNode`                                     | "No data"                     |
+| `onActiveChange` | `(active: ChartActive<TDatum> \| null) => void` | -                             |
+
+### ChartConfig
+
+| Field   | Type         | Default               |
+| ------- | ------------ | --------------------- |
+| `label` | `string`     | required              |
+| `color` | `ChartColor` | the next palette slot |
+
+### Data attributes
+
+| Attribute                         | Element             | Present when                                                 |
+| --------------------------------- | ------------------- | ------------------------------------------------------------ |
+| `data-slot="bump-chart"`          | root                | always                                                       |
+| `data-loading`                    | root                | `loading` is true                                            |
+| `data-slot="chart-plot"`          | the plot            | always                                                       |
+| `data-slot="chart-series"`        | a line              | always; `data-dimmed` while another is pointed at or spotlit |
+| `data-slot="bump-chart-points"`   | a series' rings     | always; `data-dimmed` as its line                            |
+| `data-slot="bump-chart-dot"`      | a ring              | a series has a rank at that index                            |
+| `data-slot="bump-chart-name"`     | a series' name      | the plot has room for names                                  |
+| `data-slot="chart-legend"`        | the legend          | the legend shows                                             |
+| `data-slot="bump-chart-standing"` | a legend row's rank | the series is shown                                          |
+| `data-slot="chart-tooltip"`       | the tooltip         | an index is inspected                                        |
+
+## Accessibility
+
+- The plot is a slider named after `label` ("Product rank by revenue: inspect values"). Tab to it, then the arrow keys step through the indices, Home and End jump to the first and last, and Escape lets go. Its value text reads the tooltip: the index and every series with its rank and move.
+- Every rank is also in a table hidden from sight, so a screen reader can read the data without inspecting it.
+- With two or more series the legend always shows, so no series is told apart by colour alone. Its items are toggle buttons with `aria-pressed`, and each one's name includes the latest rank.
+- Moves are written as arrows with a number, never as colour.
+- `loading` sets `aria-busy` on the root and dims the last drawing until new data arrives.

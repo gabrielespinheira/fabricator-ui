@@ -8,7 +8,7 @@ import {
 
 export function AvatarGroupCountExample() {
   return (
-    <AvatarGroup className="grayscale">
+    <AvatarGroup>
       <Avatar>
         <AvatarImage
           src="https://github.com/gabrielespinheira.png"

@@ -53,6 +53,7 @@ describe("planSetup", () => {
       "scaffold-mobile",
       "scaffold-desktop",
       "configure-workspace",
+      "configure-tooling",
       "install",
       "setup-mobile",
       "mount",
@@ -67,6 +68,59 @@ describe("planSetup", () => {
       "add-web-items",
       "configure-workspace",
       "install",
+      "mount",
+      "first-commit",
+    ])
+  })
+
+  it("keeps the template's ESLint and Prettier, and switches to another toolchain before installing", () => {
+    expect(ids({ project: "monorepo" })).not.toContain("configure-tooling")
+    expect(ids({ project: "monorepo", tooling: "biome" })).toEqual([
+      "scaffold-web",
+      "configure-monorepo",
+      "add-web-items",
+      "configure-workspace",
+      "configure-tooling",
+      "install",
+      "mount",
+      "format-code",
+      "first-commit",
+    ])
+    expect(ids({ project: "monorepo", framework: "react-router" })).toContain(
+      "configure-tooling"
+    )
+  })
+
+  it("names the toolchain it sets up", () => {
+    const step = (tooling: ProjectSetup["tooling"]) =>
+      planSetup(setup({ tooling })).find(
+        (item) => item.id === "configure-tooling"
+      )?.title
+    expect(step("biome")).toBe("Switch to Biome")
+    expect(step("vite-plus")).toBe("Switch to Vite+")
+    expect(ids({ tooling: "eslint-prettier" })).not.toContain("format-code")
+    const runnerStep = (changes: Partial<ProjectSetup>) =>
+      planSetup(setup({ runner: "vite-plus", ...changes })).find(
+        (item) => item.id === "configure-tooling"
+      )
+    expect(runnerStep({})?.title).toBe("Switch to Vite+")
+    expect(runnerStep({})?.detail).toContain("in place of Turborepo")
+    expect(runnerStep({ tooling: "biome" })?.title).toBe(
+      "Switch to Biome and Vite+"
+    )
+    expect(runnerStep({ tooling: "vite-plus" })?.title).toBe("Switch to Vite+")
+  })
+
+  it("makes a workspace around a lone mobile app, with no web steps", () => {
+    expect(
+      planSetup(setup({ web: false, mobile: true })).map((step) => step.id)
+    ).toEqual([
+      "scaffold-monorepo",
+      "scaffold-mobile",
+      "configure-workspace",
+      "configure-tooling",
+      "install",
+      "setup-mobile",
       "mount",
       "first-commit",
     ])
@@ -92,6 +146,22 @@ describe("planSetup", () => {
     expect(ids({ project: "existing", appShell: false, sound: false })).toEqual(
       ["setup-existing"]
     )
+  })
+
+  it("mentions the design guide only when it writes one", () => {
+    const detail = (changes: Partial<ProjectSetup>) =>
+      planSetup(setup(changes)).find((item) => item.id === "agents")?.detail
+    expect(detail({ assistants: ["claude"] })).toContain("DESIGN.md")
+    expect(detail({ assistants: ["claude"] })).toContain("AGENTS.md")
+    expect(detail({ assistants: ["claude"], skill: false })).not.toContain(
+      "DESIGN.md"
+    )
+    expect(
+      detail({ project: "existing", assistants: ["claude"] })
+    ).not.toContain("DESIGN.md")
+    expect(
+      detail({ project: "existing", assistants: ["claude"] })
+    ).not.toContain("AGENTS.md")
   })
 
   it("names every assistant it sets up", () => {
@@ -134,9 +204,17 @@ describe("planSetup", () => {
 describe("getNextSteps", () => {
   it("starts a web project", () => {
     expect(getNextSteps(setup({ project: "new" }), "npm")).toEqual([
-      { label: "Open the project", code: "cd my-app" },
+      { label: "Open the project", code: "cd fabricator-ui" },
       { label: "Start the app", code: "npm run dev" },
     ])
+  })
+
+  it("starts a lone mobile app in a monorepo", () => {
+    expect(
+      getNextSteps(setup({ web: false, mobile: true }), "bun").map(
+        (step) => step.code
+      )
+    ).toEqual(["cd fabricator-ui", "bun dev:mobile"])
   })
 
   it("starts each app in a monorepo", () => {
@@ -145,7 +223,12 @@ describe("getNextSteps", () => {
         setup({ project: "monorepo", mobile: true, desktop: "tauri" }),
         "bun"
       ).map((step) => step.code)
-    ).toEqual(["cd my-app", "bun dev", "bun dev:mobile", "bun dev:desktop"])
+    ).toEqual([
+      "cd fabricator-ui",
+      "bun dev",
+      "bun dev:mobile",
+      "bun dev:desktop",
+    ])
   })
 
   it("builds an Expo app", () => {
@@ -233,10 +316,7 @@ describe("a setup without a website", () => {
     )
   })
 
-  it("plans a lone mobile app as the Expo project", () => {
-    expect(ids({ web: false, mobile: true })).toEqual(
-      ids({ framework: "expo" })
-    )
+  it("plans the Expo template as one Expo project", () => {
     expect(ids({ framework: "expo" })[0]).toBe("scaffold-mobile")
   })
 })

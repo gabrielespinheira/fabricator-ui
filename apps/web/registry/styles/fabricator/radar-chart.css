@@ -1,0 +1,33 @@
+/* MARK: Radar Chart */
+
+  /* The chart fills its container's width; 20rem tall until the page gives
+     it a height, the radar centred in it above the legend. */
+  .cn-radar-chart {
+    @apply h-80 w-full gap-(--density-12);
+  }
+
+  /* The grid: four polygons and the spokes as hairlines in the border
+     colour, one step off the surface. The data is the loud part. */
+  .cn-radar-chart-grid {
+    @apply stroke-border;
+  }
+
+  /* The inspected axis' spoke steps forward, as the crosshair does. */
+  .cn-radar-chart-spoke {
+    @apply transition-[stroke] duration-feedback ease-feedback data-active:stroke-foreground/30;
+  }
+
+  /* Axis names: small and grey, the inspected one in the text colour. */
+  .cn-radar-chart-label {
+    @apply fill-muted-foreground transition-[fill] duration-feedback ease-feedback select-none data-active:fill-foreground;
+  }
+
+  /* A series' wash and outline fade back while another is spotlit, or while
+     it shrinks away after being hidden. */
+  .cn-radar-chart-area {
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+  }
+
+  .cn-radar-chart-series {
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+  }

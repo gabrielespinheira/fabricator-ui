@@ -1,0 +1,52 @@
+/* MARK: Candlestick Chart */
+
+  /* The chart fills its container's width; 18rem tall until the screen
+     gives it a height. */
+  .cn-candlestick-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* The opacity a candle takes while it slides out of the data. Read by
+     the chart, applied to SVG. */
+  .cn-candlestick-chart-candle {
+    @apply opacity-25;
+  }
+
+  /* Volume is context, not the subject: the candle's colour, faint. */
+  .cn-candlestick-chart-volume {
+    @apply opacity-30;
+  }
+
+  /* The latest close: a dashed hairline, quieter than the candles, read as
+     the stroke. */
+  .cn-candlestick-chart-last-line {
+    @apply text-muted-foreground;
+  }
+
+  /* Its price in a small pill at the line's end, in the strongest contrast
+     the theme has. Read as the pill's fill and the text's colour and size. */
+  .cn-candlestick-chart-last-pill {
+    @apply bg-foreground;
+  }
+
+  .cn-candlestick-chart-last-label {
+    @apply text-background text-(length:--density-text-11) font-medium;
+  }
+
+  /* The optional key for the up and down colours: a static row, since a
+     direction can't be hidden. */
+  .cn-candlestick-chart-legend {
+    @apply gap-x-(--density-12);
+  }
+
+  .cn-candlestick-chart-legend-item {
+    @apply h-(--density-32) gap-(--density-6);
+  }
+
+  .cn-candlestick-chart-legend-key {
+    @apply size-2 rounded-[2px];
+  }
+
+  .cn-candlestick-chart-legend-label {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }

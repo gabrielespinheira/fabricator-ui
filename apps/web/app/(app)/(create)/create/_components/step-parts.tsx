@@ -26,7 +26,7 @@ export function StepSection({
   children: React.ReactNode
 }) {
   return (
-    <FieldSet className="gap-3">
+    <FieldSet className="min-w-0 gap-3">
       <FieldLegend className="text-[15px] font-semibold">{title}</FieldLegend>
       {description ? <FieldDescription>{description}</FieldDescription> : null}
       {children}
@@ -34,7 +34,8 @@ export function StepSection({
   )
 }
 
-function CardIcon({ children }: { children: React.ReactNode }) {
+/** A card's icon, in a soft square. */
+export function CardIcon({ children }: { children: React.ReactNode }) {
   return (
     <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground [&_svg]:size-4.5">
       {children}
@@ -116,83 +117,31 @@ export function CheckCard({
   )
 }
 
-function AppTile({
-  id,
+/** One answer of a RadioGroup, as a compact tile for a row of two or three. */
+export function ChoiceTile({
+  value,
   title,
   description,
   icon,
-  control,
 }: {
-  id: string
+  value: string
   title: string
   description: string
   icon: React.ReactNode
-  control: React.ReactNode
 }) {
+  const id = React.useId()
+
   return (
     <FieldLabel htmlFor={id}>
-      <Field className="gap-3">
-        <div className="flex items-start justify-between gap-2">
+      <Field className="gap-2">
+        <div className="flex items-center gap-2.5">
           <CardIcon>{icon}</CardIcon>
-          {control}
+          <FieldTitle className="flex-1">{title}</FieldTitle>
+          <RadioGroupItem value={value} id={id} />
         </div>
-        <FieldContent>
-          <FieldTitle>{title}</FieldTitle>
-          <CardHint>{description}</CardHint>
-        </FieldContent>
+        <CardHint>{description}</CardHint>
       </Field>
     </FieldLabel>
-  )
-}
-
-type AppTileContent = {
-  title: string
-  description: string
-  icon: React.ReactNode
-}
-
-/** An app a project can have, as one of a row of tiles. */
-export function AppCheckTile({
-  checked,
-  disabled,
-  onCheckedChange,
-  ...content
-}: AppTileContent & {
-  checked: boolean
-  disabled?: boolean
-  onCheckedChange: (checked: boolean) => void
-}) {
-  const id = React.useId()
-
-  return (
-    <AppTile
-      id={id}
-      {...content}
-      control={
-        <Checkbox
-          id={id}
-          checked={checked}
-          disabled={disabled}
-          onCheckedChange={onCheckedChange}
-        />
-      }
-    />
-  )
-}
-
-/** The one app of a single project, as one of a row of tiles. */
-export function AppChoiceTile({
-  value,
-  ...content
-}: AppTileContent & { value: string }) {
-  const id = React.useId()
-
-  return (
-    <AppTile
-      id={id}
-      {...content}
-      control={<RadioGroupItem value={value} id={id} />}
-    />
   )
 }
 

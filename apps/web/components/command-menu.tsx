@@ -15,6 +15,7 @@ import {
 import { trackEvent } from "@/lib/events"
 import { showMcpDocs } from "@/lib/flags"
 import { getCurrentBase, getPagesFromFolder } from "@/lib/page-tree"
+import { SearchIcon } from "@/lib/site-icons"
 import { type source } from "@/lib/source"
 import { useConfig } from "@/hooks/use-config"
 import { copyToClipboardWithMeta } from "@/components/copy-button"
@@ -60,10 +61,11 @@ export function CommandMenu({
   blocks?: Block[]
   navItems?: { href: string; label: string }[]
   /**
-   * pill: a wide search button. sidebar: the docs sidebar row. search: the
+   * icon: the site header button. pill: a wide search button.
+   * sidebar: the docs sidebar row. search: the
    * top bar's collapsible Search field, which hands its text to the dialog.
    */
-  trigger?: "default" | "pill" | "sidebar" | "search"
+  trigger?: "default" | "pill" | "sidebar" | "search" | "icon"
 }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -370,7 +372,18 @@ export function CommandMenu({
 
   return (
     <>
-      {trigger === "default" ? (
+      {trigger === "icon" ? (
+        <Button
+          variant="ghost"
+          size="icon"
+          ref={triggerRef}
+          aria-label="Search documentation"
+          title="Search documentation (⌘K / Ctrl+K)"
+          onClick={() => setOpen(true)}
+        >
+          <SearchIcon />
+        </Button>
+      ) : trigger === "default" ? (
         <Button
           variant="outline"
           className="w-full justify-start text-muted-foreground md:w-48 lg:w-40 xl:w-64"

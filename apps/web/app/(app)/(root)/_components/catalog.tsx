@@ -39,6 +39,12 @@ const SOURCES: CatalogSource[] = [
       })),
   },
   {
+    slug: "area-chart",
+    title: "Area Chart",
+    height: "lg",
+    load: () => import("@/examples/__styles__/base-fabricator/area-chart-demo"),
+  },
+  {
     slug: "aspect-ratio",
     title: "Aspect Ratio",
     height: "md",
@@ -69,6 +75,12 @@ const SOURCES: CatalogSource[] = [
       })),
   },
   {
+    slug: "bar-chart",
+    title: "Bar Chart",
+    height: "lg",
+    load: () => import("@/examples/__styles__/base-fabricator/bar-chart-demo"),
+  },
+  {
     slug: "breadcrumb",
     title: "Breadcrumb",
     height: "sm",
@@ -81,11 +93,24 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/bubble-demo"),
   },
   {
+    slug: "bump-chart",
+    title: "Bump Chart",
+    height: "lg",
+    load: () => import("@/examples/__styles__/base-fabricator/bump-chart-demo"),
+  },
+  {
     slug: "button-group",
     title: "Button Group",
     height: "sm",
     load: () =>
       import("@/examples/__styles__/base-fabricator/button-group-demo"),
+  },
+  {
+    slug: "candlestick-chart",
+    title: "Candlestick Chart",
+    height: "lg",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/candlestick-chart-demo"),
   },
   {
     slug: "card",
@@ -118,6 +143,13 @@ const SOURCES: CatalogSource[] = [
     height: "lg",
     load: () =>
       import("@/examples/__styles__/base-fabricator/color-picker-swatches"),
+  },
+  {
+    slug: "composition-chart",
+    title: "Composition Chart",
+    height: "lg",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/composition-chart-demo"),
   },
   {
     slug: "context-menu",
@@ -154,6 +186,13 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/dialog-demo"),
   },
   {
+    slug: "donut-chart",
+    title: "Donut Chart",
+    height: "lg",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/donut-chart-demo"),
+  },
+  {
     slug: "drawer",
     title: "Drawer",
     height: "sm",
@@ -183,6 +222,20 @@ const SOURCES: CatalogSource[] = [
     height: "md",
     load: () =>
       import("@/examples/__styles__/base-fabricator/file-upload-demo"),
+  },
+  {
+    slug: "funnel-chart",
+    title: "Funnel Chart",
+    height: "lg",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/funnel-chart-demo"),
+  },
+  {
+    slug: "heat-calendar",
+    title: "Heat Calendar",
+    height: "lg",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/heat-calendar-demo"),
   },
   {
     slug: "hover-card",
@@ -222,6 +275,12 @@ const SOURCES: CatalogSource[] = [
     title: "Label",
     height: "sm",
     load: () => import("@/examples/__styles__/base-fabricator/label-demo"),
+  },
+  {
+    slug: "line-chart",
+    title: "Line Chart",
+    height: "lg",
+    load: () => import("@/examples/__styles__/base-fabricator/line-chart-demo"),
   },
   {
     slug: "markdown",
@@ -283,6 +342,12 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/pagination-demo"),
   },
   {
+    slug: "pie-chart",
+    title: "Pie Chart",
+    height: "lg",
+    load: () => import("@/examples/__styles__/base-fabricator/pie-chart-demo"),
+  },
+  {
     slug: "popover",
     title: "Popover",
     height: "sm",
@@ -303,6 +368,20 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/questionnaire-demo"),
   },
   {
+    slug: "radar-chart",
+    title: "Radar Chart",
+    height: "lg",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/radar-chart-demo"),
+  },
+  {
+    slug: "radial-chart",
+    title: "Radial Chart",
+    height: "lg",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/radial-chart-demo"),
+  },
+  {
     slug: "rating",
     title: "Rating",
     height: "sm",
@@ -313,6 +392,13 @@ const SOURCES: CatalogSource[] = [
     title: "Resizable",
     height: "lg",
     load: () => import("@/examples/__styles__/base-fabricator/resizable-demo"),
+  },
+  {
+    slug: "sankey-chart",
+    title: "Sankey Chart",
+    height: "lg",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/sankey-chart-demo"),
   },
   {
     slug: "scroll-area",
@@ -346,6 +432,12 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/spinner-demo"),
   },
   {
+    slug: "status-bar",
+    title: "Status Bar",
+    height: "lg",
+    load: () => import("@/examples/__styles__/base-fabricator/status-bar-demo"),
+  },
+  {
     slug: "syntax-highlight",
     title: "Syntax Highlight",
     height: "md",
@@ -366,6 +458,12 @@ const SOURCES: CatalogSource[] = [
     title: "Toggle",
     height: "sm",
     load: () => import("@/examples/__styles__/base-fabricator/toggle-demo"),
+  },
+  {
+    slug: "treemap",
+    title: "Treemap",
+    height: "lg",
+    load: () => import("@/examples/__styles__/base-fabricator/treemap-demo"),
   },
 ]
 

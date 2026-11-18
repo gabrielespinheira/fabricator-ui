@@ -199,7 +199,7 @@ export function createCommandStore() {
   const publish = (next: CommandSnapshot, visibilityChanged = false) => {
     if (!visibilityChanged && isSameSnapshot(snapshot, next)) return
     snapshot = next
-    listeners.forEach((listener) => listener())
+    for (const listener of listeners) listener()
   }
 
   const refresh = () => {

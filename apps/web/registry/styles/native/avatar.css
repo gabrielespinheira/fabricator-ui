@@ -1,7 +1,8 @@
 /* MARK: Avatar */
 
+  /* Opaque, as on the website: the fallback's tint sits on the background. */
   .cn-avatar {
-    @apply size-(--density-32) rounded-full data-[size=lg]:size-(--density-40) data-[size=sm]:size-(--density-24);
+    @apply bg-background size-(--density-32) rounded-full data-[size=lg]:size-(--density-40) data-[size=sm]:size-(--density-24);
   }
 
   /* A hairline over the image, the website's ::after. */
@@ -48,10 +49,11 @@
     @apply gap-0;
   }
 
-  /* -space-x-2 and ring-2 together: the wrapper's border adds 4pt, so overlapping
-     by 12pt leaves avatars 8pt over each other, as on the website. */
+  /* The website's ring-2 as a border. The item takes it into its overlap, a
+     third of the avatar's size (ui/avatar.tsx). Its background keeps the
+     count's tint opaque. */
   .cn-avatar-group-item {
-    @apply border-background -ms-3 rounded-full border-2 data-[first=true]:ms-0;
+    @apply border-background bg-background rounded-full border-2;
   }
 
   .cn-avatar-group-count {

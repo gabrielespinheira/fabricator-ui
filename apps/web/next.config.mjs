@@ -2,6 +2,9 @@ import { existsSync, readdirSync, readFileSync } from "fs"
 import path from "path"
 import { createMDX } from "fumadocs-mdx/next"
 
+import screenshotAttachments from "../../docs/screenshot-attachments.json" with { type: "json" }
+import { changelogRedirects } from "./lib/changelog-redirects.mjs"
+
 const GITHUB_RAW_URL =
   "https://raw.githubusercontent.com/gabrielespinheira/fabricator-ui/refs/heads/main"
 
@@ -95,6 +98,18 @@ const nextConfig = {
   },
   redirects() {
     return [
+      ...changelogRedirects.flatMap(([entry, release]) => [
+        {
+          source: `/docs/changelog/${entry}`,
+          destination: `/docs/changelog/${release}`,
+          permanent: true,
+        },
+        {
+          source: `/docs/changelog/${entry}.md`,
+          destination: `/docs/changelog/${release}.md`,
+          permanent: true,
+        },
+      ]),
       {
         source: "/docs/components",
         destination: "/docs",
@@ -104,17 +119,6 @@ const nextConfig = {
         source: "/docs/components.md",
         destination: "/docs.md",
         permanent: true,
-      },
-      // The blocks gallery is removed for now.
-      {
-        source: "/blocks/:path*",
-        destination: "/docs",
-        permanent: false,
-      },
-      {
-        source: "/blocks",
-        destination: "/docs",
-        permanent: false,
       },
       // Form and the removed /docs/forms guides redirect to Field.
       {
@@ -384,6 +388,13 @@ const nextConfig = {
   },
   rewrites() {
     return [
+      // Keep published preview URLs stable while GitHub owns the binary files.
+      ...Object.entries(screenshotAttachments)
+        .filter(([file]) => file.startsWith("apps/web/public/"))
+        .map(([file]) => ({
+          source: file.slice("apps/web/public".length),
+          destination: `/api/screenshots/${file.slice("apps/web/public/".length)}`,
+        })),
       {
         source: "/docs/:path*.md",
         destination: "/llm/:path*",
@@ -396,6 +407,10 @@ const nextConfig = {
       {
         source: "/r/fabricator/native/:name",
         destination: "/r/native/:name",
+      },
+      {
+        source: "/r/fabricator/:renderer(swiftui|compose)/:name",
+        destination: "/r/:renderer/:name",
       },
       // Registry. Serves the Fabricator style compiled for
       // the base in the project's style id (e.g. base-nova -> base-fabricator).

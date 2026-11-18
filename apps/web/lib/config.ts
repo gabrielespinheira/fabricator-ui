@@ -29,6 +29,10 @@ export const siteConfig = {
       label: "Components",
     },
     {
+      href: "/blocks",
+      label: "Blocks",
+    },
+    {
       href: "/icons",
       label: "Icons",
     },

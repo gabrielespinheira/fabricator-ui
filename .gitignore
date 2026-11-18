@@ -35,3 +35,20 @@ __screenshots__
 
 # personal experiments (Three.js hero prototype, references)
 tmp/
+
+# Session evidence is uploaded to GitHub attachments and linked from plans.
+/docs/plans/**/*.png
+/docs/plans/**/*.jpg
+/docs/plans/**/*.jpeg
+/docs/plans/**/*.webp
+/docs/plans/**/*.gif
+/docs/plans/**/*.avif
+/docs/plans/**/*.mp4
+/docs/plans/**/*.mov
+/docs/plans/**/*.webm
+
+# Published previews live in GitHub attachments; capture scripts write to tmp/.
+/.github/assets/home-*.webp
+/apps/web/public/examples/*.webp
+/apps/web/public/images/blocks/
+/apps/web/public/images/native/

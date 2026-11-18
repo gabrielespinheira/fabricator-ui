@@ -27,7 +27,7 @@ export const contentItems: Registry["items"] = [
     type: "registry:ui",
     title: "BotFace",
     description:
-      "An animated assistant face with fourteen silhouettes, palette colours, blinking, idle glances and touch-following eyes.",
+      "An assistant face with ten fluid expressions, agent session mapping, fourteen silhouettes and subtle touch-following eyes.",
     dependencies: [
       "cn",
       "class-variance-authority",
@@ -39,6 +39,11 @@ export const contentItems: Registry["items"] = [
     files: [
       { path: "ui/bot-face.tsx", type: "registry:ui" },
       { path: "lib/bot-face-model.ts", type: "registry:lib" },
+      { path: "lib/color-model.ts", type: "registry:lib" },
+      { path: "lib/bot-face-motion.ts", type: "registry:lib" },
+      { path: "lib/bot-face-eye-morph.ts", type: "registry:lib" },
+      { path: "lib/bot-face-session.ts", type: "registry:lib" },
+      { path: "hooks/use-bot-face-state.ts", type: "registry:hook" },
     ],
     meta: docs("bot-face"),
   },
@@ -149,10 +154,18 @@ export const contentItems: Registry["items"] = [
       "@fabricator-ui/icons-react-native",
       "class-variance-authority",
       "cn",
+      "react-native-reanimated",
       "uniwind@1.13.1",
     ],
-    registryDependencies: ["@fabricator/text"],
-    files: [{ path: "ui/avatar.tsx", type: "registry:ui" }],
+    registryDependencies: [
+      "@fabricator/motion",
+      "@fabricator/text",
+      "@fabricator/tooltip",
+    ],
+    files: [
+      { path: "ui/avatar.tsx", type: "registry:ui" },
+      { path: "lib/avatar-group-model.ts", type: "registry:lib" },
+    ],
     meta: docs("avatar"),
   },
   {

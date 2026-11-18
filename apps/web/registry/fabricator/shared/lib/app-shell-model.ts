@@ -711,6 +711,40 @@ export function getShellSize(
   return "desktop"
 }
 
+export type HeaderMenu = {
+  /** The trigger shows on every width, not on phones alone. */
+  isOnEveryWidth: boolean
+  /** The header's actions fill its first group. */
+  hasActions: boolean
+  /** The page's own settings and rare actions follow them. */
+  hasPageMenu: boolean
+}
+
+/**
+ * The header's one "More" menu. Phones fold the header's actions into it; a
+ * page menu (settings for the page) keeps it on every width, so there is never
+ * a second ellipsis beside it.
+ */
+export function getHeaderMenu({
+  size,
+  actionCount,
+  hasPageMenu,
+}: {
+  size: ShellSize | null
+  actionCount: number
+  hasPageMenu: boolean
+}): HeaderMenu | null {
+  if (actionCount === 0 && !hasPageMenu) return null
+  if (!hasPageMenu) {
+    return { isOnEveryWidth: false, hasActions: true, hasPageMenu: false }
+  }
+  return {
+    isOnEveryWidth: true,
+    hasActions: size === "phone" && actionCount > 0,
+    hasPageMenu: true,
+  }
+}
+
 // macOS draws the traffic lights in a 52 by 14px box whose top start corner
 // is the window's trafficLightPosition.
 const TRAFFIC_LIGHTS_WIDTH = 52
@@ -1146,6 +1180,23 @@ export function getBreadcrumbsFromPath(
     })
   }
   return crumbs
+}
+
+/** Keeps named crumbs stable as their neighbors change. */
+export function getKeyedBreadcrumbs<
+  T extends { href?: string; label: unknown } | null,
+>(items: readonly T[]) {
+  const occurrences = new Map<string, number>()
+  return items.map((item) => {
+    const identity = JSON.stringify([
+      item === null ? "folded" : "item",
+      item?.href ?? null,
+      typeof item?.label === "string" ? item.label : null,
+    ])
+    const occurrence = occurrences.get(identity) ?? 0
+    occurrences.set(identity, occurrence + 1)
+    return { item, key: `${identity}:${occurrence}` }
+  })
 }
 
 /** Splits crumbs into what shows and what folds into a menu. */

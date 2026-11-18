@@ -18,7 +18,7 @@ import puppeteer from "puppeteer-core"
 import { getAllBlockIds } from "../lib/blocks"
 import { SITE_BLOCK_STYLE } from "../lib/site-style"
 
-const OUTPUT_DIR = path.join(process.cwd(), "public/images/blocks")
+const OUTPUT_DIR = path.resolve(process.cwd(), "../../tmp/screenshots/blocks")
 const BASE_URL = process.env.CAPTURE_URL ?? "http://localhost:4000"
 const CHROME_PATHS = [
   process.env.CHROME_PATH,

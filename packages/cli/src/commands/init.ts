@@ -21,6 +21,10 @@ import {
   readPackageJson,
   type ProjectPackageJson,
 } from "../utils/native"
+import {
+  isNativeLanguageRenderer,
+  readNativeLanguageConfig,
+} from "../utils/native-files"
 import { detectPackageManager } from "../utils/package-manager"
 import { exitLike, formatShadcnCommand, runShadcn } from "../utils/shadcn"
 import {
@@ -36,6 +40,7 @@ import {
   syncWorkspaceAfterAdd,
 } from "../utils/workspace"
 import { initNative } from "./init-native"
+import { initNativeLanguage } from "./native-language"
 import { fail, promptSelect, resolveCwd } from "./shared"
 
 export interface InitOptions extends SetupFlags {
@@ -260,6 +265,14 @@ export async function init(
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
   const baseUrl = getBaseUrl()
+  const languageConfig = await readNativeLanguageConfig(cwd)
+  const languageRenderer = rawOptions.platform ?? languageConfig?.renderer
+  if (isNativeLanguageRenderer(languageRenderer)) {
+    return initNativeLanguage(components, languageRenderer, {
+      ...rawOptions,
+      cwd,
+    })
+  }
   if (hasSetupFlags(rawOptions) && !rawOptions.template) {
     return runSetup(setupFromInitFlags(rawOptions), {
       cwd,
@@ -398,7 +411,7 @@ export function createInitCommand(): Command {
     )
     .option(
       "--platform <platform>",
-      "web or native (default: native in an Expo or React Native project)"
+      "web, native (React Native), swiftui or compose (auto-detected from project config)"
     )
     .option("--monorepo", "scaffold a monorepo project")
     .option("--no-monorepo", "skip the monorepo prompt")

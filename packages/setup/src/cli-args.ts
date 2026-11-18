@@ -81,6 +81,12 @@ function createArgs(setup: ProjectSetup) {
       : ["-t", setup.framework]),
     ...baseFlag(setup),
     ...appFlags(setup),
+    ...(setup.tooling === DEFAULT_PROJECT_SETUP.tooling
+      ? []
+      : ["--tooling", setup.tooling]),
+    ...(setup.runner === DEFAULT_PROJECT_SETUP.runner
+      ? []
+      : ["--runner", setup.runner]),
     ...sharedFlags(setup),
     ...(setup.appShell
       ? Object.keys(setup.shell).length > 0

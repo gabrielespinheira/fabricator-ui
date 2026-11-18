@@ -1,0 +1,33 @@
+/* MARK: Treemap */
+
+  /* The map fills its container's width; 18rem tall until the screen gives
+     it a height. The legend sits under it. */
+  .cn-treemap {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Cell labels name the data rather than an axis, so they read a step
+     larger than axis labels. Read as the SVG text's size, which the layout
+     measures against. */
+  .cn-treemap-plot {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The opacity a cell takes while another is inspected or spotlit: a
+     little dimmer, so the one in focus stands out and the rest stays
+     readable. Read by the map, applied to SVG. */
+  .cn-treemap-cell {
+    @apply opacity-60;
+  }
+
+  /* Names lead in the text colour, never the group's: the wash behind them
+     is light enough in both themes to keep their contrast. Read as the SVG
+     text's fill and weight. */
+  .cn-treemap-cell-name {
+    @apply text-foreground font-medium;
+  }
+
+  /* Values sit under the name, quieter. */
+  .cn-treemap-cell-value {
+    @apply text-muted-foreground;
+  }

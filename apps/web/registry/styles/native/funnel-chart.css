@@ -1,0 +1,41 @@
+/* MARK: Funnel Chart */
+
+  /* The funnel fills its container's width; 18rem tall until the screen
+     gives it a height. */
+  .cn-funnel-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Stage names, values and conversions are the chart's reading, so they
+     read a step larger than axis labels. Read as the SVG text's size, which
+     the layout measures against. */
+  .cn-funnel-chart-plot {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The opacity a stage leaving the data takes as it shrinks into the
+     centre line. Read by the chart, applied to SVG. */
+  .cn-funnel-chart-stage {
+    @apply opacity-25;
+  }
+
+  /* Values sit on a pill of the card, so they keep the text colour and its
+     contrast on every step of the hue. A hairline keeps the pill's shape
+     where it reaches past a narrow stage. Read as the pill's fill and edge. */
+  .cn-funnel-chart-pill {
+    @apply bg-card border-border;
+  }
+
+  .cn-funnel-chart-value {
+    @apply text-foreground font-medium;
+  }
+
+  /* Names label the stages in the text colour. */
+  .cn-funnel-chart-name {
+    @apply text-foreground;
+  }
+
+  /* Conversions are derived from the values, so they stay quieter. */
+  .cn-funnel-chart-conversion {
+    @apply text-muted-foreground;
+  }

@@ -1,6 +1,8 @@
 import { Command } from "commander"
 
+import { readNativeLanguageConfig } from "../utils/native-files"
 import { exitLike, runShadcn } from "../utils/shadcn"
+import { viewNativeLanguage } from "./native-language"
 import { fail, resolveCwd, resolveReadAddresses } from "./shared"
 
 export interface ViewOptions {
@@ -13,6 +15,9 @@ export async function view(
   rawOptions: ViewOptions
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
+  const languageConfig = await readNativeLanguageConfig(cwd)
+  if (languageConfig && !rawOptions.upstream)
+    return viewNativeLanguage(items, languageConfig)
   const addresses = resolveReadAddresses(cwd, items, {
     upstream: rawOptions.upstream,
   })

@@ -1,0 +1,40 @@
+/* MARK: Funnel Chart */
+
+  /* The funnel fills its container's width; 18rem tall until the page
+     gives it a height. */
+  .cn-funnel-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Stage names, values and conversions are the chart's reading, so they
+     read a step larger than axis labels. The layout measures against this
+     size. */
+  .cn-funnel-chart-plot {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* A stage leaving the data fades as it shrinks into the centre line. */
+  .cn-funnel-chart-stage {
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+  }
+
+  /* Values sit on a pill of the card, so they keep the text colour and its
+     contrast on every step of the hue. A hairline keeps the pill's shape
+     where it reaches past a narrow stage. */
+  .cn-funnel-chart-pill {
+    @apply fill-card stroke-border stroke-1;
+  }
+
+  .cn-funnel-chart-value {
+    @apply fill-foreground font-medium tabular-nums select-none;
+  }
+
+  /* Names label the stages in the text colour. */
+  .cn-funnel-chart-name {
+    @apply fill-foreground select-none;
+  }
+
+  /* Conversions are derived from the values, so they stay quieter. */
+  .cn-funnel-chart-conversion {
+    @apply fill-muted-foreground tabular-nums select-none;
+  }

@@ -19,6 +19,18 @@
       }
     ],
     "paths": {
+      "@/registry/bases/*/lib/bot-face-eye-morph": [
+        "./registry/fabricator/shared/lib/bot-face-eye-morph"
+      ],
+      "@/registry/bases/*/lib/bot-face-motion": [
+        "./registry/fabricator/shared/lib/bot-face-motion"
+      ],
+      "@/registry/bases/*/lib/bot-face-session": [
+        "./registry/fabricator/shared/lib/bot-face-session"
+      ],
+      "@/registry/bases/*/hooks/use-bot-face-state": [
+        "./registry/fabricator/shared/hooks/use-bot-face-state"
+      ],
       "@/registry/bases/*/ui/theme-toggle": [
         "./registry/fabricator/shared/ui/theme-toggle"
       ],
@@ -45,6 +57,9 @@
       // base (the build substitutes them per base); see registry/fabricator.
       "@/registry/bases/*/lib/fluid-hover": [
         "./registry/fabricator/shared/lib/fluid-hover"
+      ],
+      "@/registry/bases/*/lib/avatar-group-parting": [
+        "./registry/fabricator/shared/lib/avatar-group-parting"
       ],
       "@/registry/bases/*/lib/sounds": [
         "./registry/fabricator/shared/lib/sounds"
@@ -108,6 +123,30 @@
       ],
       "@/registry/bases/*/ui/data-table": [
         "./registry/fabricator/*/ui/data-table"
+      ],
+      "@/registry/bases/*/lib/event-calendar-model": [
+        "./registry/fabricator/shared/lib/event-calendar-model"
+      ],
+      "@/registry/bases/*/lib/event-calendar-recurrence": [
+        "./registry/fabricator/shared/lib/event-calendar-recurrence"
+      ],
+      "@/registry/bases/*/lib/event-calendar-loader": [
+        "./registry/fabricator/shared/lib/event-calendar-loader"
+      ],
+      "@/registry/bases/*/hooks/use-event-calendar": [
+        "./registry/fabricator/shared/hooks/use-event-calendar"
+      ],
+      "@/registry/bases/*/ui/event-calendar-engine": [
+        "./registry/fabricator/shared/ui/event-calendar-engine"
+      ],
+      "@/registry/bases/*/ui/event-calendar-event": [
+        "./registry/fabricator/shared/ui/event-calendar-event"
+      ],
+      "@/registry/bases/*/ui/event-calendar-agenda": [
+        "./registry/fabricator/shared/ui/event-calendar-agenda"
+      ],
+      "@/registry/bases/*/ui/event-calendar": [
+        "./registry/fabricator/*/ui/event-calendar"
       ],
       // The Data Table's shared cells draw status tones with the Badge
       // override's status variants.
@@ -176,6 +215,18 @@
       ],
       "@/registry/bases/__base__/ui/user-menu": [
         "./registry/fabricator/base/ui/user-menu"
+      ],
+      // A block's per-base parts (registry/fabricator/<base>/blocks/…) take
+      // the place of shared files with the same path.
+      "@/registry/bases/__base__/blocks/*": [
+        "./registry/fabricator/base/blocks/*",
+        "./registry/fabricator/shared/blocks/*"
+      ],
+      // Blocks compose the Fabricator copies, which add to upstream's APIs.
+      "@/registry/bases/__base__/ui/*": [
+        "./registry/fabricator/base/ui/*",
+        "./registry/fabricator/shared/ui/*",
+        "./registry/bases/base/ui/*"
       ],
       // Shared overlay files name the base as __base__ (the build substitutes
       // each base); they typecheck against the Base UI tree, then the overlay.

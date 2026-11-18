@@ -4,13 +4,6 @@ import UIKit
 /// a chevron at its start and a Copy icon at its end, over a hairline. The
 /// language and Copy are tap targets; the view reports them.
 struct EditorCodeChrome {
-  // In em of the body size: the strip is 36pt at a 16pt body, its controls
-  // 0.75em in from the block's edges.
-  static let stripHeight: CGFloat = 2.25
-  static let inset: CGFloat = 0.75
-  static let copySize: CGFloat = 0.875
-  static let chevronGap: CGFloat = 0.25
-
   let decoration: EditorDecoration
   /// The block's rectangle, background included, in drawing coordinates.
   let block: CGRect
@@ -19,7 +12,7 @@ struct EditorCodeChrome {
   private var strip: CGRect {
     CGRect(x: block.minX, y: block.minY, width: block.width, height: decoration.metrics.headerHeight)
   }
-  private var inset: CGFloat { theme.fontSize * Self.inset }
+  private var inset: CGFloat { theme.codeStyle.headerInset }
   private var labelFont: UIFont { theme.codeLabelFont }
 
   /// The language and its chevron.
@@ -29,11 +22,11 @@ struct EditorCodeChrome {
     let chevron = labelFont.pointSize
     return CGRect(
       x: strip.minX + inset, y: strip.midY - labelFont.lineHeight / 2,
-      width: width + theme.fontSize * Self.chevronGap + chevron, height: labelFont.lineHeight)
+      width: width + theme.codeStyle.chevronGap + chevron, height: labelFont.lineHeight)
   }
 
   var copyRect: CGRect {
-    let size = (theme.fontSize * Self.copySize).rounded()
+    let size = theme.codeStyle.iconSize
     return CGRect(x: strip.maxX - inset - size, y: strip.midY - size / 2, width: size, height: size)
   }
 
@@ -59,6 +52,7 @@ struct EditorCodeChrome {
         path.addLine(to: CGPoint(x: 18, y: 9))
       }
     }
+    guard decoration.drawsCodeCopy else { return }
     // Lucide's copy: a square over the corner of another.
     drawLucide(in: copyRect) { path in
       path.append(UIBezierPath(roundedRect: CGRect(x: 8, y: 8, width: 14, height: 14), cornerRadius: 2))

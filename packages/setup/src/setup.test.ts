@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 
 import {
   DEFAULT_PROJECT_SETUP,
+  hasDesignGuide,
   isWebFramework,
   normalizeProjectSetup,
   parseKeyValues,
@@ -93,9 +94,31 @@ describe("normalizeProjectSetup", () => {
   })
 })
 
+describe("hasDesignGuide", () => {
+  it("comes with the agent skill in a new project", () => {
+    expect(hasDesignGuide(setup({ assistants: ["claude"] }))).toBe(true)
+    expect(
+      hasDesignGuide(setup({ project: "new", assistants: ["codex"] }))
+    ).toBe(true)
+  })
+
+  it("needs an assistant and the skill", () => {
+    expect(hasDesignGuide(setup({ assistants: [] }))).toBe(false)
+    expect(
+      hasDesignGuide(setup({ assistants: ["claude"], skill: false }))
+    ).toBe(false)
+  })
+
+  it("leaves an existing project's design alone", () => {
+    expect(
+      hasDesignGuide(setup({ project: "existing", assistants: ["claude"] }))
+    ).toBe(false)
+  })
+})
+
 describe("projectName", () => {
   it("falls back for a blank name", () => {
-    expect(projectName(setup({ name: "  " }))).toBe("my-app")
+    expect(projectName(setup({ name: "  " }))).toBe("fabricator-ui")
     expect(projectName(setup({ name: " acme " }))).toBe("acme")
   })
 })
@@ -149,8 +172,54 @@ describe("the apps a setup chooses", () => {
     })
   })
 
-  it("makes a lone mobile app a plain Expo project", () => {
-    expect(apps({ web: false, mobile: true })).toEqual(EXPO_ONLY)
+  it("keeps a lone mobile app in a monorepo, in apps/mobile", () => {
+    expect(apps({ web: false, mobile: true })).toEqual({
+      project: "monorepo",
+      framework: "next",
+      web: false,
+      mobile: true,
+      desktop: "none",
+    })
+  })
+
+  it("keeps a toolchain only for a new monorepo", () => {
+    const tooling = (changes: Partial<ProjectSetup>) =>
+      normalizeProjectSetup({
+        ...DEFAULT_PROJECT_SETUP,
+        tooling: "biome",
+        ...changes,
+      }).tooling
+    expect(DEFAULT_PROJECT_SETUP.tooling).toBe("eslint-prettier")
+    expect(tooling({})).toBe("biome")
+    expect(tooling({ web: false, mobile: true })).toBe("biome")
+    expect(tooling({ project: "new" })).toBe("eslint-prettier")
+    expect(tooling({ project: "existing" })).toBe("eslint-prettier")
+  })
+
+  it("keeps a task runner only where a web app's tasks fan out", () => {
+    const runner = (changes: Partial<ProjectSetup>) =>
+      normalizeProjectSetup({
+        ...DEFAULT_PROJECT_SETUP,
+        runner: "vite-plus",
+        ...changes,
+      }).runner
+    expect(DEFAULT_PROJECT_SETUP.runner).toBe("turborepo")
+    expect(runner({})).toBe("vite-plus")
+    expect(runner({ web: false, desktop: "electron" })).toBe("vite-plus")
+    expect(runner({ web: false, mobile: true })).toBe("turborepo")
+    expect(runner({ project: "existing" })).toBe("turborepo")
+  })
+
+  it("drops the web framework and primitives when there's no web app", () => {
+    const setup = normalizeProjectSetup({
+      ...DEFAULT_PROJECT_SETUP,
+      web: false,
+      mobile: true,
+      framework: "vite",
+      base: "radix",
+    })
+    expect(setup.framework).toBe("next")
+    expect(setup.base).toBe("base")
   })
 
   it("reads the Expo template as a lone mobile app, however it was asked for", () => {

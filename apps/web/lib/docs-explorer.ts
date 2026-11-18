@@ -3,11 +3,15 @@ import type {
   NavItem,
 } from "@/registry/fabricator/shared/lib/app-shell-model"
 
+import { formatChangelogDate, sortNewestFirst } from "./changelog-order"
 import { getExplorerNavGroups } from "./component-explorer"
 import { getComponentGroup } from "./component-groups"
 import { getCurrentBase } from "./page-tree"
 
-export type ExplorerPage = { url: string; title: string }
+/** `date` is a changelog entry's day, `yyyy-MM-dd`. */
+export type ExplorerPage = { url: string; title: string; date?: string }
+
+const CHANGELOG_URL = "/docs/changelog"
 
 const GUIDE_SECTIONS = [
   {
@@ -33,7 +37,7 @@ const GUIDE_SECTIONS = [
       "/docs/utils/",
     ],
   },
-  { label: "Changelog", prefixes: ["/docs/changelog"] },
+  { label: "Changelog", prefixes: [CHANGELOG_URL] },
 ]
 
 /** Docs keep their URLs and guides; component navigation is the app explorer's. */
@@ -74,11 +78,17 @@ export function getDocsExplorerGroups(
       id: "guides",
       label: "Documentation",
       items: GUIDE_SECTIONS.flatMap((section) => {
-        const children = guidePages
-          .filter((page) =>
-            section.prefixes.some((prefix) => page.url.startsWith(prefix))
-          )
-          .map((page) => ({ id: page.url, label: page.title, href: page.url }))
+        const sectionPages = guidePages.filter((page) =>
+          section.prefixes.some((prefix) => page.url.startsWith(prefix))
+        )
+        const children =
+          section.label === "Changelog"
+            ? getChangelogItems(sectionPages)
+            : sectionPages.map((page) => ({
+                id: page.url,
+                label: page.title,
+                href: page.url,
+              }))
         return children.length
           ? [{ id: section.label, label: section.label, children }]
           : []
@@ -98,6 +108,28 @@ export function getDocsExplorerGroups(
           : []
       ),
     },
+  ]
+}
+
+// The overview, unreleased changes, then releases newest first with their
+// release day as the badge.
+function getChangelogItems(pages: ExplorerPage[]): NavItem<undefined>[] {
+  const overview = pages.filter((page) => page.url === CHANGELOG_URL)
+  const entries = sortNewestFirst(
+    pages.filter((page) => page.url !== CHANGELOG_URL)
+  )
+  return [
+    ...overview.map((page) => ({
+      id: page.url,
+      label: "All releases",
+      href: page.url,
+    })),
+    ...entries.map((page) => ({
+      id: page.url,
+      label: page.title,
+      href: page.url,
+      badge: page.date ? formatChangelogDate(page.date, "short") : undefined,
+    })),
   ]
 }
 

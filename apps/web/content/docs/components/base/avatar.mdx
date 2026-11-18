@@ -40,6 +40,10 @@ npx fabricator-ui@latest add avatar
 npm install @base-ui/react
 ```
 
+<Step>Add the `Tooltip` component to your project.</Step>
+
+The `Avatar` component uses the `Tooltip` component for its optional `tooltip`. Make sure you have it installed in your project.
+
 <Step>Copy and paste the following code into your project.</Step>
 
 <ComponentSource
@@ -144,6 +148,22 @@ You can also use an icon inside `<AvatarGroupCount>`.
 
 <ComponentPreview styleName="base-nova" name="avatar-group-count-icon" />
 
+## Avatar Group with Tooltips
+
+Pass `tooltip` to name each person on hover and keyboard focus. The group parts around the avatar the pointer enters: it lifts and comes forward while its neighbours slide aside on a spring, and stays parted until the pointer leaves the group. In a group the names show in one label, the tooltip's chip, which appears after a short beat and glides with the parting from avatar to avatar.
+
+<ComponentPreview styleName="base-nova" name="avatar-group-tooltip" />
+
+```tsx showLineNumbers
+<AvatarGroup>
+  <Avatar tooltip="Gabriel Espinheira">
+    <AvatarImage src="https://github.com/gabrielespinheira.png" alt="" />
+    <AvatarFallback>GE</AvatarFallback>
+  </Avatar>
+  <AvatarGroupCount>+3</AvatarGroupCount>
+</AvatarGroup>
+```
+
 ## Sizes
 
 Use the `size` prop to change the size of the avatar.
@@ -162,10 +182,13 @@ You can use the `Avatar` component as a trigger for a dropdown menu.
 
 The `Avatar` component is the root component that wraps the avatar image and fallback.
 
-| Prop        | Type                        | Default     |
-| ----------- | --------------------------- | ----------- |
-| `size`      | `"default" \| "sm" \| "lg"` | `"default"` |
-| `className` | `string`                    | -           |
+| Prop        | Type                            | Default     |
+| ----------- | ------------------------------- | ----------- |
+| `size`      | `"default" \| "sm" \| "lg"`     | `"default"` |
+| `tooltip`   | `string \| TooltipContentProps` | -           |
+| `className` | `string`                        | -           |
+
+A string is the tooltip's text; an object is passed to the tooltip's content, for its `side`, `className` or richer `children`. An avatar with a tooltip takes focus and becomes an image named by a string tooltip; pass `aria-label` when its content isn't a string. In an `AvatarGroup` only its `children` are used, as the name in the group's label.
 
 ### AvatarImage
 
@@ -208,5 +231,12 @@ The `AvatarGroupCount` component displays a count indicator in an avatar group, 
 | Prop        | Type     | Default |
 | ----------- | -------- | ------- |
 | `className` | `string` | -       |
+
+## Accessibility
+
+- An avatar's image takes its `alt`; with an image that fails, the fallback's initials show instead.
+- With a `tooltip`, the avatar is in the tab order with `role="img"`, named by the tooltip's text, which also shows on focus.
+- The group parts for a mouse and for keyboard focus, never for touch, and reduced motion keeps the avatar coming forward without the moves.
+- A group's name label is hidden from assistive tech: each avatar is already named by its `tooltip`.
 
 For more information about Base UI Avatar props, see the [Base UI documentation](https://base-ui.com/react/components/avatar#api-reference).

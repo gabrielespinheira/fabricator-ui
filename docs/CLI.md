@@ -5,14 +5,50 @@ The `fabricator-ui` CLI (`packages/cli`), the shared setup model (`packages/setu
 ## The CLI
 
 - It wraps `shadcn`: resolves the pinned package, runs it as a child with `process.execPath`, forwards arguments, stdio and exit codes, and adds Fabricator defaults (init URL, `@fabricator` resolution, `doctor`).
-- **Registry logic stays in shadcn.** Resolution, file writing and transforms are never re-implemented here. A gap is raised as an issue or a plan before code.
+- **React registry logic stays in shadcn.** Resolution, file writing and transforms for web and React Native stay there. Native Swift/Kotlin files use the scoped adapter below, for the gap recorded in [`plans/native-platforms.md`](plans/native-platforms.md).
 - **`create` and `init`'s setup flags run a plan.** `planSetup` in `packages/setup` lists the steps and `src/setup/steps.ts` does them. Each step checks whether its work is already there, so rerunning a failed command resumes it. Child output goes to a log file; `--verbose` streams it. A new choice goes in `packages/setup` first.
 - **Root-file edits** (`src/mount/`) know one exact shape each and return `null` for anything else, so the CLI prints the snippet instead of guessing at someone's code.
 - **Monorepos** follow `src/setup/workspace-config.ts` and `src/utils/workspace.ts`; `add` keeps an existing monorepo in step.
-- **Bundle:** `dependencies` stay external; `@fabricator-ui/setup` is bundled. `scripts/build.ts` copies `templates/` and `skills/fabricator` into `dist/`.
-- **Agent skill:** `skills/fabricator/SKILL.md` starts from local project context and routes screen design to bundled `design.md`, API rules to `rules/`, and optional setup to the CLI/MCP references. Keep it portable: no load-time commands or tool permission grants. CLI commands and reference examples always request `fabricator-ui@latest` through the project's package runner. Update `evals/evals.json` when changing behavior.
+- **Bundle:** `dependencies` stay external; `@fabricator-ui/setup` is bundled. `scripts/build.ts` copies `templates/`, `skills/fabricator` and the root `DESIGN.md` into `dist/`.
+- **Agent skill:** `skills/fabricator/SKILL.md` starts from local project context and routes screen design to bundled `design.md`, API rules to `rules/`, and optional setup to the CLI/MCP references. Keep it portable: no load-time commands or tool permission grants. CLI commands and reference examples always request `fabricator-ui@latest` through the project's package runner. Update `evals/evals.json` when changing behavior. A new project created with an assistant and the skill (`hasDesignGuide` in `packages/setup`) also gets the root `DESIGN.md` at its root, a `<!-- BEGIN:fabricator-ui -->` block in `AGENTS.md` that sends agents to it and to the skill (merged beside what is there, such as Next.js's block, and refreshed in place), and, with Claude Code, a `CLAUDE.md` that imports `AGENTS.md`; `init` on an existing project and `agents add` never write them. The block is loaded into every session, so it stays a few lines; design rules belong in `DESIGN.md`, which must stay within one agent read (about 25,000 tokens).
 - **Runtime:** Node ≥ 20.18.1, ESM, Node APIs only, so it runs the same under `npx`, `pnpm dlx`, `yarn dlx` and `bunx`.
 - Bumping the pinned `shadcn` is its own change, verified by the e2e matrix.
+
+## Native language projects
+
+`fabricator-ui init --platform swiftui` and `--platform compose` create a
+schema-versioned `fabricator.json` and install the renderer's foundations.
+Pass component names after `init`, use `init --all`, or use `add <names>` /
+`add --all` afterward. `--shell` and `--sounds` add their native modules.
+These projects need neither `components.json` nor a JavaScript runtime in the
+application. The default module is `FabricatorUI` or `dev.fabricator.ui`.
+
+`src/utils/native-files.ts` validates native payloads and dependency graphs,
+preserves opaque Swift/Kotlin bytes and binary font assets, checks target paths,
+and plans conflicts before any writes. `--dry-run`, `--view`, `--diff`, `view`,
+`diff`, `info` and toolchain-specific `doctor` work from `fabricator.json`.
+Source updates require `--overwrite` when an existing file differs. `apply`
+refreshes the Fabricator foundations with the same conflict checks; runtime
+theme and density choices belong to the renderer's theme API.
+The native module's `sourceRoot` controls its destination. Per-item `--path`
+overrides and React setup flags such as `--look`, `--spinner`, custom presets,
+templates and assistant setup fail explicitly rather than being ignored.
+
+These adapters are unreleased. In this checkout, run `bun run dev` and use
+`FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli init --platform swiftui`
+(or `compose`) with `--cwd` pointing to the consumer package.
+
+Why this adapter exists: the pinned shadcn 4.22.1 installs opaque `registry:file`
+Swift source in a project without React, but its universal-item shortcut excludes
+`--dry-run`, `--diff` and `--view`. Those paths enter JavaScript project setup.
+Its text payload also has no binary-font encoding contract. The native adapter
+handles those native-only operations; React projects keep the existing installer.
+
+Native payloads carry `schemaVersion`, `renderer`, `name`, namespaced
+`registryDependencies`, and files with exact `target`, `content` and `encoding`.
+They are generated by `registry:platforms`, separately from the shadcn schema.
+Native manifests own source files under `registry/{swiftui,compose}`; generated
+payloads cannot import from repository example apps.
 
 ## `/init`
 

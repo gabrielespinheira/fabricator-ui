@@ -118,7 +118,9 @@ type AppNavAction = NavAction<AppNavIcon>
 /** Returns the link element for an item, without children (a router Link). */
 type AppNavRenderLink = (item: AppNavItem) => React.ReactElement
 
-const renderAnchor: AppNavRenderLink = (item) => <a href={item.href} />
+const renderAnchor: AppNavRenderLink = (item) => (
+  <a href={item.href}>{item.label}</a>
+)
 
 /** The pinned rows repeat items from their groups; their drag ids differ. */
 const PINNED_GROUP = "app-nav-pinned"

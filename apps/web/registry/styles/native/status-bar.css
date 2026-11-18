@@ -1,0 +1,55 @@
+/* MARK: Status Bar */
+
+  /* The bar fills its container's width; the dates, the uptime and the
+     legend sit under the pills. */
+  .cn-status-bar {
+    @apply w-full gap-(--density-8);
+  }
+
+  /* Pills are tall and thin: their height follows the density. */
+  .cn-status-bar-plot {
+    @apply h-(--density-32);
+  }
+
+  /* The opacity the other pills take while one is inspected, read by the
+     bar and applied to SVG. */
+  .cn-status-bar-pill {
+    @apply opacity-60;
+  }
+
+  /* The lifted pill sits over the bar and under the tooltip. */
+  .cn-status-bar-lift {
+    @apply z-10;
+  }
+
+  .cn-status-bar-footer {
+    @apply gap-(--density-8);
+  }
+
+  /* The first and last day: small and grey, tabular. */
+  .cn-status-bar-footer-text {
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums;
+  }
+
+  /* The uptime share leads the line. */
+  .cn-status-bar-uptime {
+    @apply text-foreground text-(length:--density-text-12) font-medium tabular-nums;
+  }
+
+  /* Every status shown, by name: colour never names a status alone. */
+  .cn-status-bar-legend {
+    @apply gap-x-(--density-12) gap-y-(--density-4);
+  }
+
+  .cn-status-bar-legend-item {
+    @apply gap-(--density-6);
+  }
+
+  /* A small pill, as the bar draws them. */
+  .cn-status-bar-legend-key {
+    @apply h-2.5 w-1.5 rounded-full;
+  }
+
+  .cn-status-bar-legend-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }

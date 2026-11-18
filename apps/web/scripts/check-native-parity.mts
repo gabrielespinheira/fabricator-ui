@@ -8,6 +8,7 @@ import {
   applyExceptions,
   compareShapes,
   findMissingDemoValues,
+  findNativeOwner,
   findUnresolvedImports,
   getMissingComponentStatus,
   readComponentShape,
@@ -76,7 +77,8 @@ async function main() {
   const report = []
   for (const name of webNames) {
     const nativeFile = `registry/native/ui/${name}.tsx`
-    if (!items.has(name) || !existsSync(path.join(ROOT, nativeFile))) {
+    const owner = findNativeOwner(name, items)
+    if (!owner || !existsSync(path.join(ROOT, nativeFile))) {
       report.push({
         name,
         status: getMissingComponentStatus(name, exceptions),
@@ -88,7 +90,8 @@ async function main() {
     const nativeSource = await read(nativeFile)
     const webShape = readComponentShape(webSource)
     const nativeShape = readComponentShape(nativeSource)
-    const demoFile = `examples/native/${name}-example.tsx`
+    // A part is shown by its owner's demo.
+    const demoFile = `examples/native/${owner.name}-example.tsx`
     const gaps: ParityGap[] = compareShapes(webShape, nativeShape)
     if (existsSync(path.join(ROOT, demoFile))) {
       gaps.push(...findMissingDemoValues(nativeShape, await read(demoFile)))
@@ -140,10 +143,18 @@ async function main() {
     .map((entry) => entry.name)
     .filter((name) => !(name in FABRICATOR_EXCLUDED_ITEMS))
     .sort()
-  const missingBlocks = webBlocks.filter(
+  const unportedBlocks = webBlocks.filter(
     (name) =>
       !items.has(name) ||
       !existsSync(path.join(ROOT, `registry/native/blocks/${name}.tsx`))
+  )
+  // A block waiting for its native port has a dated "component" exception,
+  // like a component does.
+  const deferredBlocks = unportedBlocks.filter(
+    (name) => getMissingComponentStatus(name, exceptions) === "deferred"
+  )
+  const missingBlocks = unportedBlocks.filter(
+    (name) => !deferredBlocks.includes(name)
   )
 
   const done = report.filter((entry) => entry.status === "ok")
@@ -167,11 +178,16 @@ async function main() {
   if (missing.length > 0) {
     console.log(`Missing: ${missing.map((entry) => entry.name).join(", ")}`)
   }
+  if (deferredBlocks.length > 0) {
+    console.log(
+      `Deferred blocks (dated exceptions): ${deferredBlocks.join(", ")}`
+    )
+  }
   if (missingBlocks.length > 0) {
     console.log(`Missing blocks: ${missingBlocks.join(", ")}`)
   }
   console.log(
-    `\nNative parity: ${done.length} of ${report.length} components clean, ${gapped.length} with gaps, ${missing.length} missing, ${deferred.length} deferred. ${webBlocks.length - missingBlocks.length} of ${webBlocks.length} blocks.`
+    `\nNative parity: ${done.length} of ${report.length} components clean, ${gapped.length} with gaps, ${missing.length} missing, ${deferred.length} deferred. ${webBlocks.length - unportedBlocks.length} of ${webBlocks.length} blocks, ${deferredBlocks.length} deferred.`
   )
 
   if (jsonPath) {

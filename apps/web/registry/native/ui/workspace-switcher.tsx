@@ -307,7 +307,9 @@ function WorkspaceSwitcher({
         >
           <CommandInput placeholder={`Search ${label.toLowerCase()}…`} />
           <CommandList>
-            <CommandEmpty>No {label.toLowerCase()} found.</CommandEmpty>
+            <CommandEmpty>
+              <Text>No {label.toLowerCase()} found.</Text>
+            </CommandEmpty>
             <CommandGroup heading={label}>
               {workspaces.map((workspace) => (
                 <CommandItem

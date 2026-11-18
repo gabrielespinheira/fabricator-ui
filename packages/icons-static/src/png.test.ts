@@ -3,7 +3,7 @@ import os from "node:os"
 import path from "node:path"
 import { afterEach, describe, expect, it } from "vitest"
 
-import { buildSvg, exportPngs, resolveName } from "./png"
+import { buildSvg, exportPngs, renderSvgPng, resolveName } from "./png"
 
 const directories: string[] = []
 function outDir() {
@@ -32,6 +32,18 @@ const defaults = {
 }
 
 describe("exportPngs", () => {
+  it("rasterizes canonical SVG artwork at the requested native pixel size", async () => {
+    const png = Buffer.from(
+      await renderSvgPng(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#4565d6"/></svg>',
+        48
+      )
+    )
+    expect(png.subarray(0, 8)).toEqual(
+      Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])
+    )
+    expect([png.readUInt32BE(16), png.readUInt32BE(20)]).toEqual([48, 48])
+  })
   it("writes one file per scale at the right pixel size", async () => {
     const directory = outDir()
     const files = await exportPngs(["house"], {

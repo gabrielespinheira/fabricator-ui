@@ -1,0 +1,216 @@
+---
+title: Area Chart
+description: Change over time as filled areas, stacked or stretched to the whole, with a gliding crosshair and tooltip.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="area-chart-demo"
+  previewClassName="h-auto"
+/>
+
+Give it rows of data, the field that places each row along the bottom (`index`) and a `config` that names the series to draw. Each series is a line with a wash fading down under it, in the next colour of the [chart palette](#colours). Point at the chart, drag a finger across it or tab to it and use the arrow keys: a crosshair finds the nearest row and a tooltip lists every series there. The legend hides a series when pressed and spotlights it when pointed at.
+
+The areas draw in from the start edge the first time the chart is on screen, and morph to new values when the data changes. Area Chart is part of the Fabricator style. It's drawn in SVG, so the same component ships for every base, and its layout comes from the same model as the React Native version.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add area-chart
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies.</Step>
+
+```bash
+npm install d3-shape@3.2.1 d3-scale@4.0.3
+npm install -D @types/d3-shape@3.2.0 @types/d3-scale@4.0.9
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-model.ts"
+  title="lib/chart-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-cartesian-model.ts"
+  title="lib/chart-cartesian-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-line-model.ts"
+  title="lib/chart-line-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/chart-kit.tsx"
+  title="components/ui/chart-kit.tsx"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/chart-line-plot.tsx"
+  title="components/ui/chart-line-plot.tsx"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/area-chart.tsx"
+  title="components/ui/area-chart.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { AreaChart } from "@/components/ui/area-chart"
+import { type ChartConfig } from "@/components/ui/chart-kit"
+```
+
+```tsx
+const data = [
+  { month: "Jan", thisYear: 36_400, lastYear: 36_500 },
+  { month: "Feb", thisYear: 43_000, lastYear: 35_800 },
+  { month: "Mar", thisYear: 43_900, lastYear: 36_300 },
+]
+
+const config = {
+  thisYear: { label: "This year" },
+  lastYear: { label: "Last year" },
+} satisfies ChartConfig
+
+<AreaChart data={data} index="month" config={config} label="Monthly revenue" />
+```
+
+Each key of `config` is a field of the rows. A missing or non-numeric value leaves a gap in the line. The chart fills its container's width and is 18rem tall until you give it a height with `className`.
+
+Values print in full (`1,234`) until you pass `formatValue`. It also formats the hidden table, which renders on the server, so use a formatter that writes the same text in Node and in the browser: `formatChartNumber(value, { compact: true })` from `lib/chart-model` gives `43.9K` on both, where `Intl`'s compact notation can differ between them.
+
+## Examples
+
+### Stacked
+
+`stack="stacked"` sets each series on the ones before it, so the top line is the total. The tooltip still shows each series' own value.
+
+<ComponentPreview styleName="radix-nova" name="area-chart-stacked" />
+
+### Expanded
+
+`stack="expand"` stretches every row to the whole, so the chart reads as a mix rather than a size. The value axis counts to 100%, and the tooltip gives each value and its share.
+
+<ComponentPreview styleName="radix-nova" name="area-chart-expand" />
+
+### Curves
+
+`curve` is `smooth` (the default) for trends, `linear` when each reading matters, or `step` for values that hold until they change.
+
+<ComponentPreview styleName="radix-nova" name="area-chart-curves" />
+
+### Following the inspected row
+
+`onActiveChange` reports the row under the pointer, the finger or the keyboard, and `null` when there is none, so a number above the chart can follow it. Switching the data morphs the areas to the new values.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="area-chart-interactive"
+  previewClassName="h-auto"
+/>
+
+## Colours
+
+Series take the chart palette in the order of `config`, and keep their colour when another is hidden. Give a series its own with `color`: a palette slot, an upstream chart token (`chart-1` … `chart-5`), a role (`primary`, `info`, `success`, …), a CSS variable (`var(--brand)`) or any CSS colour.
+
+| Token              | Hue    | Token              | Hue     |
+| ------------------ | ------ | ------------------ | ------- |
+| `--chart-series-1` | blue   | `--chart-series-5` | magenta |
+| `--chart-series-2` | orange | `--chart-series-6` | green   |
+| `--chart-series-3` | aqua   | `--chart-series-7` | violet  |
+| `--chart-series-4` | amber  | `--chart-series-8` | red     |
+
+The palette ships with the foundations, chosen separately for light and dark. Every slot keeps 3:1 against the page and the card, and each colour stays apart from its neighbours for readers with red-green colour blindness. Slots never repeat: a ninth series is grey, so fold small series into an "Other" one before that.
+
+## Motion
+
+- **Draw-in:** the first time the chart scrolls into view, the areas sweep in from the start edge on the `reveal` role, once per mount.
+- **Morph:** when `data`, `config`, `stack` or the visible series change, each point moves to its new place on the `move` role. A series being shown grows from its baseline; one being hidden shrinks into it. Data with a different number of rows redraws instead.
+- **Glide:** the crosshair, dots and tooltip glide between rows on the `glide` role.
+
+All three follow the [motion speed](/docs/foundations/motion) of the region they sit in. Reduce Motion and the `instant` speed draw the chart at once and drop the glide; `animate={false}` does the same for one chart.
+
+## API Reference
+
+### AreaChart
+
+All other props go to the root `<div>`.
+
+| Prop             | Type                                            | Default                       |
+| ---------------- | ----------------------------------------------- | ----------------------------- |
+| `data`           | `TDatum[]`                                      | required                      |
+| `config`         | `ChartConfig`                                   | required                      |
+| `index`          | `keyof TDatum`                                  | required                      |
+| `label`          | `string`                                        | required: the accessible name |
+| `curve`          | `"smooth" \| "linear" \| "step"`                | `"smooth"`                    |
+| `stack`          | `"none" \| "stacked" \| "expand"`               | `"none"`                      |
+| `formatValue`    | `(value: number, key: string) => string`        | `1,234`                       |
+| `formatIndex`    | `(value: string, datum: TDatum) => string`      | the field as text             |
+| `legend`         | `boolean`                                       | on for two or more series     |
+| `tooltip`        | `boolean`                                       | `true`                        |
+| `animate`        | `boolean`                                       | `true`                        |
+| `loading`        | `boolean`                                       | `false`                       |
+| `empty`          | `ReactNode`                                     | "No data"                     |
+| `onActiveChange` | `(active: ChartActive<TDatum> \| null) => void` | -                             |
+
+### ChartConfig
+
+| Field    | Type         | Default               |
+| -------- | ------------ | --------------------- |
+| `label`  | `string`     | required              |
+| `color`  | `ChartColor` | the next palette slot |
+| `dashed` | `boolean`    | `false`               |
+
+### Data attributes
+
+| Attribute                   | Element     | Present when                                   |
+| --------------------------- | ----------- | ---------------------------------------------- |
+| `data-slot="area-chart"`    | root        | always                                         |
+| `data-loading`              | root        | `loading` is true                              |
+| `data-slot="chart-plot"`    | the plot    | always                                         |
+| `data-slot="chart-series"`  | a series    | always; `data-dimmed` while another is spotlit |
+| `data-slot="chart-legend"`  | the legend  | the legend shows                               |
+| `data-slot="chart-tooltip"` | the tooltip | a row is inspected                             |
+
+## Accessibility
+
+- The chart's plot is a slider named after `label` ("Monthly revenue: inspect values"). Tab to it, then Left and Right step through the rows, Home and End jump to the first and last, and Escape lets go. Its value text reads the tooltip: the row and every series' value.
+- Every value is also in a table hidden from sight, so a screen reader can read the data without inspecting it.
+- With two or more series the legend always shows, so no series is told apart by colour alone. Its items are toggle buttons with `aria-pressed`.
+- Text never takes a series colour: values and labels stay in the text colours, beside a coloured key.
+- `loading` sets `aria-busy` on the root and dims the last drawing until new data arrives.

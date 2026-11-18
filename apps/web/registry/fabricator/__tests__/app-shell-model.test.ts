@@ -17,6 +17,8 @@ import {
   getBreadcrumbsFromPath,
   getCustomizableNavGroups,
   getDefaultPanelShortcut,
+  getHeaderMenu,
+  getKeyedBreadcrumbs,
   getMobileTabItems,
   getNavList,
   getNavPath,
@@ -417,6 +419,35 @@ describe("layout", () => {
   })
 })
 
+describe("header menu", () => {
+  it("folds the actions into a menu on phones only, without a page menu", () => {
+    expect(
+      getHeaderMenu({ size: "phone", actionCount: 2, hasPageMenu: false })
+    ).toEqual({ isOnEveryWidth: false, hasActions: true, hasPageMenu: false })
+    expect(
+      getHeaderMenu({ size: "desktop", actionCount: 2, hasPageMenu: false })
+    ).toEqual({ isOnEveryWidth: false, hasActions: true, hasPageMenu: false })
+  })
+
+  it("keeps a page menu at every width, joined by the actions on phones", () => {
+    expect(
+      getHeaderMenu({ size: "desktop", actionCount: 2, hasPageMenu: true })
+    ).toEqual({ isOnEveryWidth: true, hasActions: false, hasPageMenu: true })
+    expect(
+      getHeaderMenu({ size: "phone", actionCount: 2, hasPageMenu: true })
+    ).toEqual({ isOnEveryWidth: true, hasActions: true, hasPageMenu: true })
+    expect(
+      getHeaderMenu({ size: null, actionCount: 2, hasPageMenu: true })
+    ).toEqual({ isOnEveryWidth: true, hasActions: false, hasPageMenu: true })
+  })
+
+  it("has no menu when there is nothing to put in it", () => {
+    expect(
+      getHeaderMenu({ size: "phone", actionCount: 0, hasPageMenu: false })
+    ).toBeNull()
+  })
+})
+
 describe("panels", () => {
   const closed = { open: false, view: "files", width: 320 }
 
@@ -656,6 +687,24 @@ describe("breadcrumbs", () => {
     expect(folded.folded.map((item) => item.label)).toEqual(["b", "c"])
     expect(folded.trailing.map((item) => item.label)).toEqual(["d", "e"])
     expect(foldBreadcrumbs(items.slice(0, 4), 4).folded).toEqual([])
+  })
+
+  it("keeps link keys stable when other crumbs are removed", () => {
+    const parent = { label: "Projects", href: "/projects" }
+    const settings = { label: "Settings", href: "/settings" }
+    expect(getKeyedBreadcrumbs([parent, settings])[1]?.key).toBe(
+      getKeyedBreadcrumbs([settings])[0]?.key
+    )
+  })
+
+  it("distinguishes repeated labels, rich labels and the folded menu", () => {
+    const entries = getKeyedBreadcrumbs([
+      { label: "Home" },
+      { label: "Home" },
+      { label: { text: "Home" } },
+      null,
+    ])
+    expect(new Set(entries.map(({ key }) => key)).size).toBe(4)
   })
 })
 

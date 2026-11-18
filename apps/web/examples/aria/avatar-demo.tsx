@@ -14,7 +14,6 @@ export default function AvatarDemo() {
         <AvatarImage
           src="https://github.com/gabrielespinheira.png"
           alt="@gabrielespinheira"
-          className="grayscale"
         />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
@@ -26,7 +25,7 @@ export default function AvatarDemo() {
         <AvatarFallback>ER</AvatarFallback>
         <AvatarBadge className="bg-green-600 dark:bg-green-800" />
       </Avatar>
-      <AvatarGroup className="grayscale">
+      <AvatarGroup>
         <Avatar>
           <AvatarImage
             src="https://github.com/gabrielespinheira.png"

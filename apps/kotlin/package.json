@@ -1,0 +1,24 @@
+{
+  "name": "@fabricator-ui/example-kotlin",
+  "private": true,
+  "scripts": {
+    "android": "bun run scripts/run.ts android",
+    "android:tablet": "bun run scripts/run.ts tablet",
+    "tablet": "bun run scripts/run.ts tablet",
+    "android:build": "bun run scripts/run.ts build-android",
+    "android:check": "bun run scripts/run.ts check-android",
+    "build:android": "bun run scripts/run.ts build-android",
+    "check:android": "bun run scripts/run.ts check-android",
+    "desktop": "bun run scripts/run.ts desktop",
+    "desktop:build": "bun run scripts/run.ts build-desktop",
+    "desktop:check": "bun run scripts/run.ts check-desktop",
+    "build:desktop": "bun run scripts/run.ts build-desktop",
+    "check:desktop": "bun run scripts/run.ts check-desktop",
+    "check": "bun run scripts/run.ts check",
+    "check:source": "bun run scripts/check-source.ts",
+    "typecheck": "bun ../../node_modules/typescript/bin/tsc -p tsconfig.json",
+    "generate": "bun run scripts/prepare-source.ts",
+    "format:check": "bun ../../node_modules/prettier/bin/prettier.cjs --check scripts package.json tsconfig.json README.md",
+    "format:write": "bun ../../node_modules/prettier/bin/prettier.cjs --write scripts package.json tsconfig.json README.md"
+  }
+}

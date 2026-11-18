@@ -35,6 +35,18 @@ describe("getNativeSourcePath", () => {
     expect(getNativeSourcePath("lib/date-picker-model.ts")).toBe(
       "registry/fabricator/shared/lib/date-picker-model.ts"
     )
+    expect(getNativeSourcePath("lib/event-calendar-model.ts")).toBe(
+      "registry/fabricator/shared/lib/event-calendar-model.ts"
+    )
+  })
+
+  it("reads the shared hooks from the shared overlay", () => {
+    expect(getNativeSourcePath("hooks/use-event-calendar.ts")).toBe(
+      "registry/fabricator/shared/hooks/use-event-calendar.ts"
+    )
+    expect(getNativeSourcePath("hooks/use-mobile.ts")).toBe(
+      "registry/native/hooks/use-mobile.ts"
+    )
   })
 })
 
@@ -56,6 +68,16 @@ describe("rewriteSharedImports", () => {
       )
     ).toBe(
       'import { a } from "@/registry/native/lib/editor-model"\nimport type { b } from "./not-shared"'
+    )
+  })
+
+  it("points shared hooks and their per-base imports at the installed copies", () => {
+    expect(
+      rewriteSharedImports(
+        'import { a } from "@/registry/fabricator/shared/hooks/use-event-calendar"\nimport { b } from "@/registry/bases/__base__/lib/event-calendar-model"'
+      )
+    ).toBe(
+      'import { a } from "@/registry/native/hooks/use-event-calendar"\nimport { b } from "@/registry/native/lib/event-calendar-model"'
     )
   })
 })

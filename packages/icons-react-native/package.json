@@ -1,6 +1,6 @@
 {
   "name": "@fabricator-ui/icons-react-native",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Fabricator Icons for React Native: every Lucide icon under its Lucide name, plus brand marks.",
   "license": "MIT",
   "type": "module",
@@ -118,8 +118,8 @@
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-native": "0.88.1",
-    "react-native-svg": "15.16.0",
+    "react-native-svg": "15.16.1",
     "typescript": "^6.0.3",
-    "vitest": "^5.0.5"
+    "vitest": "^5.1.0"
   }
 }

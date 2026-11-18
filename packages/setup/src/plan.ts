@@ -2,10 +2,13 @@
 
 import { forPackageManager } from "./cli-args"
 import {
+  DEFAULT_PROJECT_SETUP,
   EXPO_SDK,
   getAssistantLabel,
   getBaseLabel,
   getFrameworkLabel,
+  hasDesignGuide,
+  hasWebApp,
   isWebFramework,
   normalizeProjectSetup,
   projectName,
@@ -15,6 +18,7 @@ import {
 } from "./setup"
 
 export type StepId =
+  | "scaffold-monorepo"
   | "scaffold-web"
   | "scaffold-laravel"
   | "setup-existing"
@@ -23,10 +27,12 @@ export type StepId =
   | "scaffold-mobile"
   | "scaffold-desktop"
   | "configure-workspace"
+  | "configure-tooling"
   | "install"
   | "setup-mobile"
   | "mount"
   | "agents"
+  | "format-code"
   | "first-commit"
 
 export type PlanStep = { id: StepId; title: string; detail: string }
@@ -77,6 +83,9 @@ function agentSteps(setup: ProjectSetup): PlanStep[] {
   if (setup.assistants.length === 0 || (!setup.skill && !setup.mcp)) return []
   const parts = [
     ...(setup.skill ? ["the agent skill"] : []),
+    ...(hasDesignGuide(setup)
+      ? ["the design guide in DESIGN.md, which AGENTS.md points to"]
+      : []),
     ...(setup.mcp ? ["the MCP server"] : []),
   ]
   return [
@@ -88,13 +97,128 @@ function agentSteps(setup: ProjectSetup): PlanStep[] {
   ]
 }
 
+/** Biome and Vite+ reformat what the templates and the registry wrote. */
+function formatSteps(setup: ProjectSetup): PlanStep[] {
+  if (setup.tooling === DEFAULT_PROJECT_SETUP.tooling) return []
+  const tool = setup.tooling === "biome" ? "Biome" : "Vite+"
+  return [
+    {
+      id: "format-code",
+      title: "Format the code",
+      detail: `With ${tool}, so the first commit starts clean.`,
+    },
+  ]
+}
+
 const FIRST_COMMIT: PlanStep = {
   id: "first-commit",
   title: "Make the first commit",
   detail: "Everything above, in one commit.",
 }
 
+function eslintAdditions(setup: ProjectSetup) {
+  if (setup.tooling !== DEFAULT_PROJECT_SETUP.tooling) return []
+  return [
+    ...(hasWebApp(setup) ? [] : ["Prettier at the root"]),
+    ...(hasWebApp(setup) && setup.framework === "react-router"
+      ? ["ESLint for the web app and packages/ui"]
+      : []),
+    ...(setup.mobile ? ["Expo's ESLint config in apps/mobile"] : []),
+  ]
+}
+
+const SWITCHES = {
+  biome: {
+    name: "Biome",
+    detail:
+      "One biome.json lints and formats every app, in place of ESLint and Prettier.",
+  },
+  "vite-plus": {
+    name: "Vite+",
+    detail:
+      "One vite.config.ts lints, formats and type-checks every app, in place of ESLint and Prettier.",
+  },
+  runner: {
+    name: "Vite+",
+    detail: "Vite+ runs the monorepo's tasks, in place of Turborepo.",
+  },
+}
+
+/** The toolchain's step, when the template doesn't already have it. */
+function toolingSteps(setup: ProjectSetup): PlanStep[] {
+  const switches = [
+    ...(setup.tooling === "eslint-prettier" ? [] : [SWITCHES[setup.tooling]]),
+    ...(setup.runner === "vite-plus" ? [SWITCHES.runner] : []),
+  ]
+  const additions = eslintAdditions(setup)
+  if (switches.length === 0 && additions.length === 0) return []
+  const names = [...new Set(switches.map(({ name }) => name))]
+  const details = [
+    ...switches.map(({ detail }) => detail),
+    ...(additions.length > 0
+      ? [
+          `${listLabels(additions)}.`.replace(/^./, (letter) =>
+            letter.toUpperCase()
+          ),
+        ]
+      : []),
+  ]
+  return [
+    {
+      id: "configure-tooling",
+      title:
+        names.length > 0
+          ? `Switch to ${listLabels(names)}`
+          : "Set up ESLint and Prettier",
+      detail: details.join(" "),
+    },
+  ]
+}
+
+const SCAFFOLD_MOBILE: PlanStep = {
+  id: "scaffold-mobile",
+  title: "Add the mobile app",
+  detail: `Expo SDK ${EXPO_SDK} with Expo Router, in apps/mobile.`,
+}
+
+function setupMobileStep(setup: ProjectSetup): PlanStep {
+  return {
+    id: "setup-mobile",
+    title: "Set up the mobile app",
+    detail: `Uniwind, your look and the React Native components${setup.appShell ? ", with the App Shell" : ""}.`,
+  }
+}
+
+/** A monorepo with only a mobile app: no web app, so no packages/ui. */
+function mobileMonorepoSteps(setup: ProjectSetup): PlanStep[] {
+  return [
+    {
+      id: "scaffold-monorepo",
+      title: "Create the monorepo",
+      detail: "A workspace for your apps, with room to add more.",
+    },
+    SCAFFOLD_MOBILE,
+    {
+      id: "configure-workspace",
+      title: "Configure the workspace",
+      detail: "A script to start the mobile app from the root.",
+    },
+    ...toolingSteps(setup),
+    {
+      id: "install",
+      title: "Install dependencies",
+      detail: "Once, at the root.",
+    },
+    setupMobileStep(setup),
+    ...mountStep(setup),
+    ...agentSteps(setup),
+    ...formatSteps(setup),
+    FIRST_COMMIT,
+  ]
+}
+
 function monorepoSteps(setup: ProjectSetup): PlanStep[] {
+  if (!hasWebApp(setup)) return mobileMonorepoSteps(setup)
   const framework = getFrameworkLabel(setup.framework)
   return [
     {
@@ -114,15 +238,7 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
       title: setup.web ? "Add the web app's components" : "Add the components",
       detail: `Installs ${describeWebItems(setup)}.`,
     },
-    ...(setup.mobile
-      ? [
-          {
-            id: "scaffold-mobile" as const,
-            title: "Add the mobile app",
-            detail: `Expo SDK ${EXPO_SDK} with Expo Router, in apps/mobile.`,
-          },
-        ]
-      : []),
+    ...(setup.mobile ? [SCAFFOLD_MOBILE] : []),
     ...(setup.desktop === "none"
       ? []
       : [
@@ -137,22 +253,16 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
       title: "Configure the workspace",
       detail: "One script per app, and the versions the apps must share.",
     },
+    ...toolingSteps(setup),
     {
       id: "install",
       title: "Install dependencies",
       detail: "Once, at the root.",
     },
-    ...(setup.mobile
-      ? [
-          {
-            id: "setup-mobile" as const,
-            title: "Set up the mobile app",
-            detail: `Uniwind, your look and the React Native components${setup.appShell ? ", with the App Shell" : ""}.`,
-          },
-        ]
-      : []),
+    ...(setup.mobile ? [setupMobileStep(setup)] : []),
     ...mountStep(setup),
     ...agentSteps(setup),
+    ...formatSteps(setup),
     FIRST_COMMIT,
   ]
 }

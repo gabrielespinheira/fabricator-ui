@@ -14,6 +14,7 @@ import {
   readPackageJson,
   registryTemplateFor,
 } from "../utils/native"
+import { readNativeLanguageConfig } from "../utils/native-files"
 import {
   buildInstallArgs,
   detectPackageManager,
@@ -28,6 +29,7 @@ import {
   syncWorkspaceAfterAdd,
 } from "../utils/workspace"
 import { alignExpoDependencies } from "./init-native"
+import { addNativeLanguage } from "./native-language"
 import {
   fail,
   fetchCatalog,
@@ -164,6 +166,9 @@ export async function add(
   rawOptions: AddOptions
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
+  const languageConfig = await readNativeLanguageConfig(cwd)
+  if (languageConfig && !rawOptions.upstream)
+    return addNativeLanguage(components, languageConfig, { ...rawOptions, cwd })
   if (
     !rawOptions.upstream &&
     !readComponentsJson(cwd).exists &&

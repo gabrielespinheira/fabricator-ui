@@ -52,6 +52,8 @@ import {
   foldBreadcrumbs,
   formatShortcut,
   getDefaultPanelShortcut,
+  getHeaderMenu,
+  getKeyedBreadcrumbs,
   getPanelPlacement,
   getPanelTriggerAnchor,
   getShellSize,
@@ -114,7 +116,6 @@ import {
 } from "@/registry/native/lib/fluid-hover"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
-import { getTextContent } from "@/registry/native/lib/overlay-model"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import {
   SheetSurface,
@@ -137,6 +138,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/registry/native/ui/dropdown-menu"
 import { Sheet, SheetContent } from "@/registry/native/ui/sheet"
@@ -240,7 +242,9 @@ type ShortcutRegistry = {
 function createShortcutRegistry(): ShortcutRegistry {
   let entries: ShortcutEntry[] = []
   const listeners = new Set<() => void>()
-  const emit = () => listeners.forEach((listener) => listener())
+  const emit = () => {
+    for (const listener of listeners) listener()
+  }
   return {
     register(entry) {
       entries = [...entries, entry]
@@ -654,7 +658,7 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
   const [hasBottomNav, setHasBottomNav] = React.useState(false)
   const [hasFab, setHasFab] = React.useState(false)
   const [hasPageTitle, setHasPageTitle] = React.useState(false)
-  const [phoneHeaderHeight, setPhoneHeaderHeight] = React.useState(0)
+  const [phoneHeaderHeight, setHeaderHeight] = React.useState(0)
   const [bottomNavOverlap, setBottomNavOverlap] = React.useState(0)
   const scrollRoot = React.useRef<React.ComponentRef<typeof ScrollView>>(null)
   const title = React.useRef<{ bottom: number; node: React.ReactNode } | null>(
@@ -662,7 +666,10 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
   )
   const scrollY = React.useRef(0)
   const headerReach = React.useRef(0)
-  headerReach.current = phoneHeaderHeight
+  const setPhoneHeaderHeight = React.useCallback((height: number) => {
+    headerReach.current = height
+    setHeaderHeight(height)
+  }, [])
 
   const syncTitle = React.useCallback(() => {
     const isAway = isTitleScrolledAway({
@@ -716,6 +723,7 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
       onContentScroll,
       pageTitle,
       phoneHeaderHeight,
+      setPhoneHeaderHeight,
       setTitle,
     ]
   )
@@ -1002,9 +1010,9 @@ function BreadcrumbMenuItems({
 }) {
   return (
     <DropdownMenuGroup>
-      {items.map((item, index) => (
+      {getKeyedBreadcrumbs(items).map(({ item, key }) => (
         <DropdownMenuItem
-          key={index}
+          key={key}
           render={item.href && renderLink ? renderLink(item) : undefined}
           onPress={item.onSelect}
         >
@@ -1187,34 +1195,36 @@ function TrailBreadcrumb({
       >
         <Breadcrumb>
           <BreadcrumbList className="cn-app-shell-breadcrumb-list">
-            {[...leading, ...(folded.length ? [null] : []), ...trailing].map(
-              (item, index) => (
-                <React.Fragment key={index}>
-                  <BreadcrumbItem>
-                    {item ? (
-                      <BreadcrumbCrumb item={item} renderLink={renderLink} />
-                    ) : (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger
-                          className="cn-app-shell-breadcrumb-fold items-center"
-                          accessibilityLabel="Show more"
-                          hitSlop={10}
-                        >
-                          <BreadcrumbEllipsis />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start">
-                          <BreadcrumbMenuItems
-                            items={folded}
-                            renderLink={renderLink}
-                          />
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    )}
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                </React.Fragment>
-              )
-            )}
+            {getKeyedBreadcrumbs([
+              ...leading,
+              ...(folded.length ? [null] : []),
+              ...trailing,
+            ]).map(({ item, key }) => (
+              <React.Fragment key={key}>
+                <BreadcrumbItem>
+                  {item ? (
+                    <BreadcrumbCrumb item={item} renderLink={renderLink} />
+                  ) : (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        className="cn-app-shell-breadcrumb-fold items-center"
+                        accessibilityLabel="Show more"
+                        hitSlop={10}
+                      >
+                        <BreadcrumbEllipsis />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                        <BreadcrumbMenuItems
+                          items={folded}
+                          renderLink={renderLink}
+                        />
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+              </React.Fragment>
+            ))}
             {current && (
               <BreadcrumbItem className="min-w-0">
                 <BreadcrumbPage numberOfLines={1}>
@@ -1256,24 +1266,23 @@ function AppShellPageTitle({
 }: React.ComponentProps<typeof Text>) {
   const { scrollRoot, setHasPageTitle, setTitle } = useAppShellScroll()
   const ref = React.useRef<React.ComponentRef<typeof Text>>(null)
-  const text = getTextContent(children)
   // Before paint, and the same commit as the page it replaces: a phone's header
   // must not flash the page's name while the next heading mounts.
   React.useLayoutEffect(() => {
     setHasPageTitle(true)
     return () => setHasPageTitle(false)
   }, [setHasPageTitle])
-  const report = useLatestCallback(() => {
+  const report = useLatestCallback((node: React.ReactNode) => {
     const scroller = scrollRoot.current?.getInnerViewRef()
     if (!scroller) return
     ref.current?.measureLayout(scroller, (_x, y, _width, height) => {
-      setTitle({ bottom: y + height, node: children })
+      setTitle({ bottom: y + height, node })
     })
   })
   React.useEffect(() => {
-    report()
-    return () => setTitle(null)
-  }, [report, setTitle, text])
+    report(children)
+  }, [children, report])
+  React.useEffect(() => () => setTitle(null), [setTitle])
   return (
     <Text
       ref={ref}
@@ -1281,7 +1290,7 @@ function AppShellPageTitle({
       role="heading"
       className={cn("cn-app-shell-page-title", className)}
       onLayout={(event) => {
-        report()
+        report(children)
         onLayout?.(event)
       }}
       {...props}
@@ -1352,19 +1361,32 @@ function AppShellFab({ action }: { action: AppShellAction }) {
 
 /**
  * Header actions, described once. Tablets and up get buttons; phones get one menu,
- * and the primary action becomes a floating button.
+ * and the primary action becomes a floating button. A `menu` (the page's
+ * settings and rare actions) keeps that ellipsis on every width; on phones the
+ * folded actions come first in it, so the header never shows two.
  */
 function AppShellHeaderActions({
   actions = [],
   primaryAction,
+  menu,
+  menuLabel = "Page options",
   className,
   ...props
 }: React.ComponentProps<typeof View> & {
   actions?: AppShellAction[]
   primaryAction?: AppShellAction
+  /** Menu items for the page: groups of settings, then rare actions. */
+  menu?: React.ReactNode
+  /** The name of the page menu's ellipsis button. */
+  menuLabel?: string
 }) {
   const { size } = useAppShell()
   const isPhone = size === "phone"
+  const headerMenu = getHeaderMenu({
+    size,
+    actionCount: actions.length,
+    hasPageMenu: menu !== undefined && menu !== null,
+  })
   return (
     <View
       data-slot="app-shell-header-actions"
@@ -1418,32 +1440,40 @@ function AppShellHeaderActions({
           {primaryAction.label}
         </Button>
       )}
-      {isPhone && actions.length > 0 && (
+      {headerMenu && (isPhone || headerMenu.isOnEveryWidth) && (
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
               <Button
                 variant="ghost"
                 size="icon"
-                accessibilityLabel="More actions"
+                accessibilityLabel={
+                  headerMenu.hasPageMenu ? menuLabel : "More actions"
+                }
               />
             }
           >
             <EllipsisIcon />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuGroup>
-              {actions.map((action) => (
-                <DropdownMenuItem
-                  key={action.id}
-                  disabled={action.disabled}
-                  onPress={action.onSelect}
-                >
-                  <IconSlot icon={action.icon} />
-                  {action.label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuGroup>
+            {headerMenu.hasActions && (
+              <DropdownMenuGroup>
+                {actions.map((action) => (
+                  <DropdownMenuItem
+                    key={action.id}
+                    disabled={action.disabled}
+                    onPress={action.onSelect}
+                  >
+                    <IconSlot icon={action.icon} />
+                    {action.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+            )}
+            {headerMenu.hasActions && headerMenu.hasPageMenu && (
+              <DropdownMenuSeparator />
+            )}
+            {headerMenu.hasPageMenu && menu}
           </DropdownMenuContent>
         </DropdownMenu>
       )}
@@ -1568,7 +1598,7 @@ function AppShellStatusBar({
         <View
           data-slot="app-shell-status-bar"
           data-variant={variant}
-          role="summary"
+          accessibilityRole="summary"
           className={cn("cn-app-shell-status-bar absolute bottom-0", className)}
           style={[
             {
@@ -1730,11 +1760,12 @@ function AppShellBottomNav({
     )
   }
   if (isClaimed) return null
+  const { attach } = fluid
   const track = (
     <FluidHoverProvider fluid={fluid}>
       <FluidHoverArea fluid={fluid}>
         <View
-          ref={fluid.attach}
+          ref={attach}
           data-slot="app-shell-bottom-nav-track"
           data-variant={variant}
           className="cn-app-shell-bottom-nav-track relative flex-row"
@@ -1753,11 +1784,14 @@ function AppShellBottomNav({
             className="cn-app-shell-bottom-nav-highlight"
           />
           <BottomNavContext value={context}>
-            {React.Children.toArray(children).map((child, index) => (
-              <BottomNavIndexContext key={index} value={index}>
-                {child}
-              </BottomNavIndexContext>
-            ))}
+            {React.Children.map(
+              React.Children.toArray(children),
+              (child, index) => (
+                <BottomNavIndexContext value={index}>
+                  {child}
+                </BottomNavIndexContext>
+              )
+            )}
           </BottomNavContext>
         </View>
       </FluidHoverArea>
@@ -1928,7 +1962,7 @@ function AppShellBottomNavItem({
 
 // MARK: Panels
 
-type AppShellPanelView = {
+type AppShellPanelViewOption = {
   value: string
   label: string
   icon?: IconLike
@@ -1940,7 +1974,7 @@ type PanelContextValue = {
   id: string
   label: string
   side: "left" | "right"
-  views: AppShellPanelView[]
+  views: AppShellPanelViewOption[]
   placement: PanelPlacement
   panel: PanelState
   setOpen: (open: boolean) => void
@@ -2012,7 +2046,7 @@ function PanelViewShortcut({
   view,
 }: {
   panelId: string
-  view: AppShellPanelView
+  view: AppShellPanelViewOption
 }) {
   const { select } = useShellPanel(panelId)
   useShellShortcut(
@@ -2048,7 +2082,7 @@ function AppShellPanel({
   label: string
   side?: "left" | "right"
   /** Views the header's AppShellPanelTabs switches between. */
-  views?: AppShellPanelView[]
+  views?: AppShellPanelViewOption[]
   defaultOpen?: boolean
   defaultView?: string
   defaultWidth?: number
@@ -2653,7 +2687,7 @@ export {
   useShortcutLabel,
   type AppShellAction,
   type AppShellBreadcrumbItem,
-  type AppShellPanelView as AppShellPanelViewOption,
+  type AppShellPanelViewOption,
   type AppShellWindow,
   type IconLike,
   type ShellShortcut,

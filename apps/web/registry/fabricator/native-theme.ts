@@ -4,6 +4,7 @@
 // __tests__/native-theme.test.ts pins the result to values measured in a
 // browser.
 
+import { CHART_CSS_VARS } from "@/registry/fabricator/chart-colors"
 import { COLOR_ROLES, roleLiterals } from "@/registry/fabricator/color-roles"
 import { DENSITIES } from "@/registry/fabricator/density"
 import { getDensityVariables } from "@/registry/fabricator/density-variables"
@@ -26,6 +27,7 @@ import {
 import {
   MUTED_FOREGROUND_STEP,
   oklchToHex,
+  SURFACE_BASE_STEP,
   SURFACE_STEPS,
   surfaceLadder,
   TINTED_NEUTRALS,
@@ -49,7 +51,7 @@ export const RADIUS_SCALE = { sm: 0.6, md: 0.8, lg: 1, xl: 1.4, "2xl": 1.8 }
 const REM = 16
 
 const OKLCH_PATTERN =
-  /oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*(?:\/\s*([\d.]+)\s*)?\)/g
+  /oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)\s*(?:\/\s*([\d.]+%?)\s*)?\)/g
 
 const BEZIER_PATTERN = /cubic-bezier\(([^)]+)\)/
 
@@ -63,10 +65,18 @@ function parseOklch(css: string): Oklch {
   const [match] = css.matchAll(OKLCH_PATTERN)
   if (!match) throw new NativeThemeError(`Not an oklch() colour: ${css}`)
   return {
-    l: Number(match[1]),
+    l: match[1].endsWith("%")
+      ? Number.parseFloat(match[1]) / 100
+      : Number(match[1]),
     c: Number(match[2]),
     h: Number(match[3]),
-    ...(match[4] === undefined ? {} : { alpha: Number(match[4]) }),
+    ...(match[4] === undefined
+      ? {}
+      : {
+          alpha: match[4].endsWith("%")
+            ? Number.parseFloat(match[4]) / 100
+            : Number(match[4]),
+        }),
   }
 }
 
@@ -81,6 +91,11 @@ function toNativeColor(css: string) {
   const { l, c, h, alpha } = parseOklch(css)
   const hex = oklchToHex(l, c, h)
   return alpha === undefined ? hex : withAlpha(hex, alpha)
+}
+
+/** Resolves a canonical palette literal for a non-CSS renderer. */
+export function resolveNativeColor(css: string) {
+  return toNativeColor(css)
 }
 
 /** color-mix(in oklab, <css>, black <share>): OKLab scales towards black. */
@@ -284,6 +299,16 @@ function getSyntaxVariables(mode: NativeMode, look: FabricatorLook) {
   )
 }
 
+/** The charts' series palette: literals, the same whatever the look. */
+function getChartVariables(mode: NativeMode) {
+  return Object.fromEntries(
+    Object.entries(CHART_CSS_VARS[mode]).map(([name, value]) => [
+      `--${name}`,
+      toNativeColor(value),
+    ])
+  )
+}
+
 /** Colours the look leaves alone: the palette and the interaction tokens. */
 const LITERAL_COLOR_TOKENS = [
   "foreground",
@@ -334,6 +359,9 @@ export function getNativeCssVariables(
     ...roles,
     "--sidebar-primary": roles["--primary"],
     "--sidebar-primary-foreground": roles["--primary-foreground"],
+    "--surface-0": toNativeColor(
+      tintedLiteral(SURFACE_BASE_STEP[mode], look.surface)
+    ),
     ...Object.fromEntries(
       SURFACE_LEVELS.flatMap((level) => [
         [`--surface-${level}`, surfaces[level - 1]],
@@ -364,6 +392,7 @@ export function getNativeCssVariables(
     "--tint-hover": toNativeColor(tokens["tint-hover"]),
     "--focus-ring": toNativeColor(tokens["focus-ring"]),
     ...getSyntaxVariables(mode, look),
+    ...getChartVariables(mode),
     "--app-shell-frame": appShell.frame,
     "--app-shell-main": appShell.main,
     "--app-shell-panel": appShell.panel,

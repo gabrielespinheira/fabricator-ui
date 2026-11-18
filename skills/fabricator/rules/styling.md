@@ -7,8 +7,8 @@ See [customization.md](../customization.md) for theming, CSS variables, and addi
 - Semantic colors
 - Built-in variants first
 - className for layout only
-- No space-x-* / space-y-*
-- Prefer size-* over w-* h-* when equal
+- No space-x-_ / space-y-_
+- Prefer size-_ over w-_ h-\* when equal
 - Prefer truncate shorthand
 - No manual dark: color overrides
 - Use cn() for conditional classes
@@ -54,9 +54,9 @@ For positive, negative, or status indicators, use Badge variants, semantic token
 **Correct:**
 
 ```tsx
-<Badge variant="secondary">+20.1%</Badge>
+<Badge variant="success"><ArrowUpRightIcon />+20.1%</Badge>
 <Badge>Active</Badge>
-<span className="text-destructive">-3.2%</span>
+<Badge variant="destructive"><ArrowDownRightIcon />−3.2%</Badge>
 ```
 
 If you need a success/positive color that doesn't exist as a semantic token, use a Badge variant or ask the user about adding a custom CSS variable to the theme (see [customization.md](../customization.md)).
@@ -88,7 +88,7 @@ Use `className` for layout (e.g. `max-w-md`, `mx-auto`, `mt-4`), **not** for ove
 **Incorrect:**
 
 ```tsx
-<Card className="bg-blue-100 text-blue-900 font-bold">
+<Card className="bg-blue-100 font-bold text-blue-900">
   <CardContent>Dashboard</CardContent>
 </Card>
 ```
@@ -96,19 +96,20 @@ Use `className` for layout (e.g. `max-w-md`, `mx-auto`, `mt-4`), **not** for ove
 **Correct:**
 
 ```tsx
-<Card className="max-w-md mx-auto">
+<Card className="mx-auto max-w-md">
   <CardContent>Dashboard</CardContent>
 </Card>
 ```
 
 To customize a component's appearance, prefer these approaches in order:
+
 1. **Built-in variants** — `variant="outline"`, `variant="destructive"`, etc.
 2. **Semantic color tokens** — `bg-primary`, `text-muted-foreground`.
 3. **CSS variables** — define custom colors in the global CSS file (see [customization.md](../customization.md)).
 
 ---
 
-## No space-x-* / space-y-*
+## No space-x-_ / space-y-_
 
 Use `gap-*` instead. `space-y-4` → `flex flex-col gap-4`. `space-x-2` → `flex gap-2`.
 
@@ -122,7 +123,7 @@ Use `gap-*` instead. `space-y-4` → `flex flex-col gap-4`. `space-x-2` → `fle
 
 ---
 
-## Prefer size-* over w-* h-* when equal
+## Prefer size-_ over w-_ h-\* when equal
 
 `size-10` not `w-10 h-10`. Applies to icons, avatars, skeletons, etc.
 
@@ -175,7 +176,7 @@ For scroll-aware edge fading on a scroll container, use `scroll-fade` (and the a
 **Incorrect:**
 
 ```tsx
-<span className="animate-pulse bg-gradient-to-r from-muted-foreground/40 via-foreground/70 to-muted-foreground/40 bg-clip-text text-transparent [animation:shimmer_1.6s_infinite]">
+<span className="[animation:shimmer_1.6s_infinite] animate-pulse bg-gradient-to-r from-muted-foreground/40 via-foreground/70 to-muted-foreground/40 bg-clip-text text-transparent">
   Thinking…
 </span>
 ```
@@ -231,7 +232,7 @@ Fabricator components size themselves from the density: `compact` (dashboards, t
 ```tsx
 import { DensityProvider } from "@/components/ui/density"
 
-<DensityProvider density="compact">
+;<DensityProvider density="compact">
   <header className="flex items-center gap-2">
     <Button>New</Button>
     <Input placeholder="Search" />

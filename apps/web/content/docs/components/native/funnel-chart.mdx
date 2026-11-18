@@ -1,0 +1,155 @@
+---
+title: Funnel Chart
+description: Ordered stages losing volume, with the conversion between stages, vertical or horizontal.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add funnel-chart
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { type ChartConfig } from "@/components/ui/chart-kit"
+import { FunnelChart } from "@/components/ui/funnel-chart"
+```
+
+```tsx
+<FunnelChart
+  data={COHORTS[0].stages}
+  nameKey="stage"
+  valueKey="people"
+  config={config}
+  label="Sign-up funnel"
+  className="h-72 w-full"
+/>
+```
+
+## Composition
+
+- `FunnelChart`
+- `FunnelChartProps`
+
+## Examples
+
+```tsx showLineNumbers title="funnel-chart-example.tsx"
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import { type ChartConfig } from "@/components/ui/chart-kit"
+import { FunnelChart } from "@/components/ui/funnel-chart"
+
+const COHORTS = [
+  {
+    name: "October",
+    stages: [
+      { stage: "Visited", people: 12_400 },
+      { stage: "Signed up", people: 7_310 },
+      { stage: "Project", people: 4_870 },
+      { stage: "Invited", people: 2_640 },
+      { stage: "Paid", people: 1_190 },
+    ],
+  },
+  {
+    name: "November",
+    stages: [
+      { stage: "Visited", people: 13_900 },
+      { stage: "Signed up", people: 9_020 },
+      { stage: "Project", people: 6_480 },
+      { stage: "Invited", people: 3_150 },
+      { stage: "Paid", people: 1_720 },
+    ],
+  },
+  {
+    name: "December",
+    stages: [
+      { stage: "Visited", people: 10_800 },
+      { stage: "Signed up", people: 5_560 },
+      { stage: "Project", people: 3_940 },
+      { stage: "Invited", people: 2_310 },
+      { stage: "Paid", people: 1_380 },
+    ],
+  },
+]
+
+const config = { people: { label: "People" } } satisfies ChartConfig
+
+const checkout = [
+  { step: "Cart", orders: 3_840 },
+  { step: "Shipping", orders: 2_910 },
+  { step: "Payment", orders: 2_260 },
+  { step: "Done", orders: 1_980 },
+]
+
+function CohortSwitch() {
+  const [cohort, setCohort] = React.useState(0)
+  const { name, stages } = COHORTS[cohort]
+  return (
+    <>
+      <FunnelChart
+        data={stages}
+        nameKey="stage"
+        valueKey="people"
+        config={config}
+        label={`Sign-up funnel, ${name} cohort`}
+        className="h-72 w-full"
+      />
+      <Button
+        size="sm"
+        variant="outline"
+        onPress={() => setCohort((index) => (index + 1) % COHORTS.length)}
+      >
+        Next cohort
+      </Button>
+    </>
+  )
+}
+
+export function FunnelChartExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Sign-up funnel" className="items-stretch">
+        <FunnelChart
+          data={COHORTS[0].stages}
+          nameKey="stage"
+          valueKey="people"
+          config={config}
+          label="Sign-up funnel"
+          className="h-72 w-full"
+        />
+      </Example>
+      <Example title="Changing the data" className="items-stretch">
+        <CohortSwitch />
+      </Example>
+      <Example title="Horizontal" className="items-stretch">
+        <FunnelChart
+          data={checkout}
+          nameKey="step"
+          valueKey="orders"
+          config={{ orders: { label: "Orders", color: "chart-series-6" } }}
+          orientation="horizontal"
+          label="Checkout funnel"
+          className="h-48 w-full"
+        />
+      </Example>
+      <Example title="Empty" className="items-stretch">
+        <FunnelChart
+          data={[]}
+          label="Sign-up funnel"
+          empty="No sign-ups yet"
+          className="h-40 w-full"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+```
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

@@ -333,13 +333,28 @@ function commitDateText(
 }
 
 /**
- * Whether two values are the same day (or month, or year), or both empty.
+ * Whether two values match at the field's day/month/year or clock precision,
+ * or are both empty.
  */
 function isSameDateValue(
   first: Date | undefined,
   second: Date | undefined,
-  { granularity = "day" }: { granularity?: DateGranularity } = {}
+  {
+    granularity = "day",
+    hasTime = false,
+    hasSeconds = false,
+  }: {
+    granularity?: DateGranularity
+    hasTime?: boolean
+    hasSeconds?: boolean
+  } = {}
 ) {
+  if (hasTime && granularity === "day") {
+    return (
+      formatIsoDateTime(first, { hasSeconds }) ===
+      formatIsoDateTime(second, { hasSeconds })
+    )
+  }
   return (
     formatIsoDate(first, { granularity }) ===
     formatIsoDate(second, { granularity })

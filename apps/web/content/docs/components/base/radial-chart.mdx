@@ -1,0 +1,189 @@
+---
+title: Radial Chart
+description: Progress of a few values against their target as concentric rings, round a full circle or a half gauge.
+base: base
+component: true
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="radial-chart-demo"
+  previewClassName="h-auto"
+/>
+
+Give it rows of data with a name, a value and a target. Each row is a ring, the first outermost: a faint track for the whole target and an arc over it, in the next colour of the [chart palette](#colours), as far round as the value goes. Arcs have round caps and the rings keep a gap between them. The centre shows the first ring's share, or your own `centerLabel`.
+
+Point at a ring, tap it or tab to the chart and use the arrow keys: the other rings fade back and a tooltip gives its share, value and target. The arcs sweep from zero the first time the chart is on screen, and turn to their new length when the data changes.
+
+Radial Chart is part of the Fabricator style. It's drawn in SVG, so the same component ships for every base, and its layout comes from the same model as the React Native version.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add radial-chart
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies.</Step>
+
+```bash
+npm install d3-shape@3.2.1 d3-scale@4.0.3
+npm install -D @types/d3-shape@3.2.0 @types/d3-scale@4.0.9
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/chart-model.ts"
+  title="lib/chart-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/chart-cartesian-model.ts"
+  title="lib/chart-cartesian-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/chart-radial-model.ts"
+  title="lib/chart-radial-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/chart-kit.tsx"
+  title="components/ui/chart-kit.tsx"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/radial-chart.tsx"
+  title="components/ui/radial-chart.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { RadialChart } from "@/components/ui/radial-chart"
+```
+
+```tsx
+const data = [
+  { goal: "Revenue", value: 412_000, target: 500_000 },
+  { goal: "New customers", value: 284, target: 320 },
+]
+
+<RadialChart
+  data={data}
+  nameKey="goal"
+  maxKey="target"
+  label="Quarterly goals"
+/>
+```
+
+`nameKey` and `valueKey` name the fields to read, and default to `name` and `value`. Measure every ring against one target with `max`, or each against its own with `maxKey`; with neither, the largest value is the target. A value past its target fills the ring, and the tooltip still gives its real share. A row without a value has no ring. `config` is optional: keyed by a ring's name, it gives that ring a `label` and a `color`.
+
+## Examples
+
+### Half gauge
+
+`shape="half"` turns the rings into a gauge from 9 to 3 o'clock, about twice as wide as it is tall, with the centre figure under the arcs.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="radial-chart-half"
+  previewClassName="h-auto"
+/>
+
+## Colours
+
+Rings take the chart palette in the order of the data. Give one its own with `config[name].color`: a palette slot, an upstream chart token (`chart-1` … `chart-5`), a role (`primary`, `info`, `success`, …), a CSS variable (`var(--brand)`) or any CSS colour. Status roles mean status: use `success` or `warning` only where the ring's colour should say whether a target is met.
+
+| Token              | Hue    | Token              | Hue     |
+| ------------------ | ------ | ------------------ | ------- |
+| `--chart-series-1` | blue   | `--chart-series-5` | magenta |
+| `--chart-series-2` | orange | `--chart-series-6` | green   |
+| `--chart-series-3` | aqua   | `--chart-series-7` | violet  |
+| `--chart-series-4` | amber  | `--chart-series-8` | red     |
+
+Tracks are a faint neutral, so the arcs carry the colour. The centre figure stays in the text colour.
+
+## Motion
+
+- **Sweep:** the first time the chart scrolls into view, the arcs sweep from zero to their value on the `reveal` role in a short wave from the outer ring in, once per mount.
+- **Morph:** when `data`, `config`, the targets, `shape` or the visible rings change, each arc turns to its new length and each ring moves to its new place on the `move` role. A new ring grows in; one being hidden shrinks away.
+- **Spotlight:** the other rings fade back on the `feedback` role while one is inspected.
+
+All follow the [motion speed](/docs/foundations/motion) of the region they sit in. Reduce Motion and the `instant` speed draw the chart at once and keep only the fades; `animate={false}` does the same for one chart.
+
+## API Reference
+
+### RadialChart
+
+All other props go to the root `<div>`.
+
+| Prop             | Type                                            | Default                       |
+| ---------------- | ----------------------------------------------- | ----------------------------- |
+| `data`           | `TDatum[]`                                      | required                      |
+| `label`          | `string`                                        | required: the accessible name |
+| `nameKey`        | `keyof TDatum`                                  | `"name"`                      |
+| `valueKey`       | `keyof TDatum`                                  | `"value"`                     |
+| `max`            | `number`                                        | the largest value             |
+| `maxKey`         | `keyof TDatum`                                  | -                             |
+| `shape`          | `"full" \| "half"`                              | `"full"`                      |
+| `centerLabel`    | `string`                                        | the first ring's share        |
+| `config`         | `ChartConfig`, keyed by ring name               | names and the palette         |
+| `formatValue`    | `(value: number, key: string) => string`        | `1,234`                       |
+| `legend`         | `boolean`                                       | on for two or more rings      |
+| `tooltip`        | `boolean`                                       | `true`                        |
+| `animate`        | `boolean`                                       | `true`                        |
+| `loading`        | `boolean`                                       | `false`                       |
+| `empty`          | `ReactNode`                                     | "No data"                     |
+| `onActiveChange` | `(active: ChartActive<TDatum> \| null) => void` | -                             |
+
+`formatValue` receives `valueKey` as its `key`, for values and targets alike. `onActiveChange` reports the inspected ring's row, with its name as `key`.
+
+### Data attributes
+
+| Attribute                         | Element     | Present when                                                 |
+| --------------------------------- | ----------- | ------------------------------------------------------------ |
+| `data-slot="radial-chart"`        | root        | always                                                       |
+| `data-loading`                    | root        | `loading` is true                                            |
+| `data-slot="chart-plot"`          | the plot    | always; `data-shape` is the shape                            |
+| `data-slot="radial-chart-ring"`   | a ring      | always; `data-active` when inspected, `data-dimmed` when not |
+| `data-slot="radial-chart-track"`  | its track   | always                                                       |
+| `data-slot="radial-chart-value"`  | its arc     | always                                                       |
+| `data-slot="radial-chart-center"` | the centre  | there is data                                                |
+| `data-slot="chart-legend"`        | the legend  | the legend shows                                             |
+| `data-slot="chart-tooltip"`       | the tooltip | a ring is inspected                                          |
+
+## Accessibility
+
+- The plot is a slider named after `label` ("Quarterly goals: inspect values"). Tab to it, then the arrow keys step through the rings from the outside in, Home and End jump to the first and last, and Escape lets go. Its value text reads the ring's name, value, target and share.
+- Every row is also in a table hidden from sight, with its value, target and share.
+- With two or more rings the legend shows, so no ring is told apart by colour alone. Its items are toggle buttons with `aria-pressed`.
+- Text never takes a ring's colour: the centre and the tooltip stay in the text colours.
+- `loading` sets `aria-busy` on the root and dims the last drawing until new data arrives.

@@ -48,7 +48,6 @@ export function AvatarRtl() {
         <AvatarImage
           src="https://github.com/gabrielespinheira.png"
           alt="@gabrielespinheira"
-          className="grayscale"
         />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
@@ -60,7 +59,7 @@ export function AvatarRtl() {
         <AvatarFallback>ER</AvatarFallback>
         <AvatarBadge className="bg-green-600 dark:bg-green-800" />
       </Avatar>
-      <AvatarGroup className="grayscale">
+      <AvatarGroup>
         <Avatar>
           <AvatarImage
             src="https://github.com/gabrielespinheira.png"

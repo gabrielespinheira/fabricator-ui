@@ -23,8 +23,8 @@ Open-code components for React and React Native, with a design system of their o
 
 <a href="https://fabricator-ui.vercel.app">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/home-dark.webp" />
-    <img src=".github/assets/home-light.webp" alt="The Fabricator UI website, showing the component gallery" width="100%" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/fb02b41e-eaa0-49d5-a5c9-729a878d7f3c" />
+    <img src="https://github.com/user-attachments/assets/3ab0f6ba-c966-4f0f-93d1-4bbafb45b9b9" alt="The Fabricator UI website, showing the component gallery" width="100%" />
   </picture>
 </a>
 
@@ -73,6 +73,16 @@ export function Example() {
 ```
 
 Works the same with `pnpm dlx`, `yarn dlx` and `bunx --bun`. Guides per framework are in the [installation docs](https://fabricator-ui.vercel.app/docs/installation).
+
+### Native renderer previews
+
+This checkout includes SwiftUI (iOS/iPadOS/macOS), Kotlin Compose
+(Android/desktop) and Tauri mobile component explorers. Run
+`bun run example:mobile-swiftui`, `bun run example:desktop-kotlin` or
+`bun run example:mobile-tauri` after the repository setup. Native renderers share
+Fabricator's generated tokens, icons and fonts; advanced behavior and host
+qualification are tracked explicitly. See [platform commands and prerequisites](docs/PLATFORMS.md)
+and the [implementation checklist](docs/plans/native-platforms.md).
 
 ## CLI
 

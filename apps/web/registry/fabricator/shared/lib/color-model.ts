@@ -624,6 +624,7 @@ export {
   nudgeArea,
   parseChannelText,
   parseColor,
+  parseHex,
   setColorChannel,
   setColorFromRgba,
   setColorHsva,

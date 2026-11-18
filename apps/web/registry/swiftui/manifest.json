@@ -1,0 +1,2460 @@
+{
+  "schemaVersion": 1,
+  "renderer": "swiftui",
+  "items": [
+    {
+      "name": "foundations",
+      "files": [
+        "Package.swift",
+        "README.md",
+        "LICENSE.md",
+        "NOTICE.md",
+        "manifest.json",
+        "parity-exceptions.json",
+        "models/component-state.swift",
+        "models/calendar-selection.swift",
+        "models/motion.swift",
+        "models/data-table-engine.swift",
+        "models/event-calendar-engine.swift",
+        "models/sound.swift",
+        "models/spinner-engine.swift",
+        "ui/theme.swift",
+        "ui/icon.swift",
+        "ui/overlay-host.swift",
+        "ui/menu.swift",
+        "platform/sound-effects.swift",
+        "platform/font.swift",
+        "resources/contract.json",
+        "resources/InterVariable.ttf",
+        "resources/InterVariable-Italic.ttf",
+        "resources/LICENSE.txt",
+        "resources/icons-license.txt",
+        "resources/brands-notices.md",
+        "tests/component-state-tests.swift",
+        "tests/calendar-selection-tests.swift",
+        "tests/file-tree-tests.swift",
+        "tests/motion-tests.swift",
+        "tests/typography-tests.swift",
+        "tests/icon-path-tests.swift",
+        "tests/block-validation-tests.swift"
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "accordion",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "alert",
+      "files": [
+        "ui/content.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/field",
+        "@fabricator/pagination"
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "app-nav",
+      "files": [
+        "ui/app-shell.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/breadcrumb"
+      ]
+    },
+    {
+      "name": "app-shell",
+      "files": [
+        "ui/app-shell.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/breadcrumb"
+      ]
+    },
+    {
+      "name": "app-shell-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "app-shell-02",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "app-shell-03",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "app-shell-04",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "app-shell-05",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "area-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "assistant-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "attachment",
+      "files": [
+        "ui/chat.swift",
+        "resources/bot-face.json"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/markdown",
+        "@fabricator/file-upload"
+      ]
+    },
+    {
+      "name": "audio-player",
+      "files": [
+        "ui/content.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/field",
+        "@fabricator/pagination"
+      ]
+    },
+    {
+      "name": "avatar",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "badge",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "bar-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "bot-face",
+      "files": [
+        "ui/chat.swift",
+        "resources/bot-face.json"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/markdown",
+        "@fabricator/file-upload"
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "bubble",
+      "files": [
+        "ui/chat.swift",
+        "resources/bot-face.json"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/markdown",
+        "@fabricator/file-upload"
+      ]
+    },
+    {
+      "name": "bump-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "button",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "button-group",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "calendar",
+      "files": [
+        "ui/calendar.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field"
+      ]
+    },
+    {
+      "name": "calendar-app-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "candlestick-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "card",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "carousel",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "chat-input",
+      "files": [
+        "ui/chat.swift",
+        "resources/bot-face.json"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/markdown",
+        "@fabricator/file-upload"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "collapsible",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "color-picker",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "combobox",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "command",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "composition-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "context-menu",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "data-table",
+      "files": [
+        "ui/data-table.swift",
+        "platform/clipboard.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/pagination"
+      ]
+    },
+    {
+      "name": "date-picker",
+      "files": [
+        "ui/date-picker.swift",
+        "ui/date-picker-grid.swift",
+        "models/date-picker-model.swift",
+        "tests/date-picker-grid-tests.swift",
+        "platform/date-picker-engine-adapter.swift",
+        "platform/javascript-runtime.swift",
+        "resources/date-picker-engine.js",
+        "resources/date-picker-notices.txt",
+        "tests/date-picker-input-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/calendar",
+        "@fabricator/time-input"
+      ]
+    },
+    {
+      "name": "density",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "dialog",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "direction",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "donut-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "drawer",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "editor",
+      "files": [
+        "models/editor-schema.swift",
+        "models/editor-presentation.swift",
+        "models/syntax-style.swift",
+        "models/document-typography.swift",
+        "platform/editor.swift",
+        "platform/editor-engine-adapter.swift",
+        "platform/javascript-runtime.swift",
+        "platform/editor-events.swift",
+        "platform/editor-platform-view.swift",
+        "platform/editor-type-adapter.swift",
+        "platform/editor-toolbar.swift",
+        "platform/clipboard.swift",
+        "platform/editor-core/editor-records.swift",
+        "platform/editor-core/editor-document.swift",
+        "platform/editor-core/editor-theme.swift",
+        "platform/editor-core/editor-styler.swift",
+        "platform/editor-core/editor-layout-fragment.swift",
+        "platform/editor-core/editor-code-chrome.swift",
+        "platform/editor-core/editor-table-layout.swift",
+        "platform/editor-core/editor-text-view.swift",
+        "platform/editor-core/editor-native-text-view.swift",
+        "resources/editor-engine.js",
+        "resources/editor-notices.txt",
+        "resources/editor-themes.json",
+        "resources/GeistMonoVariable.ttf",
+        "resources/GeistMonoVariable-Italic.ttf",
+        "resources/GeistMono-OFL.txt",
+        "tests/editor-engine-tests.swift",
+        "tests/editor-rendering-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/field",
+        "@fabricator/dialog",
+        "@fabricator/alert"
+      ]
+    },
+    {
+      "name": "empty",
+      "files": [
+        "ui/content.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/field",
+        "@fabricator/pagination"
+      ]
+    },
+    {
+      "name": "event-calendar",
+      "files": [
+        "ui/event-calendar.swift",
+        "platform/calendar-engine-adapter.swift",
+        "platform/javascript-runtime.swift",
+        "resources/calendar-engine.js",
+        "resources/calendar-notices.txt",
+        "tests/calendar-recurrence-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/calendar",
+        "@fabricator/dialog",
+        "@fabricator/empty"
+      ]
+    },
+    {
+      "name": "fabricator-root",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "field",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "file-tree",
+      "files": [
+        "ui/file-tree.swift",
+        "ui/file-type-icon.swift",
+        "models/file-icons.swift",
+        "platform/file-icons-adapter.swift",
+        "tests/file-icons-tests.swift",
+        "resources/file-icons.json",
+        "resources/file-icons-license.txt",
+        "resources/fabricator-files-light-default-file@3x.png",
+        "resources/fabricator-files-dark-default-file@3x.png",
+        "resources/fabricator-files-light-default-folder-open@3x.png",
+        "resources/fabricator-files-dark-default-folder-open@3x.png",
+        "resources/fabricator-files-light-default-folder@3x.png",
+        "resources/fabricator-files-dark-default-folder@3x.png",
+        "resources/fabricator-files-light-file-assembly@3x.png",
+        "resources/fabricator-files-dark-file-assembly@3x.png",
+        "resources/fabricator-files-light-file-astro-config@3x.png",
+        "resources/fabricator-files-dark-file-astro-config@3x.png",
+        "resources/fabricator-files-light-file-astro@3x.png",
+        "resources/fabricator-files-dark-file-astro@3x.png",
+        "resources/fabricator-files-light-file-audio@3x.png",
+        "resources/fabricator-files-dark-file-audio@3x.png",
+        "resources/fabricator-files-light-file-binary@3x.png",
+        "resources/fabricator-files-dark-file-binary@3x.png",
+        "resources/fabricator-files-light-file-bun-lock@3x.png",
+        "resources/fabricator-files-dark-file-bun-lock@3x.png",
+        "resources/fabricator-files-light-file-bun@3x.png",
+        "resources/fabricator-files-dark-file-bun@3x.png",
+        "resources/fabricator-files-light-file-c-header@3x.png",
+        "resources/fabricator-files-dark-file-c-header@3x.png",
+        "resources/fabricator-files-light-file-c@3x.png",
+        "resources/fabricator-files-dark-file-c@3x.png",
+        "resources/fabricator-files-light-file-changelog@3x.png",
+        "resources/fabricator-files-dark-file-changelog@3x.png",
+        "resources/fabricator-files-light-file-code-of-conduct@3x.png",
+        "resources/fabricator-files-dark-file-code-of-conduct@3x.png",
+        "resources/fabricator-files-light-file-codeowners@3x.png",
+        "resources/fabricator-files-dark-file-codeowners@3x.png",
+        "resources/fabricator-files-light-file-config@3x.png",
+        "resources/fabricator-files-dark-file-config@3x.png",
+        "resources/fabricator-files-light-file-cpp-header@3x.png",
+        "resources/fabricator-files-dark-file-cpp-header@3x.png",
+        "resources/fabricator-files-light-file-cpp@3x.png",
+        "resources/fabricator-files-dark-file-cpp@3x.png",
+        "resources/fabricator-files-light-file-cs@3x.png",
+        "resources/fabricator-files-dark-file-cs@3x.png",
+        "resources/fabricator-files-light-file-css@3x.png",
+        "resources/fabricator-files-dark-file-css@3x.png",
+        "resources/fabricator-files-light-file-css3@3x.png",
+        "resources/fabricator-files-dark-file-css3@3x.png",
+        "resources/fabricator-files-light-file-csv@3x.png",
+        "resources/fabricator-files-dark-file-csv@3x.png",
+        "resources/fabricator-files-light-file-dart@3x.png",
+        "resources/fabricator-files-dark-file-dart@3x.png",
+        "resources/fabricator-files-light-file-database@3x.png",
+        "resources/fabricator-files-dark-file-database@3x.png",
+        "resources/fabricator-files-light-file-docker@3x.png",
+        "resources/fabricator-files-dark-file-docker@3x.png",
+        "resources/fabricator-files-light-file-drizzle-orm@3x.png",
+        "resources/fabricator-files-dark-file-drizzle-orm@3x.png",
+        "resources/fabricator-files-light-file-eslint@3x.png",
+        "resources/fabricator-files-dark-file-eslint@3x.png",
+        "resources/fabricator-files-light-file-event@3x.png",
+        "resources/fabricator-files-dark-file-event@3x.png",
+        "resources/fabricator-files-light-file-font@3x.png",
+        "resources/fabricator-files-dark-file-font@3x.png",
+        "resources/fabricator-files-light-file-fortran-fixed@3x.png",
+        "resources/fabricator-files-dark-file-fortran-fixed@3x.png",
+        "resources/fabricator-files-light-file-fortran@3x.png",
+        "resources/fabricator-files-dark-file-fortran@3x.png",
+        "resources/fabricator-files-light-file-git@3x.png",
+        "resources/fabricator-files-dark-file-git@3x.png",
+        "resources/fabricator-files-light-file-gleam@3x.png",
+        "resources/fabricator-files-dark-file-gleam@3x.png",
+        "resources/fabricator-files-light-file-go-mod@3x.png",
+        "resources/fabricator-files-dark-file-go-mod@3x.png",
+        "resources/fabricator-files-light-file-go@3x.png",
+        "resources/fabricator-files-dark-file-go@3x.png",
+        "resources/fabricator-files-light-file-godot-assets@3x.png",
+        "resources/fabricator-files-dark-file-godot-assets@3x.png",
+        "resources/fabricator-files-light-file-godot@3x.png",
+        "resources/fabricator-files-dark-file-godot@3x.png",
+        "resources/fabricator-files-light-file-hcl@3x.png",
+        "resources/fabricator-files-dark-file-hcl@3x.png",
+        "resources/fabricator-files-light-file-html@3x.png",
+        "resources/fabricator-files-dark-file-html@3x.png",
+        "resources/fabricator-files-light-file-image@3x.png",
+        "resources/fabricator-files-dark-file-image@3x.png",
+        "resources/fabricator-files-light-file-java@3x.png",
+        "resources/fabricator-files-dark-file-java@3x.png",
+        "resources/fabricator-files-light-file-javascript-config@3x.png",
+        "resources/fabricator-files-dark-file-javascript-config@3x.png",
+        "resources/fabricator-files-light-file-javascript@3x.png",
+        "resources/fabricator-files-dark-file-javascript@3x.png",
+        "resources/fabricator-files-light-file-json@3x.png",
+        "resources/fabricator-files-dark-file-json@3x.png",
+        "resources/fabricator-files-light-file-julia@3x.png",
+        "resources/fabricator-files-dark-file-julia@3x.png",
+        "resources/fabricator-files-light-file-just@3x.png",
+        "resources/fabricator-files-dark-file-just@3x.png",
+        "resources/fabricator-files-light-file-key@3x.png",
+        "resources/fabricator-files-dark-file-key@3x.png",
+        "resources/fabricator-files-light-file-kotlin@3x.png",
+        "resources/fabricator-files-dark-file-kotlin@3x.png",
+        "resources/fabricator-files-light-file-latex@3x.png",
+        "resources/fabricator-files-dark-file-latex@3x.png",
+        "resources/fabricator-files-light-file-license@3x.png",
+        "resources/fabricator-files-dark-file-license@3x.png",
+        "resources/fabricator-files-light-file-lock@3x.png",
+        "resources/fabricator-files-dark-file-lock@3x.png",
+        "resources/fabricator-files-light-file-lua-config@3x.png",
+        "resources/fabricator-files-dark-file-lua-config@3x.png",
+        "resources/fabricator-files-light-file-lua@3x.png",
+        "resources/fabricator-files-dark-file-lua@3x.png",
+        "resources/fabricator-files-light-file-luau-config@3x.png",
+        "resources/fabricator-files-dark-file-luau-config@3x.png",
+        "resources/fabricator-files-light-file-luau-def@3x.png",
+        "resources/fabricator-files-dark-file-luau-def@3x.png",
+        "resources/fabricator-files-light-file-luau@3x.png",
+        "resources/fabricator-files-dark-file-luau@3x.png",
+        "resources/fabricator-files-light-file-makefile@3x.png",
+        "resources/fabricator-files-dark-file-makefile@3x.png",
+        "resources/fabricator-files-light-file-markdown@3x.png",
+        "resources/fabricator-files-dark-file-markdown@3x.png",
+        "resources/fabricator-files-light-file-markdownx@3x.png",
+        "resources/fabricator-files-dark-file-markdownx@3x.png",
+        "resources/fabricator-files-light-file-next@3x.png",
+        "resources/fabricator-files-dark-file-next@3x.png",
+        "resources/fabricator-files-light-file-nim@3x.png",
+        "resources/fabricator-files-dark-file-nim@3x.png",
+        "resources/fabricator-files-light-file-nix@3x.png",
+        "resources/fabricator-files-dark-file-nix@3x.png",
+        "resources/fabricator-files-light-file-node@3x.png",
+        "resources/fabricator-files-dark-file-node@3x.png",
+        "resources/fabricator-files-light-file-npm-lock@3x.png",
+        "resources/fabricator-files-dark-file-npm-lock@3x.png",
+        "resources/fabricator-files-light-file-npm@3x.png",
+        "resources/fabricator-files-dark-file-npm@3x.png",
+        "resources/fabricator-files-light-file-nuxt@3x.png",
+        "resources/fabricator-files-dark-file-nuxt@3x.png",
+        "resources/fabricator-files-light-file-odin@3x.png",
+        "resources/fabricator-files-dark-file-odin@3x.png",
+        "resources/fabricator-files-light-file-package-config@3x.png",
+        "resources/fabricator-files-dark-file-package-config@3x.png",
+        "resources/fabricator-files-light-file-package-lock@3x.png",
+        "resources/fabricator-files-dark-file-package-lock@3x.png",
+        "resources/fabricator-files-light-file-pcss@3x.png",
+        "resources/fabricator-files-dark-file-pcss@3x.png",
+        "resources/fabricator-files-light-file-pdf@3x.png",
+        "resources/fabricator-files-dark-file-pdf@3x.png",
+        "resources/fabricator-files-light-file-perl@3x.png",
+        "resources/fabricator-files-dark-file-perl@3x.png",
+        "resources/fabricator-files-light-file-php@3x.png",
+        "resources/fabricator-files-dark-file-php@3x.png",
+        "resources/fabricator-files-light-file-powershell@3x.png",
+        "resources/fabricator-files-dark-file-powershell@3x.png",
+        "resources/fabricator-files-light-file-python@3x.png",
+        "resources/fabricator-files-dark-file-python@3x.png",
+        "resources/fabricator-files-light-file-react-typescript@3x.png",
+        "resources/fabricator-files-dark-file-react-typescript@3x.png",
+        "resources/fabricator-files-light-file-react@3x.png",
+        "resources/fabricator-files-dark-file-react@3x.png",
+        "resources/fabricator-files-light-file-readme@3x.png",
+        "resources/fabricator-files-dark-file-readme@3x.png",
+        "resources/fabricator-files-light-file-roblox-config@3x.png",
+        "resources/fabricator-files-dark-file-roblox-config@3x.png",
+        "resources/fabricator-files-light-file-roblox-lock@3x.png",
+        "resources/fabricator-files-dark-file-roblox-lock@3x.png",
+        "resources/fabricator-files-light-file-roblox-model@3x.png",
+        "resources/fabricator-files-dark-file-roblox-model@3x.png",
+        "resources/fabricator-files-light-file-roblox@3x.png",
+        "resources/fabricator-files-dark-file-roblox@3x.png",
+        "resources/fabricator-files-light-file-ruby@3x.png",
+        "resources/fabricator-files-dark-file-ruby@3x.png",
+        "resources/fabricator-files-light-file-rust-config@3x.png",
+        "resources/fabricator-files-dark-file-rust-config@3x.png",
+        "resources/fabricator-files-light-file-rust@3x.png",
+        "resources/fabricator-files-dark-file-rust@3x.png",
+        "resources/fabricator-files-light-file-scala@3x.png",
+        "resources/fabricator-files-dark-file-scala@3x.png",
+        "resources/fabricator-files-light-file-scss@3x.png",
+        "resources/fabricator-files-dark-file-scss@3x.png",
+        "resources/fabricator-files-light-file-security@3x.png",
+        "resources/fabricator-files-dark-file-security@3x.png",
+        "resources/fabricator-files-light-file-shell@3x.png",
+        "resources/fabricator-files-dark-file-shell@3x.png",
+        "resources/fabricator-files-light-file-storybook@3x.png",
+        "resources/fabricator-files-dark-file-storybook@3x.png",
+        "resources/fabricator-files-light-file-svelte@3x.png",
+        "resources/fabricator-files-dark-file-svelte@3x.png",
+        "resources/fabricator-files-light-file-svg@3x.png",
+        "resources/fabricator-files-dark-file-svg@3x.png",
+        "resources/fabricator-files-light-file-swift@3x.png",
+        "resources/fabricator-files-dark-file-swift@3x.png",
+        "resources/fabricator-files-light-file-tailwind@3x.png",
+        "resources/fabricator-files-dark-file-tailwind@3x.png",
+        "resources/fabricator-files-light-file-terraform@3x.png",
+        "resources/fabricator-files-dark-file-terraform@3x.png",
+        "resources/fabricator-files-light-file-test-blue@3x.png",
+        "resources/fabricator-files-dark-file-test-blue@3x.png",
+        "resources/fabricator-files-light-file-test-teal@3x.png",
+        "resources/fabricator-files-dark-file-test-teal@3x.png",
+        "resources/fabricator-files-light-file-test-yellow@3x.png",
+        "resources/fabricator-files-dark-file-test-yellow@3x.png",
+        "resources/fabricator-files-light-file-text@3x.png",
+        "resources/fabricator-files-dark-file-text@3x.png",
+        "resources/fabricator-files-light-file-todo@3x.png",
+        "resources/fabricator-files-dark-file-todo@3x.png",
+        "resources/fabricator-files-light-file-toml@3x.png",
+        "resources/fabricator-files-dark-file-toml@3x.png",
+        "resources/fabricator-files-light-file-typescript-config@3x.png",
+        "resources/fabricator-files-dark-file-typescript-config@3x.png",
+        "resources/fabricator-files-light-file-typescript-def@3x.png",
+        "resources/fabricator-files-dark-file-typescript-def@3x.png",
+        "resources/fabricator-files-light-file-typescript@3x.png",
+        "resources/fabricator-files-dark-file-typescript@3x.png",
+        "resources/fabricator-files-light-file-video@3x.png",
+        "resources/fabricator-files-dark-file-video@3x.png",
+        "resources/fabricator-files-light-file-visual-studio@3x.png",
+        "resources/fabricator-files-dark-file-visual-studio@3x.png",
+        "resources/fabricator-files-light-file-vite@3x.png",
+        "resources/fabricator-files-dark-file-vite@3x.png",
+        "resources/fabricator-files-light-file-vscode@3x.png",
+        "resources/fabricator-files-dark-file-vscode@3x.png",
+        "resources/fabricator-files-light-file-vue@3x.png",
+        "resources/fabricator-files-dark-file-vue@3x.png",
+        "resources/fabricator-files-light-file-wally-lock@3x.png",
+        "resources/fabricator-files-dark-file-wally-lock@3x.png",
+        "resources/fabricator-files-light-file-wally@3x.png",
+        "resources/fabricator-files-dark-file-wally@3x.png",
+        "resources/fabricator-files-light-file-web-assembly@3x.png",
+        "resources/fabricator-files-dark-file-web-assembly@3x.png",
+        "resources/fabricator-files-light-file-workflow@3x.png",
+        "resources/fabricator-files-dark-file-workflow@3x.png",
+        "resources/fabricator-files-light-file-xml@3x.png",
+        "resources/fabricator-files-dark-file-xml@3x.png",
+        "resources/fabricator-files-light-file-yaml@3x.png",
+        "resources/fabricator-files-dark-file-yaml@3x.png",
+        "resources/fabricator-files-light-file-yarn-lock@3x.png",
+        "resources/fabricator-files-dark-file-yarn-lock@3x.png",
+        "resources/fabricator-files-light-file-yarn@3x.png",
+        "resources/fabricator-files-dark-file-yarn@3x.png",
+        "resources/fabricator-files-light-file-zig@3x.png",
+        "resources/fabricator-files-dark-file-zig@3x.png",
+        "resources/fabricator-files-light-file-zip@3x.png",
+        "resources/fabricator-files-dark-file-zip@3x.png",
+        "resources/fabricator-files-light-folder-admin-open@3x.png",
+        "resources/fabricator-files-dark-folder-admin-open@3x.png",
+        "resources/fabricator-files-light-folder-admin@3x.png",
+        "resources/fabricator-files-dark-folder-admin@3x.png",
+        "resources/fabricator-files-light-folder-animation-open@3x.png",
+        "resources/fabricator-files-dark-folder-animation-open@3x.png",
+        "resources/fabricator-files-light-folder-animation@3x.png",
+        "resources/fabricator-files-dark-folder-animation@3x.png",
+        "resources/fabricator-files-light-folder-assets-open@3x.png",
+        "resources/fabricator-files-dark-folder-assets-open@3x.png",
+        "resources/fabricator-files-light-folder-assets@3x.png",
+        "resources/fabricator-files-dark-folder-assets@3x.png",
+        "resources/fabricator-files-light-folder-audio-open@3x.png",
+        "resources/fabricator-files-dark-folder-audio-open@3x.png",
+        "resources/fabricator-files-light-folder-audio@3x.png",
+        "resources/fabricator-files-dark-folder-audio@3x.png",
+        "resources/fabricator-files-light-folder-auth-open@3x.png",
+        "resources/fabricator-files-dark-folder-auth-open@3x.png",
+        "resources/fabricator-files-light-folder-auth@3x.png",
+        "resources/fabricator-files-dark-folder-auth@3x.png",
+        "resources/fabricator-files-light-folder-benchmark-open@3x.png",
+        "resources/fabricator-files-dark-folder-benchmark-open@3x.png",
+        "resources/fabricator-files-light-folder-benchmark@3x.png",
+        "resources/fabricator-files-dark-folder-benchmark@3x.png",
+        "resources/fabricator-files-light-folder-bin-open@3x.png",
+        "resources/fabricator-files-dark-folder-bin-open@3x.png",
+        "resources/fabricator-files-light-folder-bin@3x.png",
+        "resources/fabricator-files-dark-folder-bin@3x.png",
+        "resources/fabricator-files-light-folder-builder-open@3x.png",
+        "resources/fabricator-files-dark-folder-builder-open@3x.png",
+        "resources/fabricator-files-light-folder-builder@3x.png",
+        "resources/fabricator-files-dark-folder-builder@3x.png",
+        "resources/fabricator-files-light-folder-camera-open@3x.png",
+        "resources/fabricator-files-dark-folder-camera-open@3x.png",
+        "resources/fabricator-files-light-folder-camera@3x.png",
+        "resources/fabricator-files-dark-folder-camera@3x.png",
+        "resources/fabricator-files-light-folder-changesets-open@3x.png",
+        "resources/fabricator-files-dark-folder-changesets-open@3x.png",
+        "resources/fabricator-files-light-folder-changesets@3x.png",
+        "resources/fabricator-files-dark-folder-changesets@3x.png",
+        "resources/fabricator-files-light-folder-client-open@3x.png",
+        "resources/fabricator-files-dark-folder-client-open@3x.png",
+        "resources/fabricator-files-light-folder-client@3x.png",
+        "resources/fabricator-files-dark-folder-client@3x.png",
+        "resources/fabricator-files-light-folder-commands-open@3x.png",
+        "resources/fabricator-files-dark-folder-commands-open@3x.png",
+        "resources/fabricator-files-light-folder-commands@3x.png",
+        "resources/fabricator-files-dark-folder-commands@3x.png",
+        "resources/fabricator-files-light-folder-component-open@3x.png",
+        "resources/fabricator-files-dark-folder-component-open@3x.png",
+        "resources/fabricator-files-light-folder-component@3x.png",
+        "resources/fabricator-files-dark-folder-component@3x.png",
+        "resources/fabricator-files-light-folder-config-open@3x.png",
+        "resources/fabricator-files-dark-folder-config-open@3x.png",
+        "resources/fabricator-files-light-folder-config@3x.png",
+        "resources/fabricator-files-dark-folder-config@3x.png",
+        "resources/fabricator-files-light-folder-connection-open@3x.png",
+        "resources/fabricator-files-dark-folder-connection-open@3x.png",
+        "resources/fabricator-files-light-folder-connection@3x.png",
+        "resources/fabricator-files-dark-folder-connection@3x.png",
+        "resources/fabricator-files-light-folder-constant-open@3x.png",
+        "resources/fabricator-files-dark-folder-constant-open@3x.png",
+        "resources/fabricator-files-light-folder-constant@3x.png",
+        "resources/fabricator-files-dark-folder-constant@3x.png",
+        "resources/fabricator-files-light-folder-content-open@3x.png",
+        "resources/fabricator-files-dark-folder-content-open@3x.png",
+        "resources/fabricator-files-light-folder-content@3x.png",
+        "resources/fabricator-files-dark-folder-content@3x.png",
+        "resources/fabricator-files-light-folder-context-open@3x.png",
+        "resources/fabricator-files-dark-folder-context-open@3x.png",
+        "resources/fabricator-files-light-folder-context@3x.png",
+        "resources/fabricator-files-dark-folder-context@3x.png",
+        "resources/fabricator-files-light-folder-coverage-open@3x.png",
+        "resources/fabricator-files-dark-folder-coverage-open@3x.png",
+        "resources/fabricator-files-light-folder-coverage@3x.png",
+        "resources/fabricator-files-dark-folder-coverage@3x.png",
+        "resources/fabricator-files-light-folder-database-open@3x.png",
+        "resources/fabricator-files-dark-folder-database-open@3x.png",
+        "resources/fabricator-files-light-folder-database@3x.png",
+        "resources/fabricator-files-dark-folder-database@3x.png",
+        "resources/fabricator-files-light-folder-dist-open@3x.png",
+        "resources/fabricator-files-dark-folder-dist-open@3x.png",
+        "resources/fabricator-files-light-folder-dist@3x.png",
+        "resources/fabricator-files-dark-folder-dist@3x.png",
+        "resources/fabricator-files-light-folder-docs-open@3x.png",
+        "resources/fabricator-files-dark-folder-docs-open@3x.png",
+        "resources/fabricator-files-light-folder-docs@3x.png",
+        "resources/fabricator-files-dark-folder-docs@3x.png",
+        "resources/fabricator-files-light-folder-effects-open@3x.png",
+        "resources/fabricator-files-dark-folder-effects-open@3x.png",
+        "resources/fabricator-files-light-folder-effects@3x.png",
+        "resources/fabricator-files-dark-folder-effects@3x.png",
+        "resources/fabricator-files-light-folder-error-open@3x.png",
+        "resources/fabricator-files-dark-folder-error-open@3x.png",
+        "resources/fabricator-files-light-folder-error@3x.png",
+        "resources/fabricator-files-dark-folder-error@3x.png",
+        "resources/fabricator-files-light-folder-event-open@3x.png",
+        "resources/fabricator-files-dark-folder-event-open@3x.png",
+        "resources/fabricator-files-light-folder-event@3x.png",
+        "resources/fabricator-files-dark-folder-event@3x.png",
+        "resources/fabricator-files-light-folder-fonts-open@3x.png",
+        "resources/fabricator-files-dark-folder-fonts-open@3x.png",
+        "resources/fabricator-files-light-folder-fonts@3x.png",
+        "resources/fabricator-files-dark-folder-fonts@3x.png",
+        "resources/fabricator-files-light-folder-function-open@3x.png",
+        "resources/fabricator-files-dark-folder-function-open@3x.png",
+        "resources/fabricator-files-light-folder-function@3x.png",
+        "resources/fabricator-files-dark-folder-function@3x.png",
+        "resources/fabricator-files-light-folder-github-open@3x.png",
+        "resources/fabricator-files-dark-folder-github-open@3x.png",
+        "resources/fabricator-files-light-folder-github@3x.png",
+        "resources/fabricator-files-dark-folder-github@3x.png",
+        "resources/fabricator-files-light-folder-hooks-open@3x.png",
+        "resources/fabricator-files-dark-folder-hooks-open@3x.png",
+        "resources/fabricator-files-light-folder-hooks@3x.png",
+        "resources/fabricator-files-dark-folder-hooks@3x.png",
+        "resources/fabricator-files-light-folder-image-open@3x.png",
+        "resources/fabricator-files-dark-folder-image-open@3x.png",
+        "resources/fabricator-files-light-folder-image@3x.png",
+        "resources/fabricator-files-dark-folder-image@3x.png",
+        "resources/fabricator-files-light-folder-input-open@3x.png",
+        "resources/fabricator-files-dark-folder-input-open@3x.png",
+        "resources/fabricator-files-light-folder-input@3x.png",
+        "resources/fabricator-files-dark-folder-input@3x.png",
+        "resources/fabricator-files-light-folder-javascript-open@3x.png",
+        "resources/fabricator-files-dark-folder-javascript-open@3x.png",
+        "resources/fabricator-files-light-folder-javascript@3x.png",
+        "resources/fabricator-files-dark-folder-javascript@3x.png",
+        "resources/fabricator-files-light-folder-json-open@3x.png",
+        "resources/fabricator-files-dark-folder-json-open@3x.png",
+        "resources/fabricator-files-light-folder-json@3x.png",
+        "resources/fabricator-files-dark-folder-json@3x.png",
+        "resources/fabricator-files-light-folder-layout-open@3x.png",
+        "resources/fabricator-files-dark-folder-layout-open@3x.png",
+        "resources/fabricator-files-light-folder-layout@3x.png",
+        "resources/fabricator-files-dark-folder-layout@3x.png",
+        "resources/fabricator-files-light-folder-lib-open@3x.png",
+        "resources/fabricator-files-dark-folder-lib-open@3x.png",
+        "resources/fabricator-files-light-folder-lib@3x.png",
+        "resources/fabricator-files-dark-folder-lib@3x.png",
+        "resources/fabricator-files-light-folder-luau-open@3x.png",
+        "resources/fabricator-files-dark-folder-luau-open@3x.png",
+        "resources/fabricator-files-light-folder-luau@3x.png",
+        "resources/fabricator-files-dark-folder-luau@3x.png",
+        "resources/fabricator-files-light-folder-lune-open@3x.png",
+        "resources/fabricator-files-dark-folder-lune-open@3x.png",
+        "resources/fabricator-files-light-folder-lune@3x.png",
+        "resources/fabricator-files-dark-folder-lune@3x.png",
+        "resources/fabricator-files-light-folder-marketing-open@3x.png",
+        "resources/fabricator-files-dark-folder-marketing-open@3x.png",
+        "resources/fabricator-files-light-folder-marketing@3x.png",
+        "resources/fabricator-files-dark-folder-marketing@3x.png",
+        "resources/fabricator-files-light-folder-middleware-open@3x.png",
+        "resources/fabricator-files-dark-folder-middleware-open@3x.png",
+        "resources/fabricator-files-light-folder-middleware@3x.png",
+        "resources/fabricator-files-dark-folder-middleware@3x.png",
+        "resources/fabricator-files-light-folder-model-open@3x.png",
+        "resources/fabricator-files-dark-folder-model-open@3x.png",
+        "resources/fabricator-files-light-folder-model@3x.png",
+        "resources/fabricator-files-dark-folder-model@3x.png",
+        "resources/fabricator-files-light-folder-module-open@3x.png",
+        "resources/fabricator-files-dark-folder-module-open@3x.png",
+        "resources/fabricator-files-light-folder-module@3x.png",
+        "resources/fabricator-files-dark-folder-module@3x.png",
+        "resources/fabricator-files-light-folder-node-open@3x.png",
+        "resources/fabricator-files-dark-folder-node-open@3x.png",
+        "resources/fabricator-files-light-folder-node@3x.png",
+        "resources/fabricator-files-dark-folder-node@3x.png",
+        "resources/fabricator-files-light-folder-nuxt-open@3x.png",
+        "resources/fabricator-files-dark-folder-nuxt-open@3x.png",
+        "resources/fabricator-files-light-folder-nuxt@3x.png",
+        "resources/fabricator-files-dark-folder-nuxt@3x.png",
+        "resources/fabricator-files-light-folder-package-open@3x.png",
+        "resources/fabricator-files-dark-folder-package-open@3x.png",
+        "resources/fabricator-files-light-folder-package@3x.png",
+        "resources/fabricator-files-dark-folder-package@3x.png",
+        "resources/fabricator-files-light-folder-page-open@3x.png",
+        "resources/fabricator-files-dark-folder-page-open@3x.png",
+        "resources/fabricator-files-light-folder-page@3x.png",
+        "resources/fabricator-files-dark-folder-page@3x.png",
+        "resources/fabricator-files-light-folder-provider-open@3x.png",
+        "resources/fabricator-files-dark-folder-provider-open@3x.png",
+        "resources/fabricator-files-light-folder-provider@3x.png",
+        "resources/fabricator-files-dark-folder-provider@3x.png",
+        "resources/fabricator-files-light-folder-roblox-open@3x.png",
+        "resources/fabricator-files-dark-folder-roblox-open@3x.png",
+        "resources/fabricator-files-light-folder-roblox@3x.png",
+        "resources/fabricator-files-dark-folder-roblox@3x.png",
+        "resources/fabricator-files-light-folder-routes-open@3x.png",
+        "resources/fabricator-files-dark-folder-routes-open@3x.png",
+        "resources/fabricator-files-light-folder-routes@3x.png",
+        "resources/fabricator-files-dark-folder-routes@3x.png",
+        "resources/fabricator-files-light-folder-script-open@3x.png",
+        "resources/fabricator-files-dark-folder-script-open@3x.png",
+        "resources/fabricator-files-light-folder-script@3x.png",
+        "resources/fabricator-files-dark-folder-script@3x.png",
+        "resources/fabricator-files-light-folder-server-open@3x.png",
+        "resources/fabricator-files-dark-folder-server-open@3x.png",
+        "resources/fabricator-files-light-folder-server@3x.png",
+        "resources/fabricator-files-dark-folder-server@3x.png",
+        "resources/fabricator-files-light-folder-service-open@3x.png",
+        "resources/fabricator-files-dark-folder-service-open@3x.png",
+        "resources/fabricator-files-light-folder-service@3x.png",
+        "resources/fabricator-files-dark-folder-service@3x.png",
+        "resources/fabricator-files-light-folder-source-open@3x.png",
+        "resources/fabricator-files-dark-folder-source-open@3x.png",
+        "resources/fabricator-files-light-folder-source@3x.png",
+        "resources/fabricator-files-dark-folder-source@3x.png",
+        "resources/fabricator-files-light-folder-storybook-open@3x.png",
+        "resources/fabricator-files-dark-folder-storybook-open@3x.png",
+        "resources/fabricator-files-light-folder-storybook@3x.png",
+        "resources/fabricator-files-dark-folder-storybook@3x.png",
+        "resources/fabricator-files-light-folder-styles-open@3x.png",
+        "resources/fabricator-files-dark-folder-styles-open@3x.png",
+        "resources/fabricator-files-light-folder-styles@3x.png",
+        "resources/fabricator-files-dark-folder-styles@3x.png",
+        "resources/fabricator-files-light-folder-svg-open@3x.png",
+        "resources/fabricator-files-dark-folder-svg-open@3x.png",
+        "resources/fabricator-files-light-folder-svg@3x.png",
+        "resources/fabricator-files-dark-folder-svg@3x.png",
+        "resources/fabricator-files-light-folder-temp-open@3x.png",
+        "resources/fabricator-files-dark-folder-temp-open@3x.png",
+        "resources/fabricator-files-light-folder-temp@3x.png",
+        "resources/fabricator-files-dark-folder-temp@3x.png",
+        "resources/fabricator-files-light-folder-template-open@3x.png",
+        "resources/fabricator-files-dark-folder-template-open@3x.png",
+        "resources/fabricator-files-light-folder-template@3x.png",
+        "resources/fabricator-files-dark-folder-template@3x.png",
+        "resources/fabricator-files-light-folder-test-open@3x.png",
+        "resources/fabricator-files-dark-folder-test-open@3x.png",
+        "resources/fabricator-files-light-folder-test@3x.png",
+        "resources/fabricator-files-dark-folder-test@3x.png",
+        "resources/fabricator-files-light-folder-types-open@3x.png",
+        "resources/fabricator-files-dark-folder-types-open@3x.png",
+        "resources/fabricator-files-light-folder-types@3x.png",
+        "resources/fabricator-files-dark-folder-types@3x.png",
+        "resources/fabricator-files-light-folder-typescript-open@3x.png",
+        "resources/fabricator-files-dark-folder-typescript-open@3x.png",
+        "resources/fabricator-files-light-folder-typescript@3x.png",
+        "resources/fabricator-files-dark-folder-typescript@3x.png",
+        "resources/fabricator-files-light-folder-util-open@3x.png",
+        "resources/fabricator-files-dark-folder-util-open@3x.png",
+        "resources/fabricator-files-light-folder-util@3x.png",
+        "resources/fabricator-files-dark-folder-util@3x.png",
+        "resources/fabricator-files-light-folder-video-open@3x.png",
+        "resources/fabricator-files-dark-folder-video-open@3x.png",
+        "resources/fabricator-files-light-folder-video@3x.png",
+        "resources/fabricator-files-dark-folder-video@3x.png",
+        "resources/fabricator-files-light-folder-vscode-open@3x.png",
+        "resources/fabricator-files-dark-folder-vscode-open@3x.png",
+        "resources/fabricator-files-light-folder-vscode@3x.png",
+        "resources/fabricator-files-dark-folder-vscode@3x.png",
+        "resources/fabricator-files-light-folder-web-open@3x.png",
+        "resources/fabricator-files-dark-folder-web-open@3x.png",
+        "resources/fabricator-files-light-folder-web@3x.png",
+        "resources/fabricator-files-dark-folder-web@3x.png",
+        "resources/fabricator-files-light-folder-yarn-open@3x.png",
+        "resources/fabricator-files-dark-folder-yarn-open@3x.png",
+        "resources/fabricator-files-light-folder-yarn@3x.png",
+        "resources/fabricator-files-dark-folder-yarn@3x.png"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "file-upload",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "finance-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "forgot-password-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "form",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "funnel-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "heat-calendar",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "hover-card",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "image-compare",
+      "files": [
+        "ui/content.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/field",
+        "@fabricator/pagination"
+      ]
+    },
+    {
+      "name": "input",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "input-group",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "input-otp",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "item",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "kbd",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "label",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "line-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "login-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "login-02",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "login-03",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "login-04",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "login-05",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "mail-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "markdown",
+      "files": [
+        "ui/markdown.swift"
+      ],
+      "dependencies": [
+        "@fabricator/syntax-highlight"
+      ]
+    },
+    {
+      "name": "marker",
+      "files": [
+        "ui/chat.swift",
+        "resources/bot-face.json"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/markdown",
+        "@fabricator/file-upload"
+      ]
+    },
+    {
+      "name": "menubar",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "message",
+      "files": [
+        "ui/chat.swift",
+        "resources/bot-face.json"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/markdown",
+        "@fabricator/file-upload"
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "files": [
+        "ui/chat.swift",
+        "resources/bot-face.json"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/markdown",
+        "@fabricator/file-upload"
+      ]
+    },
+    {
+      "name": "messenger-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "model-picker",
+      "files": [
+        "ui/chat.swift",
+        "resources/bot-face.json"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/markdown",
+        "@fabricator/file-upload"
+      ]
+    },
+    {
+      "name": "multi-select",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "number-field",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "pagination",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "pie-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "popover",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "preview-03",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "preview-rail",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "progress",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "questionnaire",
+      "files": [
+        "ui/chat.swift",
+        "resources/bot-face.json"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/markdown",
+        "@fabricator/file-upload"
+      ]
+    },
+    {
+      "name": "radar-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "radial-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "radio-group",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "rating",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "resizable",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "sankey-chart",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "search",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "select",
+      "files": [
+        "ui/forms.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "separator",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "sheet",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "sidebar",
+      "files": [
+        "ui/app-shell.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/breadcrumb"
+      ]
+    },
+    {
+      "name": "sidebar-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-02",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-03",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-04",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-05",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-06",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-07",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-08",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-09",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-10",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-11",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-12",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-13",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-14",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-15",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sidebar-16",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sign-in-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sign-up-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "signup-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "signup-02",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "signup-03",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "signup-04",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "signup-05",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "skeleton",
+      "files": [
+        "ui/loading.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "slider",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "sonner",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "sounds",
+      "files": [
+        "ui/controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "spinner",
+      "files": [
+        "ui/loading.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "status-bar",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "switch",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "syntax-highlight",
+      "files": [
+        "ui/syntax-highlight.swift",
+        "ui/document-text.swift",
+        "models/document-rendering.swift",
+        "models/document-typography.swift",
+        "models/syntax-style.swift",
+        "platform/document-engine-adapter.swift",
+        "platform/javascript-runtime.swift",
+        "platform/clipboard.swift",
+        "resources/document-engine.js",
+        "resources/document-notices.txt",
+        "resources/document-typography.json",
+        "resources/GeistMonoVariable.ttf",
+        "resources/GeistMonoVariable-Italic.ttf",
+        "resources/GeistMono-OFL.txt",
+        "tests/document-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/alert"
+      ]
+    },
+    {
+      "name": "tab-strip",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "table",
+      "files": [
+        "ui/content.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/field",
+        "@fabricator/pagination"
+      ]
+    },
+    {
+      "name": "tabs",
+      "files": [
+        "ui/structure.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button"
+      ]
+    },
+    {
+      "name": "text",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "textarea",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "theme-toggle",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "time-input",
+      "files": [
+        "ui/time-input.swift",
+        "models/time-input-model.swift",
+        "tests/time-input-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/input",
+        "@fabricator/time-wheel"
+      ]
+    },
+    {
+      "name": "time-wheel",
+      "files": [
+        "ui/time-wheel.swift",
+        "models/time-wheel-model.swift",
+        "platform/time-wheel-scroll-events.swift",
+        "tests/time-wheel-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "toast",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "toggle",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "tooltip",
+      "files": [
+        "ui/overlays.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/card",
+        "@fabricator/search"
+      ]
+    },
+    {
+      "name": "treemap",
+      "files": [
+        "ui/charts.swift",
+        "models/chart-engine.swift",
+        "models/chart-sankey-engine.swift",
+        "tests/chart-engine-tests.swift",
+        "tests/chart-sankey-engine-tests.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations"
+      ]
+    },
+    {
+      "name": "typography",
+      "files": [
+        "ui/controls.swift",
+        "ui/selection-controls.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "user-menu",
+      "files": [
+        "ui/app-shell.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/breadcrumb"
+      ]
+    },
+    {
+      "name": "video-player",
+      "files": [
+        "ui/content.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/field",
+        "@fabricator/pagination"
+      ]
+    },
+    {
+      "name": "workspace-switcher",
+      "files": [
+        "ui/app-shell.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/breadcrumb"
+      ]
+    }
+  ]
+}

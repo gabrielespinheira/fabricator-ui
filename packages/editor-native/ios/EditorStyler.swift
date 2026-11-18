@@ -69,18 +69,17 @@ struct EditorStyler {
         font: theme.semiboldFont(size: headingSize),
         lineHeight: headingSize * EditorTheme.headingLineHeight, nestedIndent: nested)
     case .code, .raw:
-      let codeSize = size * EditorTheme.codeScale
+      let codeSize = paragraph.kind == .code ? theme.codeStyle.fontSize : size * 0.8125
       // A code block is Syntax Highlight's panel, padded in the body's em
       // under a strip with its language and Copy; raw Markdown is a quieter
       // box padded in its own.
       let isCode = paragraph.kind == .code
-      let padding = isCode ? size : codeSize
       return makeMetrics(
         font: theme.monoFont(size: codeSize, isBold: false),
         lineHeight: codeSize * EditorTheme.codeBlockLineHeight,
-        leadingIndent: padding * EditorTheme.codeBlockPaddingX,
-        blockPaddingY: padding * EditorTheme.codeBlockPaddingY,
-        headerHeight: isCode ? (size * EditorCodeChrome.stripHeight).rounded() : 0,
+        leadingIndent: isCode ? theme.codeStyle.paddingX : codeSize * EditorTheme.codeBlockPaddingX,
+        blockPaddingY: isCode ? theme.codeStyle.paddingY : codeSize * EditorTheme.codeBlockPaddingY,
+        headerHeight: isCode ? theme.codeStyle.headerHeight : 0,
         nestedIndent: nested)
     case .bulleted, .numbered, .task:
       return makeMetrics(
@@ -142,7 +141,8 @@ struct EditorStyler {
     style.paragraphSpacing =
       (isTightList ? theme.fontSize * EditorTheme.listGap : theme.paragraphSpacing)
       + metrics.blockPaddingY
-    var spacingBefore = metrics.blockPaddingY + metrics.headerHeight
+    // The view reserves a first block's chrome in its content inset.
+    var spacingBefore = isFirst ? 0 : metrics.blockPaddingY + metrics.headerHeight
     if paragraph.kind == .heading && !isFirst {
       // 0.75em of the heading's own size, as the website's margin.
       spacingBefore += theme.headingSize(level: paragraph.level) * EditorTheme.headingGapAbove
@@ -158,8 +158,7 @@ struct EditorStyler {
     for paragraph: EditorParagraph, marks: EditorMarks, metrics: EditorParagraphMetrics,
     paragraphStyle: NSParagraphStyle
   ) -> [NSAttributedString.Key: Any] {
-    let upright = runFont(for: paragraph, marks: marks, metrics: metrics)
-    let font = marks.isItalic ? Self.italic(of: upright) : upright
+    let font = runFont(for: paragraph, marks: marks, metrics: metrics)
     var attributes: [NSAttributedString.Key: Any] = [
       .paragraphStyle: paragraphStyle,
       .font: font,
@@ -170,13 +169,20 @@ struct EditorStyler {
     if paragraph.kind == .heading {
       attributes[.kern] = -0.025 * font.pointSize
     }
-    if marks.isStrike || (paragraph.kind == .task && paragraph.isChecked) {
+    if paragraph.kind == .task && paragraph.isChecked {
       attributes[.strikethroughStyle] = NSUnderlineStyle.single.rawValue
-      attributes[.strikethroughColor] = color.withAlphaComponent(0.5)
+      attributes[.strikethroughColor] = theme.muted
+    }
+    if marks.isStrike {
+      attributes[.strikethroughStyle] = NSUnderlineStyle.single.rawValue
+      attributes[.strikethroughColor] = theme.foreground.withAlphaComponent(0.5)
     }
     if marks.link != nil {
       attributes[.underlineStyle] = NSUnderlineStyle.single.rawValue
       attributes[.underlineColor] = theme.link.withAlphaComponent(0.35)
+    } else if paragraph.kind == .code && marks.token == "link" {
+      attributes[.underlineStyle] = NSUnderlineStyle.single.rawValue
+      attributes[.underlineColor] = color
     }
     return attributes
   }
@@ -200,17 +206,17 @@ struct EditorStyler {
     for paragraph: EditorParagraph, marks: EditorMarks, metrics: EditorParagraphMetrics
   ) -> UIFont {
     if paragraph.kind == .code || paragraph.kind == .raw {
-      return theme.monoFont(size: metrics.font.pointSize, isBold: marks.isBold)
+      return theme.monoFont(size: metrics.font.pointSize, isBold: marks.isBold, isItalic: marks.isItalic)
     }
     if marks.isCode || marks.isRaw {
       return theme.monoFont(
         size: metrics.font.pointSize * EditorTheme.codeScale,
-        isBold: marks.isBold || paragraph.kind == .heading)
+        isBold: marks.isBold || paragraph.kind == .heading, isItalic: marks.isItalic)
     }
     if paragraph.kind == .heading || marks.isBold {
-      return theme.semiboldFont(size: metrics.font.pointSize)
+      return theme.semiboldFont(size: metrics.font.pointSize, isItalic: marks.isItalic)
     }
-    return metrics.font
+    return theme.regularFont(size: metrics.font.pointSize, isItalic: marks.isItalic)
   }
 
   private func runColor(for paragraph: EditorParagraph, marks: EditorMarks) -> UIColor {
@@ -218,8 +224,8 @@ struct EditorStyler {
     if paragraph.kind == .code, let token = marks.token, let color = theme.syntax[token] {
       return color
     }
-    if paragraph.kind == .task && paragraph.isChecked { return theme.muted }
     if marks.link != nil { return theme.link }
+    if paragraph.kind == .task && paragraph.isChecked { return theme.muted }
     switch paragraph.kind {
     case .quote, .raw: return theme.muted
     default: return marks.isRaw ? theme.muted : theme.foreground

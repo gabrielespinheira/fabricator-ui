@@ -34,6 +34,10 @@
     @apply text-foreground;
   }
 
+  .cn-bot-face-color-gray {
+    @apply text-[oklch(0.48_0_0)] dark:text-[oklch(0.74_0_0)];
+  }
+
   .cn-bot-face-color-blue {
     @apply text-[oklch(0.48_0.195_260)] dark:text-[oklch(0.74_0.13_260)];
   }

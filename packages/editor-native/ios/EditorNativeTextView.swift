@@ -51,6 +51,11 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
   private var didAutoFocus = false
   private var lastContentHeight: CGFloat = -1
   private var lastCaretRect = CGRect.null
+  private var contentInsets = UIEdgeInsets.zero
+  private var decorationControlProvider: ((EditorParagraph, String) -> UIView?)?
+  private var decorationControls: [Int: EditorDecorationControlHost] = [:]
+  private var decorationControlSize: CGFloat = 44
+  private var isLayingOutControls = false
 
   // MARK: Setup
 
@@ -84,8 +89,18 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
     if textView.frame != bounds {
       textView.frame = bounds
     }
+    if decorationControlProvider != nil { textView.layoutIfNeeded() }
     layoutPlaceholder()
+    layoutDecorationControls()
     reportLayout()
+  }
+
+  override func sizeThatFits(_ size: CGSize) -> CGSize {
+    var measured = textView.sizeThatFits(CGSize(width: size.width, height: .greatestFiniteMagnitude))
+    let last = document.paragraphs[document.paragraphs.count - 1]
+    let metrics = styler.metrics(for: last)
+    measured.height = ceil(measured.height + metrics.blockPaddingY + (metrics.blockPaddingY > 0 ? metrics.leading / 2 : 0))
+    return measured
   }
 
   override func didMoveToWindow() {
@@ -103,10 +118,55 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
     receivedContent = content
   }
 
-  func receiveTheme(_ record: EditorThemeRecord) {
-    theme = EditorTheme(record: record)
+  func receiveTheme(_ record: EditorThemeRecord, fontResolver: EditorFontResolver? = nil, codeStyle: EditorCodeStyle? = nil) {
+    theme = EditorTheme(record: record, fontResolver: fontResolver, codeStyle: codeStyle)
     textView.tintColor = theme.caret
     needsRestyle = true
+  }
+
+  func setContentInsets(_ insets: UIEdgeInsets) {
+    guard contentInsets != insets else { return }
+    contentInsets = insets
+    updateContentInsets()
+  }
+
+  private func updateContentInsets() {
+    let first = document.paragraphs[0]
+    let metrics = styler.metrics(for: first)
+    var insets = contentInsets
+    if first.kind == .code || first.kind == .raw {
+      // TextKit does not reserve paragraphSpacingBefore at the document start.
+      insets.top += max(0, metrics.headerHeight + metrics.blockPaddingY - metrics.leading / 2)
+    }
+    guard textView.textContainerInset != insets else { return }
+    textView.textContainerInset = insets
+    lastContentHeight = -1
+    setNeedsLayout()
+  }
+
+  func setKeyboardAccessory(_ accessory: UIView?) {
+    guard textView.inputAccessoryView !== accessory else { return }
+    textView.inputAccessoryView = accessory
+    if textView.isFirstResponder { textView.reloadInputViews() }
+  }
+
+  func setKeyboardAppearance(_ appearance: UIKeyboardAppearance) {
+    guard textView.keyboardAppearance != appearance else { return }
+    textView.keyboardAppearance = appearance
+    if textView.isFirstResponder { textView.reloadInputViews() }
+  }
+
+  /// Native embeddings can replace task and Copy artwork with accessible controls.
+  func setDecorationControlProvider(size: CGFloat, _ provider: @escaping (EditorParagraph, String) -> UIView?) {
+    let wasDrawingControls = decorationControlProvider == nil
+    decorationControlProvider = provider
+    decorationControlSize = size
+    if wasDrawingControls {
+      invalidateLayout(of: document.paragraphs.filter { $0.kind == .code || $0.kind == .task }.map {
+        NSRange(location: $0.start, length: $0.end - $0.start)
+      })
+    }
+    setNeedsLayout()
   }
 
   func receiveSelection(_ selection: EditorSelectionRecord?) {
@@ -119,10 +179,12 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
   }
 
   func setEditable(_ isEditable: Bool) {
+    guard textView.isEditable != isEditable else { return }
     textView.isEditable = isEditable
   }
 
   func setScrollEnabled(_ isEnabled: Bool) {
+    guard isScrollEnabled != isEnabled else { return }
     isScrollEnabled = isEnabled
     textView.isScrollEnabled = isEnabled
     lastContentHeight = -1
@@ -281,6 +343,7 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
   }
 
   private func afterProgrammaticChange() {
+    updateContentInsets()
     if textView.markedTextRange == nil {
       updateTypingAttributes()
     }
@@ -401,6 +464,7 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
   }
 
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    if decorationControlProvider != nil { setNeedsLayout() }
     reportCaret()
   }
 
@@ -441,6 +505,7 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
     -> Bool
   {
     guard gestureRecognizer === decorationTap else { return true }
+    if let touched = touch.view, decorationControls.values.contains(where: { touched.isDescendant(of: $0) }) { return false }
     let point = touch.location(in: textView)
     return taskParagraphStart(at: point) != nil || codeControl(at: point) != nil
       || blockParagraph(at: point) != nil
@@ -458,10 +523,13 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
     guard recognizer.state == .ended else { return }
     let point = recognizer.location(in: textView)
     if let start = taskParagraphStart(at: point) {
+      guard textView.isEditable else { return }
       onTaskToggle(["paragraphStart": start])
     } else if let control = codeControl(at: point) {
+      guard textView.isEditable || control.kind == "code-copy" else { return }
       onBlockPress(["paragraphStart": control.start, "kind": control.kind])
     } else if let paragraph = blockParagraph(at: point) {
+      guard textView.isEditable else { return }
       onBlockPress(["paragraphStart": paragraph.start, "kind": paragraph.kind.rawValue])
     }
   }
@@ -474,7 +542,7 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
     let containerPoint = CGPoint(x: point.x - inset.left, y: point.y - inset.top)
     // The strip sits above the block's lines, in its paragraph spacing, which
     // may be read as the fragment above, so the one below is asked too.
-    let candidates = [containerPoint, CGPoint(x: containerPoint.x, y: containerPoint.y + 44)]
+    let candidates = [containerPoint, CGPoint(x: containerPoint.x, y: containerPoint.y + theme.codeStyle.headerHeight + theme.codeStyle.paddingY)]
     for candidate in candidates {
       guard let fragment = layoutManager.textLayoutFragment(for: candidate)
         as? EditorLayoutFragment,
@@ -492,7 +560,7 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
         x: block.minX, y: block.minY, width: block.width, height: decoration.metrics.headerHeight)
       guard strip.contains(containerPoint) else { continue }
       let start = decoration.paragraph.start
-      if chrome.copyRect.insetBy(dx: -15, dy: -15).contains(containerPoint) {
+      if decorationControlProvider == nil, chrome.copyRect.insetBy(dx: -15, dy: -15).contains(containerPoint) {
         return (start, "code-copy")
       }
       if let language = chrome.languageRect, language.insetBy(dx: -8, dy: -15).contains(containerPoint) {
@@ -500,6 +568,61 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
       }
     }
     return nil
+  }
+
+  private func layoutDecorationControls() {
+    guard !isLayingOutControls, let provider = decorationControlProvider, let layoutManager = textView.textLayoutManager else { return }
+    isLayingOutControls = true
+    defer { isLayingOutControls = false }
+    let inset = textView.textContainerInset
+    // A restyled fragment can exist before its document position is resolved.
+    layoutManager.ensureLayout(for: textView.bounds.offsetBy(dx: -inset.left, dy: -inset.top))
+    let paragraphs = document.paragraphs.filter { $0.kind == .code || $0.kind == .task }
+    let starts = Set(paragraphs.map(\.start))
+    for start in decorationControls.keys.filter({ !starts.contains($0) }) {
+      decorationControls.removeValue(forKey: start)?.removeFromSuperview()
+    }
+    var visible: Set<Int> = []
+    let storage = textView.contentStorage
+    for paragraph in paragraphs {
+      guard let location = storage.location(storage.documentRange.location, offsetBy: paragraph.start),
+        let fragment = layoutManager.textLayoutFragment(for: location) as? EditorLayoutFragment,
+        fragment.state == .layoutAvailable,
+        let decoration = fragment.decoration, let lines = fragment.lineBounds(decoration)
+      else { continue }
+      let frame = fragment.layoutFragmentFrame
+      let artwork: CGRect
+      if paragraph.kind == .code {
+        let block = EditorLayoutFragment.codeBlockRect(decoration, first: lines.first, last: lines.last, left: -frame.minX)
+        artwork = EditorCodeChrome(decoration: decoration, block: block).copyRect
+      } else {
+        artwork = EditorLayoutFragment.checkboxRect(decoration, firstLine: lines.first, left: -frame.minX)
+      }
+      let center = CGPoint(x: artwork.midX + frame.minX + inset.left, y: artwork.midY + frame.minY + inset.top)
+      let side = max(decorationControlSize, artwork.width, artwork.height)
+      let controlFrame = CGRect(x: center.x - side / 2, y: center.y - side / 2, width: side, height: side)
+      guard controlFrame.intersects(textView.bounds) else { continue }
+      let source = (document.text as NSString).substring(with: NSRange(location: paragraph.start, length: paragraph.end - paragraph.start))
+      guard let control = provider(paragraph, source) else { continue }
+      let host: EditorDecorationControlHost
+      if let current = decorationControls[paragraph.start] { host = current }
+      else {
+        host = EditorDecorationControlHost()
+        decorationControls[paragraph.start] = host
+        textView.addSubview(host)
+      }
+      host.frame = controlFrame
+      host.receiveControl(control)
+      host.hitBounds = host.bounds
+      if paragraph.kind == .task {
+        // The expanded checkbox target stops where editable text begins.
+        host.hitBounds.size.width = min(side, max(0, decoration.metrics.leadingIndent + inset.left - controlFrame.minX))
+      }
+      host.isHidden = false
+      textView.bringSubviewToFront(host)
+      visible.insert(paragraph.start)
+    }
+    for (start, host) in decorationControls where !visible.contains(start) { host.isHidden = true }
   }
 
   /// The divider, image or table drawn under a point of the text view.
@@ -522,6 +645,7 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
 
   /// The start of the task whose checkbox is under a point of the text view.
   private func taskParagraphStart(at point: CGPoint) -> Int? {
+    guard decorationControlProvider == nil else { return nil }
     guard let layoutManager = textView.textLayoutManager else { return nil }
     let inset = textView.textContainerInset
     let containerPoint = CGPoint(x: point.x - inset.left, y: point.y - inset.top)
@@ -634,6 +758,24 @@ final class EditorNativeTextView: ExpoView, UITextViewDelegate, NSTextLayoutMana
       metrics: styler.metrics(for: paragraph),
       theme: theme,
       containerWidth: max(textView.bounds.width - inset.left - inset.right, 0),
-      inlineCode: inlineCode)
+      inlineCode: inlineCode, drawsCodeCopy: decorationControlProvider == nil, drawsTaskCheckbox: decorationControlProvider == nil)
+  }
+}
+
+private final class EditorDecorationControlHost: UIView {
+  var hitBounds = CGRect.zero
+  private var control: UIView?
+
+  func receiveControl(_ next: UIView) {
+    guard control !== next else { return }
+    control?.removeFromSuperview()
+    control = next
+    next.frame = bounds
+    next.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    addSubview(next)
+  }
+
+  override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    hitBounds.contains(point)
   }
 }

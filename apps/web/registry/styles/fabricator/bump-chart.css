@@ -1,0 +1,30 @@
+/* MARK: Bump Chart */
+
+  /* The chart fills its container's width; 18rem tall until the page gives
+     it a height. The legend sits under the plot. */
+  .cn-bump-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Each point: a ring filled with the card, so the gridline and any line
+     passing under it stop at its edge and the rank inside stays legible. */
+  .cn-bump-chart-ring {
+    @apply fill-card;
+  }
+
+  /* The rank inside a ring: in the text colour, never the series'. */
+  .cn-bump-chart-rank {
+    @apply fill-foreground text-(length:--density-text-11) font-medium tabular-nums select-none;
+  }
+
+  /* The series' name past its last point, in the text colour beside the
+     ring that keys it, at the axis size the model measures it in. */
+  .cn-bump-chart-name {
+    @apply fill-foreground text-(length:--density-text-11) select-none;
+  }
+
+  /* A series' latest rank and its change in its legend row, tabular so the
+     arrows line up. */
+  .cn-bump-chart-standing {
+    @apply text-foreground font-medium tabular-nums;
+  }

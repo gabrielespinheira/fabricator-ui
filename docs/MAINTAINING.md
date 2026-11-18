@@ -15,12 +15,13 @@ Upstream syncs, pinned tools, releases and deploys. Most of this is the maintain
 - `bunfig.toml` sets `linker = "hoisted"`. Isolated installs make one copy of a package per peer set (`fumadocs-core` with Zod 3 and Zod 4), which breaks type identity and caused a Fumadocs stack overflow.
 - Root `overrides` pin `prettier` 3.6.2 (the registry build formats generated source; another version breaks parity), `eslint-plugin-react-hooks` 7.0.1 and `mdast-util-to-markdown` 2.1.2 to upstream's versions. Bump them only with upstream, then rerun `test:parity`.
 - `turbo.json` sets `"agentGuidance": false` so `AGENTS.md` stays the only agent guidance.
+- The web typecheck allows up to 8 GB of Node heap to check the generated registry and examples. The setting applies only to that command.
 - Lucide, lucide-animated and Charmed are vendored at pinned refs (`icons:sync`, `icons:animated`, `icons:files`); after a Lucide sync, bump the parity dev dependencies in `packages/icons`.
 
 ## Releases
 
 - One version for the whole repository, in lockstep: the root `package.json`, every workspace package (the CLI, icon packages, `editor-native`, private apps and packages), the Tauri and Cargo manifests and `bun.lock`. There are no changesets and no release bot.
-- `/release` (or `/release X.Y.Z`) cuts it: a version commit that writes every version file and a `## [X.Y.Z]` section at the top of [`CHANGELOG.md`](../CHANGELOG.md), the only changelog, on a `release/v*` branch with its pull request. Feature PRs never touch versions or `CHANGELOG.md`.
+- `/release` (or `/release X.Y.Z`) cuts it: a version commit that writes every version file and a `## [X.Y.Z]` section at the top of [`CHANGELOG.md`](../CHANGELOG.md), the only changelog, on a `release/v*` branch with its pull request. The same commit renames `apps/web/content/docs/changelog/unreleased.mdx` to `vX-Y-Z.mdx`, titles it `Version X.Y.Z`, dates it, adds the GitHub release link, and leaves a fresh `unreleased.mdx` only when changes remain. Feature PRs never touch versions or `CHANGELOG.md`.
 - The separately installed mobile example follows the same version in `apps/mobile/package.json` and `apps/mobile/app.json`. When the release writer omits it, update these mirrors on the source release branch before cutting. Scaffold templates keep their own starter versions.
 - CI runs `bun run release:check`, which fails when a version file is out of step or a `release/v*` branch doesn't carry its version (`bun run test:scripts` tests it).
 

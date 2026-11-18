@@ -2,6 +2,8 @@ import { DemoFrame } from "@/components/foundations/demo-frame"
 
 // Class names are written out in full so Tailwind generates them.
 const LEVELS = [
+  // Level 0 has no shadow of its own; level 1's hairline outlines the swatch.
+  { level: 0, className: "bg-surface-0 shadow-surface-1", use: "Sign in" },
   { level: 1, className: "bg-surface-1 shadow-surface-1", use: "Page" },
   { level: 2, className: "bg-surface-2 shadow-surface-2", use: "Sidebar" },
   {
@@ -24,11 +26,11 @@ const LEVELS = [
   { level: 8, className: "bg-surface-8 shadow-surface-8", use: "Top" },
 ]
 
-/** The eight levels, in the current theme. */
+/** Level 0 and the eight levels, in the current theme. */
 export function SurfaceLadder() {
   return (
-    <DemoFrame caption="Switch the theme to compare. Neutral light flattens to white from level 3 and lets the shadow carry the elevation; dark lifts each level a step lighter. With a base colour, every level in both themes carries the tint.">
-      <div className="grid w-full grid-cols-4 gap-4 sm:grid-cols-8">
+    <DemoFrame caption="Switch the theme to compare. Level 0 lies below the page: white in light, a step darker in dark. Neutral light flattens to white from level 3 and lets the shadow carry the elevation; dark lifts each level a step lighter. With a base colour, every level in both themes carries the tint.">
+      <div className="grid w-full grid-cols-3 gap-4 sm:grid-cols-9">
         {LEVELS.map(({ level, className, use }) => (
           <div key={level} className="flex flex-col items-center gap-2">
             <div

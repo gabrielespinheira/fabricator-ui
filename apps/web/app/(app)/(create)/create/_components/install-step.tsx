@@ -31,11 +31,14 @@ import {
   FRAMEWORKS,
   getSetupPlan,
   getShellProject,
-  isNativeFramework,
+  hasWebApp,
   resolveApps,
+  RUNNERS,
   SETUP_BASES,
   setupToParams,
+  TOOLINGS,
   toProjectSetup,
+  type ProjectKind,
   type Setup,
 } from "@/app/(app)/(create)/lib/setup"
 import {
@@ -311,10 +314,10 @@ function Swatch({ hex }: { hex: string }) {
   )
 }
 
-const STARTING_POINTS: Record<Setup["project"], string> = {
-  new: "A new project",
-  monorepo: "A new monorepo",
-  existing: "An existing project",
+const STARTING_POINTS: Record<ProjectKind, string> = {
+  new: "New project",
+  monorepo: "New project",
+  existing: "Existing project",
 }
 
 function getProjectApps(setup: Setup) {
@@ -387,17 +390,21 @@ export function SetupSummary({
           {apps.project === "existing" ? null : (
             <SummaryRow label="Apps">{appNames.join(", ")}</SummaryRow>
           )}
-          {apps.project === "existing" ? null : (
+          {apps.project === "existing" || !hasWebApp(apps) ? null : (
             <SummaryRow label="Framework">
               {FRAMEWORKS.find(({ value }) => value === apps.framework)?.label}
             </SummaryRow>
           )}
-          {isNativeFramework(apps.framework) &&
-          apps.project === "new" ? null : (
-            <SummaryRow label="Primitives">
-              {SETUP_BASES.find(({ value }) => value === setup.base)?.label}
+          {apps.project === "monorepo" ? (
+            <SummaryRow label="Tooling">
+              {[
+                ...(hasWebApp(apps)
+                  ? [RUNNERS.find(({ value }) => value === setup.runner)?.label]
+                  : []),
+                TOOLINGS.find(({ value }) => value === setup.tooling)?.label,
+              ].join(", ")}
             </SummaryRow>
-          )}
+          ) : null}
         </SummaryCard>
         <SummaryCard title="Look" onEdit={() => onEdit("look")}>
           <SummaryRow label="Primary">
@@ -459,6 +466,11 @@ export function SetupSummary({
           )}
         </SummaryCard>
         <SummaryCard title="Extras" onEdit={() => onEdit("extras")}>
+          {hasWebApp(apps) ? (
+            <SummaryRow label="Primitives">
+              {SETUP_BASES.find(({ value }) => value === setup.base)?.label}
+            </SummaryRow>
+          ) : null}
           <SummaryRow label="Included">
             {extras.length > 0 ? extras.join(", ") : "None"}
           </SummaryRow>

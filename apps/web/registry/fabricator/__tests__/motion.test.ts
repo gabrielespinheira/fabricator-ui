@@ -185,6 +185,62 @@ describe("toSpringEasing", () => {
   })
 })
 
+describe("the settle role", () => {
+  const peak = (samples: number[]) => Math.max(...samples)
+
+  it("springs into place without a visible overshoot", () => {
+    for (const name of ["smooth", "default", "snappy"] as const) {
+      const settle = MOTION_SPEEDS[name].settle
+      expect(settle).toBeGreaterThan(0)
+      expect(settle).toBeLessThan(MOTION_SPEEDS[name].bounce)
+      expect(peak(getSpringSamples(settle))).toBeLessThan(1.01)
+    }
+    expect(MOTION_SPEEDS.instant.settle).toBe(0)
+  })
+
+  it("settles quicker than the bounce role", () => {
+    for (const name of ["smooth", "default", "snappy"] as const) {
+      const { settle, bounce } = MOTION_SPEEDS[name].durations
+      expect(settle.enter).toBeLessThan(bounce.enter)
+    }
+  })
+
+  it("writes its curve and a theme key", () => {
+    const vars = toMotionVars(MOTION_SPEEDS.default)
+    expect(vars["motion-settle"]).toBe("380ms")
+    expect(vars["motion-ease-settle"]).toBe(
+      toSpringEasing(MOTION_SPEEDS.default.settle)
+    )
+    expect(MOTION_THEME["ease-settle"]).toBe("var(--motion-ease-settle)")
+  })
+})
+
+describe("the reveal role", () => {
+  it("is a role", () => {
+    expect(MOTION_ROLES).toContain("reveal")
+  })
+
+  it("draws a chart in slower than anything moves, and not at all when instant", () => {
+    for (const name of ["smooth", "default", "snappy"] as const) {
+      const { reveal, move, dialog } = MOTION_SPEEDS[name].durations
+      expect(reveal.enter).toBeGreaterThan(move.enter)
+      expect(reveal.enter).toBeGreaterThan(dialog.enter)
+    }
+    expect(MOTION_SPEEDS.instant.durations.reveal.enter).toBe(0)
+  })
+
+  it("slows from snappy to smooth", () => {
+    const reveal = (name: (typeof SLOWEST_FIRST)[number]) =>
+      MOTION_SPEEDS[name].durations.reveal.enter
+    expect(reveal("smooth")).toBeGreaterThan(reveal("default"))
+    expect(reveal("default")).toBeGreaterThan(reveal("snappy"))
+  })
+
+  it("writes a duration token", () => {
+    expect(toMotionVars(MOTION_SPEEDS.default)["motion-reveal"]).toBe("700ms")
+  })
+})
+
 describe("the bounce role", () => {
   it("springs on every speed but instant", () => {
     expect(MOTION_SPEEDS.default.bounce).toBeGreaterThan(0)

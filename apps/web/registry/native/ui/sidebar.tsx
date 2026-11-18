@@ -280,6 +280,12 @@ function SidebarProvider({
   const insets = useShellInsets()
   const { width: windowWidth } = useWindowDimensions()
   const [openMobile, setOpenMobile] = React.useState(false)
+  const [wasMobile, setWasMobile] = React.useState(isMobile)
+  if (wasMobile !== isMobile) {
+    setWasMobile(isMobile)
+    // A phone's open sidebar does not carry over to the tablet layout.
+    if (!isMobile) setOpenMobile(false)
+  }
   const [side, setSide] = React.useState<SidebarSide>("left")
   const [collapsible, setCollapsible] =
     React.useState<SidebarCollapsible | null>(null)
@@ -330,32 +336,35 @@ function SidebarProvider({
         : toOpen
           ? motion.enterMs
           : motion.exitMs
-      progress.value = withTiming(
-        toOpen ? 1 : 0,
-        { duration, easing: motion.drawerEasing },
-        (finished) => {
-          if (finished && !toOpen) scheduleOnRN(setIsAside, false)
-        }
+      progress.set(
+        withTiming(
+          toOpen ? 1 : 0,
+          { duration, easing: motion.drawerEasing },
+          (finished) => {
+            if (finished && !toOpen) scheduleOnRN(setIsAside, false)
+          }
+        )
       )
     },
     [motion, progress]
   )
 
   const isReveal = isMobile && mobileSidebar === "reveal"
+  const revealState = !isReveal ? "inactive" : openMobile ? "open" : "closed"
+  const [previousRevealState, setPreviousRevealState] =
+    React.useState(revealState)
+  if (previousRevealState !== revealState) {
+    setPreviousRevealState(revealState)
+    // A closing reveal stays aside until its animation completes.
+    if (revealState !== "closed") setIsAside(revealState === "open")
+  }
   React.useEffect(() => {
     if (!isReveal) {
-      progress.value = 0
-      setIsAside(false)
+      progress.set(0)
       return
     }
-    if (openMobile) setIsAside(true)
     settleReveal(openMobile)
   }, [isReveal, openMobile, progress, settleReveal])
-
-  // Turned to a tablet's layout, a phone's open sidebar has nothing to return to.
-  React.useEffect(() => {
-    if (!isMobile) setOpenMobile(false)
-  }, [isMobile])
 
   const reportGapWidth = useLatestCallback((next: number) => {
     onGapWidthChange?.(next)
@@ -529,9 +538,11 @@ function useRevealCloseGesture(side: SidebarSide) {
         .failOffsetY([-REVEAL_DRAG_SLOP, REVEAL_DRAG_SLOP])
         .onUpdate((event) => {
           "worklet"
-          progress.value = getRevealProgress(
-            toRevealDelta(side, event.translationX),
-            revealWidth
+          progress.set(
+            getRevealProgress(
+              toRevealDelta(side, event.translationX),
+              revealWidth
+            )
           )
         })
         .onEnd((event, success) => {
@@ -585,9 +596,11 @@ function useRevealOpenGesture(isEnabled: boolean, followsFinger: boolean) {
         .onUpdate((event) => {
           "worklet"
           if (!followsFinger) return
-          progress.value = getRevealProgress(
-            toRevealDelta(side, event.translationX) - revealWidth,
-            revealWidth
+          progress.set(
+            getRevealProgress(
+              toRevealDelta(side, event.translationX) - revealWidth,
+              revealWidth
+            )
           )
         })
         .onEnd((event, success) => {
@@ -631,7 +644,7 @@ function SidebarReveal({
   const pageGesture = useRevealCloseGesture(side)
   const surfaceStyle = useAnimatedStyle(() => {
     const { opacity, translateX } = getRevealSidebarStyle(
-      progress.value,
+      progress.get(),
       revealWidth,
       side
     )
@@ -798,9 +811,9 @@ function SidebarDesktop({
           : motion.enterMs,
       easing: isCollapsed ? motion.exitEasing : motion.moveEasing,
     }
-    gap.value = withTiming(gapTarget, config)
-    container.value = withTiming(containerTarget, config)
-    offset.value = withTiming(offsetTarget, config)
+    gap.set(withTiming(gapTarget, config))
+    container.set(withTiming(containerTarget, config))
+    offset.set(withTiming(offsetTarget, config))
   }, [
     container,
     containerTarget,
@@ -811,10 +824,10 @@ function SidebarDesktop({
     offset,
     offsetTarget,
   ])
-  const gapStyle = useAnimatedStyle(() => ({ width: gap.value }))
+  const gapStyle = useAnimatedStyle(() => ({ width: gap.get() }))
   const containerStyle = useAnimatedStyle(() => ({
-    width: container.value,
-    transform: [{ translateX: offset.value }],
+    width: container.get(),
+    transform: [{ translateX: offset.get() }],
   }))
 
   const isOffCanvas = isCollapsed && collapsible === "offcanvas"
@@ -979,13 +992,15 @@ function SidebarToggleIcon({
   const progress = useSharedValue(open ? 1 : 0)
   const [drawn, setDrawn] = React.useState(open ? 1 : 0)
   React.useEffect(() => {
-    progress.value = withTiming(open ? 1 : 0, {
-      duration: motion.isReduced ? 0 : motion.enterMs,
-      easing: motion.moveEasing,
-    })
+    progress.set(
+      withTiming(open ? 1 : 0, {
+        duration: motion.isReduced ? 0 : motion.enterMs,
+        easing: motion.moveEasing,
+      })
+    )
   }, [motion, open, progress])
   useAnimatedReaction(
-    () => progress.value,
+    () => progress.get(),
     (value) => {
       scheduleOnRN(setDrawn, value)
     }
@@ -1202,7 +1217,7 @@ function SidebarPage({
   const cardRadius = parseNumber(useCSSVariable("--radius-xl"), 11)
   const restRadius = !isMobile && variant === "inset" ? cardRadius : 0
   const revealStyle = useAnimatedStyle(() => {
-    const amount = isReveal ? progress.value : 0
+    const amount = isReveal ? progress.get() : 0
     const { translateX, scale } = getRevealPageTransform(
       amount,
       revealWidth,
@@ -1348,13 +1363,15 @@ function SidebarChevron({ open }: { open: boolean }) {
   const iconSize = parseNumber(useCSSVariable("--density-icon-14"), 14)
   const rotation = useSharedValue(open ? 90 : 0)
   React.useEffect(() => {
-    rotation.value = withTiming(open ? 90 : 0, {
-      duration: motion.isReduced ? 0 : motion.enterMs,
-      easing: motion.feedbackEasing,
-    })
+    rotation.set(
+      withTiming(open ? 90 : 0, {
+        duration: motion.isReduced ? 0 : motion.enterMs,
+        easing: motion.feedbackEasing,
+      })
+    )
   }, [motion, open, rotation])
   const style = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotation.value}deg` }],
+    transform: [{ rotate: `${rotation.get()}deg` }],
   }))
   return (
     <Animated.View style={style}>
@@ -1523,25 +1540,27 @@ function SidebarCollapse({
   const progress = useSharedValue(open ? 1 : 0)
   const isReduced = motion.isReduced
   React.useEffect(() => {
-    progress.value = withTiming(
-      open ? 1 : 0,
-      {
-        duration: open ? motion.enterMs : motion.exitMs,
-        easing: open ? motion.moveEasing : motion.exitEasing,
-      },
-      (finished) => {
-        if (finished && !open) scheduleOnRN(setIsMounted, false)
-      }
+    progress.set(
+      withTiming(
+        open ? 1 : 0,
+        {
+          duration: open ? motion.enterMs : motion.exitMs,
+          easing: open ? motion.moveEasing : motion.exitEasing,
+        },
+        (finished) => {
+          if (finished && !open) scheduleOnRN(setIsMounted, false)
+        }
+      )
     )
   }, [motion, open, progress])
   const collapseStyle = useAnimatedStyle(() => {
-    const opacity = progress.value
+    const opacity = progress.get()
     if (isReduced) return { opacity, height: open ? "auto" : 0 }
-    if (progress.value >= 1) return { opacity, height: "auto" }
-    if (measured.value < 0) {
+    if (progress.get() >= 1) return { opacity, height: "auto" }
+    if (measured.get() < 0) {
       return { opacity, height: startsOpen ? "auto" : 0 }
     }
-    return { opacity, height: measured.value * progress.value }
+    return { opacity, height: measured.get() * progress.get() }
   })
   return (
     <Animated.View
@@ -1557,7 +1576,7 @@ function SidebarCollapse({
       {isMounted ? (
         <View
           onLayout={(event) => {
-            measured.value = event.nativeEvent.layout.height
+            measured.set(event.nativeEvent.layout.height)
           }}
         >
           {children}
@@ -1781,11 +1800,12 @@ function SidebarMenu({
     () => ({ setSelected, setIsDragging, isDragging }),
     [isDragging]
   )
+  const { attach } = fluid
   return (
     <FluidHoverProvider fluid={fluid}>
       <SidebarMenuContext value={menu}>
         <View
-          ref={fluid.attach}
+          ref={attach}
           data-slot="sidebar-menu"
           data-sidebar="menu"
           role="list"
@@ -1819,8 +1839,9 @@ type SidebarMenuItemContextProps = {
   size: SidebarRowSize
   isActive: boolean
   isLit: boolean
-  /** Set by the selected row, for when the item around it moves. */
-  measureSelected: React.RefObject<(() => void) | null>
+  /** The selected row registers its measurement for when the item moves. */
+  setSelectedMeasurement: (measure: (() => void) | null) => void
+  measureSelected: () => void
 }
 
 const SidebarMenuItemContext =
@@ -1842,7 +1863,16 @@ function useMenuRow(isDragging: boolean | undefined) {
     isActive: false,
     isLit: false,
   })
-  const measureSelected = React.useRef<(() => void) | null>(null)
+  const selectedMeasurement = React.useRef<(() => void) | null>(null)
+  const setSelectedMeasurement = React.useCallback(
+    (measure: (() => void) | null) => {
+      selectedMeasurement.current = measure
+    },
+    []
+  )
+  const measureSelected = React.useCallback(() => {
+    selectedMeasurement.current?.()
+  }, [])
   const setMenuDragging = React.use(SidebarMenuContext)?.setIsDragging
   React.useLayoutEffect(() => {
     if (!isDragging || !setMenuDragging) return
@@ -1929,8 +1959,10 @@ function useMenuRow(isDragging: boolean | undefined) {
       isActive: row.isActive,
       isLit: row.isLit,
       measureSelected,
+      setSelectedMeasurement,
     }),
     [
+      measureSelected,
       row.isActive,
       row.isLit,
       row.size,
@@ -1938,6 +1970,7 @@ function useMenuRow(isDragging: boolean | undefined) {
       setButton,
       setHasBadge,
       setHasToggle,
+      setSelectedMeasurement,
       trailing,
     ]
   )
@@ -1985,7 +2018,7 @@ function useMenuFluidRow({
     remeasure?.()
   })
   const setSelected = menu?.setSelected
-  const measureSelected = row?.measureSelected
+  const setSelectedMeasurement = row?.setSelectedMeasurement
   React.useLayoutEffect(() => {
     if (!isSelected || !setSelected) return
     measure()
@@ -1994,12 +2027,10 @@ function useMenuFluidRow({
       setSelected((current) => (current === key ? undefined : current))
   }, [isSelected, key, measure, setSelected])
   React.useLayoutEffect(() => {
-    if (!isSelected || !measureSelected) return
-    measureSelected.current = measure
-    return () => {
-      measureSelected.current = null
-    }
-  }, [isSelected, measure, measureSelected])
+    if (!isSelected || !setSelectedMeasurement) return
+    setSelectedMeasurement(measure)
+    return () => setSelectedMeasurement(null)
+  }, [isSelected, measure, setSelectedMeasurement])
   return {
     isLit,
     /** Paints its own active fill and pressed fill: no overlay is doing it. */
@@ -2035,7 +2066,7 @@ function SidebarMenuItem({
         role="listitem"
         className={cn("relative", className)}
         onLayout={(event) => {
-          row.measureSelected.current?.()
+          row.measureSelected()
           onLayout?.(event)
         }}
         {...props}

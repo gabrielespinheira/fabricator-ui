@@ -232,6 +232,22 @@ function monorepoScenario(
         "Codex has no skill"
       )
       assert(
+        fs.existsSync(path.join(root, "DESIGN.md")),
+        "The skill came without the design guide"
+      )
+      assert(
+        fs
+          .readFileSync(path.join(root, "AGENTS.md"), "utf8")
+          .includes("<!-- BEGIN:fabricator-ui -->"),
+        "AGENTS.md doesn't point agents at the design guide"
+      )
+      assert(
+        fs
+          .readFileSync(path.join(root, "CLAUDE.md"), "utf8")
+          .includes("@AGENTS.md"),
+        "CLAUDE.md doesn't import AGENTS.md"
+      )
+      assert(
         fs
           .readFileSync(path.join(root, ".codex/config.toml"), "utf8")
           .includes('"-c", "apps/web"'),
@@ -279,6 +295,23 @@ function monorepoScenario(
 
 function readJson(file: string) {
   return JSON.parse(fs.readFileSync(file, "utf8"))
+}
+
+/** Biome and Vite+ leave nothing of the template's ESLint and Prettier. */
+function assertNoEslintOrPrettier(root: string) {
+  const leftovers = [
+    ".prettierrc",
+    ".eslintrc.js",
+    "packages/eslint-config",
+    "apps/web/eslint.config.js",
+    "packages/ui/eslint.config.js",
+  ].filter((file) => fs.existsSync(path.join(root, file)))
+  assert(leftovers.length === 0, `ESLint or Prettier left: ${leftovers}`)
+  const { devDependencies = {} } = readJson(path.join(root, "package.json"))
+  assert(
+    !Object.keys(devDependencies).some((name) => /eslint|prettier/.test(name)),
+    "The root still installs ESLint or Prettier"
+  )
 }
 
 function assert(condition: unknown, message: string): asserts condition {
@@ -636,6 +669,67 @@ const scenarios: Scenario[] = [
     },
   },
   {
+    name: "tooling-biome",
+    run(dir: string) {
+      cli(
+        ["create", "app", "--mobile", "--tooling", "biome", "--yes", "-c", dir],
+        dir
+      )
+      const root = path.join(dir, "app")
+      assertNoEslintOrPrettier(root)
+      assert(fs.existsSync(path.join(root, "biome.json")), "No biome.json")
+      run("bun", ["run", "check"], root)
+      run("bun", ["run", "build"], path.join(root, "apps/web"))
+    },
+  },
+  {
+    name: "tooling-vite-plus",
+    run(dir: string) {
+      cli(
+        [
+          "create",
+          "app",
+          "-t",
+          "vite",
+          "--tooling",
+          "vite-plus",
+          "--runner",
+          "vite-plus",
+          "--yes",
+          "-c",
+          dir,
+        ],
+        dir
+      )
+      const root = path.join(dir, "app")
+      assertNoEslintOrPrettier(root)
+      assert(
+        fs.existsSync(path.join(root, "vite.config.ts")),
+        "No root vite.config.ts"
+      )
+      assert(
+        !fs.existsSync(path.join(root, "turbo.json")),
+        "Turborepo is still there"
+      )
+      run("bun", ["run", "check"], root)
+      // Vite+ runs the build in every package, in dependency order.
+      run("bun", ["run", "build"], root)
+    },
+  },
+  {
+    name: "react-router-eslint",
+    run(dir: string) {
+      // React Router's template ships Prettier alone; ESLint is added.
+      cli(["create", "app", "-t", "react-router", "--yes", "-c", dir], dir)
+      const root = path.join(dir, "app")
+      assert(
+        fs.existsSync(path.join(root, "apps/web/eslint.config.js")),
+        "React Router got no ESLint"
+      )
+      run("bun", ["run", "lint"], root)
+    },
+  },
+  {
     name: "desktop-only",
     run(dir: string) {
       cli(
@@ -668,20 +762,33 @@ const scenarios: Scenario[] = [
     run(dir: string) {
       cli(["create", "app", "--mobile", "--no-web", "--yes", "-c", dir], dir)
       const root = path.join(dir, "app")
+      const mobile = path.join(root, "apps/mobile")
       assert(
         fs
-          .readFileSync(path.join(root, "src/app/_layout.tsx"), "utf8")
+          .readFileSync(path.join(mobile, "src/app/_layout.tsx"), "utf8")
           .includes("<AppShellRoot>"),
         "The native shell isn't mounted"
       )
       assert(
-        !fs.existsSync(path.join(root, "apps")),
-        "A lone mobile app got a monorepo"
+        !fs.existsSync(path.join(root, "apps/web")) &&
+          !fs.existsSync(path.join(root, "packages")),
+        "A lone mobile app got web packages"
       )
+      assert(
+        readJson(path.join(root, "package.json")).scripts?.["dev:mobile"],
+        "The root can't start the mobile app"
+      )
+      // ESLint and Prettier, though there's no template to bring them.
+      assert(
+        fs.existsSync(path.join(root, ".prettierrc")) &&
+          fs.existsSync(path.join(mobile, "eslint.config.js")),
+        "A lone mobile app got no ESLint and Prettier"
+      )
+      run("bun", ["run", "lint"], root)
       run(
         "npx",
         ["expo", "export", "--platform", "ios", "--output-dir", "dist"],
-        root
+        mobile
       )
     },
   },

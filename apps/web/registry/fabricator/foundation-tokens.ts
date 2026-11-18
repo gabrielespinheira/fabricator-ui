@@ -3,6 +3,7 @@
 // the website's CSS (native-theme.ts resolves these to literal values).
 // foundations.ts adds the CSS and turns them into the registry item.
 
+import { CHART_CSS_VARS } from "@/registry/fabricator/chart-colors"
 import {
   ROLE_CSS_VARS,
   ROLE_PALETTE_LINKS,
@@ -13,6 +14,7 @@ import { MOTION_ROOT_VARS, MOTION_THEME } from "@/registry/fabricator/motion"
 import {
   MUTED_FOREGROUND_STEP,
   NEUTRAL_TINT,
+  SURFACE_BASE_STEP,
   SURFACE_STEPS,
   surfaceLadder,
   TINTED_NEUTRALS,
@@ -29,6 +31,7 @@ export type CssVars = {
 // --- Surfaces ---------------------------------------------------------------
 // An eight-level ladder. Light: two tinted steps, then flat white separated by
 // shadow. Dark: each level lifts the background and adds an inset highlight.
+// Level 0 lies below the page, for screens that stand alone (SURFACE_BASE_STEP).
 // Every level derives from the surface tint (--surface-hue, --surface-chroma;
 // see surface-tint.ts), which is neutral by default.
 
@@ -85,6 +88,7 @@ function darkShadow(level: number) {
 
 export const FABRICATOR_TOKENS: CssVars = {
   theme: {
+    "color-surface-0": "var(--surface-0)",
     ...Object.fromEntries(
       SURFACE_LEVELS.flatMap((level) => [
         [`color-surface-${level}`, `var(--surface-${level})`],
@@ -101,6 +105,8 @@ export const FABRICATOR_TOKENS: CssVars = {
     ...ROLE_CSS_VARS.theme,
     // Syntax Highlight's colours, built on the roles (syntax-colors.ts).
     ...SYNTAX_CSS_VARS.theme,
+    // The charts' series palette (chart-colors.ts).
+    ...CHART_CSS_VARS.theme,
     "color-focus-ring": "var(--focus-ring)",
     // Motion: duration-<role>, delay-<role> and ease-<curve> (motion.ts).
     ...MOTION_THEME,
@@ -112,6 +118,7 @@ export const FABRICATOR_TOKENS: CssVars = {
     ...MOTION_ROOT_VARS,
     // The default density; the others switch with data-density.
     ...DENSITY_ROOT_VARS,
+    "surface-0": tintedCss(SURFACE_BASE_STEP.light),
     ...Object.fromEntries(
       SURFACE_LEVELS.flatMap((level) => [
         [`surface-${level}`, tintedCss(SURFACE_STEPS.light[level - 1])],
@@ -127,9 +134,11 @@ export const FABRICATOR_TOKENS: CssVars = {
     "tint-hover": "oklch(0 0 0 / 0.065)",
     ...ROLE_CSS_VARS.light,
     ...SYNTAX_CSS_VARS.light,
+    ...CHART_CSS_VARS.light,
     "focus-ring": "oklch(0.693 0.161 265.2)",
   },
   dark: {
+    "surface-0": tintedCss(SURFACE_BASE_STEP.dark),
     ...Object.fromEntries(
       SURFACE_LEVELS.flatMap((level) => [
         [`surface-${level}`, tintedCss(SURFACE_STEPS.dark[level - 1])],
@@ -152,6 +161,7 @@ export const FABRICATOR_TOKENS: CssVars = {
     "tint-hover": "oklch(1 0 0 / 0.2)",
     ...ROLE_CSS_VARS.dark,
     ...SYNTAX_CSS_VARS.dark,
+    ...CHART_CSS_VARS.dark,
     "focus-ring": "oklch(0.693 0.161 265.2)",
   },
 }

@@ -1,0 +1,184 @@
+[
+  {
+    "items": [
+      "foundations"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/bc91ab9da95c",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/bc91ab9da95c/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "accordion"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/44380a489804",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/44380a489804/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "field",
+      "pagination",
+      "alert"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/617f83e3451a",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/617f83e3451a/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "card",
+      "search",
+      "alert-dialog"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/5a043fa55b90",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/5a043fa55b90/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "breadcrumb",
+      "app-nav"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/8fbcd8be8ecc",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/8fbcd8be8ecc/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "breadcrumb",
+      "app-shell",
+      "form",
+      "field",
+      "pagination",
+      "markdown",
+      "file-upload",
+      "bot-face",
+      "card",
+      "search",
+      "dialog",
+      "file-tree",
+      "app-shell-01"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/42b33ed4f091",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/42b33ed4f091/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "area-chart"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/f49514687cbf",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/f49514687cbf/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "aspect-ratio"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/89853dcd6710",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/89853dcd6710/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "field",
+      "pagination",
+      "markdown",
+      "file-upload",
+      "attachment"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/fcc8fb0e2cfa",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/fcc8fb0e2cfa/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "button-group"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/07c440368711",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/07c440368711/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "field",
+      "pagination",
+      "data-table"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/8289509f9dc0",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/8289509f9dc0/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "field",
+      "card",
+      "search",
+      "dialog",
+      "pagination",
+      "alert",
+      "editor"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/5ad61d89904c",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/5ad61d89904c/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "calendar",
+      "card",
+      "search",
+      "dialog",
+      "field",
+      "pagination",
+      "empty",
+      "event-calendar"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/528e3977f4c2",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/528e3977f4c2/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "skeleton"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/09ea732e47a3",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/09ea732e47a3/build.log"
+  }
+]

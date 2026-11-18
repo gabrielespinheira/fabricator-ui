@@ -1,0 +1,199 @@
+---
+title: Version 0.9.0
+description: Installable screens, Event Calendar, charts, native renderer previews and new CLI tooling.
+date: 2026-11-17
+---
+
+Eight installable screens, an event calendar and fifteen charts lead this release, alongside SwiftUI and Compose renderer previews, a Tauri mobile explorer and new project tooling.
+
+## New components
+
+### Blocks
+
+A new [Blocks](/blocks) page shows whole screens built from the components and laid out by `DESIGN.md`, each live in a browser window at desktop, tablet and phone widths, with its code and the command that adds it. The homepage shows six of them in tabs under the hero. Links inside a preview stay in it, so clicking around a block never loads a missing page.
+
+Eight screen blocks join the App Shell starters, on every base:
+
+- `sign-in-01`, `sign-up-01` and `forgot-password-01`: company providers, validation when a field is left and on submit, errors that say how to fix them, password rules that update as you type, a check-your-email screen, and a reset in three steps with a six-digit `InputOTP` code.
+- `finance-01`: a business banking dashboard: cash, money in and out and runway as stat cards with deltas, a balance line against the last period, approvals with company logos, accounts, spending by category and recent transactions, all following the period picked in the toolbar.
+- `assistant-01`: an AI chat with past chats by day, a new-chat screen with suggested prompts, replies that stream after "Thinking…", tool calls that open to show their sources or code, and `ChatInput` with `ModelPicker` and stop.
+- `messenger-01`: conversations with search, pins and unread counts beside the open chat, a transcript grouped by sender and day with reactions, photos, files and voice messages, typing and read receipts, and a details panel. On phones the list comes first.
+- `mail-01`: an email app with folders and labels, an inbox to search, filter and select in bulk, a thread with replies and attachments beside it, and a compose form.
+- `calendar-app-01`: a calendar app on `EventCalendar`: a month to jump from, calendars to show or hide, event details with guests and a Going? answer in a panel, and new events from the header.
+
+The app screens use the inset App Shell, with the main column and panels as cards on the frame. Each installs as a page with its parts and a tested model, for example `npx fabricator-ui@latest add sign-in-01`. React Native, SwiftUI and Compose versions follow.
+
+### Native renderer previews
+
+SwiftUI and Kotlin Compose source registries and component explorers are under
+development, alongside a Tauri mobile host for the existing React components.
+They share the generated Fabricator theme, density, motion, sound recipes, Inter
+fonts and icon geometry. Native-language projects use `fabricator.json` and the
+CLI's `init --platform swiftui|compose`, `add`, `view`, `diff`, `info` and `doctor`
+commands. Existing React Native and desktop commands remain available.
+
+Repository demos use `example:mobile-swiftui`, `example:desktop-swiftui`,
+`example:mobile-kotlin`, `example:desktop-kotlin` and `example:mobile-tauri`, with
+device, check and build commands. Source coverage and runnable examples are
+being qualified separately from full advanced behavior and native OS builds.
+
+### Event Calendar
+
+[Event Calendar](/docs/components/base/event-calendar) is a scheduler on FullCalendar 7, in the Advanced group: day, N-day, week, month and agenda views, drag to create, move and resize, recurring events that ask "this, following or all" when one occurrence changes, time zones, a month-by-month loader that keeps a 100,000-event calendar fast, and changes that show at once, report themselves in a toast with Undo, and revert when saving fails. Every event, panel, form and menu is the library's own, and the keyboard can do everything the pointer can: Space picks up an event, the arrows move it, and Google Calendar's shortcuts switch views.
+
+Day, N days and Week scroll sideways a day at a time (`continuous`, on by default), and the title is a field that opens a date picker marking the days in view. A moved event stays where it was dropped while the change saves.
+
+On React Native the same component, with the same props and the same model underneath, draws on `@super-calendar/native`: three days on a phone and the week on a tablet, details in a sheet, long press to move, and VoiceOver actions to move, resize and delete.
+
+Add it with `npx fabricator-ui@latest add event-calendar`.
+
+Deleting the first occurrence with "this event" now preserves the remaining
+series. "This and following" still removes the whole series when it starts at
+the first occurrence.
+
+### Charts
+
+A new Charts group holds fifteen charts, on every base and on React Native: [Area Chart](/docs/components/base/area-chart), [Line Chart](/docs/components/base/line-chart), [Bar Chart](/docs/components/base/bar-chart), [Composition Chart](/docs/components/base/composition-chart), [Candlestick Chart](/docs/components/base/candlestick-chart), [Bump Chart](/docs/components/base/bump-chart), [Pie Chart](/docs/components/base/pie-chart), [Donut Chart](/docs/components/base/donut-chart), [Radial Chart](/docs/components/base/radial-chart), [Radar Chart](/docs/components/base/radar-chart), [Treemap](/docs/components/base/treemap), [Funnel Chart](/docs/components/base/funnel-chart), [Sankey Chart](/docs/components/base/sankey-chart), [Heat Calendar](/docs/components/base/heat-calendar) and [Status Bar](/docs/components/base/status-bar).
+
+Each takes rows of data and a config naming the series, and draws itself in SVG from one shared layout model, so a chart looks the same on the web and on a phone. Point at a chart, drag a finger across it or tab to it and use the arrow keys: a crosshair or a highlight glides to the nearest mark and a tooltip lists its values. The legend hides a series when pressed and spotlights it when pointed at. Charts draw in the first time they are on screen and morph when their data changes, on a new `reveal` motion role (`duration-reveal`) and the existing `move` and `glide` roles, so every motion speed and Reduce Motion retime them. Every value is also in a hidden table on the web, and VoiceOver and TalkBack step through the marks on React Native.
+
+Series take a new chart palette in the foundations, `--chart-series-1` to `--chart-series-8` (`bg-chart-series-1`, …), chosen separately for light and dark and checked in tests for contrast and for colour-blind separation between neighbours.
+
+Add one with `npx fabricator-ui@latest add area-chart`. Every chart installs `chart-kit`, the parts they share.
+
+## Updated components
+
+### Surfaces
+
+A new level 0 lies below the page: `bg-surface-0` is white in light mode and a step darker than the page in dark, for screens that stand alone. The sign-in, sign-up and password reset blocks use it. It follows the base colour like the other levels and ships in `foundations`, on the web and React Native.
+
+### SwiftUI previews
+
+Calendar now uses square day highlights, the shared today/range fills, month/year
+menus and variable week counts. Single, multiple and range selections preserve
+the React date rules, including disabled dates and whole-day bounds. Multi-month
+layouts adapt to the available width. Date Picker supports an empty value and
+the shared field and popup surfaces, closing when a date is picked.
+Month and year picking now use three-column grids with period bounds, keyboard
+paging and the shared directional page transition. Values are the first day of
+the selected month or year. Editable fields now share React's date parser for
+relative dates, localized text and custom date-fns formats. Return or blur commits
+the field; invalid text remains visible, and calendar dismissal restores focus.
+
+Standalone SwiftUI Time Wheel now uses the Fabricator band, tabular labels, edge
+fades and drum tilt on iOS and macOS. It supports 12/24-hour clocks, seconds,
+minute steps, time bounds, keyboard navigation and enlarged text. Reduce Motion
+removes tilt and automatic movement.
+
+SwiftUI Time Input now uses an editable Fabricator field and wheel, with compact
+time parsing, AM/PM, seconds, bounds, invalid drafts and optional clearing. The
+iOS wheel preserves typing and respects the keyboard viewport. Date Picker can
+combine a day with the wheel and parse typed date-time values. React Date Picker
+now retains time-only changes on the same day across all three bases.
+The editable iOS popup mounts beside the SwiftUI hosting view, avoiding an
+unsupported view hierarchy while preserving text focus and outside dismissal.
+
+Select popups fit their rows, follow the trigger width and clear search when
+dismissed. Cards, menus, dialogs and toasts use the web's numbered surface
+shadows. Popup, dialog and sheet motion follows the shared enter/exit timings,
+including scoped speed, duration scale and Reduce Motion. Tabs slide their
+selected pill, switches use the thumb's move timing, and loading indicators
+stop continuous animation when motion is disabled.
+
+Inter now uses the web's exact 450/550 medium and semibold weights with optical
+sizing. Dynamic Type scales text and controls together, including iOS popups.
+Placeholders use the muted foreground color, and button icon padding and the
+Card preview's grouping follow the React recipes.
+Avatar fallbacks stay opaque and expose a single image with the person's full name.
+
+Markdown and Syntax Highlight use the canonical parser and tokenizer with native
+views. Documents keep the web's 14/16/18-point typography across densities and
+render nested lists, tasks, rich tables and code fences. Code panels use Geist
+Mono, shared syntax colors, file headers, line numbers/markers, wrapping and
+capped scrolling. Copy writes the full source and resets feedback after two
+seconds. The native gallery's main document/code content is generated from the
+React fixtures. Exact inline-code chip geometry and full custom-kit, selection
+and assistive-technology coverage remain under review.
+
+Data Table now uses the shared card surface, type-icon headers, primary identifiers,
+muted secondary cells and status dots. Typed cells retain option labels, owner
+images, all tags, real links and direct Boolean editing. Numeric precision,
+relative dates and typed calculations follow the React rules; JavaScript ISO
+timestamps and changed status ordering now parse/sort correctly. The native demo
+uses the same seeded accounts and keeps its pinned name column while scrolling.
+Column widths, resize minimums, alignment and first sort direction now use React's
+generated type defaults. Repeated header taps reverse and clear sorting. Large
+pagination counts retain readable page controls.
+
+Editor previews now use the React notes fixture, toolbar groups and word-count
+footer. Native document sizes, exact variable fonts, Geist Mono code and live
+Dynamic Type restyling keep text and selection together. A native keyboard bar
+provides formatting and dismissal; read-only block actions preserve the
+document. Initial selection waits for native focus and short documents default
+to six text lines, including Dynamic Type. UIKit code Copy buttons expose
+accessible feedback and a success-colored check for two seconds while preserving
+focus and selection. Native code projection retains token emphasis and italic comments.
+UIKit task controls now expose checked and read-only states, press/check motion
+and canonical undo. Activating one focuses the task's caret after syncing the
+current document. Replacing state objects with matching revisions refreshes the
+text and selection on both Apple adapters. Code-link tokens keep their underline,
+and checked-task strike colors follow the document styling.
+An initial code block keeps its language and Copy header inside the viewport.
+SwiftUI icons now interpret compact SVG arc flags correctly, preserving curved
+artwork such as Bold.
+
+File Tree uses the web's colored file artwork, filename mappings, indentation,
+selection surfaces and moving chevrons. Empty folders stay folders, disabled
+states inherit through descendants, and keyboard navigation/typeahead can select
+and open files. iOS rows preserve 44-point touch targets. Multiple selection,
+deletion, context callbacks and dragging remain under development.
+
+Checkbox marks draw and fade on the shared timing, radio dots glide at full size,
+and switches stretch on hover and press. Selection controls show invalid and
+disabled states, expose selected/mixed accessibility values and preserve separate
+44-point iOS hit areas.
+
+Tables preserve natural column widths with horizontal overflow, shared header
+and body typography, softer dividers and an optional footer. Their invoice
+preview now matches the React data and total. Empty uses the raised media tile,
+shared type sizes and spacing, with matching project actions in its preview.
+
+### BotFace
+
+[BotFace](/docs/components/base/bot-face) now has ten expressions for idle, listening, thinking, working, speaking, happy, sad, questioning, awaiting permission and error. The body stays anchored while the eyes carry the expression, with bounded gaze movement and tilt. Listening nods in agreement, working turns with its scan, thinking uses held upper-corner glances, staggered eye lifts and focused squints with natural blinking, and speaking forms a six-bar sound wave. Questioning keeps the eye body and grows a short lid curl, with one eye leading and natural blinks. Gestures hold, then move, and the head follows the eyes. Error forms crosses. Shape, colour and eye controls sit on the left of the docs playground, with states on the right; phone layouts stack the two groups. Transitions morph matched eye outlines with retained point velocity, while preserving the pose and blink phase during rapid state changes. Thinking transitions retain their visible eye area, and wave bars split from or merge into the eye edges. BotFace also accepts `gray` and CSS hex fills, with contrasting eyes for custom colours. The docs playground replaces Theme options with a Custom Color Picker and live, copyable configuration code.
+
+The optional `useBotFaceState` hook maps normalized agent sessions, prioritizes manual permissions and questions, holds through brief idle gaps and acknowledges successful run completion once. Web and React Native share the expression model. Reduced motion, motion-off and instant keep the selected expression visible without continuous movement.
+
+### Avatar
+
+`Avatar` takes an optional `tooltip`, a string or the tooltip content's props, that names the person on hover and keyboard focus. An avatar with a tooltip is focusable and announced as an image named by it. In an `AvatarGroup` the names show in one label that appears after a short beat and glides with the parting from avatar to avatar. Swapping it makes no change a `:has()` rule tests, so moving along a group stays at full frame rate on pages full of other components.
+
+Avatars in a group now overlap by a third of their size, and the group parts around the avatar a mouse enters or keyboard focus reaches, until the pointer leaves the group: it lifts 3px, grows to 1.06 and comes forward, while the avatars before it slide back and those after it slide on by a quarter of their size. The moves ride a new `settle` motion role, a spring that doesn't visibly overshoot (`duration-settle`, `ease-settle`), on every motion speed. Touch never parts the group, and reduced motion keeps the avatar coming forward without the moves. On React Native the same parting follows a held avatar, and a long press shows its tooltip.
+
+Avatars and the group count are opaque: the fallback and count tints sit on the background, so overlapping avatars and transparent images no longer show what is behind them. Avatars in demos and blocks are no longer drawn in grayscale.
+
+Update with `npx fabricator-ui@latest add avatar`. It now installs `tooltip` too.
+
+### App Shell
+
+`AppShellHeaderActions` takes a `menu`: the page's own settings and rare actions behind one ellipsis at the end of the header, on every width, named by `menuLabel` ("Page options" by default). On phones the header's actions join it as its first group, so the header never shows two ellipses. The header's menu now fits its longest row, at least 224px wide, in place of the width of its 36px button. See [Page menu](/docs/components/base/app-shell#page-menu).
+
+## Icons
+
+**Lucide 1.73.0.** The outline set follows Lucide 1.73.0: 2,055 icons, with 61 new ones such as `cheese`, `mango`, `moped`, `opacity`, `globe-plus` and `diagram-flow-horizontal`, and 12 redrawn. Lucide renamed its alert icons to `*-exclamation-point` (`triangle-alert` is now `triangle-exclamation-point`) and its `*-arrow-out-*` icons to `*-exit`. The old names stay as aliases, so existing imports keep working.
+
+## CLI
+
+**shadcn 4.23.0.** The CLI now runs shadcn 4.23.0, whose MCP server speaks MCP protocol 2026-07-28 as well as earlier versions.
+
+**Pick your tooling.** `create --tooling biome` and `--tooling vite-plus` set up a new monorepo with Biome or Vite+ in place of ESLint and Prettier: one config at the root, and `lint`, `format` and `check` scripts that cover every app. `--runner vite-plus` runs the monorepo's tasks with `vp run` in place of Turborepo. ESLint and Prettier stay the default, and now cover every app: React Router and the mobile app get the ESLint config their templates leave out. The [Get started](/create) page has a Tooling choice below Apps, and shows what gets created as a file tree: the components, the App Shell's layout, the sounds, and each assistant's skill and MCP config follow your choices.
+
+**A design guide in new projects.** `create --agents` with the agent skill now copies the library's [`DESIGN.md`](https://github.com/gabrielespinheira/fabricator-ui/blob/main/DESIGN.md) to the project's root, where the skill reads it before designing a screen. Rewrite its overview for your product. `--no-skill` leaves it out, and existing projects keep their own.
+
+**Dashboards, forms and settings in the design guide.** `DESIGN.md` reads as a designer's guide: which wrapper and which control each part of a screen calls for (switches, toggle groups, sliders, choice cards and pickers before text fields), what the system already does (motion, hover, density, colour, surfaces), how to keep dashboards varied, how to separate with space and surfaces instead of divider lines, and how to load without layout shift (what renders at once, which indicator for which wait, skeletons that fill a card's content area or a row instead of mimicking text, timing). The skill adds `rules/loading.md` for each framework's loading tools. It also covers dashboards and SaaS pages: a 12-column grid with container queries and one rhythm per page, card anatomy with one inset that lists and tables line up on, KPI rows, numbers and deltas, period comparisons, widget states, five dashboard types and the common product features (billing, members, integrations, API keys, notifications, audit log, onboarding, reports). It now fits in one agent read. The agent skill adds `rules/dashboards.md`, working code for the page, toolbar, KPI row and chart, list and table cards. New projects also get a short block in `AGENTS.md` that sends every assistant to `DESIGN.md` and the skill, next to anything already there, and Claude Code gets a `CLAUDE.md` that imports it.
+
+## Breaking changes
+
+`create --mobile --no-web` now makes a monorepo with the app in `apps/mobile`, like every other new project, instead of a plain Expo project. For a plain Expo project, use `create -t expo`. The [Get started](/create) page offers New, always a monorepo, and Existing; a link that picked a single project opens as a new monorepo with the same apps.
+
+[Release on GitHub](https://github.com/gabrielespinheira/fabricator-ui/releases/tag/fabricator-ui%400.9.0)

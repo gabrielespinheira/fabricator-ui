@@ -13,6 +13,9 @@
         "../../packages/icons-react-native/dist/esm/brands.d.ts"
       ],
       "@/registry/fabricator/*": ["../web/registry/fabricator/*"],
+      "@/registry/bases/__base__/lib/*": [
+        "../web/registry/fabricator/shared/lib/*"
+      ],
       "@/registry/native/*": ["../web/registry/native/*"],
       "@/examples/native/*": ["../web/examples/native/*"],
       "@/lib/component-groups": ["../web/lib/component-groups.ts"],

@@ -88,6 +88,7 @@ const GROUP_NAV_IDS: Record<ComponentGroup, string> = {
   Overlays: "group-overlays-menus",
   Structure: "group-navigation-layout",
   Content: "group-data-feedback",
+  Charts: "group-charts",
   Chat: "group-ai-chat",
   Advanced: "group-advanced",
 }

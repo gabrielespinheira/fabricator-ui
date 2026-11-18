@@ -1,0 +1,31 @@
+/* MARK: Treemap */
+
+  /* The map fills its container's width; 18rem tall until the page gives
+     it a height. The legend sits under it. */
+  .cn-treemap {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Cell labels name the data rather than an axis, so they read a step
+     larger than axis labels. The layout measures against this size. */
+  .cn-treemap-plot {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* A cell dims a little while another is inspected or spotlit: the one in
+     focus stands out and the rest stays readable. Its wash deepens on the
+     glide role, so the highlight travels with the pointer. */
+  .cn-treemap-cell {
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-60 [&>rect]:transition-[fill-opacity] [&>rect]:duration-glide [&>rect]:ease-enter motion-reduce:[&>rect]:transition-none;
+  }
+
+  /* Names lead in the text colour, never the group's: the wash behind them
+     is light enough in both themes to keep their contrast. */
+  .cn-treemap-cell-name {
+    @apply fill-foreground font-medium select-none;
+  }
+
+  /* Values sit under the name, quieter, tabular so they line up. */
+  .cn-treemap-cell-value {
+    @apply fill-muted-foreground tabular-nums select-none;
+  }

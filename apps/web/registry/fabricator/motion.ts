@@ -36,7 +36,14 @@ export const MOTION_ROLES = [
   "disclosure",
   // Layout that springs into place: accordion items opening and parting.
   "bounce",
+  // Layout that follows the pointer and springs into place without a visible
+  // overshoot: an avatar group parting around the avatar under it.
+  "settle",
   "toast",
+  // A chart drawing its marks the first time it shows: lines sweeping in,
+  // bars growing from the baseline. Slower than anything else that moves,
+  // since the eye follows the data being laid out; none when instant.
+  "reveal",
 ] as const
 
 export type MotionRole = (typeof MOTION_ROLES)[number]
@@ -78,6 +85,8 @@ export type MotionSpeed = {
   popupBlur: number
   /** How far the bounce role's spring overshoots: 0 settles without it. */
   bounce: number
+  /** The settle role's spring: low enough that it never visibly overshoots. */
+  settle: number
 }
 
 const EASE_OUT = "cubic-bezier(0.23, 1, 0.32, 1)"
@@ -104,7 +113,9 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       sheet: { enter: 500, exit: 320 },
       disclosure: { enter: 320, exit: 240 },
       bounce: { enter: 700, exit: 560 },
+      settle: { enter: 460, exit: 460 },
       toast: { enter: 450, exit: 300 },
+      reveal: { enter: 1000, exit: 600 },
     },
     easings: {
       enter: EASE_OUT_EXPO,
@@ -118,6 +129,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     travel: { tooltip: 4, popup: 6 },
     popupBlur: 2,
     bounce: 0.3,
+    settle: 0.16,
   },
   // Emil Kowalski's timings: tooltips 125ms, popups 180ms, dialogs 250ms.
   default: {
@@ -132,7 +144,9 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       sheet: { enter: 400, exit: 250 },
       disclosure: { enter: 200, exit: 150 },
       bounce: { enter: 600, exit: 480 },
+      settle: { enter: 380, exit: 380 },
       toast: { enter: 350, exit: 220 },
+      reveal: { enter: 700, exit: 450 },
     },
     easings: {
       enter: EASE_OUT,
@@ -146,6 +160,8 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     travel: { tooltip: 0, popup: 0 },
     popupBlur: 0,
     bounce: 0.35,
+    // A damping ratio of 0.84, as in beUI's avatar group.
+    settle: 0.16,
   },
   // Apps people use all day: the same shapes, about a quarter quicker and
   // smaller.
@@ -161,7 +177,9 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       sheet: { enter: 300, exit: 200 },
       disclosure: { enter: 160, exit: 120 },
       bounce: { enter: 450, exit: 360 },
+      settle: { enter: 300, exit: 300 },
       toast: { enter: 260, exit: 180 },
+      reveal: { enter: 480, exit: 320 },
     },
     easings: {
       enter: EASE_OUT,
@@ -175,6 +193,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     travel: { tooltip: 0, popup: 0 },
     popupBlur: 0,
     bounce: 0.25,
+    settle: 0.12,
   },
   // Dense dashboards and power tools: fades only, no scale or press, tooltips
   // appear at once, and moves end on ease-out so nothing waits to start.
@@ -190,7 +209,9 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       sheet: { enter: 200, exit: 150 },
       disclosure: { enter: 100, exit: 80 },
       bounce: { enter: 120, exit: 90 },
+      settle: { enter: 120, exit: 90 },
       toast: { enter: 180, exit: 120 },
+      reveal: { enter: 0, exit: 0 },
     },
     easings: {
       enter: EASE_OUT,
@@ -204,6 +225,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     travel: { tooltip: 0, popup: 0 },
     popupBlur: 0,
     bounce: 0,
+    settle: 0,
   },
 }
 
@@ -261,6 +283,7 @@ export function toMotionVars(speed: MotionSpeed): Record<string, string> {
     "motion-ease-drawer": speed.easings.drawer,
     "motion-ease-theme": speed.easings.theme,
     "motion-ease-bounce": toSpringEasing(speed.bounce),
+    "motion-ease-settle": toSpringEasing(speed.settle),
     "motion-press-scale": String(speed.scales.press),
     "motion-tooltip-scale": String(speed.scales.tooltip),
     "motion-popup-scale": String(speed.scales.popup),
@@ -309,6 +332,7 @@ export const MOTION_THEME: Record<string, string> = {
   "ease-drawer": "var(--motion-ease-drawer)",
   "ease-theme": "var(--motion-ease-theme)",
   "ease-bounce": "var(--motion-ease-bounce)",
+  "ease-settle": "var(--motion-ease-settle)",
   // The old spring curves, now the entrance curve.
   "ease-spring": "var(--motion-ease-enter)",
   "ease-spring-bounce": "var(--motion-ease-enter)",

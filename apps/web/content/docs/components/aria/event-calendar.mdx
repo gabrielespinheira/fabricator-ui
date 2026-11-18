@@ -1,0 +1,421 @@
+---
+title: Event Calendar
+description: A scheduler with day, N-day, week, month and agenda views, drag to create, move and resize, recurring events, time zones and undo, on FullCalendar.
+base: aria
+component: true
+links:
+  doc: https://fullcalendar.io/docs/react
+---
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="event-calendar-demo"
+  type="frame"
+  fit
+  previewClassName="px-4 py-6 md:px-8"
+  wide
+/>
+
+The panel under the calendar sets its `variant`, `size`, `businessHours`, `continuous`, `editable` and three of its `settings`, and the code beside it shows the props for what you pick, defaults left out. Pick a view in the calendar's own select (or press `d`, `4`, `w` or `m`) and the code adds `defaultView`; until then the calendar chooses the week, or three days when it's narrow. Scroll sideways with two fingers on a trackpad, or Shift and the wheel, and the days move under the hours a day at a time. Drag across empty time to create an event, drag an event to move it (hold Alt or Option to copy it), and drag its edge to change its length. Click an event for its details, right-click it for a menu, and press `?` for the keyboard shortcuts. Moving one Standup asks whether it changes that day, the days after, or the whole series. Every change can be undone from its toast or with ⌘Z.
+
+Event Calendar is part of the Fabricator style. It draws [FullCalendar 7](https://fullcalendar.io/docs/react) with the library's own look: every element of the grid takes the style map's classes, and the events, panels, forms, menus and dialogs are the library's components. What a view shows, where a keyboard move lands, how a recurring edit splits a series and which months load are decided by a model with no FullCalendar or DOM in it, shared with React Native.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add event-calendar
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @fullcalendar/react@7.1.5 temporal-polyfill@1.0.8 @date-fns/tz@1.5.0 date-fns
+```
+
+<Step>
+  Add Button, Calendar, Checkbox, Context Menu, Date Picker, Density, Dialog,
+  Drawer, Empty, Field, Input, Kbd, Popover, Radio Group, Select, Sonner,
+  Switch, Textarea and Time Input.
+</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/event-calendar-model.ts"
+  title="lib/event-calendar-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/event-calendar-recurrence.ts"
+  title="lib/event-calendar-recurrence.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/event-calendar-loader.ts"
+  title="lib/event-calendar-loader.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/hooks/use-event-calendar.ts"
+  title="hooks/use-event-calendar.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/event-calendar-event.tsx"
+  title="components/ui/event-calendar-event.tsx"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/event-calendar-agenda.tsx"
+  title="components/ui/event-calendar-agenda.tsx"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/event-calendar-engine.tsx"
+  title="components/ui/event-calendar-engine.tsx"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/event-calendar.tsx"
+  title="components/ui/event-calendar.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+Changes report themselves in a toast, so the app needs Sonner's `Toaster` mounted once, as for any toast.
+
+## Usage
+
+```tsx
+import {
+  EventCalendar,
+  type CalendarEvent,
+} from "@/components/ui/event-calendar"
+```
+
+```tsx
+const [events, setEvents] = React.useState<CalendarEvent[]>(initialEvents)
+
+<EventCalendar
+  events={events}
+  onEventChange={(change) => setEvents(change.apply)}
+/>
+```
+
+That is the whole calendar: the header (the title, which opens a date picker, Today, previous and next, the view, settings and Create), the week on a wide calendar and three days on a narrow one, creating, moving, resizing, editing and deleting, recurring edits, undo and the keyboard. Give it a height through `className` (it's 44rem until you do) or a parent with one.
+
+An event is a plain object. `start` and `end` are ISO 8601 strings: a date alone for an all-day event, a time without an offset for wall time in the calendar's zone, or an offset or `Z` for an exact instant. `end` is exclusive, as in iCalendar.
+
+```tsx
+const event: CalendarEvent = {
+  id: "planning",
+  title: "Sprint planning",
+  start: "2026-11-16T10:00:00",
+  end: "2026-11-16T11:30:00",
+  calendarId: "team",
+  location: "Atlas, 3rd floor",
+}
+```
+
+`defaultEvents` instead of `events` lets the calendar keep the list itself, which suits a prototype.
+
+## Saving changes
+
+`onEventChange` receives every change: created, duplicated, moved, resized, edited, deleted, undone and redone. The change says what the person did and which stored events to write:
+
+```tsx
+<EventCalendar
+  events={events}
+  onEventChange={async (change) => {
+    // change.reason: "create" | "move" | "resize" | "edit" | "delete" | …
+    // change.created, change.updated, change.deleted: what to store
+    await saveEvents(change)
+    setEvents(change.apply)
+  }}
+/>
+```
+
+The calendar shows the change at once. While the returned promise is pending the event is drawn as pending; if it rejects, the change reverts and a toast offers Retry. `change.apply` turns a list into the next one, so `setEvents(change.apply)` works as a state updater.
+
+Without `onEventChange`, a controlled `events` list is read-only. Pass `editable={false}` to make any calendar read-only.
+
+## Loading events
+
+`load` replaces `events` for calendars backed by a server. It's called once per month, with the month's range and an `AbortSignal`, and the neighbouring months load ahead.
+
+```tsx
+<EventCalendar
+  load={async ({ start, end, signal }) => {
+    const response = await fetch(
+      `/api/events?start=${start.toISOString()}&end=${end.toISOString()}`,
+      { signal }
+    )
+    return response.json()
+  }}
+  onEventChange={(change) => saveEvents(change)}
+/>
+```
+
+A month loads once and stays until the calendar holds 24, when the months farthest from the view are dropped; a month that leaves the view before it arrives is cancelled through the signal. A change patches the loaded months it touches, so an event moved across a month boundary shows in the new one at once. A sweep runs along the top edge while the visible months load, and a failed month shows Try again. `refetch()` on the controller loads every month again.
+
+## Continuity
+
+Day, N days and Week scroll sideways a day at a time: two fingers on a trackpad, Shift and the wheel, or a swipe on a touch screen. The columns follow the scroll and glide to the nearest day when it stops, so a view can start on any day, a week from Wednesday to Tuesday or four days from Saturday. From there the arrows move by the days in view, and Today or a date picked from the title lines the week up again. A long scroll keeps going: the calendar draws a page of days either side and moves on as it nears their edge.
+
+```tsx
+<EventCalendar events={events} continuous={false} />
+```
+
+`continuous={false}` steps a whole period at a time instead. With weekends hidden, the scroll moves over weekdays only. On React Native the engine pages by the period: a fling carries across days in Day, and across pages in Week and N days, before it snaps.
+
+## Calendars
+
+`calendars` are the sources an event belongs to through `calendarId`. Each has a colour and can be hidden or read-only.
+
+```tsx
+const calendars: CalendarSource[] = [
+  { id: "work", name: "Work", color: "blue" },
+  { id: "team", name: "Team", color: "green" },
+  { id: "holidays", name: "Holidays", color: "orange", editable: false },
+]
+```
+
+A colour is one of `red`, `orange`, `yellow`, `green`, `teal`, `cyan`, `blue`, `indigo`, `purple`, `pink` and `gray`, a colour role (`"info"`, `"success"`, …), or `{ hue, chroma }`. Each runs through the colour role recipe, so its text meets 4.5:1 in light and dark. An event's own `color` wins over its calendar's.
+
+## Recurring events
+
+`recurrence` holds RRULE and EXDATE lines, with `start` as the first occurrence:
+
+```tsx
+{
+  id: "standup",
+  title: "Standup",
+  start: "2026-11-02T09:30:00",
+  end: "2026-11-02T09:45:00",
+  recurrence: "RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR",
+}
+```
+
+The model reads DAILY, WEEKLY, MONTHLY and YEARLY with INTERVAL, COUNT, UNTIL, BYDAY (with positions such as `3TU` and `-1FR`), BYMONTHDAY, BYMONTH and WKST, which covers every repeat Google Calendar offers. Occurrences are expanded in the calendar's zone, so 9:30 stays 9:30 across a daylight saving change.
+
+Changing or deleting an occurrence asks for its scope. **This event** adds an EXDATE to the series and stores the occurrence on its own, with `recurringEventId` and `originalStart`. **This and following events** ends the series with UNTIL (or a shorter COUNT) and starts a new one. **All events** moves the series by the same day and time change. The change's `created`, `updated` and `deleted` hold exactly those writes.
+
+## Time zones and locale
+
+`timeZone` takes an IANA name and defaults to the device's zone. `locale` takes a BCP 47 tag and defaults to `"en-US"`, so the server and the browser agree; it sets the titles, the times, the 12 or 24 hour clock and the first day of the week, which the settings can change.
+
+```tsx
+<EventCalendar timeZone="Europe/Lisbon" locale="pt-PT" events={events} />
+```
+
+## Customising events
+
+`renderEvent` replaces the chip. `EventCalendarEvent` is the default chip, to wrap or reuse:
+
+```tsx
+<EventCalendar
+  events={events}
+  renderEvent={(props) => (
+    <EventCalendarEvent {...props} color="info">
+      {props.event.title} · {props.timeText}
+    </EventCalendarEvent>
+  )}
+/>
+```
+
+Keep the function stable (defined outside the component or memoized), since FullCalendar redraws events when it changes.
+
+## Using FullCalendar directly
+
+`fullCalendar` takes any [FullCalendar option](https://fullcalendar.io/docs) and merges it last. It's the way to add FullCalendar plugins, such as `@fullcalendar/icalendar`, or a view the calendar doesn't offer. It exists on the web only.
+
+FullCalendar's Premium plugins (timelines, resource views, print) are not part of Event Calendar and need a licence of their own: AGPLv3 for open-source projects, commercial otherwise. With a licence, pass the plugins and your `schedulerLicenseKey` through `fullCalendar`.
+
+## Composition
+
+```text
+EventCalendar                    frame, variant, size, keyboard, toasts
+├── EventCalendarHeader
+│   ├── EventCalendarTitle       the period, and a date picker on press
+│   ├── EventCalendarToday
+│   ├── EventCalendarNavigation  previous and next
+│   ├── EventCalendarViewSelect
+│   ├── EventCalendarSettings    weekends, week numbers, first day, clock, snap
+│   └── EventCalendarCreateButton
+└── EventCalendarContent         the grid, or the agenda
+    ├── EventCalendarEvent       each event's chip
+    ├── EventCalendarEventDetails
+    └── EventCalendarEventForm   quick create, and the full form in a dialog
+```
+
+`<EventCalendar>` with no children renders that layout; with children, it renders yours. For parts outside it, such as a sidebar, create the controller with `useEventCalendar` and pass it to each part as `calendar`:
+
+```tsx
+const calendar = useEventCalendar({ events, calendars, onEventChange })
+
+<aside>
+  <EventCalendarCreateButton calendar={calendar} />
+  <EventCalendarMiniMonth calendar={calendar} />
+  <EventCalendarSources calendar={calendar} />
+</aside>
+<EventCalendar calendar={calendar} />
+```
+
+## Examples
+
+### App
+
+A Google Calendar layout: Create, a mini month and the calendar list beside the grid, all on one controller.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="event-calendar-app"
+  type="frame"
+  fit
+  previewClassName="px-4 py-6 md:px-8"
+  wide
+/>
+
+### Large calendars
+
+About 100,000 events over ten years, 28 a day, from a stand-in server that answers in 300ms and saves in 400ms. The calendar never holds them all: it asks for the months in view and the months either side, and the request log under it shows each month as it loads, arrives or is cancelled. Move through the weeks, switch to the month, the year or the agenda: a time slot with more events than fit shows `+N`, a month cell shows "N more", and the agenda draws only the days on screen.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="event-calendar-loader"
+  type="frame"
+  fit
+  previewClassName="px-4 py-6 md:px-8"
+  wide
+/>
+
+## API Reference
+
+### EventCalendar and useEventCalendar
+
+`EventCalendar` takes every `useEventCalendar` option, or a `calendar` from it.
+
+| Option                        | Type                                                   | Default                        |                                                        |
+| ----------------------------- | ------------------------------------------------------ | ------------------------------ | ------------------------------------------------------ |
+| `events`                      | `CalendarEvent[]`                                      | -                              | A controlled list                                      |
+| `defaultEvents`               | `CalendarEvent[]`                                      | -                              | A list the calendar keeps                              |
+| `load`                        | `({ start, end, signal }) => Promise<CalendarEvent[]>` | -                              | Events by month, instead of a list                     |
+| `onEventChange`               | `(change) => unknown`                                  | -                              | Every change; a returned promise keeps it pending      |
+| `onEventOpen`                 | `(event) => boolean \| void`                           | -                              | Return `false` to open events yourself                 |
+| `onRangeChange`               | `({ start, end, view }) => void`                       | -                              | After the visible range changes                        |
+| `calendars`                   | `CalendarSource[]`                                     | `[]`                           | Sources with a colour, visibility and editability      |
+| `view`, `defaultView`         | `"day" \| "days" \| "week" \| "month" \| "agenda"`     | `"week"`, `"days"` when narrow |                                                        |
+| `onViewChange`                | `(view) => void`                                       | -                              |                                                        |
+| `views`                       | `EventCalendarView[]`                                  | all six                        | What the view select offers                            |
+| `days`                        | `number`                                               | `4`, `3` when narrow           | Columns in the N-day view                              |
+| `date`, `defaultDate`         | `Date`                                                 | today                          | The date in view                                       |
+| `onDateChange`                | `(date) => void`                                       | -                              |                                                        |
+| `settings`, `defaultSettings` | `Partial<EventCalendarSettings>`                       | from the locale                | Weekends, week numbers, first day, clock, snap, length |
+| `onSettingsChange`            | `(settings) => void`                                   | -                              |                                                        |
+| `timeZone`                    | `string`                                               | the device's                   | An IANA name                                           |
+| `locale`                      | `string`                                               | `"en-US"`                      | A BCP 47 tag                                           |
+| `businessHours`               | `{ days, start, end } \| boolean`                      | `false`                        | Shades time outside; `true` is Mon to Fri, 9 to 5      |
+| `continuous`                  | `boolean`                                              | `true`                         | Day, N days and Week scroll sideways by day            |
+| `editable`                    | `boolean`                                              | when a change can land         |                                                        |
+| `createId`                    | `() => string`                                         | `crypto.randomUUID`            | Ids for new events and split series                    |
+
+`EventCalendar` also takes:
+
+| Prop           | Type                        | Default     |                                |
+| -------------- | --------------------------- | ----------- | ------------------------------ |
+| `calendar`     | `EventCalendarController`   | -           | From `useEventCalendar`        |
+| `variant`      | `"card" \| "flat"`          | `"card"`    |                                |
+| `size`         | `"sm" \| "default" \| "lg"` | `"default"` | Compact and spacious densities |
+| `renderEvent`  | `(props) => ReactNode`      | -           | Replaces the chip              |
+| `fullCalendar` | `CalendarOptions`           | -           | Web only; merged last          |
+| `shortcuts`    | `boolean`                   | `true`      | The keyboard shortcuts below   |
+
+The controller also drives the calendar from code: `next()`, `previous()`, `today()`, `goTo(date)`, `setStartDate(date)` (start a continuous view on a day, as a scroll does), `setView(view)`, `createEvent(event)`, `updateEvent(event, next)`, `deleteEvent(event)`, `undo()`, `redo()`, `refetch()`, `openEvent(event)` and `startCreate(draft)`.
+
+### CalendarEvent
+
+| Field                               | Type                                        |                                            |
+| ----------------------------------- | ------------------------------------------- | ------------------------------------------ |
+| `id`, `title`                       | `string`                                    |                                            |
+| `start`, `end`                      | `string`                                    | ISO 8601; `end` exclusive                  |
+| `allDay`                            | `boolean`                                   | Implied by date-only `start`               |
+| `calendarId`                        | `string`                                    |                                            |
+| `color`                             | `EventCalendarColor`                        | Overrides the calendar's                   |
+| `recurrence`                        | `string`                                    | RRULE and EXDATE lines                     |
+| `recurringEventId`, `originalStart` | `string`                                    | On an occurrence stored on its own         |
+| `status`                            | `"confirmed" \| "tentative" \| "cancelled"` | Tentative is outlined; cancelled is hidden |
+| `editable`                          | `boolean`                                   | Overrides the calendar's                   |
+| `location`, `description`           | `string`                                    |                                            |
+| `data`                              | `TData`                                     | Your own fields, typed through the generic |
+
+### Data attributes
+
+| Attribute                                                                   | On                     | Values                   |
+| --------------------------------------------------------------------------- | ---------------------- | ------------------------ |
+| `data-view`                                                                 | `event-calendar`       | The view                 |
+| `data-compact`                                                              | `event-calendar`       | Present under 640px wide |
+| `data-variant`                                                              | `event-calendar-event` | `block`, `row`, `dot`    |
+| `data-pending`, `data-past`, `data-draft`, `data-selected`, `data-dragging` | `event-calendar-event` | Present in that state    |
+
+## Keyboard shortcuts
+
+The calendar takes these while focus is inside it, never while typing.
+
+| Keys                    | Action                                                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `t`                     | Today                                                                                                               |
+| `j` or `n`, `k` or `p`  | Next and previous period                                                                                            |
+| `d`, `4`, `w`, `m`, `a` | Day, N days, week, month, agenda                                                                                    |
+| `c`                     | Create an event                                                                                                     |
+| Enter                   | Open the focused event                                                                                              |
+| `e`, Delete             | Edit or delete the focused event                                                                                    |
+| Space                   | Pick up the focused event; arrows move it, Shift with up or down changes its length, Enter drops it, Escape cancels |
+| ⌘Z, ⌘⇧Z                 | Undo, redo                                                                                                          |
+| `?`                     | Show these shortcuts                                                                                                |
+
+## Accessibility
+
+- Events are buttons named by their title and time; FullCalendar's grid passes axe and marks today with `aria-current="date"`.
+- Dragging has a keyboard path (pick up with Space, move with the arrows) and a menu path (right-click, or Edit in the details), so nothing needs a pointer.
+- Moves, creations, deletions and undos are announced in a polite live region.
+- Details and forms move focus into themselves and return it when they close. The recurring scope question is a dialog with a radio group.
+- Event colours meet 4.5:1 for text in light and dark; past events keep their text colour and only lighten their wash.
+
+## Performance
+
+The calendar is built for calendars far larger than a screen: the Large calendars example above holds about 100,000 events. What it does, and what to keep doing in your app:
+
+- **Load by range.** With `load`, the calendar holds a few months, not your whole history: the months in view, the months either side ahead of time, and at most 24 kept. Requests for months that leave the view are cancelled through `signal`, so pass it to `fetch`. A list in `events` works into the tens of thousands; past that, or when the events live on a server, use `load`.
+- **Indexed events.** Events are sorted once by start, so a new week or month finds its events by binary search instead of a pass over every event, and an edit re-indexes reusing every date already parsed. Dates parse once per object, so keep event objects immutable: `change.apply` returns a new list that reuses every unchanged event.
+- **Only the range in view.** FullCalendar gets the visible range and the period either side, with recurring series expanded there. A time slot shows four events side by side and `+N` for the rest, a month cell shows what fits and "N more", and the agenda is virtualized by day. Past 60 events in a time grid, chips draw opaque instead of frosted, since every blurred chip is a compositing layer of its own.
+- **React scheduling.** The grid's events are a deferred value, so the toolbar answers at once and the grid redraws in a render React can interrupt; changes run in transitions with `useOptimistic`, so an edit shows before the server answers. Chips are memoized and their date formats cached, so moving one event redraws one event.
+- **Drag to create.** In Day, N days and Week the engine draws the event being dragged out itself, on one element that only moves while you drag, so a drag never adds or removes elements; FullCalendar's selection, which does on every move, handles the all-day row, month cells and touch.
+- **Keep props stable.** Options and callbacks stay stable for the calendar's life; keep `events`, `calendars`, `renderEvent` and `fullCalendar` stable too (state, a module constant or `useMemo`), or every render re-reads them.

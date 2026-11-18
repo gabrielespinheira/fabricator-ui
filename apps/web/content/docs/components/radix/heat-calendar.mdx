@@ -1,0 +1,199 @@
+---
+title: Heat Calendar
+description: A value per day over months, as a grid of weeks by weekdays in five levels of one colour.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="heat-calendar-demo"
+  previewClassName="h-auto"
+/>
+
+Give it rows with a day and a value. Each week is a column and each weekday a row, and each day takes one of five levels: level 0 for a day with no data or nothing in it, then four levels that split the other days at their quartiles, painted in one colour from faint to full. Month names run along the top, Mon, Wed and Fri down the start edge, and under the grid sit the range and a key from less to more.
+
+Point at a day, tap it or tab to the grid and use the arrow keys: the day lifts and a tooltip reads its value ("12 on Tue, Nov 3"). Cells fade in as a diagonal wave from the first week the first time the calendar is on screen, and each day eases to its new level when the data changes.
+
+Heat Calendar is part of the Fabricator style. It's drawn in SVG, so the same component ships for every base, and its layout comes from the same model as the React Native version.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add heat-calendar
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies.</Step>
+
+```bash
+npm install date-fns @date-fns/tz@1.5.0 d3-scale@4.0.3
+npm install -D @types/d3-scale@4.0.9
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-model.ts"
+  title="lib/chart-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-cartesian-model.ts"
+  title="lib/chart-cartesian-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-heat-calendar-model.ts"
+  title="lib/chart-heat-calendar-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/chart-kit.tsx"
+  title="components/ui/chart-kit.tsx"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/heat-calendar.tsx"
+  title="components/ui/heat-calendar.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { HeatCalendar } from "@/components/ui/heat-calendar"
+```
+
+```tsx
+const data = [
+  { date: "2026-11-02", value: 3 },
+  { date: "2026-11-03", value: 12 },
+  { date: "2026-11-04", value: 0 },
+]
+
+<HeatCalendar data={data} label="Deploys per day" />
+```
+
+Each row's day is read from `dateKey` (`"date"` by default) as an ISO date string or a `Date`, and its value from `valueKey` (`"value"`). Rows on the same day add up. Days are calendar days in UTC, so `"2026-11-03"` lands on the 3rd for every reader and a page rendered on a server matches the browser. Pass days as `yyyy-MM-dd` strings, or `Date`s at midnight UTC.
+
+Without a `range`, the calendar shows the 52 weeks ending at the latest day in the data. The chart fills its container's width: cells are square, 3px apart, and as large as the width allows between 8px and 16px. When even 8px cells don't fit, the grid scrolls sideways and opens on the latest week, with the weekday names staying put.
+
+`formatValue` writes each value in the tooltip and the hidden table. Since the table renders on the server, use a formatter that writes the same text in Node and in the browser, such as a template string or `formatChartNumber` from `lib/chart-model`.
+
+## Examples
+
+### A range of weeks
+
+`range` sets the first and last day to draw, and `weekStartsOn={0}` starts each column on Sunday. `thresholds` fixes the levels: the most a day can hold and still be level 1, 2 and 3, with anything above the third at level 4. `color` picks the colour.
+
+<ComponentPreview styleName="radix-nova" name="heat-calendar-weeks" />
+
+### Following the inspected day
+
+`onActiveChange` reports the day under the pointer, the finger or the keyboard, with its date, its value and its first row, and `null` when there is none. Switching the data eases each day to its new level.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="heat-calendar-interactive"
+  previewClassName="h-auto"
+/>
+
+## Colours
+
+Every level is one colour over the empty cell, so the levels read as more and less of the same thing. The colour is the first slot of the [chart palette](/docs/components/radix/area-chart#colours) unless you pass `color`: a palette slot, an upstream chart token (`chart-1` … `chart-5`), a role (`primary`, `success`, …), a CSS variable or any CSS colour.
+
+| Level | What it holds              | Opacity over the empty cell |
+| ----- | -------------------------- | --------------------------- |
+| 0     | no data, zero or less      | none: the empty cell        |
+| 1     | up to the first threshold  | 45%                         |
+| 2     | up to the second threshold | 62%                         |
+| 3     | up to the third threshold  | 80%                         |
+| 4     | above the third threshold  | 100%                        |
+
+The empty cell is the text colour at 8%, so it reads as a place in the grid on any surface. Level 1 keeps 2:1 or more against the card in light and dark, so it stays clearly apart from an empty day. The levels are opacity steps, so they look the same on React Native.
+
+## Motion
+
+- **Draw-in:** the first time the calendar scrolls into view, cells fade and grow in as a diagonal wave from the first week, on the `reveal` role, once per mount.
+- **Morph:** when `data`, `dateKey`, `valueKey`, `range`, `weekStartsOn`, `thresholds` or `color` change, each day eases to its new level on the `move` role. Days entering the range fade in; days leaving it fade out.
+- **Glide:** the lifted day and the tooltip glide from day to day on the `glide` role.
+
+All three follow the [motion speed](/docs/foundations/motion) of the region they sit in. Reduce Motion and the `instant` speed draw the calendar at once and drop the glide; `animate={false}` does the same for one calendar.
+
+## API Reference
+
+### HeatCalendar
+
+All other props go to the root `<div>`.
+
+| Prop             | Type                                                   | Default                               |
+| ---------------- | ------------------------------------------------------ | ------------------------------------- |
+| `data`           | `TDatum[]`                                             | required                              |
+| `label`          | `string`                                               | required: the accessible name         |
+| `dateKey`        | `string`                                               | `"date"`                              |
+| `valueKey`       | `string`                                               | `"value"`                             |
+| `range`          | `{ start: Date \| string; end: Date \| string }`       | the 52 weeks ending at the latest day |
+| `weekStartsOn`   | `0 \| 1`                                               | `1` (Monday)                          |
+| `thresholds`     | `number[]`                                             | the quartiles of the non-zero values  |
+| `color`          | `ChartColor`                                           | `"chart-series-1"`                    |
+| `formatValue`    | `(value: number, key: string) => string`               | `1,234`                               |
+| `legend`         | `boolean`                                              | `true`: the "Less … More" key         |
+| `tooltip`        | `boolean`                                              | `true`                                |
+| `animate`        | `boolean`                                              | `true`                                |
+| `loading`        | `boolean`                                              | `false`                               |
+| `empty`          | `ReactNode`                                            | "No data"                             |
+| `onActiveChange` | `(active: HeatCalendarActive<TDatum> \| null) => void` | -                                     |
+
+### HeatCalendarActive
+
+| Field   | Type             | What                              |
+| ------- | ---------------- | --------------------------------- |
+| `index` | `number`         | the day's place in the range      |
+| `date`  | `string`         | the day as `yyyy-MM-dd`           |
+| `value` | `number \| null` | the day's total, `null` with none |
+| `datum` | `TDatum`         | the day's first row, if any       |
+
+### Data attributes
+
+| Attribute                        | Element        | Present when                     |
+| -------------------------------- | -------------- | -------------------------------- |
+| `data-slot="heat-calendar"`      | root           | always                           |
+| `data-loading`                   | root           | `loading` is true                |
+| `data-slot="chart-plot"`         | the plot       | always; `data-empty` with no day |
+| `data-slot="heat-calendar-cell"` | a day          | always; `data-level` is 0 to 4   |
+| `data-slot="heat-calendar-lift"` | the lifted day | a day is inspected               |
+| `data-slot="heat-calendar-key"`  | the key        | `legend` is on                   |
+| `data-slot="chart-tooltip"`      | the tooltip    | a day is inspected               |
+
+## Accessibility
+
+- The grid is a slider named after `label` ("Deploys per day: inspect values"). Tab to it, then Up and Down step a day, Left and Right a week, Home and End jump to the first and last day, and Escape lets go. Its value text reads the tooltip. A day the keyboard reaches off screen scrolls into view.
+- Every day is also in a table hidden from sight, with its full date and value, so a screen reader can read the data without inspecting it.
+- Levels differ in lightness, and the tooltip and the table always give the number.
+- `loading` sets `aria-busy` on the root and dims the last drawing until new data arrives.

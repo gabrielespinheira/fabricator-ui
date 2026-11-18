@@ -65,3 +65,11 @@ Added by Gabs on 2026-11-12. A seventh group, **Advanced**, placed last, holds t
 - Its navigation ID is `group-advanced`; the six existing IDs are unchanged, so saved preferences still apply.
 - Its icon is `ZapIcon` in `apps/web/lib/explorer-icons.ts` and `apps/mobile/src/nav.ts`.
 - Component URLs, registry names and install commands are unchanged; only the group shown in the docs sidebar, homepage filter, desktop explorer and mobile example moves.
+
+## Charts
+
+Added by Gabs on 2026-11-15. An eighth group, **Charts**, between Content and Chat, holds the components that draw numbers as marks: `area-chart`, `line-chart`, `bar-chart`, `composition-chart`, `candlestick-chart`, `bump-chart`, `pie-chart`, `donut-chart`, `radial-chart`, `radar-chart`, `treemap`, `funnel-chart`, `sankey-chart`, `heat-calendar` and `status-bar`. The plan is [`charts.md`](charts.md).
+
+- Its navigation ID is `group-charts`; the seven existing IDs are unchanged, so saved preferences still apply.
+- Its icon is `ChartColumnIcon`, taken from Content, which moves to `NewspaperIcon` so two chart icons don't sit side by side, in `apps/web/lib/explorer-icons.ts` and `apps/mobile/src/nav.ts`.
+- No existing component moves.

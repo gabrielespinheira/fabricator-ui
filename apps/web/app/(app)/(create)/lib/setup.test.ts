@@ -36,13 +36,13 @@ describe("the defaults", () => {
 describe("buildSetupCommand", () => {
   it("is one command for the default project", () => {
     expect(buildSetupCommand(DEFAULT_SETUP, "npm")).toBe(
-      "npx fabricator-ui@latest create my-app --yes"
+      "npx fabricator-ui@latest create fabricator-ui --yes"
     )
   })
 
   it("follows the package manager", () => {
     expect(buildSetupCommand(DEFAULT_SETUP, "bun")).toBe(
-      "bunx --bun fabricator-ui@latest create my-app --yes"
+      "bunx --bun fabricator-ui@latest create fabricator-ui --yes"
     )
   })
 
@@ -84,7 +84,7 @@ describe("buildSetupCommand", () => {
         }),
         "npm"
       )
-    ).toBe("npx fabricator-ui@latest create my-app --yes")
+    ).toBe("npx fabricator-ui@latest create fabricator-ui --yes")
   })
 
   it("keeps glass only with a desktop app", () => {
@@ -102,13 +102,22 @@ describe("buildSetupCommand", () => {
 describe("the apps in the command", () => {
   it("is a monorepo with no flags by default", () => {
     expect(buildSetupCommand(DEFAULT_SETUP, "npm")).toBe(
-      "npx fabricator-ui@latest create my-app --yes"
+      "npx fabricator-ui@latest create fabricator-ui --yes"
     )
   })
 
-  it("writes a lone mobile app as the Expo template", () => {
+  it("names the toolchain, and drops it for an existing project", () => {
+    expect(buildSetupCommand(setup({ tooling: "vite-plus" }), "npm")).toBe(
+      "npx fabricator-ui@latest create fabricator-ui --tooling vite-plus --yes"
+    )
+    expect(
+      buildSetupCommand(setup({ project: "existing", tooling: "biome" }), "npm")
+    ).not.toContain("--tooling")
+  })
+
+  it("writes a lone mobile app as a monorepo without a website", () => {
     expect(buildSetupCommand(setup({ web: false, mobile: true }), "npm")).toBe(
-      "npx fabricator-ui@latest create my-app -t expo --yes"
+      "npx fabricator-ui@latest create fabricator-ui --no-web --mobile --yes"
     )
   })
 
@@ -116,24 +125,18 @@ describe("the apps in the command", () => {
     expect(
       buildSetupCommand(setup({ web: false, desktop: "tauri" }), "npm")
     ).toBe(
-      "npx fabricator-ui@latest create my-app --no-web --desktop tauri --yes"
-    )
-  })
-
-  it("names a single project", () => {
-    expect(buildSetupCommand(setup({ project: "new" }), "npm")).toBe(
-      "npx fabricator-ui@latest create my-app --no-monorepo --yes"
+      "npx fabricator-ui@latest create fabricator-ui --no-web --desktop tauri --yes"
     )
   })
 })
 
 describe("getCommandParts", () => {
   const command =
-    'bunx --bun fabricator-ui@latest create my-app -t vite --mobile --desktop tauri --look "surface=260_0.02,primary=260_0.2" --yes'
+    'bunx --bun fabricator-ui@latest create fabricator-ui -t vite --mobile --desktop tauri --look "surface=260_0.02,primary=260_0.2" --yes'
 
   it("keeps the command whole, and each flag with its value", () => {
     expect(getCommandParts(command)).toEqual([
-      "bunx --bun fabricator-ui@latest create my-app",
+      "bunx --bun fabricator-ui@latest create fabricator-ui",
       "-t vite",
       "--mobile",
       "--desktop tauri",
@@ -155,9 +158,15 @@ describe("getCommandParts", () => {
 
 describe("getSetupPlan", () => {
   it("says what the command does", () => {
-    expect(
-      getSetupPlan(setup({ project: "new" })).map((step) => step.id)
-    ).toEqual(["scaffold-web", "mount", "first-commit"])
+    expect(getSetupPlan(DEFAULT_SETUP).map((step) => step.id)).toEqual([
+      "scaffold-web",
+      "configure-monorepo",
+      "add-web-items",
+      "configure-workspace",
+      "install",
+      "mount",
+      "first-commit",
+    ])
   })
 })
 
@@ -231,6 +240,8 @@ describe("setup params", () => {
       web: false,
       mobile: true,
       desktop: "tauri",
+      tooling: "biome",
+      runner: "vite-plus",
       base: "radix",
       iconLibrary: "phosphor",
       spinner: "ripple",
@@ -263,6 +274,15 @@ describe("old share links", () => {
   it("read a monorepo switch as the starting point", () => {
     expect(read("monorepo=true").project).toBe("monorepo")
     expect(read("project=existing&monorepo=true").project).toBe("existing")
+  })
+
+  it("read a single project as a new monorepo with the same apps", () => {
+    expect(read("project=new").project).toBe("monorepo")
+    expect(getShellProject(read("project=new&web=false&mobile=true"))).toEqual({
+      hasWeb: false,
+      hasMobile: true,
+      hasDesktop: false,
+    })
   })
 
   it("read one assistant into the list", () => {

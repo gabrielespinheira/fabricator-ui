@@ -1,0 +1,124 @@
+import * as React from "react"
+import { Example, ExampleWrapper } from "@/examples/native/example"
+import { View } from "react-native"
+
+import { formatChartNumber } from "@/registry/fabricator/shared/lib/chart-model"
+import { Button } from "@/registry/native/ui/button"
+import { type ChartConfig } from "@/registry/native/ui/chart-kit"
+import { PieChart } from "@/registry/native/ui/pie-chart"
+
+const traffic = [
+  { source: "Organic search", visits: 48_200 },
+  { source: "Direct", visits: 29_100 },
+  { source: "Referral", visits: 16_400 },
+  { source: "Social", visits: 11_200 },
+  { source: "Email", visits: 6_100 },
+]
+
+const lastMonth = [
+  { source: "Organic search", visits: 39_800 },
+  { source: "Direct", visits: 31_400 },
+  { source: "Referral", visits: 12_900 },
+  { source: "Social", visits: 15_600 },
+  { source: "Email", visits: 4_200 },
+]
+
+const tickets = [
+  { name: "Email", value: 412 },
+  { name: "Chat", value: 318 },
+  { name: "Phone", value: 126 },
+  { name: "Community", value: 74 },
+]
+
+const orders = [
+  { country: "US", orders: 4_210 },
+  { country: "GB", orders: 1_830 },
+  { country: "DE", orders: 1_460 },
+  { country: "FR", orders: 980 },
+  { country: "CA", orders: 870 },
+  { country: "BR", orders: 640 },
+  { country: "JP", orders: 590 },
+  { country: "ES", orders: 310 },
+  { country: "NL", orders: 280 },
+  { country: "SE", orders: 190 },
+  { country: "PL", orders: 120 },
+]
+
+const countries = {
+  US: { label: "United States" },
+  GB: { label: "United Kingdom" },
+  DE: { label: "Germany" },
+  FR: { label: "France" },
+  CA: { label: "Canada" },
+  BR: { label: "Brazil" },
+  JP: { label: "Japan" },
+} satisfies ChartConfig
+
+const compact = (value: number) => formatChartNumber(value, { compact: true })
+
+function MonthSwitch() {
+  const [isLastMonth, setIsLastMonth] = React.useState(false)
+  return (
+    <>
+      <PieChart
+        data={isLastMonth ? lastMonth : traffic}
+        nameKey="source"
+        valueKey="visits"
+        label="Traffic by source"
+        formatValue={compact}
+      />
+      <View className="flex-row gap-1">
+        <Button
+          size="sm"
+          variant={isLastMonth ? "ghost" : "secondary"}
+          accessibilityState={{ selected: !isLastMonth }}
+          onPress={() => setIsLastMonth(false)}
+        >
+          October
+        </Button>
+        <Button
+          size="sm"
+          variant={isLastMonth ? "secondary" : "ghost"}
+          accessibilityState={{ selected: isLastMonth }}
+          onPress={() => setIsLastMonth(true)}
+        >
+          September
+        </Button>
+      </View>
+    </>
+  )
+}
+
+export function PieChartExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Slices" className="items-stretch">
+        <PieChart
+          data={traffic}
+          nameKey="source"
+          valueKey="visits"
+          label="Traffic by source"
+          formatValue={compact}
+        />
+      </Example>
+      <Example title="Labels" className="items-stretch">
+        <PieChart data={tickets} label="Support tickets by channel" labels />
+      </Example>
+      <Example title="Many parts" className="items-stretch">
+        <PieChart
+          data={orders}
+          nameKey="country"
+          valueKey="orders"
+          config={countries}
+          label="Orders by country"
+        />
+      </Example>
+      <Example title="Changing the data" className="items-stretch">
+        <MonthSwitch />
+      </Example>
+      <Example title="Empty" className="items-stretch">
+        <PieChart data={[]} label="Traffic by source" empty="No visits yet" />
+      </Example>
+    </ExampleWrapper>
+  )
+}

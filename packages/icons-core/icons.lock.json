@@ -1,8 +1,14 @@
 {
+  "files": {
+    "repository": "https://github.com/littensy/charmed-icons.git",
+    "tag": "v0.10.0",
+    "sha": "4b004b21601b367726e6472bd22bbb66e4db79f4",
+    "syncedAt": "2026-11-08"
+  },
   "lucide": {
-    "tag": "1.66.0",
-    "sha": "a630cec77eac6568b989e87e4947a8bfe45caacd",
-    "syncedAt": "2026-11-03"
+    "tag": "1.73.0",
+    "sha": "55782beff3a0133df79c417eb68f96e8f19e2404",
+    "syncedAt": "2026-11-17"
   },
   "animated": {
     "repository": "https://github.com/pqoqubbw/icons.git",
@@ -14,11 +20,5 @@
   },
   "logos": {
     "version": "1.2.18"
-  },
-  "files": {
-    "repository": "https://github.com/littensy/charmed-icons.git",
-    "tag": "v0.10.0",
-    "sha": "4b004b21601b367726e6472bd22bbb66e4db79f4",
-    "syncedAt": "2026-11-08"
   }
 }

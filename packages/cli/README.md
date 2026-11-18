@@ -28,11 +28,17 @@ npx fabricator-ui@latest create my-app --yes
 # Web, mobile and desktop, one look, two assistants
 npx fabricator-ui@latest create my-app -t vite --mobile --desktop tauri --agents claude,codex --yes
 
+# Biome or Vite+ in place of ESLint and Prettier, Vite+ in place of Turborepo
+npx fabricator-ui@latest create my-app --tooling biome --runner vite-plus --yes
+
 # One app in one folder
 npx fabricator-ui@latest create my-app --no-monorepo --yes
 
-# Only a React Native app: a plain Expo project
+# Only a React Native app, in apps/mobile
 npx fabricator-ui@latest create my-app --mobile --no-web --yes
+
+# A plain Expo project, with no monorepo
+npx fabricator-ui@latest create my-app -t expo --yes
 
 # See what it would do
 npx fabricator-ui@latest create my-app --mobile --dry-run
@@ -79,6 +85,20 @@ If the directory already has a `components.json`, you are asked whether to:
 | `--dry-run`                                                   | Print the underlying commands instead of running them                             |
 
 In an Expo or React Native project, `init` sets up the React Native components instead: Uniwind, the theme and a `@fabricator` registry for native. `--platform web|native` overrides the detection.
+
+SwiftUI and Kotlin Compose adapters are unreleased previews in this checkout.
+Run the development site, then use the local CLI:
+
+```bash
+FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli init button field --platform swiftui -c /path/to/swift-package
+FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli init --all --platform compose -c /path/to/gradle-module
+```
+
+Native projects use `fabricator.json` and copy Swift/Kotlin source, licensed fonts
+and resources without creating a React project. `add`, `view`, `diff`, `info` and
+`doctor` use that configuration automatically. Changed consumer files require
+explicit `--overwrite`. See [native platform verification](../../docs/PLATFORMS.md#swiftui-kotlin-compose-and-tauri-mobile)
+for toolchains and incomplete parity checks.
 
 ### `add`
 

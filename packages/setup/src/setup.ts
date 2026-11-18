@@ -142,10 +142,61 @@ export const DESKTOP_RUNTIMES = [
   { value: "tauri", label: "Tauri" },
 ] as const
 
+/** One toolchain lints and formats the whole monorepo. */
+export const TOOLING_VALUES = ["eslint-prettier", "biome", "vite-plus"] as const
+export type Tooling = (typeof TOOLING_VALUES)[number]
+
+export const TOOLINGS = [
+  {
+    value: "eslint-prettier",
+    label: "ESLint + Prettier",
+    description: "The most used pair, with the most plugins.",
+  },
+  {
+    value: "biome",
+    label: "Biome",
+    description: "One fast tool that lints and formats.",
+  },
+  {
+    value: "vite-plus",
+    label: "Vite+",
+    description: "Oxlint, Oxfmt and type checks in one command.",
+  },
+] as const satisfies readonly {
+  value: Tooling
+  label: string
+  description: string
+}[]
+
+/** What runs a monorepo's tasks (dev, build, typecheck) across its packages. */
+export const RUNNER_VALUES = ["turborepo", "vite-plus"] as const
+export type Runner = (typeof RUNNER_VALUES)[number]
+
+export const RUNNERS = [
+  {
+    value: "turborepo",
+    label: "Turborepo",
+    description: "Vercel's task runner, with remote caching.",
+  },
+  {
+    value: "vite-plus",
+    label: "Vite+",
+    description: "vp run, with caching built in.",
+  },
+] as const satisfies readonly {
+  value: Runner
+  label: string
+  description: string
+}[]
+
+export function getToolingLabel(tooling: Tooling) {
+  return TOOLINGS.find(({ value }) => value === tooling)?.label ?? tooling
+}
+
 export const PACKAGE_MANAGERS = ["npm", "pnpm", "yarn", "bun"] as const
 export type PackageManager = (typeof PACKAGE_MANAGERS)[number]
 
-export const DEFAULT_PROJECT_NAME = "my-app"
+export const DEFAULT_PROJECT_NAME = "fabricator-ui"
 
 /** The Expo SDK the native registry is tested on. */
 export const EXPO_SDK = 58
@@ -169,6 +220,10 @@ export const projectSetupSchema = z.object({
   mcp: z.boolean(),
   iconLibrary: z.enum(ICON_LIBRARY_VALUES),
   spinner: z.enum(SPINNER_VALUES).default("orbit"),
+  /** A new monorepo's linter and formatter. */
+  tooling: z.enum(TOOLING_VALUES).default("eslint-prettier"),
+  /** What runs a monorepo's tasks, when it has a web app's to run. */
+  runner: z.enum(RUNNER_VALUES).default("turborepo"),
   /** The look's values that differ from the defaults, as URL params. */
   look: z.record(z.string(), z.string()),
 })
@@ -192,6 +247,8 @@ export const DEFAULT_PROJECT_SETUP: ProjectSetup = {
   mcp: true,
   iconLibrary: "fabricator",
   spinner: "orbit",
+  tooling: "eslint-prettier",
+  runner: "turborepo",
   look: {},
 }
 
@@ -242,9 +299,9 @@ const EXPO_ONLY: AppChoices = {
 }
 
 /**
- * What a project's choices of apps come to. A mobile app alone is a plain Expo
- * project: nothing else would use a monorepo around it. A desktop app alone
- * keeps its monorepo, because its window renders the web app in it.
+ * What a project's choices of apps come to. The Expo template is a plain Expo
+ * project; a mobile app chosen alone keeps its monorepo, in apps/mobile. A
+ * desktop app alone keeps apps/web, because its window renders it.
  */
 export function resolveApps(choices: AppChoices): AppChoices {
   if (choices.project === "existing") {
@@ -259,7 +316,16 @@ export function resolveApps(choices: AppChoices): AppChoices {
     return { project: "new", framework, web: true, mobile, desktop: "none" }
   }
   const { desktop } = choices
-  if (mobile && !web && desktop === "none") return EXPO_ONLY
+  if (isExpo && desktop === "none") return EXPO_ONLY
+  if (mobile && !web && desktop === "none") {
+    return {
+      project: "monorepo",
+      framework: DEFAULT_PROJECT_SETUP.framework,
+      web: false,
+      mobile: true,
+      desktop: "none",
+    }
+  }
   return {
     project: "monorepo",
     framework: MONOREPO_FRAMEWORKS.includes(framework)
@@ -271,15 +337,39 @@ export function resolveApps(choices: AppChoices): AppChoices {
   }
 }
 
+/** Whether the resolved apps include a web app: a website or a window's UI. */
+export function hasWebApp(apps: AppChoices) {
+  if (apps.project === "monorepo") return apps.web || apps.desktop !== "none"
+  return isWebFramework(apps.framework)
+}
+
+/**
+ * A new project's root gets the library's DESIGN.md beside the agent skill,
+ * which reads it before designing a screen. An existing project keeps its own.
+ */
+export function hasDesignGuide(
+  setup: Pick<ProjectSetup, "project" | "assistants" | "skill">
+) {
+  return (
+    setup.project !== "existing" && setup.assistants.length > 0 && setup.skill
+  )
+}
+
 /** Removes the states no project can be in, so the page and the command agree. */
 export function normalizeProjectSetup(setup: ProjectSetup): ProjectSetup {
   const apps = resolveApps(setup)
   return {
     ...setup,
     ...apps,
-    base: isWebFramework(apps.framework)
-      ? setup.base
-      : DEFAULT_PROJECT_SETUP.base,
+    base: hasWebApp(apps) ? setup.base : DEFAULT_PROJECT_SETUP.base,
+    tooling:
+      apps.project === "monorepo"
+        ? setup.tooling
+        : DEFAULT_PROJECT_SETUP.tooling,
+    runner:
+      apps.project === "monorepo" && hasWebApp(apps)
+        ? setup.runner
+        : DEFAULT_PROJECT_SETUP.runner,
     shell: normalizeShell(setup.shell, apps.desktop !== "none"),
     assistants: ASSISTANT_VALUES.filter((assistant) =>
       setup.assistants.includes(assistant)

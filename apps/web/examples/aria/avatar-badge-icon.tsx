@@ -9,7 +9,7 @@ import {
 
 export function AvatarBadgeIconExample() {
   return (
-    <Avatar className="grayscale">
+    <Avatar>
       <AvatarImage src="https://github.com/pranathip.png" alt="@pranathip" />
       <AvatarFallback>PP</AvatarFallback>
       <AvatarBadge>

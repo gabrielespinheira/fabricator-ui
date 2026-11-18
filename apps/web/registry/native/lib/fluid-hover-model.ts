@@ -14,15 +14,19 @@ type Point = { x: number; y: number }
 export function createFluidHoverStore() {
   let key: string | null = null
   const listeners = new Map<string, Set<() => void>>()
+  const notifyRows = (row: string | null) => {
+    const subscribers = row === null ? undefined : listeners.get(row)
+    if (!subscribers) return
+    for (const notify of subscribers) notify()
+  }
   return {
     get: () => key,
     set(next: string | null) {
       if (key === next) return
       const previous = key
       key = next
-      if (previous !== null)
-        listeners.get(previous)?.forEach((notify) => notify())
-      if (next !== null) listeners.get(next)?.forEach((notify) => notify())
+      notifyRows(previous)
+      notifyRows(next)
     },
     subscribe(row: string, listener: () => void) {
       let subscribers = listeners.get(row)

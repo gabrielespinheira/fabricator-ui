@@ -1080,7 +1080,7 @@ function AppNavCustomize({
             variant="outline"
             onPress={() => updatePreferences(EMPTY_NAV_PREFERENCES)}
           >
-            Reset
+            <Text>Reset</Text>
           </Button>
         </DialogFooter>
       </DialogContent>

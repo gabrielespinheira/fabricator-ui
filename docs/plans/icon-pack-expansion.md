@@ -60,7 +60,7 @@ Target: ink between 14% and 36%, and no more than 7 elements. These bands are my
 
 ### Proof
 
-I drew 9 icons with these recipes in a temp folder and ran them through the real `validateOutlineSvg` in strict mode. All 9 pass. Then I rendered them beside their relatives at 14, 16, 18 and 24px, stroke 1.5 and 2, light and dark: `docs/plans/icon-pack-expansion-proof.png`.
+I drew 9 icons with these recipes in a temp folder and ran them through the real `validateOutlineSvg` in strict mode. All 9 pass. Then I rendered them beside their relatives at 14, 16, 18 and 24px, stroke 1.5 and 2, light and dark: [icon-pack-expansion-proof.png](https://github.com/user-attachments/assets/08d27750-6f94-46b4-b8f2-2609b495bb63).
 
 | Icon          | Ink   | Result                                                                 |
 | ------------- | ----- | ---------------------------------------------------------------------- |
@@ -76,7 +76,7 @@ I drew 9 icons with these recipes in a temp folder and ran them through the real
 
 So variants are low risk, and new bases need real design work. This was judged by eye on one sheet, with no one else reviewing it.
 
-The 24 `ui-*` icons went through the same loop: `docs/plans/icon-pack-custom-ui.png` is the final sheet. Six needed a redraw after the first sheet. `ui-slider` first read as the text "-0.", then as a sun, and now sits at 11.3% ink, under the 14% floor: I kept it because it reads correctly as a track and knob. The other 23 are between 14% and 36%.
+The 24 `ui-*` icons went through the same loop: [icon-pack-custom-ui.png](https://github.com/user-attachments/assets/ccb102d7-2ec4-45cc-b820-d2d2bce80b35) is the final sheet. Six needed a redraw after the first sheet. `ui-slider` first read as the text "-0.", then as a sun, and now sits at 11.3% ink, under the 14% floor: I kept it because it reads correctly as a track and knob. The other 23 are between 14% and 36%.
 
 ### What `icons:check` doesn't catch
 
@@ -174,7 +174,7 @@ Each name is `<base>-<variant>`. `inbox` is the third most used icon in the regi
 
 ### 3.5 Priority 2: more new glyphs
 
-**AI and agents: drawn.** All 15 are in `sources/outline/`; the review sheet is `docs/plans/icon-pack-custom-ai.png`. `bot-user`, `bot-shield` and `bot-wrench` were redrawn on 2026-11-05 with a larger badge.
+**AI and agents: drawn.** All 15 are in `sources/outline/`; the review sheet is [icon-pack-custom-ai.png](https://github.com/user-attachments/assets/5711272f-86d3-48a4-b622-853dc89cf1b8). `bot-user`, `bot-shield` and `bot-wrench` were redrawn on 2026-11-05 with a larger badge.
 
 | Icon                    | Depicts                     | For                     | Review                                                 |
 | ----------------------- | --------------------------- | ----------------------- | ------------------------------------------------------ |
@@ -202,7 +202,7 @@ Each name is `<base>-<variant>`. `inbox` is the third most used icon in the regi
 
 **Commerce: drawn.** `receipt-undo`, `hand-banknote`, `ticket-dashed`, `package-clock`, `store-user`, `tag-percent`, `shopping-cart-clock`, `qr-code-dollar`
 
-The review sheet for these groups and the desktop and mobile group is `docs/plans/icon-pack-custom-groups.png`.
+The review sheet for these groups and the desktop and mobile group is [icon-pack-custom-groups.png](https://github.com/user-attachments/assets/5f80f6cb-852b-4662-afbe-9040face1733).
 
 Changed from the first list:
 

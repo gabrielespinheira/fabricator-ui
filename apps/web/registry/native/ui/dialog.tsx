@@ -179,7 +179,9 @@ function DialogFooter({
     >
       {renderTextChildren(children)}
       {showCloseButton && (
-        <DialogClose render={<Button variant="outline" />}>Close</DialogClose>
+        <DialogClose render={<Button variant="outline" />}>
+          <Text>Close</Text>
+        </DialogClose>
       )}
     </View>
   )

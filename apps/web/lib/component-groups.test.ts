@@ -17,13 +17,14 @@ function getComponentSlugs(base: string) {
 }
 
 describe("getComponentGroup", () => {
-  it("uses the seven single-word groups in order, Advanced last", () => {
+  it("uses the eight single-word groups in order, Advanced last", () => {
     expect(COMPONENT_GROUPS).toEqual([
       "Basics",
       "Forms",
       "Overlays",
       "Structure",
       "Content",
+      "Charts",
       "Chat",
       "Advanced",
     ])
@@ -52,6 +53,26 @@ describe("getComponentGroup", () => {
     "audio-player",
   ])("puts %s in Advanced", (slug) => {
     expect(getComponentGroup(slug)).toBe("Advanced")
+  })
+
+  it.each([
+    "area-chart",
+    "line-chart",
+    "bar-chart",
+    "pie-chart",
+    "donut-chart",
+    "radar-chart",
+    "radial-chart",
+    "treemap",
+    "candlestick-chart",
+    "status-bar",
+    "composition-chart",
+    "funnel-chart",
+    "bump-chart",
+    "heat-calendar",
+    "sankey-chart",
+  ])("puts %s in Charts", (slug) => {
+    expect(getComponentGroup(slug)).toBe("Charts")
   })
 
   it.each(BASES)("groups every %s component page", (base) => {

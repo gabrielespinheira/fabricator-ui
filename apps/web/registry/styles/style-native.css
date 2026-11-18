@@ -592,6 +592,14 @@
     @apply self-stretch px-(--density-4) text-center leading-tight;
   }
 
+/* MARK: Area Chart */
+
+  /* The chart fills its container's width; 18rem tall until the screen
+     gives it a height. The legend sits under the plot. */
+  .cn-area-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
 /* MARK: Aspect Ratio */
 
   /* The website's rule is the move-timed glide to a new ratio. Here the
@@ -880,8 +888,9 @@
 
 /* MARK: Avatar */
 
+  /* Opaque, as on the website: the fallback's tint sits on the background. */
   .cn-avatar {
-    @apply size-(--density-32) rounded-full data-[size=lg]:size-(--density-40) data-[size=sm]:size-(--density-24);
+    @apply bg-background size-(--density-32) rounded-full data-[size=lg]:size-(--density-40) data-[size=sm]:size-(--density-24);
   }
 
   /* A hairline over the image, the website's ::after. */
@@ -928,10 +937,11 @@
     @apply gap-0;
   }
 
-  /* -space-x-2 and ring-2 together: the wrapper's border adds 4pt, so overlapping
-     by 12pt leaves avatars 8pt over each other, as on the website. */
+  /* The website's ring-2 as a border. The item takes it into its overlap, a
+     third of the avatar's size (ui/avatar.tsx). Its background keeps the
+     count's tint opaque. */
   .cn-avatar-group-item {
-    @apply border-background -ms-3 rounded-full border-2 data-[first=true]:ms-0;
+    @apply border-background bg-background rounded-full border-2;
   }
 
   .cn-avatar-group-count {
@@ -1078,6 +1088,14 @@
     @apply text-destructive;
   }
 
+/* MARK: Bar Chart */
+
+  /* The chart fills its container's width; 18rem tall until the screen
+     gives it a height. The legend sits under the plot. */
+  .cn-bar-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
 /* MARK: BotFace */
 
   /* Named hues use the Fabricator primary presets at their light/dark fill,
@@ -1112,6 +1130,10 @@
 
   .cn-bot-face-color-neutral {
     @apply text-foreground;
+  }
+
+  .cn-bot-face-color-gray {
+    @apply text-[oklch(0.48_0_0)] dark:text-[oklch(0.74_0_0)];
   }
 
   .cn-bot-face-color-blue {
@@ -1327,6 +1349,37 @@
 
   .cn-bubble-group {
     @apply gap-1;
+  }
+
+/* MARK: Bump Chart */
+
+  /* The chart fills its container's width; 18rem tall until the screen
+     gives it a height. The legend sits under the plot. */
+  .cn-bump-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Each point: a ring filled with the card, so the gridline and any line
+     passing under it stop at its edge. Read as the ring's fill. */
+  .cn-bump-chart-ring {
+    @apply bg-card;
+  }
+
+  /* The rank inside a ring: in the text colour, never the series'. Read as
+     the SVG text's fill, size and weight. */
+  .cn-bump-chart-rank {
+    @apply text-foreground text-(length:--density-text-11) font-medium;
+  }
+
+  /* The series' name past its last point, in the text colour beside the
+     ring that keys it, at the axis size the model measures it in. */
+  .cn-bump-chart-name {
+    @apply text-foreground text-(length:--density-text-11);
+  }
+
+  /* A series' latest rank and its change in its legend row. */
+  .cn-bump-chart-standing {
+    @apply text-foreground text-(length:--density-text-12) font-medium tabular-nums;
   }
 
 /* MARK: Button Group */
@@ -1638,6 +1691,59 @@
     @apply mt-(--density-12);
   }
 
+/* MARK: Candlestick Chart */
+
+  /* The chart fills its container's width; 18rem tall until the screen
+     gives it a height. */
+  .cn-candlestick-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* The opacity a candle takes while it slides out of the data. Read by
+     the chart, applied to SVG. */
+  .cn-candlestick-chart-candle {
+    @apply opacity-25;
+  }
+
+  /* Volume is context, not the subject: the candle's colour, faint. */
+  .cn-candlestick-chart-volume {
+    @apply opacity-30;
+  }
+
+  /* The latest close: a dashed hairline, quieter than the candles, read as
+     the stroke. */
+  .cn-candlestick-chart-last-line {
+    @apply text-muted-foreground;
+  }
+
+  /* Its price in a small pill at the line's end, in the strongest contrast
+     the theme has. Read as the pill's fill and the text's colour and size. */
+  .cn-candlestick-chart-last-pill {
+    @apply bg-foreground;
+  }
+
+  .cn-candlestick-chart-last-label {
+    @apply text-background text-(length:--density-text-11) font-medium;
+  }
+
+  /* The optional key for the up and down colours: a static row, since a
+     direction can't be hidden. */
+  .cn-candlestick-chart-legend {
+    @apply gap-x-(--density-12);
+  }
+
+  .cn-candlestick-chart-legend-item {
+    @apply h-(--density-32) gap-(--density-6);
+  }
+
+  .cn-candlestick-chart-legend-key {
+    @apply size-2 rounded-[2px];
+  }
+
+  .cn-candlestick-chart-legend-label {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
 /* MARK: Card */
 
   /* The card colour with surface 2's shadow ring, rounded-xl. py-(--density-16) with
@@ -1693,6 +1799,129 @@
 
   .cn-carousel-next-wash {
     @apply rounded-full;
+  }
+
+/* MARK: Chart Kit */
+
+  /* The plot: its font size is the axis labels', which the layout measures
+     against. Dimmed while loading. */
+  .cn-chart-plot {
+    @apply text-(length:--density-text-11) data-[loading=true]:opacity-50;
+  }
+
+  /* The opacity a series or a bar takes while another is spotlit, or while
+     it shrinks away after being hidden. Read by the plot, applied to SVG. */
+  .cn-chart-series {
+    @apply opacity-25;
+  }
+
+  .cn-chart-bar {
+    @apply opacity-25;
+  }
+
+  /* Gridlines: a hairline at each value tick in the border colour, read as
+     the stroke. Never dashed. */
+  .cn-chart-grid {
+    @apply text-border;
+  }
+
+  /* Axis labels: small and grey, read as the SVG text's fill and size. */
+  .cn-chart-axis {
+    @apply text-muted-foreground text-(length:--density-text-11);
+  }
+
+  .cn-chart-crosshair {
+    @apply z-10;
+  }
+
+  .cn-chart-crosshair-line {
+    @apply bg-foreground/20;
+  }
+
+  /* The inspected point: an 8pt dot ringed by 2pt of the card. */
+  .cn-chart-dot {
+    @apply z-10;
+  }
+
+  .cn-chart-dot-mark {
+    @apply border-card border-2;
+  }
+
+  /* The category under the finger on bar charts: a faint wash. */
+  .cn-chart-band {
+    @apply z-0;
+  }
+
+  .cn-chart-band-mark {
+    @apply bg-hover rounded-md;
+  }
+
+  /* The tooltip sits over the finger, two steps over the card a chart
+     usually sits on (surface 3), as on the website, so the readout stands
+     apart from the card in both themes. */
+  .cn-chart-tooltip-positioner {
+    @apply z-20;
+  }
+
+  .cn-chart-tooltip-content {
+    @apply bg-surface-5 shadow-surface-5 min-w-36 gap-(--density-4) rounded-lg px-(--density-10) py-(--density-8);
+  }
+
+  .cn-chart-tooltip-title {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  .cn-chart-tooltip-row {
+    @apply gap-(--density-8);
+  }
+
+  .cn-chart-tooltip-key {
+    @apply h-0.5 w-2.5 rounded-full;
+  }
+
+  .cn-chart-tooltip-label {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  /* Values lead: the reader has the series and wants the number. */
+  .cn-chart-tooltip-value {
+    @apply text-foreground ms-auto ps-(--density-12) text-(length:--density-text-12) font-medium tabular-nums;
+  }
+
+  /* A note the mark carries (an incident's summary): quieter than the
+     values, wrapping rather than widening the tooltip. */
+  .cn-chart-tooltip-note {
+    @apply text-muted-foreground max-w-60 text-(length:--density-text-12) leading-snug;
+  }
+
+  .cn-chart-legend {
+    @apply gap-x-(--density-4);
+  }
+
+  /* Each toggle keeps a 32pt row; a hidden series greys out with a hollow
+     key. */
+  .cn-chart-legend-item {
+    @apply h-(--density-32) gap-(--density-6) rounded-md px-(--density-6) active:bg-active;
+  }
+
+  .cn-chart-legend-key {
+    @apply data-[shape=square]:size-2 data-[shape=square]:rounded-[2px] data-[shape=line]:h-0.5 data-[shape=line]:w-3 data-[shape=line]:rounded-full data-[hidden=true]:border;
+  }
+
+  .cn-chart-legend-label {
+    @apply text-muted-foreground text-(length:--density-text-12) data-[hidden=true]:opacity-60;
+  }
+
+  .cn-chart-inspector {
+    @apply rounded-md;
+  }
+
+  .cn-chart-empty {
+    @apply p-(--density-16);
+  }
+
+  .cn-chart-empty-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
   }
 
 /* MARK: Chat Input */
@@ -2457,6 +2686,21 @@
     @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }
 
+/* MARK: Composition Chart */
+
+  /* The chart fills its container's width; 18rem tall until the screen
+     gives it a height. The legend of shares sits under the plot. */
+  .cn-composition-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* A part's share beside its name: in the text colour, since the key
+     carries the identity, and in tabular figures with room for "100.0%",
+     so the legend holds still while the shares change under a scrub. */
+  .cn-composition-chart-share {
+    @apply text-foreground min-w-(--density-40) text-(length:--density-text-12) font-medium tabular-nums;
+  }
+
 /* MARK: Context Menu */
 
   /* What a long press lands on. It dims while held, so the press reads before the
@@ -2655,6 +2899,77 @@
 
   .cn-dialog-description {
     @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+/* MARK: Donut Chart */
+
+  /* The chart fills its container's width; the list moves beside the ring
+     where it is wide enough. */
+  .cn-donut-chart {
+    @apply w-full gap-(--density-12);
+  }
+
+  /* The centre's layers share one spot in the ring's hole. */
+  .cn-donut-chart-center {
+    @apply items-center justify-center;
+  }
+
+  /* The total and each slice's value: the one shown fades in as the last
+     fades out, on the feedback timing. */
+  .cn-donut-chart-center-layer {
+    @apply gap-0.5;
+  }
+
+  /* The value leads, large and tabular; its size comes from the hole. */
+  .cn-donut-chart-center-value {
+    @apply text-foreground font-semibold tracking-tight tabular-nums;
+  }
+
+  .cn-donut-chart-center-label {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  /* The value list: a row per slice, as wide as the room beside or under
+     the ring. */
+  .cn-donut-chart-list {
+    @apply w-full gap-0.5 data-[layout=row]:w-auto data-[layout=row]:flex-1;
+  }
+
+  /* A held row lights up with its slice. */
+  .cn-donut-chart-list-item {
+    @apply gap-(--density-6) rounded-md px-(--density-8) py-(--density-6) data-[active=true]:bg-hover;
+  }
+
+  .cn-donut-chart-list-row {
+    @apply gap-(--density-8);
+  }
+
+  /* The slice's colour as a small square, like the legend's key. */
+  .cn-donut-chart-list-key {
+    @apply size-2 rounded-[2px];
+  }
+
+  .cn-donut-chart-list-label {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-donut-chart-list-share {
+    @apply text-muted-foreground text-(length:--density-text-13) tabular-nums;
+  }
+
+  /* Values line up at the end, tabular, a step heavier than the share. */
+  .cn-donut-chart-list-value {
+    @apply text-foreground min-w-(--density-48) text-right text-(length:--density-text-13) font-medium tabular-nums;
+  }
+
+  /* A thin share bar under each row: a faint track and the slice's colour,
+     which grows in with the ring. */
+  .cn-donut-chart-list-bar {
+    @apply bg-muted h-1 rounded-full;
+  }
+
+  .cn-donut-chart-list-bar-fill {
+    @apply rounded-full;
   }
 
 /* MARK: Drawer */
@@ -3085,6 +3400,394 @@
     @apply gap-(--density-10);
   }
 
+/* MARK: Event Calendar */
+
+  /* Root: the header over the grid, 12 apart. It needs a height to scroll
+     the time grid inside: the page gives it one, or flex-1 in a screen. */
+  .cn-event-calendar {
+    @apply min-h-0 gap-(--density-12);
+  }
+
+  /* Header: Today, previous and next, the title; then the view, settings
+     and Create, the one filled button. A phone wraps it to two rows. */
+  .cn-event-calendar-header {
+    @apply flex-wrap justify-between gap-(--density-8);
+  }
+
+  .cn-event-calendar-header-start {
+    @apply shrink gap-(--density-8);
+  }
+
+  .cn-event-calendar-header-end {
+    @apply gap-(--density-8);
+  }
+
+  .cn-event-calendar-today {
+    @apply shrink-0;
+  }
+
+  .cn-event-calendar-navigation {
+    @apply shrink-0 gap-(--density-2);
+  }
+
+  /* The title leads the header and opens the date picker, as on the web. */
+  .cn-event-calendar-title {
+    @apply flex-row;
+  }
+
+  .cn-event-calendar-title-trigger {
+    @apply gap-(--density-8) px-(--density-12);
+  }
+
+  .cn-event-calendar-title-text {
+    @apply font-sans text-(length:--density-text-14) font-semibold text-foreground;
+  }
+
+  .cn-event-calendar-title-icon {
+    @apply text-(length:--density-text-16) text-muted-foreground;
+  }
+
+  .cn-event-calendar-date-picker {
+    @apply w-auto;
+  }
+
+  .cn-event-calendar-view-select {
+    @apply min-w-28;
+  }
+
+  .cn-event-calendar-settings-trigger {
+    @apply shrink-0;
+  }
+
+  .cn-event-calendar-create {
+    @apply shrink-0;
+  }
+
+  /* Settings: switches and selects on the raised panel. */
+  .cn-event-calendar-settings {
+    @apply w-80 bg-surface-5 shadow-surface-5;
+  }
+
+  .cn-event-calendar-settings-group {
+    @apply gap-(--density-12);
+  }
+
+  .cn-event-calendar-settings-select {
+    @apply ms-auto min-w-32;
+  }
+
+  /* Content: the grid's frame, a card unless the calendar is flat. */
+  .cn-event-calendar-content {
+    @apply overflow-hidden data-[variant=card]:rounded-xl data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2 data-[variant=flat]:bg-background;
+  }
+
+  /* Loading: the Data Table's primary line along the top edge. */
+  .cn-event-calendar-loading {
+    @apply h-0.5 bg-primary/40;
+  }
+
+  .cn-event-calendar-error {
+    @apply gap-(--density-8) border-b border-border bg-destructive/5 px-(--density-12) py-(--density-8);
+  }
+
+  .cn-event-calendar-error-text {
+    @apply text-destructive-text;
+  }
+
+  .cn-event-calendar-engine {
+    @apply overflow-hidden;
+  }
+
+  /* MARK: Grid */
+
+  /* The engine's frame. Its own parts take these through their class
+     slots: hairlines at the divider strength, small grey labels, today in
+     the primary disc (from the theme, which the slots can't reach). */
+  .cn-event-calendar-grid {
+    @apply overflow-hidden;
+  }
+
+  .cn-event-calendar-view {
+    @apply bg-transparent;
+  }
+
+  .cn-event-calendar-table-header {
+    @apply border-b border-border py-(--density-6);
+  }
+
+  .cn-event-calendar-day-header-row {
+    @apply border-b border-border;
+  }
+
+  .cn-event-calendar-day-header {
+    @apply flex-row flex-wrap items-center justify-center gap-x-(--density-6) gap-y-(--density-2) py-(--density-6);
+  }
+
+  .cn-event-calendar-day-header-narrow {
+    @apply flex-col gap-(--density-2);
+  }
+
+  .cn-event-calendar-day-header-weekday {
+    @apply text-center font-sans text-(length:--density-text-11) font-medium text-muted-foreground uppercase;
+  }
+
+  .cn-event-calendar-week-number-header {
+    @apply font-sans text-(length:--density-text-11) text-muted-foreground;
+  }
+
+  .cn-event-calendar-all-day-divider {
+    @apply border-b border-border;
+  }
+
+  .cn-event-calendar-all-day-header-inner {
+    @apply font-sans text-(length:--density-text-11) text-muted-foreground;
+  }
+
+  .cn-event-calendar-slot-header-divider {
+    @apply border-e border-border;
+  }
+
+  .cn-event-calendar-slot-header-inner {
+    @apply pe-(--density-6) text-right font-sans text-(length:--density-text-11) text-muted-foreground;
+  }
+
+  .cn-event-calendar-slot-lane {
+    @apply bg-border;
+  }
+
+  .cn-event-calendar-day-lane {
+    @apply bg-border;
+  }
+
+  .cn-event-calendar-non-business {
+    @apply bg-hover;
+  }
+
+  .cn-event-calendar-now-line {
+    @apply bg-destructive;
+  }
+
+  .cn-event-calendar-highlight {
+    @apply rounded-md bg-active;
+  }
+
+  .cn-event-calendar-more-link-inner {
+    @apply px-(--density-4) font-sans text-(length:--density-text-11) font-medium text-muted-foreground;
+  }
+
+  /* The engine's "+N more" day list. */
+  .cn-event-calendar-popover {
+    @apply rounded-xl bg-surface-3 p-(--density-8) shadow-surface-3;
+  }
+
+  /* MARK: Events */
+
+  /* The engine's box only frames the chip: room between neighbours. */
+  .cn-event-calendar-fc-column-event {
+    @apply p-px;
+  }
+
+  .cn-event-calendar-fc-row-event {
+    @apply px-px pb-px;
+  }
+
+  /* The chip: the colour's soft step with its text colour and a 3pt bar in
+     the fill (blocks), a soft bar (all-day and multi-day), or a dot and a
+     line of text (timed events in month). The colours are inline, from the
+     shared model's recipe for the scheme; this sets the shape. */
+  .cn-event-calendar-event {
+    @apply gap-x-(--density-4) rounded-md border-transparent data-[variant=block]:flex-col data-[variant=block]:border-s-[3px] data-[variant=block]:px-(--density-6) data-[variant=block]:pt-(--density-6) data-[variant=block]:pb-(--density-4) data-[selected=true]:shadow-surface-3 data-[short=true]:flex-row data-[short=true]:items-center data-[short=true]:py-0 data-[variant=row]:flex-row data-[variant=row]:items-center data-[variant=row]:px-(--density-6) data-[variant=row]:py-px data-[variant=dot]:flex-row data-[variant=dot]:items-center data-[variant=dot]:px-(--density-4) data-[variant=dot]:py-px data-[pending=true]:opacity-60 data-[dragging=true]:shadow-surface-4 data-[draft=true]:shadow-surface-3 data-[status=tentative]:border;
+  }
+
+  /* Text a dot row leaves uncoloured is foreground, grey once past. */
+  .cn-event-calendar-event-title {
+    @apply text-(length:--density-text-12) leading-snug font-medium text-foreground data-[past=true]:text-muted-foreground;
+  }
+
+  .cn-event-calendar-event-time {
+    @apply text-(length:--density-text-12) leading-snug text-foreground data-[past=true]:text-muted-foreground;
+  }
+
+  .cn-event-calendar-event-location {
+    @apply text-(length:--density-text-12) leading-snug opacity-80;
+  }
+
+  .cn-event-calendar-event-dot {
+    @apply size-2 rounded-full;
+  }
+
+  /* MARK: Panels */
+
+  /* Details and quick create: two levels over the card (surface 5), so they
+     stand off the grid, as the Data Table's panels do. */
+  .cn-event-calendar-panel {
+    @apply w-80 bg-surface-5 p-(--density-12) shadow-surface-5;
+  }
+
+  .cn-event-calendar-drawer-body {
+    @apply px-(--density-16) pt-(--density-8) pb-(--density-16);
+  }
+
+  .cn-event-calendar-event-details {
+    @apply gap-(--density-8);
+  }
+
+  .cn-event-calendar-event-details-actions {
+    @apply -me-(--density-4) -mt-(--density-4) gap-(--density-2);
+  }
+
+  .cn-event-calendar-event-details-heading {
+    @apply gap-(--density-12);
+  }
+
+  .cn-event-calendar-event-details-swatch {
+    @apply mt-(--density-6) size-3.5 rounded-sm bg-primary;
+  }
+
+  .cn-event-calendar-event-details-title {
+    @apply text-(length:--density-text-16) font-semibold;
+  }
+
+  .cn-event-calendar-event-details-time {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-event-calendar-event-details-row {
+    @apply gap-(--density-12);
+  }
+
+  .cn-event-calendar-event-details-row-text {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-event-calendar-event-details-icon {
+    @apply mt-0.5 size-3.5 text-muted-foreground;
+  }
+
+  .cn-event-calendar-event-form {
+    @apply gap-(--density-16);
+  }
+
+  .cn-event-calendar-event-form-fields {
+    @apply gap-(--density-12);
+  }
+
+  .cn-event-calendar-event-form-title {
+    @apply font-medium;
+  }
+
+  .cn-event-calendar-event-form-summary {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  /* Two columns of date and time, as the website's grid. */
+  .cn-event-calendar-event-form-times {
+    @apply gap-(--density-12);
+  }
+
+  .cn-event-calendar-event-form-time {
+    @apply min-w-36 flex-1 basis-[45%];
+  }
+
+  .cn-event-calendar-event-form-actions {
+    @apply gap-(--density-8);
+  }
+
+  .cn-event-calendar-form-dialog {
+    @apply sm:max-w-md;
+  }
+
+  .cn-event-calendar-scope-dialog {
+    @apply sm:max-w-sm;
+  }
+
+  /* MARK: Agenda */
+
+  .cn-event-calendar-agenda {
+    @apply py-(--density-8);
+  }
+
+  .cn-event-calendar-agenda-day {
+    @apply gap-(--density-12) border-b border-border px-(--density-12) py-(--density-8);
+  }
+
+  .cn-event-calendar-agenda-date {
+    @apply w-16 pt-(--density-4);
+  }
+
+  .cn-event-calendar-agenda-date-number {
+    @apply text-(length:--density-text-16) font-semibold data-[today=true]:text-primary-text;
+  }
+
+  .cn-event-calendar-agenda-date-label {
+    @apply text-(length:--density-text-11) text-muted-foreground uppercase;
+  }
+
+  .cn-event-calendar-agenda-events {
+    @apply gap-(--density-2);
+  }
+
+  .cn-event-calendar-agenda-event {
+    @apply min-h-(--density-36) gap-(--density-12) rounded-lg px-(--density-8) py-(--density-6) data-[pending=true]:opacity-60;
+  }
+
+  .cn-event-calendar-agenda-event-wash {
+    @apply rounded-lg bg-hover;
+  }
+
+  .cn-event-calendar-agenda-event-dot {
+    @apply size-2.5 rounded-full bg-primary;
+  }
+
+  .cn-event-calendar-agenda-event-time {
+    @apply w-36 text-muted-foreground;
+  }
+
+  .cn-event-calendar-agenda-event-title {
+    @apply font-medium;
+  }
+
+  .cn-event-calendar-empty {
+    @apply flex-1;
+  }
+
+  /* MARK: Beside the grid */
+
+  .cn-event-calendar-mini-month {
+    @apply bg-transparent p-0;
+  }
+
+  /* The days the calendar shows: a band across the days, round at the
+     first and last day and at each week's edges. */
+  .cn-event-calendar-mini-month-in-view {
+    @apply rounded-none bg-hover;
+  }
+
+  .cn-event-calendar-mini-month-in-view-start {
+    @apply rounded-l-lg;
+  }
+
+  .cn-event-calendar-mini-month-in-view-end {
+    @apply rounded-r-lg;
+  }
+
+  .cn-event-calendar-sources {
+    @apply gap-(--density-8);
+  }
+
+  .cn-event-calendar-source {
+    @apply items-center;
+  }
+
+  .cn-event-calendar-source-checkbox {
+    @apply shrink-0;
+  }
+
+  /* The calendar's colour beside its name, as Google's list shows it. */
+  .cn-event-calendar-source-swatch {
+    @apply size-2.5 rounded-full bg-primary;
+  }
+
 /* MARK: Field */
 
   .cn-field-set {
@@ -3209,6 +3912,111 @@
 
   .cn-fluid-hover-selection {
     @apply bg-active rounded-lg;
+  }
+
+/* MARK: Funnel Chart */
+
+  /* The funnel fills its container's width; 18rem tall until the screen
+     gives it a height. */
+  .cn-funnel-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Stage names, values and conversions are the chart's reading, so they
+     read a step larger than axis labels. Read as the SVG text's size, which
+     the layout measures against. */
+  .cn-funnel-chart-plot {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The opacity a stage leaving the data takes as it shrinks into the
+     centre line. Read by the chart, applied to SVG. */
+  .cn-funnel-chart-stage {
+    @apply opacity-25;
+  }
+
+  /* Values sit on a pill of the card, so they keep the text colour and its
+     contrast on every step of the hue. A hairline keeps the pill's shape
+     where it reaches past a narrow stage. Read as the pill's fill and edge. */
+  .cn-funnel-chart-pill {
+    @apply bg-card border-border;
+  }
+
+  .cn-funnel-chart-value {
+    @apply text-foreground font-medium;
+  }
+
+  /* Names label the stages in the text colour. */
+  .cn-funnel-chart-name {
+    @apply text-foreground;
+  }
+
+  /* Conversions are derived from the values, so they stay quieter. */
+  .cn-funnel-chart-conversion {
+    @apply text-muted-foreground;
+  }
+
+/* MARK: Heat Calendar */
+
+  /* The chart fills its container's width; its height follows the cells.
+     The range and the key sit under the grid. */
+  .cn-heat-calendar {
+    @apply w-full gap-(--density-8);
+  }
+
+  /* With nothing to draw, the plot keeps room for the empty message. */
+  .cn-heat-calendar-plot {
+    @apply data-[empty=true]:h-32;
+  }
+
+  /* On a phone the grid scrolls sideways past its smallest cell, in the
+     room the weekday names leave, however wide the grid. */
+  .cn-heat-calendar-scroll {
+    @apply min-w-0;
+  }
+
+  /* An empty day: the faintest step of the text colour, read as the SVG
+     fill and its opacity, so it reads as a place in the grid on any
+     surface. Coloured levels paint over it. */
+  .cn-heat-calendar-cell {
+    @apply text-foreground opacity-8;
+  }
+
+  /* The lifted day sits over the grid and under the tooltip. */
+  .cn-heat-calendar-lift {
+    @apply z-10;
+  }
+
+  /* Raised off the grid with a soft shadow. */
+  .cn-heat-calendar-lift-mark {
+    @apply shadow-surface-2 rounded-sm;
+  }
+
+  /* The 2pt surface ring every mark keeps where it overlaps others. */
+  .cn-heat-calendar-lift-ring {
+    @apply bg-card;
+  }
+
+  /* The level paints over the empty cell inside the ring. */
+  .cn-heat-calendar-lift-level {
+    @apply z-10;
+  }
+
+  /* The range and the key: small and grey, under the grid. */
+  .cn-heat-calendar-footer {
+    @apply gap-x-(--density-12) gap-y-(--density-4);
+  }
+
+  .cn-heat-calendar-footer-text {
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums;
+  }
+
+  .cn-heat-calendar-key {
+    @apply gap-(--density-6);
+  }
+
+  .cn-heat-calendar-key-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
   }
 
 /* MARK: Hover Card */
@@ -3535,6 +4343,14 @@
   /* Tight where the website has leading-none, so descenders keep their room. */
   .cn-label {
     @apply text-foreground text-(length:--density-text-13) leading-tight font-medium data-[disabled=true]:opacity-50;
+  }
+
+/* MARK: Line Chart */
+
+  /* The chart fills its container's width; 18rem tall until the screen
+     gives it a height. The legend sits under the plot. */
+  .cn-line-chart {
+    @apply h-72 w-full gap-(--density-12);
   }
 
 /* MARK: Markdown */
@@ -4455,6 +5271,48 @@
     @apply text-(length:--density-text-13);
   }
 
+/* MARK: Pie Chart */
+
+  /* The chart fills its container's width, its pie centred above the
+     legend. */
+  .cn-pie-chart {
+    @apply w-full gap-(--density-12);
+  }
+
+  /* Pie and donut share the plot: square, as wide as the screen up to 18rem.
+     Beside a donut's list it keeps a fixed width so the list gets the
+     rest. */
+  .cn-chart-pie-plot {
+    @apply aspect-square w-full max-w-72 shrink-0 data-[layout=row]:w-56;
+  }
+
+  /* A donut's ring and list stack on a phone and sit side by side where
+     the chart is wide enough. */
+  .cn-chart-pie-body {
+    @apply gap-(--density-16) data-[layout=row]:flex-row data-[layout=row]:gap-(--density-24);
+  }
+
+  /* The opacity the other slices take while one is inspected. Read by the
+     plot, applied to SVG. */
+  .cn-chart-slice {
+    @apply opacity-40;
+  }
+
+  /* The share label's size, read by the plot to fit it inside the slice. */
+  .cn-chart-slice-label {
+    @apply text-(length:--density-text-11);
+  }
+
+  /* The label sits on a card-coloured pill, read as its fill, so its
+     contrast never depends on the slice's colour. */
+  .cn-chart-slice-label-pill {
+    @apply text-card;
+  }
+
+  .cn-chart-slice-label-text {
+    @apply text-foreground font-medium;
+  }
+
 /* MARK: Popover */
 
   /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl, p-3,
@@ -4712,6 +5570,77 @@
     @apply ms-auto;
   }
 
+/* MARK: Radar Chart */
+
+  /* The chart fills its container's width; 20rem tall until the screen
+     gives it a height, the radar centred in it above the legend. */
+  .cn-radar-chart {
+    @apply h-80 w-full gap-(--density-12);
+  }
+
+  /* The grid: four polygons and the spokes as hairlines in the border
+     colour, read as their stroke. */
+  .cn-radar-chart-grid {
+    @apply text-border;
+  }
+
+  /* The inspected axis' spoke steps forward, as the crosshair does. */
+  .cn-radar-chart-spoke {
+    @apply text-foreground/30;
+  }
+
+  /* Axis names: small and grey, read as the SVG text's fill and size. */
+  .cn-radar-chart-label {
+    @apply text-muted-foreground text-(length:--density-text-11);
+  }
+
+  /* The inspected axis' name, in the text colour. */
+  .cn-radar-chart-label-active {
+    @apply text-foreground;
+  }
+
+  /* The opacity a series' wash and outline take while another is spotlit,
+     or while it shrinks away. Read by the chart, applied to SVG. */
+  .cn-radar-chart-area {
+    @apply opacity-25;
+  }
+
+  .cn-radar-chart-series {
+    @apply opacity-25;
+  }
+
+/* MARK: Radial Chart */
+
+  /* The chart fills its container's width, its rings centred above the
+     legend. */
+  .cn-radial-chart {
+    @apply w-full gap-(--density-12);
+  }
+
+  /* Square for full rings, as wide as the screen up to 18rem; a half gauge
+     is about twice as wide as it is tall, up to 24rem. */
+  .cn-radial-chart-plot {
+    @apply aspect-square w-full max-w-72 data-[shape=half]:aspect-[20/11] data-[shape=half]:max-w-96;
+  }
+
+  /* The opacity the other rings take while one is inspected. Read by the
+     chart, applied to SVG. */
+  .cn-radial-chart-ring {
+    @apply opacity-40;
+  }
+
+  /* The track: the whole target in a faint neutral, read as its fill, so
+     the value reads as a part of it. */
+  .cn-radial-chart-track {
+    @apply text-muted;
+  }
+
+  /* The centre figure leads, large and tabular; its size comes from the
+     innermost ring. */
+  .cn-radial-chart-center {
+    @apply text-foreground text-center font-semibold tracking-tight tabular-nums;
+  }
+
 /* MARK: Radio Group */
 
   .cn-radio-group {
@@ -4842,6 +5771,45 @@
 
   .cn-resizable-handle-icon {
     @apply bg-border data-[dragging=true]:bg-foreground/25 rounded-full data-[orientation=horizontal]:h-6 data-[orientation=horizontal]:w-1 data-[orientation=vertical]:h-1 data-[orientation=vertical]:w-6;
+  }
+
+/* MARK: Sankey Chart */
+
+  /* The diagram fills its container's width; 18rem tall until the screen
+     gives it a height. */
+  .cn-sankey-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Node labels are the chart's reading, a step larger than axis labels.
+     Read as the SVG text's size, which the layout measures against. */
+  .cn-sankey-chart-plot {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The opacity links, nodes and labels take while another mark is lit.
+     Read by the chart, applied to SVG. */
+  .cn-sankey-chart-link {
+    @apply opacity-35;
+  }
+
+  .cn-sankey-chart-node {
+    @apply opacity-35;
+  }
+
+  .cn-sankey-chart-label {
+    @apply opacity-35;
+  }
+
+  /* Names lead in the text colour, never the node's. Read as the SVG
+     text's fill and weight. */
+  .cn-sankey-chart-name {
+    @apply text-foreground font-medium;
+  }
+
+  /* Values sit under the name, quieter. */
+  .cn-sankey-chart-value {
+    @apply text-muted-foreground;
   }
 
 /* MARK: Scroll Area */
@@ -5485,6 +6453,62 @@
 
   .cn-spinner {
     @apply size-(--density-icon-16);
+  }
+
+/* MARK: Status Bar */
+
+  /* The bar fills its container's width; the dates, the uptime and the
+     legend sit under the pills. */
+  .cn-status-bar {
+    @apply w-full gap-(--density-8);
+  }
+
+  /* Pills are tall and thin: their height follows the density. */
+  .cn-status-bar-plot {
+    @apply h-(--density-32);
+  }
+
+  /* The opacity the other pills take while one is inspected, read by the
+     bar and applied to SVG. */
+  .cn-status-bar-pill {
+    @apply opacity-60;
+  }
+
+  /* The lifted pill sits over the bar and under the tooltip. */
+  .cn-status-bar-lift {
+    @apply z-10;
+  }
+
+  .cn-status-bar-footer {
+    @apply gap-(--density-8);
+  }
+
+  /* The first and last day: small and grey, tabular. */
+  .cn-status-bar-footer-text {
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums;
+  }
+
+  /* The uptime share leads the line. */
+  .cn-status-bar-uptime {
+    @apply text-foreground text-(length:--density-text-12) font-medium tabular-nums;
+  }
+
+  /* Every status shown, by name: colour never names a status alone. */
+  .cn-status-bar-legend {
+    @apply gap-x-(--density-12) gap-y-(--density-4);
+  }
+
+  .cn-status-bar-legend-item {
+    @apply gap-(--density-6);
+  }
+
+  /* A small pill, as the bar draws them. */
+  .cn-status-bar-legend-key {
+    @apply h-2.5 w-1.5 rounded-full;
+  }
+
+  .cn-status-bar-legend-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
   }
 
 /* MARK: Switch */
@@ -6147,6 +7171,40 @@
 
   .cn-tooltip-text {
     @apply text-background text-(length:--density-text-12) leading-4 font-medium;
+  }
+
+/* MARK: Treemap */
+
+  /* The map fills its container's width; 18rem tall until the screen gives
+     it a height. The legend sits under it. */
+  .cn-treemap {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Cell labels name the data rather than an axis, so they read a step
+     larger than axis labels. Read as the SVG text's size, which the layout
+     measures against. */
+  .cn-treemap-plot {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The opacity a cell takes while another is inspected or spotlit: a
+     little dimmer, so the one in focus stands out and the rest stays
+     readable. Read by the map, applied to SVG. */
+  .cn-treemap-cell {
+    @apply opacity-60;
+  }
+
+  /* Names lead in the text colour, never the group's: the wash behind them
+     is light enough in both themes to keep their contrast. Read as the SVG
+     text's fill and weight. */
+  .cn-treemap-cell-name {
+    @apply text-foreground font-medium;
+  }
+
+  /* Values sit under the name, quieter. */
+  .cn-treemap-cell-value {
+    @apply text-muted-foreground;
   }
 
 /* MARK: User Menu */

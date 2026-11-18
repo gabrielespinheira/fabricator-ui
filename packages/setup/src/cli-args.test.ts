@@ -12,7 +12,7 @@ describe("toCliArgs", () => {
   it("needs only a name for the default project", () => {
     expect(toCliArgs(DEFAULT_PROJECT_SETUP)).toEqual([
       "create",
-      "my-app",
+      "fabricator-ui",
       "--yes",
     ])
   })
@@ -56,7 +56,7 @@ describe("toCliArgs", () => {
   it("names a monorepo's apps", () => {
     expect(toCliArgs(setup({ mobile: true, desktop: "tauri" }))).toEqual([
       "create",
-      "my-app",
+      "fabricator-ui",
       "--mobile",
       "--desktop",
       "tauri",
@@ -103,13 +103,13 @@ describe("toCliArgs", () => {
   it("normalizes first, so the preview's choices never reach the command", () => {
     expect(
       toCliArgs(setup({ shell: { window: "macos", fullscreen: "true" } }))
-    ).toEqual(["create", "my-app", "--yes"])
+    ).toEqual(["create", "fabricator-ui", "--yes"])
   })
 
   it("keeps Expo's template", () => {
     expect(toCliArgs(setup({ framework: "expo" }))).toEqual([
       "create",
-      "my-app",
+      "fabricator-ui",
       "-t",
       "expo",
       "--yes",
@@ -141,13 +141,13 @@ describe("the apps in the command", () => {
     toCliArgs({ ...DEFAULT_PROJECT_SETUP, ...changes })
 
   it("needs no flag for the default monorepo", () => {
-    expect(args({})).toEqual(["create", "my-app", "--yes"])
+    expect(args({})).toEqual(["create", "fabricator-ui", "--yes"])
   })
 
   it("names a single project", () => {
     expect(args({ project: "new" })).toEqual([
       "create",
-      "my-app",
+      "fabricator-ui",
       "--no-monorepo",
       "--yes",
     ])
@@ -156,30 +156,53 @@ describe("the apps in the command", () => {
   it("needs no flag where the template can only be a single project", () => {
     expect(args({ framework: "expo" })).toEqual([
       "create",
-      "my-app",
+      "fabricator-ui",
       "-t",
       "expo",
       "--yes",
     ])
     expect(args({ project: "new", framework: "laravel" })).toEqual([
       "create",
-      "my-app",
+      "fabricator-ui",
       "-t",
       "laravel",
       "--yes",
     ])
   })
 
-  it("writes a lone mobile app as the Expo template", () => {
-    expect(args({ web: false, mobile: true })).toEqual(
-      args({ framework: "expo" })
+  it("names a toolchain other than ESLint and Prettier", () => {
+    expect(args({ tooling: "vite-plus" })).toEqual([
+      "create",
+      "fabricator-ui",
+      "--tooling",
+      "vite-plus",
+      "--yes",
+    ])
+    expect(args({ project: "new", tooling: "biome" })).toEqual(
+      args({ project: "new" })
     )
+  })
+
+  it("names Vite+ as the task runner", () => {
+    expect(args({ runner: "vite-plus" })).toEqual([
+      "create",
+      "fabricator-ui",
+      "--runner",
+      "vite-plus",
+      "--yes",
+    ])
+  })
+
+  it("writes a lone mobile app as a monorepo without a website", () => {
+    expect(
+      args({ web: false, mobile: true, framework: "vite", base: "radix" })
+    ).toEqual(["create", "fabricator-ui", "--no-web", "--mobile", "--yes"])
   })
 
   it("says when there's no website", () => {
     expect(args({ web: false, desktop: "electron" })).toEqual([
       "create",
-      "my-app",
+      "fabricator-ui",
       "--no-web",
       "--desktop",
       "electron",
@@ -187,7 +210,7 @@ describe("the apps in the command", () => {
     ])
     expect(args({ web: false, mobile: true, desktop: "tauri" })).toEqual([
       "create",
-      "my-app",
+      "fabricator-ui",
       "--no-web",
       "--mobile",
       "--desktop",

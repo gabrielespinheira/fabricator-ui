@@ -54,6 +54,7 @@ function usedIcons(options: PlaygroundOptions) {
 
 function usesText(options: PlaygroundOptions) {
   return (
+    options.account !== "none" ||
     options.status ||
     options.panel ||
     options.switcher === "none" ||
@@ -185,6 +186,7 @@ function buildGroups(options: PlaygroundOptions) {
 
 function buildData(options: PlaygroundOptions) {
   return [
+    ...(options.panel ? ['const detailsLabel = "Details"', ""] : []),
     ...(options.switcher === "none"
       ? []
       : [
@@ -212,12 +214,12 @@ function buildHelpers(options: PlaygroundOptions) {
           "  return (",
           "    <>",
           "      <DropdownMenuGroup>",
-          "        <DropdownMenuItem>Profile</DropdownMenuItem>",
-          "        <DropdownMenuItem>Notifications</DropdownMenuItem>",
+          "        <DropdownMenuItem><Text>Profile</Text></DropdownMenuItem>",
+          "        <DropdownMenuItem><Text>Notifications</Text></DropdownMenuItem>",
           "      </DropdownMenuGroup>",
           "      <DropdownMenuSeparator />",
           "      <DropdownMenuGroup>",
-          "        <DropdownMenuItem>Sign out</DropdownMenuItem>",
+          "        <DropdownMenuItem><Text>Sign out</Text></DropdownMenuItem>",
           "      </DropdownMenuGroup>",
           "    </>",
           "  )",
@@ -390,9 +392,9 @@ function buildPanel(options: PlaygroundOptions) {
   const mobile =
     options.panelMobile === "drawer" ? "" : ` mobile="${options.panelMobile}"`
   return [
-    `<AppShellPanel id="details" label="Details"${mobile}>`,
+    `<AppShellPanel id="details" label={detailsLabel}${mobile}>`,
     "  <AppShellPanelHeader>",
-    "    <AppShellPanelTitle>Details</AppShellPanelTitle>",
+    "    <AppShellPanelTitle>{detailsLabel}</AppShellPanelTitle>",
     "    <AppShellPanelClose />",
     "  </AppShellPanelHeader>",
     '  <AppShellPanelContent className="p-4">',

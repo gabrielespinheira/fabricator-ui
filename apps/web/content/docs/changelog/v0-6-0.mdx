@@ -1,0 +1,119 @@
+---
+title: Version 0.6.0
+description: Chat Input, Model Picker, File Tree, File Upload, Syntax Highlight, Video Player, Color Picker and new date and time fields.
+date: 2026-11-09
+---
+
+Everything for a chat interface: Chat Input, Model Picker and a Questionnaire that can take the input's place. Alongside them come File Tree, File Upload, Syntax Highlight, Video Player, Color Picker and typed date, month and time fields.
+
+## New components
+
+### Chat Input and Model Picker
+
+`npx fabricator-ui@latest add chat-input` adds the message box of a chat: a raised pill that stacks once the draft wraps and whose height eases to what it holds, or with `layout="large"` a card whose field grows under the draft. Enter sends, Shift+Enter adds a line, Escape stops, and an input method's Enter never sends.
+
+- **One send slot.** An empty input offers voice chat in send's place; typing turns it into send; a running reply turns an empty input's send into stop, and with `queue` typed text waits behind the reply. Pass the AI SDK's `status` and `stop` as they are.
+- **Voice chat.** While it's on, a glow rises from the input's bottom edge and `ChatInputMic` sits beside send, both swelling with the `voiceLevel` you pass. The mic mutes and unmutes, or stops a reply that's speaking.
+- **Attachments.** `ChatInputAttachment` tiles: square image thumbnails and file chips, a remove button on hover, a spinner while uploading. Files dropped on the input or pasted into the field reach `onAttach`, in both layouts; `useChatInputAttachments` holds them, with their previews and uploads. In the pill a few images ride beside send.
+- **Mentions, hints and context.** `mentions` tints `@`, `/`, `$` and `#` mentions as they're typed, a `placeholder` list takes turns while the field is empty, and `ChatInputContextMeter` shows how full the model's context is.
+- **Commands and skills.** `ChatInputCommands` is the `/` menu: commands such as `/goal` and skills, filtered as you type, picked with ↑↓ and ↵ or Tab. A command with `runs` goes to your app instead of the draft.
+- **Goal, background tasks and queue.** Trays stack behind the card, a step further back each: queued messages (Steer, remove, ↑ to edit the last one), background tasks with their running time, output and Stop, and the goal with pause, resume and clear.
+- **Model Picker.** `npx fabricator-ui@latest add model-picker` adds the model switcher's panel: a reasoning effort slider that warms from blue to violet, routing tiles such as Auto, and the models grouped by provider. It goes in a Popover, opened from the Chat Input's model button.
+- **The Message Scroller demos** use Chat Input for their composer.
+
+### Syntax Highlight
+
+`npx fabricator-ui@latest add syntax-highlight` adds code with its syntax coloured: a title bar with the file's icon and name, its language and Copy, then the lines. Give it `code` and a `language`, or just a `filename`.
+
+- **Over 30 languages.** TypeScript, TSX, JavaScript, JSON, CSS, SCSS, HTML, Markdown, Bash, Python, Go, Rust, Swift, Kotlin, YAML, TOML, SQL, Dockerfile and more, read from a name, an alias (`ts`, `sh`, `yml`) or a file name. `registerLanguage` adds any of refractor's other grammars.
+- **Lines.** `showLineNumbers` and `startLine` number them, outside selection and copy; `highlightLines` marks lines and ranges; `wrap` wraps long ones.
+- **Diffs.** A diff marks its added and removed lines, and keeps the colours of the file it changes when you pass its `filename`. `insertedLines` and `deletedLines` mark a change without a diff.
+- **Syntax colours.** Eight new tokens in the foundations, `--syntax-keyword` to `--syntax-punctuation`: functions follow the info role, strings success, constants warning and tags destructive, so retinting a role retints the code. Every one keeps 4.5:1 on the first four surfaces in light and dark.
+- **React Native.** The same component, tokenizer and colours, with Copy through `expo-clipboard`.
+- **The docs' code blocks** now use the syntax colours too, and follow the site's colour settings.
+
+### Video Player
+
+`npx fabricator-ui@latest add video-player` adds a video with its own controls drawn over the picture, so they stay the same in full screen: play and pause in the middle, and along the bottom play, volume, the time, captions, settings, picture in picture and full screen. While a video plays and the pointer rests, the controls and the cursor fade away.
+
+- **Seek bar.** It shows what has loaded and the time under the pointer, grows when you reach for it, and with `chapters` it splits into segments and names the chapter in the preview and the bar.
+- **Captions.** Pass WebVTT files as `tracks`. The player draws the captions itself, clear of the controls, and the settings menu picks the language next to the speed.
+- **Keyboard.** Space or K, J and L, the arrows, M, F, C, the digits and < and > work as in the common web players. ↑ and ↓ set the volume from anywhere in the player, with the level shown over the volume knob. The seek bar and volume are sliders, and settings is a menu that works in full screen.
+- **Compact.** `variant="compact"` keeps play, a slim seek bar, the time left, mute and full screen on one row, at the compact density.
+
+### Color Picker
+
+Drag in the area for saturation and brightness, and set hue and alpha on two sliders. Type or scrub the channels in HEX, RGB, HSL or OKLCH: drag a field's letter sideways to change it, or step it with the arrow keys. Add `swatches` for preset colors, named ones included. The eyedropper picks from the screen in Chromium browsers. In Base UI, Radix and React Aria projects.
+
+- **In a popover.** `ColorPickerPopover` puts the same panel behind a trigger that shows the color and its hex value, with an optional label and remove button.
+- **Steady hues.** A hue survives a pass through gray, black or white, and an OKLCH hue you type stays put while lightness and chroma change.
+
+```bash
+npx fabricator-ui@latest add color-picker
+```
+
+The Color Picker is adapted from the one in [Fluid Functionalism](https://www.fluidfunctionalism.com/docs/color-picker) (MIT).
+
+### File Tree
+
+`npx fabricator-ui@latest add file-tree` adds a file explorer with keyboard navigation, range selection, folder guides and open and delete callbacks. The new Files icon pack gives it 249 file and folder icons, picked by file name, in light and dark palettes for React, React Native and static files.
+
+### File Upload
+
+`npx fabricator-ui@latest add file-upload` adds a drop zone that validates files as they arrive, with previews and progress, plus a compact field the size of an Input.
+
+### Date, month and time fields
+
+Date Picker, Month Input and Time Input take typed values, ranges and form values, and Date Picker can include a time wheel.
+
+## Updated components
+
+### Spinner
+
+Spinner gains 22 patterns and joins the starter set. `create` and `init` take `--spinner` to pick one, and setup links keep the choice.
+
+### Inputs line up
+
+Input, Textarea, Input Group, Select, the Combobox chips and Input OTP slots draw their frame inside the box, like a button's border. A 36px input is 36px, sits flush with its label, and joins a button in a Button Group on one hairline instead of a doubled seam and a one-pixel step.
+
+- **Input Group spacing.** Icons, text, buttons and keycaps in an addon sit as far from the side as from the top at every density, and a prefix such as `https://` shares a baseline with the value.
+- **No browser pickers.** The Input docs now map every input type to a component: Number Field, Date Picker, Time Input, Month Input, Color Picker, File Upload and Slider. Input itself hides the browser's search clear and password reveal buttons; the docs show your own, in an Input Group.
+- **Month Input.** A new field for months: type `3/2028` or `Mar 2028`, or pick from a year of months with a gliding highlight. The value is `yyyy-MM`. On the web and on React Native.
+- **Input OTP.** `defaultValue` works (it used to throw and fill the field), each typed digit rises into its slot, filled slots keep a firmer ring, and `placeholder` characters show in empty slots. On the web and on React Native.
+- **File Upload Field.** A file picker the size and frame of an Input. Drop files on it or choose them: while files are over it, it lifts and says what a drop does, and each picked file joins it as a chip with a picture or icon, its name and a remove button, on one row that scrolls sideways so the field keeps its height.
+
+Month Input was later folded into Date Picker. See [Date Picker months and years](/docs/changelog/2026-11-date-picker-granularity).
+
+### Questionnaire
+
+- **Rows with a chip.** Each choice is a row with its label and, at the end, a chip with its shortcut. A multiple choice's chip is a square that fills once picked. One highlight glides between the rows, and a picked row holds the active fill.
+- **Pick and move on.** With `advanceOnSelect`, picking a single choice with the pointer or its number moves to the next question, or sends the answers on the last. The arrows only walk the choices, and a hovered single choice shows an arrow in its chip.
+- **A header row.** `QuestionnaireHeader` holds the progress at the start and actions such as Stop at the end. Back and Skip are now ghost buttons.
+- **In a chat.** The new example puts the questions in the Chat Input's place on the same surface, stops with Escape, and hands the focus back to the field once they're answered.
+
+### Tabs
+
+- **Subtle tabs.** `TabsList variant="subtle"` drops the track, and only the active tab shows its label; the others show their icon and keep the label as their accessible name. Give every trigger an icon. On the web and on React Native.
+- **A clearer active tab in dark mode.** The selected pill is a step over the track, `foreground/14`, so it stands out on the page and on cards alike.
+- **The active tab keeps its weight.** Tabs and Tab Strip no longer turn the active label semibold, so the row never shifts or grows when the selection moves.
+- **Vertical tabs.** Triggers in `orientation="vertical"` are 32px rows, 4px apart, instead of shrinking to their text.
+- **Line tabs are retired.** `variant="line"` is still accepted, so existing code compiles, and renders as the default track.
+
+### Aspect Ratio
+
+- **The frame glides.** When `ratio` changes, Aspect Ratio reshapes on the move timing instead of jumping. Under reduced motion it snaps. On the web and on React Native.
+- **One element in every primitive.** The Radix version no longer wraps the frame in a full-width padding-bottom box: like Base UI and React Aria, it is one element sized with CSS `aspect-ratio`, so `className` sets its width. `ratio` still defaults to `1`, and `asChild` still works.
+- **`style` merges.** A `style` prop on Aspect Ratio now keeps the ratio instead of replacing it.
+- **New demos.** The docs preview switches one photo between 16:9, 4:3, 1:1, 3:4 and 9:16.
+
+### Checkbox and radio rows
+
+- **The whole row toggles.** A label placed after a checkbox or radio now takes clicks 8px above and below its text, so a click between two rows still lands on one. Next to a description, the title and the description both toggle the control. Links in a description stay clickable. Rows keep their height.
+- **More room.** Radio groups and checkbox groups space their rows 16px apart instead of 12, and a horizontal Field leaves 10px between a checkbox or radio and its label instead of 6. Both follow the density. On the web and on React Native.
+
+## Upgrade notes
+
+- Native Video Player needs `expo-video` and a rebuilt development client.
+- Several new web controls are not on React Native yet; each component page lists its native differences.
+
+[Release on GitHub](https://github.com/gabrielespinheira/fabricator-ui/releases/tag/fabricator-ui%400.6.0)

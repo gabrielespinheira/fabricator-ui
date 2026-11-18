@@ -93,16 +93,16 @@ function placeOverlay(
 ) {
   "worklet"
   if (travel) {
-    overlay.x.value = withTiming(rect.left, travel)
-    overlay.y.value = withTiming(rect.top, travel)
-    overlay.width.value = withTiming(rect.width, travel)
-    overlay.height.value = withTiming(rect.height, travel)
+    overlay.x.set(withTiming(rect.left, travel))
+    overlay.y.set(withTiming(rect.top, travel))
+    overlay.width.set(withTiming(rect.width, travel))
+    overlay.height.set(withTiming(rect.height, travel))
     return
   }
-  overlay.x.value = rect.left
-  overlay.y.value = rect.top
-  overlay.width.value = rect.width
-  overlay.height.value = rect.height
+  overlay.x.set(rect.left)
+  overlay.y.set(rect.top)
+  overlay.width.set(rect.width)
+  overlay.height.set(rect.height)
 }
 
 export type FluidHoverOptions = {
@@ -183,35 +183,39 @@ export function useFluidHover({
   )
 
   const syncRows = React.useCallback(() => {
-    rows.value = Array.from(rects.current, ([key, rect]) => ({
-      key,
-      rect,
-      disabled: rowOptions.current.get(key)?.disabled,
-    }))
+    rows.set(
+      Array.from(rects.current, ([key, rect]) => ({
+        key,
+        rect,
+        disabled: rowOptions.current.get(key)?.disabled,
+      }))
+    )
   }, [rows])
 
   // The selection appears at once, so a page never opens with its pill fading in,
   // and slides between rows on the move timing.
-  const syncSelection = useLatestCallback(() => {
-    const rect = selected ? (rects.current.get(selected) ?? null) : null
-    const previous = selectionRect.current
-    if (sameRect(previous, rect)) return
-    selectionRect.current = rect
-    if (!rect) {
-      selection.opacity.value = withTiming(0, fadeOut)
-      return
+  const syncSelection = useLatestCallback(
+    (selectedKey: string | undefined = selected) => {
+      const rect = selectedKey ? (rects.current.get(selectedKey) ?? null) : null
+      const previous = selectionRect.current
+      if (sameRect(previous, rect)) return
+      selectionRect.current = rect
+      if (!rect) {
+        selection.opacity.set(withTiming(0, fadeOut))
+        return
+      }
+      placeOverlay(
+        selection,
+        rect,
+        shouldGlide(previous, rect) && !move.isReduced
+          ? { duration: move.enterMs, easing: move.moveEasing }
+          : null
+      )
+      selection.opacity.set(1)
     }
-    placeOverlay(
-      selection,
-      rect,
-      shouldGlide(previous, rect) && !move.isReduced
-        ? { duration: move.enterMs, easing: move.moveEasing }
-        : null
-    )
-    selection.opacity.value = 1
-  })
+  )
 
-  React.useEffect(syncSelection, [selected, syncSelection])
+  React.useEffect(() => syncSelection(selected), [selected, syncSelection])
 
   const storeRect = React.useCallback(
     (key: string, rect: Rect) => {
@@ -283,9 +287,11 @@ export function useFluidHover({
 
   React.useEffect(() => {
     if (!previewsSelection || !selectionRect.current) return
-    selection.opacity.value = withTiming(
-      lit !== null && lit !== selected ? DIMMED_SELECTION : 1,
-      fadeIn
+    selection.opacity.set(
+      withTiming(
+        lit !== null && lit !== selected ? DIMMED_SELECTION : 1,
+        fadeIn
+      )
     )
   }, [fadeIn, lit, previewsSelection, selected, selection])
 
@@ -297,10 +303,9 @@ export function useFluidHover({
       pressedAt.current = Date.now()
       setLit(key)
       // Still fading from the last press: glide from there. Otherwise appear.
-      placeOverlay(hover, rect, hover.opacity.value > 0.01 ? glideTravel : null)
-      hover.opacity.value = withTiming(
-        previewsSelection && key === selected ? 0 : 1,
-        fadeIn
+      placeOverlay(hover, rect, hover.opacity.get() > 0.01 ? glideTravel : null)
+      hover.opacity.set(
+        withTiming(previewsSelection && key === selected ? 0 : 1, fadeIn)
       )
     },
     [fadeIn, glideTravel, hover, previewsSelection, selected, setLit]
@@ -309,7 +314,7 @@ export function useFluidHover({
   const release = React.useCallback(() => {
     setLit(null)
     const delay = getFadeOutDelay(Date.now() - pressedAt.current, glide.enterMs)
-    hover.opacity.value = withDelay(delay, withTiming(0, fadeOut))
+    hover.opacity.set(withDelay(delay, withTiming(0, fadeOut)))
   }, [fadeOut, glide.enterMs, hover, setLit])
 
   const getItemProps = React.useCallback(
@@ -335,7 +340,7 @@ export function useFluidHover({
       },
       onPressOut: () => {
         // The gesture took over this touch, and owns the highlight until it ends.
-        if (!isTracking.value) release()
+        if (!isTracking.get()) release()
       },
       onHoverIn: () => light(key),
       onHoverOut: () => release(),
@@ -355,22 +360,21 @@ export function useFluidHover({
   const gesture = React.useMemo(() => {
     const trackTo = (point: { x: number; y: number }) => {
       "worklet"
-      const list = rows.value
+      const list = rows.get()
       const next = isNearRows(list, point, RELEASE_SLOP)
         ? pickNearestRow(list, point, axis)
         : null
-      if (next === litKey.value) return
-      litKey.value = next
+      if (next === litKey.get()) return
+      litKey.set(next)
       scheduleOnRN(handleTrackChange, next)
       const rect = next ? list.find((row) => row.key === next)?.rect : null
       if (!rect) {
-        hover.opacity.value = withTiming(0, fadeOut)
+        hover.opacity.set(withTiming(0, fadeOut))
         return
       }
-      placeOverlay(hover, rect, hover.opacity.value > 0.01 ? glideTravel : null)
-      hover.opacity.value = withTiming(
-        previewsSelection && next === selected ? 0 : 1,
-        fadeIn
+      placeOverlay(hover, rect, hover.opacity.get() > 0.01 ? glideTravel : null)
+      hover.opacity.set(
+        withTiming(previewsSelection && next === selected ? 0 : 1, fadeIn)
       )
     }
     const slop: [number, number] = [-TRACK_SLOP, TRACK_SLOP]
@@ -389,7 +393,7 @@ export function useFluidHover({
     return configured
       .onStart((event) => {
         "worklet"
-        isTracking.value = true
+        isTracking.set(true)
         trackTo({ x: event.x, y: event.y })
       })
       .onUpdate((event) => {
@@ -398,16 +402,16 @@ export function useFluidHover({
       })
       .onEnd((_event, success) => {
         "worklet"
-        const key = litKey.value
+        const key = litKey.get()
         if (success && key) scheduleOnRN(activate, key)
       })
       .onFinalize(() => {
         "worklet"
-        if (!isTracking.value) return
-        isTracking.value = false
-        litKey.value = null
+        if (!isTracking.get()) return
+        isTracking.set(false)
+        litKey.set(null)
         scheduleOnRN(handleTrackChange, null)
-        hover.opacity.value = withTiming(0, fadeOut)
+        hover.opacity.set(withTiming(0, fadeOut))
       })
   }, [
     activate,
@@ -610,11 +614,11 @@ function FluidHoverOverlay({
 } & React.ComponentProps<typeof Animated.View>) {
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: overlay.opacity.value,
-    width: overlay.width.value,
-    height: overlay.height.value,
+    width: overlay.width.get(),
+    height: overlay.height.get(),
     transform: [
-      { translateX: overlay.x.value },
-      { translateY: overlay.y.value },
+      { translateX: overlay.x.get() },
+      { translateY: overlay.y.get() },
     ],
   }))
   return (

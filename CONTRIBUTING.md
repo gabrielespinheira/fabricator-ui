@@ -24,13 +24,27 @@ bun run dev                     # website + registry on http://localhost:4000
 | Compare registry output with upstream                          | `bun run test:parity` (`--styles all` for every combination)                                                   |
 | CLI end-to-end tests (dev server running, `bun run cli:build`) | `bun run test:e2e`                                                                                             |
 | Run the local CLI against a project                            | `FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli add button -c ~/my-app`                             |
-| React Native example on the iOS Simulator                      | `bun run mobile`                                                                                               |
+| Website example                                                | `bun run example:web`                                                                                          |
+| Desktop examples                                               | `bun run example:desktop-electron`, `bun run example:desktop-tauri`                                            |
+| React Native example on the iOS Simulator                      | `bun run example:mobile-reactnative`                                                                           |
+| React Native example on iPad or Android                        | `bun run example:mobile-reactnative:ipad`, `bun run example:mobile-reactnative:android`                        |
+
+Example commands use `example:<platform>-<framework>[:device|check]`. The existing
+`desktop`, `desktop:tauri` and `mobile:*` commands remain aliases. Native-language
+and Tauri mobile commands, prerequisites and verification are in
+[`docs/PLATFORMS.md`](docs/PLATFORMS.md#swiftui-kotlin-compose-and-tauri-mobile).
+Their full qualification checklist is
+[`docs/plans/native-platforms.md`](docs/plans/native-platforms.md).
+
+Each Vitest config puts its filesystem module cache under that package's own
+`node_modules`. Separate Turbo test processes must not clear a shared cache when
+the root lockfile changes.
 
 ## Where to start
 
 | You're changing                  | Read                                                   |
 | -------------------------------- | ------------------------------------------------------ |
-| A component, example or block    | [`docs/COMPONENTS.md`](docs/COMPONENTS.md)             |
+| A component, example or block    | [`COMPONENTS.md`](COMPONENTS.md)                       |
 | A new component's group          | [`docs/COMPONENT-GROUPS.md`](docs/COMPONENT-GROUPS.md) |
 | A look, token, motion or density | [`docs/STYLES.md`](docs/STYLES.md)                     |
 | React Native, desktop or icons   | [`docs/PLATFORMS.md`](docs/PLATFORMS.md)               |
@@ -44,3 +58,4 @@ bun run dev                     # website + registry on http://localhost:4000
 - Conventional Commits with a scope: `feat(registry): add stepper`, `fix(cli): …`, `chore(upstream): sync shadcn-ui/ui@<sha>`.
 - Every package shares one version. Don't change versions or `CHANGELOG.md` in a feature pull request; the maintainer cuts releases with `/release` ([`docs/MAINTAINING.md`](docs/MAINTAINING.md)).
 - Pull requests describe what changed, which bases and styles were touched, and include screenshots for visual changes.
+- Upload screenshots, recordings and visual review sheets to GitHub attachments (`gh pr comment <pr> --attach <file>`) and use their URLs in Markdown. Record the URL and original file's SHA-256 in [`docs/screenshot-attachments.json`](docs/screenshot-attachments.json). Keep session captures local and ignored; verify anonymous downloads before removing any tracked capture or changing its consumers. Product artwork, icons and diagrams remain source assets.

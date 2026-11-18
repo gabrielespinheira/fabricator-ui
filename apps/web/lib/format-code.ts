@@ -81,7 +81,12 @@ async function getStyleMap(styleName: string) {
   }
 }
 
-export async function formatCode(code: string, styleName: string) {
+/** `keepDefaultExport` is for Next.js pages, which must export a default. */
+export async function formatCode(
+  code: string,
+  styleName: string,
+  { keepDefaultExport = false }: { keepDefaultExport?: boolean } = {}
+) {
   code = restoreIconImports(code)
   code = code.replaceAll(`@/registry/${styleName}/`, "@/components/")
 
@@ -111,7 +116,7 @@ export async function formatCode(code: string, styleName: string) {
     }
   )
 
-  code = code.replaceAll("export default", "export")
+  if (!keepDefaultExport) code = code.replaceAll("export default", "export")
 
   try {
     const styleMap = await getStyleMap(styleName)

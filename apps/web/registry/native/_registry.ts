@@ -1,6 +1,7 @@
 import { type Registry } from "shadcn/schema"
 
 import { blockItems } from "./items/blocks"
+import { chartItems } from "./items/charts"
 import { contentItems } from "./items/content"
 import { dataItems } from "./items/data"
 import { formItems } from "./items/forms"
@@ -15,6 +16,7 @@ export const nativeItems: Registry["items"] = [
   ...contentItems,
   ...formItems,
   ...dataItems,
+  ...chartItems,
   ...overlayItems,
   ...navigationItems,
   ...blockItems,

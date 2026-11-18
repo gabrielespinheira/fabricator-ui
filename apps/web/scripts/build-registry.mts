@@ -40,6 +40,7 @@ import {
 import { fonts } from "@/registry/fonts"
 import { STYLES } from "@/registry/styles"
 
+import { buildNativePlatforms } from "./build-native-platforms.mjs"
 import { buildNativeRegistry } from "./build-native-registry.mjs"
 
 /*
@@ -96,6 +97,12 @@ const FABRICATOR_SITE_FILES = (fabricatorItems as RegistryItem[])
   .flatMap((item) => item.files ?? [])
   .map((file) => file.path)
   .filter((filePath) => !filePath.startsWith("ui/"))
+
+// Fabricator's own blocks (App Shell, auth, apps) exist only compiled, in
+// styles/<style>/blocks/, so the site previews them from there.
+const FABRICATOR_BLOCKS = (fabricatorItems as RegistryItem[]).filter(
+  (item) => item.type === "registry:block"
+)
 
 // Only Fabricator styles are published. Upstream styles are still compiled so
 // test:parity can compare them with ui.shadcn.com, but into a private folder.
@@ -824,6 +831,8 @@ async function runFullBuild() {
 
   console.log("\n📱 Building the React Native registry...")
   await buildNativeRegistry()
+  console.info("\nBuilding SwiftUI and Kotlin Compose registries...")
+  await buildNativePlatforms()
 }
 
 async function runTargetedBuild(options: BuildOptions) {
@@ -1341,8 +1350,31 @@ function withFabricatorItems(
     ...overridden,
     ...(fabricatorItems as RegistryItem[])
       .filter((item) => !names.has(item.name))
-      .map((item) => withImplementationDependencies(item, baseName)),
+      .map((item) => withImplementationDependencies(item, baseName))
+      .map((item) => withBaseRegistryDependencies(item, baseName)),
   ]
+}
+
+// A Fabricator item whose meta.baseRegistryDependencies lists items for this
+// base installs them too: the Event Calendar reports changes with Toast on
+// Base UI and with Sonner on Radix and Aria (COMPONENTS.md).
+function withBaseRegistryDependencies(
+  item: RegistryItem,
+  baseName: string
+): RegistryItem {
+  const byBase: unknown = item.meta?.baseRegistryDependencies
+  if (typeof byBase !== "object" || byBase === null) return item
+  const extra: unknown = Reflect.get(byBase, baseName)
+  if (!Array.isArray(extra)) return item
+  return {
+    ...item,
+    registryDependencies: Array.from(
+      new Set([
+        ...(item.registryDependencies ?? []),
+        ...extra.filter((name): name is string => typeof name === "string"),
+      ])
+    ),
+  }
 }
 
 // A Fabricator item whose meta.implementation maps this base to another one
@@ -1577,10 +1609,17 @@ export const Index: Record<string, Record<string, any>> = {`
   "${style.name}": {`
     const shard: ComponentShard = { key: style.name, entries: "", names: [] }
 
-    for (const item of registry.items) {
+    const styleItems = isFabricatorStyleName(style.name)
+      ? [...registry.items, ...FABRICATOR_BLOCKS]
+      : registry.items
+
+    for (const item of styleItems) {
       if (item.type === "registry:internal") {
         continue
       }
+      const isFabricatorBlock = FABRICATOR_BLOCKS.includes(item)
+      const isStyledFile = (filePath: string) =>
+        isFabricatorBlock || isStyledOutputFile(filePath)
       // Fabricator styles don't compile the items they leave out.
       if (
         isFabricatorStyleName(style.name) &&
@@ -1589,7 +1628,11 @@ export const Index: Record<string, Record<string, any>> = {`
         continue
       }
 
-      if (styleCombination && !shouldIncludeStyledRegistryItem(item)) {
+      if (
+        styleCombination &&
+        !isFabricatorBlock &&
+        !shouldIncludeStyledRegistryItem(item)
+      ) {
         continue
       }
 
@@ -1602,7 +1645,7 @@ export const Index: Record<string, Record<string, any>> = {`
       const resolvedFiles = styleCombination
         ? files.map((file) => ({
             ...file,
-            path: isStyledOutputFile(file.path)
+            path: isStyledFile(file.path)
               ? `styles/${style.name}/${file.path}`
               : `registry/bases/${styleCombination.base.name}/${file.path}`,
           }))
@@ -1613,7 +1656,7 @@ export const Index: Record<string, Record<string, any>> = {`
 
       const componentPath = files[0]?.path
         ? styleCombination
-          ? isStyledOutputFile(files[0].path)
+          ? isStyledFile(files[0].path)
             ? `@/styles/${style.name}/${stripFileExtension(files[0].path)}`
             : `@/registry/bases/${styleCombination.base.name}/${stripFileExtension(files[0].path)}`
           : `@/registry/${style.name}/${stripFileExtension(files[0].path)}`

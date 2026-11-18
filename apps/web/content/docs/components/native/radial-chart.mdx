@@ -1,0 +1,137 @@
+---
+title: Radial Chart
+description: Progress of a few values against their target as concentric rings, round a full circle or a half gauge.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add radial-chart
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { RadialChart } from "@/components/ui/radial-chart"
+```
+
+```tsx
+<RadialChart
+  data={goals}
+  nameKey="goal"
+  maxKey="target"
+  label="Quarterly goals"
+  formatValue={compact}
+/>
+```
+
+## Composition
+
+- `RadialChart`
+- `RadialChartProps`
+
+## Examples
+
+```tsx showLineNumbers title="radial-chart-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
+
+import { formatChartNumber } from "@/registry/fabricator/shared/lib/chart-model"
+import { Button } from "@/components/ui/button"
+import { RadialChart } from "@/components/ui/radial-chart"
+
+const goals = [
+  { goal: "Revenue", value: 412_000, target: 500_000 },
+  { goal: "New customers", value: 284, target: 320 },
+  { goal: "Renewals", value: 168, target: 180 },
+]
+
+const goalsLater = [
+  { goal: "Revenue", value: 488_000, target: 500_000 },
+  { goal: "New customers", value: 301, target: 320 },
+  { goal: "Renewals", value: 179, target: 180 },
+]
+
+const usage = [
+  { name: "API calls", value: 7_420, limit: 10_000 },
+  { name: "Seats", value: 18, limit: 25 },
+]
+
+const compact = (value: number) => formatChartNumber(value, { compact: true })
+
+function WeekSwitch() {
+  const [isLater, setIsLater] = React.useState(false)
+  return (
+    <>
+      <RadialChart
+        data={isLater ? goalsLater : goals}
+        nameKey="goal"
+        maxKey="target"
+        label="Quarterly goals"
+        formatValue={compact}
+      />
+      <View className="flex-row gap-1">
+        <Button
+          size="sm"
+          variant={isLater ? "ghost" : "secondary"}
+          accessibilityState={{ selected: !isLater }}
+          onPress={() => setIsLater(false)}
+        >
+          Week 8
+        </Button>
+        <Button
+          size="sm"
+          variant={isLater ? "secondary" : "ghost"}
+          accessibilityState={{ selected: isLater }}
+          onPress={() => setIsLater(true)}
+        >
+          Week 12
+        </Button>
+      </View>
+    </>
+  )
+}
+
+export function RadialChartExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Full rings" className="items-stretch">
+        <RadialChart
+          data={goals}
+          nameKey="goal"
+          maxKey="target"
+          label="Quarterly goals"
+          formatValue={compact}
+        />
+      </Example>
+      <Example title="Half gauge" className="items-stretch">
+        <RadialChart
+          data={usage}
+          maxKey="limit"
+          label="Plan usage"
+          shape="half"
+          formatValue={compact}
+        />
+      </Example>
+      <Example title="One ring with a label" className="items-stretch">
+        <RadialChart
+          data={[{ name: "Storage", value: 61 }]}
+          max={100}
+          label="Storage used"
+          centerLabel="61 GB"
+        />
+      </Example>
+      <Example title="Changing the data" className="items-stretch">
+        <WeekSwitch />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+```
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

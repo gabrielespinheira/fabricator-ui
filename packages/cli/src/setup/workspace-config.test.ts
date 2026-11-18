@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 import {
   buildRootPackage,
   buildWebPackageForDesktop,
+  buildWorkspaceRoot,
   getNativePeerPins,
   withPins,
 } from "./workspace-config"
@@ -15,14 +16,46 @@ describe("buildRootPackage", () => {
 
   it("starts only the web app from dev", () => {
     expect(
-      buildRootPackage(pkg, { packageManager: "bun", hasDesktop: false })
-        .scripts
+      buildRootPackage(pkg, {
+        packageManager: "bun",
+        hasWebApp: true,
+        runner: "turborepo",
+        hasDesktop: false,
+      }).scripts
     ).toEqual({ build: "turbo build", dev: "turbo run dev --filter=web" })
+  })
+
+  it("starts a lone mobile app, with no web app to run", () => {
+    const { scripts } = buildRootPackage(buildWorkspaceRoot("app"), {
+      packageManager: "npm",
+      hasWebApp: false,
+      runner: "turborepo",
+      hasDesktop: false,
+      mobileReact: "19.3.0",
+    })
+    expect(scripts).toEqual({
+      "dev:mobile": "cd apps/mobile && npm run start",
+    })
+  })
+
+  it("starts the apps with Vite+ when it runs the tasks", () => {
+    const { scripts } = buildRootPackage(pkg, {
+      packageManager: "bun",
+      hasWebApp: true,
+      runner: "vite-plus",
+      hasDesktop: true,
+    })
+    expect(scripts?.dev).toBe("vp run --filter web dev")
+    expect(scripts?.["dev:desktop"]).toBe(
+      "vp run --parallel --filter web --filter desktop dev"
+    )
   })
 
   it("adds a script per app", () => {
     const { scripts } = buildRootPackage(pkg, {
       packageManager: "pnpm",
+      hasWebApp: true,
+      runner: "turborepo",
       hasDesktop: true,
       mobileReact: "19.3.0",
     })
@@ -37,6 +70,8 @@ describe("buildRootPackage", () => {
       expect(
         buildRootPackage(pkg, {
           packageManager,
+          hasWebApp: true,
+          runner: "turborepo",
           hasDesktop: false,
           mobileReact: "19.3.0",
         }).overrides
@@ -51,6 +86,8 @@ describe("buildRootPackage", () => {
   it("uses yarn's field", () => {
     const root = buildRootPackage(pkg, {
       packageManager: "yarn",
+      hasWebApp: true,
+      runner: "turborepo",
       hasDesktop: false,
       mobileReact: "19.3.0",
     })
@@ -62,14 +99,30 @@ describe("buildRootPackage", () => {
     expect(
       buildRootPackage(pkg, {
         packageManager: "pnpm",
+        hasWebApp: true,
+        runner: "turborepo",
         hasDesktop: false,
         mobileReact: "19.3.0",
       }).overrides
     ).toBeUndefined()
     expect(
-      buildRootPackage(pkg, { packageManager: "npm", hasDesktop: true })
-        .overrides
+      buildRootPackage(pkg, {
+        packageManager: "npm",
+        hasWebApp: true,
+        runner: "turborepo",
+        hasDesktop: true,
+      }).overrides
     ).toBeUndefined()
+  })
+})
+
+describe("buildWorkspaceRoot", () => {
+  it("is a private workspace of the apps", () => {
+    expect(buildWorkspaceRoot("acme")).toEqual({
+      name: "acme",
+      private: true,
+      workspaces: ["apps/*"],
+    })
   })
 })
 

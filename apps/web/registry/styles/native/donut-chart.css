@@ -1,0 +1,70 @@
+/* MARK: Donut Chart */
+
+  /* The chart fills its container's width; the list moves beside the ring
+     where it is wide enough. */
+  .cn-donut-chart {
+    @apply w-full gap-(--density-12);
+  }
+
+  /* The centre's layers share one spot in the ring's hole. */
+  .cn-donut-chart-center {
+    @apply items-center justify-center;
+  }
+
+  /* The total and each slice's value: the one shown fades in as the last
+     fades out, on the feedback timing. */
+  .cn-donut-chart-center-layer {
+    @apply gap-0.5;
+  }
+
+  /* The value leads, large and tabular; its size comes from the hole. */
+  .cn-donut-chart-center-value {
+    @apply text-foreground font-semibold tracking-tight tabular-nums;
+  }
+
+  .cn-donut-chart-center-label {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  /* The value list: a row per slice, as wide as the room beside or under
+     the ring. */
+  .cn-donut-chart-list {
+    @apply w-full gap-0.5 data-[layout=row]:w-auto data-[layout=row]:flex-1;
+  }
+
+  /* A held row lights up with its slice. */
+  .cn-donut-chart-list-item {
+    @apply gap-(--density-6) rounded-md px-(--density-8) py-(--density-6) data-[active=true]:bg-hover;
+  }
+
+  .cn-donut-chart-list-row {
+    @apply gap-(--density-8);
+  }
+
+  /* The slice's colour as a small square, like the legend's key. */
+  .cn-donut-chart-list-key {
+    @apply size-2 rounded-[2px];
+  }
+
+  .cn-donut-chart-list-label {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-donut-chart-list-share {
+    @apply text-muted-foreground text-(length:--density-text-13) tabular-nums;
+  }
+
+  /* Values line up at the end, tabular, a step heavier than the share. */
+  .cn-donut-chart-list-value {
+    @apply text-foreground min-w-(--density-48) text-right text-(length:--density-text-13) font-medium tabular-nums;
+  }
+
+  /* A thin share bar under each row: a faint track and the slice's colour,
+     which grows in with the ring. */
+  .cn-donut-chart-list-bar {
+    @apply bg-muted h-1 rounded-full;
+  }
+
+  .cn-donut-chart-list-bar-fill {
+    @apply rounded-full;
+  }

@@ -1,7 +1,8 @@
 // The component groups shared by the docs sidebar and the homepage gallery.
 // Basics are the building blocks other components are made of; the middle
-// groups are what a reader is trying to build; Advanced holds the large,
-// self-contained components that are products of their own.
+// groups are what a reader is trying to build; Charts draw numbers as marks;
+// Advanced holds the large, self-contained components that are products of
+// their own.
 
 export const COMPONENT_GROUPS = [
   "Basics",
@@ -9,6 +10,7 @@ export const COMPONENT_GROUPS = [
   "Overlays",
   "Structure",
   "Content",
+  "Charts",
   "Chat",
   "Advanced",
 ] as const
@@ -44,6 +46,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   "scroll-area": "Basics",
   // Forms
   field: "Forms",
+  form: "Forms",
   "input-group": "Forms",
   "input-otp": "Forms",
   select: "Forms",
@@ -97,6 +100,23 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   progress: "Content",
   empty: "Content",
   markdown: "Content",
+  sounds: "Content",
+  // Charts
+  "area-chart": "Charts",
+  "line-chart": "Charts",
+  "bar-chart": "Charts",
+  "composition-chart": "Charts",
+  "candlestick-chart": "Charts",
+  "bump-chart": "Charts",
+  "pie-chart": "Charts",
+  "donut-chart": "Charts",
+  "radial-chart": "Charts",
+  "radar-chart": "Charts",
+  treemap: "Charts",
+  "funnel-chart": "Charts",
+  "sankey-chart": "Charts",
+  "heat-calendar": "Charts",
+  "status-bar": "Charts",
   // Chat
   "bot-face": "Chat",
   "chat-input": "Chat",
@@ -109,6 +129,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   questionnaire: "Chat",
   // Advanced
   "data-table": "Advanced",
+  "event-calendar": "Advanced",
   editor: "Advanced",
   "file-tree": "Advanced",
   "syntax-highlight": "Advanced",

@@ -55,7 +55,7 @@ export default function ItemDropdown() {
               <Item size="sm" className="w-full p-2">
                 <ItemMedia>
                   <Avatar className="size-8">
-                    <AvatarImage src={person.avatar} className="grayscale" />
+                    <AvatarImage src={person.avatar} />
                     <AvatarFallback>{person.username.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </ItemMedia>

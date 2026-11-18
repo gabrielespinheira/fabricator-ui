@@ -7,10 +7,13 @@ import {
   DEFAULT_PROJECT_NAME,
   DESKTOP_RUNTIMES,
   FRAMEWORKS,
+  hasWebApp,
   isWebFramework,
   MONOREPO_FRAMEWORKS,
   resolveApps,
+  RUNNERS,
   SPINNER_VALUES,
+  TOOLINGS,
   type ProjectSetup,
 } from "@fabricator-ui/setup"
 
@@ -114,8 +117,9 @@ export async function askForSetup(
 
   if (!namesTheApps(flags)) await askForApps(next)
 
-  const { framework, project } = resolveApps(next)
-  if (isWebFramework(framework)) {
+  const apps = resolveApps(next)
+  const { project } = apps
+  if (hasWebApp(apps)) {
     if (!flags.template) {
       next.framework = await promptSelect(
         "Framework",
@@ -131,6 +135,17 @@ export async function askForSetup(
     if (!flags.base) {
       next.base = await promptSelect("Component primitives", toChoices(BASES))
     }
+  }
+
+  if (project === "monorepo" && hasWebApp(apps) && !flags.runner) {
+    next.runner = await promptSelect("Task runner", toChoices(RUNNERS))
+  }
+
+  if (project === "monorepo" && !flags.tooling) {
+    next.tooling = await promptSelect(
+      "Linting and formatting",
+      toChoices(TOOLINGS)
+    )
   }
 
   if (!flags.spinner) {

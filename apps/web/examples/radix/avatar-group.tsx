@@ -7,7 +7,7 @@ import {
 
 export function AvatarGroupExample() {
   return (
-    <AvatarGroup className="grayscale">
+    <AvatarGroup>
       <Avatar>
         <AvatarImage
           src="https://github.com/gabrielespinheira.png"

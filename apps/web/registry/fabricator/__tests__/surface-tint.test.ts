@@ -9,6 +9,7 @@ import {
   MUTED_FOREGROUND_STEP,
   NEUTRAL_TINT,
   oklchToLinearRgb,
+  SURFACE_BASE_STEP,
   SURFACE_MAX_CHROMA,
   SURFACE_STEPS,
   surfaceLadder,
@@ -122,6 +123,64 @@ describe("surface tint", () => {
       }
     })
   }
+
+  describe("level 0, below the page", () => {
+    it("is white in light and a step under the page in dark", () => {
+      expect(tintedLiteral(SURFACE_BASE_STEP.light, NEUTRAL_TINT)).toBe(
+        "oklch(1 0 0)"
+      )
+      expect(tintedLiteral(SURFACE_BASE_STEP.dark, NEUTRAL_TINT)).toBe(
+        "oklch(0.175 0 0)"
+      )
+    })
+
+    it("is a token like the other levels, with no shadow", () => {
+      const { theme, light, dark } = FABRICATOR_FOUNDATIONS.cssVars
+      expect(theme["color-surface-0"]).toBe("var(--surface-0)")
+      expect(theme["shadow-surface-0"]).toBeUndefined()
+      expect(light["surface-0"]).toContain("var(--surface-hue)")
+      expect(dark["surface-0"]).toContain("var(--surface-hue)")
+    })
+
+    for (const mode of ["light", "dark"] as const) {
+      const palette = FABRICATOR_PALETTE[mode]
+
+      it(`${mode}: stays further from the middle grey than the page, for every tint`, () => {
+        for (const chroma of [0, ...STRENGTHS]) {
+          const lightness = (step: { l: number; drop?: number }) =>
+            step.l - chroma * (step.drop ?? 0)
+          const base = lightness(SURFACE_BASE_STEP[mode])
+          const levels = SURFACE_STEPS[mode].map(lightness)
+          if (mode === "light") {
+            // Lighter than the page and never darker than a raised level,
+            // so it reads as white at any tint.
+            expect(base).toBeGreaterThan(levels[0])
+            for (const level of levels) {
+              expect(base).toBeGreaterThanOrEqual(level)
+            }
+          } else {
+            expect(base).toBeLessThan(levels[0])
+          }
+        }
+      })
+
+      it(`${mode}: stays inside sRGB and keeps text AA for every hue`, () => {
+        for (const hue of HUES) {
+          for (const chroma of STRENGTHS) {
+            const tint = { hue, chroma }
+            const surface = tintedLiteral(SURFACE_BASE_STEP[mode], tint)
+            const muted =
+              mode === "light"
+                ? tintedLiteral(MUTED_FOREGROUND_STEP, tint)
+                : palette["muted-foreground"]
+            expect(inGamut(surface), surface).toBe(true)
+            expect(contrast(palette.foreground, surface)).toBeGreaterThan(4.5)
+            expect(contrast(muted, surface)).toBeGreaterThan(4.5)
+          }
+        }
+      })
+    }
+  })
 
   it("draws a swatch for every tint", () => {
     expect(tintToHex(NEUTRAL_TINT)).toMatch(/^#([0-9a-f]{2})\1\1$/)
