@@ -12,6 +12,8 @@ Choose one metaphor for each meaning throughout the product. Use outline icons f
 
 Components own icon size, spacing and colour. In labelled buttons, mark placement with `data-icon="inline-start"` or `"inline-end"`; omit manual margins and sizing classes. An icon before text names the action; an arrow after text indicates direction.
 
+In `DropdownMenuItem`, `ContextMenuItem` and `MenubarItem` (checkbox items and sub-menu triggers too), every action leads with its icon as the first child, without `data-icon` or size classes; the item sizes it and thickens its stroke on highlight. Use the icon the action has elsewhere in the product. An action with no fitting icon takes `inset` so its label stays on the others' edge; a sub-menu of plain values (intervals, sort orders) has no icons.
+
 ```tsx
 import { ArrowRightIcon, PlusIcon } from "@fabricator-ui/icons"
 

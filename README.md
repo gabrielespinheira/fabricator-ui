@@ -6,9 +6,9 @@
 
 # Fabricator UI
 
-**Components that move with you.**
+**One design system for your apps.**
 
-Open-code components for React and React Native, with a design system of their own: fluid hover, layered surfaces, and motion and density you set per region. One design for web, desktop, iOS and Android, fully compatible with shadcn/ui.
+Open-code components for web, mobile and desktop, with built-in motion and one set of colours, type and icons on every platform. React and React Native today, SwiftUI and Kotlin Compose in preview, and fully compatible with shadcn/ui.
 
 **[fabricator-ui.vercel.app](https://fabricator-ui.vercel.app)**
 
@@ -17,14 +17,14 @@ Open-code components for React and React Native, with a design system of their o
 [![skills.sh](https://img.shields.io/badge/skills.sh-fabricator-09090b)](https://www.skills.sh/gabrielespinheira/fabricator-ui/fabricator)
 [![License: MIT](https://img.shields.io/badge/license-MIT-09090b)](LICENSE.md)
 
-[Website](https://fabricator-ui.vercel.app) · [Get started](https://fabricator-ui.vercel.app/create) · [Docs](https://fabricator-ui.vercel.app/docs/installation) · [Components](https://fabricator-ui.vercel.app/docs/components) · [Icons](https://fabricator-ui.vercel.app/icons) · [Agent skill](https://www.skills.sh/gabrielespinheira/fabricator-ui/fabricator) · [Changelog](https://fabricator-ui.vercel.app/docs/changelog)
+[Website](https://fabricator-ui.vercel.app) · [Get started](https://fabricator-ui.vercel.app/create) · [Docs](https://fabricator-ui.vercel.app/docs/installation) · [Components](https://fabricator-ui.vercel.app/docs/components) · [Blocks](https://fabricator-ui.vercel.app/blocks) · [Icons](https://fabricator-ui.vercel.app/icons) · [Agent skill](https://www.skills.sh/gabrielespinheira/fabricator-ui/fabricator) · [Changelog](https://fabricator-ui.vercel.app/docs/changelog)
 
 <br />
 
 <a href="https://fabricator-ui.vercel.app">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/fb02b41e-eaa0-49d5-a5c9-729a878d7f3c" />
-    <img src="https://github.com/user-attachments/assets/3ab0f6ba-c966-4f0f-93d1-4bbafb45b9b9" alt="The Fabricator UI website, showing the component gallery" width="100%" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/24f5a525-9b59-4c39-ba61-c10beadc84a4" />
+    <img src="https://github.com/user-attachments/assets/a485c64a-6175-4c12-9346-dd024a8ee5f7" alt="The Fabricator UI homepage, with the finance dashboard screen block" width="100%" />
   </picture>
 </a>
 
@@ -33,13 +33,14 @@ Open-code components for React and React Native, with a design system of their o
 ## Why Fabricator UI
 
 - **You own the code.** The CLI copies each component into your project as source. Change anything, and upgrade when you choose to.
-- **One design, every platform.** The same components, names, variants and look on the web, in Electron and Tauri desktop apps, and on iOS, iPadOS and Android with React Native.
+- **One design, every platform.** The same components, names, variants and look on the web, in Electron and Tauri desktop apps, and on iOS, iPadOS and Android with React Native. SwiftUI and Kotlin Compose renderers are in preview.
 - **A design language of its own.** Fluid hover, sliding selection, layered surfaces, optional sounds and haptics. Colour, motion speed, density and corner shape are tokens you switch at runtime. See the [design guide](DESIGN.md).
-- **Built for real apps.** 80+ components and 30+ blocks: forms, overlays, navigation, data display, chat and AI, video, code, file trees and an App Shell that handles phones, panels, shortcuts and desktop windows.
+- **Built for real apps.** 100+ components and 40 blocks: forms, overlays, navigation, data tables, charts, an event calendar, chat and AI, a Markdown editor, video, code, file trees and an App Shell that handles phones, panels, shortcuts and desktop windows.
+- **Whole screens to start from.** Sign-in, sign-up, password reset, finance dashboard, AI assistant, messenger, mail and calendar screens install as working blocks. Preview them at desktop, tablet and phone widths in the [Blocks gallery](https://fabricator-ui.vercel.app/blocks).
 - **Your choice of primitives.** Every web component is written for [Base UI](https://base-ui.com) (the default), [Radix](https://www.radix-ui.com) and [React Aria](https://react-spectrum.adobe.com/react-aria/), with the same API and look in each.
 - **Fabricator Icons included.** Every Lucide icon under its Lucide name, Fabricator's own icons, 145 brand marks, file and folder icons and animated icons, for React, React Native and plain SVG.
 - **Accessible by default.** Keyboard and ARIA behaviour come from the primitives, every colour pair meets WCAG 2.2 AA in light and dark, and motion honours reduced-motion settings.
-- **Works where you work.** Next.js, Vite, React Router, TanStack Start, Astro, Laravel and Expo, on React 19 and Tailwind CSS v4, in a single app or a monorepo.
+- **Works where you work.** Next.js, Vite, React Router, TanStack Start, Astro, Laravel and Expo, on React 19 and Tailwind CSS v4, in a single app or a monorepo, with ESLint and Prettier, Biome or Vite+.
 - **Built for AI tools.** An MCP server, an agent skill, a `DESIGN.md` your agent can follow, `llms.txt` and a Markdown export of every docs page.
 
 ## Quick start
@@ -50,7 +51,7 @@ Create a project with the Fabricator look, or pick your colours, shell and frame
 npx fabricator-ui@latest create my-app -t next
 ```
 
-Add `--mobile` for a React Native app and `--desktop electron` or `--desktop tauri` for a desktop app in the same monorepo.
+Add `--mobile` for a React Native app and `--desktop electron` or `--desktop tauri` for a desktop app in the same monorepo. `--tooling biome` or `--tooling vite-plus` picks the linter and formatter.
 
 Or set up an existing React or Expo project (run it in the project root):
 
@@ -74,22 +75,23 @@ export function Example() {
 
 Works the same with `pnpm dlx`, `yarn dlx` and `bunx --bun`. Guides per framework are in the [installation docs](https://fabricator-ui.vercel.app/docs/installation).
 
-### Native renderer previews
+### SwiftUI and Kotlin Compose (preview)
 
-This checkout includes SwiftUI (iOS/iPadOS/macOS), Kotlin Compose
-(Android/desktop) and Tauri mobile component explorers. Run
-`bun run example:mobile-swiftui`, `bun run example:desktop-kotlin` or
-`bun run example:mobile-tauri` after the repository setup. Native renderers share
-Fabricator's generated tokens, icons and fonts; advanced behavior and host
-qualification are tracked explicitly. See [platform commands and prerequisites](docs/PLATFORMS.md)
-and the [implementation checklist](docs/plans/native-platforms.md).
+Native projects install the same components as idiomatic SwiftUI (iOS, iPadOS, macOS) or Kotlin Compose (Android, desktop JVM) source, with Fabricator's tokens, icons and fonts. No JavaScript runtime is needed in the app:
+
+```bash
+npx fabricator-ui@latest init --platform swiftui   # or compose
+npx fabricator-ui@latest add button dialog
+```
+
+The renderers are still being qualified: advanced behaviour and some hosts have known gaps, listed in each renderer's `parity-exceptions.json`. See [Platforms](docs/PLATFORMS.md).
 
 ## CLI
 
 | Command              | What it does                                                                     |
 | -------------------- | -------------------------------------------------------------------------------- |
 | `create [name]`      | Create a project or a monorepo with web, mobile and desktop apps, in one command |
-| `init`               | Set up an existing project, web or React Native                                  |
+| `init`               | Set up an existing project: web, React Native, SwiftUI or Compose                |
 | `add <items…>`       | Add components, blocks or hooks (`--all` for every component)                    |
 | `upgrade [items…]`   | Reinstall your Fabricator components at their latest versions                    |
 | `apply [preset]`     | Apply a Fabricator look to an existing project (`--only theme,font`)             |
@@ -126,27 +128,31 @@ The registry also works with the shadcn CLI directly. See [Registry](https://fab
 | Topic              | Link                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Installation       | [Web frameworks](https://fabricator-ui.vercel.app/docs/installation) · [React Native](https://fabricator-ui.vercel.app/docs/installation/react-native) · [Monorepos](https://fabricator-ui.vercel.app/docs/monorepo)                                                                                                                                                                                                                            |
-| Components         | [fabricator-ui.vercel.app/docs/components](https://fabricator-ui.vercel.app/docs/components)                                                                                                                                                                                                                                                                                                                                                    |
+| Components         | [Components](https://fabricator-ui.vercel.app/docs/components) · [Blocks](https://fabricator-ui.vercel.app/blocks)                                                                                                                                                                                                                                                                                                                              |
 | Icons              | [Fabricator Icons](https://fabricator-ui.vercel.app/docs/icons)                                                                                                                                                                                                                                                                                                                                                                                 |
 | Design foundations | [Colors](https://fabricator-ui.vercel.app/docs/foundations/colors) · [Typography](https://fabricator-ui.vercel.app/docs/foundations/typography) · [Density](https://fabricator-ui.vercel.app/docs/foundations/density) · [Motion](https://fabricator-ui.vercel.app/docs/foundations/motion) · [Fluid hover](https://fabricator-ui.vercel.app/docs/foundations/fluid-hover) · [Sounds](https://fabricator-ui.vercel.app/docs/foundations/sounds) |
 | Dark mode          | [Dark mode](https://fabricator-ui.vercel.app/docs/dark-mode)                                                                                                                                                                                                                                                                                                                                                                                    |
 
 ## Repository
 
-This monorepo holds the component registry, the CLI, Fabricator Icons, the website that documents and serves the registry, and desktop and mobile examples.
+This monorepo holds the component registry, the CLI, Fabricator Icons, the website that documents and serves the registry, and example apps for every platform.
 
-| Path                                               | What                                                                               |
-| -------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| [`apps/web`](apps/web)                             | The website (Next.js, Fumadocs) and the registry it serves at `/r`                 |
-| [`apps/web/registry`](apps/web/registry)           | Component source for each primitive library and React Native, and the styles       |
-| [`apps/desktop`](apps/desktop)                     | Desktop example in Electron and Tauri                                              |
-| [`apps/mobile`](apps/mobile)                       | React Native example with Expo                                                     |
-| [`packages/cli`](packages/cli)                     | The [`fabricator-ui`](https://www.npmjs.com/package/fabricator-ui) CLI             |
-| [`packages/icons`](packages/icons)                 | Fabricator Icons for React, with `icons-react-native` and `icons-static` beside it |
-| [`packages/editor-native`](packages/editor-native) | The native text view behind the React Native editor                                |
-| [`packages/tests`](packages/tests)                 | End-to-end install tests against real framework templates                          |
-| [`skills/fabricator`](skills/fabricator)           | Agent skill for projects that use Fabricator UI                                    |
-| [`docs`](docs)                                     | How the repository works: components, styles, platforms, registry, releases        |
+| Path                                               | What                                                                                        |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [`apps/web`](apps/web)                             | The website (Next.js, Fumadocs) and the registry it serves at `/r`                          |
+| [`apps/web/registry`](apps/web/registry)           | Component source for each primitive library and React Native, and the styles                |
+| [`apps/desktop`](apps/desktop)                     | Desktop example in Electron and Tauri                                                       |
+| [`apps/mobile`](apps/mobile)                       | React Native example with Expo                                                              |
+| [`apps/swiftui`](apps/swiftui)                     | SwiftUI explorer for iOS, iPadOS and macOS                                                  |
+| [`apps/kotlin`](apps/kotlin)                       | Kotlin Compose explorer for Android and desktop                                             |
+| [`apps/tauri-mobile`](apps/tauri-mobile)           | The React components in a Tauri mobile app                                                  |
+| [`packages/cli`](packages/cli)                     | The [`fabricator-ui`](https://www.npmjs.com/package/fabricator-ui) CLI                      |
+| [`packages/setup`](packages/setup)                 | Project setup shared by the CLI and the website: commands, plans, agent prompts             |
+| [`packages/icons`](packages/icons)                 | Fabricator Icons for React; `icons-core`, `icons-react-native` and `icons-static` beside it |
+| [`packages/editor-native`](packages/editor-native) | The native text view behind the React Native editor                                         |
+| [`packages/tests`](packages/tests)                 | End-to-end install tests against real framework templates                                   |
+| [`skills/fabricator`](skills/fabricator)           | Agent skill for projects that use Fabricator UI                                             |
+| [`docs`](docs)                                     | How the repository works: components, styles, platforms, registry, releases                 |
 
 ## Development
 
@@ -161,7 +167,7 @@ bun run registry:build          # once on a fresh clone
 bun run dev                     # http://localhost:4000
 ```
 
-`bun run check` lints, typechecks and checks formatting; `bun run test` runs the unit tests. Every other task is in [`CONTRIBUTING.md`](CONTRIBUTING.md).
+`bun run check` lints, typechecks and checks formatting; `bun run test` runs the unit tests. The example apps run with `bun run example:<platform>-<framework>`, such as `example:desktop-electron`, `example:mobile-reactnative` or `example:mobile-swiftui`; [`docs/PLATFORMS.md`](docs/PLATFORMS.md) lists each one and its prerequisites. Every other task is in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Contributing
 

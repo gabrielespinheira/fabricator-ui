@@ -26,7 +26,7 @@ Density belongs on the widest region it describes, with a nested provider for ex
 - Use the project's typeface and radius. Fabricator defaults to small, precise UI type: 13px body at default density, 12px compact, 15px spacious. Component typography follows density. Text you write around components needs its role's size classes (body `text-(length:--density-text-13)`, a stat's value `text-2xl weight-semibold tracking-tight tabular-nums`), because the browser default is 16px. Reading content uses Markdown/Editor roles rather than shrinking with the toolbar.
 - Use sentence case and concrete action labels. Errors explain how to recover. Use realistic names, numbers and long strings while laying out the page.
 - Components own selection, hover and press feedback. Custom motion follows the installed motion roles and reduced-motion setting. App pages and rows appear in place; entrance choreography is reserved for a website when it helps the story.
-- Icons clarify actions and object types. Use one icon per meaning consistently, with the configured library. Keep important or unfamiliar actions labelled.
+- Icons clarify actions and object types. Use one icon per meaning consistently, with the configured library. Keep important or unfamiliar actions labelled. Every dropdown, context-menu and menubar action leads with its icon at the start; a check, chevron or shortcut sits at the end, and a sub-menu of plain values goes without.
 
 Typical layout starting points: 8px between related app controls, 16px between content groups, 32–40px between app sections, 16px phone padding and 24px desktop padding. Websites use more space, often 64–96px between sections. Adjust for the content and existing product, not by overriding component internals.
 

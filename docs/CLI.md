@@ -35,7 +35,8 @@ The native module's `sourceRoot` controls its destination. Per-item `--path`
 overrides and React setup flags such as `--look`, `--spinner`, custom presets,
 templates and assistant setup fail explicitly rather than being ignored.
 
-These adapters are unreleased. In this checkout, run `bun run dev` and use
+These adapters shipped as a preview in 0.9.0. To try local registry changes,
+run `bun run dev` and use
 `FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli init --platform swiftui`
 (or `compose`) with `--cwd` pointing to the consumer package.
 

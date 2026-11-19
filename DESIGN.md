@@ -299,7 +299,7 @@ The ellipsis at the end of the header (`menu` on `AppShellHeaderActions`) holds 
 - **What goes where.** A control used on most visits stays on the page: the period in the toolbar, a card's own switch in its header. A page-wide setting changed now and then goes in the page menu. A card's own rare options go in that card's ghost "More" menu. Settings that need fields open a `Sheet` from the page menu, or live on a settings page.
 - **Groups, in this order:** what the page shows, under a "View" label (checkbox items such as "Compare with previous period"; sub-menus for longer choices such as which cards show and auto-refresh); sharing and export; the page's own settings ("Dashboard settings…", "Reset layout"); anything destructive, alone and last.
 - **Behaviour:** a toggle applies at once and keeps the menu open; an action closes it. Choices persist for the person, and go in the URL when they change what a shared link shows.
-- **Look:** a ghost icon button with `EllipsisIcon`, last in the header before the panel trigger, named for the page ("Dashboard options"). Every row has an icon or none does; shortcuts sit at the end of their rows. Past about ten rows, the settings need their own page.
+- **Look:** a ghost icon button with `EllipsisIcon`, last in the header before the panel trigger, named for the page ("Dashboard options"). Every action leads with its icon; shortcuts sit at the end of their rows. Past about ten rows, the settings need their own page.
 - **Phones:** the header's actions fold into the same menu as its first group, so there is one ellipsis at every width.
 
 ### Responsive
@@ -529,7 +529,7 @@ Every animation has a role and comes with the components (see [Built into Fabric
 - **Components size their icons** and colour them with their label; beside a label an icon rests in grey.
 - **An icon supports a label.** Icon-only buttons are for actions everyone knows (close, search, more, add, refresh) and toolbars, each with an accessible name, and a tooltip when it acts directly.
 - **Before a label an icon names the action; after it, it shows direction:** an arrow for going somewhere, a chevron for a menu or a row that opens.
-- **In a list or menu, every row has an icon or none does,** so the labels share one edge.
+- **Menu items lead with an icon** (see [Menus and commands](#menus-and-commands)); in a list, every row has an icon or none does, so the labels share one edge.
 - Company logos come from the brand set and file types from the file set.
 
 ### Images and media
@@ -568,6 +568,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 ### Menus and commands
 
 - Group items by how often they are used, label groups when it helps, put the destructive item last and alone, show shortcuts, and end an item that opens a dialog with "…" ("Rename…"). A menu holds actions and view toggles; a `Select` holds a value.
+- **Every item leads with an icon** in a `DropdownMenu`, `ContextMenu` or `Menubar`: the icon names the action before the label is read and gives the labels one edge. One icon per action across the product; a person, workspace or file leads with its avatar, logo or file icon. Checkbox items and sub-menu triggers keep theirs, with the check or chevron at the end. A sub-menu of values ("Every 5 minutes") is a choice list without icons; an action with no fitting icon takes `inset` to stay on the labels' edge.
 - The command palette opens on ⌘K, grouped (Navigation, Actions, Recent), each item with its icon, shortcut and synonyms.
 
 ### Navigation
@@ -802,7 +803,7 @@ A page loaded on a slow connection moves nothing after its first paint except pl
 A screen is done when every line holds. Check it in the running app, never from the code alone.
 
 - [ ] The screen's job fits in one sentence, and its focal point is the first thing seen.
-- [ ] Each region has one primary action; every icon-only button has a name.
+- [ ] Each region has one primary action; every icon-only button has a name; every menu action leads with an icon.
 - [ ] Title, toolbar and body share one start edge; space is tighter inside groups than between them.
 - [ ] No line divides the layout: space, headings and surfaces part every section, row, card and panel.
 - [ ] A page of cards uses one grid rhythm; gutters continue down the page and cards in a row are equal height.

@@ -390,7 +390,7 @@ A link styled as a button uses `buttonVariants` on the router's link, which work
 Before calling a dashboard done, look at the running page:
 
 - The page title, the toolbar and every card's outer edge start on one line.
-- The header has one ellipsis at every width; no row of its menu wraps, and every row has an icon or none does.
+- The header has one ellipsis at every width; no row of its menu wraps, and every action in it leads with an icon.
 - Inside each card, the title, the headline value, a list's icons and a table's first column start on the inset; a table's last column ends on it.
 - Gutters continue down the page: every row uses the page's one rhythm (quarters or thirds).
 - At a 390px width no stat label or value is cut off, and the KPI row is two by two.
