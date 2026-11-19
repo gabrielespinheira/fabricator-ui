@@ -1,24 +1,13 @@
 ---
-version: alpha
+version: alpha # the DESIGN.md format's version
+fabricatorVersion: 0.9.0 # the Fabricator UI release
 name: Fabricator UI
 description: >-
   Calm, precise interfaces for SaaS apps, dashboards and websites: neutral
   surfaces lifted by shadow, colour kept for meaning, one grid with one edge,
   rich controls in place of empty fields, and size and motion set per region.
-  This file is the design guide: how to think about a screen, which component
-  each part calls for, and what the system already does for you. Code lives in
-  the component docs and the fabricator skill.
-omitted:
-  - section: colors
-    reason: Colours come from the project's look and are documented on the Colors page.
-  - section: typography
-    reason: The type roles are described in prose; their values are on the Typography page.
-  - section: rounded
-    reason: Corners follow one radius the project sets.
-  - section: spacing
-    reason: Sizes follow the density of the region; the spacing steps are in Layout.
-  - section: components
-    reason: Each component's variants and props are in its own docs page.
+# Token values come from the project's look; the sections below describe them.
+omitted: [colors, typography, rounded, spacing, motion, components]
 ---
 
 # Fabricator UI
@@ -34,7 +23,7 @@ The design guide for products built with Fabricator UI. Read it as a designer wo
 
 ## Overview
 
-Fabricator interfaces are calm and exact, and they feel alive under the hand. Neutral surfaces, one clear action, quiet chrome and the content in front. Colour carries meaning (the main action, a selection, a status, a chart series), so it stays rare and reads at once. Depth comes from surfaces lifted by shadow. Every edge lines up with another. People choose more than they type: a switch, a slider, a segmented control or a card to pick is always nicer than an empty field.
+Fabricator interfaces are calm and exact, and they feel alive under the hand. Neutral surfaces, one clear action, quiet chrome and the content in front. Colour carries meaning (the main action, a selection, a status, a chart series), so it stays rare and reads at once. People choose more than they type: a switch, a slider, a segmented control or a card to pick is always nicer than an empty field.
 
 ### The look
 
@@ -102,7 +91,7 @@ Most of what makes a screen feel finished is already in the components. Use it; 
 - **Charts:** a colour-blind-safe palette, crosshairs, tooltips, legends, keyboard inspection, a table for screen readers.
 - **The App Shell:** sidebar, header, panels, shortcuts, phone layouts and desktop windows, remembered between visits.
 - **Loading:** a quiet `Skeleton`, a chart's `loading`, `DataTable`'s skeleton rows and refresh bar, shimmering text, `Spinner`, `Progress`. See [Loading](#loading).
-- **Focus, keyboard, names, sounds:** every component handles its keys, focus ring and roles; optional quiet sounds and haptics sit behind a setting.
+- **Focus, keyboard, cursors, names, sounds:** every component handles its keys, focus ring, cursor and roles; optional quiet sounds and haptics sit behind a setting.
 
 ## Colors
 
@@ -222,7 +211,7 @@ So no `Separator` between sections, no border on a column or panel, no rule betw
 Use the App Shell's content sizes on `AppShellContent`, which centre the page with its padding:
 
 - **`size="sm"`, 672px:** forms, settings, single-column flows. Sign-in and one-task cards are about 384px.
-- **`size="md"`, 896px:** most app pages. Reading text is capped near 65 characters.
+- **`size="md"`, 896px:** most app pages.
 - **`size="lg"`, 1152px:** dashboards and dense pages.
 - **No size:** tables, boards, editors and transcripts take the full main column.
 
@@ -323,7 +312,6 @@ Depth is a ladder of surfaces. Each level is a background and a shadow that star
 
 - **Height means layering,** never importance: a menu over a page, a dialog over everything.
 - **A child sits above its parent.** A quiet area inside a surface (a code block in a dialog) is a faint wash, never a lower level.
-- **Surfaces separate.** When space alone doesn't hold two regions apart, lift one a step: a card on the page, a panel beside the main column, a muted well inside a card.
 - **No borders and no other shadows on surfaces.** Status surfaces are the same ladder tinted with the status colour.
 
 ## Cards
@@ -415,7 +403,7 @@ A dashboard is boring when every card is the same shape and every value is grey 
 - **Show people and things:** coloured `Avatar`s, an `AvatarGroup`, company logos, file-type icons, status dots.
 - **Show progress and state:** `Progress` for goals and limits, `StatusBar`, `HeatCalendar`, status `Badge`s, a delta on every number that moved.
 - **Let it respond:** the headline follows the pointer, rows open their record, a card's subtle `Tabs` switch its view in place, charts morph with the period.
-- **Design the empty and first-run moments:** an `Empty` with one clear action, a setup checklist, never a blank card. Surfaces and chrome stay neutral, so the content's colour sings.
+- **Design the empty and first-run moments:** an `Empty` with one clear action, a setup checklist, never a blank card.
 
 ### Numbers
 
@@ -591,6 +579,15 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 - **The transcript** is a `MessageScroller`: the person's messages in bubbles at the end edge, the assistant's replies as plain formatted text, files as `Attachment`s, day markers as `Marker`s.
 - **The composer is a `ChatInput`** docked under the transcript, with the `ModelPicker` and send at its end. Clarifying questions are a `Questionnaire` in its place; an assistant's identity is a `BotFace`.
 
+### Cursors
+
+The cursor says what a press will do, on the web and in desktop windows. Components set their own; anything you make interactive takes the cursor of its interaction, so first decide what it does.
+
+- **Pointer** on what acts on a click: links, buttons, toggles, triggers, menu and list rows, sortable headers, and a card or table row that opens as a whole (its inner controls keep theirs). What doesn't act keeps the arrow and gets no hover wash.
+- **Text** where people type or edit text. **Grab** on what drags (a handle, a board card, a canvas to pan), **grabbing** while it moves. **Col-resize** or **row-resize** on a resize edge. **Zoom-in** on an image that enlarges.
+- **Not-allowed** on a disabled control that keeps hover for its tooltip; **progress** on a region that works but stays usable; never **wait**.
+- **During a drag or resize** the whole window holds the cursor, so it doesn't flicker when the pointer outruns the edge. A desktop title bar's drag area keeps the arrow. Touch has no cursor, so nothing depends on hover.
+
 ### Platforms
 
 - Base UI, Radix and React Aria look and behave the same; read the docs for the project's base (React Aria has no `Menubar` or `NavigationMenu`). React Native shares the components and rules; not there yet: `ChatInput`, `ColorPicker`, `FileTree`, file upload, `ModelPicker`, `NumberField`, the time inputs. Touch turns hover and right-click into a long press.
@@ -765,14 +762,13 @@ A page loaded on a slow connection moves nothing after its first paint except pl
 - **Contrast** holds while colour comes from the roles. **Colour never works alone:** pair it with an icon, a sign or a label.
 - **Targets** are at least 24px in compact regions and 44px on touch screens.
 - **Headings:** one main heading per page, then levels in order.
-- **Toasts** disappear, so anything someone must act on also lives in the page. Check every screen with the keyboard alone and an automated checker.
+- **Check every screen** with the keyboard alone and an automated checker.
 
 ## Content
 
 - **Sentence case** everywhere. Labels and titles take no final period; descriptions and messages are full sentences.
 - **Buttons** are a verb and its object, and the verb follows the action through the flow: "Delete project" opens "Delete Acme Inc.?", confirmed by "Delete".
 - **Errors** say what happened and how to fix it, without blame. **Empty states** say what will be here and how to start.
-- **"…"** ends an item that opens a dialog ("Rename…") and a label in progress ("Saving…").
 - **Field help says why or what for,** not what the label already says. A choice card's description states the consequence.
 - **One name per thing,** in the person's words. **Short first:** a title is a few words, a description one sentence, a stat's label three words at most.
 
@@ -813,6 +809,7 @@ A screen is done when every line holds. Check it in the running app, never from 
 - [ ] Colour appears only where it means something or where content brings it.
 - [ ] Light and dark both read well; surfaces follow the ladder, with no borders or stray shadows.
 - [ ] It works with the keyboard alone, with focus visible on every stop.
+- [ ] Every cursor says what a press does: a pointer only on what acts, grab on what drags, the arrow elsewhere.
 - [ ] It works on a phone and a wide desktop, with no label cut off at phone width.
 - [ ] Loading, empty, error and disabled states exist and use their components.
 - [ ] Nothing moves when data arrives, on a slow connection or a fast one: skeletons fill cards and rows sized before the data, and refreshes keep the content on screen.

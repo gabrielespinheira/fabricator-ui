@@ -1,6 +1,7 @@
 // Fabricator versions in lockstep: the root package.json, every workspace package, the desktop
-// app's Tauri and Cargo manifests and the lockfiles all carry one version, and CHANGELOG.md opens
-// with it. `/release` writes all of them in its version commit; this check fails a pull request
+// app's Tauri and Cargo manifests and the lockfiles all carry one version, CHANGELOG.md opens
+// with it, and DESIGN.md names it as `fabricatorVersion` (its own `version` is the DESIGN.md
+// format's). `/release` writes all of them in its version commit; this check fails a pull request
 // that leaves one behind, and a `release/v*` branch whose version was never bumped.
 //
 //   bun run release:check     (CI passes the pull request's branch in RELEASE_BRANCH)
@@ -12,6 +13,7 @@ type Read = (path: string) => string | null
 const VERSION = /^\d+\.\d+\.\d+$/
 const RELEASE_BRANCH = /^release\/v(\d+)[.-](\d+)[.-](\d+)$/
 const CHANGELOG_HEADING = /^## \[([^\]]+)\]/m
+const DESIGN_VERSION = /^fabricatorVersion:\s*"?([^"\s#]+)"?/m
 
 function readJsonVersion(text: string | null): string | null {
   if (text === null) return null
@@ -129,6 +131,15 @@ export function getVersionProblems({
       if (locked !== version)
         problems.push(`bun.lock lists ${path} at ${locked}, not ${version}`)
     }
+  }
+
+  const guide = read("DESIGN.md")
+  if (guide !== null) {
+    const frontmatter = /^---\n([\s\S]*?)\n---/.exec(guide)?.[1] ?? ""
+    const found = DESIGN_VERSION.exec(frontmatter)?.[1]
+    if (found === undefined)
+      problems.push(`DESIGN.md has no fabricatorVersion, not ${version}`)
+    else expect("DESIGN.md", found)
   }
 
   const changelog = read("CHANGELOG.md")

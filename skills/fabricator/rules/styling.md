@@ -15,6 +15,7 @@ See [customization.md](../customization.md) for theming, CSS variables, and addi
 - No manual z-index on overlay components
 - Use shimmer / scroll-fade utilities, not custom animations
 - Animate with motion roles, never milliseconds
+- Match the cursor to the interaction
 - Set density on a container, not sizes on every component
 
 ---
@@ -208,6 +209,37 @@ Fabricator components move by role, and one speed setting (`data-motion`) retime
 ```
 
 Roles: `duration-feedback` (hover, colour), `duration-move ease-move` (things that move on screen), `motion-tooltip`, `motion-popup`, `motion-dialog`, `motion-sheet`, `motion-disclosure`, `motion-toast`, `motion-press`. To change how fast everything moves, set `data-motion="smooth|snappy|instant|off"` on `<html>`; don't edit durations per component.
+
+---
+
+## Match the cursor to the interaction
+
+Components set their cursors in the style. Tailwind gives a plain `<button>` or `<div>` the arrow, so markup you make interactive yourself needs its cursor. Prefer a `Button`, a link or an `Item` rendered as a link or button, which bring the cursor, the hover and the keyboard; otherwise pick by what a press does:
+
+| Interaction                                     | Class                                           |
+| ----------------------------------------------- | ----------------------------------------------- |
+| Acts on click (a card or row that opens whole)  | `cursor-pointer`                                |
+| Typing or editing text                          | `cursor-text`                                   |
+| Drags (a handle, a board card, a canvas to pan) | `cursor-grab`, `cursor-grabbing` while it moves |
+| A resize edge                                   | `cursor-col-resize` or `cursor-row-resize`      |
+| Enlarges an image                               | `cursor-zoom-in`                                |
+| Disabled but keeps hover for its tooltip        | `cursor-not-allowed`                            |
+| Works in the background, still usable           | `cursor-progress`                               |
+
+While a drag or resize runs, set its cursor and `select-none` on the document root and clear them on release, so the cursor holds when the pointer outruns the handle. What doesn't act gets no cursor class and no `hover:` styles, and a component's own cursor is never overridden. Desktop windows use the same cursors; touch has none, so no state depends on hover.
+
+**Incorrect:**
+
+```tsx
+<Card onClick={() => openProject(project.id)} className="hover:bg-muted">
+```
+
+**Correct:**
+
+```tsx
+// render (Base, React Aria) or asChild (Radix)
+<Item render={<Link href={`/projects/${project.id}`} />}>
+```
 
 ---
 

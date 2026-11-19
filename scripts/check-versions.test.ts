@@ -85,6 +85,23 @@ describe("getVersionProblems", () => {
     expect(check(files)).toEqual(["CHANGELOG.md opens with 0.6.0, not 0.7.0"])
   })
 
+  test("requires the design guide to name the current version", () => {
+    const guide = (version: string) =>
+      `---\nversion: alpha\nname: Fabricator UI\nfabricatorVersion: ${version} # the release\n---\n\n# Fabricator UI\n`
+    expect(
+      check({ ...createFiles("0.7.0"), "DESIGN.md": guide("0.7.0") })
+    ).toEqual([])
+    expect(
+      check({ ...createFiles("0.7.0"), "DESIGN.md": guide("0.6.0") })
+    ).toEqual(["DESIGN.md is 0.6.0, not 0.7.0"])
+    expect(
+      check({
+        ...createFiles("0.7.0"),
+        "DESIGN.md": "---\nversion: alpha\n---\n",
+      })
+    ).toEqual(["DESIGN.md has no fabricatorVersion, not 0.7.0"])
+  })
+
   test("fails a release branch whose versions were never bumped", () => {
     const files = createFiles("0.6.0")
     expect(check(files, "release/v0.7.0")).toEqual([
