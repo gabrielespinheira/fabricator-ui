@@ -902,6 +902,10 @@ function TabRenameInput({ value, title }: { value: string; title: string }) {
   const { onRename, setRenaming } = useTabStrip()
   const [draft, setDraft] = React.useState(title)
   const isDone = React.useRef(false)
+  const inputRef = React.useRef<HTMLInputElement>(null)
+  React.useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
   const finish = (save: boolean) => {
     if (isDone.current) return
     isDone.current = true
@@ -919,7 +923,7 @@ function TabRenameInput({ value, title }: { value: string; title: string }) {
   }
   return (
     <input
-      autoFocus
+      ref={inputRef}
       aria-label="Tab name"
       value={draft}
       data-slot="tab-strip-rename"
