@@ -190,6 +190,40 @@ export const Components: Record<string, any> = {
       ) || "app-nav-demo"
     return { default: mod.default || mod[exportName] }
   }),
+  "app-shell-bottom-nav-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-bottom-nav-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-bottom-nav-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-bottom-nav-item-example": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/base/app-shell-bottom-nav-item-example"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-bottom-nav-item-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-breadcrumb-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-breadcrumb-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-breadcrumb-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-content-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-content-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-content-example"
+    return { default: mod.default || mod[exportName] }
+  }),
   "app-shell-demo": React.lazy(async () => {
     const mod = await import("@/examples/base/app-shell-demo")
     const exportName =
@@ -206,12 +240,124 @@ export const Components: Record<string, any> = {
       ) || "app-shell-desktop"
     return { default: mod.default || mod[exportName] }
   }),
+  "app-shell-header-actions-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-header-actions-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-header-actions-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-header-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-header-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-header-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-main-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-main-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-main-example"
+    return { default: mod.default || mod[exportName] }
+  }),
   "app-shell-page-menu": React.lazy(async () => {
     const mod = await import("@/examples/base/app-shell-page-menu")
     const exportName =
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "app-shell-page-menu"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-page-title-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-page-title-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-page-title-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-panel-close-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-panel-close-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-panel-close-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-panel-content-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-panel-content-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-panel-content-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-panel-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-panel-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-panel-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-panel-header-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-panel-header-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-panel-header-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-panel-tabs-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-panel-tabs-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-panel-tabs-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-panel-title-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-panel-title-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-panel-title-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-panel-trigger-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-panel-trigger-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-panel-trigger-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-panel-view-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-panel-view-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-panel-view-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-status-bar-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-status-bar-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-status-bar-example"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "app-shell-titlebar-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/app-shell-titlebar-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-titlebar-example"
     return { default: mod.default || mod[exportName] }
   }),
   "app-shell-workbench": React.lazy(async () => {
@@ -2604,6 +2750,14 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "hover-card-sides"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "icon-slot-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/icon-slot-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "icon-slot-example"
     return { default: mod.default || mod[exportName] }
   }),
   "image-compare-controlled": React.lazy(async () => {
