@@ -8,7 +8,11 @@ import { useQueryStates } from "nuqs"
 import { getGroupNavId } from "@/lib/component-explorer"
 import { COMPONENT_GROUPS } from "@/lib/component-groups"
 import { siteConfig } from "@/lib/config"
-import { getDocsExplorerGroups, type ExplorerPage } from "@/lib/docs-explorer"
+import {
+  APP_SHELL_NAV_ID,
+  getDocsExplorerGroups,
+  type ExplorerPage,
+} from "@/lib/docs-explorer"
 import { isWideDocsPage } from "@/lib/docs-wide-pages"
 import { EXPLORER_ICONS } from "@/lib/explorer-icons"
 import { getCurrentBase } from "@/lib/page-tree"
@@ -39,7 +43,7 @@ const COMPONENT_GROUP_ICONS = new Map([
   ...COMPONENT_GROUPS.map(
     (group) => [getGroupNavId(group), EXPLORER_ICONS.groups[group]] as const
   ),
-  ["group-app-shell", AppWindowIcon],
+  [APP_SHELL_NAV_ID, AppWindowIcon],
 ])
 
 export function DocsAppShell({
@@ -61,27 +65,19 @@ export function DocsAppShell({
     () =>
       getDocsExplorerGroups(pages, getCurrentBase(pathname)).map((group) => ({
         ...group,
-        defaultOpen: group.items.some((item) => item.href === pathname),
-        items: group.items.map((item) =>
-          item.id === "overview" ? { ...item, icon: HomeIcon } : item
-        ),
+        items: group.items.map((item) => ({
+          ...item,
+          icon:
+            item.id === "overview"
+              ? HomeIcon
+              : COMPONENT_GROUP_ICONS.get(item.id),
+          defaultOpen: item.id === APP_SHELL_NAV_ID && item.href === pathname,
+        })),
       })),
     [pages, pathname]
   )
-  const componentGroups = groups.filter((group) => group.collapsible)
-  const railGroups = [
-    ...groups.filter((group) => group.id === "explorer"),
-    {
-      id: "component-rail",
-      items: componentGroups.map((group) => ({
-        id: group.id,
-        label: group.label ?? group.id,
-        icon: COMPONENT_GROUP_ICONS.get(group.id),
-        children: group.items,
-      })),
-    },
-    ...groups.filter((group) => group.id === "guides"),
-  ]
+  const componentGroups =
+    groups.find((group) => group.id === "components")?.items ?? []
   const title =
     pathname === "/docs"
       ? "Overview"
@@ -93,7 +89,6 @@ export function DocsAppShell({
         options={options}
         storageKey="docs-explorer"
         groups={groups}
-        railGroups={railGroups}
         navLabel="Documentation"
         sidebarTools={
           <CommandMenu
@@ -124,7 +119,8 @@ export function DocsAppShell({
             <span>Website · Documentation</span>
             <span>
               {componentGroups.reduce(
-                (count, group) => count + group.items.length,
+                (count, group) =>
+                  count + (group.href ? 1 : 0) + (group.children?.length ?? 0),
                 0
               )}{" "}
               component pages
@@ -160,13 +156,20 @@ export function DocsAppShell({
                     key={group.id}
                     variant="muted"
                     render={
-                      <Link href={getHref(group.items[0]?.href ?? "/docs")} />
+                      <Link
+                        href={getHref(
+                          group.href ?? group.children?.[0]?.href ?? "/docs"
+                        )}
+                      />
                     }
                   >
                     <ItemContent>
                       <ItemTitle>{group.label}</ItemTitle>
                       <ItemDescription>
-                        {group.items.length} pages
+                        {group.children?.length}{" "}
+                        {group.id === APP_SHELL_NAV_ID
+                          ? "subpages"
+                          : "components"}
                       </ItemDescription>
                     </ItemContent>
                   </Item>

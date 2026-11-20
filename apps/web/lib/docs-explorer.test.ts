@@ -17,9 +17,13 @@ describe("docs explorer", () => {
     )
     expect(groups[0]?.items.map((item) => item.label)).toEqual(["Overview"])
     expect(groups[1]).toMatchObject({
-      label: "Basics",
-      collapsible: true,
-      items: [{ href: "/docs/components/native/button" }],
+      label: "Components",
+      items: [
+        {
+          label: "Basics",
+          children: [{ href: "/docs/components/native/button" }],
+        },
+      ],
     })
     expect(
       groups[2]?.items.flatMap(
@@ -28,7 +32,7 @@ describe("docs explorer", () => {
     ).toEqual(["/docs/installation", "/docs/javascript"])
   })
 
-  it("groups App Shell installables with their shared references", () => {
+  it("links the App Shell category to its overview and nests its subpages", () => {
     const pages = [
       { url: "/docs/components/radix/sidebar", title: "Sidebar" },
       { url: "/docs/components/radix/app-shell", title: "App Shell" },
@@ -40,22 +44,32 @@ describe("docs explorer", () => {
     expect(groups).toMatchObject([
       { id: "explorer" },
       {
-        id: "group-app-shell",
-        label: "App Shell",
-        collapsible: true,
+        id: "components",
+        label: "Components",
         items: [
-          { href: "/docs/components/radix/app-shell" },
-          { href: "/docs/components/radix/sidebar" },
-          { href: "/docs/app-shell/main" },
+          {
+            label: "Structure",
+            children: [{ href: "/docs/components/radix/card" }],
+          },
+          {
+            id: "group-app-shell",
+            label: "App Shell",
+            href: "/docs/components/radix/app-shell",
+            children: [
+              { href: "/docs/components/radix/sidebar" },
+              { href: "/docs/app-shell/main" },
+            ],
+          },
         ],
-      },
-      {
-        label: "Structure",
-        collapsible: true,
-        items: [{ href: "/docs/components/radix/card" }],
       },
       { id: "guides", items: [] },
     ])
+    expect(
+      getDocsNeighbours(pages, "/docs/components/radix/app-shell")
+    ).toEqual({
+      previous: { url: "/docs/components/radix/card", title: "Card" },
+      next: { url: "/docs/components/radix/sidebar", title: "Sidebar" },
+    })
     expect(
       getDocsNeighbours(pages, "/docs/components/radix/sidebar").next
     ).toEqual({ url: "/docs/app-shell/main", title: "AppShellMain" })

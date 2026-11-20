@@ -45,7 +45,6 @@ import {
   SidebarHeader,
   SidebarRail,
   SidebarTrigger,
-  useSidebarCollapse,
 } from "@/styles/base-fabricator/ui/sidebar"
 import { UserMenu } from "@/styles/base-fabricator/ui/user-menu"
 import { WorkspaceSwitcher } from "@/styles/base-fabricator/ui/workspace-switcher"
@@ -97,20 +96,6 @@ function UserMenuItems() {
   )
 }
 
-function OptionSidebarNav({
-  railGroups,
-  groups,
-  ...props
-}: React.ComponentProps<typeof AppNav> & { railGroups?: AppNavGroup[] }) {
-  const collapse = useSidebarCollapse()
-  return (
-    <AppNav
-      groups={collapse === "icon" && railGroups ? railGroups : groups}
-      {...props}
-    />
-  )
-}
-
 /**
  * An App Shell put together from the option cards' choices, so the playground
  * and the desktop example honour every option the same way. They bring the
@@ -123,7 +108,6 @@ export function OptionShell({
   workspaces = WORKSPACES,
   user = USER,
   groups,
-  railGroups,
   navLabel,
   sidebarTools,
   pathname,
@@ -148,7 +132,6 @@ export function OptionShell({
   workspaces?: React.ComponentProps<typeof WorkspaceSwitcher>["workspaces"]
   user?: React.ComponentProps<typeof UserMenu>["user"]
   groups: AppNavGroup[]
-  railGroups?: AppNavGroup[]
   navLabel?: string
   sidebarTools?: React.ReactNode
   pathname: string
@@ -221,10 +204,9 @@ export function OptionShell({
         </SidebarHeader>
         {sidebarTools && <div className="px-2 pb-2">{sidebarTools}</div>}
         <SidebarContent>
-          <OptionSidebarNav
+          <AppNav
             aria-label={navLabel}
             groups={groups}
-            railGroups={railGroups}
             pathname={pathname}
             renderLink={renderLink}
             preferences={preferences}

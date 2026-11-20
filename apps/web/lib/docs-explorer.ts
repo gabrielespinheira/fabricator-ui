@@ -4,17 +4,17 @@ import type {
 } from "@/registry/fabricator/shared/lib/app-shell-model"
 
 import { formatChangelogDate, sortNewestFirst } from "./changelog-order"
-import { getGroupNavId } from "./component-explorer"
-import { groupComponentPages } from "./component-groups"
+import { getExplorerNavGroups, getGroupNavId } from "./component-explorer"
+import { getComponentGroup } from "./component-groups"
 import { getCurrentBase } from "./page-tree"
 
 /** `date` is a changelog entry's day, `yyyy-MM-dd`. */
 export type ExplorerPage = { url: string; title: string; date?: string }
 
 const CHANGELOG_URL = "/docs/changelog"
+export const APP_SHELL_NAV_ID = "group-app-shell"
 const APP_SHELL_REFERENCE_PATH = "/docs/app-shell/"
-const APP_SHELL_COMPONENTS = [
-  "app-shell",
+const APP_SHELL_COMPANIONS = [
   "sidebar",
   "app-nav",
   "tab-strip",
@@ -76,21 +76,43 @@ export function getDocsExplorerGroups(
   base: string
 ): NavGroup<undefined>[] {
   const componentPath = `/docs/components/${base}/`
-  const components = pages.filter((page) => page.url.startsWith(componentPath))
+  const appShellHref = `${componentPath}app-shell`
   const byUrl = new Map(pages.map((page) => [page.url, page]))
-  const shellUrls = new Set([
-    ...APP_SHELL_COMPONENTS.map((slug) => componentPath + slug),
+  const shellSubpages = new Set([
+    ...APP_SHELL_COMPANIONS.map((slug) => componentPath + slug),
     ...APP_SHELL_REFERENCES.map((slug) => APP_SHELL_REFERENCE_PATH + slug),
   ])
-  const shellItems = [...shellUrls].flatMap((url) => {
-    const page = byUrl.get(url)
-    return page ? [getPageItem(page)] : []
-  })
-  const componentGroups = groupComponentPages(
-    components
-      .filter((page) => !shellUrls.has(page.url))
-      .sort((a, b) => a.title.localeCompare(b.title))
+  const components = pages.filter(
+    (page) =>
+      page.url.startsWith(componentPath) &&
+      page.url !== appShellHref &&
+      !shellSubpages.has(page.url)
   )
+  const [overview, componentSection] = getExplorerNavGroups(
+    components.map((page) => {
+      const slug = page.url.slice(componentPath.length)
+      return { slug, title: page.title, group: getComponentGroup(slug) }
+    }),
+    { overview: undefined, groups: {} },
+    { overviewHref: "/docs", componentPath }
+  )
+  const appShell = byUrl.get(appShellHref)
+  if (appShell) {
+    const children = [...shellSubpages].flatMap((url) => {
+      const page = byUrl.get(url)
+      return page ? [getPageItem(page)] : []
+    })
+    const structureIndex = componentSection.items.findIndex(
+      (item) => item.id === getGroupNavId("Structure")
+    )
+    componentSection.items.splice(structureIndex + 1, 0, {
+      id: APP_SHELL_NAV_ID,
+      label: appShell.title,
+      href: appShell.url,
+      badge: children.length,
+      children,
+    })
+  }
   const guidePages = pages.filter(
     (page) =>
       page.url !== "/docs" &&
@@ -107,34 +129,8 @@ export function getDocsExplorerGroups(
       )
   )
   return [
-    {
-      id: "explorer",
-      items: [
-        {
-          id: "overview",
-          label: "Overview",
-          href: "/docs",
-          match: { exact: true },
-          mobile: "tab",
-        },
-      ],
-    },
-    ...(shellItems.length
-      ? [
-          {
-            id: "group-app-shell",
-            label: "App Shell",
-            collapsible: true,
-            items: shellItems,
-          },
-        ]
-      : []),
-    ...componentGroups.map(({ group, pages }) => ({
-      id: getGroupNavId(group),
-      label: group,
-      collapsible: true,
-      items: pages.map(getPageItem),
-    })),
+    overview,
+    componentSection,
     {
       id: "guides",
       label: "Documentation",

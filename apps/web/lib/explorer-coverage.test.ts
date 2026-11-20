@@ -44,13 +44,19 @@ describe("cross-platform explorer coverage", () => {
             readFileSync(new URL(file, appShellDocs), "utf8")
           )?.[1] ?? "",
       }))
-    const group = getDocsExplorerGroups(pages, "base").find(
-      (group) => group.id === "group-app-shell"
+    const appShell = getDocsExplorerGroups(
+      [
+        { url: "/docs/components/base/app-shell", title: "App Shell" },
+        ...pages,
+      ],
+      "base"
     )
-    expect(group?.items.map((item) => item.label).sort()).toEqual(
+      .find((group) => group.id === "components")
+      ?.items.find((item) => item.id === "group-app-shell")
+    expect(appShell?.children?.map((item) => item.label).sort()).toEqual(
       exports.sort()
     )
-    expect(group?.items.map((item) => item.href).sort()).toEqual(
+    expect(appShell?.children?.map((item) => item.href).sort()).toEqual(
       pages.map((page) => page.url).sort()
     )
   })
@@ -94,15 +100,13 @@ describe("cross-platform explorer coverage", () => {
         overview: undefined,
         groups: {},
       })
-      const groups = docsGroups.filter((group) => group.collapsible)
-      expect(groups.map((item) => item.label)).toEqual([
-        "App Shell",
-        ...COMPONENT_GROUPS,
-      ])
-      const appShell = groups.find((group) => group.id === "group-app-shell")
-      expect(appShell?.items.map((item) => item.href)).toEqual(
+      const groups = docsGroups.find(
+        (group) => group.id === "components"
+      )?.items
+      const appShell = groups?.find((item) => item.id === "group-app-shell")
+      expect(appShell?.href).toBe(`/docs/components/${base}/app-shell`)
+      expect(appShell?.children?.map((item) => item.href)).toEqual(
         [
-          "app-shell",
           "sidebar",
           "app-nav",
           "tab-strip",
@@ -110,11 +114,18 @@ describe("cross-platform explorer coverage", () => {
           "user-menu",
         ].map((name) => `/docs/components/${base}/${name}`)
       )
-      const shellPages = new Set(appShell?.items.map((item) => item.id))
+      const shellPages = new Set([
+        appShell?.href,
+        ...(appShell?.children?.map((item) => item.href) ?? []),
+      ])
+      const standardGroups = groups?.filter((item) => item !== appShell)
+      expect(standardGroups?.map((item) => item.label)).toEqual(
+        COMPONENT_GROUPS
+      )
       expect(
-        groups.slice(1).map((group) => ({
+        standardGroups?.map((group) => ({
           id: group.id,
-          pages: group.items.map((item) => item.href),
+          pages: group.children?.map((item) => item.href),
         }))
       ).toEqual(
         exampleGroups[1]?.items.map((item) => ({
