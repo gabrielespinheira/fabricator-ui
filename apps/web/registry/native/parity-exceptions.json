@@ -121,6 +121,20 @@
   {
     "item": "app-shell",
     "kind": "slot",
+    "name": "app-shell-frame-drag-region",
+    "reason": "This hit region moves the desktop host window from the inset frame. React Native has no draggable desktop window.",
+    "date": "2026-11-20"
+  },
+  {
+    "item": "app-shell",
+    "kind": "placeholder",
+    "name": "cn-app-shell-frame-drag-region",
+    "reason": "Sizes the desktop window's inset drag region, which React Native does not render.",
+    "date": "2026-11-20"
+  },
+  {
+    "item": "app-shell",
+    "kind": "slot",
     "name": "app-shell-panel-trigger-guard",
     "reason": "Gives a pinned toggle's spot back from a desktop window's drag region. Windows don't drag from their content here.",
     "date": "2026-11-04"
