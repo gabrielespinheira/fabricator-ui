@@ -11,6 +11,10 @@ import {
 
 import { useSliderDrag } from "@/registry/bases/aria/hooks/use-slider-drag"
 import { getSliderSteps } from "@/registry/bases/aria/lib/slider-model"
+import {
+  GooeyFeedback,
+  type GooeyPreference,
+} from "@/registry/bases/aria/ui/gooey"
 
 type SliderValue = number | number[]
 
@@ -28,12 +32,14 @@ type SliderProps<T extends SliderValue = SliderValue> = Omit<
   size?: "sm" | "default" | "lg"
   /** A dot on every value the thumb can land on. For coarse steps. */
   showSteps?: boolean
+  gooey?: GooeyPreference
 }
 
 function Slider<T extends SliderValue = SliderValue>({
   className,
   size = "default",
   showSteps = false,
+  gooey,
   onPointerDownCapture,
   ...props
 }: SliderProps<T>) {
@@ -108,7 +114,17 @@ function Slider<T extends SliderValue = SliderValue>({
                 key={index}
                 index={index}
                 className="cn-slider-thumb block shrink-0 select-none group-data-horizontal:top-[50%] group-data-vertical:left-[50%] disabled:pointer-events-none disabled:opacity-50"
-              />
+              >
+                <GooeyFeedback
+                  gooey={gooey}
+                  effect="bend"
+                  value={state.values[index]}
+                  isVertical={isVertical}
+                  isDisabled={props.isDisabled}
+                  followsTextDirection
+                  fill="white"
+                />
+              </SliderThumb>
             ))}
           </>
         )

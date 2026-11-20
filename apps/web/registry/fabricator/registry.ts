@@ -74,6 +74,18 @@ export const fabricatorItems = [
     css: FABRICATOR_FOUNDATIONS.css,
   },
   {
+    name: "gooey",
+    type: "registry:ui",
+    title: "Gooey",
+    description:
+      "Decorative liquid motion for control backgrounds and custom layouts.",
+    files: [
+      { path: "ui/gooey.tsx", type: "registry:ui" },
+      { path: "lib/gooey-model.ts", type: "registry:lib" },
+    ],
+    meta: { fabricator: true },
+  },
+  {
     name: "density",
     type: "registry:ui",
     title: "Density",
@@ -1299,13 +1311,13 @@ export const fabricatorOverrides: Record<
   combobox: { registryDependencies: ["fluid-hover", "density"] },
   command: { registryDependencies: ["fluid-hover"] },
   "navigation-menu": { registryDependencies: ["fluid-hover", "density"] },
-  tabs: { registryDependencies: ["fluid-hover"] },
+  tabs: { registryDependencies: ["fluid-hover", "gooey"] },
   "toggle-group": { registryDependencies: ["fluid-hover"] },
   sidebar: { registryDependencies: ["fluid-hover", "kbd", "sidebar-model"] },
   accordion: { registryDependencies: ["fluid-hover", "accordion-shape"] },
   table: { registryDependencies: ["fluid-hover"] },
   questionnaire: { registryDependencies: ["fluid-hover"] },
-  slider: { registryDependencies: ["slider-model"] },
+  slider: { registryDependencies: ["slider-model", "gooey"] },
   "radio-group": { registryDependencies: ["radio-glide"] },
   // The month and year dropdowns are the library's Select.
   calendar: { registryDependencies: ["select"] },

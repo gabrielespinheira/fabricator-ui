@@ -48,6 +48,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "file-tree": () => require("@/examples/native/file-tree-example").FileTreeExample,
   "file-upload": () => require("@/examples/native/file-upload-example").FileUploadExample,
   "funnel-chart": () => require("@/examples/native/funnel-chart-example").FunnelChartExample,
+  "gooey": () => require("@/examples/native/gooey-example").GooeyExample,
   "heat-calendar": () => require("@/examples/native/heat-calendar-example").HeatCalendarExample,
   "hover-card": () => require("@/examples/native/hover-card-example").HoverCardExample,
   "image-compare": () => require("@/examples/native/image-compare-example").ImageCompareExample,

@@ -1,0 +1,43 @@
+---
+title: Gooey
+description: A liquid background for controls and custom layouts.
+base: aria
+component: true
+---
+
+<ComponentPreview
+  styleName="aria-fabricator"
+  name="gooey-demo"
+  previewClassName="min-h-[34rem]"
+/>
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add gooey
+```
+
+## Usage
+
+Place the decorative shape behind your controls, size it with its parent, and drive `progress` from your interaction. Zero is the resting shape and one is the full deformation. `direction` accepts `right`, `left`, `down`, or `up`.
+
+```tsx
+import { Gooey, GooeyProvider } from "@/components/ui/gooey"
+
+;<GooeyProvider mode="subtle" waviness={0.35}>
+  <div className="relative isolate h-16 w-44">
+    <Gooey
+      effect="melt"
+      progress={progress}
+      fill="var(--info-surface-4)"
+      accentFill="var(--success-surface-4)"
+      className="absolute inset-0 -z-10 size-full"
+    />
+    {children}
+  </div>
+</GooeyProvider>
+```
+
+The shape uses a 160 × 72 view box. Its resting body occupies the central 100 × 40. Leave room around the body for the deformation. `intensity` controls the strength of the recipe and `waviness` controls the edge ripple. Both accept values from zero to one.
+
+See [Gooey in Foundations](/docs/foundations/gooey) for settings, effects, and native equivalents.

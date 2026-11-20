@@ -37,6 +37,7 @@ import {
   type SliderCollision,
 } from "@/registry/native/lib/slider-model"
 import { DensityScope, useControlSize } from "@/registry/native/ui/density"
+import { GooeyFeedback, type GooeyPreference } from "@/registry/native/ui/gooey"
 
 // A vertical scroll under a horizontal slider, or the reverse, stays a scroll.
 const ACTIVE_OFFSET = 8
@@ -59,6 +60,7 @@ function SliderThumb({
   thumbSize,
   isVertical,
   isDisabled,
+  gooey,
   now,
   label,
   onAccessibilityAction,
@@ -74,6 +76,7 @@ function SliderThumb({
   thumbSize: number
   isVertical: boolean
   isDisabled: boolean
+  gooey?: GooeyPreference
   now: number | undefined
   label: string | undefined
   onAccessibilityAction: (event: AccessibilityActionEvent) => void
@@ -115,6 +118,15 @@ function SliderThumb({
       className="cn-slider-thumb absolute shrink-0"
       style={[{ width: thumbSize, height: thumbSize }, positionStyle]}
     >
+      <GooeyFeedback
+        gooey={gooey}
+        effect="bend"
+        value={now}
+        isVertical={isVertical}
+        isDisabled={isDisabled}
+        followsTextDirection
+        fill="white"
+      />
       <Animated.View
         pointerEvents="none"
         className="cn-slider-thumb-held absolute"
@@ -190,6 +202,7 @@ function SliderControl({
   disabled,
   size = "default",
   showSteps = false,
+  gooey,
   accessibilityLabel,
   "aria-label": ariaLabel,
   ...props
@@ -520,6 +533,7 @@ function SliderControl({
               thumbSize={thumbSize}
               isVertical={isVertical}
               isDisabled={isDisabled}
+              gooey={gooey}
               now={values[index]}
               label={label}
               onAccessibilityAction={getThumbActionHandler(index)}
@@ -550,6 +564,7 @@ function Slider({
   size?: "sm" | "default" | "lg"
   /** A dot on every value the thumb can land on. For coarse steps. */
   showSteps?: boolean
+  gooey?: GooeyPreference
 }) {
   // size="sm" pins the compact density and "lg" the spacious one; the knob's
   // numbers are read inside the scope.

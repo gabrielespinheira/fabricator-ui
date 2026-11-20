@@ -10,6 +10,13 @@ function SliderExample() {
   const [committed, setCommitted] = React.useState(40)
   return (
     <ExampleWrapper>
+      <Example title="Gooey · Bend">
+        <Slider
+          accessibilityLabel="Volume with Gooey"
+          defaultValue={45}
+          gooey={{ effect: "bend", intensity: 1, waviness: 0.6 }}
+        />
+      </Example>
       <Example title="One thumb">
         <Slider accessibilityLabel="Volume" defaultValue={[50]} max={100} />
       </Example>

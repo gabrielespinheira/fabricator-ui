@@ -19,9 +19,9 @@ function TabsExample() {
   const [tab, setTab] = React.useState("analytics")
   return (
     <ExampleWrapper fit>
-      <Example title="Default">
+      <Example title="Gooey · Move">
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList>
+          <TabsList gooey={{ effect: "move", intensity: 1, waviness: 0.35 }}>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="reports">Reports</TabsTrigger>

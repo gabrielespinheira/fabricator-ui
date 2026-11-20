@@ -207,7 +207,8 @@ public struct FabricatorSlider: View {
     public var range: ClosedRange<Double>
     public var step: Double
     public var label: String
-    public init(_ label: String, value: Binding<Double>, in range: ClosedRange<Double> = 0...100, step: Double = 1) { self.label = label; _value = value; self.range = range; self.step = step }
+    public var gooey: FabricatorGooeyOptions?
+    public init(_ label: String, value: Binding<Double>, in range: ClosedRange<Double> = 0...100, step: Double = 1, gooey: FabricatorGooeyOptions? = nil) { self.label = label; _value = value; self.range = range; self.step = step; self.gooey = gooey }
     public var body: some View {
         let span = range.upperBound - range.lowerBound
         let ratio = span == 0 ? 0 : min(1, max(0, (value - range.lowerBound) / span))
@@ -218,7 +219,8 @@ public struct FabricatorSlider: View {
             ZStack(alignment: .leading) {
                 Capsule().strokeBorder(theme.color("border"), lineWidth: 1).frame(height: theme.icon(14) + 2)
                 Capsule().fill(theme.color("primary").opacity(theme.colorScheme == .dark ? 0.15 : 0.1)).frame(width: origin + thumb / 2, height: theme.icon(14) + 2)
-                Circle().fill(Color.white).frame(width: thumb, height: thumb).shadow(color: .black.opacity(0.12), radius: 1, y: 1).overlay { Circle().strokeBorder(Color.black.opacity(0.06), lineWidth: 1) }.offset(x: origin)
+                Circle().fill(Color.white).frame(width: thumb, height: thumb).shadow(color: .black.opacity(0.12), radius: 1, y: 1).overlay { Circle().strokeBorder(Color.black.opacity(0.06), lineWidth: 1) }
+                    .background { FabricatorGooeyPulse(value: value, options: gooey, effect: .bend, fill: .white) }.offset(x: origin)
             }.frame(height: thumb).contentShape(Rectangle()).gesture(DragGesture(minimumDistance: 0).onChanged { drag in
                 let nextRatio = min(1, max(0, drag.location.x / max(geometry.size.width, 1)))
                 let raw = range.lowerBound + nextRatio * span

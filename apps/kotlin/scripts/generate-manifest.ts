@@ -164,6 +164,9 @@ const items = [
     } else if (item.name === "spinner") {
       module = "spinner"
       dependencies = []
+    } else if (item.name === "gooey") {
+      module = "gooey"
+      dependencies = []
     } else if (
       ["fabricator-root", "density", "typography", "text"].includes(item.name)
     ) {
@@ -223,6 +226,8 @@ const items = [
       dependencies = ["spinner"]
     }
     const files = [source(module)]
+    if (module === "primitives" || module === "navigation")
+      dependencies.push("gooey")
     if (item.name === "status-bar")
       files.push(file("models/status-bar-model.kt"))
     if (item.name === "editor") {

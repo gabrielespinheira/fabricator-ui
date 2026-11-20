@@ -10,6 +10,7 @@ export const REACT_PACKAGE_COMPONENTS = [
   "checkbox",
   "dialog",
   "dropdown-menu",
+  "gooey",
   "input",
   "label",
   "select",

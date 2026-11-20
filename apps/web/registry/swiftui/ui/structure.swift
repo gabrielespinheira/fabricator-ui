@@ -78,8 +78,9 @@ public struct FabricatorTabs<Content: View>: View {
     @State private var hoveredTab: String?
     public var tabs: [String]
     @Binding public var selection: String
+    public var gooey: FabricatorGooeyOptions?
     private var content: Content
-    public init(_ tabs: [String], selection: Binding<String>, @ViewBuilder content: () -> Content) { self.tabs = tabs; _selection = selection; self.content = content() }
+    public init(_ tabs: [String], selection: Binding<String>, gooey: FabricatorGooeyOptions? = nil, @ViewBuilder content: () -> Content) { self.tabs = tabs; _selection = selection; self.gooey = gooey; self.content = content() }
     public var body: some View {
         VStack(alignment: .leading, spacing: theme.space(8)) {
             HStack(spacing: 0) {
@@ -94,6 +95,9 @@ public struct FabricatorTabs<Content: View>: View {
                                 } else if hoveredTab == tab {
                                     RoundedRectangle(cornerRadius: theme.radius()).fill(theme.color("hover").opacity(0.6)).matchedGeometryEffect(id: "hover", in: selectionNamespace)
                                 }
+                            }
+                            .background {
+                                FabricatorGooeyPulse(value: Double(tabs.firstIndex(of: selection) ?? 0), options: gooey, effect: .move, fill: theme.color("surface-4"), isVisible: isSelected)
                             }
                             .contentShape(Rectangle())
                     }.buttonStyle(.plain).onHover { hoveredTab = $0 ? tab : nil }.accessibilityAddTraits(isSelected ? .isSelected : [])

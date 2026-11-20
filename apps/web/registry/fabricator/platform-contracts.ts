@@ -26,6 +26,11 @@ import {
   getEventColorVariables,
 } from "@/registry/fabricator/shared/lib/event-calendar-model"
 import {
+  GOOEY_DEFAULTS,
+  GOOEY_EFFECTS,
+  GOOEY_GEOMETRY,
+} from "@/registry/fabricator/shared/lib/gooey-model"
+import {
   SOUND_DEFINITIONS,
   SOUND_MASTER_LEVEL,
 } from "@/registry/fabricator/shared/lib/sound-recipes"
@@ -163,6 +168,13 @@ export const platformContractSchema = z
           past: z.number(),
         }),
       }),
+    }),
+    gooey: z.object({
+      resting: z.array(z.number()).length(50),
+      effects: z.record(z.enum(GOOEY_EFFECTS), z.array(z.number()).length(50)),
+      subtle: z.number(),
+      expressive: z.number(),
+      waviness: z.number(),
     }),
     spinners: z.object({
       durationMs: z.number().positive(),
@@ -422,6 +434,16 @@ export function createPlatformContract(
     calendar: {
       colors: [...Object.keys(EVENT_CALENDAR_COLORS), ...EVENT_CALENDAR_ROLES],
       chipWash: EVENT_CHIP_WASH,
+    },
+    gooey: {
+      resting: GOOEY_GEOMETRY.resting,
+      effects: {
+        move: GOOEY_GEOMETRY.move,
+        morph: GOOEY_GEOMETRY.morph,
+        bend: GOOEY_GEOMETRY.bend,
+        melt: GOOEY_GEOMETRY.melt,
+      },
+      ...GOOEY_DEFAULTS,
     },
     spinners: {
       durationMs: getSpinnerDuration(),

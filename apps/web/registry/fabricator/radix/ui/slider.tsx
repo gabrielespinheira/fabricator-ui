@@ -6,6 +6,10 @@ import { Slider as SliderPrimitive } from "radix-ui"
 
 import { useSliderDrag } from "@/registry/bases/radix/hooks/use-slider-drag"
 import { getSliderSteps } from "@/registry/bases/radix/lib/slider-model"
+import {
+  GooeyFeedback,
+  type GooeyPreference,
+} from "@/registry/bases/radix/ui/gooey"
 
 // Radix keeps the thumbs inside the track: a step sits under the thumb's centre
 // when the thumb is on it.
@@ -32,6 +36,7 @@ function Slider({
   step = 1,
   size = "default",
   showSteps = false,
+  gooey,
   orientation = "horizontal",
   onValueChange,
   onPointerDown,
@@ -41,6 +46,7 @@ function Slider({
   size?: "sm" | "default" | "lg"
   /** A dot on every value the thumb can land on. For coarse steps. */
   showSteps?: boolean
+  gooey?: GooeyPreference
 }) {
   const _values = React.useMemo(
     () =>
@@ -126,7 +132,17 @@ function Slider({
           key={index}
           aria-label={getThumbLabel(ariaLabel, index, _values.length)}
           className="cn-slider-thumb block shrink-0 select-none disabled:pointer-events-none disabled:opacity-50"
-        />
+        >
+          <GooeyFeedback
+            gooey={gooey}
+            effect="bend"
+            value={(value ?? uncontrolled)[index]}
+            isVertical={isVertical}
+            isDisabled={props.disabled}
+            followsTextDirection
+            fill="white"
+          />
+        </SliderPrimitive.Thumb>
       ))}
     </SliderPrimitive.Root>
   )

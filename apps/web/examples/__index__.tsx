@@ -1281,6 +1281,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "funnel-chart-horizontal",
       filePath: "examples/base/funnel-chart-horizontal.tsx",
     },
+    "gooey-demo": {
+      name: "gooey-demo",
+      filePath: "examples/base/gooey-demo.tsx",
+    },
     "heat-calendar-demo": {
       name: "heat-calendar-demo",
       filePath: "examples/base/heat-calendar-demo.tsx",
@@ -2417,6 +2421,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-disabled",
       filePath: "examples/base/slider-disabled.tsx",
     },
+    "slider-gooey": {
+      name: "slider-gooey",
+      filePath: "examples/base/slider-gooey.tsx",
+    },
     "slider-multiple": {
       name: "slider-multiple",
       filePath: "examples/base/slider-multiple.tsx",
@@ -2572,6 +2580,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-disabled": {
       name: "tabs-disabled",
       filePath: "examples/base/tabs-disabled.tsx",
+    },
+    "tabs-gooey": {
+      name: "tabs-gooey",
+      filePath: "examples/base/tabs-gooey.tsx",
     },
     "tabs-icons": {
       name: "tabs-icons",
@@ -4119,6 +4131,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "funnel-chart-horizontal",
       filePath: "examples/aria/funnel-chart-horizontal.tsx",
     },
+    "gooey-demo": {
+      name: "gooey-demo",
+      filePath: "examples/aria/gooey-demo.tsx",
+    },
     "heat-calendar-demo": {
       name: "heat-calendar-demo",
       filePath: "examples/aria/heat-calendar-demo.tsx",
@@ -5223,6 +5239,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-disabled",
       filePath: "examples/aria/slider-disabled.tsx",
     },
+    "slider-gooey": {
+      name: "slider-gooey",
+      filePath: "examples/aria/slider-gooey.tsx",
+    },
     "slider-multiple": {
       name: "slider-multiple",
       filePath: "examples/aria/slider-multiple.tsx",
@@ -5394,6 +5414,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-disabled": {
       name: "tabs-disabled",
       filePath: "examples/aria/tabs-disabled.tsx",
+    },
+    "tabs-gooey": {
+      name: "tabs-gooey",
+      filePath: "examples/aria/tabs-gooey.tsx",
     },
     "tabs-icons": {
       name: "tabs-icons",
@@ -6925,6 +6949,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "funnel-chart-horizontal",
       filePath: "examples/radix/funnel-chart-horizontal.tsx",
     },
+    "gooey-demo": {
+      name: "gooey-demo",
+      filePath: "examples/radix/gooey-demo.tsx",
+    },
     "heat-calendar-demo": {
       name: "heat-calendar-demo",
       filePath: "examples/radix/heat-calendar-demo.tsx",
@@ -8057,6 +8085,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-disabled",
       filePath: "examples/radix/slider-disabled.tsx",
     },
+    "slider-gooey": {
+      name: "slider-gooey",
+      filePath: "examples/radix/slider-gooey.tsx",
+    },
     "slider-multiple": {
       name: "slider-multiple",
       filePath: "examples/radix/slider-multiple.tsx",
@@ -8228,6 +8260,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-disabled": {
       name: "tabs-disabled",
       filePath: "examples/radix/tabs-disabled.tsx",
+    },
+    "tabs-gooey": {
+      name: "tabs-gooey",
+      filePath: "examples/radix/tabs-gooey.tsx",
     },
     "tabs-icons": {
       name: "tabs-icons",
@@ -9680,6 +9716,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/base-fabricator/funnel-chart-horizontal.tsx",
     },
+    "gooey-demo": {
+      name: "gooey-demo",
+      filePath: "examples/__styles__/base-fabricator/gooey-demo.tsx",
+    },
     "heat-calendar-demo": {
       name: "heat-calendar-demo",
       filePath: "examples/__styles__/base-fabricator/heat-calendar-demo.tsx",
@@ -10751,6 +10791,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-disabled",
       filePath: "examples/__styles__/base-fabricator/slider-disabled.tsx",
     },
+    "slider-gooey": {
+      name: "slider-gooey",
+      filePath: "examples/__styles__/base-fabricator/slider-gooey.tsx",
+    },
     "slider-multiple": {
       name: "slider-multiple",
       filePath: "examples/__styles__/base-fabricator/slider-multiple.tsx",
@@ -10896,6 +10940,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-disabled": {
       name: "tabs-disabled",
       filePath: "examples/__styles__/base-fabricator/tabs-disabled.tsx",
+    },
+    "tabs-gooey": {
+      name: "tabs-gooey",
+      filePath: "examples/__styles__/base-fabricator/tabs-gooey.tsx",
     },
     "tabs-icons": {
       name: "tabs-icons",
@@ -12327,6 +12375,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/aria-fabricator/funnel-chart-horizontal.tsx",
     },
+    "gooey-demo": {
+      name: "gooey-demo",
+      filePath: "examples/__styles__/aria-fabricator/gooey-demo.tsx",
+    },
     "heat-calendar-demo": {
       name: "heat-calendar-demo",
       filePath: "examples/__styles__/aria-fabricator/heat-calendar-demo.tsx",
@@ -13374,6 +13426,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-disabled",
       filePath: "examples/__styles__/aria-fabricator/slider-disabled.tsx",
     },
+    "slider-gooey": {
+      name: "slider-gooey",
+      filePath: "examples/__styles__/aria-fabricator/slider-gooey.tsx",
+    },
     "slider-multiple": {
       name: "slider-multiple",
       filePath: "examples/__styles__/aria-fabricator/slider-multiple.tsx",
@@ -13535,6 +13591,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-disabled": {
       name: "tabs-disabled",
       filePath: "examples/__styles__/aria-fabricator/tabs-disabled.tsx",
+    },
+    "tabs-gooey": {
+      name: "tabs-gooey",
+      filePath: "examples/__styles__/aria-fabricator/tabs-gooey.tsx",
     },
     "tabs-icons": {
       name: "tabs-icons",
@@ -14964,6 +15024,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/radix-fabricator/funnel-chart-horizontal.tsx",
     },
+    "gooey-demo": {
+      name: "gooey-demo",
+      filePath: "examples/__styles__/radix-fabricator/gooey-demo.tsx",
+    },
     "heat-calendar-demo": {
       name: "heat-calendar-demo",
       filePath: "examples/__styles__/radix-fabricator/heat-calendar-demo.tsx",
@@ -16040,6 +16104,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-disabled",
       filePath: "examples/__styles__/radix-fabricator/slider-disabled.tsx",
     },
+    "slider-gooey": {
+      name: "slider-gooey",
+      filePath: "examples/__styles__/radix-fabricator/slider-gooey.tsx",
+    },
     "slider-multiple": {
       name: "slider-multiple",
       filePath: "examples/__styles__/radix-fabricator/slider-multiple.tsx",
@@ -16204,6 +16272,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-disabled": {
       name: "tabs-disabled",
       filePath: "examples/__styles__/radix-fabricator/tabs-disabled.tsx",
+    },
+    "tabs-gooey": {
+      name: "tabs-gooey",
+      filePath: "examples/__styles__/radix-fabricator/tabs-gooey.tsx",
     },
     "tabs-icons": {
       name: "tabs-icons",

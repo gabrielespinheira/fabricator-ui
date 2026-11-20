@@ -216,7 +216,7 @@ struct ComponentDetail: View {
     }
     private var tabsDemo: some View {
         VStack(alignment: .leading, spacing: 16) {
-            FabricatorTabs(["Overview", "Analytics", "Reports", "Settings"], selection: $tab) {
+            FabricatorTabs(["Overview", "Analytics", "Reports", "Settings"], selection: $tab, gooey: .init(effect: .move, intensity: 1, waviness: 0.35)) {
                 FabricatorCard {
                     Text(tab).font(theme.font(theme.text(14), weight: .medium))
                     Text(tab == "Overview" ? "View your key metrics and recent project activity. Track progress across all your active projects." : "Nothing new in \(tab.lowercased()) yet.").font(theme.bodyFont).foregroundStyle(theme.color("muted-foreground")).fixedSize(horizontal: false, vertical: true)
@@ -274,7 +274,8 @@ struct ComponentDetail: View {
         case "badge": FabricatorFlowLayout { ForEach(FabricatorBadgeVariant.allCases, id: \.self) { FabricatorBadge($0.rawValue.capitalized, variant: $0) } }
         case "avatar": HStack { FabricatorAvatar("Alex Morgan", size: 24); FabricatorAvatar("Sam Rivera"); FabricatorAvatar("Jordan Lee", size: 44); FabricatorAvatar("Taylor Brooks", size: 64) }.accessibilityElement(children: .contain).accessibilityIdentifier("fabricator-avatar-example")
         case "rating": FabricatorRating(value: $rating); FabricatorText("\(rating) out of 5", role: .caption)
-        case "slider": FabricatorSlider("Volume", value: $value); FabricatorText("\(Int(value))%", role: .caption)
+        case "slider": FabricatorSlider("Volume", value: $value, gooey: .init(effect: .bend, intensity: 1, waviness: 0.6)); FabricatorText("\(Int(value))%", role: .caption)
+        case "gooey": GooeyDemo()
         case "toggle": FabricatorToggle("Bold", isOn: $isOn)
         case "toggle-group": FabricatorToggleGroup(choices, selection: $selected)
         case "kbd": HStack { FabricatorKbd("⌘ K"); FabricatorKbd("⌘ ⇧ P"); FabricatorKbd("esc") }

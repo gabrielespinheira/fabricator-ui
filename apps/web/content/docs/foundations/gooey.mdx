@@ -1,0 +1,39 @@
+---
+title: Gooey
+description: Optional liquid motion for control backgrounds and custom layouts.
+---
+
+<ComponentPreview
+  styleName="base-fabricator"
+  name="gooey-demo"
+  previewClassName="min-h-[34rem]"
+/>
+
+## Choose an effect
+
+| Effect | Existing component | What moves                                                             |
+| ------ | ------------------ | ---------------------------------------------------------------------- |
+| Move   | Tabs               | The selected background trails as it travels from one tab to the next. |
+| Bend   | Slider             | The thumb's silhouette bows along the direction of travel.             |
+| Morph  | Button             | A single background forms two connected lobes as the actions open.     |
+| Melt   | Badge              | Two fills blend across a soft seam on a shared, deforming background.  |
+
+Move and Bend are built into Tabs and Slider. The Button and Badge examples compose the same Gooey primitive behind their content. Melt blends two supplied colors.
+
+## Project and regional settings
+
+Wrap an app or a region in `GooeyProvider` on React web or React Native. Choose `subtle` or `expressive` to enable supported controls in that scope. Use `off` to disable the effect throughout that subtree. `waviness` ranges from `0` for smooth contours to `1` for the full ripple.
+
+```tsx
+import { GooeyProvider } from "@/components/ui/gooey"
+
+;<GooeyProvider mode="subtle" waviness={0.35}>
+  <App />
+</GooeyProvider>
+```
+
+Built-in controls start with Gooey off. Pass `gooey="move"` to `TabsList` or `gooey="bend"` to `Slider` to opt in individually. Pass an object with `effect`, `intensity`, or `waviness` to tune a control, or `gooey={false}` to disable it. A parent scope set to `off` takes precedence. Motion Off and reduced motion fall back to the resting shape.
+
+Use `.fabricatorGooey(.subtle, waviness: 0.35)` in SwiftUI and `FabricatorGooeyProvider(FabricatorGooeyMode.Subtle, waviness = .35f)` in Compose. Both renderers expose `FabricatorGooey` for custom layouts. Electron and Tauri use the React web API.
+
+See the [Gooey component](/docs/components/base/gooey) for the controlled shape API.

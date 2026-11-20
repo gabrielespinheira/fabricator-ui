@@ -185,6 +185,20 @@ export const foundationItems: Registry["items"] = [
     meta: docs("sounds"),
   },
   {
+    name: "gooey",
+    type: "registry:ui",
+    title: "Gooey",
+    description:
+      "Decorative liquid motion for control backgrounds and custom layouts.",
+    dependencies: ["react-native-svg", "react-native-reanimated"],
+    registryDependencies: ["@fabricator/motion"],
+    files: [
+      { path: "ui/gooey.tsx", type: "registry:ui" },
+      { path: "lib/gooey-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("gooey"),
+  },
+  {
     name: "fluid-hover",
     type: "registry:lib",
     title: "Fluid Hover",

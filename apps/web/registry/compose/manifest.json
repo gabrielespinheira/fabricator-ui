@@ -155,7 +155,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -193,7 +194,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -207,7 +209,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -333,7 +336,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "assistant-01",
@@ -393,7 +400,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "badge",
@@ -403,7 +414,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "bar-chart",
@@ -452,7 +467,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -487,7 +503,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "button-group",
@@ -561,7 +581,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -575,7 +596,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -600,7 +622,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "collapsible",
@@ -613,7 +639,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -713,7 +740,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "dialog",
@@ -736,7 +767,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -832,7 +864,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "field",
@@ -946,6 +982,16 @@
       "dependencies": ["@fabricator/foundations", "@fabricator/button"]
     },
     {
+      "name": "gooey",
+      "files": [
+        {
+          "path": "ui/gooey.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/gooey.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations"]
+    },
+    {
       "name": "heat-calendar",
       "files": [
         {
@@ -983,7 +1029,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "input-group",
@@ -1026,7 +1076,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -1037,7 +1088,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "label",
@@ -1047,7 +1102,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "line-chart",
@@ -1312,7 +1371,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -1341,7 +1401,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -1396,7 +1457,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -1455,7 +1517,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "rating",
@@ -1465,7 +1531,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "resizable",
@@ -1478,7 +1548,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -1499,7 +1570,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "search",
@@ -1539,7 +1614,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "sheet",
@@ -1562,7 +1641,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -2056,7 +2136,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "slider",
@@ -2066,7 +2150,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "sonner",
@@ -2133,7 +2221,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "syntax-highlight",
@@ -2160,7 +2252,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -2188,7 +2281,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {
@@ -2199,7 +2293,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "textarea",
@@ -2209,7 +2307,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "theme-toggle",
@@ -2219,7 +2321,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "time-input",
@@ -2273,7 +2379,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "toggle-group",
@@ -2318,7 +2428,11 @@
           "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
         }
       ],
-      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/spinner",
+        "@fabricator/gooey"
+      ]
     },
     {
       "name": "user-menu",
@@ -2331,7 +2445,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/dialog"
+        "@fabricator/dialog",
+        "@fabricator/gooey"
       ]
     },
     {

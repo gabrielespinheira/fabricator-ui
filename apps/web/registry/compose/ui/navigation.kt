@@ -19,7 +19,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.*
@@ -75,11 +77,18 @@ fun FabricatorTabs(value: String, onValueChange: (String) -> Unit, tabs: List<Fa
 }
 
 @Composable
-fun FabricatorTabStrip(value: String, onValueChange: (String) -> Unit, tabs: List<FabricatorTab>, modifier: Modifier = Modifier, onClose: ((String) -> Unit)? = null, onMove: ((String, Int) -> Unit)? = null) {
+fun FabricatorTabs(value: String, onValueChange: (String) -> Unit, tabs: List<FabricatorTab>, gooey: FabricatorGooeyOptions, modifier: Modifier = Modifier, content: @Composable (String) -> Unit) {
+    Column(modifier) { FabricatorTabStrip(value, onValueChange, tabs, gooey = gooey); Spacer(Modifier.height(12.dp)); content(value) }
+}
+
+@Composable
+fun FabricatorTabStrip(value: String, onValueChange: (String) -> Unit, tabs: List<FabricatorTab>, modifier: Modifier = Modifier, onClose: ((String) -> Unit)? = null, onMove: ((String, Int) -> Unit)? = null, gooey: FabricatorGooeyOptions? = null) {
     val theme = LocalFabricatorTheme.current
+    val pulse = rememberGooeyPulse(tabs.indexOfFirst { it.id == value }.toFloat(), gooey, FabricatorGooeyEffect.Move)
     Row(modifier.horizontalScroll(rememberScrollState()).clip(RoundedCornerShape(theme.radius())).background(theme.color("muted")).padding(3.dp), verticalAlignment = Alignment.CenterVertically) {
         tabs.forEachIndexed { index, tab ->
-            FabricatorButton({ onValueChange(tab.id) }, Modifier.semantics { role = Role.Tab; selected = value == tab.id }, if (value == tab.id) FabricatorVariant.Outline else FabricatorVariant.Ghost) { if (tab.icon != null) FabricatorIcon(tab.icon); FabricatorText(tab.title) }
+            val decoration = if (value == tab.id && pulse != null) Modifier.drawBehind { pulse.draw(this, theme.color("surface-4"), Offset.Zero, size) } else Modifier
+            FabricatorButton({ onValueChange(tab.id) }, decoration.semantics { role = Role.Tab; selected = value == tab.id }, if (value == tab.id) FabricatorVariant.Outline else FabricatorVariant.Ghost) { if (tab.icon != null) FabricatorIcon(tab.icon); FabricatorText(tab.title) }
             if (tab.canClose && onClose != null) FabricatorButton({ onClose(tab.id) }, Modifier.semantics { contentDescription = "Close ${tab.title}" }, FabricatorVariant.Ghost, FabricatorSize.Icon) { FabricatorIcon("x", size = 12.dp) }
             if (onMove != null && index > 0) FabricatorButton({ onMove(tab.id, index - 1) }, Modifier.semantics { contentDescription = "Move ${tab.title} left" }, FabricatorVariant.Ghost, FabricatorSize.Icon) { FabricatorIcon("chevron-left", size = 12.dp) }
         }

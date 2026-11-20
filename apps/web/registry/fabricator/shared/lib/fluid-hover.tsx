@@ -384,7 +384,7 @@ export function useFluidHover<T extends HTMLElement = HTMLElement>({
 type OverlayProps = {
   overlay: Overlay
   className?: string
-} & Omit<React.ComponentProps<"span">, "children">
+} & React.ComponentProps<"span">
 
 function FluidHoverOverlay({
   overlay,

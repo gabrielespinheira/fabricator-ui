@@ -47,6 +47,7 @@ struct FabricatorContract: Decodable, Sendable {
     var sounds: [FabricatorSoundDefinition]
     var soundMasterLevel: Double
     var spinners: FabricatorSpinnerContract
+    var gooey: FabricatorGooeyContract
     var calendar: FabricatorCalendarTokens
     var dataTable: [String: FabricatorTableColumnMetrics]
 
@@ -63,6 +64,13 @@ struct FabricatorContract: Decodable, Sendable {
 }
 
 struct FabricatorCalendarTokens: Decodable, Sendable { var chipWash: [String: [String: Double]] }
+struct FabricatorGooeyContract: Decodable, Sendable {
+    var resting: [Double]
+    var effects: [String: [Double]]
+    var subtle: Double
+    var expressive: Double
+    var waviness: Double
+}
 
 public enum FabricatorDensity: String, CaseIterable, Sendable {
     case compact

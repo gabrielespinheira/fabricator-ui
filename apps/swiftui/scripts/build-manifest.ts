@@ -196,6 +196,12 @@ const items: Item[] = contract.items.map((item) => {
       files: ["ui/loading.swift"],
       dependencies: ["@fabricator/foundations"],
     }
+  if (item.name === "gooey")
+    return {
+      name: item.name,
+      files: ["ui/gooey.swift"],
+      dependencies: ["@fabricator/foundations"],
+    }
   if (item.type === "registry:block")
     return {
       name: item.name,
@@ -215,7 +221,11 @@ const items: Item[] = contract.items.map((item) => {
     return {
       name: item.name,
       files: ["ui/controls.swift", "ui/selection-controls.swift"],
-      dependencies: ["@fabricator/foundations", "@fabricator/spinner"],
+      dependencies: [
+        "@fabricator/foundations",
+        "@fabricator/gooey",
+        "@fabricator/spinner",
+      ],
     }
   if (shell.has(item.name))
     return {
@@ -231,7 +241,11 @@ const items: Item[] = contract.items.map((item) => {
     return {
       name: item.name,
       files: ["ui/structure.swift"],
-      dependencies: ["@fabricator/foundations", "@fabricator/button"],
+      dependencies: [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/gooey",
+      ],
     }
   if (content.has(item.name))
     return {

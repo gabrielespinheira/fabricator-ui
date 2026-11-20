@@ -39,6 +39,7 @@ By role, never milliseconds; the roles and how a component uses them are in [COM
 - Full-page theme changes use `--motion-theme` (700ms by default) with `--motion-ease-theme` (the reference Material curve, `cubic-bezier(0.4, 0, 0.2, 1)`); icon swaps keep the move timing. `circle-blur` blurs the incoming page from 8px to zero across the full reveal; polygon masks feather the edge while keeping content sharp.
 - Speeds `smooth` (about 1.5× default, expo-out entrances, popups slide through a 2px blur), `default`, `snappy` (about ¾) and `instant` (fades only) each set every token; `look.ts` writes the chosen one into `:root`.
 - `__tests__/motion-usage.test.ts` fails on fixed durations, literal curves, fixed zooms and retired tier names (`duration-fast`, `ease-spring`), which survive only as consumer aliases.
+- Gooey is an opt-in decorative silhouette. Its geometry and presets live in `registry/fabricator/shared/lib/gooey-model.ts` and are exported in the platform contract. Tabs and Slider use the `move` timing for their deformation. The region sets Gooey separately from motion speed. Keep content and input semantics above the decoration.
 
 ## Density
 

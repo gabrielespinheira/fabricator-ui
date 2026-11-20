@@ -69,6 +69,13 @@ const contractSchema = z.object({
     colors: z.array(z.string()),
     chipWash: z.object({ light: calendarWash, dark: calendarWash }),
   }),
+  gooey: z.object({
+    resting: z.array(z.number()).length(50),
+    effects: z.record(z.string(), z.array(z.number()).length(50)),
+    subtle: z.number(),
+    expressive: z.number(),
+    waviness: z.number(),
+  }),
   spinners: z.object({
     durationMs: z.number(),
     variants: z.array(
@@ -158,6 +165,18 @@ const lines = [
   "object FabricatorGenerated {",
   `const val soundMasterLevel:Float = ${contract.soundMasterLevel}f`,
   `const val spinnerDurationMilliseconds:Float = ${contract.spinners.durationMs}f`,
+  `const val gooeySubtle:Float = ${contract.gooey.subtle}f`,
+  `const val gooeyExpressive:Float = ${contract.gooey.expressive}f`,
+  `const val gooeyWaviness:Float = ${contract.gooey.waviness}f`,
+  `val gooeyResting:FloatArray = floatArrayOf(${contract.gooey.resting.map((value) => `${value}f`).join(",")})`,
+  `val gooeyEffects:Map<String,FloatArray> = mapOf(${Object.entries(
+    contract.gooey.effects
+  )
+    .map(
+      ([effect, points]) =>
+        `${quote(effect)} to floatArrayOf(${points.map((value) => `${value}f`).join(",")})`
+    )
+    .join(",")})`,
   `val calendarColors:List<String> = listOf(${contract.calendar.colors.map(quote).join(",")})`,
   `val calendarChipWash:Map<String,Map<String,Float>> = mapOf(${Object.entries(
     contract.calendar.chipWash

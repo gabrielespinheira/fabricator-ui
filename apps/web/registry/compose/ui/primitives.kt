@@ -227,7 +227,7 @@ fun FabricatorToggleGroup(values: Set<String>, onValuesChange: (Set<String>) -> 
 }
 
 @Composable
-fun FabricatorSlider(value: Float, onValueChange: (Float) -> Unit, modifier: Modifier = Modifier, range: ClosedFloatingPointRange<Float> = 0f..1f, steps: Int = 0, enabled: Boolean = true, label: String = "Value") {
+fun FabricatorSlider(value: Float, onValueChange: (Float) -> Unit, modifier: Modifier = Modifier, range: ClosedFloatingPointRange<Float> = 0f..1f, steps: Int = 0, enabled: Boolean = true, label: String = "Value", gooey: FabricatorGooeyOptions? = null) {
     val theme = LocalFabricatorTheme.current
     fun change(fraction: Float) {
         val normalized = fraction.coerceIn(0f, 1f)
@@ -237,6 +237,7 @@ fun FabricatorSlider(value: Float, onValueChange: (Float) -> Unit, modifier: Mod
     val fraction = ((value - range.start) / (range.endInclusive - range.start)).coerceIn(0f, 1f)
     val track = theme.color("accent")
     val fill = theme.color("primary")
+    val pulse = rememberGooeyPulse(value, gooey, FabricatorGooeyEffect.Bend, isEnabled = enabled)
     Canvas(modifier.heightIn(min = 48.dp).fillMaxWidth().semantics {
         contentDescription = label
         progressBarRangeInfo = ProgressBarRangeInfo(value, range, steps)
@@ -253,7 +254,9 @@ fun FabricatorSlider(value: Float, onValueChange: (Float) -> Unit, modifier: Mod
         drawLine(track, Offset(radius, size.height / 2), Offset(size.width - radius, size.height / 2), radius * 2, StrokeCap.Round)
         val x = radius + fraction * (size.width - radius * 2)
         drawLine(fill, Offset(radius, size.height / 2), Offset(x, size.height / 2), radius * 2, StrokeCap.Round)
-        drawCircle(fill, 7.dp.toPx(), Offset(x, size.height / 2))
+        val thumbRadius = 7.dp.toPx()
+        pulse?.draw(this, fill, Offset(x - thumbRadius, size.height / 2 - thumbRadius), Size(thumbRadius * 2, thumbRadius * 2))
+        drawCircle(fill, thumbRadius, Offset(x, size.height / 2))
         drawCircle(Color.White, 4.dp.toPx(), Offset(x, size.height / 2))
     }
 }

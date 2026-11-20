@@ -58,6 +58,10 @@
       "@/registry/bases/*/lib/fluid-hover": [
         "./registry/fabricator/shared/lib/fluid-hover"
       ],
+      "@/registry/bases/*/lib/gooey-model": [
+        "./registry/fabricator/shared/lib/gooey-model"
+      ],
+      "@/registry/bases/*/ui/gooey": ["./registry/fabricator/shared/ui/gooey"],
       "@/registry/bases/*/lib/avatar-group-parting": [
         "./registry/fabricator/shared/lib/avatar-group-parting"
       ],

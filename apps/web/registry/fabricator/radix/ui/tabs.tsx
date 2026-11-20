@@ -11,6 +11,10 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/radix/lib/fluid-hover"
+import {
+  GooeyFeedback,
+  type GooeyPreference,
+} from "@/registry/bases/radix/ui/gooey"
 
 // Fabricator override of the upstream tabs: the list is a fluid hover
 // container. The selected tab's pill slides between tabs, and a softer hover
@@ -60,10 +64,11 @@ function TabsList({
   className,
   variant = "default",
   children,
+  gooey,
   ref,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.List> &
-  VariantProps<typeof tabsListVariants>) {
+  VariantProps<typeof tabsListVariants> & { gooey?: GooeyPreference }) {
   const fluid = useFluidHover<HTMLDivElement>({
     items: TAB,
     selected: `${TAB}[aria-selected="true"]`,
@@ -84,7 +89,18 @@ function TabsList({
       <FluidHoverSelection
         selection={fluid.selection}
         className="cn-tabs-selection"
-      />
+      >
+        <GooeyFeedback
+          gooey={gooey}
+          effect="move"
+          value={
+            fluid.selection.rect
+              ? fluid.selection.rect.left - fluid.selection.rect.top
+              : undefined
+          }
+          fill="var(--surface-4)"
+        />
+      </FluidHoverSelection>
       <FluidHoverHighlight hover={fluid.hover} className="cn-tabs-highlight" />
       {children}
     </TabsPrimitive.List>

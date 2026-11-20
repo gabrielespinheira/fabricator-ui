@@ -104,7 +104,8 @@ private fun ComponentExample(route: String, toast: FabricatorToastState) {
         "checkbox" -> { FabricatorCheckbox(checked, { checked = it }, label = "Accept terms and conditions"); FabricatorCheckbox(androidx.compose.ui.state.ToggleableState.Indeterminate, {}, label = "Some items selected"); FabricatorCheckbox(false, {}, enabled = false, label = "Disabled") }
         "switch" -> { FabricatorSwitch(checked, { checked = it }, label = "Enable notifications"); FabricatorSwitch(false, {}, enabled = false, label = "Disabled") }
         "radio-group" -> FabricatorRadioGroup(choice, { choice = it }, demoOptions.map { it.value to it.label })
-        "slider" -> { FabricatorSlider(fraction, { fraction = it }); FabricatorText("${(fraction * 100).toInt()}%"); FabricatorSlider(.3f, {}, enabled = false) }
+        "slider" -> { FabricatorSlider(fraction, { fraction = it }, gooey = FabricatorGooeyOptions(effect = FabricatorGooeyEffect.Bend, intensity = 1f, waviness = .6f)); FabricatorText("${(fraction * 100).toInt()}%"); FabricatorSlider(.3f, {}, enabled = false) }
+        "gooey" -> GooeyDemo()
         "rating" -> FabricatorRating(number.toInt().coerceIn(0, 5), { number = it.toDouble() })
         "toggle" -> FabricatorToggle(checked, { checked = it }) { FabricatorIcon("bold"); FabricatorText("Bold") }
         "toggle-group" -> FabricatorToggleGroup(choices, { choices = it }, demoOptions.map { it.value to it.label }, multiple = true)
@@ -151,7 +152,7 @@ private fun ComponentExample(route: String, toast: FabricatorToastState) {
         "collapsible" -> { FabricatorButton(if (open) "Hide details" else "Show details", { open = !open }, variant = FabricatorVariant.Outline); FabricatorCollapsible(open) { FabricatorItem("@fabricator-ui/registry", description = "Copy-in source. Your code, your application.") } }
         "card" -> FabricatorCard(title = "Create a project", description = "Bring your next idea to life.") { FabricatorField("Name") { FabricatorInput(text, { text = it }, placeholder = "My project") }; FabricatorButton("Create project", { toast.show("Project created", text) }, enabled = text.isNotBlank()) }
         "item" -> FabricatorItem("Project invitation", description = "Alex invited you to Fabricator UI.", leading = { FabricatorAvatar("AM") }, trailing = { FabricatorButton("Accept", { toast.show("Invitation accepted") }) })
-        "tabs", "tab-strip" -> FabricatorTabs(choice, { choice = it }, demoOptions.map { FabricatorTab(it.value, it.label, canClose = false) }) { selected -> FabricatorText(demoOptions.first { it.value == selected }.description.orEmpty()) }
+        "tabs", "tab-strip" -> FabricatorTabs(choice, { choice = it }, demoOptions.map { FabricatorTab(it.value, it.label, canClose = false) }, gooey = FabricatorGooeyOptions(effect = FabricatorGooeyEffect.Move, intensity = 1f, waviness = .35f)) { selected -> FabricatorText(demoOptions.first { it.value == selected }.description.orEmpty()) }
         "breadcrumb" -> FabricatorBreadcrumb(listOf("Workspace" to { toast.show("Workspace selected") }, "Projects" to { toast.show("Projects selected") }, "Fabricator UI" to null))
         "pagination" -> FabricatorPagination(number.toInt().coerceIn(0, 9), 10, { number = it.toDouble() })
         "carousel" -> FabricatorCarousel(5) { index -> FabricatorCard(Modifier.height(180.dp), title = "Project ${index + 1}") { FabricatorText("Swipe or use the navigation buttons.", muted = true) } }

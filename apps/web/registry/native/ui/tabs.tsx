@@ -4,6 +4,8 @@ import { useControllableState } from "@rn-primitives/hooks"
 import * as TabsPrimitive from "@rn-primitives/tabs"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
+import { useDerivedValue } from "react-native-reanimated"
+import { useCSSVariable } from "uniwind"
 
 import { noteStep } from "@/registry/fabricator/shared/lib/sound-recipes"
 import { useFeedback } from "@/registry/native/lib/feedback"
@@ -19,6 +21,7 @@ import {
   getTextContent,
   wrapTextChildren,
 } from "@/registry/native/lib/text-children"
+import { GooeyFeedback, type GooeyPreference } from "@/registry/native/ui/gooey"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 
 type TabsOrientation = "horizontal" | "vertical"
@@ -110,8 +113,10 @@ function TabsList({
   className,
   variant = "default",
   children,
+  gooey,
   ...props
-}: TabsPrimitive.ListProps & VariantProps<typeof tabsListVariants>) {
+}: TabsPrimitive.ListProps &
+  VariantProps<typeof tabsListVariants> & { gooey?: GooeyPreference }) {
   const { value } = TabsPrimitive.useRootContext()
   const orientation = React.use(TabsContext)
   const resolvedVariant = variant === "subtle" ? "subtle" : "default"
@@ -124,6 +129,10 @@ function TabsList({
     previewsSelection: true,
   })
   const { attach } = fluid
+  const { x, y } = fluid.selection
+  const isVertical = orientation === "vertical"
+  const position = useDerivedValue(() => (isVertical ? -y.get() : x.get()))
+  const surface = useCSSVariable("--surface-4")
   return (
     <FluidHoverProvider fluid={fluid}>
       <FluidHoverArea fluid={fluid}>
@@ -139,7 +148,17 @@ function TabsList({
             data-variant={resolvedVariant}
             selection={fluid.selection}
             className="cn-tabs-selection"
-          />
+          >
+            {typeof surface === "string" && (
+              <GooeyFeedback
+                gooey={gooey}
+                effect="move"
+                position={position}
+                isVertical={isVertical}
+                fill={surface}
+              />
+            )}
+          </FluidHoverSelection>
           <FluidHoverHighlight
             data-variant={resolvedVariant}
             hover={fluid.hover}

@@ -40,6 +40,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   kbd: "Basics",
   separator: "Basics",
   spinner: "Basics",
+  gooey: "Basics",
   skeleton: "Basics",
   typography: "Basics",
   "aspect-ratio": "Basics",

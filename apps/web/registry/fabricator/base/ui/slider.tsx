@@ -6,6 +6,10 @@ import { cn } from "cn"
 
 import { useSliderDrag } from "@/registry/bases/base/hooks/use-slider-drag"
 import { getSliderSteps } from "@/registry/bases/base/lib/slider-model"
+import {
+  GooeyFeedback,
+  type GooeyPreference,
+} from "@/registry/bases/base/ui/gooey"
 
 type SliderValue = number | readonly number[]
 
@@ -38,6 +42,7 @@ function Slider({
   step = 1,
   size = "default",
   showSteps = false,
+  gooey,
   orientation = "horizontal",
   onValueChange,
   onPointerDown,
@@ -47,6 +52,7 @@ function Slider({
   size?: "sm" | "default" | "lg"
   /** A dot on every value the thumb can land on. For coarse steps. */
   showSteps?: boolean
+  gooey?: GooeyPreference
 }) {
   const _values = Array.isArray(value)
     ? value
@@ -137,7 +143,17 @@ function Slider({
             key={index}
             aria-label={getThumbLabel(ariaLabel, index, _values.length)}
             className="cn-slider-thumb block shrink-0 select-none disabled:pointer-events-none disabled:opacity-50"
-          />
+          >
+            <GooeyFeedback
+              gooey={gooey}
+              effect="bend"
+              value={toValues(value ?? uncontrolled)[index]}
+              isVertical={isVertical}
+              isDisabled={props.disabled}
+              followsTextDirection
+              fill="white"
+            />
+          </SliderPrimitive.Thumb>
         ))}
       </SliderPrimitive.Control>
     </SliderPrimitive.Root>

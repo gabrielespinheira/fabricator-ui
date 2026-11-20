@@ -38,6 +38,10 @@
       "types": "./dist/ui/dropdown-menu.d.ts",
       "default": "./dist/ui/dropdown-menu.js"
     },
+    "./gooey": {
+      "types": "./dist/ui/gooey.d.ts",
+      "default": "./dist/ui/gooey.js"
+    },
     "./input": {
       "types": "./dist/ui/input.d.ts",
       "default": "./dist/ui/input.js"

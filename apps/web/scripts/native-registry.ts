@@ -41,6 +41,7 @@ const SHARED_LIB_FILES = [
   "app-shell-model",
   "chat-input-model",
   "spinner-model",
+  "gooey-model",
   "date-picker-model",
   "sidebar-model",
   "sound-recipes",

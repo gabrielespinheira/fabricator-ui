@@ -264,6 +264,7 @@ export const formItems: Registry["items"] = [
       "@fabricator/density",
       "@fabricator/feedback",
       "@fabricator/field-model",
+      "@fabricator/gooey",
       "@fabricator/motion",
     ],
     files: [
@@ -385,10 +386,13 @@ export const formItems: Registry["items"] = [
       "@rn-primitives/tabs",
       "class-variance-authority",
       "cn",
+      "react-native-reanimated",
+      "uniwind@1.13.1",
     ],
     registryDependencies: [
       "@fabricator/feedback",
       "@fabricator/fluid-hover",
+      "@fabricator/gooey",
       "@fabricator/text",
     ],
     files: [
