@@ -35,7 +35,7 @@ jobs:
       - name: Build registry
         run: bun run registry:build
       - name: Build the React package
-        run: bun run --cwd apps/web ./scripts/build-react-package.mts
+        run: bun run --cwd apps/web react:build
       - name: Lint, typecheck, format
         run: bun run check
       # Web tests import apps/mobile, and resolving its tsconfig needs Expo.
@@ -69,7 +69,7 @@ jobs:
       - name: Build website and registry
         run: bun run build
       - name: Build the React package
-        run: bun run --cwd apps/web ./scripts/build-react-package.mts
+        run: bun run --cwd apps/web react:build
       - name: Build CLI
         run: bun run cli:build
       - name: Start website
