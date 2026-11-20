@@ -9,6 +9,23 @@ const styleMap = readFileSync(
   "utf8"
 )
 
+describe.each(["base", "radix", "aria"])(
+  "the inset frame in a %s window",
+  (base) => {
+    it("places the drag region before the shell controls", () => {
+      const source = readFileSync(
+        path.join(__dirname, `../${base}/ui/app-shell.tsx`),
+        "utf8"
+      )
+      const body = source.slice(
+        source.indexOf("<SidebarProvider"),
+        source.indexOf("</SidebarProvider>")
+      )
+      expect(body).toMatch(/<AppShellFrameDragRegion \/>[\s\S]*\{children\}/)
+    })
+  }
+)
+
 // A real press in a window goes through the native hit test, which a browser
 // test never reaches: Electron applies app-region rects in document order, later
 // ones winning, and a press inside a drag rect moves the window and never reaches

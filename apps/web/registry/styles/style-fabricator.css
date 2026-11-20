@@ -301,6 +301,11 @@
     @apply relative has-data-[variant=inset]:bg-transparent data-reveal:bg-transparent [--app-shell-sidebar-gap:0px] md:has-[>[data-slot=sidebar]:not([data-collapsible=offcanvas],[data-collapsible=icon],[data-peeking])]:[--app-shell-sidebar-gap:var(--sidebar-width)] md:has-[>[data-slot=sidebar][data-collapsible=icon]:not([data-variant=floating])]:[--app-shell-sidebar-gap:var(--sidebar-width-icon)] md:has-[>[data-slot=sidebar][data-collapsible=icon][data-variant=floating]]:[--app-shell-sidebar-gap:calc(var(--sidebar-width-icon)+var(--spacing)*4)];
   }
 
+  /* Match the inset main column's top margin at desktop widths. */
+  .cn-app-shell-frame-drag-region {
+    @apply h-(--density-8) md:group-has-[>[data-slot=sidebar][data-variant=inset]]/sidebar-wrapper:block;
+  }
+
   /* The full-width row above everything. It clears the native controls at
      both ends (and the sidebar toggle) and shares the sidebar's surface. */
   .cn-app-shell-titlebar {
@@ -309,9 +314,9 @@
 
   /* The desktop sidebar toggle: in the window's top band, after the
      traffic lights on macOS and centred on them (in the titlebar row when
-     there is one). */
+     there is one). The glyph is a little larger alongside native controls. */
   .cn-app-shell-window-toggle {
-    @apply start-[max(var(--density-16),var(--app-shell-window-inset-start))] h-(--app-shell-titlebar-height) in-data-titlebar:-translate-y-full;
+    @apply start-[max(var(--density-16),var(--app-shell-window-inset-start))] h-(--app-shell-titlebar-height) in-data-titlebar:-translate-y-full [&_[data-slot=sidebar-toggle-icon]]:size-[calc(var(--density-icon-16)*1.25)];
   }
 
   /* The main column: the page's surface everywhere, phones included; with
