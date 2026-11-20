@@ -16,6 +16,7 @@
     "icons:dev": "bun ./scripts/build-icons.ts --watch",
     "icons:build": "bun ./scripts/build-icons.ts",
     "icons:packages": "bun run --cwd ../../packages/icons build && bun run --cwd ../../packages/icons-static build",
+    "react:package": "bun run --cwd ../../packages/icons build && bun ./scripts/build-react-package.mts",
     "registry:build": "bun ./scripts/build-registry.mts",
     "registry:native": "bun ./scripts/build-native-registry.mts",
     "platforms:generate": "bun ./scripts/build-platform-contract.mts",
