@@ -40,10 +40,38 @@ export const GOOEY_GEOMETRY = {
     17, 111, 34, 92, 45, 77, 44, 62, 43, 64, 31, 51, 35, 41, 38, 30, 47, 15, 45,
     0, 43, -11, 37, -11, 23, -11, 7, 2, 0, 17, -2,
   ],
-}
+} as const
 
 export const GOOEY_DEFAULTS = { subtle: 0.65, expressive: 1, waviness: 0.25 }
 export const GOOEY_VIEW_BOX = "-30 -16 160 72"
+
+const GOOEY_POINT_INDICES = [
+  [0, 1],
+  [2, 3],
+  [4, 5],
+  [6, 7],
+  [8, 9],
+  [10, 11],
+  [12, 13],
+  [14, 15],
+  [16, 17],
+  [18, 19],
+  [20, 21],
+  [22, 23],
+  [24, 25],
+  [26, 27],
+  [28, 29],
+  [30, 31],
+  [32, 33],
+  [34, 35],
+  [36, 37],
+  [38, 39],
+  [40, 41],
+  [42, 43],
+  [44, 45],
+  [46, 47],
+  [48, 49],
+] as const
 
 function clampUnit(value: number) {
   "worklet"
@@ -89,12 +117,14 @@ export function getGooeyFrame(
   const { resting } = GOOEY_GEOMETRY
   const target = GOOEY_GEOMETRY[effect]
   const frame: number[] = []
-  for (let index = 0; index < resting.length; index += 2) {
-    const x = resting[index] + (target[index] - resting[index]) * strength
+  for (const [xIndex, yIndex] of GOOEY_POINT_INDICES) {
+    const restingX = resting[xIndex]
+    const restingY = resting[yIndex]
+    const x = restingX + (target[xIndex] - restingX) * strength
     const y =
-      resting[index + 1] +
-      (target[index + 1] - resting[index + 1]) * strength +
-      Math.sin(resting[index] * 0.13 + resting[index + 1] * 0.18) * ripple
+      restingY +
+      (target[yIndex] - restingY) * strength +
+      Math.sin(restingX * 0.13 + restingY * 0.18) * ripple
     if (direction === "down") frame.push(100 - y * 2.5, x * 0.4)
     else if (direction === "up") frame.push(y * 2.5, 40 - x * 0.4)
     else frame.push(direction === "left" ? 100 - x : x, y)
@@ -110,19 +140,16 @@ export function getGooeyPath(
   direction: GooeyDirection = "right"
 ) {
   "worklet"
-  const [x, y, ...curves] = getGooeyFrame(
+  const coordinates = getGooeyFrame(
     effect,
     progress,
     intensity,
     waviness,
     direction
-  )
-  let path = `M${x.toFixed(2)} ${y.toFixed(2)}`
-  for (let index = 0; index < curves.length; index += 6) {
-    path += `C${curves
-      .slice(index, index + 6)
-      .map((coordinate) => coordinate.toFixed(2))
-      .join(" ")}`
+  ).map((coordinate) => coordinate.toFixed(2))
+  let path = `M${coordinates.slice(0, 2).join(" ")}`
+  for (let index = 2; index < coordinates.length; index += 6) {
+    path += `C${coordinates.slice(index, index + 6).join(" ")}`
   }
   return `${path}Z`
 }
