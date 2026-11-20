@@ -45,6 +45,7 @@ import {
   alignWorkspaceAliases,
   findWorkspaceRoot,
   listWorkspaceApps,
+  removeUnusedScaffoldLucide,
   syncWorkspaceAfterAdd,
 } from "../utils/workspace"
 import {
@@ -242,6 +243,7 @@ const addWebItems: Step = async (context) => {
     context.webDir,
   ])
   syncWorkspaceAfterAdd(context.webDir)
+  removeUnusedScaffoldLucide(context.webDir)
 }
 
 /** The Expo template's demo. `ui/collapsible` also sits where ours installs. */

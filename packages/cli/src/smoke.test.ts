@@ -73,6 +73,12 @@ describe.skipIf(!existsSync(bin))("built CLI (node dist/index.js)", () => {
       expect(local).toContain(
         '"http://localhost:4000/init?base=base&preset=fabricator"'
       )
+
+      const lucide = run(
+        ["init", "--dry-run", "-t", "next", "--monorepo", "--icons", "lucide"],
+        dir
+      )
+      expect(lucide).toContain("iconLibrary=lucide&template=next-monorepo")
     } finally {
       rmSync(dir, { recursive: true, force: true })
     }

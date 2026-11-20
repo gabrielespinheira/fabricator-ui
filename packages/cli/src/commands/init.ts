@@ -28,7 +28,11 @@ import {
   isNativeLanguageRenderer,
   readNativeLanguageConfig,
 } from "../utils/native-files"
-import { detectPackageManager } from "../utils/package-manager"
+import {
+  buildInstallArgs,
+  detectPackageManager,
+} from "../utils/package-manager"
+import { runLogged } from "../utils/process"
 import { exitLike, formatShadcnCommand, runShadcn } from "../utils/shadcn"
 import {
   buildInitUrl,
@@ -40,6 +44,7 @@ import {
 } from "../utils/urls"
 import {
   alignWorkspaceAliases,
+  removeUnusedScaffoldLucide,
   syncWorkspaceAfterAdd,
 } from "../utils/workspace"
 import { initNative } from "./init-native"
@@ -322,6 +327,7 @@ export async function init(
     {
       base,
       preset: options.preset,
+      iconLibrary: options.icons,
       rtl: options.rtl,
       pointer: options.pointer,
       template: options.template,
@@ -402,6 +408,14 @@ export async function init(
     !hadPackageJson &&
     !hadNamedDestination
   ) {
+    if (root !== projectDir && removeUnusedScaffoldLucide(projectDir)) {
+      const packageManager = detectPackageManager(root)
+      await runLogged(packageManager, buildInstallArgs(packageManager), {
+        cwd: root,
+        logFile: "/dev/null",
+        stream: !options.silent,
+      })
+    }
     const framework = detectFramework(projectDir)
     if (framework) {
       writeProjectDocs(

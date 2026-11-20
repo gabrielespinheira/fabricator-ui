@@ -15,6 +15,7 @@ import {
   findWorkspaceRoot,
   getUiPackageDir,
   listWorkspaceApps,
+  removeUnusedScaffoldLucide,
   shareIconDependency,
 } from "./workspace"
 
@@ -151,6 +152,66 @@ describe("workspace helpers", () => {
       })
       expect(shareIconDependency(web, path.join(root, "packages/ui"))).toBe(
         false
+      )
+    })
+  })
+
+  describe("removeUnusedScaffoldLucide", () => {
+    const lucide = { "lucide-react": "^1.76.0" }
+
+    function selectFabricatorIcons() {
+      const config = read("apps/web/components.json")
+      write("apps/web/components.json", {
+        ...config,
+        iconLibrary: "lucide",
+        registries: {
+          "@fabricator": { params: { icons: "fabricator" } },
+        },
+      })
+    }
+
+    beforeEach(() => {
+      for (const workspace of ["apps/web", "packages/ui"]) {
+        const file = `${workspace}/package.json`
+        const pkg = read(file)
+        write(file, {
+          ...pkg,
+          dependencies: { ...pkg.dependencies, ...lucide },
+        })
+      }
+    })
+
+    it("removes unused Lucide from both workspace manifests", () => {
+      selectFabricatorIcons()
+      const web = path.join(root, "apps/web")
+      expect(removeUnusedScaffoldLucide(web)).toBe(true)
+      expect(read("apps/web/package.json").dependencies).toEqual({})
+      expect(read("packages/ui/package.json").dependencies).toEqual({
+        "@fabricator-ui/icons": "^1.0.0",
+      })
+      expect(removeUnusedScaffoldLucide(web)).toBe(false)
+    })
+
+    it("keeps Lucide in the workspace that imports it", () => {
+      selectFabricatorIcons()
+      write(
+        "packages/ui/src/components/example.tsx",
+        "import { Check } from 'lucide-react'"
+      )
+      expect(removeUnusedScaffoldLucide(path.join(root, "apps/web"))).toBe(true)
+      expect(read("apps/web/package.json").dependencies).toEqual({})
+      expect(read("packages/ui/package.json").dependencies).toMatchObject(
+        lucide
+      )
+    })
+
+    it("keeps explicit Lucide dependencies", () => {
+      expect(removeUnusedScaffoldLucide(path.join(root, "apps/web"))).toBe(
+        false
+      )
+      expect(read("apps/web/package.json").dependencies).toEqual(lucide)
+      expect(read("packages/ui/package.json").dependencies).toMatchObject(
+        lucide
       )
     })
   })

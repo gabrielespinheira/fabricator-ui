@@ -15,9 +15,16 @@ import path from "node:path"
 import { z } from "zod"
 
 import { readComponentsJson, serialize, type ComponentsJson } from "./config"
+import { NAMESPACE } from "./names"
 import { isReactNativeProject, readPackageJson } from "./native"
 
 export const ICONS_PACKAGE = "@fabricator-ui/icons"
+const LUCIDE_PACKAGE = "lucide-react"
+const FABRICATOR_ICON_IMPORT = /["'`]@fabricator-ui\/icons(?:["'`]|\/)/
+const LUCIDE_ICON_IMPORT = /["'`]lucide-react(?:["'`]|\/)/
+const FABRICATOR_ICON_REGISTRY = z.object({
+  params: z.object({ icons: z.literal("fabricator") }),
+})
 
 // `exports` and `workspaces` take many shapes, and this reads any package.json
 // above a project, so only what the code relies on is checked.
@@ -157,20 +164,39 @@ export function exportTsxLibs(uiDir: string) {
   return true
 }
 
-function usesIcons(dir: string): boolean {
+function referencesPackage(dir: string, modulePath: RegExp): boolean {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if (entry.name === "node_modules" || entry.name.startsWith(".")) continue
     const full = path.join(dir, entry.name)
     if (entry.isDirectory()) {
-      if (usesIcons(full)) return true
+      if (referencesPackage(full, modulePath)) return true
     } else if (
-      /\.(tsx?|astro)$/.test(entry.name) &&
-      readFileSync(full, "utf8").includes(`"${ICONS_PACKAGE}"`)
+      /\.(?:[cm]?[jt]sx?|astro|mdx)$/.test(entry.name) &&
+      modulePath.test(readFileSync(full, "utf8"))
     ) {
       return true
     }
   }
   return false
+}
+
+/** shadcn's monorepo scaffolds install their configured icon pack separately. */
+export function removeUnusedScaffoldLucide(appDir: string) {
+  const registry = readConfig(appDir)?.config.registries?.[NAMESPACE]
+  if (!FABRICATOR_ICON_REGISTRY.safeParse(registry).success) return false
+  const uiDir = getUiPackageDir(appDir)
+  if (!uiDir) return false
+
+  let changed = false
+  for (const dir of [appDir, uiDir]) {
+    const file = path.join(dir, "package.json")
+    const pkg = readJson(file)
+    const { [LUCIDE_PACKAGE]: lucide, ...dependencies } = pkg.dependencies ?? {}
+    if (!lucide || referencesPackage(dir, LUCIDE_ICON_IMPORT)) continue
+    writeJson(file, { ...pkg, dependencies })
+    changed = true
+  }
+  return changed
 }
 
 /**
@@ -184,7 +210,11 @@ export function shareIconDependency(appDir: string, uiDir: string) {
   ]
   const file = path.join(appDir, "package.json")
   const pkg = readJson(file)
-  if (!version || pkg.dependencies?.[ICONS_PACKAGE] || !usesIcons(appDir)) {
+  if (
+    !version ||
+    pkg.dependencies?.[ICONS_PACKAGE] ||
+    !referencesPackage(appDir, FABRICATOR_ICON_IMPORT)
+  ) {
     return false
   }
   writeJson(file, {

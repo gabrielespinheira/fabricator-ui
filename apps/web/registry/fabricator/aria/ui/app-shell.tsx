@@ -808,6 +808,9 @@ function AppShell({
             style={getRailStyle(windowProp, Boolean(shellTitlebar))}
             className="cn-app-shell-body min-h-0 flex-1"
           >
+            {windowProp?.controls === "macos" &&
+              !windowProp.isFullscreen &&
+              !shellTitlebar && <AppShellFrameDragRegion />}
             {children}
             {windowProp && windowProp.controls !== "none" && (
               <AppShellWindowToggle />
@@ -999,6 +1002,19 @@ function ShortcutKbd({
 }
 
 // MARK: Titlebar
+
+/** The inset card's top margin is outside the header's drag region. */
+function AppShellFrameDragRegion() {
+  const dragRegion = useDragRegionProps()
+  return (
+    <div
+      aria-hidden="true"
+      data-slot="app-shell-frame-drag-region"
+      {...dragRegion}
+      className="cn-app-shell-frame-drag-region absolute inset-x-0 top-0 hidden"
+    />
+  )
+}
 
 /** A full-width row above everything: pass it as AppShell's `titlebar`. */
 function AppShellTitlebar({

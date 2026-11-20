@@ -336,6 +336,21 @@ function assertScaffoldDocs(root: string) {
 const FABRICATOR_ICONS = "@fabricator-ui/icons"
 const LUCIDE = "lucide-react"
 
+function assertMonorepoIcons(root: string) {
+  for (const workspace of ["apps/web", "packages/ui"]) {
+    const { dependencies } = readJson(
+      path.join(root, workspace, "package.json")
+    )
+    assert(!dependencies[LUCIDE], `${workspace}/package.json has ${LUCIDE}`)
+  }
+  assert(
+    readJson(path.join(root, "packages/ui/package.json")).dependencies[
+      FABRICATOR_ICONS
+    ],
+    `packages/ui/package.json lacks ${FABRICATOR_ICONS}`
+  )
+}
+
 function assertRegistry(appDir: string) {
   const config = readJson(path.join(appDir, "components.json"))
   const entry = config.registries?.["@fabricator"]
@@ -671,6 +686,7 @@ const scenarios: Scenario[] = [
       // A monorepo is what `create` makes when nothing says otherwise.
       cli(["create", "app", "--yes", "-c", dir], dir)
       const root = path.join(dir, "app")
+      assertMonorepoIcons(root)
       assertScaffoldDocs(root)
       const web = path.join(root, "apps/web")
       // From the root, the one app is found.
@@ -1111,6 +1127,18 @@ const scenarios: Scenario[] = [
       assertInitSchema(appDir)
       cli(["add", "dialog", "field", "-y", "-o", "-c", appDir], appDir)
       run("bun", ["run", "build"], appDir)
+    },
+  },
+  {
+    name: "next-monorepo-init",
+    run(dir: string) {
+      cli(
+        ["init", "-t", "next", "--monorepo", "-n", "app", "-y", "-c", dir],
+        dir
+      )
+      const root = path.join(dir, "app")
+      assertMonorepoIcons(root)
+      run("bun", ["run", "build"], path.join(root, "apps/web"))
     },
   },
   {
