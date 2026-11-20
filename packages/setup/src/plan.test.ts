@@ -17,6 +17,18 @@ const ids = (changes: Partial<ProjectSetup> = {}): StepId[] =>
   planSetup(setup(changes)).map((step) => step.id)
 
 describe("planSetup", () => {
+  it("installs a package without scheduling registry or App Shell steps", () => {
+    expect(ids({ project: "existing", distribution: "package" })).toEqual([
+      "setup-package",
+    ])
+    expect(ids({ distribution: "package" })).toEqual([
+      "scaffold-package-web",
+      "configure-workspace",
+      "install",
+      "write-project-docs",
+      "first-commit",
+    ])
+  })
   it("scaffolds a web project and everything in one run", () => {
     expect(ids({ project: "new" })).toEqual([
       "scaffold-web",

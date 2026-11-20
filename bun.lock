@@ -154,6 +154,7 @@
       },
       "devDependencies": {
         "@ianvs/prettier-plugin-sort-imports": "4.6.1",
+        "@tailwindcss/node": "4.3.5",
         "@tailwindcss/postcss": "^4.3.5",
         "@types/d3-hierarchy": "3.1.7",
         "@types/d3-scale": "4.0.9",
@@ -298,6 +299,21 @@
       "optionalPeers": [
         "@resvg/resvg-js",
       ],
+    },
+    "packages/react": {
+      "name": "@fabricator-ui/react",
+      "version": "0.9.0",
+      "dependencies": {
+        "@base-ui/react": "1.9.0",
+        "@fabricator-ui/icons": "workspace:*",
+        "@radix-ui/react-compose-refs": "1.1.5",
+        "class-variance-authority": "0.7.1",
+        "cn": "0.5.2",
+      },
+      "peerDependencies": {
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+      },
     },
     "packages/setup": {
       "name": "@fabricator-ui/setup",
@@ -577,6 +593,8 @@
     "@fabricator-ui/icons-react-native": ["@fabricator-ui/icons-react-native@workspace:packages/icons-react-native"],
 
     "@fabricator-ui/icons-static": ["@fabricator-ui/icons-static@workspace:packages/icons-static"],
+
+    "@fabricator-ui/react": ["@fabricator-ui/react@workspace:packages/react"],
 
     "@fabricator-ui/setup": ["@fabricator-ui/setup@workspace:packages/setup"],
 

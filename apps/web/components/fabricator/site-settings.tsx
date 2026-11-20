@@ -396,7 +396,13 @@ function isThemeSetting(value: unknown): value is ThemeSetting {
  * Theme, sound, icons, radius, density, motion, surface and primary colour:
  * the settings menu rows.
  */
-export function SiteSettingsFields({ className }: { className?: string }) {
+export function SiteSettingsFields({
+  className,
+  hideIconAndSpinner = false,
+}: {
+  className?: string
+  hideIconAndSpinner?: boolean
+}) {
   const hydrated = useHydrated()
   const { theme, setTheme } = useTheme()
   const [sound, setSound] = useSiteSetting("sound")
@@ -431,29 +437,33 @@ export function SiteSettingsFields({ className }: { className?: string }) {
           ]}
         />
       </SettingRow>
-      <SettingRow label="Icons">
-        <SettingSelect<SiteIconLibrary>
-          label="Icons"
-          value={iconLibrary}
-          onValueChange={setIconLibrary}
-          options={ICON_LIBRARIES.map((library) => ({ ...library }))}
-        />
-      </SettingRow>
-      <SettingRow label="Spinner">
-        <div className="flex items-center gap-3">
-          <Spinner variant={spinner} aria-hidden="true" />
-          <SettingSelect<SpinnerVariant>
-            label="Spinner"
-            value={spinner}
-            onValueChange={setSpinner}
-            options={SPINNERS.map(({ value, label }) => ({
-              value,
-              label,
-              icon: <Spinner variant={value} aria-hidden="true" />,
-            }))}
-          />
-        </div>
-      </SettingRow>
+      {hideIconAndSpinner ? null : (
+        <>
+          <SettingRow label="Icons">
+            <SettingSelect<SiteIconLibrary>
+              label="Icons"
+              value={iconLibrary}
+              onValueChange={setIconLibrary}
+              options={ICON_LIBRARIES.map((library) => ({ ...library }))}
+            />
+          </SettingRow>
+          <SettingRow label="Spinner">
+            <div className="flex items-center gap-3">
+              <Spinner variant={spinner} aria-hidden="true" />
+              <SettingSelect<SpinnerVariant>
+                label="Spinner"
+                value={spinner}
+                onValueChange={setSpinner}
+                options={SPINNERS.map(({ value, label }) => ({
+                  value,
+                  label,
+                  icon: <Spinner variant={value} aria-hidden="true" />,
+                }))}
+              />
+            </div>
+          </SettingRow>
+        </>
+      )}
       <SettingRow label="Radius">
         <SettingSelect<SiteRadius>
           label="Radius"

@@ -277,6 +277,29 @@ export async function init(
   const baseUrl = getBaseUrl()
   const languageConfig = await readNativeLanguageConfig(cwd)
   const languageRenderer = rawOptions.platform ?? languageConfig?.renderer
+  if (rawOptions.distribution !== undefined) setupFromInitFlags(rawOptions)
+  if (rawOptions.distribution === "package") {
+    if (rawOptions.template)
+      throw new Error("Use create --distribution package to create a project.")
+    if (languageRenderer && languageRenderer !== "web")
+      throw new Error("Package setup is available for React web projects.")
+    if (components.length)
+      throw new Error(
+        "Package setup installs the preview catalog. Import components by name after setup."
+      )
+    if (
+      (rawOptions.preset && rawOptions.preset !== "fabricator") ||
+      rawOptions.rtl ||
+      rawOptions.pointer ||
+      rawOptions.cssVariables === false ||
+      rawOptions.reinstall ||
+      rawOptions.monorepo
+    ) {
+      throw new Error(
+        "These init options require --distribution source. Use --look to customize the package theme."
+      )
+    }
+  }
   if (isNativeLanguageRenderer(languageRenderer)) {
     return initNativeLanguage(components, languageRenderer, {
       ...rawOptions,

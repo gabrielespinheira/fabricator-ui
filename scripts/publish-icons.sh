@@ -12,7 +12,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-for dir in packages/icons packages/icons-react-native packages/icons-static packages/editor-native; do
+for dir in packages/icons packages/icons-react-native packages/icons-static packages/editor-native packages/react; do
   name=$(node -p "require('./$dir/package.json').name")
   version=$(node -p "require('./$dir/package.json').version")
 
@@ -28,7 +28,11 @@ for dir in packages/icons packages/icons-react-native packages/icons-static pack
 
   (
     cd "$dir"
-    bun run --if-present build
+    if [ "$dir" = packages/react ]; then
+      bun run --cwd ../.. react:build
+    else
+      bun run --if-present build
+    fi
     rm -f ./*.tgz
     bun pm pack
     npm publish ./*.tgz --access public

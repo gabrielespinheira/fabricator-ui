@@ -79,73 +79,85 @@ export function ExtrasControls({
   const isNativeOnly = hasMobile && !hasWeb && !hasDesktop
   const hasWebApp = hasWeb || hasDesktop
   const hasAssistants = choices.assistants.length > 0
+  const isPackage = choices.distribution === "package"
 
   return (
     <FieldGroup className="gap-8">
-      <StepSection title="Components">
-        <RadioGroup
-          value={choices.components}
-          onValueChange={(value) => {
-            if (value === "starter" || value === "all") {
-              onChange({ components: value })
-            }
-          }}
-          className="grid gap-3"
-        >
-          <ChoiceCard
-            value="starter"
-            title="Start small"
-            description="Add components as you need them, one command each."
-            icon={<BoxIcon />}
-          />
-          <ChoiceCard
-            value="all"
-            title="Everything"
-            description="Copy every component in now, ready to use."
-            icon={<SparklesIcon />}
-          />
-        </RadioGroup>
-      </StepSection>
-
-      {hasWebApp ? (
-        <StepSection
-          title="Component primitives"
-          description="The library that handles keyboard, focus and screen readers under each web component. Every one looks the same."
-        >
-          <RadioGroup
-            value={choices.base}
-            onValueChange={(value) => {
-              const base = BASE_VALUES.find((candidate) => candidate === value)
-              if (base) onChange({ base })
-            }}
-            className="grid gap-3"
-          >
-            {SETUP_BASES.map((base) => (
-              <ChoiceCard
-                key={base.value}
-                value={base.value}
-                title={base.label}
-                description={base.description}
-              />
-            ))}
-          </RadioGroup>
+      {isPackage ? (
+        <StepSection title="Component primitives">
+          <p className="text-[13px] text-muted-foreground">
+            Base UI is included in the package.
+          </p>
         </StepSection>
-      ) : null}
+      ) : (
+        <>
+          <StepSection title="Components">
+            <RadioGroup
+              value={choices.components}
+              onValueChange={(value) => {
+                if (value === "starter" || value === "all") {
+                  onChange({ components: value })
+                }
+              }}
+              className="grid gap-3"
+            >
+              <ChoiceCard
+                value="starter"
+                title="Start small"
+                description="Add components as you need them, one command each."
+                icon={<BoxIcon />}
+              />
+              <ChoiceCard
+                value="all"
+                title="Everything"
+                description="Copy every component in now, ready to use."
+                icon={<SparklesIcon />}
+              />
+            </RadioGroup>
+          </StepSection>
 
-      <StepSection title="Sound">
-        <SwitchRow
-          id="sound"
-          title="Interface sounds"
-          description={
-            isNativeOnly
-              ? "Soft clicks and ticks on buttons, switches and menus, each with a light tap on a real device."
-              : `Soft clicks and ticks on buttons, switches and menus, like the ones on this site. Synthesised in the browser, no audio files.${hasMobile ? " The mobile app plays them too, with a light tap for each." : ""}`
-          }
-          checked={choices.sound}
-          onCheckedChange={(sound) => onChange({ sound })}
-        />
-      </StepSection>
+          {hasWebApp ? (
+            <StepSection
+              title="Component primitives"
+              description="The library that handles keyboard, focus and screen readers under each web component. Every one looks the same."
+            >
+              <RadioGroup
+                value={choices.base}
+                onValueChange={(value) => {
+                  const base = BASE_VALUES.find(
+                    (candidate) => candidate === value
+                  )
+                  if (base) onChange({ base })
+                }}
+                className="grid gap-3"
+              >
+                {SETUP_BASES.map((base) => (
+                  <ChoiceCard
+                    key={base.value}
+                    value={base.value}
+                    title={base.label}
+                    description={base.description}
+                  />
+                ))}
+              </RadioGroup>
+            </StepSection>
+          ) : null}
 
+          <StepSection title="Sound">
+            <SwitchRow
+              id="sound"
+              title="Interface sounds"
+              description={
+                isNativeOnly
+                  ? "Soft clicks and ticks on buttons, switches and menus, each with a light tap on a real device."
+                  : `Soft clicks and ticks on buttons, switches and menus, like the ones on this site. Synthesised in the browser, no audio files.${hasMobile ? " The mobile app plays them too, with a light tap for each." : ""}`
+              }
+              checked={choices.sound}
+              onCheckedChange={(sound) => onChange({ sound })}
+            />
+          </StepSection>
+        </>
+      )}
       <StepSection
         title="AI assistants"
         description="Pick every assistant you use. Each learns Fabricator UI and can install components for you."

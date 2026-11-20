@@ -1,6 +1,7 @@
 // The folders and key files a setup creates, for the page's preview.
 
 import { getSkillDirectories, MCP_CONFIG_PATHS } from "./agent-files"
+import { REACT_PACKAGE } from "./react-package"
 import {
   EXPO_SDK,
   getBaseLabel,
@@ -199,14 +200,22 @@ function toolingFiles(setup: ProjectSetup) {
 }
 
 function webApp(setup: ProjectSetup, note: string): Draft {
+  const isPackage = setup.distribution === "package"
   return {
     name: "web",
     note: setup.web ? note : `${note}, the window's UI`,
     mark: setup.framework,
     children: [
-      file("components.json"),
+      ...(isPackage
+        ? folderPath(setup.framework === "next" ? "app" : "src", [
+            file(setup.framework === "next" ? "globals.css" : "index.css"),
+            ...(Object.keys(setup.look).length
+              ? [file("fabricator-theme.css")]
+              : []),
+          ])
+        : [file("components.json")]),
       ...eslintFiles(setup),
-      file("package.json"),
+      { name: "package.json", ...(isPackage && { note: REACT_PACKAGE }) },
       ...webAppComponents(setup),
     ],
   }
@@ -280,7 +289,9 @@ function monorepoTree(setup: ProjectSetup, note: string): Draft {
         ],
       },
       // A mobile app keeps its React Native components in apps/mobile.
-      ...(hasWeb ? [webPackages(setup)] : []),
+      ...(hasWeb && setup.distribution === "source"
+        ? [webPackages(setup)]
+        : []),
       ...(hasWeb && setup.runner === "turborepo" ? [file("turbo.json")] : []),
       ...toolingFiles(setup),
       ...projectDocs(setup),
@@ -301,7 +312,12 @@ export function getProjectTree(rawSetup: ProjectSetup): ProjectTreeNode {
     return withIds({
       name: "your project",
       note: "Detected by the CLI",
-      children: agentFiles(setup),
+      children: [
+        ...(setup.distribution === "package"
+          ? [{ name: "package.json", note: REACT_PACKAGE }]
+          : []),
+        ...agentFiles(setup),
+      ],
     })
   }
   if (setup.project === "new") {

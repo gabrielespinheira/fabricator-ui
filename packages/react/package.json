@@ -1,0 +1,78 @@
+{
+  "name": "@fabricator-ui/react",
+  "version": "0.9.0",
+  "description": "Fabricator UI components for React web, with compiled styles.",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./badge": {
+      "types": "./dist/ui/badge.d.ts",
+      "default": "./dist/ui/badge.js"
+    },
+    "./button": {
+      "types": "./dist/ui/button.d.ts",
+      "default": "./dist/ui/button.js"
+    },
+    "./card": {
+      "types": "./dist/ui/card.d.ts",
+      "default": "./dist/ui/card.js"
+    },
+    "./checkbox": {
+      "types": "./dist/ui/checkbox.d.ts",
+      "default": "./dist/ui/checkbox.js"
+    },
+    "./dialog": {
+      "types": "./dist/ui/dialog.d.ts",
+      "default": "./dist/ui/dialog.js"
+    },
+    "./dropdown-menu": {
+      "types": "./dist/ui/dropdown-menu.d.ts",
+      "default": "./dist/ui/dropdown-menu.js"
+    },
+    "./input": {
+      "types": "./dist/ui/input.d.ts",
+      "default": "./dist/ui/input.js"
+    },
+    "./label": {
+      "types": "./dist/ui/label.d.ts",
+      "default": "./dist/ui/label.js"
+    },
+    "./select": {
+      "types": "./dist/ui/select.d.ts",
+      "default": "./dist/ui/select.js"
+    },
+    "./switch": {
+      "types": "./dist/ui/switch.d.ts",
+      "default": "./dist/ui/switch.js"
+    },
+    "./tabs": {
+      "types": "./dist/ui/tabs.d.ts",
+      "default": "./dist/ui/tabs.js"
+    },
+    "./textarea": {
+      "types": "./dist/ui/textarea.d.ts",
+      "default": "./dist/ui/textarea.js"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "dependencies": {
+    "@base-ui/react": "1.9.0",
+    "@fabricator-ui/icons": "workspace:*",
+    "@radix-ui/react-compose-refs": "1.1.5",
+    "class-variance-authority": "0.7.1",
+    "cn": "0.5.2"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

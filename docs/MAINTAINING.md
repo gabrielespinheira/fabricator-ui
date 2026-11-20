@@ -28,3 +28,5 @@ Upstream syncs, pinned tools, releases and deploys. Most of this is the maintain
 ## Deploy
 
 After the release PR merges, run `bun run deploy` from a clean, pushed `main` (`-- --preview` for a preview). It checks versions, publishes the icon packages and `editor-native` (`release:icons`), builds the site locally and uploads it prebuilt to Vercel, then publishes the CLI to npm, tags `fabricator-ui@X.Y.Z` and creates the GitHub release from the changelog section (`release:publish`, `scripts/publish.sh`, which skips a tag or release `/release` already made). It needs `npm login` and `gh auth login`. Releases are published from the maintainer's machine, so npm shows no provenance.
+
+The same pre-site package publish step builds and publishes `@fabricator-ui/react` after the icon packages. Keep `FABRICATOR_PACKAGE_SETUP` off for the first production build. After the matching `fabricator-ui@latest` and React package pass fresh-install checks, enable it for the next site build to expose the Get started choice.

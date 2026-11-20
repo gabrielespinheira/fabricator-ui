@@ -3,6 +3,8 @@
 
 import { z } from "zod"
 
+import { DISTRIBUTIONS } from "./react-package"
+
 export const FRAMEWORKS = [
   {
     value: "next",
@@ -203,6 +205,7 @@ export const EXPO_SDK = 58
 
 export const projectSetupSchema = z.object({
   project: z.enum(PROJECT_KINDS),
+  distribution: z.enum(DISTRIBUTIONS).default("source"),
   name: z.string(),
   framework: z.enum(FRAMEWORK_VALUES),
   base: z.enum(BASE_VALUES),
@@ -232,6 +235,7 @@ export type ProjectSetup = z.infer<typeof projectSetupSchema>
 
 export const DEFAULT_PROJECT_SETUP: ProjectSetup = {
   project: "monorepo",
+  distribution: "source",
   name: "",
   framework: "next",
   base: "base",

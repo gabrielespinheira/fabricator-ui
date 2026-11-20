@@ -142,22 +142,18 @@ function DashboardMenu() {
 
 ## Toolbar
 
+Show up to four period presets with the default `TabsList`. Use a `Select` for more presets or where the full labels do not fit beside the other controls. Keep the same URL value for either control. In Next.js, code that reads the URL needs a Suspense boundary.
+
 ```tsx
 <div className="flex flex-wrap items-center gap-(--density-8)">
-  {/* Base UI shown: Radix uses type="single" with a string value. Keep one
-      period selected, so an empty value is ignored. The period lives in the
-      URL; in Next.js, code that reads the URL needs a Suspense boundary. */}
-  <ToggleGroup
-    size="sm"
-    aria-label="Period"
-    value={[period]}
-    onValueChange={([next]) => next && setPeriod(next)}
-  >
-    <ToggleGroupItem value="7d">7 days</ToggleGroupItem>
-    <ToggleGroupItem value="30d">30 days</ToggleGroupItem>
-    <ToggleGroupItem value="90d">90 days</ToggleGroupItem>
-    <ToggleGroupItem value="12m">12 months</ToggleGroupItem>
-  </ToggleGroup>
+  <Tabs value={period} onValueChange={setPeriod}>
+    <TabsList aria-label="Period">
+      <TabsTrigger value="7d">7 days</TabsTrigger>
+      <TabsTrigger value="30d">30 days</TabsTrigger>
+      <TabsTrigger value="90d">90 days</TabsTrigger>
+      <TabsTrigger value="12m">12 months</TabsTrigger>
+    </TabsList>
+  </Tabs>
   <span className="text-(length:--density-text-12) text-muted-foreground">
     Compared with the previous 30 days
   </span>
@@ -273,7 +269,7 @@ function RevenueCard({ days, className }: { days: Day[]; className?: string }) {
         <CardTitle>Revenue</CardTitle>
         <CardDescription>Daily</CardDescription>
         <CardAction>
-          {/* one quiet control: a small ToggleGroup (Gross, Net) or a ghost More menu */}
+          {/* one quiet control: default Tabs (Gross, Net) or a ghost More menu */}
         </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col gap-(--density-16)">

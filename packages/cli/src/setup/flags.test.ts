@@ -40,6 +40,7 @@ function parse(command: Command, args: string[]) {
 
 const CREATE_SETUPS: Partial<ProjectSetup>[] = [
   {},
+  { distribution: "package", appShell: false, sound: false },
   { name: "acme" },
   { framework: "vite" },
   { framework: "expo" },
@@ -82,6 +83,7 @@ describe("the command the site writes", () => {
 
   const INIT_SETUPS: Partial<ProjectSetup>[] = [
     {},
+    { distribution: "package", appShell: false, sound: false },
     { appShell: false },
     { sound: false },
     { appShell: false, sound: false, look: { shape: "pill" } },
@@ -115,6 +117,24 @@ describe("setupFromCreateFlags", () => {
     expect(() => setupFromCreateFlags(undefined, { desktop: "qt" })).toThrow()
     expect(() => setupFromCreateFlags(undefined, { agents: "emacs" })).toThrow()
     expect(() => setupFromCreateFlags(undefined, { look: "shape" })).toThrow()
+  })
+
+  it("applies package defaults and rejects explicit source-only flags", () => {
+    expect(
+      setupFromCreateFlags("acme", { distribution: "package" })
+    ).toMatchObject({
+      distribution: "package",
+      appShell: false,
+      sound: false,
+    })
+    expect(() =>
+      setupFromCreateFlags("acme", { distribution: "package", all: true })
+    ).toThrow("--all")
+    expect(() =>
+      setupFromInitFlags({ distribution: "package", shell: true })
+    ).toThrow("--shell")
+    expect(hasSetupFlags({ distribution: "package" })).toBe(true)
+    expect(hasSetupFlags({ distribution: "source" })).toBe(false)
   })
 })
 

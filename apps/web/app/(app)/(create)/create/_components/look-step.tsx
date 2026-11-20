@@ -12,20 +12,23 @@ const LINK_CLASS =
  * the App Shell preview included, follows them.
  */
 export function LookControls({
+  isPackage,
   onBack,
   onNext,
 }: {
+  isPackage: boolean
   onBack: () => void
   onNext: () => void
 }) {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-[13px] leading-relaxed text-muted-foreground">
-        Change anything and the app beside it follows. Your colours, surface,
-        radius, density, motion, icons and spinner go into the install command.
+        {isPackage
+          ? "Your colours, surface, radius, density and motion become CSS variable overrides in your app."
+          : "Change anything and the app beside it follows. Your colours, surface, radius, density, motion, icons and spinner go into the install command."}
       </p>
       <div className="rounded-2xl bg-surface-3 px-3 py-1 shadow-surface-1 dark:bg-surface-2 dark:shadow-surface-2">
-        <SiteSettingsFields />
+        <SiteSettingsFields hideIconAndSpinner={isPackage} />
       </div>
       <p className="text-[13px] leading-relaxed text-muted-foreground">
         Want more control? Set every colour role and the surface tint on{" "}

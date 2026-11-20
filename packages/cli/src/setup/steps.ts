@@ -64,6 +64,8 @@ import {
   getNativeItems,
   getWebItems,
 } from "./items"
+import { setUpReactPackage } from "./package-install"
+import { scaffoldPackageWeb } from "./package-scaffold"
 import { writeProjectDocs } from "./project-docs"
 import { writeSkill } from "./skill"
 import {
@@ -929,8 +931,10 @@ const setupExisting: Step = async (context) => {
 export const STEPS: Record<StepId, Step> = {
   "scaffold-monorepo": scaffoldMonorepo,
   "scaffold-web": scaffoldWeb,
+  "scaffold-package-web": scaffoldPackageWeb,
   "scaffold-laravel": scaffoldLaravel,
   "setup-existing": setupExisting,
+  "setup-package": setUpReactPackage,
   "configure-monorepo": configureMonorepo,
   "add-web-items": addWebItems,
   "scaffold-mobile": scaffoldMobile,

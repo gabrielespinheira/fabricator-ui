@@ -10,7 +10,7 @@
 - Dialog, Sheet, and Drawer always need a Title
 - Card structure
 - Button has no isPending or isLoading prop
-- TabsTrigger must be inside TabsList
+- Tabs and short single choices
 - Avatar always needs AvatarFallback
 - Separate with space or a surface, not lines
 - Use Skeleton for loading placeholders
@@ -177,19 +177,34 @@ Compose with `Spinner` + `data-icon` + `disabled`:
 
 ---
 
-## TabsTrigger must be inside TabsList
+## Tabs and short single choices
 
-Never render `TabsTrigger` directly inside `Tabs` — always wrap in `TabsList`:
+Place each `TabsTrigger` inside `TabsList`. Use the default list for the shared track and visible labels by omitting the `variant` prop. Use `TabsContent` when each option opens a distinct panel.
 
 ```tsx
 <Tabs defaultValue="account">
-  <TabsList>
+  <TabsList aria-label="Account settings">
     <TabsTrigger value="account">Account</TabsTrigger>
     <TabsTrigger value="password">Password</TabsTrigger>
   </TabsList>
   <TabsContent value="account">...</TabsContent>
+  <TabsContent value="password">...</TabsContent>
 </Tabs>
 ```
+
+A short setting or filter can use the same list on its own. Set the value through the root's selection callback. Base UI and Radix use `value` and `onValueChange`. React Aria uses `selectedKey` and `onSelectionChange` on the root and `id` on each trigger.
+
+```tsx
+<Tabs value={layout} onValueChange={setLayout}>
+  <TabsList aria-label="Layout">
+    <TabsTrigger value="inset">Inset</TabsTrigger>
+    <TabsTrigger value="flush">Flush</TabsTrigger>
+    <TabsTrigger value="floating">Floating</TabsTrigger>
+  </TabsList>
+</Tabs>
+```
+
+Use `Select` for five or more options or where the full labels would wrap, clip or crowd nearby controls. If the control changes with available width, keep the same selected value.
 
 ---
 

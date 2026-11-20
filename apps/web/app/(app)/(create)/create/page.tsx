@@ -35,7 +35,12 @@ export default function CreatePage() {
   // The wizard reads its state from the URL.
   return (
     <React.Suspense fallback={null}>
-      <SetupWizard />
+      <SetupWizard
+        enablePackage={
+          process.env.NODE_ENV === "development" ||
+          process.env.FABRICATOR_PACKAGE_SETUP === "1"
+        }
+      />
     </React.Suspense>
   )
 }

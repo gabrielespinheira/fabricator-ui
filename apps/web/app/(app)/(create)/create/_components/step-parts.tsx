@@ -58,23 +58,29 @@ export function ChoiceCard({
   title,
   description,
   icon,
+  disabled,
 }: {
   value: string
   title: string
   description?: string
   icon?: React.ReactNode
+  disabled?: boolean
 }) {
   const id = React.useId()
 
   return (
     <FieldLabel htmlFor={id}>
-      <Field orientation="horizontal" className="items-start">
+      <Field
+        orientation="horizontal"
+        className="items-start"
+        data-disabled={disabled || undefined}
+      >
         {icon ? <CardIcon>{icon}</CardIcon> : null}
         <FieldContent>
           <FieldTitle>{title}</FieldTitle>
           {description ? <CardHint>{description}</CardHint> : null}
         </FieldContent>
-        <RadioGroupItem value={value} id={id} />
+        <RadioGroupItem value={value} id={id} disabled={disabled} />
       </Field>
     </FieldLabel>
   )

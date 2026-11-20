@@ -60,6 +60,8 @@ import {
 
 type StepProps = {
   choices: SetupChoices
+  showDistribution: boolean
+  packageError: string | null
   onChange: (patch: Partial<SetupChoices>) => void
   /** The phone tab bar follows Mobile: on with it, off without it. */
   onMobileChange: (hasMobile: boolean) => void
@@ -345,6 +347,8 @@ function ProjectApps({
 
 export function ProjectControls({
   choices,
+  showDistribution,
+  packageError,
   onChange,
   onMobileChange,
   onDesktopRemoved,
@@ -352,6 +356,30 @@ export function ProjectControls({
 }: StepProps) {
   const isExisting = choices.project === "existing"
   const { hasMobile, hasDesktop } = getShellProject(choices)
+  const distribution = showDistribution ? (
+    <StepSection title="Install components" description={packageError}>
+      <RadioGroup
+        value={choices.distribution}
+        onValueChange={(value) => {
+          if (value === "source" || (value === "package" && !packageError))
+            onChange({ distribution: value })
+        }}
+        className="grid gap-3"
+      >
+        <ChoiceCard
+          value="source"
+          title="Copy into project"
+          description="Add editable component files to your project."
+        />
+        <ChoiceCard
+          value="package"
+          title="Install as a package"
+          description="Import components from one dependency."
+          disabled={Boolean(packageError)}
+        />
+      </RadioGroup>
+    </StepSection>
+  ) : null
 
   const changeProject = (project: SetupChoices["project"]) => {
     if (project === "monorepo") {
@@ -395,12 +423,12 @@ export function ProjectControls({
         </RadioGroup>
       </StepSection>
 
+      {isExisting ? distribution : null}
       {isExisting ? (
         <p className="text-[13px] leading-relaxed text-muted-foreground">
-          The CLI finds your framework on its own, and each app in a monorepo.
-          It works with Next.js, Vite, TanStack Start, React Router, Astro and
-          Laravel apps that use React 19 and Tailwind CSS v4, and with Expo
-          apps.
+          {choices.distribution === "package"
+            ? "The CLI detects Next.js App Router and Vite React apps. In a monorepo, run it from the web app’s folder."
+            : "The CLI finds your framework on its own, and each app in a monorepo. It works with Next.js, Vite, TanStack Start, React Router, Astro and Laravel apps that use React 19 and Tailwind CSS v4, and with Expo apps."}
         </p>
       ) : (
         <>
@@ -432,6 +460,8 @@ export function ProjectControls({
               onDesktopRemoved={onDesktopRemoved}
             />
           </StepSection>
+
+          {distribution}
 
           <StepSection
             title="Tooling"

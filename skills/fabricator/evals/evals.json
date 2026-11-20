@@ -206,6 +206,17 @@
         "Aligns list rows and table cells to --card-spacing and styles the View all link with buttonVariants",
         "Designs loading, empty and error states inside each card without removing the other cards"
       ]
+    },
+    {
+      "id": 16,
+      "prompt": "Add a Button and Dialog to this Vite app. It depends on @fabricator-ui/react and shares styles through its root CSS.",
+      "expected_output": "Uses the installed React package exports and existing stylesheet setup.",
+      "files": [],
+      "expectations": [
+        "Imports Button and Dialog from their @fabricator-ui/react subpaths",
+        "Respects the existing shared CSS and loads package styles once",
+        "Keeps package mode and leaves registry files alone"
+      ]
     }
   ]
 }

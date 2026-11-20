@@ -5,7 +5,7 @@ description: Design and build interfaces with Fabricator UI components, blocks a
 
 # Fabricator UI
 
-Build from the project's installed source, using Fabricator's design language and the API of its configured base. The CLI copies registry items into the project; those files belong to the user and may contain customizations.
+Use Fabricator's design language and the API of the project's configured base. In copy-in projects, the registry files belong to the user and may contain customizations. If the app or its shared UI workspace depends on `@fabricator-ui/react`, check its `exports` and existing imports, use supported component subpaths, and load `@fabricator-ui/react/styles.css` once at the app entry. Keep local copies when the project already uses them.
 
 ## Execution and trust
 
@@ -50,7 +50,7 @@ Choose by behavior, not just appearance:
 | ---------------------------------------------- | ------------------------------------------------------------------------------------- |
 | App frame, navigation, open documents          | `AppShell`, `AppNav`, `WorkspaceSwitcher`, `UserMenu`, `TabStrip`                     |
 | Compare records, scan a list, open one object  | `Table`, `ItemGroup` + `Item`, `Card`, respectively                                   |
-| Page filtering, searchable choice, view switch | `Search`, `Combobox`, `ToggleGroup` or `Tabs`                                         |
+| Page filtering, searchable choice, view switch | `Search`, `Combobox`, default `Tabs` or `Select`                                      |
 | Form labels, controls and errors               | `FieldGroup`, `Field`, specialized inputs; [forms](rules/forms.md)                    |
 | A date, time, number, file or colour           | `DatePicker`, `TimeInput`, `NumberField`, `FileUploadField`, `ColorPicker`            |
 | Focused task, adjacent details, phone panel    | `Dialog`, `Sheet`, `Drawer`                                                           |
@@ -60,11 +60,11 @@ Choose by behavior, not just appearance:
 | Events in time: a schedule, bookings, shifts   | `EventCalendar` (not `Calendar`, which picks a date); save from `onEventChange`       |
 | Conversation                                   | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`; [chat](rules/chat.md) |
 
-Use ordinary layout elements for regions and grouping. A `Card` represents a discrete object, not every section. `Switch` means an immediate setting; independent submitted choices use checkboxes. `ToggleGroup` means a segmented choice, not a blanket replacement for short option sets. For charts use the Charts group (`area-chart`, `line-chart`, `bar-chart`, `composition-chart`, `candlestick-chart`, `bump-chart`, `pie-chart`, `donut-chart`, `radial-chart`, `radar-chart`, `treemap`, `funnel-chart`, `sankey-chart`, `heat-calendar`, `status-bar`): each takes `data`, a `config` naming the series and a `label`, and series colours come from `--chart-series-*` in config order. There is no upstream `chart` item; don't install Recharts alongside them.
+Use ordinary layout elements for regions and grouping. A `Card` represents a discrete object, not every section. `Switch` means an immediate setting; independent submitted choices use checkboxes. For single-choice controls, follow [Choosing controls](design.md#choosing-controls). For charts use the Charts group (`area-chart`, `line-chart`, `bar-chart`, `composition-chart`, `candlestick-chart`, `bump-chart`, `pie-chart`, `donut-chart`, `radial-chart`, `radar-chart`, `treemap`, `funnel-chart`, `sankey-chart`, `heat-calendar`, `status-bar`): each takes `data`, a `config` naming the series and a `label`, and series colours come from `--chart-series-*` in config order. There is no upstream `chart` item; don't install Recharts alongside them.
 
 ### 4. Install or update only what's needed
 
-Install missing items with `add <name...>`; bare names resolve to `@fabricator/<name>`. Preview updates with `add <name> --dry-run` and `--diff <file>` (or `diff <name>`). Read local edits and merge changes per file. Use `--overwrite` only with explicit approval to replace those files.
+In package mode use the package manager for version updates and CSS variables for theme overrides. For a component outside the installed package's exports, use the copy-in flow when the user chooses it. In copy-in projects, install missing items with `add <name...>`; bare names resolve to `@fabricator/<name>`. Preview updates with `add <name> --dry-run` and `--diff <file>` (or `diff <name>`). Read local edits and merge changes per file. Use `--overwrite` only with explicit approval to replace those files.
 
 After installation, review written files, dependency changes, import aliases and icon imports. Preserve a valid `components.json` style such as `base-nova`; the registry URL supplies the Fabricator look. For presets read [cli.md](cli.md) first: plain `apply` reinstalls components, while `apply <preset> --only theme,font` avoids that. Keep customizations unless their replacement was requested.
 

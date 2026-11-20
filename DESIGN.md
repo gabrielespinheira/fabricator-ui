@@ -247,7 +247,7 @@ Every part of a screen has a component made to hold it. Reach for it before a pl
 | A choice that needs a sentence to explain it     | Choice cards: a `FieldLabel` around a horizontal `Field`          |
 | A list of people, files, apps or tasks           | `ItemGroup` of `Item`s: picture, title, description, actions      |
 | Records compared by column                       | `Table`; `DataTable` when people sort, filter or edit             |
-| Views of one thing                               | `Tabs`; `variant="subtle"` in a card or panel header              |
+| Views of one thing                               | `Tabs` with the default `TabsList` or a `Select`                  |
 | Options most people never touch                  | An `Accordion` or `Collapsible` named "Advanced", closed          |
 | Details beside the current view                  | An `AppShellPanel`, or a `Sheet` for a task                       |
 | Nothing to show yet                              | `Empty`, with an icon, a title, a sentence and an action          |
@@ -320,7 +320,7 @@ A `Card` holds one discrete thing: a metric, a chart, a list of things to do, a 
 
 ### Anatomy
 
-- **Header:** `CardTitle` names the thing in a few words ("Revenue", "Needs attention"). `CardDescription` gives its scope: the grain, the sort, the unit ("Daily", "By monthly recurring revenue"); the page's period is in the toolbar. `CardAction` holds at most one quiet control: a small `ToggleGroup`, a subtle `Tabs`, a ghost "View all" link, or a ghost "More" menu with the card's own rare options.
+- **Header:** `CardTitle` names the thing in a few words ("Revenue", "Needs attention"). `CardDescription` gives its scope: the grain, the sort, the unit ("Daily", "By monthly recurring revenue"); the page's period is in the toolbar. `CardAction` holds at most one quiet control: default `Tabs` or a `Select`, a ghost "View all" link, or a ghost "More" menu with the card's own rare options.
 - **Content:** the one thing the card shows. A headline value sits above a chart; a list or table runs to the card's edges.
 - **Footer:** only when it has content: a summary line, or the buttons of a settings or plan card.
 
@@ -402,7 +402,7 @@ A dashboard is boring when every card is the same shape and every value is grey 
 - **Vary the shapes:** a row of stat cards, one wide chart, a list with icons, a short table, a ranking of bars, a goal with progress. Six identical chart cards read as a wall.
 - **Show people and things:** coloured `Avatar`s, an `AvatarGroup`, company logos, file-type icons, status dots.
 - **Show progress and state:** `Progress` for goals and limits, `StatusBar`, `HeatCalendar`, status `Badge`s, a delta on every number that moved.
-- **Let it respond:** the headline follows the pointer, rows open their record, a card's subtle `Tabs` switch its view in place, charts morph with the period.
+- **Let it respond:** the headline follows the pointer, rows open their record, card controls switch views in place, charts morph with the period.
 - **Design the empty and first-run moments:** an `Empty` with one clear action, a setup checklist, never a blank card.
 
 ### Numbers
@@ -415,7 +415,7 @@ A dashboard is boring when every card is the same shape and every value is grey 
 
 ### Period and filters
 
-- **The toolbar controls the page:** the period as a small `ToggleGroup` of three to five presets, "Custom…" opening a range `Calendar` in a `Popover`, then filters (`Select`, `Combobox`, `MultiSelect`), then freshness. A card with its own period says so in its description.
+- **The toolbar controls the page:** period presets in default `Tabs` or a `Select`, a range `Calendar` in a `Popover` for custom dates, then filters and freshness. A card with its own period says so in its description.
 - **Period and filters live in the URL.** A new period keeps the old numbers on screen, dimmed, until the new ones arrive. On phones the filters fold into a "Filters" button that opens a `Drawer`.
 
 ### Charts on a dashboard
@@ -442,7 +442,7 @@ Check each on the running page:
 ### Dashboard types
 
 - **Overview,** the home page (default density and motion, quarters): the KPI row, the hero chart, needs attention beside the top records, then breakdowns beside recent activity.
-- **Analytics,** one area over time (default, snappy, quarters): filters in the toolbar, the KPI row, a hero chart whose metric is picked with subtle `Tabs`, rankings in halves whose rows link to the filtered view, a table.
+- **Analytics,** one area over time (default, snappy, quarters): filters in the toolbar, the KPI row, a hero chart with a metric picker, rankings in halves whose rows link to the filtered view, a table.
 - **Operations,** a system's live health (compact, instant, thirds): a `StatusBar` per service, live numbers with status dots, latency lines (p50, p95) in eight columns beside open incidents in four, a log table, and "Live" with a Pause button.
 - **Revenue** (default, quarters): an MRR row of stat cards, MRR movements as a stacked `BarChart` per month, plans ranked beside failed payments, a transactions table.
 - **Usage,** against the plan (default, thirds): a goal card per limit, usage over time in eight columns beside the plan card in four, usage per member or project as a table.
@@ -459,9 +459,9 @@ Every text field is a question the person must answer from memory. Replace it wh
 | ---------------------------------------- | -------------------------------------------------------------------- |
 | On or off, applied at once               | `Switch`                                                             |
 | Yes or no, sent with a form              | `Checkbox`                                                           |
-| One of two to five, short labels         | `ToggleGroup`, a segmented control, with icons when they help        |
+| One of two to four that fit on one line  | `Tabs` with the default `TabsList`                                   |
 | One of a few that need a sentence each   | Choice cards: a `RadioGroup` of horizontal `Field`s                  |
-| One of six to fifteen                    | `Select`                                                             |
+| Five or more, or labels that do not fit  | `Select`                                                             |
 | One of many, or found by typing          | `Combobox`                                                           |
 | Several of many (tags, people, regions)  | `MultiSelect`, chips in the field                                    |
 | Several independent options              | `Checkbox`es in a `FieldSet`, or switch choice cards                 |
@@ -476,6 +476,8 @@ Every text field is a question the person must answer from memory. Replace it wh
 | A one-time code                          | `InputOTP`                                                           |
 | A URL, a price, a handle, a size         | `InputGroup`, the fixed part as an addon: "https://", "$", "@"       |
 | Something only the person can write      | `Input`, `Textarea`, or `Editor` for formatted text                  |
+
+**Short single choices.** Use `<TabsList>` with its default props, including in card headers and settings. Keep every label visible on the shared track. Use `Tabs` even when a choice only changes a setting, filter or view in place. Give the list an accessible name, bind it to the selected value and add `TabsContent` only for actual panels. Use `Select` where the full labels, including translations, would wrap, clip or crowd adjacent controls.
 
 - **Defaults are answers.** Pre-fill what you can know or guess (the workspace's currency, the person's time zone, the most common plan), so most forms are reviewed, not filled.
 - **Ask less.** Leave out what can be inferred, changed later or set by an admin. Put what most people never change in a closed "Advanced" `Accordion`. A form past about seven fields is a [multi-step flow](#multi-step-flow) or a settings page.
@@ -494,7 +496,7 @@ Every text field is a question the person must answer from memory. Replace it wh
 
 A stack of setting cards in one column (`size="sm"`), one per subject, in the order people need them.
 
-- **Each card** has a title and a sentence, then horizontal fields (`Field orientation="responsive"`): name and one-line description at the start, the smallest fitting control at the end (`Switch`, a small `ToggleGroup` or `Select`, a `Slider` with its value, a `NumberField`, a `ColorPicker` swatch). Rows are parted by space; a text setting sits under its label at full width.
+- **Each card** has a title and a sentence, then horizontal fields (`Field orientation="responsive"`): name and one-line description at the start, the smallest fitting control at the end (`Switch`, `Tabs` or `Select`, a `Slider` with its value, a `NumberField`, a `ColorPicker` swatch). Rows are parted by space; a text setting sits under its label at full width.
 - **Switches and choices save at once,** with a quiet "Saved" toast and Undo when it matters. A card with text fields has its own Save in its footer, enabled once something changed.
 - **Choice cards** for settings that change how the product behaves, each with its consequence. Many subjects become pages in a sidebar group or vertical `Tabs`.
 - **The danger zone** is the last card, with a destructive button that opens an `AlertDialog` naming what is lost.
@@ -562,7 +564,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 ### Navigation
 
 - Five to seven nouns at the top level, ordered by use; what people make in its own group; settings and help last. Sidebar rows are an icon and a short label, with counts and status dots at the end.
-- `TabStrip` for open documents, `Tabs` for two to six views of one thing, breadcrumbs ending on the current page, `NavigationMenu` on websites.
+- `TabStrip` for open documents, `Tabs` or `Select` for [views of one thing](#choosing-a-control), breadcrumbs ending on the current page, `NavigationMenu` on websites.
 
 ### Data display
 
@@ -607,7 +609,7 @@ Start from the closest pattern, install its block when there is one, and remove 
 
 ### Detail
 
-The title, its status `Badge`, one primary action and a "More" menu in the header; `Tabs` for views of the record (an overview may open with its own KPI row); metadata, people and activity in a panel that closes; a field or two edits in place, more in a `Sheet`.
+The title, its status `Badge`, one primary action and a "More" menu in the header; `Tabs` or `Select` for views of the record (an overview may open with its own KPI row); metadata, people and activity in a panel that closes; a field or two edits in place, more in a `Sheet`.
 
 ### List and detail
 
@@ -643,7 +645,7 @@ Start from the `sign-in-01`, `sign-up-01` or `forgot-password-01` block: one cen
 - **Header,** about 64px: the logo, the navigation, a ghost "Sign in" and the filled call to action at the end.
 - **Hero:** what the product does, a lead, a filled and an outline button, then the product itself on a raised surface.
 - **Sections** up to 1152px wide, one idea each, neighbours in different layouts; only the hero and the closing call to action are centred.
-- **Order:** hero, proof, what it does, how it works, pricing (a monthly and yearly `ToggleGroup` above one `Card` per plan), questions in an `Accordion`, a closing call to action, a footer.
+- **Order:** hero, proof, what it does, how it works, pricing (monthly and yearly `Tabs` above one `Card` per plan), questions in an `Accordion`, a closing call to action, a footer.
 
 ## SaaS features
 
@@ -654,7 +656,7 @@ The pages almost every product needs, each built from a pattern above.
 - **The plan card first** (eight columns, thirds): name, status `Badge`, price, renewal date, "Change plan" and, with limits, "Upgrade"; beside it the payment method with its brand logo.
 - **Usage under it:** a goal card per limit ("7,240 of 10,000 API calls" with a `Progress`); a warning badge at 80%, an `Alert` with the upgrade action at 100%.
 - **Invoices** in a table card: the date, the amount, a status `Badge`, a download icon button.
-- **Changing plan** is a page of plan cards under a monthly and yearly `ToggleGroup`. **Cancelling** opens an `AlertDialog` naming the end date.
+- **Changing plan** is a page of plan cards under monthly and yearly `Tabs`. **Cancelling** opens an `AlertDialog` naming the end date.
 
 ### Team and members
 
@@ -662,15 +664,15 @@ A `Table` of members (avatar, name, email, a role `Select` admins change in plac
 
 ### Integrations
 
-A grid of connection cards (thirds) grouped by kind, with `Search` and a category `ToggleGroup`. Each card has the logo, the name, one line and "Connect", or once connected a `Switch` and "Manage"; it changes in place with a toast.
+A grid of connection cards (thirds) grouped by kind, with `Search` and a category picker. Each card has the logo, the name, one line and "Connect", or once connected a `Switch` and "Manage"; it changes in place with a toast.
 
 ### API keys and webhooks
 
-Keys are a table with the name, the key masked to its last four characters, dates and "Revoke…". "Create key" opens a `Dialog` with switch choice cards for scopes and a `ToggleGroup` for expiry; the key shows once in `SyntaxHighlight` with Copy. Webhooks are a table of endpoints with a status dot; a row opens its deliveries in a `Sheet`.
+Keys are a table with the name, the key masked to its last four characters, dates and "Revoke…". "Create key" opens a `Dialog` with switch choice cards for scopes and an expiry picker; the key shows once in `SyntaxHighlight` with Copy. Webhooks are a table of endpoints with a status dot; a row opens its deliveries in a `Sheet`.
 
 ### Notifications
 
-An inbox in a `Popover` from a bell button with an unread count; rows are `Item`s with the actor's `Avatar`, what happened and when. Preferences are a settings card per channel: a `Switch` per event and a `ToggleGroup` for the digest.
+An inbox in a `Popover` from a bell button with an unread count; rows are `Item`s with the actor's `Avatar`, what happened and when. Preferences are a settings card per channel: a `Switch` per event and a digest picker.
 
 ### Activity and audit log
 
@@ -775,7 +777,7 @@ A page loaded on a slow connection moves nothing after its first paint except pl
 ## Do's and Don'ts
 
 - Do choose the component and its variant first; don't restyle a component's colour, type, size or motion.
-- Do pick answers with switches, toggle groups, sliders, choice cards, pickers and steppers; don't ask people to type what a control could offer.
+- Do pick answers with switches, tabs, sliders, choice cards, pickers and steppers; don't ask people to type what a control could offer.
 - Do pre-fill and leave out what you can; don't build a form past seven fields when a flow or settings cards would do.
 - Do set density on the region; don't resize components one by one.
 - Do take colour from the roles and from content (avatars, logos, charts); don't pick colours by hand.
@@ -804,7 +806,7 @@ A screen is done when every line holds. Check it in the running app, never from 
 - [ ] No line divides the layout: space, headings and surfaces part every section, row, card and panel.
 - [ ] A page of cards uses one grid rhythm; gutters continue down the page and cards in a row are equal height.
 - [ ] Inside each card, the title, values, list icons and table text start on the card's inset.
-- [ ] No text field asks for something a switch, toggle group, slider, picker, stepper or choice card could offer.
+- [ ] Short single choices use default `TabsList` with all labels visible. Five or more options, or labels that do not fit, use `Select`.
 - [ ] Every number has its unit and period and, where it changed, a signed delta coloured by whether the change is good.
 - [ ] Colour appears only where it means something or where content brings it.
 - [ ] Light and dark both read well; surfaces follow the ladder, with no borders or stray shadows.

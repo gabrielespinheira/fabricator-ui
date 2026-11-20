@@ -4,6 +4,7 @@
  */
 import { spawn, spawnSync } from "node:child_process"
 import fs from "node:fs"
+import { createRequire } from "node:module"
 import os from "node:os"
 import path from "node:path"
 
@@ -602,6 +603,109 @@ function assertInstalledTypes(appDir: string) {
 type Scenario = { name: string; run: (dir: string) => void }
 
 const scenarios: Scenario[] = [
+  ...(["next", "vite"] as const).map((framework) => ({
+    name: `package-${framework}`,
+    run(dir: string) {
+      cli(
+        [
+          "create",
+          "package-app",
+          "--distribution",
+          "package",
+          "-t",
+          framework,
+          "--yes",
+        ],
+        dir
+      )
+      const root = path.join(dir, "package-app")
+      const web = path.join(root, "apps/web")
+      const manifest = path.join(web, "package.json")
+      const pkg = readJson(manifest)
+      const packageCss = createRequire(manifest).resolve(
+        "@fabricator-ui/react/styles.css"
+      )
+      assert(
+        fs
+          .readFileSync(packageCss, "utf8")
+          .startsWith("@layer theme, base, components, utilities;"),
+        "package CSS lost its layer order"
+      )
+      assert(
+        Object.keys(pkg.dependencies)
+          .filter((name) => name.startsWith("@fabricator-ui/"))
+          .join() === "@fabricator-ui/react",
+        "expected one Fabricator dependency"
+      )
+      assert(
+        !fs.existsSync(path.join(web, "components.json")),
+        "copied source setup into a package app"
+      )
+      assert(
+        !fs.existsSync(path.join(root, "packages/ui")),
+        "copied registry components into a package app"
+      )
+      const stylesheet = path.join(
+        web,
+        framework === "next" ? "app/globals.css" : "src/index.css"
+      )
+      const starter = path.join(
+        web,
+        framework === "next" ? "app/page.tsx" : "src/app.tsx"
+      )
+      fs.writeFileSync(
+        starter,
+        `import { Button } from "@fabricator-ui/react/button"\nimport { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@fabricator-ui/react/dialog"\nimport { Input } from "@fabricator-ui/react/input"\nexport default function Page() { return <Dialog><DialogTrigger render={<Button />}>Edit</DialogTrigger><DialogContent><DialogTitle>Edit profile</DialogTitle><Input aria-label="Name" /></DialogContent></Dialog> }\n`
+      )
+      fs.writeFileSync(stylesheet, "body { color: inherit; }\n")
+      delete pkg.dependencies["@fabricator-ui/react"]
+      fs.writeFileSync(manifest, `${JSON.stringify(pkg, null, 2)}\n`)
+      cli(
+        [
+          "init",
+          "--distribution",
+          "package",
+          "--look",
+          "shape=pill",
+          "--yes",
+          "--cwd",
+          web,
+        ],
+        root
+      )
+      const before = fs.readFileSync(stylesheet, "utf8")
+      assert(
+        before.includes('@import "@fabricator-ui/react/styles.css";') &&
+          before.includes("body { color: inherit; }"),
+        "stylesheet entry was not preserved"
+      )
+      cli(
+        [
+          "init",
+          "--distribution",
+          "package",
+          "--look",
+          "shape=pill",
+          "--yes",
+          "--cwd",
+          web,
+        ],
+        root
+      )
+      assert(
+        before === fs.readFileSync(stylesheet, "utf8"),
+        "rerun changed the stylesheet"
+      )
+      cli(["doctor", "--cwd", web], root)
+      assert(
+        cli(["add", "button", "--cwd", web], root).includes(
+          "@fabricator-ui/react/button"
+        ),
+        "add did not report the package import"
+      )
+      run("bun", ["run", "build"], web)
+    },
+  })),
   ...(["next", "vite", "start", "react-router", "astro"] as const).map(
     (framework) => ({
       name: `create-${framework}`,
@@ -1192,10 +1296,16 @@ const scenarios: Scenario[] = [
 
 // Packs the workspace packages registry items install and serves them, in its
 // own process: every step below blocks this one with spawnSync.
+const selected = scenarios.filter(
+  (scenario) => !only || only.includes(scenario.name)
+)
 const packedPackages = [
   "packages/icons",
   "packages/icons-react-native",
   "packages/editor-native",
+  ...(selected.some(({ name }) => name.startsWith("package-"))
+    ? ["packages/react"]
+    : []),
 ].flatMap((packagePath) => {
   const packDir = fs.mkdtempSync(path.join(os.tmpdir(), "fabricator-e2e-npm-"))
   const packageDir = path.join(ROOT, packagePath)
@@ -1205,7 +1315,7 @@ const packedPackages = [
   })
   const [tarball] = fs.readdirSync(packDir)
   assert(tarball, `Packing ${packagePath} failed: run \`bun run build\` first`)
-  return [path.join(packDir, tarball), path.join(packageDir, "package.json")]
+  return [path.join(packDir, tarball)]
 })
 const localNpm = spawn(
   "bun",
@@ -1244,9 +1354,6 @@ if (!fs.existsSync(CLI)) {
   process.exit(1)
 }
 
-const selected = scenarios.filter(
-  (scenario) => !only || only.includes(scenario.name)
-)
 const failures: string[] = []
 
 for (const scenario of selected) {

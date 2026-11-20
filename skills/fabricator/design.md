@@ -32,11 +32,12 @@ Typical layout starting points: 8px between related app controls, 16px between c
 
 Forms and settings usually cap near 672px; ordinary app content near 896px; dashboards and website containers near 1152px. Tables, boards, editors and transcripts fill the main column. Prefer the AppShell's content sizes where available.
 
-## Choose controls, not fields
+## Choosing controls
 
 A text field asks the person to answer from memory; offer the answer instead whenever it comes from a set, a range, a date or a picture:
 
-- On or off: `Switch` (applies at once) or `Checkbox` (sent with a form). Two to five short options: `ToggleGroup`. A few options that each need a sentence: choice cards (a `FieldLabel` around a horizontal `Field` with its radio, switch or checkbox). Longer lists: `Select`, `Combobox`, `MultiSelect`.
+- For two to four short single-choice options, use [default Tabs](rules/composition.md#tabs-and-short-single-choices) with every label visible, including for a setting or filter without a panel. Use `Select` for five or more or when the labels cannot fit on one line.
+- Use `Switch` for immediate on/off settings and `Checkbox` for a submitted boolean. Use choice cards where each choice needs a sentence, `Combobox` for searchable choices and `MultiSelect` for multiple selections.
 - A level or share: `Slider` with its value shown. An exact amount: `NumberField` with steppers and `format`. A score: `Rating`. Dates and times: `DatePicker`, `TimeInput`, `TimeRangeInput`. A colour: `ColorPicker` with swatches. Files: `FileUploadDropzone`. A URL, price or handle: `InputGroup` with the fixed part as an addon.
 - Pre-fill what you can know, leave out what can be inferred, and put rarely changed options in a closed "Advanced" `Accordion`. Settings are cards of horizontal fields (`orientation="responsive"`) whose switches and choices save at once.
 

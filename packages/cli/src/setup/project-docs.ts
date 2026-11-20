@@ -12,6 +12,8 @@ import {
   mergeAgentInstructions,
   mergeClaudeImport,
   projectName,
+  REACT_PACKAGE,
+  REACT_PACKAGE_STYLES,
   type PackageManager,
   type ProjectSetup,
 } from "@fabricator-ui/setup"
@@ -120,7 +122,11 @@ function renderWorkspace(setup: ProjectSetup) {
       ...(hasWebApp(setup)
         ? [
             `- [\`apps/web\`](apps/web) contains the ${getFrameworkLabel(setup.framework)} ${setup.web ? "app" : "app rendered in the desktop window"}.`,
-            "- [`packages/ui`](packages/ui) contains shared web components, styles and utilities.",
+            ...(setup.distribution === "source"
+              ? [
+                  "- [`packages/ui`](packages/ui) contains shared web components, styles and utilities.",
+                ]
+              : []),
           ]
         : []),
       ...(setup.mobile
@@ -143,6 +149,16 @@ function renderComponentDocs(
   packageManager: PackageManager,
   needsLaravelSetup: boolean
 ) {
+  if (setup.distribution === "package") {
+    return [
+      "## Fabricator UI",
+      "Read [DESIGN.md](DESIGN.md) before changing a screen.",
+      `The web app depends on \`${REACT_PACKAGE}\`. Its global stylesheet loads \`${REACT_PACKAGE_STYLES}\`.`,
+      `\`\`\`tsx\nimport { Button } from "${REACT_PACKAGE}/button"\n\`\`\``,
+      `Update \`${REACT_PACKAGE}\` from \`apps/web\` with ${packageManager}. Set CSS variables in your app to customize the theme.`,
+      `[View the Base UI component docs](${DOCS_URL}/components/base/button).`,
+    ]
+  }
   const isWorkspace = setup.project === "monorepo"
   const targets = [
     ...(hasWebApp(setup)
@@ -282,7 +298,9 @@ export function writeProjectDocs(
           : []),
         needsLaravelSetup
           ? "- See [README.md](README.md#fabricator-ui) for Fabricator UI setup and component commands."
-          : "- Reuse local Fabricator UI components. See [README.md](README.md#fabricator-ui) for component paths and CLI commands.",
+          : setup.distribution === "package"
+            ? "- Import supported components from `@fabricator-ui/react/<component>`. See [README.md](README.md#fabricator-ui) for styling and upgrades."
+            : "- Reuse local Fabricator UI components. See [README.md](README.md#fabricator-ui) for component paths and CLI commands.",
       ].join("\n")
     )
   )

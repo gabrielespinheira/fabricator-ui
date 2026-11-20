@@ -28,6 +28,7 @@ async function create(name: string | undefined, options: CreateOptions) {
   const projectName = name ?? options.name
   const initial = setupFromCreateFlags(projectName, options)
   const canAsk =
+    initial.distribution === "source" &&
     process.stdin.isTTY &&
     !process.env.CI &&
     !options.yes &&

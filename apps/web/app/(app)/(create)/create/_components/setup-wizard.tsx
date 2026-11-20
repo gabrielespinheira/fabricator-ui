@@ -1,12 +1,18 @@
 "use client"
 
 import * as React from "react"
-import { projectName } from "@fabricator-ui/setup"
+import {
+  getPackageSetupError,
+  projectName,
+  REACT_PACKAGE,
+} from "@fabricator-ui/setup"
 import { cn } from "cn"
 import { parseAsStringLiteral, useQueryState, useQueryStates } from "nuqs"
 
 import { setSiteSettings, useSiteSettings } from "@/lib/site-settings"
 import { LOOK_PARAM_NAMES } from "@/registry/fabricator/look"
+import { Button } from "@/styles/base-fabricator/ui/button"
+import { Input } from "@/styles/base-fabricator/ui/input"
 import {
   Tabs,
   TabsContent,
@@ -37,6 +43,7 @@ import { ProjectControls } from "./project-step"
 import { ProjectTree } from "./project-tree"
 import { ShellPreviewFrame } from "./shell-preview-frame"
 import { ShellControls } from "./shell-step"
+import { StepFooter } from "./step-parts"
 
 const STEPS = [
   { value: "project", label: "Project" },
@@ -106,7 +113,7 @@ function describePreview({ hasWeb, hasDesktop, hasMobile }: ShellProject) {
   return "Sample content. Your project starts with an empty Home."
 }
 
-export function SetupWizard() {
+export function SetupWizard({ enablePackage }: { enablePackage: boolean }) {
   const [step, setStep] = useQueryState(
     "step",
     parseAsStringLiteral(STEP_NAMES)
@@ -150,9 +157,22 @@ export function SetupWizard() {
     })
   }
 
+  const isPackage = choices.distribution === "package"
+  const packageError = enablePackage
+    ? getPackageSetupError(choices)
+    : "Package setup is currently unavailable."
+  const isInvalid = isPackage && Boolean(packageError)
+  const showDistribution =
+    isPackage ||
+    (enablePackage && (choices.project === "existing" || project.hasWeb))
   const hasShellPreview = step === "look" || step === "shell"
   const hasProjectPreview = step === "project" || step === "extras"
   const projectSetup = toProjectSetup(setup)
+  const buttonImport = isPackage
+    ? `${REACT_PACKAGE}/button`
+    : choices.project === "existing"
+      ? "@/components/ui/button"
+      : "@workspace/ui/components/button"
 
   return (
     <Tabs
@@ -186,6 +206,8 @@ export function SetupWizard() {
           <TabsContent value="project">
             <ProjectControls
               choices={choices}
+              showDistribution={showDistribution}
+              packageError={packageError}
               onChange={setChoices}
               onMobileChange={(bottomNav) => void setShell({ bottomNav })}
               onDesktopRemoved={onDesktopRemoved}
@@ -194,20 +216,41 @@ export function SetupWizard() {
           </TabsContent>
           <TabsContent value="look">
             <LookControls
+              isPackage={isPackage}
               onBack={() => setStep("project")}
               onNext={() => setStep("shell")}
             />
           </TabsContent>
           <TabsContent value="shell">
-            <ShellControls
-              options={shell}
-              onOptionsChange={setShell}
-              isIncluded={choices.appShell}
-              onIncludedChange={(appShell) => setChoices({ appShell })}
-              project={project}
-              onBack={() => setStep("look")}
-              onNext={() => setStep("extras")}
-            />
+            {isPackage ? (
+              <div className="flex flex-col gap-4">
+                <p className="text-[13px] text-muted-foreground">
+                  The App Shell starter is available with Copy into project.
+                </p>
+                <Button
+                  variant="outline"
+                  className="self-start"
+                  onClick={() => setStep("project")}
+                >
+                  Change install method
+                </Button>
+                <StepFooter
+                  onBack={() => setStep("look")}
+                  onNext={() => setStep("extras")}
+                  nextLabel="Next: extras"
+                />
+              </div>
+            ) : (
+              <ShellControls
+                options={shell}
+                onOptionsChange={setShell}
+                isIncluded={choices.appShell}
+                onIncludedChange={(appShell) => setChoices({ appShell })}
+                project={project}
+                onBack={() => setStep("look")}
+                onNext={() => setStep("extras")}
+              />
+            )}
           </TabsContent>
           <TabsContent value="extras">
             <ExtrasControls
@@ -218,27 +261,60 @@ export function SetupWizard() {
             />
           </TabsContent>
           <TabsContent value="install">
-            <SetupSummary setup={setup} onEdit={setStep} />
+            {isInvalid ? (
+              <div className="flex flex-col items-start gap-4">
+                <p role="alert" className="text-[13px] text-muted-foreground">
+                  {packageError}
+                </p>
+                <Button variant="outline" onClick={() => setStep("project")}>
+                  Change install method
+                </Button>
+              </div>
+            ) : (
+              <SetupSummary
+                setup={setup}
+                onEdit={setStep}
+                showDistribution={enablePackage}
+              />
+            )}
           </TabsContent>
         </aside>
         <div className="min-w-0 flex-1 lg:sticky lg:top-6">
           {/* Kept mounted past these steps, so coming back doesn't reload it. */}
-          <section
-            aria-label="Preview"
-            className={cn("flex flex-col gap-3", !hasShellPreview && "hidden")}
-          >
-            <p className="text-[13px] text-muted-foreground">
-              {describePreview(project)}
-            </p>
-            <ShellPreviewFrame
-              options={previewOptions}
-              size={size}
-              desktop={desktop}
-              hasNativeTabBar={project.hasMobile && size === "phone"}
-              windowTitle={projectName(projectSetup)}
-            />
-          </section>
-          {hasProjectPreview ? (
+          {!isPackage ? (
+            <section
+              aria-label="Preview"
+              className={cn(
+                "flex flex-col gap-3",
+                !hasShellPreview && "hidden"
+              )}
+            >
+              <p className="text-[13px] text-muted-foreground">
+                {describePreview(project)}
+              </p>
+              <ShellPreviewFrame
+                options={previewOptions}
+                size={size}
+                desktop={desktop}
+                hasNativeTabBar={project.hasMobile && size === "phone"}
+                windowTitle={projectName(projectSetup)}
+              />
+            </section>
+          ) : null}
+          {isPackage && step === "look" ? (
+            <section
+              aria-label="Package component preview"
+              className="flex flex-col items-start gap-3 rounded-2xl bg-surface-3 p-5 shadow-surface-1 dark:bg-surface-2 dark:shadow-surface-2"
+            >
+              <Input
+                aria-label="Email address"
+                placeholder="Email address"
+                className="max-w-xs"
+              />
+              <Button>Continue</Button>
+            </section>
+          ) : null}
+          {hasProjectPreview && !isInvalid ? (
             <div className="flex flex-col gap-4">
               <ProjectTree setup={projectSetup} />
               <section
@@ -249,11 +325,26 @@ export function SetupWizard() {
                   What the command does
                 </h2>
                 <PlanList steps={getSetupPlan(setup)} />
+                {showDistribution && step === "project" ? (
+                  <div className="mt-4 flex flex-col gap-2">
+                    <h3 className="text-[13px] font-medium">
+                      Import a component
+                    </h3>
+                    <code className="rounded-lg bg-code p-3 font-mono text-xs [overflow-wrap:anywhere]">
+                      <span className="inline-block">
+                        {"import { Button }"}
+                      </span>{" "}
+                      <span className="inline-block">{`from "${buttonImport}"`}</span>
+                    </code>
+                  </div>
+                ) : null}
               </section>
             </div>
           ) : null}
           <TabsContent value="install">
-            <InstallStep setup={setup} onBack={() => setStep("extras")} />
+            {isInvalid ? null : (
+              <InstallStep setup={setup} onBack={() => setStep("extras")} />
+            )}
           </TabsContent>
         </div>
       </div>

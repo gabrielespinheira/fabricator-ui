@@ -13,6 +13,15 @@ import {
 export const CLI_PACKAGE = "fabricator-ui@latest"
 
 function sharedFlags(setup: ProjectSetup) {
+  if (setup.distribution === "package") {
+    return [
+      "--distribution",
+      "package",
+      ...(Object.keys(setup.look).length > 0
+        ? ["--look", writeKeyValues(setup.look)]
+        : []),
+    ]
+  }
   return [
     ...(setup.spinner === DEFAULT_PROJECT_SETUP.spinner
       ? []
@@ -88,12 +97,14 @@ function createArgs(setup: ProjectSetup) {
       ? []
       : ["--runner", setup.runner]),
     ...sharedFlags(setup),
-    ...(setup.appShell
-      ? Object.keys(setup.shell).length > 0
-        ? ["--shell", writeKeyValues(setup.shell)]
-        : []
-      : ["--no-shell"]),
-    ...(setup.sound ? [] : ["--no-sounds"]),
+    ...(setup.distribution === "package"
+      ? []
+      : setup.appShell
+        ? Object.keys(setup.shell).length > 0
+          ? ["--shell", writeKeyValues(setup.shell)]
+          : []
+        : ["--no-shell"]),
+    ...(setup.sound || setup.distribution === "package" ? [] : ["--no-sounds"]),
     ...(setup.components === "all" ? ["--all"] : []),
     ...assistantFlags(setup),
     "--yes",

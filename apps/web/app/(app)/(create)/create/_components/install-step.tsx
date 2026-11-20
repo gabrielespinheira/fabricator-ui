@@ -9,6 +9,8 @@ import {
   getNextSteps,
   getPrerequisites,
   getProjectTree,
+  REACT_PACKAGE,
+  REACT_PACKAGE_STYLES,
 } from "@fabricator-ui/setup"
 import { LinkIcon } from "lucide-react"
 
@@ -129,6 +131,7 @@ export function InstallStep({
   const prerequisites = getPrerequisites(projectSetup)
   const nextSteps = getNextSteps(projectSetup, packageManager)
   const isExisting = setup.project === "existing"
+  const isPackage = setup.distribution === "package"
   const agentNames =
     setup.assistants.length > 0
       ? AGENT_NAMES.format(setup.assistants.map(getAssistantLabel))
@@ -144,7 +147,9 @@ export function InstallStep({
             </h2>
             <p className="text-[13px] text-muted-foreground">
               {isExisting
-                ? "From your project's root folder."
+                ? isPackage
+                  ? "From the React web app’s folder."
+                  : "From your project's root folder."
                 : "From the folder you keep your projects in."}
             </p>
           </div>
@@ -270,17 +275,29 @@ export function InstallStep({
           </dl>
         ) : null}
         <ul className="flex list-disc flex-col gap-1.5 ps-5 text-[13px] leading-relaxed text-muted-foreground marker:text-muted-foreground/60">
-          <li>
-            Browse the{" "}
-            <Link href="/docs" className={LINK_CLASS}>
-              components
-            </Link>{" "}
-            and add one with{" "}
-            <code className="font-mono text-foreground">
-              fabricator-ui add &lt;name&gt;
-            </code>
-            .
-          </li>
+          {isPackage ? (
+            <li>
+              Import components by name, for example{" "}
+              <code className="font-mono text-foreground">{`${REACT_PACKAGE}/button`}</code>
+              . If the CLI prints a CSS step, load{" "}
+              <code className="font-mono text-foreground">
+                {REACT_PACKAGE_STYLES}
+              </code>{" "}
+              in your app entry.
+            </li>
+          ) : (
+            <li>
+              Browse the{" "}
+              <Link href="/docs" className={LINK_CLASS}>
+                components
+              </Link>{" "}
+              and add one with{" "}
+              <code className="font-mono text-foreground">
+                fabricator-ui add &lt;name&gt;
+              </code>
+              .
+            </li>
+          )}
           <li>
             Add a theme toggle with the{" "}
             <Link href={getDarkModeGuide(projectSetup)} className={LINK_CLASS}>
@@ -351,11 +368,14 @@ function SummaryRow({
 export function SetupSummary({
   setup,
   onEdit,
+  showDistribution,
 }: {
   setup: Setup
   onEdit: (step: StepName) => void
+  showDistribution: boolean
 }) {
   const { look } = setup
+  const isPackage = setup.distribution === "package"
   const surface =
     SURFACE_PRESETS.find(({ tint }) => sameTint(tint, look.surface))?.label ??
     "Custom"
@@ -363,8 +383,8 @@ export function SetupSummary({
     setup.assistants.includes(value)
   ).map(({ label }) => label)
   const extras = [
-    setup.components === "all" ? "Every component" : null,
-    setup.sound ? "Sounds" : null,
+    !isPackage && setup.components === "all" ? "Every component" : null,
+    !isPackage && setup.sound ? "Sounds" : null,
     ...assistants,
   ].filter(Boolean)
   const appNames = getProjectApps(setup)
@@ -376,6 +396,17 @@ export function SetupSummary({
         Your setup
       </h2>
       <div className="grid gap-3">
+        {showDistribution ? (
+          <SummaryCard
+            title="Install method"
+            onEdit={() => onEdit("project")}
+            editLabel="Change install method"
+          >
+            <SummaryRow label="Components">
+              {isPackage ? "Install as a package" : "Copy into project"}
+            </SummaryRow>
+          </SummaryCard>
+        ) : null}
         <SummaryCard title="Project" onEdit={() => onEdit("project")}>
           <SummaryRow label="Starting from">
             {STARTING_POINTS[apps.project]}
@@ -425,50 +456,56 @@ export function SetupSummary({
           </SummaryRow>
           <SummaryRow label="Icons">
             {
-              ICON_LIBRARIES.find(({ value }) => value === setup.iconLibrary)
-                ?.label
+              ICON_LIBRARIES.find(
+                ({ value }) =>
+                  value === (isPackage ? "fabricator" : setup.iconLibrary)
+              )?.label
             }
           </SummaryRow>
         </SummaryCard>
-        <SummaryCard title="App Shell" onEdit={() => onEdit("shell")}>
-          {setup.appShell ? (
-            <>
-              <SummaryRow label="Sidebar">
-                {
-                  SIDEBAR_VARIANT_CHOICES.find(
-                    ({ value }) => value === setup.shell.variant
-                  )?.label
-                }
-              </SummaryRow>
-              <SummaryRow label="Collapse">
-                {
-                  SIDEBAR_COLLAPSE_CHOICES.find(
-                    ({ value }) => value === setup.shell.collapse
-                  )?.label
-                }
-              </SummaryRow>
-              <SummaryRow label="Tabs">
-                {
-                  TAB_PLACEMENT_CHOICES.find(
-                    ({ value }) => value === setup.shell.tabs
-                  )?.label
-                }
-              </SummaryRow>
-              <SummaryRow label="Right panel">
-                {setup.shell.panel ? "On" : "Off"}
-              </SummaryRow>
-              <SummaryRow label="Status bar">
-                {setup.shell.status ? "On" : "Off"}
-              </SummaryRow>
-            </>
-          ) : (
-            <SummaryRow label="In your project">No</SummaryRow>
-          )}
-        </SummaryCard>
+        {!isPackage ? (
+          <SummaryCard title="App Shell" onEdit={() => onEdit("shell")}>
+            {setup.appShell ? (
+              <>
+                <SummaryRow label="Sidebar">
+                  {
+                    SIDEBAR_VARIANT_CHOICES.find(
+                      ({ value }) => value === setup.shell.variant
+                    )?.label
+                  }
+                </SummaryRow>
+                <SummaryRow label="Collapse">
+                  {
+                    SIDEBAR_COLLAPSE_CHOICES.find(
+                      ({ value }) => value === setup.shell.collapse
+                    )?.label
+                  }
+                </SummaryRow>
+                <SummaryRow label="Tabs">
+                  {
+                    TAB_PLACEMENT_CHOICES.find(
+                      ({ value }) => value === setup.shell.tabs
+                    )?.label
+                  }
+                </SummaryRow>
+                <SummaryRow label="Right panel">
+                  {setup.shell.panel ? "On" : "Off"}
+                </SummaryRow>
+                <SummaryRow label="Status bar">
+                  {setup.shell.status ? "On" : "Off"}
+                </SummaryRow>
+              </>
+            ) : (
+              <SummaryRow label="In your project">No</SummaryRow>
+            )}
+          </SummaryCard>
+        ) : null}
         <SummaryCard title="Extras" onEdit={() => onEdit("extras")}>
           {hasWebApp(apps) ? (
             <SummaryRow label="Primitives">
-              {SETUP_BASES.find(({ value }) => value === setup.base)?.label}
+              {isPackage
+                ? "Base UI"
+                : SETUP_BASES.find(({ value }) => value === setup.base)?.label}
             </SummaryRow>
           ) : null}
           <SummaryRow label="Included">
@@ -483,10 +520,12 @@ export function SetupSummary({
 function SummaryCard({
   title,
   onEdit,
+  editLabel,
   children,
 }: {
   title: string
   onEdit: () => void
+  editLabel?: string
   children: React.ReactNode
 }) {
   return (
@@ -494,8 +533,11 @@ function SummaryCard({
       <div className="flex items-center justify-between py-1">
         <h3 className="text-[13px] font-medium">{title}</h3>
         <Button variant="ghost" size="xs" onClick={onEdit}>
-          Edit
-          <span className="sr-only"> {title.toLowerCase()}</span>
+          {editLabel ?? (
+            <>
+              Edit<span className="sr-only"> {title.toLowerCase()}</span>
+            </>
+          )}
         </Button>
       </div>
       <dl className="flex flex-col divide-y divide-border">{children}</dl>

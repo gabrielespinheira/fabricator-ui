@@ -4,6 +4,11 @@ import { EXPO_SDK } from "@fabricator-ui/setup"
 import { Command } from "commander"
 
 import {
+  getPackageDeclaration,
+  getPackageOnlyDirectory,
+  getPackageStatus,
+} from "../setup/package-install"
+import {
   getBaseFromStyle,
   getRegistryUrl,
   LEGACY_STYLES,
@@ -452,6 +457,23 @@ export async function doctor(options: { cwd?: string }): Promise<void> {
   const cwd = resolveCwd(options.cwd)
   const languageConfig = await readNativeLanguageConfig(cwd)
   if (languageConfig) return doctorNativeLanguage(languageConfig, cwd)
+  const packageOnly = getPackageOnlyDirectory(cwd)
+  const packageDirectory =
+    packageOnly ?? (getPackageDeclaration(cwd) ? cwd : undefined)
+  if (packageDirectory) {
+    const status = getPackageStatus(packageDirectory)
+    logger.log(`${status.package} ${status.version ?? "could not be resolved"}`)
+    logger.log(
+      `React ${status.react ?? "unresolved"} and React DOM ${status.reactDom ?? "unresolved"}${status.hasCompatibleReact ? "" : " require matching React 19 versions"}.`
+    )
+    logger.log(
+      status.hasStyles
+        ? "Package stylesheet is imported."
+        : "Check that @fabricator-ui/react/styles.css is loaded at the app entry."
+    )
+    if (!status.version || !status.hasCompatibleReact) process.exitCode = 1
+    if (packageOnly) return
+  }
   if (
     findWorkspaceRoot(cwd) === cwd &&
     !existsSync(path.join(cwd, "components.json")) &&

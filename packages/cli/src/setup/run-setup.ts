@@ -18,6 +18,8 @@ import {
 
 import { highlight, logger } from "../utils/logger"
 import { getBaseUrl } from "../utils/urls"
+import { findPackageTarget } from "./package-install"
+import { checkPackageScaffold } from "./package-scaffold"
 import { INTERACTIVE_STEPS, STEPS, type SetupContext } from "./steps"
 
 export type RunOptions = {
@@ -99,6 +101,10 @@ export async function runSetup(rawSetup: ProjectSetup, options: RunOptions) {
   const setup = normalizeProjectSetup(rawSetup)
   const steps = planSetup(setup)
   const { cwd, packageManager, json } = options
+  if (setup.distribution === "package") {
+    if (setup.project === "existing") findPackageTarget(cwd)
+    else checkPackageScaffold(getPaths(setup, cwd).root, projectName(setup))
+  }
 
   if (options.dryRun) {
     if (json) {

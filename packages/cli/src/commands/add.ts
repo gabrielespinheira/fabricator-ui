@@ -1,5 +1,7 @@
+import { REACT_PACKAGE, REACT_PACKAGE_COMPONENTS } from "@fabricator-ui/setup"
 import { Command } from "commander"
 
+import { getPackageOnlyDirectory } from "../setup/package-install"
 import {
   ensureRegistry,
   getCatalogStyle,
@@ -169,6 +171,20 @@ export async function add(
   const languageConfig = await readNativeLanguageConfig(cwd)
   if (languageConfig && !rawOptions.upstream)
     return addNativeLanguage(components, languageConfig, { ...rawOptions, cwd })
+  if (!rawOptions.upstream && getPackageOnlyDirectory(cwd)) {
+    const available: ReadonlySet<string> = new Set(REACT_PACKAGE_COMPONENTS)
+    const names =
+      components.length && !rawOptions.all
+        ? components.map((name) => name.replace(/^@fabricator\//, ""))
+        : REACT_PACKAGE_COMPONENTS
+    const unsupported = names.filter((name) => !available.has(name))
+    if (unsupported.length)
+      throw new Error(
+        `These components need editable source: ${unsupported.join(", ")}. Run init --distribution source to set up local copies.`
+      )
+    for (const name of names) logger.log(`Import from ${REACT_PACKAGE}/${name}`)
+    return
+  }
   if (
     !rawOptions.upstream &&
     !readComponentsJson(cwd).exists &&

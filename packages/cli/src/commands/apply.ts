@@ -1,5 +1,6 @@
 import { Command } from "commander"
 
+import { getPackageOnlyDirectory } from "../setup/package-install"
 import { ensureRegistry, getBaseFromStyle } from "../utils/config"
 import { highlight, logger } from "../utils/logger"
 import {
@@ -77,6 +78,12 @@ export async function apply(
   rawOptions: ApplyOptions
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
+  if (getPackageOnlyDirectory(cwd)) {
+    logger.log(
+      "Customize the package with CSS variables in your app stylesheet or run init --distribution package --look <values>."
+    )
+    return
+  }
   const languageConfig = await readNativeLanguageConfig(cwd)
   if (languageConfig) {
     if (preset && preset !== "fabricator")

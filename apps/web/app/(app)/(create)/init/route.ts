@@ -14,7 +14,7 @@ import {
   usesFabricatorIcons,
   usesFabricatorPalette,
 } from "@/registry/fabricator-init"
-import { parseLook } from "@/registry/fabricator/look"
+import { lookCssVars, parseLook } from "@/registry/fabricator/look"
 import { isSpinnerVariant } from "@/registry/fabricator/shared/lib/spinner-model"
 import {
   buildNativeInit,
@@ -26,6 +26,12 @@ import { getPresetCode } from "@/app/(app)/(create)/lib/preset-code"
 
 export async function GET(request: NextRequest) {
   try {
+    if (request.nextUrl.searchParams.get("distribution") === "package") {
+      const look = parseLook(request.nextUrl.searchParams)
+      return look.success
+        ? NextResponse.json(lookCssVars(look.look))
+        : NextResponse.json({ error: look.error }, { status: 400 })
+    }
     const spinner = request.nextUrl.searchParams.get("spinner") ?? "orbit"
     if (!isSpinnerVariant(spinner)) {
       return NextResponse.json(

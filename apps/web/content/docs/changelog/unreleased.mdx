@@ -7,6 +7,8 @@ These changes are merged and ship in the next version.
 
 ## CLI
 
+**React package preview.** `init` and `create` accept `--distribution package` for qualified React web apps. Import supported Base UI components and compiled styles from `@fabricator-ui/react`. Get started offers the same selection in Project when package setup is enabled. Copy-in remains the default.
+
 **Fabricator Icons in monorepos.** New monorepos using Fabricator Icons remove the unused Lucide dependency added by the scaffold. Projects that select or import Lucide keep it.
 
 **Menu icons in the design guide.** The `DESIGN.md` new projects receive now asks every dropdown, context-menu and menubar action to lead with its icon, so menus scan by shape and their labels share one edge. Checkbox items and sub-menu triggers keep their icon, with the check or chevron at the end. A sub-menu of plain values goes without icons, and an action with no fitting icon takes `inset`. The fabricator skill's icon, design and dashboard rules say the same.
@@ -14,6 +16,8 @@ These changes are merged and ship in the next version.
 **Cursors in the design guide.** `DESIGN.md` now says which cursor each interaction takes, on the web and in desktop windows: a pointer only on what acts on a click, text where people type, grab and grabbing on what drags, a resize cursor on an edge, not-allowed on a disabled control that keeps its tooltip, and the arrow on everything static. A drag or resize holds its cursor on the whole window. The skill's styling rules add the classes for markup made interactive by hand.
 
 **Design guide version.** `DESIGN.md` names the Fabricator UI release it ships with in `fabricatorVersion`, kept in step with the packages by the release check. Its `version: alpha` stays: that is the DESIGN.md format's version. The `omitted` list, which tells DESIGN.md tools that token values come from the project's look, is now one line and covers motion too.
+
+**Short choices in the design guide.** New project guidance uses the default `TabsList` for two to four options that fit on one line, including settings and filters without panels. It uses `Select` for five or more options or when the full labels cannot fit.
 
 ## Components
 

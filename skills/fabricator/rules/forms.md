@@ -5,7 +5,7 @@
 - Forms use FieldGroup + Field
 - InputGroup requires InputGroupInput/InputGroupTextarea
 - Buttons inside inputs use InputGroup + InputGroupAddon
-- Segmented choices use ToggleGroup
+- Short single choices use default Tabs
 - FieldSet + FieldLegend for grouping related fields
 - Field validation and disabled states
 
@@ -33,11 +33,11 @@ Use `Field orientation="horizontal"` for settings pages. Use `FieldLabel classNa
 **Choosing form controls:**
 
 - Simple text input → `Input`
-- Dropdown with predefined options → `Select`
+- Five or more options, or short choices that do not fit → `Select`
 - Searchable dropdown → `Combobox`
 - Boolean toggle → `Switch` (for settings) or `Checkbox` (for forms)
-- Single choice from few options → `RadioGroup`
-- Toggle between 2–7 options → `ToggleGroup` + `ToggleGroupItem`
+- Two to four short single-choice options → default `Tabs` if they fit
+- A choice that needs a description per option → `RadioGroup` with choice cards
 - OTP/verification code → `InputOTP`
 - Multi-line text → `Textarea`
 
@@ -99,54 +99,9 @@ import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/ui/in
 
 ---
 
-## Segmented choices use ToggleGroup
+## Short single choices use default Tabs
 
-Don't manually loop `Button` components with active state.
-
-**Incorrect:**
-
-```tsx
-const [selected, setSelected] = useState("daily")
-
-<div className="flex gap-2">
-  {["daily", "weekly", "monthly"].map((option) => (
-    <Button
-      key={option}
-      variant={selected === option ? "default" : "outline"}
-      onClick={() => setSelected(option)}
-    >
-      {option}
-    </Button>
-  ))}
-</div>
-```
-
-**Correct:**
-
-```tsx
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-
-<ToggleGroup spacing={2}>
-  <ToggleGroupItem value="daily">Daily</ToggleGroupItem>
-  <ToggleGroupItem value="weekly">Weekly</ToggleGroupItem>
-  <ToggleGroupItem value="monthly">Monthly</ToggleGroupItem>
-</ToggleGroup>
-```
-
-Combine with `Field` for labelled toggle groups:
-
-```tsx
-<Field orientation="horizontal">
-  <FieldTitle id="theme-label">Theme</FieldTitle>
-  <ToggleGroup aria-labelledby="theme-label" spacing={2}>
-    <ToggleGroupItem value="light">Light</ToggleGroupItem>
-    <ToggleGroupItem value="dark">Dark</ToggleGroupItem>
-    <ToggleGroupItem value="system">System</ToggleGroupItem>
-  </ToggleGroup>
-</Field>
-```
-
-> **Note:** `defaultValue` and `type`/`multiple` props differ between base and radix. See [base-vs-radix.md](./base-vs-radix.md#togglegroup).
+Follow [Tabs and short single choices](composition.md#tabs-and-short-single-choices) for settings and form values. Use the visible field title to name the list with `aria-labelledby`. Bind the selected value to the form field when it is submitted. Use a labelled `Select` for five or more options or when the labels cannot fit on one line.
 
 ---
 

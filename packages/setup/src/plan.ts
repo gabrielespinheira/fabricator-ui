@@ -1,6 +1,7 @@
 // What a setup does, step by step: the page lists these and the CLI runs them.
 
 import { forPackageManager } from "./cli-args"
+import { REACT_PACKAGE, REACT_PACKAGE_STYLES } from "./react-package"
 import {
   DEFAULT_PROJECT_SETUP,
   EXPO_SDK,
@@ -19,8 +20,10 @@ import {
 export type StepId =
   | "scaffold-monorepo"
   | "scaffold-web"
+  | "scaffold-package-web"
   | "scaffold-laravel"
   | "setup-existing"
+  | "setup-package"
   | "configure-monorepo"
   | "add-web-items"
   | "scaffold-mobile"
@@ -323,6 +326,37 @@ function webSteps(setup: ProjectSetup): PlanStep[] {
 
 export function planSetup(rawSetup: ProjectSetup): PlanStep[] {
   const setup = normalizeProjectSetup(rawSetup)
+  if (setup.distribution === "package") {
+    const detail = `Adds ${REACT_PACKAGE} and its stylesheet${Object.keys(setup.look).length ? ", with your theme overrides" : ""}.`
+    if (setup.project === "existing") {
+      return [
+        { id: "setup-package", title: "Install the React package", detail },
+        ...agentSteps(setup),
+      ]
+    }
+    return [
+      {
+        id: "scaffold-package-web",
+        title: "Create the web monorepo",
+        detail: `${getFrameworkLabel(setup.framework)} in apps/web. ${detail}`,
+      },
+      {
+        id: "configure-workspace",
+        title: "Configure the workspace",
+        detail: "Run web app tasks from the root.",
+      },
+      ...toolingSteps(setup),
+      {
+        id: "install",
+        title: "Install dependencies",
+        detail: "Once, at the root.",
+      },
+      ...agentSteps(setup),
+      ...formatSteps(setup),
+      WRITE_PROJECT_DOCS,
+      FIRST_COMMIT,
+    ]
+  }
   if (setup.project === "existing") return existingSteps(setup)
   if (setup.project === "monorepo") return monorepoSteps(setup)
   return isWebFramework(setup.framework) ? webSteps(setup) : expoSteps(setup)
@@ -350,6 +384,18 @@ export function getNextSteps(
   packageManager: PackageManager
 ): NextStep[] {
   const setup = normalizeProjectSetup(rawSetup)
+  if (setup.project === "existing" && setup.distribution === "package") {
+    return [
+      {
+        label: "Load the package styles once",
+        code: `import "${REACT_PACKAGE_STYLES}"`,
+      },
+      {
+        label: "Import a component",
+        code: `import { Button } from "${REACT_PACKAGE}/button"`,
+      },
+    ]
+  }
   if (setup.project === "existing") return []
   const run = (code: string) => forPackageManager(code, packageManager)
   const open = { label: "Open the project", code: `cd ${projectName(setup)}` }

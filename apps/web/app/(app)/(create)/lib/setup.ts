@@ -9,6 +9,7 @@ import {
   CLI_PACKAGE,
   DEFAULT_PROJECT_SETUP,
   DESKTOP_RUNTIME_VALUES,
+  DISTRIBUTIONS,
   formatCommand,
   FRAMEWORK_VALUES,
   ICON_LIBRARY_VALUES,
@@ -92,6 +93,7 @@ export const CLI = "npx fabricator-ui@latest"
 export const setupParsers = {
   /** Old links' `new`, a single project, falls back to a new monorepo. */
   project: parseAsStringLiteral(STARTING_POINTS).withDefault("monorepo"),
+  distribution: parseAsStringLiteral(DISTRIBUTIONS).withDefault("source"),
   framework: parseAsStringLiteral(FRAMEWORK_VALUES).withDefault("next"),
   /** The new project's folder; blank means the default. */
   name: parseAsString.withDefault(""),
@@ -163,6 +165,7 @@ function paramsToRecord(params: URLSearchParams) {
 
 /** The setup the command and the plan are written from. */
 export function toProjectSetup(setup: Setup): ProjectSetup {
+  const isPackage = setup.distribution === "package"
   const target =
     setup.project === "monorepo" && setup.desktop !== "none"
       ? { desktop: setup.desktop }
@@ -170,28 +173,33 @@ export function toProjectSetup(setup: Setup): ProjectSetup {
   return {
     ...DEFAULT_PROJECT_SETUP,
     project: setup.project,
+    distribution: setup.distribution,
     name: setup.name,
     framework: setup.framework,
-    base: setup.base,
+    base: isPackage ? DEFAULT_PROJECT_SETUP.base : setup.base,
     web: setup.web,
     mobile: setup.mobile,
     desktop: setup.desktop,
     tooling: setup.tooling,
     runner: setup.runner,
-    appShell: setup.appShell,
-    sound: setup.sound,
-    components: setup.components,
+    appShell: !isPackage && setup.appShell,
+    sound: !isPackage && setup.sound,
+    components: isPackage ? DEFAULT_PROJECT_SETUP.components : setup.components,
     assistants: setup.assistants,
     skill: setup.skill,
     mcp: setup.mcp,
-    iconLibrary: setup.iconLibrary,
-    spinner: setup.spinner,
+    iconLibrary: isPackage
+      ? DEFAULT_PROJECT_SETUP.iconLibrary
+      : setup.iconLibrary,
+    spinner: isPackage ? DEFAULT_PROJECT_SETUP.spinner : setup.spinner,
     look: paramsToRecord(lookToSearchParams(setup.look)),
-    shell: paramsToRecord(
-      new URLSearchParams(
-        serializeShell(normalizeInstallOptions(setup.shell, target))
-      )
-    ),
+    shell: isPackage
+      ? {}
+      : paramsToRecord(
+          new URLSearchParams(
+            serializeShell(normalizeInstallOptions(setup.shell, target))
+          )
+        ),
   }
 }
 

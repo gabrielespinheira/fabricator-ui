@@ -4,6 +4,7 @@
 import {
   ASSISTANT_VALUES,
   DEFAULT_PROJECT_SETUP,
+  getPackageSetupError,
   parseKeyValues,
   projectSetupSchema,
   SPINNER_VALUES,
@@ -12,6 +13,7 @@ import {
 import type { Command } from "commander"
 
 export type SetupFlags = {
+  distribution?: string
   template?: string
   base?: string
   monorepo?: boolean
@@ -33,6 +35,10 @@ export type SetupFlags = {
 
 export function addSetupOptions(command: Command) {
   return command
+    .option(
+      "--distribution <mode>",
+      "install by copying source (default) or as a package"
+    )
     .option(
       "--look <values>",
       "your look, as key=value pairs: primary=260_0.2,shape=pill"
@@ -65,6 +71,7 @@ function shellOptions(shell: SetupFlags["shell"]) {
 
 function commonFields(flags: SetupFlags) {
   return {
+    distribution: flags.distribution ?? DEFAULT_PROJECT_SETUP.distribution,
     look: flags.look ? parseKeyValues(flags.look) : {},
     shell: shellOptions(flags.shell),
     assistants: parseAssistants(flags.agents),
@@ -75,6 +82,23 @@ function commonFields(flags: SetupFlags) {
     iconLibrary: flags.icons ?? DEFAULT_PROJECT_SETUP.iconLibrary,
     base: flags.base ?? DEFAULT_PROJECT_SETUP.base,
   }
+}
+
+function validatePackageFlags(setup: ProjectSetup, flags: SetupFlags) {
+  if (setup.distribution === "source") return setup
+  const issue = getPackageSetupError(setup)
+  if (issue) throw new Error(issue)
+  const unsupported = [
+    [flags.all, "--all"],
+    [flags.shell, "--shell"],
+    [flags.sounds, "--sounds"],
+    [setup.base !== "base", "--base"],
+    [setup.iconLibrary !== "fabricator", "--icons"],
+    [setup.spinner !== DEFAULT_PROJECT_SETUP.spinner, "--spinner"],
+  ].find(([isSet]) => isSet)
+  if (unsupported)
+    throw new Error(`${unsupported[1]} requires --distribution source.`)
+  return setup
 }
 
 /** A monorepo, unless told otherwise or the template can't be one. */
@@ -88,7 +112,7 @@ export function setupFromCreateFlags(
   name: string | undefined,
   flags: SetupFlags
 ): ProjectSetup {
-  return projectSetupSchema.parse({
+  const setup = projectSetupSchema.parse({
     ...DEFAULT_PROJECT_SETUP,
     ...commonFields(flags),
     project: getCreateProject(flags),
@@ -99,26 +123,29 @@ export function setupFromCreateFlags(
     desktop: flags.desktop ?? "none",
     tooling: flags.tooling ?? DEFAULT_PROJECT_SETUP.tooling,
     runner: flags.runner ?? DEFAULT_PROJECT_SETUP.runner,
-    appShell: flags.shell !== false,
-    sound: flags.sounds ?? true,
+    appShell: flags.shell !== false && flags.distribution !== "package",
+    sound: flags.sounds ?? flags.distribution !== "package",
   })
+  return validatePackageFlags(setup, flags)
 }
 
 /** An existing project changes only what its flags name. */
 export function setupFromInitFlags(flags: SetupFlags): ProjectSetup {
-  return projectSetupSchema.parse({
+  const setup = projectSetupSchema.parse({
     ...DEFAULT_PROJECT_SETUP,
     ...commonFields(flags),
     project: "existing",
     appShell: flags.shell !== undefined && flags.shell !== false,
     sound: flags.sounds === true,
   })
+  return validatePackageFlags(setup, flags)
 }
 
 /** Whether `init` was asked to do more than set up the registry. */
 export function hasSetupFlags(flags: SetupFlags) {
   return Boolean(
-    flags.look ||
+    flags.distribution === "package" ||
+      flags.look ||
       flags.shell ||
       flags.sounds ||
       flags.all ||

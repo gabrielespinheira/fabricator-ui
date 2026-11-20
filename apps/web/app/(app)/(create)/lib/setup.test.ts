@@ -34,6 +34,28 @@ describe("the defaults", () => {
 })
 
 describe("buildSetupCommand", () => {
+  it("shares package mode and omits settings that require copied source", () => {
+    const selected = setup({
+      distribution: "package",
+      project: "existing",
+      components: "all",
+      base: "radix",
+      iconLibrary: "lucide",
+      spinner: "ripple",
+    })
+    expect(parseSetupParams(setupToParams(selected)).distribution).toBe(
+      "package"
+    )
+    expect(buildSetupCommand(selected, "npm")).toBe(
+      "npx fabricator-ui@latest init --distribution package --yes"
+    )
+    expect(toProjectSetup(selected)).toMatchObject({
+      base: "base",
+      appShell: false,
+      sound: false,
+      components: "starter",
+    })
+  })
   it("is one command for the default project", () => {
     expect(buildSetupCommand(DEFAULT_SETUP, "npm")).toBe(
       "npx fabricator-ui@latest create fabricator-ui --yes"
@@ -236,6 +258,7 @@ describe("setup params", () => {
   it("reads back what it writes", () => {
     const written: Setup = {
       project: "monorepo",
+      distribution: "source",
       framework: "astro",
       name: "studio-site",
       web: false,
