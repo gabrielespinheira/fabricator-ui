@@ -99,8 +99,8 @@ describe("planSetup", () => {
       "configure-tooling",
       "install",
       "mount",
-      "format-code",
       "write-project-docs",
+      "format-code",
       "first-commit",
     ])
     expect(ids({ project: "monorepo", framework: "react-router" })).toContain(
@@ -181,6 +181,21 @@ describe("planSetup", () => {
       detail({ project: "existing", assistants: ["claude"] })
     ).toBeUndefined()
   })
+
+  it.each<Partial<ProjectSetup>>([
+    { project: "monorepo", tooling: "vite-plus" },
+    { project: "monorepo", web: false, mobile: true, tooling: "biome" },
+    { project: "monorepo", distribution: "package", tooling: "vite-plus" },
+  ])(
+    "formats generated docs before committing the scaffold (%j)",
+    (changes) => {
+      expect(ids(changes).slice(-3)).toEqual([
+        "write-project-docs",
+        "format-code",
+        "first-commit",
+      ])
+    }
+  )
 
   it("names every assistant it sets up", () => {
     const step = planSetup(setup({ assistants: ["claude", "codex"] })).find(
