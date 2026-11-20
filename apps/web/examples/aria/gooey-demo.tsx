@@ -148,15 +148,11 @@ export function GooeyDemo() {
               <TabsTrigger id="activity">Activity</TabsTrigger>
               <TabsTrigger id="files">Files</TabsTrigger>
             </TabsList>
-            <TabsContent id="overview">
-              Your project at a glance.
-            </TabsContent>
+            <TabsContent id="overview">Your project at a glance.</TabsContent>
             <TabsContent id="activity">
               Recent changes to your project.
             </TabsContent>
-            <TabsContent id="files">
-              Files shared with your team.
-            </TabsContent>
+            <TabsContent id="files">Files shared with your team.</TabsContent>
           </Tabs>
         </div>
         <div className="grid gap-2">
