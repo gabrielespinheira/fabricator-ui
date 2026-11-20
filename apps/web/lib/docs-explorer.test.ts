@@ -16,14 +16,49 @@ describe("docs explorer", () => {
       "native"
     )
     expect(groups[0]?.items.map((item) => item.label)).toEqual(["Overview"])
-    expect(groups[1]?.items[0]?.children?.[0]?.href).toBe(
-      "/docs/components/native/button"
-    )
+    expect(groups[1]).toMatchObject({
+      label: "Basics",
+      collapsible: true,
+      items: [{ href: "/docs/components/native/button" }],
+    })
     expect(
       groups[2]?.items.flatMap(
         (item) => item.children?.map((child) => child.href) ?? []
       )
     ).toEqual(["/docs/installation", "/docs/javascript"])
+  })
+
+  it("groups App Shell installables with their shared references", () => {
+    const pages = [
+      { url: "/docs/components/radix/sidebar", title: "Sidebar" },
+      { url: "/docs/components/radix/app-shell", title: "App Shell" },
+      { url: "/docs/components/base/app-shell", title: "App Shell" },
+      { url: "/docs/components/radix/card", title: "Card" },
+      { url: "/docs/app-shell/main", title: "AppShellMain" },
+    ]
+    const groups = getDocsExplorerGroups(pages, "radix")
+    expect(groups).toMatchObject([
+      { id: "explorer" },
+      {
+        id: "group-app-shell",
+        label: "App Shell",
+        collapsible: true,
+        items: [
+          { href: "/docs/components/radix/app-shell" },
+          { href: "/docs/components/radix/sidebar" },
+          { href: "/docs/app-shell/main" },
+        ],
+      },
+      {
+        label: "Structure",
+        collapsible: true,
+        items: [{ href: "/docs/components/radix/card" }],
+      },
+      { id: "guides", items: [] },
+    ])
+    expect(
+      getDocsNeighbours(pages, "/docs/components/radix/sidebar").next
+    ).toEqual({ url: "/docs/app-shell/main", title: "AppShellMain" })
   })
 })
 

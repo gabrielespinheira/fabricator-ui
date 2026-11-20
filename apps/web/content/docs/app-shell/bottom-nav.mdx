@@ -1,0 +1,25 @@
+---
+title: AppShellBottomNav
+description: A phone-only navigation bar with slots for app destinations.
+---
+
+`AppShellBottomNav` gives phones a row of app destinations. Place it after [AppShellContent](/docs/app-shell/content) in [AppShellMain](/docs/app-shell/main). To generate the bar from the sidebar's navigation model, use `AppNavBottomBar` from [App Nav](/docs/components/base/app-nav).
+
+## Usage
+
+Install `app-shell` and import `AppShellBottomNav` and `AppShellBottomNavItem` from `@/components/ui/app-shell`.
+
+```tsx
+<AppShellBottomNav aria-label="Workspace">
+  <AppShellBottomNavItem
+    href="/projects"
+    label="Projects"
+    icon={FolderIcon}
+    isActive={pathname === "/projects"}
+  />
+</AppShellBottomNav>
+```
+
+## API reference
+
+On web the bar is a `nav` with the default accessible name `"Main"`. It hides at tablet widths. React Native also supports `variant="flat"` or `"floating"`, with optional `capsule` content for a custom floating surface, or `nativeTabs` for an app-supplied system tab view.

@@ -1,0 +1,24 @@
+---
+title: AppShellTitlebar
+description: A full-width top row for window chrome or a tab strip that spans the frame.
+---
+
+Pass `AppShellTitlebar` through the [App Shell](/docs/components/base/app-shell)'s `titlebar` prop. This puts the row above the sidebar and main column. Use [AppShellMain](/docs/app-shell/main) for tabs that should move with the main column.
+
+## Usage
+
+Install `app-shell` and import `AppShellTitlebar` from `@/components/ui/app-shell`.
+
+```tsx
+<AppShell titlebar={<AppShellTitlebar>{tabStrip}</AppShellTitlebar>}>
+  <AppShellMain>
+    <AppShellContent>{children}</AppShellContent>
+  </AppShellMain>
+</AppShell>
+```
+
+## API reference
+
+The row takes `header` props on web and `View` props on React Native. In Electron and Tauri, the web titlebar opts into window dragging. Give custom interactive children `data-no-drag` for Electron. Use [the desktop window setup](/docs/components/base/app-shell#desktop-apps) to configure the native controls.
+
+On React Native the row accounts for the top safe area.

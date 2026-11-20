@@ -1,0 +1,21 @@
+---
+title: AppShellPageTitle
+description: The page heading that hands its text to the header after it scrolls out of view.
+---
+
+`AppShellPageTitle` renders the page heading and tracks its position inside [AppShellContent](/docs/app-shell/content). Pair it with [AppShellBreadcrumb](/docs/app-shell/breadcrumb) to show the title in the header while the heading is out of view.
+
+## Usage
+
+Install `app-shell` and import `AppShellPageTitle` from `@/components/ui/app-shell`.
+
+```tsx
+<AppShellContent size="md">
+  <AppShellPageTitle>{project.name}</AppShellPageTitle>
+  {children}
+</AppShellContent>
+```
+
+## API reference
+
+The component takes heading props on web and `Text` props on React Native. Give it the text that should identify the page both in the content and in the header.

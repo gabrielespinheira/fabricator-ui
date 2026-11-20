@@ -1,0 +1,24 @@
+---
+title: AppShellContent
+description: The main page scroller, with optional reading widths and scroll state shared with the header.
+---
+
+`AppShellContent` scrolls the page while the surrounding frame stays in place. Use one per [AppShellMain](/docs/app-shell/main).
+
+## Usage
+
+Install `app-shell` and import `AppShellContent` from `@/components/ui/app-shell`.
+
+```tsx
+<AppShellContent size="md">
+  <AppShellPageTitle>Project settings</AppShellPageTitle>
+  {children}
+</AppShellContent>
+```
+
+## API reference
+
+- `size` takes `"sm"`, `"md"`, or `"lg"` to center the page at a named width. Omit it for a full-width table, board, or editor.
+- `className` styles the scroller. On React Native it is a `ScrollView` and accepts `contentContainerStyle` for its inner layout.
+
+The web shell's skip link targets this scroller. Keep [AppShellPageTitle](/docs/app-shell/page-title) inside it so the header can respond when the heading scrolls out of view.

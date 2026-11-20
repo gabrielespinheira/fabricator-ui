@@ -1,0 +1,33 @@
+---
+title: IconSlot
+description: A renderer for an icon passed as a component or an element in a shell configuration.
+---
+
+`IconSlot` lets custom navigation, panel, and action renderers accept the same icon shape as the shell.
+
+## Usage
+
+Install `app-shell` and import `IconSlot` and the `IconLike` type from `@/components/ui/app-shell`.
+
+```tsx
+import { IconSlot, type IconLike } from "@/components/ui/app-shell"
+
+export function ProjectLabel({
+  icon,
+  label,
+}: {
+  icon?: IconLike
+  label: string
+}) {
+  return (
+    <span className="flex items-center gap-2">
+      <IconSlot icon={icon} />
+      {label}
+    </span>
+  )
+}
+```
+
+## API reference
+
+`icon` accepts an icon component or a rendered element. An omitted icon leaves the slot empty. Keep a text label on the surrounding control when the icon is decorative.

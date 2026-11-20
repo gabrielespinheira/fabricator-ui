@@ -1,0 +1,26 @@
+---
+title: AppShellPanelTabs
+description: The tab list generated from a shell panel's declared views.
+---
+
+`AppShellPanelTabs` reads the nearest [AppShellPanel](/docs/app-shell/panel)'s `views` and renders one tab for each. The panel owns the selected value.
+
+## Usage
+
+Install `app-shell` and import `AppShellPanelTabs` from `@/components/ui/app-shell`. Place it in the [panel header](/docs/app-shell/panel-header) beside any close control.
+
+```tsx
+<AppShellPanel views={views} id="inspector" label="Inspector">
+  <AppShellPanelHeader>
+    <AppShellPanelTabs />
+    <AppShellPanelClose />
+  </AppShellPanelHeader>
+  <AppShellPanelView value="details">{details}</AppShellPanelView>
+</AppShellPanel>
+```
+
+In this example, `views` includes an entry with `value: "details"`.
+
+## API reference
+
+The component accepts `TabsList` props and generates its tab children. Give each view a distinct label and value. An icon helps identify views in a narrow docked panel while the label remains available to assistive technology.

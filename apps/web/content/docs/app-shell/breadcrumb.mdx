@@ -1,0 +1,29 @@
+---
+title: AppShellBreadcrumb
+description: A responsive navigation trail that can take over the page title as the content scrolls.
+---
+
+`AppShellBreadcrumb` folds long trails and shares scroll state with [AppShellPageTitle](/docs/app-shell/page-title). Put it in [AppShellHeader](/docs/app-shell/header).
+
+## Usage
+
+Install `app-shell` and import `AppShellBreadcrumb` from `@/components/ui/app-shell`. Build the trail from the current screen's route or data.
+
+```tsx
+<AppShellBreadcrumb
+  items={[
+    { label: "Workspace", href: "/" },
+    { label: "Projects", href: "/projects" },
+    { label: "Launch" },
+  ]}
+  maxItems={3}
+/>
+```
+
+## API reference
+
+- `items` takes `{ label, href?, onSelect? }[]` in root-to-current order. The last item describes the current screen.
+- `maxItems` defaults to `4`. Middle ancestors fold into a menu when the trail exceeds the limit.
+- `renderLink` takes an item and returns a router link element. On web the default is an anchor.
+
+On web the phone layout shows the current page. On React Native it can show the way up and add the page title once the heading scrolls away.

@@ -1,4 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs"
+import ts from "typescript"
 import { describe, expect, it } from "vitest"
 import { z } from "zod"
 
@@ -10,7 +11,50 @@ import { COMPONENT_GROUPS, getComponentGroup } from "./component-groups"
 import { getDocsExplorerGroups } from "./docs-explorer"
 
 const examples = new URL("../examples/native/", import.meta.url)
+const appShellDocs = new URL("../content/docs/app-shell/", import.meta.url)
+
 describe("cross-platform explorer coverage", () => {
+  it("lists a reference for every App Shell component export", () => {
+    const source = readFileSync(
+      new URL("../registry/fabricator/base/ui/app-shell.tsx", import.meta.url),
+      "utf8"
+    )
+    const shell = ts.createSourceFile(
+      "app-shell.tsx",
+      source,
+      ts.ScriptTarget.Latest
+    )
+    const exports = shell.statements
+      .filter(ts.isExportDeclaration)
+      .flatMap(({ exportClause }) =>
+        exportClause && ts.isNamedExports(exportClause)
+          ? exportClause.elements
+          : []
+      )
+      .filter(({ isTypeOnly, name }) => !isTypeOnly && /^[A-Z]/.test(name.text))
+      .map(({ name }) => name.text)
+      .filter((name) => name !== "AppShell")
+
+    const pages = readdirSync(appShellDocs)
+      .filter((file) => file.endsWith(".mdx"))
+      .map((file) => ({
+        url: `/docs/app-shell/${file.slice(0, -4)}`,
+        title:
+          /^title: (.+)$/m.exec(
+            readFileSync(new URL(file, appShellDocs), "utf8")
+          )?.[1] ?? "",
+      }))
+    const group = getDocsExplorerGroups(pages, "base").find(
+      (group) => group.id === "group-app-shell"
+    )
+    expect(group?.items.map((item) => item.label).sort()).toEqual(
+      exports.sort()
+    )
+    expect(group?.items.map((item) => item.href).sort()).toEqual(
+      pages.map((page) => page.url).sort()
+    )
+  })
+
   it.each(["base", "radix", "aria", "native"])(
     "lists every %s component in the page tree used by the command menu",
     (base) => {
@@ -31,7 +75,7 @@ describe("cross-platform explorer coverage", () => {
     }
   )
   it.each(["base", "radix", "aria", "native"])(
-    "keeps %s docs and the native examples in the same groups",
+    "keeps the %s component taxonomy and gives App Shell its own docs group",
     (base) => {
       const names = readdirSync(
         new URL(`../content/docs/components/${base}/`, import.meta.url)
@@ -50,21 +94,34 @@ describe("cross-platform explorer coverage", () => {
         overview: undefined,
         groups: {},
       })
-      expect(docsGroups[1]?.items.map((item) => item.label)).toEqual(
-        COMPONENT_GROUPS
+      const groups = docsGroups.filter((group) => group.collapsible)
+      expect(groups.map((item) => item.label)).toEqual([
+        "App Shell",
+        ...COMPONENT_GROUPS,
+      ])
+      const appShell = groups.find((group) => group.id === "group-app-shell")
+      expect(appShell?.items.map((item) => item.href)).toEqual(
+        [
+          "app-shell",
+          "sidebar",
+          "app-nav",
+          "tab-strip",
+          "workspace-switcher",
+          "user-menu",
+        ].map((name) => `/docs/components/${base}/${name}`)
       )
-      expect(docsGroups[0]?.items.map((item) => item.id)).toEqual(["overview"])
+      const shellPages = new Set(appShell?.items.map((item) => item.id))
       expect(
-        docsGroups[1]?.items.map((item) => ({
-          id: item.id,
-          count: item.badge,
-          components: item.children?.map((child) => child.id),
+        groups.slice(1).map((group) => ({
+          id: group.id,
+          pages: group.items.map((item) => item.href),
         }))
       ).toEqual(
         exampleGroups[1]?.items.map((item) => ({
           id: item.id,
-          count: item.badge,
-          components: item.children?.map((child) => child.id),
+          pages: item.children
+            ?.map((child) => `/docs/components/${base}/${child.id}`)
+            .filter((url) => !shellPages.has(url)),
         }))
       )
       for (const name of names)

@@ -81,6 +81,13 @@ component: true
 \`\`\`bash
 npx fabricator-ui@latest add ${name}
 \`\`\``,
+    name === "app-shell"
+      ? `## Customize the shell
+
+Import frame parts from \`@/components/ui/app-shell\`. The references for [AppShellMain](/docs/app-shell/main), [AppShellHeader](/docs/app-shell/header), [AppShellPanel](/docs/app-shell/panel), and [AppShellBottomNav](/docs/app-shell/bottom-nav) describe their React Native behavior.
+
+Use [App Nav](/docs/components/native/app-nav) for data-driven groups or compose [Sidebar](/docs/components/native/sidebar) rows yourself. Place [Tab Strip](/docs/components/native/tab-strip) in the main column or in [AppShellTitlebar](/docs/app-shell/titlebar) according to your app's layout. Install [Workspace Switcher](/docs/components/native/workspace-switcher) and [User Menu](/docs/components/native/user-menu) to compose the sidebar header and footer.`
+      : null,
     snippet
       ? `## Usage
 

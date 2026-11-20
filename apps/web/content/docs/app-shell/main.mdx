@@ -1,0 +1,48 @@
+---
+title: AppShellMain
+description: The main column of the shell and the place to arrange header, tabs, content, and bottom navigation.
+---
+
+`AppShellMain` gives the main column the inset or floating layout of its sibling [Sidebar](/docs/components/base/sidebar). Place it directly inside [App Shell](/docs/components/base/app-shell), alongside the sidebar and any [panels](/docs/app-shell/panel).
+
+## Usage
+
+Install `app-shell` and import its frame parts from `@/components/ui/app-shell`. Keep the header and tab rows outside [AppShellContent](/docs/app-shell/content) so they stay in place while the page scrolls.
+
+```tsx
+import type { ReactNode } from "react"
+
+import {
+  AppShell,
+  AppShellContent,
+  AppShellHeader,
+  AppShellMain,
+} from "@/components/ui/app-shell"
+
+export function DocumentLayout({
+  tabStrip,
+  tabsAboveHeader,
+  children,
+}: {
+  tabStrip: ReactNode
+  tabsAboveHeader: boolean
+  children: ReactNode
+}) {
+  return (
+    <AppShell>
+      <AppShellMain>
+        {tabsAboveHeader && tabStrip}
+        <AppShellHeader trigger="never">Documents</AppShellHeader>
+        {!tabsAboveHeader && tabStrip}
+        <AppShellContent>{children}</AppShellContent>
+      </AppShellMain>
+    </AppShell>
+  )
+}
+```
+
+Pass a rendered [Tab Strip](/docs/components/base/tab-strip) as `tabStrip`. Keep the active tab and document state in the caller so moving the strip between rows preserves the selection. For a strip across the full frame, use [AppShellTitlebar](/docs/app-shell/titlebar).
+
+## API reference
+
+`AppShellMain` forwards props to `SidebarInset`. It provides the main landmark on web. On React Native it also applies safe-area layout where needed and hosts the header's floating primary action.

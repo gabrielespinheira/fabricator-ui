@@ -1,0 +1,31 @@
+---
+title: AppShellHeaderActions
+description: Responsive page actions, an optional primary action, and a menu for page options.
+---
+
+`AppShellHeaderActions` renders actions from data and adapts them to the shell's width. Secondary actions move into a menu on phones, and the primary action becomes a floating button.
+
+## Usage
+
+Install `app-shell`. Import `AppShellHeaderActions` from `@/components/ui/app-shell` and put it in [AppShellHeader](/docs/app-shell/header). Supply your own callbacks and [Dropdown Menu](/docs/components/base/dropdown-menu) items.
+
+```tsx
+<AppShellHeaderActions
+  actions={[{ id: "share", label: "Share", onSelect: shareProject }]}
+  primaryAction={{
+    id: "new",
+    label: "New task",
+    icon: PlusIcon,
+    onSelect: createTask,
+    shortcut: "c",
+  }}
+/>
+```
+
+## API reference
+
+- `actions` and `primaryAction` take `AppShellAction` objects with `id`, `label`, `onSelect` and optional `icon`, `shortcut`, and `disabled`.
+- `menu` takes the page's menu items and groups. It shares one trigger with folded actions on phones. `menuLabel` defaults to `"Page options"`.
+- `shortcut` registers with the surrounding shell on web. React Native uses the same action callbacks for touch.
+
+Keep each action's label descriptive. The label names icon-only controls and appears in the compact menu.

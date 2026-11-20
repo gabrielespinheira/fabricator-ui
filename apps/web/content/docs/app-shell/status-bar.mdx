@@ -1,0 +1,23 @@
+---
+title: AppShellStatusBar
+description: The optional status row along the bottom edge of the shell frame.
+---
+
+`AppShellStatusBar` displays information and small controls that apply to the workspace, such as sync state or connection status. It hides on phones.
+
+## Usage
+
+Install `app-shell` and import `AppShellStatusBar` from `@/components/ui/app-shell`. Place it directly in `AppShell`, after the main column and any panels.
+
+```tsx
+<AppShell>
+  <AppShellMain>
+    <AppShellContent>{children}</AppShellContent>
+  </AppShellMain>
+  <AppShellStatusBar>All changes saved</AppShellStatusBar>
+</AppShell>
+```
+
+## API reference
+
+The web component accepts `footer` props. React Native uses a `View` with a summary role and accounts for the bottom safe-area inset.
