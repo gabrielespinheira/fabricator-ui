@@ -32,11 +32,12 @@ describe("docs explorer", () => {
     ).toEqual(["/docs/installation", "/docs/javascript"])
   })
 
-  it("links the App Shell category to its overview and nests its subpages", () => {
+  it("places the linked App Shell category and its subpages after Basics", () => {
     const pages = [
       { url: "/docs/components/radix/sidebar", title: "Sidebar" },
       { url: "/docs/components/radix/app-shell", title: "App Shell" },
       { url: "/docs/components/base/app-shell", title: "App Shell" },
+      { url: "/docs/components/radix/button", title: "Button" },
       { url: "/docs/components/radix/card", title: "Card" },
       { url: "/docs/app-shell/main", title: "AppShellMain" },
     ]
@@ -48,8 +49,8 @@ describe("docs explorer", () => {
         label: "Components",
         items: [
           {
-            label: "Structure",
-            children: [{ href: "/docs/components/radix/card" }],
+            label: "Basics",
+            children: [{ href: "/docs/components/radix/button" }],
           },
           {
             id: "group-app-shell",
@@ -60,6 +61,10 @@ describe("docs explorer", () => {
               { href: "/docs/app-shell/main" },
             ],
           },
+          {
+            label: "Structure",
+            children: [{ href: "/docs/components/radix/card" }],
+          },
         ],
       },
       { id: "guides", items: [] },
@@ -67,7 +72,7 @@ describe("docs explorer", () => {
     expect(
       getDocsNeighbours(pages, "/docs/components/radix/app-shell")
     ).toEqual({
-      previous: { url: "/docs/components/radix/card", title: "Card" },
+      previous: { url: "/docs/components/radix/button", title: "Button" },
       next: { url: "/docs/components/radix/sidebar", title: "Sidebar" },
     })
     expect(

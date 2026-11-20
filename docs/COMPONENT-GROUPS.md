@@ -2,7 +2,7 @@
 
 Every component belongs to exactly one of eight groups. The groups order the homepage filter, desktop explorer, React Native example, and most entries in the docs sidebar. The source of truth is `apps/web/lib/component-groups.ts`; the decision behind them is in [`plans/component-groups.md`](plans/component-groups.md), and Charts in [`plans/charts.md`](plans/charts.md).
 
-The docs sidebar lists collapsible category rows under Components. The App Shell row links to the wrapper's overview and expands to show Sidebar, App Nav, Tab Strip, Workspace Switcher, User Menu, and the shared references for the wrapper's exports. `apps/web/lib/docs-explorer.ts` sets the sidebar and pagination order.
+The docs sidebar lists collapsible category rows under Components. App Shell follows Basics. Its row links to the wrapper's overview and expands to show Sidebar, App Nav, Tab Strip, Workspace Switcher, User Menu, and the shared references for the wrapper's exports. `apps/web/lib/docs-explorer.ts` sets the sidebar and pagination order.
 
 ## The groups
 

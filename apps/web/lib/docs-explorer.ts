@@ -102,10 +102,10 @@ export function getDocsExplorerGroups(
       const page = byUrl.get(url)
       return page ? [getPageItem(page)] : []
     })
-    const structureIndex = componentSection.items.findIndex(
-      (item) => item.id === getGroupNavId("Structure")
+    const basicsIndex = componentSection.items.findIndex(
+      (item) => item.id === getGroupNavId("Basics")
     )
-    componentSection.items.splice(structureIndex + 1, 0, {
+    componentSection.items.splice(basicsIndex + 1, 0, {
       id: APP_SHELL_NAV_ID,
       label: appShell.title,
       href: appShell.url,
