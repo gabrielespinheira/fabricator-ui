@@ -97,6 +97,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-nav-demo",
       filePath: "examples/base/app-nav-demo.tsx",
     },
+    "app-shell-bottom-nav-example": {
+      name: "app-shell-bottom-nav-example",
+      filePath: "examples/base/app-shell-bottom-nav-example.tsx",
+    },
+    "app-shell-bottom-nav-item-example": {
+      name: "app-shell-bottom-nav-item-example",
+      filePath: "examples/base/app-shell-bottom-nav-item-example.tsx",
+    },
+    "app-shell-breadcrumb-example": {
+      name: "app-shell-breadcrumb-example",
+      filePath: "examples/base/app-shell-breadcrumb-example.tsx",
+    },
+    "app-shell-content-example": {
+      name: "app-shell-content-example",
+      filePath: "examples/base/app-shell-content-example.tsx",
+    },
     "app-shell-demo": {
       name: "app-shell-demo",
       filePath: "examples/base/app-shell-demo.tsx",
@@ -105,9 +121,65 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-shell-desktop",
       filePath: "examples/base/app-shell-desktop.tsx",
     },
+    "app-shell-header-actions-example": {
+      name: "app-shell-header-actions-example",
+      filePath: "examples/base/app-shell-header-actions-example.tsx",
+    },
+    "app-shell-header-example": {
+      name: "app-shell-header-example",
+      filePath: "examples/base/app-shell-header-example.tsx",
+    },
+    "app-shell-main-example": {
+      name: "app-shell-main-example",
+      filePath: "examples/base/app-shell-main-example.tsx",
+    },
     "app-shell-page-menu": {
       name: "app-shell-page-menu",
       filePath: "examples/base/app-shell-page-menu.tsx",
+    },
+    "app-shell-page-title-example": {
+      name: "app-shell-page-title-example",
+      filePath: "examples/base/app-shell-page-title-example.tsx",
+    },
+    "app-shell-panel-close-example": {
+      name: "app-shell-panel-close-example",
+      filePath: "examples/base/app-shell-panel-close-example.tsx",
+    },
+    "app-shell-panel-content-example": {
+      name: "app-shell-panel-content-example",
+      filePath: "examples/base/app-shell-panel-content-example.tsx",
+    },
+    "app-shell-panel-example": {
+      name: "app-shell-panel-example",
+      filePath: "examples/base/app-shell-panel-example.tsx",
+    },
+    "app-shell-panel-header-example": {
+      name: "app-shell-panel-header-example",
+      filePath: "examples/base/app-shell-panel-header-example.tsx",
+    },
+    "app-shell-panel-tabs-example": {
+      name: "app-shell-panel-tabs-example",
+      filePath: "examples/base/app-shell-panel-tabs-example.tsx",
+    },
+    "app-shell-panel-title-example": {
+      name: "app-shell-panel-title-example",
+      filePath: "examples/base/app-shell-panel-title-example.tsx",
+    },
+    "app-shell-panel-trigger-example": {
+      name: "app-shell-panel-trigger-example",
+      filePath: "examples/base/app-shell-panel-trigger-example.tsx",
+    },
+    "app-shell-panel-view-example": {
+      name: "app-shell-panel-view-example",
+      filePath: "examples/base/app-shell-panel-view-example.tsx",
+    },
+    "app-shell-status-bar-example": {
+      name: "app-shell-status-bar-example",
+      filePath: "examples/base/app-shell-status-bar-example.tsx",
+    },
+    "app-shell-titlebar-example": {
+      name: "app-shell-titlebar-example",
+      filePath: "examples/base/app-shell-titlebar-example.tsx",
     },
     "app-shell-workbench": {
       name: "app-shell-workbench",
@@ -1304,6 +1376,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "hover-card-sides": {
       name: "hover-card-sides",
       filePath: "examples/base/hover-card-sides.tsx",
+    },
+    "icon-slot-example": {
+      name: "icon-slot-example",
+      filePath: "examples/base/icon-slot-example.tsx",
     },
     "image-compare-controlled": {
       name: "image-compare-controlled",
@@ -8581,6 +8657,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-nav-demo",
       filePath: "examples/__styles__/base-fabricator/app-nav-demo.tsx",
     },
+    "app-shell-bottom-nav-example": {
+      name: "app-shell-bottom-nav-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-bottom-nav-example.tsx",
+    },
+    "app-shell-bottom-nav-item-example": {
+      name: "app-shell-bottom-nav-item-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-bottom-nav-item-example.tsx",
+    },
+    "app-shell-breadcrumb-example": {
+      name: "app-shell-breadcrumb-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-breadcrumb-example.tsx",
+    },
+    "app-shell-content-example": {
+      name: "app-shell-content-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-content-example.tsx",
+    },
     "app-shell-demo": {
       name: "app-shell-demo",
       filePath: "examples/__styles__/base-fabricator/app-shell-demo.tsx",
@@ -8589,9 +8685,79 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-shell-desktop",
       filePath: "examples/__styles__/base-fabricator/app-shell-desktop.tsx",
     },
+    "app-shell-header-actions-example": {
+      name: "app-shell-header-actions-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-header-actions-example.tsx",
+    },
+    "app-shell-header-example": {
+      name: "app-shell-header-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-header-example.tsx",
+    },
+    "app-shell-main-example": {
+      name: "app-shell-main-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-main-example.tsx",
+    },
     "app-shell-page-menu": {
       name: "app-shell-page-menu",
       filePath: "examples/__styles__/base-fabricator/app-shell-page-menu.tsx",
+    },
+    "app-shell-page-title-example": {
+      name: "app-shell-page-title-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-page-title-example.tsx",
+    },
+    "app-shell-panel-close-example": {
+      name: "app-shell-panel-close-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-panel-close-example.tsx",
+    },
+    "app-shell-panel-content-example": {
+      name: "app-shell-panel-content-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-panel-content-example.tsx",
+    },
+    "app-shell-panel-example": {
+      name: "app-shell-panel-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-panel-example.tsx",
+    },
+    "app-shell-panel-header-example": {
+      name: "app-shell-panel-header-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-panel-header-example.tsx",
+    },
+    "app-shell-panel-tabs-example": {
+      name: "app-shell-panel-tabs-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-panel-tabs-example.tsx",
+    },
+    "app-shell-panel-title-example": {
+      name: "app-shell-panel-title-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-panel-title-example.tsx",
+    },
+    "app-shell-panel-trigger-example": {
+      name: "app-shell-panel-trigger-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-panel-trigger-example.tsx",
+    },
+    "app-shell-panel-view-example": {
+      name: "app-shell-panel-view-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-panel-view-example.tsx",
+    },
+    "app-shell-status-bar-example": {
+      name: "app-shell-status-bar-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-status-bar-example.tsx",
+    },
+    "app-shell-titlebar-example": {
+      name: "app-shell-titlebar-example",
+      filePath:
+        "examples/__styles__/base-fabricator/app-shell-titlebar-example.tsx",
     },
     "app-shell-workbench": {
       name: "app-shell-workbench",
@@ -9700,6 +9866,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "hover-card-sides": {
       name: "hover-card-sides",
       filePath: "examples/__styles__/base-fabricator/hover-card-sides.tsx",
+    },
+    "icon-slot-example": {
+      name: "icon-slot-example",
+      filePath: "examples/__styles__/base-fabricator/icon-slot-example.tsx",
     },
     "image-compare-controlled": {
       name: "image-compare-controlled",

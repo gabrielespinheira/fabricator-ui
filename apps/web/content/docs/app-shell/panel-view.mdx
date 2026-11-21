@@ -1,0 +1,33 @@
+---
+title: AppShellPanelView
+description: A scrolling body keyed to one of a shell panel's declared views.
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-panel-view-example"
+  type="frame"
+  previewClassName="h-52"
+/>
+
+`AppShellPanelView` renders the selected body in a multi-view [AppShellPanel](/docs/app-shell/panel). Use one per view.
+
+## Usage
+
+Install `app-shell` and import `AppShellPanelView` from `@/components/ui/app-shell`.
+
+```tsx
+<AppShellPanel
+  id="inspector"
+  label="Inspector"
+  views={[{ value: "activity", label: "Activity" }]}
+>
+  <AppShellPanelView value="activity">{activity}</AppShellPanelView>
+</AppShellPanel>
+```
+
+Switch views with [AppShellPanelTabs](/docs/app-shell/panel-tabs) or view-specific [triggers](/docs/app-shell/panel-trigger).
+
+## API reference
+
+The component takes `TabsContent` props. Set `value` to the matching panel view value. It supplies its own scrolling region, including within overlays on React Native.

@@ -1,0 +1,49 @@
+---
+title: AppShellPanel
+description: A secondary column that docks when there is room and adapts to smaller shell widths.
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-panel-example"
+  type="frame"
+  previewClassName="h-52"
+/>
+
+`AppShellPanel` is the shell's inspector, details pane, or other secondary surface. Place it directly in [App Shell](/docs/components/base/app-shell), next to [AppShellMain](/docs/app-shell/main). Each panel has a stable `id` used by its [trigger](/docs/app-shell/panel-trigger) and by saved layout state.
+
+## Usage
+
+Install `app-shell` and import the panel parts from `@/components/ui/app-shell`. Use [AppShellPanelContent](/docs/app-shell/panel-content) for one body. For multiple views, declare them on the panel and give each [AppShellPanelView](/docs/app-shell/panel-view) a matching value.
+
+```tsx
+<AppShellPanel
+  id="inspector"
+  label="Inspector"
+  views={[
+    { value: "details", label: "Details" },
+    { value: "activity", label: "Activity" },
+  ]}
+>
+  <AppShellPanelHeader>
+    <AppShellPanelTabs />
+    <AppShellPanelClose />
+  </AppShellPanelHeader>
+  <AppShellPanelView value="details">{details}</AppShellPanelView>
+  <AppShellPanelView value="activity">{activity}</AppShellPanelView>
+</AppShellPanel>
+```
+
+## API reference
+
+| Prop                                   | Purpose                                                                            |
+| -------------------------------------- | ---------------------------------------------------------------------------------- |
+| `id`, `label`                          | Required panel identity and accessible name.                                       |
+| `side`                                 | `"left"` or `"right"`. Defaults to `"right"`.                                      |
+| `views`                                | Entries with `value`, `label`, optional `icon`, and optional `shortcut`.           |
+| `defaultView`, `defaultOpen`           | Initial view and visibility. Defaults to the first view and closed.                |
+| `defaultWidth`, `minWidth`, `maxWidth` | Default docked width and bounds. Defaults to 320, 240, and 640.                    |
+| `mobile`                               | `"drawer"` (default), `"swap"` for a full-screen view, or `"none"`.                |
+| `shortcut`                             | Web toggle shortcut. Defaults to `mod+\\` on the right. Pass `null` to disable it. |
+
+On web a docked panel can be resized using its edge. On React Native the width props set its bounds, and panels use touch controls. Use `useShellPanel(id)` inside the shell for custom controls. `reveal(view)` opens a specific view, while `select(view)` toggles it when already visible.

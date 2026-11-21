@@ -8,11 +8,15 @@ import { useQueryStates } from "nuqs"
 import { getGroupNavId } from "@/lib/component-explorer"
 import { COMPONENT_GROUPS } from "@/lib/component-groups"
 import { siteConfig } from "@/lib/config"
-import { getDocsExplorerGroups, type ExplorerPage } from "@/lib/docs-explorer"
+import {
+  APP_SHELL_NAV_ID,
+  getDocsExplorerGroups,
+  type ExplorerPage,
+} from "@/lib/docs-explorer"
 import { isWideDocsPage } from "@/lib/docs-wide-pages"
 import { EXPLORER_ICONS } from "@/lib/explorer-icons"
 import { getCurrentBase } from "@/lib/page-tree"
-import { HomeIcon } from "@/lib/site-icons"
+import { AppWindowIcon, HomeIcon } from "@/lib/site-icons"
 import type { source } from "@/lib/source"
 import { CommandMenu } from "@/components/command-menu"
 import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
@@ -35,6 +39,13 @@ import {
   getHiddenDocsExplorerOptions,
 } from "@/app/(view)/desktop/_lib/explorer-options"
 
+const COMPONENT_GROUP_ICONS = new Map([
+  ...COMPONENT_GROUPS.map(
+    (group) => [getGroupNavId(group), EXPLORER_ICONS.groups[group]] as const
+  ),
+  [APP_SHELL_NAV_ID, AppWindowIcon],
+])
+
 export function DocsAppShell({
   pages,
   tree,
@@ -54,23 +65,19 @@ export function DocsAppShell({
     () =>
       getDocsExplorerGroups(pages, getCurrentBase(pathname)).map((group) => ({
         ...group,
-        items: group.items.map((item) => {
-          const componentGroup = COMPONENT_GROUPS.find(
-            (name) => getGroupNavId(name) === item.id
-          )
-          return {
-            ...item,
-            icon:
-              item.id === "overview"
-                ? HomeIcon
-                : componentGroup
-                  ? EXPLORER_ICONS.groups[componentGroup]
-                  : undefined,
-          }
-        }),
+        items: group.items.map((item) => ({
+          ...item,
+          icon:
+            item.id === "overview"
+              ? HomeIcon
+              : COMPONENT_GROUP_ICONS.get(item.id),
+          defaultOpen: item.id === APP_SHELL_NAV_ID && item.href === pathname,
+        })),
       })),
     [pages, pathname]
   )
+  const componentGroups =
+    groups.find((group) => group.id === "components")?.items ?? []
   const title =
     pathname === "/docs"
       ? "Overview"
@@ -111,11 +118,12 @@ export function DocsAppShell({
           <>
             <span>Website · Documentation</span>
             <span>
-              {groups[1]?.items.reduce(
-                (count, group) => count + (group.children?.length ?? 0),
+              {componentGroups.reduce(
+                (count, group) =>
+                  count + (group.href ? 1 : 0) + (group.children?.length ?? 0),
                 0
               )}{" "}
-              components
+              component pages
             </span>
             <div className="ms-auto">
               <SiteSettingsMenu size="icon-sm" />
@@ -143,20 +151,25 @@ export function DocsAppShell({
                 hidden={hidden}
               />
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {groups[1]?.items.map((group) => (
+                {componentGroups.map((group) => (
                   <Item
                     key={group.id}
                     variant="muted"
                     render={
                       <Link
-                        href={getHref(group.children?.[0]?.href ?? "/docs")}
+                        href={getHref(
+                          group.href ?? group.children?.[0]?.href ?? "/docs"
+                        )}
                       />
                     }
                   >
                     <ItemContent>
                       <ItemTitle>{group.label}</ItemTitle>
                       <ItemDescription>
-                        {group.children?.length} components
+                        {group.children?.length}{" "}
+                        {group.id === APP_SHELL_NAV_ID
+                          ? "subpages"
+                          : "components"}
                       </ItemDescription>
                     </ItemContent>
                   </Item>

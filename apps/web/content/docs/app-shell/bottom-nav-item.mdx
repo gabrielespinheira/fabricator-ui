@@ -1,0 +1,31 @@
+---
+title: AppShellBottomNavItem
+description: A labelled phone navigation destination with an optional icon and selected state.
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-bottom-nav-item-example"
+  type="frame"
+  previewClassName="h-28"
+/>
+
+Use `AppShellBottomNavItem` inside [AppShellBottomNav](/docs/app-shell/bottom-nav). Derive `isActive` from your router or app state.
+
+## Usage
+
+Install `app-shell` and import `AppShellBottomNavItem` from `@/components/ui/app-shell`.
+
+```tsx
+<AppShellBottomNavItem
+  label="Inbox"
+  icon={InboxIcon}
+  href="/inbox"
+  isActive={pathname === "/inbox"}
+/>
+```
+
+## API reference
+
+- `label` names the destination. `icon` accepts the shell's icon type. `isActive` defaults to `false`.
+- On web the item renders an anchor and accepts `render` for a router link. On React Native it is pressable. Use `onPress` to navigate or use the routing adapter provided by your app.

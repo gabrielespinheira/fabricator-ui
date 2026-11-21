@@ -103,7 +103,7 @@ const WRITE_PROJECT_DOCS: PlanStep = {
   detail: "Adds README.md, DESIGN.md and AGENTS.md at the project root.",
 }
 
-/** Biome and Vite+ reformat what the templates and the registry wrote. */
+/** Biome and Vite+ format the entire scaffold after setup writes its files. */
 function formatSteps(setup: ProjectSetup): PlanStep[] {
   if (setup.tooling === DEFAULT_PROJECT_SETUP.tooling) return []
   const tool = setup.tooling === "biome" ? "Biome" : "Vite+"
@@ -218,8 +218,8 @@ function mobileMonorepoSteps(setup: ProjectSetup): PlanStep[] {
     setupMobileStep(setup),
     ...mountStep(setup),
     ...agentSteps(setup),
-    ...formatSteps(setup),
     WRITE_PROJECT_DOCS,
+    ...formatSteps(setup),
     FIRST_COMMIT,
   ]
 }
@@ -269,8 +269,8 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
     ...(setup.mobile ? [setupMobileStep(setup)] : []),
     ...mountStep(setup),
     ...agentSteps(setup),
-    ...formatSteps(setup),
     WRITE_PROJECT_DOCS,
+    ...formatSteps(setup),
     FIRST_COMMIT,
   ]
 }
@@ -352,8 +352,8 @@ export function planSetup(rawSetup: ProjectSetup): PlanStep[] {
         detail: "Once, at the root.",
       },
       ...agentSteps(setup),
-      ...formatSteps(setup),
       WRITE_PROJECT_DOCS,
+      ...formatSteps(setup),
       FIRST_COMMIT,
     ]
   }

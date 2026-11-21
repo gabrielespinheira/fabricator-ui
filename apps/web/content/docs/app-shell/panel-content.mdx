@@ -1,0 +1,30 @@
+---
+title: AppShellPanelContent
+description: The scrolling body of a shell panel with a single view.
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-panel-content-example"
+  type="frame"
+  previewClassName="h-56"
+/>
+
+Use `AppShellPanelContent` for a single scrolling body inside [AppShellPanel](/docs/app-shell/panel). For panels with declared views, use [AppShellPanelView](/docs/app-shell/panel-view) for each scrolling body.
+
+## Usage
+
+Install `app-shell` and import `AppShellPanelContent` from `@/components/ui/app-shell`.
+
+```tsx
+<AppShellPanel id="details" label="Details">
+  <AppShellPanelHeader>
+    <AppShellPanelTitle>Details</AppShellPanelTitle>
+  </AppShellPanelHeader>
+  <AppShellPanelContent>{details}</AppShellPanelContent>
+</AppShellPanel>
+```
+
+## API reference
+
+The body accepts `div` props on web and `ScrollView` props on React Native. Place the header above it so only the body scrolls.

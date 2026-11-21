@@ -1,0 +1,30 @@
+---
+title: AppShellPanelHeader
+description: The fixed top row inside a shell panel for a title, view tabs, or controls.
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-panel-header-example"
+  type="frame"
+  previewClassName="h-52"
+/>
+
+Use `AppShellPanelHeader` inside [AppShellPanel](/docs/app-shell/panel), before its scrolling body or views.
+
+## Usage
+
+Install `app-shell` and import `AppShellPanelHeader` from `@/components/ui/app-shell`.
+
+```tsx
+<AppShellPanelHeader>
+  <AppShellPanelTitle>Inspector</AppShellPanelTitle>
+  <AppShellPanelClose />
+</AppShellPanelHeader>
+```
+
+Use [AppShellPanelTabs](/docs/app-shell/panel-tabs) in this row when the panel has multiple views.
+
+## API reference
+
+The header accepts container props. On web, it provides a drag region in desktop windows. Mark custom interactive controls with `data-no-drag` so they remain clickable in Electron.

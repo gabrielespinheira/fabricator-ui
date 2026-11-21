@@ -142,6 +142,65 @@ AppShell                      SidebarProvider + the shell: layout, panels, short
 
 `AppShell` takes the Sidebar's provider props (`defaultOpen`, `open`, `onOpenChange`, `persist`, `shortcut`, `peek`, `widthMobile`, `mobileSidebar`) and passes them on. The Sidebar keeps its own API and still works without a shell.
 
+## Customize the shell
+
+Install `app-shell` for the wrapper and its frame parts. Sidebar is included. Install [App Nav](/docs/components/aria/app-nav), [Tab Strip](/docs/components/aria/tab-strip), [Workspace Switcher](/docs/components/aria/workspace-switcher), and [User Menu](/docs/components/aria/user-menu) by name wherever your app needs them.
+
+| To change                               | Use                                                                                                                                      |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Sidebar groups and rows                 | [App Nav](/docs/components/aria/app-nav#the-model) for data-driven groups, or [Sidebar](/docs/components/aria/sidebar) for custom markup |
+| Page rows and tab placement             | [AppShellMain](/docs/app-shell/main), [AppShellHeader](/docs/app-shell/header), and [AppShellTitlebar](/docs/app-shell/titlebar)         |
+| Page width and scroll behavior          | [AppShellContent](/docs/app-shell/content) and [AppShellPageTitle](/docs/app-shell/page-title)                                           |
+| Header navigation and actions           | [AppShellBreadcrumb](/docs/app-shell/breadcrumb) and [AppShellHeaderActions](/docs/app-shell/header-actions)                             |
+| Inspectors and details                  | [AppShellPanel](/docs/app-shell/panel) and [AppShellPanelTrigger](/docs/app-shell/panel-trigger)                                         |
+| Phone destinations and workspace status | [AppShellBottomNav](/docs/app-shell/bottom-nav) and [AppShellStatusBar](/docs/app-shell/status-bar)                                      |
+
+### Group sidebar items by app data
+
+Pass each collection as a group. Use `collapsible` to turn a group label into a toggle, and keep group and item IDs stable as the data changes. For a custom row, compose `SidebarGroup`, `SidebarGroupLabel`, and the menu parts directly.
+
+```tsx
+import { AppNav, type AppNavGroup } from "@/components/ui/app-nav"
+import { Sidebar, SidebarContent } from "@/components/ui/sidebar"
+
+type Project = { id: string; name: string; isArchived: boolean }
+
+export function ProjectSidebar({
+  projects,
+  pathname,
+}: {
+  projects: Project[]
+  pathname: string
+}) {
+  const groups: AppNavGroup[] = [
+    { id: "active", label: "Active projects", isArchived: false },
+    { id: "archived", label: "Archived projects", isArchived: true },
+  ].map(({ id, label, isArchived }) => ({
+    id,
+    label,
+    collapsible: true,
+    defaultOpen: !isArchived,
+    items: projects
+      .filter((project) => project.isArchived === isArchived)
+      .map((project) => ({
+        id: project.id,
+        label: project.name,
+        href: `/projects/${project.id}`,
+      })),
+  }))
+
+  return (
+    <Sidebar>
+      <SidebarContent>
+        <AppNav groups={groups} pathname={pathname} />
+      </SidebarContent>
+    </Sidebar>
+  )
+}
+```
+
+Mount this sidebar inside `AppShell` or wrap it in `SidebarProvider` for standalone use. App Nav, Workspace Switcher, and User Menu use that sidebar context. Tab Strip can render on its own and gets shell-level shortcuts when mounted inside `AppShell`.
+
 ## Examples
 
 ### Workbench

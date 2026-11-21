@@ -1,0 +1,27 @@
+---
+title: AppShellPanelTitle
+description: A visible heading within a shell panel header.
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-panel-title-example"
+  type="frame"
+  previewClassName="h-52"
+/>
+
+`AppShellPanelTitle` displays a heading for the panel's content. The [AppShellPanel](/docs/app-shell/panel) still needs a `label` for its accessible name and overlay title.
+
+## Usage
+
+Install `app-shell` and import `AppShellPanelTitle` from `@/components/ui/app-shell`.
+
+```tsx
+<AppShellPanelHeader>
+  <AppShellPanelTitle>Details</AppShellPanelTitle>
+</AppShellPanelHeader>
+```
+
+## API reference
+
+The component takes `h2` props on web and `Text` props on React Native. Long titles truncate to fit beside other header controls.

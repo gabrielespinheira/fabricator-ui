@@ -121,6 +121,20 @@
   {
     "item": "app-shell",
     "kind": "slot",
+    "name": "app-shell-frame-drag-region",
+    "reason": "Moves an Electron or Tauri macOS window when the pointer drags the frame above the inset main column.",
+    "date": "2026-11-20"
+  },
+  {
+    "item": "app-shell",
+    "kind": "placeholder",
+    "name": "cn-app-shell-frame-drag-region",
+    "reason": "Sizes and reveals the desktop window drag region for the inset sidebar layout.",
+    "date": "2026-11-20"
+  },
+  {
+    "item": "app-shell",
+    "kind": "slot",
     "name": "app-shell-panel-trigger-guard",
     "reason": "Gives a pinned toggle's spot back from a desktop window's drag region. Windows don't drag from their content here.",
     "date": "2026-11-04"

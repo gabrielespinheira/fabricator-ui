@@ -54,6 +54,35 @@ Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name
 - [Agent Skill](https://fabricator-ui.vercel.app/docs/skills.md): Install the Fabricator agent skill so Claude Code, Codex, Cursor and other AI assistants build with Fabricator UI the right way.
 - [JavaScript](https://fabricator-ui.vercel.app/docs/javascript.md): How to use Fabricator UI with JavaScript
 
+## App Shell
+
+- [App Shell](https://fabricator-ui.vercel.app/docs/components/base/app-shell.md): The frame an app lives in: sidebar, main column, panels that dock or float, shortcuts, and desktop window chrome.
+- [App Nav](https://fabricator-ui.vercel.app/docs/components/base/app-nav.md): Renders a navigation model into the Sidebar, with row actions, reordering, pinning and hiding.
+- [Sidebar](https://fabricator-ui.vercel.app/docs/components/base/sidebar.md): A composable, themeable and customizable sidebar component.
+- [Tab Strip](https://fabricator-ui.vercel.app/docs/components/base/tab-strip.md): Document tabs, as in a browser or an editor: pin, preview, reorder, close, reopen and rename.
+- [Workspace Switcher](https://fabricator-ui.vercel.app/docs/components/base/workspace-switcher.md): Switches the organization or workspace: a menu for a few, a searchable dialog for many.
+- [User Menu](https://fabricator-ui.vercel.app/docs/components/base/user-menu.md): The signed-in person's menu, as a sidebar row or an avatar.
+
+- [AppShellBottomNavItem](https://fabricator-ui.vercel.app/docs/app-shell/bottom-nav-item.md): A labelled phone navigation destination with an optional icon and selected state.
+- [AppShellBottomNav](https://fabricator-ui.vercel.app/docs/app-shell/bottom-nav.md): A phone-only navigation bar with slots for app destinations.
+- [AppShellBreadcrumb](https://fabricator-ui.vercel.app/docs/app-shell/breadcrumb.md): A responsive navigation trail that can take over the page title as the content scrolls.
+- [AppShellContent](https://fabricator-ui.vercel.app/docs/app-shell/content.md): The main page scroller, with optional reading widths and scroll state shared with the header.
+- [AppShellHeaderActions](https://fabricator-ui.vercel.app/docs/app-shell/header-actions.md): Responsive page actions, an optional primary action, and a menu for page options.
+- [AppShellHeader](https://fabricator-ui.vercel.app/docs/app-shell/header.md): The fixed header row of the shell's main column, with an optional sidebar toggle.
+- [IconSlot](https://fabricator-ui.vercel.app/docs/app-shell/icon-slot.md): A renderer for an icon passed as a component or an element in a shell configuration.
+- [AppShellMain](https://fabricator-ui.vercel.app/docs/app-shell/main.md): The main column of the shell and the place to arrange header, tabs, content, and bottom navigation.
+- [AppShellPageTitle](https://fabricator-ui.vercel.app/docs/app-shell/page-title.md): The page heading that hands its text to the header after it scrolls out of view.
+- [AppShellPanelClose](https://fabricator-ui.vercel.app/docs/app-shell/panel-close.md): An accessible close control for the panel that contains it.
+- [AppShellPanelContent](https://fabricator-ui.vercel.app/docs/app-shell/panel-content.md): The scrolling body of a shell panel with a single view.
+- [AppShellPanelHeader](https://fabricator-ui.vercel.app/docs/app-shell/panel-header.md): The fixed top row inside a shell panel for a title, view tabs, or controls.
+- [AppShellPanelTabs](https://fabricator-ui.vercel.app/docs/app-shell/panel-tabs.md): The tab list generated from a shell panel's declared views.
+- [AppShellPanelTitle](https://fabricator-ui.vercel.app/docs/app-shell/panel-title.md): A visible heading within a shell panel header.
+- [AppShellPanelTrigger](https://fabricator-ui.vercel.app/docs/app-shell/panel-trigger.md): A button that toggles a registered shell panel or selects one of its views.
+- [AppShellPanelView](https://fabricator-ui.vercel.app/docs/app-shell/panel-view.md): A scrolling body keyed to one of a shell panel's declared views.
+- [AppShellPanel](https://fabricator-ui.vercel.app/docs/app-shell/panel.md): A secondary column that docks when there is room and adapts to smaller shell widths.
+- [AppShellStatusBar](https://fabricator-ui.vercel.app/docs/app-shell/status-bar.md): The optional status row along the bottom edge of the shell frame.
+- [AppShellTitlebar](https://fabricator-ui.vercel.app/docs/app-shell/titlebar.md): A full-width top row for window chrome or a tab strip that spans the frame.
+
 ## Components
 
 ### Form & Input
@@ -86,12 +115,6 @@ Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name
 - [Accordion](https://fabricator-ui.vercel.app/docs/components/base/accordion.md): A vertically stacked set of interactive headings that each reveal a section of content.
 - [Breadcrumb](https://fabricator-ui.vercel.app/docs/components/base/breadcrumb.md): Displays the path to the current resource using a hierarchy of links.
 - [Navigation Menu](https://fabricator-ui.vercel.app/docs/components/base/navigation-menu.md): A collection of links for navigating websites.
-- [Sidebar](https://fabricator-ui.vercel.app/docs/components/base/sidebar.md): A composable, themeable and customizable sidebar component.
-- [App Shell](https://fabricator-ui.vercel.app/docs/components/base/app-shell.md): The frame an app lives in: sidebar, main column, panels that dock or float, shortcuts, and desktop window chrome.
-- [App Nav](https://fabricator-ui.vercel.app/docs/components/base/app-nav.md): Renders a navigation model into the Sidebar, with row actions, reordering, pinning and hiding.
-- [Tab Strip](https://fabricator-ui.vercel.app/docs/components/base/tab-strip.md): Document tabs, as in a browser or an editor: pin, preview, reorder, close, reopen and rename.
-- [Workspace Switcher](https://fabricator-ui.vercel.app/docs/components/base/workspace-switcher.md): Switches the organization or workspace: a menu for a few, a searchable dialog for many.
-- [User Menu](https://fabricator-ui.vercel.app/docs/components/base/user-menu.md): The signed-in person's menu, as a sidebar row or an avatar.
 - [Tabs](https://fabricator-ui.vercel.app/docs/components/base/tabs.md): A set of layered sections of content—known as tab panels—that are displayed one at a time.
 - [Separator](https://fabricator-ui.vercel.app/docs/components/base/separator.md): Visually or semantically separates content.
 - [Scroll Area](https://fabricator-ui.vercel.app/docs/components/base/scroll-area.md): Augments native scroll functionality for custom, cross-browser styling.

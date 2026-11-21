@@ -56,7 +56,7 @@
     "mobile:android": "bun run example:mobile-reactnative:android",
     "build": "turbo run build",
     "registry:build": "bun run --filter web registry:build",
-    "react:build": "bun run --cwd apps/web registry:build --registry base-fabricator && bun run --cwd apps/web ./scripts/build-react-package.mts",
+    "react:build": "bun run --cwd apps/web registry:build --registry base-fabricator && bun run --cwd apps/web react:build",
     "platforms:generate": "bun run --cwd apps/web platforms:generate",
     "platforms:build": "bun run --cwd apps/web registry:platforms",
     "cli": "bun ./packages/cli/src/index.ts",

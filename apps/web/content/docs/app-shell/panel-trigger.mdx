@@ -1,0 +1,31 @@
+---
+title: AppShellPanelTrigger
+description: A button that toggles a registered shell panel or selects one of its views.
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-panel-trigger-example"
+  type="frame"
+  previewClassName="h-52"
+/>
+
+`AppShellPanelTrigger` controls an [AppShellPanel](/docs/app-shell/panel) anywhere within the same shell.
+
+## Usage
+
+Install `app-shell` and import `AppShellPanelTrigger` from `@/components/ui/app-shell`. Place a docked right-panel toggle in the main column's top row so it can align with the open panel header.
+
+```tsx
+<AppShellHeader>
+  <AppShellPanelTrigger panel="inspector" />
+</AppShellHeader>
+```
+
+For a view picker, pass `view="activity"` and provide a child icon and an accessible name for the view.
+
+## API reference
+
+- `panel` is the target panel's `id`.
+- `view` selects a declared view and opens the panel. Pressing the trigger again while that view is active closes it. Without `view`, the button toggles the current view.
+- The trigger also accepts Button props. Use `aria-label` on web or `accessibilityLabel` on React Native when naming a custom icon control.

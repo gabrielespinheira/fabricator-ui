@@ -4,7 +4,7 @@ import type {
 } from "@/registry/fabricator/shared/lib/app-shell-model"
 
 import { formatChangelogDate, sortNewestFirst } from "./changelog-order"
-import { getExplorerNavGroups } from "./component-explorer"
+import { getExplorerNavGroups, getGroupNavId } from "./component-explorer"
 import { getComponentGroup } from "./component-groups"
 import { getCurrentBase } from "./page-tree"
 
@@ -12,6 +12,36 @@ import { getCurrentBase } from "./page-tree"
 export type ExplorerPage = { url: string; title: string; date?: string }
 
 const CHANGELOG_URL = "/docs/changelog"
+export const APP_SHELL_NAV_ID = "group-app-shell"
+const APP_SHELL_REFERENCE_PATH = "/docs/app-shell/"
+const APP_SHELL_COMPANIONS = [
+  "sidebar",
+  "app-nav",
+  "tab-strip",
+  "workspace-switcher",
+  "user-menu",
+]
+const APP_SHELL_REFERENCES = [
+  "main",
+  "header",
+  "breadcrumb",
+  "header-actions",
+  "content",
+  "page-title",
+  "panel",
+  "panel-trigger",
+  "panel-header",
+  "panel-title",
+  "panel-tabs",
+  "panel-close",
+  "panel-content",
+  "panel-view",
+  "bottom-nav",
+  "bottom-nav-item",
+  "status-bar",
+  "titlebar",
+  "icon-slot",
+]
 
 const GUIDE_SECTIONS = [
   {
@@ -40,30 +70,56 @@ const GUIDE_SECTIONS = [
   { label: "Changelog", prefixes: [CHANGELOG_URL] },
 ]
 
-/** Docs keep their URLs and guides; component navigation is the app explorer's. */
+/** The docs sidebar and pagination share the same section and page order. */
 export function getDocsExplorerGroups(
   pages: ExplorerPage[],
   base: string
 ): NavGroup<undefined>[] {
   const componentPath = `/docs/components/${base}/`
-  const components = pages.filter((page) => page.url.startsWith(componentPath))
-  const groups = getExplorerNavGroups(
+  const appShellHref = `${componentPath}app-shell`
+  const byUrl = new Map(pages.map((page) => [page.url, page]))
+  const shellSubpages = new Set([
+    ...APP_SHELL_COMPANIONS.map((slug) => componentPath + slug),
+    ...APP_SHELL_REFERENCES.map((slug) => APP_SHELL_REFERENCE_PATH + slug),
+  ])
+  const components = pages.filter(
+    (page) =>
+      page.url.startsWith(componentPath) &&
+      page.url !== appShellHref &&
+      !shellSubpages.has(page.url)
+  )
+  const [overview, componentSection] = getExplorerNavGroups(
     components.map((page) => {
       const slug = page.url.slice(componentPath.length)
       return { slug, title: page.title, group: getComponentGroup(slug) }
     }),
     { overview: undefined, groups: {} },
-    {
-      overviewHref: "/docs",
-      componentPath,
-    }
+    { overviewHref: "/docs", componentPath }
   )
+  const appShell = byUrl.get(appShellHref)
+  if (appShell) {
+    const children = [...shellSubpages].flatMap((url) => {
+      const page = byUrl.get(url)
+      return page ? [getPageItem(page)] : []
+    })
+    const basicsIndex = componentSection.items.findIndex(
+      (item) => item.id === getGroupNavId("Basics")
+    )
+    componentSection.items.splice(basicsIndex + 1, 0, {
+      id: APP_SHELL_NAV_ID,
+      label: appShell.title,
+      href: appShell.url,
+      badge: children.length,
+      children,
+    })
+  }
   const guidePages = pages.filter(
     (page) =>
       page.url !== "/docs" &&
       page.url !== "/docs/components" &&
       page.url !== "/docs/new" &&
       page.url !== "/docs/rtl" &&
+      !page.url.startsWith(APP_SHELL_REFERENCE_PATH) &&
       !page.url.startsWith("/docs/components/")
   )
   const otherPages = guidePages.filter(
@@ -73,7 +129,8 @@ export function getDocsExplorerGroups(
       )
   )
   return [
-    ...groups,
+    overview,
+    componentSection,
     {
       id: "guides",
       label: "Documentation",
@@ -84,11 +141,7 @@ export function getDocsExplorerGroups(
         const children =
           section.label === "Changelog"
             ? getChangelogItems(sectionPages)
-            : sectionPages.map((page) => ({
-                id: page.url,
-                label: page.title,
-                href: page.url,
-              }))
+            : sectionPages.map(getPageItem)
         return children.length
           ? [{ id: section.label, label: section.label, children }]
           : []
@@ -98,17 +151,17 @@ export function getDocsExplorerGroups(
               {
                 id: "more-guides",
                 label: "More guides",
-                children: otherPages.map((page) => ({
-                  id: page.url,
-                  label: page.title,
-                  href: page.url,
-                })),
+                children: otherPages.map(getPageItem),
               },
             ]
           : []
       ),
     },
   ]
+}
+
+function getPageItem(page: ExplorerPage): NavItem<undefined> {
+  return { id: page.url, label: page.title, href: page.url }
 }
 
 // The overview, unreleased changes, then releases newest first with their

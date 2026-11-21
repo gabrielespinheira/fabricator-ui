@@ -435,7 +435,7 @@ export function CommandMenu({
             <path d="m20 20-3.5-3.5" />
           </svg>
           <span className="flex-1 text-start">Search</span>
-          <kbd className="pointer-events-none rounded-md bg-foreground/8 px-1.5 font-sans text-[11px] leading-5 font-medium text-muted-foreground">
+          <kbd className="pointer-events-none rounded-md bg-foreground/8 px-1.5 font-sans text-[11px] leading-5 font-medium text-foreground/80">
             ⌘K
           </kbd>
         </button>

@@ -1,0 +1,28 @@
+---
+title: AppShellPanelClose
+description: An accessible close control for the panel that contains it.
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-panel-close-example"
+  type="frame"
+  previewClassName="h-52"
+/>
+
+Place `AppShellPanelClose` inside an [AppShellPanel](/docs/app-shell/panel), typically at the end of its header. It closes the nearest panel and derives its accessible name from that panel's label.
+
+## Usage
+
+Install `app-shell` and import `AppShellPanelClose` from `@/components/ui/app-shell`.
+
+```tsx
+<AppShellPanelHeader>
+  <AppShellPanelTitle>Details</AppShellPanelTitle>
+  <AppShellPanelClose />
+</AppShellPanelHeader>
+```
+
+## API reference
+
+The component takes Button props and accepts children in place of the default icon. React Native can omit the close button when a drawer or pinned toggle already supplies a dismissal control.

@@ -1,0 +1,36 @@
+---
+title: AppShellHeader
+description: The fixed header row of the shell's main column, with an optional sidebar toggle.
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-header-example"
+  type="frame"
+  previewClassName="h-48"
+/>
+
+`AppShellHeader` accepts your header content, such as a [breadcrumb](/docs/app-shell/breadcrumb), a [Tab Strip](/docs/components/base/tab-strip), [actions](/docs/app-shell/header-actions), or a [panel trigger](/docs/app-shell/panel-trigger).
+
+## Usage
+
+Install `app-shell`. Import `AppShellHeader` from `@/components/ui/app-shell` and put it inside [AppShellMain](/docs/app-shell/main), above the page scroller.
+
+```tsx
+<AppShellHeader trigger="always">
+  <AppShellBreadcrumb
+    items={[{ label: "Projects", href: "/projects" }, { label: "Launch" }]}
+  />
+  <AppShellPanelTrigger panel="inspector" />
+</AppShellHeader>
+```
+
+## API reference
+
+| `trigger`          | Sidebar toggle                                                                                                                                              |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `"auto"` (default) | On web, phones and collapsed sidebars unless desktop window chrome provides its own toggle. On React Native, phones and tablets with a collapsible sidebar. |
+| `"always"`         | Render the toggle in the header.                                                                                                                            |
+| `"never"`          | Omit the toggle. Use this when the frame has no sidebar or a custom control already opens it.                                                               |
+
+On web the header exposes `data-scrolled` once [AppShellContent](/docs/app-shell/content) scrolls. React Native uses a fade behind the header on phones, where content scrolls underneath it.

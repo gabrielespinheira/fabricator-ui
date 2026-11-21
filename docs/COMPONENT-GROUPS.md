@@ -1,6 +1,8 @@
 # Component groups
 
-Every component belongs to exactly one of eight groups. The groups order the docs sidebar, the homepage filter, the desktop explorer and the React Native example, so a component is found in the same place on every surface. The source of truth is `apps/web/lib/component-groups.ts`; the decision behind them is in [`plans/component-groups.md`](plans/component-groups.md), and Charts in [`plans/charts.md`](plans/charts.md).
+Every component belongs to exactly one of eight groups. The groups order the homepage filter, desktop explorer, React Native example, and most entries in the docs sidebar. The source of truth is `apps/web/lib/component-groups.ts`; the decision behind them is in [`plans/component-groups.md`](plans/component-groups.md), and Charts in [`plans/charts.md`](plans/charts.md).
+
+The docs sidebar lists collapsible category rows under Components. App Shell follows Basics. Its row links to the wrapper's overview and expands to show Sidebar, App Nav, Tab Strip, Workspace Switcher, User Menu, and the shared references for the wrapper's exports. `apps/web/lib/docs-explorer.ts` sets the sidebar and pagination order.
 
 ## The groups
 
@@ -56,4 +58,4 @@ The eight groups are a settled decision. Adding, removing, renaming or reorderin
 ## Done when
 
 - [ ] The component has a group in `GROUP_BY_SLUG` that follows the order above, and `bun run test` passes.
-- [ ] It appears under that group in the docs sidebar, the homepage filter (when it has a card) and the desktop explorer, and in the React Native example when it has a native version.
+- [ ] It appears under that group in the homepage filter (when it has a card), the desktop explorer, and the React Native example when it has a native version. In the docs sidebar, App Shell and its companions appear under App Shell.

@@ -1,4 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs"
+import ts from "typescript"
 import { describe, expect, it } from "vitest"
 import { z } from "zod"
 
@@ -10,7 +11,56 @@ import { COMPONENT_GROUPS, getComponentGroup } from "./component-groups"
 import { getDocsExplorerGroups } from "./docs-explorer"
 
 const examples = new URL("../examples/native/", import.meta.url)
+const appShellDocs = new URL("../content/docs/app-shell/", import.meta.url)
+
 describe("cross-platform explorer coverage", () => {
+  it("lists a reference for every App Shell component export", () => {
+    const source = readFileSync(
+      new URL("../registry/fabricator/base/ui/app-shell.tsx", import.meta.url),
+      "utf8"
+    )
+    const shell = ts.createSourceFile(
+      "app-shell.tsx",
+      source,
+      ts.ScriptTarget.Latest
+    )
+    const exports = shell.statements
+      .filter(ts.isExportDeclaration)
+      .flatMap(({ exportClause }) =>
+        exportClause && ts.isNamedExports(exportClause)
+          ? exportClause.elements
+          : []
+      )
+      .filter(({ isTypeOnly, name }) => !isTypeOnly && /^[A-Z]/.test(name.text))
+      .map(({ name }) => name.text)
+      .filter((name) => name !== "AppShell")
+
+    const pages = readdirSync(appShellDocs)
+      .filter((file) => file.endsWith(".mdx"))
+      .map((file) => ({
+        url: `/docs/app-shell/${file.slice(0, -4)}`,
+        title:
+          /^title: (.+)$/m.exec(
+            readFileSync(new URL(file, appShellDocs), "utf8")
+          )?.[1] ?? "",
+      }))
+    const appShell = getDocsExplorerGroups(
+      [
+        { url: "/docs/components/base/app-shell", title: "App Shell" },
+        ...pages,
+      ],
+      "base"
+    )
+      .find((group) => group.id === "components")
+      ?.items.find((item) => item.id === "group-app-shell")
+    expect(appShell?.children?.map((item) => item.label).sort()).toEqual(
+      exports.sort()
+    )
+    expect(appShell?.children?.map((item) => item.href).sort()).toEqual(
+      pages.map((page) => page.url).sort()
+    )
+  })
+
   it.each(["base", "radix", "aria", "native"])(
     "lists every %s component in the page tree used by the command menu",
     (base) => {
@@ -31,7 +81,7 @@ describe("cross-platform explorer coverage", () => {
     }
   )
   it.each(["base", "radix", "aria", "native"])(
-    "keeps %s docs and the native examples in the same groups",
+    "keeps the %s component taxonomy and gives App Shell its own docs group",
     (base) => {
       const names = readdirSync(
         new URL(`../content/docs/components/${base}/`, import.meta.url)
@@ -50,21 +100,39 @@ describe("cross-platform explorer coverage", () => {
         overview: undefined,
         groups: {},
       })
-      expect(docsGroups[1]?.items.map((item) => item.label)).toEqual(
+      const groups = docsGroups.find(
+        (group) => group.id === "components"
+      )?.items
+      const appShell = groups?.find((item) => item.id === "group-app-shell")
+      expect(appShell?.href).toBe(`/docs/components/${base}/app-shell`)
+      expect(appShell?.children?.map((item) => item.href)).toEqual(
+        [
+          "sidebar",
+          "app-nav",
+          "tab-strip",
+          "workspace-switcher",
+          "user-menu",
+        ].map((name) => `/docs/components/${base}/${name}`)
+      )
+      const shellPages = new Set([
+        appShell?.href,
+        ...(appShell?.children?.map((item) => item.href) ?? []),
+      ])
+      const standardGroups = groups?.filter((item) => item !== appShell)
+      expect(standardGroups?.map((item) => item.label)).toEqual(
         COMPONENT_GROUPS
       )
-      expect(docsGroups[0]?.items.map((item) => item.id)).toEqual(["overview"])
       expect(
-        docsGroups[1]?.items.map((item) => ({
-          id: item.id,
-          count: item.badge,
-          components: item.children?.map((child) => child.id),
+        standardGroups?.map((group) => ({
+          id: group.id,
+          pages: group.children?.map((item) => item.href),
         }))
       ).toEqual(
         exampleGroups[1]?.items.map((item) => ({
           id: item.id,
-          count: item.badge,
-          components: item.children?.map((child) => child.id),
+          pages: item.children
+            ?.map((child) => `/docs/components/${base}/${child.id}`)
+            .filter((url) => !shellPages.has(url)),
         }))
       )
       for (const name of names)
