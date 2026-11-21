@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform") version "2.4.21"
-    id("com.android.kotlin.multiplatform.library") version "9.3.1"
+    id("com.android.kotlin.multiplatform.library") version "9.3.3"
     id("org.jetbrains.compose") version "1.12.2"
     id("org.jetbrains.kotlin.plugin.compose") version "2.4.21"
 }
@@ -28,7 +28,7 @@ kotlin {
                 val arm = System.getProperty("os.arch") in listOf("aarch64", "arm64")
                 val classifier = when { operatingSystem.contains("mac") -> if (arm) "mac-aarch64" else "mac"; operatingSystem.contains("win") -> "win"; else -> if (arm) "linux-aarch64" else "linux" }
                 if (file("src/desktopMain/kotlin/dev/fabricator/ui/desktop-media.kt").isFile) {
-                    for (module in listOf("base", "graphics", "controls", "media", "swing")) implementation("org.openjfx:javafx-$module:21.0.13:$classifier")
+                    for (module in listOf("base", "graphics", "controls", "media", "swing")) implementation("org.openjfx:javafx-$module:21.0.13.1:$classifier")
                 }
             }
         }

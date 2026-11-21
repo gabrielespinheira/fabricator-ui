@@ -162,11 +162,11 @@
     "@types/react-dom": "19.3.0",
     "lucide-react-parity": "npm:lucide-react@1.73.0",
     "motion": "14.14.0",
-    "puppeteer-core": "25.17.0",
+    "puppeteer-core": "25.18.1",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "sharp": "0.35.5",
     "typescript": "^6.0.3",
-    "vitest": "^5.1.0"
+    "vitest": "5.1.1"
   }
 }

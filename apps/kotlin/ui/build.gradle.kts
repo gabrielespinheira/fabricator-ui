@@ -43,7 +43,7 @@ kotlin {
                     operatingSystem.contains("win") -> "win"
                     else -> if (arm) "linux-aarch64" else "linux"
                 }
-                for (module in listOf("base", "graphics", "controls", "media", "swing")) implementation("org.openjfx:javafx-$module:21.0.13:$classifier")
+                for (module in listOf("base", "graphics", "controls", "media", "swing")) implementation("org.openjfx:javafx-$module:21.0.13.1:$classifier")
             }
         }
         commonTest {

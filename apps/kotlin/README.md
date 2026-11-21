@@ -7,7 +7,7 @@ blocks. Source coverage is not a claim of complete behavior or visual parity.
 ## Toolchain
 
 The project pins Kotlin **2.4.21**, Compose Multiplatform **1.12.2**, Android
-Gradle Plugin **9.3.1**, Activity Compose **1.13.0**, OpenJFX **21.0.13**, and
+Gradle Plugin **9.3.3**, Activity Compose **1.13.0**, OpenJFX **21.0.13.1**, and
 kotlinx.serialization JSON **1.13.0**. OpenJFX is the desktop audio/video adapter;
 JSON parsing is an editor adapter. A Button-only consumer does not install those
 media/editor dependencies.
