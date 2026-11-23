@@ -49,6 +49,8 @@ These changes are merged and ship in the next version.
 
 **Lifted marks grow out of their mark.** Heat Calendar's lifted day and Status Bar's lifted pill grow from the size of their mark as they fade in where the pointer lands, then glide from mark to mark without growing again. With Reduce Motion on, they fade in at full size.
 
+**Pie Chart rests as one disc.** Slices meet edge to edge with square corners instead of keeping a 2px gap, and the slice you point at lifts out of the pie, on the web, React Native, SwiftUI and Compose. Donut Chart keeps its gaps and rounded slices.
+
 **React Native chart motion.** The Pie and Donut slice lift, the Line and Area draw-in and every dim run on the UI thread instead of redrawing the chart each frame, and a scrub on Line, Area, Bar or Composition no longer redraws its marks. The lift glides on the same quick timing as the website, and dimmed marks fade instead of snapping. Scrub ticks are at least 40ms apart: a fast scrub across a dense chart gives distinct ticks instead of a buzz, and the mark you stop on always ticks. In apps that enable React Native's IntersectionObserver, a chart's draw-in waits until a quarter of it is on screen.
 
 ## Docs

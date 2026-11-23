@@ -32,6 +32,7 @@ import {
   getPieSeries,
   getPieSliceAnchor,
   getPieSliceAt,
+  getPieSliceOverlap,
   getPieSlicePath,
   getPieTable,
   getPieTooltip,
@@ -224,6 +225,10 @@ const ChartPieMarks = React.memo(function ChartPieMarks({
             <Path
               d={getPieSlicePath(model, slice)}
               fill={getChartColor(slice.paint, colors)}
+              stroke={getChartColor(slice.paint, colors)}
+              // Translucent outlines would show as lines where they overlap.
+              strokeWidth={isDimmed ? 0 : getPieSliceOverlap(model, slice)}
+              strokeLinejoin="round"
             />
             {box && (
               <G data-slot="chart-slice-label">

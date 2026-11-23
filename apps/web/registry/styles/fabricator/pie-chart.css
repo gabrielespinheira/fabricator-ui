@@ -27,6 +27,12 @@
     @apply transition-[transform,opacity] [transition-duration:calc(var(--motion-glide)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1))] [transition-timing-function:var(--motion-ease-enter),var(--motion-ease-feedback)] data-dimmed:opacity-40 motion-reduce:[transition:opacity_calc(var(--motion-feedback)*var(--motion-scale,1))_var(--motion-ease-feedback)] data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
+  /* The outline that closes a pie's seams fades with the dim: translucent
+     outlines would show as lines where they overlap. */
+  .cn-chart-slice-mark {
+    @apply transition-[stroke-opacity] duration-feedback ease-feedback in-data-dimmed:[stroke-opacity:0];
+  }
+
   /* Share labels fade in once the slices have settled. */
   .cn-chart-slice-label {
     @apply animate-in fade-in-0 duration-feedback ease-enter pointer-events-none select-none;

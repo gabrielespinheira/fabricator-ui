@@ -10,8 +10,8 @@ import {
 } from "@/registry/bases/__base__/ui/chart-pie-plot"
 
 // Parts of one whole, for a few parts: slices clockwise from 12 o'clock in
-// data order, a 2px gap between them, the share inside each slice on
-// request. Drawn by the plot Donut Chart shares.
+// data order as one unbroken disc, the share inside each slice on request.
+// Drawn by the plot Donut Chart shares.
 
 type PieChartProps<TDatum extends ChartDatum> = Omit<
   ChartPiePlotProps<TDatum>,

@@ -145,10 +145,11 @@ fun FabricatorPieChart(data: List<FabricatorChartDatum>, modifier: Modifier = Mo
         }) {
             var angle = -90f
             val stroke = if (donut) size.width * .16f else 0f
+            val gap = if (donut) .8f else 0f
             data.forEachIndexed { index, item ->
                 val sweep = (max(0.0, item.value) / sum * 360).toFloat()
                 val inset = if (donut) stroke / 2 + 6.dp.toPx() else 6.dp.toPx()
-                drawArc(colors[index], angle + .8f, max(0f, sweep - 1.6f), !donut, Offset(inset, inset), Size(size.width - inset * 2, size.height - inset * 2), style = if (donut) Stroke(stroke + if (index == selectedIndex) 4.dp.toPx() else 0f) else androidx.compose.ui.graphics.drawscope.Fill)
+                drawArc(colors[index], angle + gap, max(0f, sweep - gap * 2), !donut, Offset(inset, inset), Size(size.width - inset * 2, size.height - inset * 2), style = if (donut) Stroke(stroke + if (index == selectedIndex) 4.dp.toPx() else 0f) else androidx.compose.ui.graphics.drawscope.Fill)
                 angle += sweep
             }
         }

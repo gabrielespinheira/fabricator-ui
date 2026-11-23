@@ -1223,5 +1223,12 @@
     "name": "leaving",
     "reason": "The website marks a held readout data-leaving so CSS fades it out. Native overlays unmount when the finger lifts and fade out through Reanimated's exiting animation instead.",
     "date": "2026-11-22"
+  },
+  {
+    "item": "chart-pie-plot",
+    "kind": "placeholder",
+    "name": "cn-chart-slice-mark",
+    "reason": "Only fades the 0.5px outline that closes a pie's seams when its slice dims. Native draws no outline on a dimmed slice, so there is nothing to style.",
+    "date": "2026-11-23"
   }
 ]

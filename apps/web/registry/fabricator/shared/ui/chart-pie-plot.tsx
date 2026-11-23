@@ -19,6 +19,7 @@ import {
   getPieSeries,
   getPieSliceAnchor,
   getPieSliceAt,
+  getPieSliceOverlap,
   getPieSlicePath,
   getPieTable,
   getPieTooltip,
@@ -265,8 +266,12 @@ function ChartPiePlot<TDatum extends ChartDatum>({
                       }}
                     >
                       <path
+                        className="cn-chart-slice-mark"
                         d={getPieSlicePath(model, slice)}
                         fill={getChartColor(slice.paint)}
+                        stroke={getChartColor(slice.paint)}
+                        strokeWidth={getPieSliceOverlap(model, slice)}
+                        strokeLinejoin="round"
                       />
                       {box && (
                         <g

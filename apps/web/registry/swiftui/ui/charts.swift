@@ -159,7 +159,7 @@ public struct FabricatorChart: View {
     }
     private var circular: some View {
         Chart(visibleParts) { part in
-            SectorMark(angle: .value(part.label, part.value), innerRadius: .ratio(kind == .donut ? 0.62 : 0), angularInset: visibleParts.count > 1 ? 2 : 0).cornerRadius(kind == .donut ? 6 : 4).foregroundStyle(paint(part.color)).opacity(selectedLabel == nil || selectedLabel == part.label ? 1 : 0.4)
+            SectorMark(angle: .value(part.label, part.value), innerRadius: .ratio(kind == .donut ? 0.62 : 0), angularInset: kind == .donut && visibleParts.count > 1 ? 2 : 0).cornerRadius(kind == .donut ? 6 : 0).foregroundStyle(paint(part.color)).opacity(selectedLabel == nil || selectedLabel == part.label ? 1 : 0.4)
         }.chartAngleSelection(value: $selectedAngle).onChange(of: selectedAngle) { _, angle in
             guard let angle else { selectedLabel = nil; return }
             var running = 0.0

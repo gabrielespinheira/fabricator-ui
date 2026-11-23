@@ -1,7 +1,8 @@
 // Pie and donut charts: parts of one whole as slices, clockwise from 12
-// o'clock in data order. Slices keep a 2px gap of surface between them at any
-// radius, and more than eight parts fold the smallest into a grey "Other", so
-// the palette never runs out. Slices carry only angles: the radii belong to
+// o'clock in data order. A pie is one unbroken disc, and only a lifted slice
+// opens a gap; a donut's slices keep a 2px gap of surface between them at any
+// radius. More than eight parts fold the smallest into a grey "Other", so the
+// palette never runs out. Slices carry only angles: the radii belong to
 // the model, so two datasets morph angle by angle.
 
 import { arc, pie } from "d3-shape"
@@ -88,7 +89,13 @@ export const OTHER_SLICE_ID = "__other"
 export const PIE_LIFT = 6
 /** Parts beyond this many fold into "Other". */
 const MAX_PARTS = 8
-const SLICE_GAP = 2
+const DONUT_GAP = 2
+const DONUT_CORNER = 6
+/**
+ * How far touching slices overlap, in px: enough to cover the hairline of
+ * surface anti-aliasing leaves between two edges that only meet.
+ */
+const PIE_OVERLAP = 0.5
 const DONUT_HOLE = 0.62
 const LABEL_PADDING_X = 6
 const LABEL_PADDING_Y = 3
@@ -252,10 +259,13 @@ export function getPieChartModel<TDatum extends ChartDatum>({
     1,
     Math.min(size.width, size.height) / 2 - PIE_LIFT - 1
   )
-  const innerRadius = variant === "donut" ? outerRadius * DONUT_HOLE : 0
-  const cornerRadius = variant === "donut" ? 6 : 4
+  const isDonut = variant === "donut"
+  const innerRadius = isDonut ? outerRadius * DONUT_HOLE : 0
+  const cornerRadius = isDonut ? DONUT_CORNER : 0
   const padAngle =
-    visible.length > 1 ? SLICE_GAP / Math.hypot(innerRadius, outerRadius) : 0
+    isDonut && visible.length > 1
+      ? DONUT_GAP / Math.hypot(innerRadius, outerRadius)
+      : 0
   const arcs = pie<PiePart>()
     .value((part) => part.value)
     .sort(null)
@@ -342,6 +352,20 @@ export function getPieSlicePath(
       cornerRadius: model.cornerRadius,
     }) ?? ""
   )
+}
+
+/**
+ * The width of the outline, in the slice's own colour, that closes the seams
+ * of a pie. 0 for a donut, a lone slice and a slice too thin to outline,
+ * which would show as a line.
+ */
+export function getPieSliceOverlap(
+  model: Pick<PieChartModel, "variant" | "outerRadius" | "slices">,
+  slice: Pick<PieSlice, "startAngle" | "endAngle">
+) {
+  if (model.variant === "donut" || model.slices.length < 2) return 0
+  const rim = (slice.endAngle - slice.startAngle) * model.outerRadius
+  return rim > PIE_OVERLAP ? PIE_OVERLAP : 0
 }
 
 /** Where a slice moves when lifted: `distance` out along its bisector. */

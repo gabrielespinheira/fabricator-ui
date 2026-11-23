@@ -610,7 +610,7 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Pie Chart",
     description:
-      "Parts of one whole: slices clockwise from 12 o'clock with a 2px gap, the smallest past seven folded into Other, shares printed inside on request, a slice that lifts under the pointer with a tooltip, a legend, a sweep-in and slices that turn with the data.",
+      "Parts of one whole: slices clockwise from 12 o'clock as one unbroken disc, the smallest past seven folded into Other, shares printed inside on request, a slice that lifts under the pointer with a tooltip, a legend, a sweep-in and slices that turn with the data.",
     // d3-shape (ISC, no DOM) lays out the pie and draws its arcs.
     dependencies: ["d3-shape@3.2.1"],
     devDependencies: ["@types/d3-shape@3.2.0"],
