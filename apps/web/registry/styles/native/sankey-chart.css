@@ -15,15 +15,15 @@
   /* The opacity links, nodes and labels take while another mark is lit.
      Read by the chart, applied to SVG. */
   .cn-sankey-chart-link {
-    @apply opacity-35;
+    @apply opacity-40;
   }
 
   .cn-sankey-chart-node {
-    @apply opacity-35;
+    @apply opacity-40;
   }
 
   .cn-sankey-chart-label {
-    @apply opacity-35;
+    @apply opacity-40;
   }
 
   /* Names lead in the text colour, never the node's. Read as the SVG

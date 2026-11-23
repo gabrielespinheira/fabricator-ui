@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  areChartMarksPropsEqual,
+  CHART_TICK_GAP,
   estimateTextWidth,
   formatChartNumber,
   formatChartPercent,
@@ -10,7 +12,10 @@ import {
   getCubicBezier,
   getIndexLabelIndices,
   getNearestIndex,
+  getScaledDuration,
+  getScrubTick,
   getStaggeredProgress,
+  getSteadyDrawOrder,
   getSteppedIndex,
   getTickCount,
   getTooltipPosition,
@@ -257,13 +262,13 @@ describe("getTooltipPosition", () => {
   it("sits after the anchor, centred on it", () => {
     expect(
       getTooltipPosition({ anchor: { x: 100, y: 100 }, frame, tooltip })
-    ).toEqual({ x: 112, y: 70 })
+    ).toEqual({ x: 112, y: 70, placement: "after" })
   })
 
   it("flips before the anchor near the end edge", () => {
     expect(
       getTooltipPosition({ anchor: { x: 350, y: 100 }, frame, tooltip })
-    ).toEqual({ x: 218, y: 70 })
+    ).toEqual({ x: 218, y: 70, placement: "before" })
   })
 
   it("stays inside the frame vertically", () => {
@@ -283,7 +288,7 @@ describe("getTooltipPosition", () => {
         tooltip,
         side: "top",
       })
-    ).toEqual({ x: 140, y: 78 })
+    ).toEqual({ x: 140, y: 78, placement: "above" })
   })
 
   it("moves beside the anchor when there's no room above it", () => {
@@ -294,7 +299,7 @@ describe("getTooltipPosition", () => {
         tooltip,
         side: "top",
       })
-    ).toEqual({ x: 112, y: 10 })
+    ).toEqual({ x: 112, y: 10, placement: "after" })
   })
 
   it("clamps a top tooltip to the frame's sides", () => {
@@ -317,6 +322,19 @@ describe("parseCssDuration", () => {
     expect(parseCssDuration("0")).toBe(0)
     expect(parseCssDuration("")).toBe(0)
     expect(parseCssDuration("fast")).toBe(0)
+  })
+})
+
+describe("getScaledDuration", () => {
+  it("multiplies a role's duration by the motion scale", () => {
+    expect(getScaledDuration("90ms", "1")).toBe(90)
+    expect(getScaledDuration(".09s", "1.5")).toBe(135)
+    expect(getScaledDuration("90ms", "0")).toBe(0)
+  })
+
+  it("reads a missing scale as 1 and a missing duration as 0", () => {
+    expect(getScaledDuration("90ms", "")).toBe(90)
+    expect(getScaledDuration("", "2")).toBe(0)
   })
 })
 
@@ -347,6 +365,57 @@ describe("interpolateNumber", () => {
   })
 })
 
+describe("getSteadyDrawOrder", () => {
+  it("keeps a leaving key where it was drawn", () => {
+    // The tweens list leaving marks last: "a" is leaving.
+    expect(getSteadyDrawOrder(["a", "b", "c"], ["b", "c", "a"])).toEqual([
+      "a",
+      "b",
+      "c",
+    ])
+  })
+
+  it("returns the previous order itself when no key is new", () => {
+    const previous = ["a", "b", "c"]
+    expect(getSteadyDrawOrder(previous, ["c", "a", "b"])).toBe(previous)
+  })
+
+  it("remembers a key that left, so it keeps its place if it comes back", () => {
+    // The tween's first render after a change lists only the new target,
+    // without the marks about to leave.
+    const target = getSteadyDrawOrder(["a", "b", "c"], ["b", "c"])
+    expect(getSteadyDrawOrder(target, ["b", "c", "a"])).toEqual(["a", "b", "c"])
+  })
+
+  it("puts a new key after the one it follows in the next order", () => {
+    expect(getSteadyDrawOrder(["b", "c"], ["a", "b", "c"])).toEqual([
+      "a",
+      "b",
+      "c",
+    ])
+    expect(getSteadyDrawOrder(["a", "c"], ["a", "b", "c"])).toEqual([
+      "a",
+      "b",
+      "c",
+    ])
+    expect(getSteadyDrawOrder(["a"], ["a", "b", "c"])).toEqual(["a", "b", "c"])
+  })
+
+  it("starts from the next order when nothing was drawn", () => {
+    expect(getSteadyDrawOrder([], ["a", "b"])).toEqual(["a", "b"])
+  })
+
+  it("forgets the keys that left once they outnumber the ones drawn", () => {
+    // Live data: every tick adds a key and retires the oldest.
+    let order: readonly string[] = ["0", "1"]
+    for (let tick = 2; tick < 200; tick += 1) {
+      order = getSteadyDrawOrder(order, [String(tick - 1), String(tick)])
+    }
+    expect(order.length).toBeLessThanOrEqual(2 + 32 + 1)
+    expect(order.slice(-2)).toEqual(["198", "199"])
+  })
+})
+
 describe("getStaggeredProgress", () => {
   it("starts later marks later and ends them all together", () => {
     expect(getStaggeredProgress(0.2, 0, 5)).toBeGreaterThan(0)
@@ -358,5 +427,80 @@ describe("getStaggeredProgress", () => {
 
   it("is the plain progress for a single mark", () => {
     expect(getStaggeredProgress(0.4, 0, 1)).toBe(0.4)
+  })
+})
+
+describe("areChartMarksPropsEqual", () => {
+  const colors = { "--chart-series-1": "#f00", "--chart-series-2": "#0f0" }
+
+  it("sees through a new colours object with the same colours", () => {
+    expect(
+      areChartMarksPropsEqual(
+        { colors, spotlight: null, opacity: 0.4 },
+        { colors: { ...colors }, spotlight: null, opacity: 0.4 }
+      )
+    ).toBe(true)
+  })
+
+  it("tells a changed colour apart", () => {
+    expect(
+      areChartMarksPropsEqual(
+        { colors, spotlight: null },
+        { colors: { ...colors, "--chart-series-2": "#00f" }, spotlight: null }
+      )
+    ).toBe(false)
+  })
+
+  it("tells an added or removed colour apart", () => {
+    expect(
+      areChartMarksPropsEqual(
+        { colors, spotlight: null },
+        { colors: { "--chart-series-1": "#f00" }, spotlight: null }
+      )
+    ).toBe(false)
+  })
+
+  it("compares every other prop by identity", () => {
+    type MarksProps = {
+      colors: Record<string, string>
+      series: { key: string }[]
+      spotlight: string | null
+    }
+    const series = [{ key: "a" }]
+    const settled: MarksProps = { colors, series, spotlight: null }
+    const spotlit: MarksProps = { colors, series, spotlight: "a" }
+    const rebuilt: MarksProps = {
+      colors,
+      series: [{ key: "a" }],
+      spotlight: null,
+    }
+    expect(areChartMarksPropsEqual(settled, spotlit)).toBe(false)
+    expect(areChartMarksPropsEqual(settled, rebuilt)).toBe(false)
+    expect(areChartMarksPropsEqual(settled, { ...settled })).toBe(true)
+  })
+})
+
+describe("getScrubTick", () => {
+  it("plays the first snap at once", () => {
+    expect(getScrubTick(1000, null)).toEqual({ isPlayed: true })
+  })
+
+  it("plays a snap a full gap after the last tick", () => {
+    expect(getScrubTick(1040, 1000)).toEqual({ isPlayed: true })
+    expect(getScrubTick(1100, 1000)).toEqual({ isPlayed: true })
+  })
+
+  it("holds a snap inside the gap until the gap has passed", () => {
+    expect(getScrubTick(1010, 1000)).toEqual({ isPlayed: false, wait: 30 })
+    expect(getScrubTick(1039, 1000)).toEqual({ isPlayed: false, wait: 1 })
+  })
+
+  it("spaces ticks by CHART_TICK_GAP by default", () => {
+    expect(CHART_TICK_GAP).toBe(40)
+    expect(getScrubTick(1000 + CHART_TICK_GAP - 1, 1000).isPlayed).toBe(false)
+  })
+
+  it("takes another gap", () => {
+    expect(getScrubTick(1050, 1000, 80)).toEqual({ isPlayed: false, wait: 30 })
   })
 })

@@ -1812,11 +1812,17 @@
   /* The opacity a series or a bar takes while another is spotlit, or while
      it shrinks away after being hidden. Read by the plot, applied to SVG. */
   .cn-chart-series {
-    @apply opacity-25;
+    @apply opacity-40;
   }
 
   .cn-chart-bar {
-    @apply opacity-25;
+    @apply opacity-40;
+  }
+
+  /* The opacity a mark's labels fade to while the mark leaves the data, on
+     the move role. Read by the chart, applied to SVG. */
+  .cn-chart-label-presence {
+    @apply opacity-0;
   }
 
   /* Gridlines: a hairline at each value tick in the border colour, read as
@@ -5602,11 +5608,11 @@
   /* The opacity a series' wash and outline take while another is spotlit,
      or while it shrinks away. Read by the chart, applied to SVG. */
   .cn-radar-chart-area {
-    @apply opacity-25;
+    @apply opacity-40;
   }
 
   .cn-radar-chart-series {
-    @apply opacity-25;
+    @apply opacity-40;
   }
 
 /* MARK: Radial Chart */
@@ -5790,15 +5796,15 @@
   /* The opacity links, nodes and labels take while another mark is lit.
      Read by the chart, applied to SVG. */
   .cn-sankey-chart-link {
-    @apply opacity-35;
+    @apply opacity-40;
   }
 
   .cn-sankey-chart-node {
-    @apply opacity-35;
+    @apply opacity-40;
   }
 
   .cn-sankey-chart-label {
-    @apply opacity-35;
+    @apply opacity-40;
   }
 
   /* Names lead in the text colour, never the node's. Read as the SVG
@@ -6471,7 +6477,7 @@
   /* The opacity the other pills take while one is inspected, read by the
      bar and applied to SVG. */
   .cn-status-bar-pill {
-    @apply opacity-60;
+    @apply opacity-40;
   }
 
   /* The lifted pill sits over the bar and under the tooltip. */

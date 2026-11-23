@@ -7,9 +7,10 @@
   }
 
   /* The grid: four polygons and the spokes as hairlines in the border
-     colour, one step off the surface. The data is the loud part. */
+     colour, one step off the surface. The data is the loud part. It fades
+     in once with the chart, as the other charts' grids do. */
   .cn-radar-chart-grid {
-    @apply stroke-border;
+    @apply stroke-border motion-safe:animate-in fade-in-0 duration-tooltip ease-enter;
   }
 
   /* The inspected axis' spoke steps forward, as the crosshair does. */
@@ -22,12 +23,12 @@
     @apply fill-muted-foreground transition-[fill] duration-feedback ease-feedback select-none data-active:fill-foreground;
   }
 
-  /* A series' wash and outline fade back while another is spotlit, or while
-     it shrinks away after being hidden. */
+  /* A series' wash and outline fade back while another is spotlit, and
+     fade out on the move role while it shrinks away after being hidden. */
   .cn-radar-chart-area {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   .cn-radar-chart-series {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }

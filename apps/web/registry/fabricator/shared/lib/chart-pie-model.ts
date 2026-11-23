@@ -375,6 +375,14 @@ export function getPieSliceAt(model: PieChartModel, point: ChartPoint) {
 export function getPieAnchor(model: PieChartModel, index: number): ChartPoint {
   const slice = model.slices[index]
   if (!slice) return model.center
+  return getPieSliceAnchor(model, slice)
+}
+
+/** Where the tooltip points for a slice as given, such as one mid-morph. */
+export function getPieSliceAnchor(
+  model: Pick<PieChartModel, "center" | "outerRadius">,
+  slice: PieSlice
+): ChartPoint {
   const offset = getSliceOffset(slice, model.outerRadius + PIE_LIFT)
   return { x: model.center.x + offset.x, y: model.center.y + offset.y }
 }
@@ -533,6 +541,16 @@ export type PieListRow = {
   value: string
   share: number
   shareText: string
+}
+
+/**
+ * A list bar's clip: the fill is always full width and clipped to its share,
+ * so the bar opens and moves on clip-path instead of laying out its width.
+ * Shut until the ring starts drawing.
+ */
+export function getDonutListBarClip(share: number, isDrawn: boolean) {
+  const hidden = isDrawn ? 100 - share * 100 : 100
+  return `inset(0 ${hidden}% 0 0 round 9999px)`
 }
 
 /** A row per part, for a donut's value list: its share of every part. */

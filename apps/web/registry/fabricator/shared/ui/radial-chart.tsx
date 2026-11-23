@@ -31,7 +31,9 @@ import {
   ChartLegend,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
   useChartLegendState,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -72,6 +74,10 @@ type RadialChartProps<TDatum extends ChartDatum> = {
 
 const FALLBACK_SIZE = { width: 240, height: 240 }
 const NO_RINGS: RadialRing[] = []
+
+function getRingId(ring: RadialRing) {
+  return ring.id
+}
 const NO_CONFIG: ChartConfig = {}
 
 function RadialChart<TDatum extends ChartDatum>({
@@ -131,21 +137,28 @@ function RadialChart<TDatum extends ChartDatum>({
     [data, nameKey, valueKey, max, maxKey, config, shape, hidden]
   )
   const reveal = useChartReveal(plotRef, animate)
-  const rings = useChartTween(
+  const tweenedRings = useChartTween(
     plotRef,
     size ? model.rings : NO_RINGS,
     interpolateRadialRings,
     animate ? dataVersion : null
   )
+  const rings = useChartDrawOrder(tweenedRings, getRingId)
 
   const activeIndex =
     active !== null && active < model.rings.length ? active : null
   const highlighted =
     activeIndex === null ? spotlight : model.rings[activeIndex].id
+  // The readout outlives inspection by the tooltip role's exit, to fade out.
+  const shown = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    shown.value !== null && shown.value < model.rings.length
+      ? shown.value
+      : null
   const content =
-    activeIndex === null
+    shownIndex === null
       ? null
-      : getRadialTooltip(model, activeIndex, formatValue)
+      : getRadialTooltip(model, shownIndex, formatValue)
   const table = React.useMemo(
     () => getRadialTable(model, formatValue),
     [model, formatValue]
@@ -163,8 +176,41 @@ function RadialChart<TDatum extends ChartDatum>({
 
   const isEmpty = parts.length === 0
   const showLegend = legend ?? parts.length > 1
-  const centerText = centerLabel ?? getRadialCenterText(model)
-  const centerFontSize = getRadialCenterFontSize(model, centerText)
+  // A ring as it is drawn now: tweened, and swept as far as the draw-in has
+  // taken it. Null while it is leaving or not drawn.
+  const getDrawnRing = (id: string | undefined) => {
+    const position = rings.findIndex(
+      (ring) => ring.id === id && !ring.isLeaving
+    )
+    const ring = rings[position]
+    if (!ring) return null
+    return {
+      ...ring,
+      share: ring.share * getStaggeredProgress(reveal, position, rings.length),
+    }
+  }
+  // The centre counts with its ring's sweep, at the size of the final text
+  // so the number doesn't change size while it counts.
+  const targetText = getRadialCenterText(model)
+  const drawnFirst = getDrawnRing(model.rings[0]?.id)
+  const centerText =
+    centerLabel ??
+    (drawnFirst
+      ? getRadialCenterText({ ...model, rings: [drawnFirst] })
+      : targetText)
+  const centerFontSize = getRadialCenterFontSize(
+    model,
+    centerLabel ?? targetText
+  )
+  // The tooltip points at the drawn ring, so it arrives with the arc.
+  const drawnShown =
+    shownIndex === null ? null : getDrawnRing(model.rings[shownIndex]?.id)
+  const anchor =
+    shownIndex === null
+      ? null
+      : drawnShown
+        ? getRadialAnchor({ ...model, rings: [drawnShown] }, 0)
+        : getRadialAnchor(model, shownIndex)
   const isHalf = shape === "half"
 
   return (
@@ -200,9 +246,11 @@ function RadialChart<TDatum extends ChartDatum>({
                     key={ring.id}
                     data-slot="radial-chart-ring"
                     data-active={ring.id === highlighted || undefined}
+                    data-leaving={ring.isLeaving || undefined}
                     data-dimmed={
-                      (highlighted !== null && ring.id !== highlighted) ||
-                      ring.isLeaving ||
+                      (!ring.isLeaving &&
+                        highlighted !== null &&
+                        ring.id !== highlighted) ||
                       undefined
                     }
                     className="cn-radial-chart-ring"
@@ -243,11 +291,12 @@ function RadialChart<TDatum extends ChartDatum>({
           </div>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
-        {tooltip && size && content && activeIndex !== null && (
+        {tooltip && size && content && anchor && (
           <ChartTooltip
             content={content}
-            anchor={getRadialAnchor(model, activeIndex)}
+            anchor={anchor}
             frame={size}
+            leaving={shown.isLeaving}
           />
         )}
         {!isEmpty && (
@@ -258,7 +307,7 @@ function RadialChart<TDatum extends ChartDatum>({
             onActiveChange={inspect}
             getIndexAt={(point) => getRadialRingAt(model, point)}
             valueText={
-              content
+              activeIndex !== null && content
                 ? `${content.title}: ${content.rows
                     .map((row) => `${row.value}, ${row.label}`)
                     .join(", ")}`

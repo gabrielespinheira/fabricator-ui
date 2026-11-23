@@ -28,6 +28,7 @@ import {
   ChartInspector,
   ChartTooltip,
   getChartColor,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -82,6 +83,63 @@ const NO_CELLS: HeatCell[] = []
 const KEY_CELL = 10
 /** How far cells grow from as they fade in, as a share of their size. */
 const REVEAL_SCALE = 0.4
+
+/** Every day's cell. Memoized: the pointer moving across the grid
+ * re-renders the lift and tooltip, not hundreds of cells. */
+const HeatCalendarCells = React.memo(function HeatCalendarCells({
+  cells,
+  reveal,
+  columns,
+  radius,
+  paint,
+}: {
+  cells: readonly HeatCell[]
+  reveal: number
+  columns: number
+  radius: number
+  paint: string
+}) {
+  return cells.map((cell) => {
+    const amount = getStaggeredProgress(
+      reveal,
+      cell.week + cell.day,
+      columns + 6,
+      0.5
+    )
+    const scale = REVEAL_SCALE + (1 - REVEAL_SCALE) * amount
+    const side = cell.size * scale
+    const inset = (cell.size - side) / 2
+    const shown = amount * cell.presence
+    const cornerRadius = radius * scale
+    return (
+      <React.Fragment key={cell.id}>
+        <rect
+          data-slot="heat-calendar-cell"
+          data-level={cell.level}
+          className="cn-heat-calendar-cell"
+          x={cell.x + inset}
+          y={cell.y + inset}
+          width={side}
+          height={side}
+          rx={cornerRadius}
+          opacity={shown}
+        />
+        {cell.opacity > 0 && (
+          <rect
+            data-slot="heat-calendar-level"
+            x={cell.x + inset}
+            y={cell.y + inset}
+            width={side}
+            height={side}
+            rx={cornerRadius}
+            fill={paint}
+            fillOpacity={cell.opacity * shown}
+          />
+        )}
+      </React.Fragment>
+    )
+  })
+})
 
 /** A stable key for a range written inline, so it doesn't redraw each render. */
 function useStableRange(range: HeatCalendarRange | undefined) {
@@ -193,10 +251,27 @@ function HeatCalendar<TDatum extends ChartDatum>({
     active !== null && active.index < model.cells.length
       ? model.cells[active.index]
       : null
+  // The lift and the readout outlive inspection by the tooltip role's exit,
+  // to fade out. Held as primitives: a new object would never settle.
+  const shown = useChartPresence(
+    plotRef,
+    activeCell === null || active === null ? null : active.index
+  )
+  const shownOffset = useChartPresence(plotRef, active?.offset ?? null)
+  const shownCell =
+    shown.value !== null && shown.value < model.cells.length
+      ? model.cells[shown.value]
+      : null
   const content =
-    activeCell === null
+    shownCell === null
       ? null
-      : getHeatCalendarTooltip(model, activeCell.index, formatValue, valueKey)
+      : getHeatCalendarTooltip(model, shownCell.index, formatValue, valueKey)
+  // The lift and the tooltip sit on the day as drawn now, so during a morph
+  // they travel with it instead of arriving first.
+  const drawnCell = shownCell
+    ? (cells.find((cell) => cell.id === shownCell.id && !cell.isLeaving) ??
+      shownCell)
+    : null
   const table = React.useMemo(
     () => getHeatCalendarTable(model, formatValue, valueKey),
     [model, formatValue, valueKey]
@@ -214,9 +289,12 @@ function HeatCalendar<TDatum extends ChartDatum>({
         scroller.scrollLeft = cell.x - model.gap
       }
     }
-    setActive(
-      next === null ? null : { index: next, offset: scroller?.scrollLeft ?? 0 }
-    )
+    const offset = scroller?.scrollLeft ?? 0
+    setActive((current) => {
+      if (next === null) return null
+      if (current?.index === next && current.offset === offset) return current
+      return { index: next, offset }
+    })
     if (!onActiveChange) return
     if (!cell) {
       onActiveChange(null)
@@ -233,10 +311,11 @@ function HeatCalendar<TDatum extends ChartDatum>({
   const isEmpty = model.cells.length === 0
   const paint = getChartColor(model.paint)
   const anchor =
-    activeCell && active
+    drawnCell && shownOffset.value !== null
       ? {
-          x: model.gutter + activeCell.x + activeCell.size / 2 - active.offset,
-          y: activeCell.y,
+          x:
+            model.gutter + drawnCell.x + drawnCell.size / 2 - shownOffset.value,
+          y: drawnCell.y,
         }
       : null
   const keyCell = Math.min(KEY_CELL, model.cellSize)
@@ -311,52 +390,20 @@ function HeatCalendar<TDatum extends ChartDatum>({
                       </text>
                     ))}
                   </g>
-                  {cells.map((cell) => {
-                    const amount = getStaggeredProgress(
-                      reveal,
-                      cell.week + cell.day,
-                      model.columns + 6,
-                      0.5
-                    )
-                    const scale = REVEAL_SCALE + (1 - REVEAL_SCALE) * amount
-                    const side = cell.size * scale
-                    const inset = (cell.size - side) / 2
-                    const shown = amount * cell.presence
-                    const radius = model.radius * scale
-                    return (
-                      <React.Fragment key={cell.id}>
-                        <rect
-                          data-slot="heat-calendar-cell"
-                          data-level={cell.level}
-                          className="cn-heat-calendar-cell"
-                          x={cell.x + inset}
-                          y={cell.y + inset}
-                          width={side}
-                          height={side}
-                          rx={radius}
-                          opacity={shown}
-                        />
-                        {cell.opacity > 0 && (
-                          <rect
-                            data-slot="heat-calendar-level"
-                            x={cell.x + inset}
-                            y={cell.y + inset}
-                            width={side}
-                            height={side}
-                            rx={radius}
-                            fill={paint}
-                            fillOpacity={cell.opacity * shown}
-                          />
-                        )}
-                      </React.Fragment>
-                    )
-                  })}
-                  {activeCell && (
+                  <HeatCalendarCells
+                    cells={cells}
+                    reveal={reveal}
+                    columns={model.columns}
+                    radius={model.radius}
+                    paint={paint}
+                  />
+                  {drawnCell && (
                     <g
                       data-slot="heat-calendar-lift"
+                      data-leaving={shown.isLeaving || undefined}
                       className="cn-heat-calendar-lift"
                       style={{
-                        transform: `translate(${activeCell.x}px, ${activeCell.y}px)`,
+                        transform: `translate(${drawnCell.x}px, ${drawnCell.y}px)`,
                       }}
                     >
                       <g className="cn-heat-calendar-lift-mark">
@@ -364,23 +411,23 @@ function HeatCalendar<TDatum extends ChartDatum>({
                           className="cn-heat-calendar-lift-ring"
                           x={-2}
                           y={-2}
-                          width={activeCell.size + 4}
-                          height={activeCell.size + 4}
+                          width={drawnCell.size + 4}
+                          height={drawnCell.size + 4}
                           rx={model.radius + 2}
                         />
                         <rect
                           className="cn-heat-calendar-cell"
-                          width={activeCell.size}
-                          height={activeCell.size}
+                          width={drawnCell.size}
+                          height={drawnCell.size}
                           rx={model.radius}
                         />
                         <rect
                           className="cn-heat-calendar-lift-level"
-                          width={activeCell.size}
-                          height={activeCell.size}
+                          width={drawnCell.size}
+                          height={drawnCell.size}
                           rx={model.radius}
                           fill={paint}
-                          fillOpacity={activeCell.opacity}
+                          fillOpacity={drawnCell.opacity}
                         />
                       </g>
                     </g>
@@ -394,7 +441,7 @@ function HeatCalendar<TDatum extends ChartDatum>({
                 onActiveChange={inspect}
                 getIndexAt={(point) => getHeatCalendarIndexAt(model, point)}
                 getStep={getHeatCalendarStep}
-                valueText={content?.title}
+                valueText={activeCell ? content?.title : undefined}
                 className="touch-manipulation"
               />
             </div>
@@ -407,6 +454,7 @@ function HeatCalendar<TDatum extends ChartDatum>({
             anchor={anchor}
             frame={size}
             side="top"
+            leaving={shown.isLeaving}
           />
         )}
       </div>

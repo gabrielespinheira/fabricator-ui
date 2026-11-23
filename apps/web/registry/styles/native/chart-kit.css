@@ -9,11 +9,17 @@
   /* The opacity a series or a bar takes while another is spotlit, or while
      it shrinks away after being hidden. Read by the plot, applied to SVG. */
   .cn-chart-series {
-    @apply opacity-25;
+    @apply opacity-40;
   }
 
   .cn-chart-bar {
-    @apply opacity-25;
+    @apply opacity-40;
+  }
+
+  /* The opacity a mark's labels fade to while the mark leaves the data, on
+     the move role. Read by the chart, applied to SVG. */
+  .cn-chart-label-presence {
+    @apply opacity-0;
   }
 
   /* Gridlines: a hairline at each value tick in the border colour, read as

@@ -20,10 +20,11 @@
   }
 
   /* The slice under the pointer lifts out on the glide timing while the
-     others fade back. Reduced motion keeps the fade and drops the lift's
-     travel. */
+     others fade back on the feedback role. A slice leaving the data fades
+     out on the move role as it closes. Reduced motion keeps the fade and
+     drops the lift's travel. */
   .cn-chart-slice {
-    @apply transition-[transform,opacity] duration-glide ease-enter data-dimmed:opacity-40 motion-reduce:transition-opacity;
+    @apply transition-[transform,opacity] [transition-duration:calc(var(--motion-glide)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1))] [transition-timing-function:var(--motion-ease-enter),var(--motion-ease-feedback)] data-dimmed:opacity-40 motion-reduce:[transition:opacity_calc(var(--motion-feedback)*var(--motion-scale,1))_var(--motion-ease-feedback)] data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Share labels fade in once the slices have settled. */

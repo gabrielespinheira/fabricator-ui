@@ -585,10 +585,15 @@ function getRibbonBlend(link: Pick<SankeyLink, "x0" | "x1">, x: number) {
 /**
  * The mark under a point, as an inspector index: links first, in reading
  * order, then nodes. A node's reach is at least 24px wide; a link's at least
- * 8px tall. Where links cross, the one whose middle is nearest wins. -1 for
- * none.
+ * 8px tall. Where links cross, the one whose middle is nearest wins. A miss
+ * keeps `previous`, so the inspected mark holds across the gaps between
+ * ribbons instead of flashing the whole diagram; -1 when there is none.
  */
-function getSankeyMarkAt(model: SankeyGeometry, point: ChartPoint) {
+function getSankeyMarkAt(
+  model: SankeyGeometry,
+  point: ChartPoint,
+  previous: number | null = null
+) {
   const nodeIndex = model.nodes.findIndex((node) => {
     const reachX = Math.max(0, (MIN_REACH - node.width) / 2)
     const reachY = Math.max(2, (MIN_LINK_REACH - node.height) / 2)
@@ -620,7 +625,9 @@ function getSankeyMarkAt(model: SankeyGeometry, point: ChartPoint) {
       bestDistance = distance
     }
   })
-  return best
+  if (best >= 0) return best
+  const count = model.links.length + model.nodes.length
+  return previous !== null && previous >= 0 && previous < count ? previous : -1
 }
 
 /** The link or node behind an inspector index: links first, then nodes. */

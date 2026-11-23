@@ -30,7 +30,9 @@ import {
   ChartLegend,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
   useChartLegendState,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -60,6 +62,10 @@ type RadarChartProps<TDatum extends ChartDatum> = {
 
 const FALLBACK_SIZE = { width: 320, height: 280 }
 const NO_SERIES: RadarSeriesGeometry[] = []
+
+function getSeriesKey(item: RadarSeriesGeometry) {
+  return item.key
+}
 
 function RadarChart<TDatum extends ChartDatum>({
   data,
@@ -107,13 +113,17 @@ function RadarChart<TDatum extends ChartDatum>({
     interpolateRadarSeries,
     animate ? dataVersion : null
   )
+  const drawnSeries = useChartDrawOrder(series, getSeriesKey)
 
   const activeIndex =
     active !== null && active < model.axes.length ? active : null
+  // The readout outlives inspection by the tooltip role's exit, to fade out.
+  // The lit axis follows the live index.
+  const shown = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    shown.value !== null && shown.value < model.axes.length ? shown.value : null
   const content =
-    activeIndex === null
-      ? null
-      : getRadarTooltip(model, activeIndex, formatValue)
+    shownIndex === null ? null : getRadarTooltip(model, shownIndex, formatValue)
   const table = React.useMemo(
     () => getRadarTable(model, formatValue),
     [model, formatValue]
@@ -127,9 +137,14 @@ function RadarChart<TDatum extends ChartDatum>({
   const isEmpty = data.length === 0
   const showLegend = legend ?? allSeries.length > 1
   const isDimmed = (item: RadarSeriesGeometry) =>
-    (spotlight !== null && spotlight !== item.key) || item.isLeaving === true
-  const grow = (radii: readonly number[]) =>
+    item.isLeaving !== true && spotlight !== null && spotlight !== item.key
+  const grow = (radii: number[]) =>
     reveal >= 1 ? radii : radii.map((radius) => radius * reveal)
+  // The series as drawn now, so the dots and the tooltip ride the morph and
+  // the draw-in instead of waiting at the final shape.
+  const grownSeries = series
+    .filter((item) => !item.isLeaving)
+    .map((item) => ({ ...item, radii: grow(item.radii) }))
 
   return (
     <div
@@ -188,10 +203,11 @@ function RadarChart<TDatum extends ChartDatum>({
               ))}
             </g>
             {/* Every wash first, then every outline, so no wash covers a line. */}
-            {series.map((item) => (
+            {drawnSeries.map((item) => (
               <path
                 key={item.key}
                 data-slot="radar-chart-area"
+                data-leaving={item.isLeaving || undefined}
                 data-dimmed={isDimmed(item) || undefined}
                 className="cn-radar-chart-area"
                 d={getRadarPolygonPath(model, grow(item.radii))}
@@ -199,10 +215,11 @@ function RadarChart<TDatum extends ChartDatum>({
                 fillOpacity={RADAR_WASH_OPACITY}
               />
             ))}
-            {series.map((item) => (
+            {drawnSeries.map((item) => (
               <path
                 key={item.key}
                 data-slot="radar-chart-series"
+                data-leaving={item.isLeaving || undefined}
                 data-dimmed={isDimmed(item) || undefined}
                 className="cn-radar-chart-series"
                 d={getRadarPolygonPath(model, grow(item.radii))}
@@ -212,26 +229,31 @@ function RadarChart<TDatum extends ChartDatum>({
                 strokeLinejoin="round"
               />
             ))}
-            {activeIndex !== null &&
-              model.series.map((item) => (
+            {shownIndex !== null &&
+              grownSeries.map((item) => (
                 <ChartDot
                   key={item.key}
                   point={getRadarPoint(
                     model,
-                    activeIndex,
-                    item.radii[activeIndex] ?? 0
+                    shownIndex,
+                    item.radii[shownIndex] ?? 0
                   )}
                   color={getChartColor(item.paint)}
+                  leaving={shown.isLeaving}
                 />
               ))}
           </svg>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
-        {tooltip && size && content && activeIndex !== null && (
+        {tooltip && size && content && shownIndex !== null && (
           <ChartTooltip
             content={content}
-            anchor={getRadarAnchor(model, activeIndex)}
+            anchor={getRadarAnchor(
+              { ...model, series: grownSeries },
+              shownIndex
+            )}
             frame={size}
+            leaving={shown.isLeaving}
           />
         )}
         {!isEmpty && (
@@ -242,7 +264,7 @@ function RadarChart<TDatum extends ChartDatum>({
             onActiveChange={inspect}
             getIndexAt={(point) => getRadarAxisAt(model, point)}
             valueText={
-              content
+              activeIndex !== null && content
                 ? `${content.title}: ${content.rows
                     .map((row) => `${row.label} ${row.value}`)
                     .join(", ")}`

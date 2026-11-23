@@ -30,10 +30,12 @@
     @apply pointer-events-none transition-transform duration-glide ease-enter motion-reduce:transition-none;
   }
 
-  /* A quarter larger than the cell, with a soft shadow, fading in where it
-     first lands. */
+  /* A quarter larger than the cell, with a soft shadow. Where it first
+     lands it grows out of the cell (from its size, scale 1) as it fades
+     in, on one clock, and it fades out with the tooltip when inspection
+     ends. Reduced motion keeps the fades and drops the growth. */
   .cn-heat-calendar-lift-mark {
-    @apply scale-125 drop-shadow-sm [transform-box:fill-box] origin-center animate-in fade-in-0 duration-tooltip ease-enter;
+    @apply scale-125 drop-shadow-sm [transform-box:fill-box] origin-center motion-safe:starting:scale-100 animate-in fade-in-0 duration-tooltip ease-enter [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter),scale_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)];
   }
 
   /* The 2px surface ring every mark keeps where it overlaps others. */
@@ -41,9 +43,10 @@
     @apply fill-card;
   }
 
-  /* The lifted cell's level eases between days as it glides. */
+  /* The lifted cell's level eases between days as it glides, Reduce Motion
+     included: it changes colour, not place. */
   .cn-heat-calendar-lift-level {
-    @apply transition-[fill-opacity] duration-glide ease-enter motion-reduce:transition-none;
+    @apply transition-[fill-opacity] duration-glide ease-enter;
   }
 
   /* The range and the key: small and grey, under the grid. */

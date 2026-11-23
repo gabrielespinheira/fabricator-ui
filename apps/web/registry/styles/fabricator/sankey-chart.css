@@ -12,20 +12,21 @@
     @apply text-(length:--density-text-12);
   }
 
-  /* Links dim while another mark is inspected, and their wash deepens on
-     the glide role while they are lit, so the highlight follows the
-     pointer. */
+  /* Links dim on the feedback role while another mark is inspected, and
+     their wash deepens on the glide role while they are lit, so the
+     highlight follows the pointer. A link or node leaving the data fades
+     out on the move role as it narrows. */
   .cn-sankey-chart-link {
-    @apply transition-[opacity,fill-opacity] duration-glide ease-enter data-dimmed:opacity-35 motion-reduce:transition-none;
+    @apply transition-[opacity,fill-opacity] [transition-duration:calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-glide)*var(--motion-scale,1))] [transition-timing-function:var(--motion-ease-feedback),var(--motion-ease-enter)] data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Nodes and their labels dim with the links they don't touch. */
   .cn-sankey-chart-node {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-35;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   .cn-sankey-chart-label {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-35;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40;
   }
 
   /* Names lead in the text colour, never the node's. */

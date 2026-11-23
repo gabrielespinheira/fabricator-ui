@@ -36,12 +36,16 @@ import {
 } from "@/registry/fabricator/shared/lib/chart-sankey-model"
 import {
   ChartDataTable,
+  ChartDimmable,
   ChartEmpty,
   ChartInspector,
+  ChartLabelPresence,
   ChartLegend,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
+  useChartDrawOrder,
   useChartLegendState,
   useChartReveal,
   useChartSize,
@@ -62,6 +66,7 @@ const sankeyNodeStyle = cva("cn-sankey-chart-node")
 const sankeyLabelStyle = cva("cn-sankey-chart-label")
 const sankeyNameStyle = cva("cn-sankey-chart-name")
 const sankeyValueStyle = cva("cn-sankey-chart-value")
+const labelPresenceStyle = cva("cn-chart-label-presence")
 
 type SankeyChartProps<
   TNode extends SankeyNodeDatum,
@@ -109,6 +114,10 @@ function readOpacity(style: { opacity?: unknown }, fallback: number) {
   return typeof style.opacity === "number" ? style.opacity : fallback
 }
 
+function getMarkId(mark: { id: string }) {
+  return mark.id
+}
+
 function SankeyChart<
   TNode extends SankeyNodeDatum,
   TLink extends SankeyLinkDatum,
@@ -130,11 +139,12 @@ function SankeyChart<
   const { onLayout, size } = useChartSize()
   const fontSize =
     readText(useResolveClassNames(sankeyPlotStyle())).fontSize ?? 12
-  const linkDimmed = readOpacity(useResolveClassNames(sankeyLinkStyle()), 0.35)
-  const nodeDimmed = readOpacity(useResolveClassNames(sankeyNodeStyle()), 0.35)
-  const labelDimmed = readOpacity(
-    useResolveClassNames(sankeyLabelStyle()),
-    0.35
+  const linkDimmed = readOpacity(useResolveClassNames(sankeyLinkStyle()), 0.4)
+  const nodeDimmed = readOpacity(useResolveClassNames(sankeyNodeStyle()), 0.4)
+  const labelDimmed = readOpacity(useResolveClassNames(sankeyLabelStyle()), 0.4)
+  const labelLeavingOpacity = readOpacity(
+    useResolveClassNames(labelPresenceStyle()),
+    0
   )
   const nameText = readText(useResolveClassNames(sankeyNameStyle()))
   const valueText = readText(useResolveClassNames(sankeyValueStyle()))
@@ -170,12 +180,15 @@ function SankeyChart<
     () => ({ nodes, links, hidden }),
     [nodes, links, hidden]
   )
-  const reveal = useChartReveal(size !== null, animate)
+  const plotRef = React.useRef<React.ComponentRef<typeof View>>(null)
+  const reveal = useChartReveal(size !== null, animate, plotRef)
   const drawn = useChartTween<SankeyGeometry>(
     size ? model : NO_GEOMETRY,
     interpolateSankey,
     animate ? dataVersion : null
   )
+  const drawnLinks = useChartDrawOrder(drawn.links, getMarkId)
+  const drawnNodes = useChartDrawOrder(drawn.nodes, getMarkId)
 
   const markCount = model.links.length + model.nodes.length
   const activeIndex = active !== null && active < markCount ? active : null
@@ -219,19 +232,29 @@ function SankeyChart<
   }
 
   const isEmpty = model.links.length === 0
-  const mark = activeIndex === null ? null : getSankeyMark(model, activeIndex)
-  const anchor =
-    mark === null
-      ? null
-      : mark.kind === "link"
-        ? {
-            x: (mark.link.x0 + mark.link.x1) / 2,
-            y: Math.min(mark.link.sourceTop, mark.link.targetTop),
-          }
-        : {
-            x: mark.node.x + mark.node.width / 2,
-            y: mark.node.y,
-          }
+  const target = activeIndex === null ? null : getSankeyMark(model, activeIndex)
+  // The tooltip points at the mark as drawn now, so during a morph it
+  // travels with the ribbon or node instead of arriving first.
+  const drawnLink =
+    target?.kind === "link"
+      ? (drawn.links.find(
+          (link) => link.id === target.link.id && !link.isLeaving
+        ) ?? target.link)
+      : null
+  const drawnNode =
+    target?.kind === "node"
+      ? (drawn.nodes.find(
+          (node) => node.id === target.node.id && !node.isLeaving
+        ) ?? target.node)
+      : null
+  const anchor = drawnLink
+    ? {
+        x: (drawnLink.x0 + drawnLink.x1) / 2,
+        y: Math.min(drawnLink.sourceTop, drawnLink.targetTop),
+      }
+    : drawnNode
+      ? { x: drawnNode.x + drawnNode.width / 2, y: drawnNode.y }
+      : null
   const revealWidth =
     reveal >= 1 ? (size?.width ?? 0) : (size?.width ?? 0) * reveal
 
@@ -244,110 +267,130 @@ function SankeyChart<
       {...props}
     >
       <View
+        ref={plotRef}
         data-slot="chart-plot"
         data-loading={loading}
         onLayout={onLayout}
         className="cn-chart-plot relative min-h-0 flex-1"
       >
         {size && !isEmpty && (
-          <Svg
-            width={size.width}
-            height={size.height}
-            style={{ position: "absolute" }}
-            importantForAccessibility="no-hide-descendants"
-          >
-            <Defs>
-              <ClipPath id={`${id}-reveal`}>
-                <Rect
-                  x={-8}
-                  y={-8}
-                  width={revealWidth + 8}
-                  height={size.height + 16}
-                />
-              </ClipPath>
-            </Defs>
-            <G clipPath={`url(#${id}-reveal)`}>
-              {drawn.links.map((link) => {
-                const isLit = highlight?.links.has(link.id) ?? false
-                const isDimmed =
-                  link.isLeaving === true || (highlight !== null && !isLit)
-                return (
-                  <Path
-                    key={link.id}
-                    data-slot="sankey-chart-link"
-                    d={getSankeyLinkPath(link)}
-                    fill={getChartColor(link.paint, colors)}
-                    fillOpacity={
-                      isLit ? SANKEY_LINK_ACTIVE_WASH : SANKEY_LINK_WASH
-                    }
-                    opacity={isDimmed ? linkDimmed : 1}
-                  />
-                )
-              })}
-              {drawn.nodes.map((node) => {
-                const isDimmed =
-                  node.isLeaving === true ||
-                  (highlight !== null && !highlight.nodes.has(node.id))
-                return (
+          <ChartRevealFade isReady={size !== null} enabled={animate}>
+            <Svg
+              width={size.width}
+              height={size.height}
+              style={{ position: "absolute" }}
+              importantForAccessibility="no-hide-descendants"
+            >
+              <Defs>
+                <ClipPath id={`${id}-reveal`}>
                   <Rect
-                    key={node.id}
-                    data-slot="sankey-chart-node"
-                    x={node.x}
-                    y={node.y}
-                    width={node.width}
-                    height={Math.max(0, node.height)}
-                    rx={Math.min(SANKEY_NODE_RADIUS, node.height / 2)}
-                    fill={getChartColor(node.paint, colors)}
-                    opacity={isDimmed ? nodeDimmed : 1}
+                    x={-8}
+                    y={-8}
+                    width={revealWidth + 8}
+                    height={size.height + 16}
                   />
-                )
-              })}
-            </G>
-            {drawn.nodes.map((node) => {
-              if (node.isLeaving) return null
-              const labels = getSankeyLabels(node, fontSize)
-              if (!labels.name) return null
-              const isDimmed =
-                highlight !== null && !highlight.nodes.has(node.id)
-              return (
-                <G
-                  key={node.id}
-                  data-slot="sankey-chart-label"
-                  opacity={
-                    getStaggeredProgress(
+                </ClipPath>
+              </Defs>
+              <G clipPath={`url(#${id}-reveal)`}>
+                {drawnLinks.map((link) => {
+                  const isLit = highlight?.links.has(link.id) ?? false
+                  const isDimmed =
+                    link.isLeaving === true || (highlight !== null && !isLit)
+                  return (
+                    <ChartDimmable
+                      key={link.id}
+                      isDimmed={isDimmed}
+                      dimmedOpacity={linkDimmed}
+                    >
+                      <Path
+                        data-slot="sankey-chart-link"
+                        d={getSankeyLinkPath(link)}
+                        fill={getChartColor(link.paint, colors)}
+                        fillOpacity={
+                          isLit ? SANKEY_LINK_ACTIVE_WASH : SANKEY_LINK_WASH
+                        }
+                      />
+                    </ChartDimmable>
+                  )
+                })}
+                {drawnNodes.map((node) => {
+                  const isDimmed =
+                    node.isLeaving === true ||
+                    (highlight !== null && !highlight.nodes.has(node.id))
+                  return (
+                    <ChartDimmable
+                      key={node.id}
+                      isDimmed={isDimmed}
+                      dimmedOpacity={nodeDimmed}
+                    >
+                      <Rect
+                        data-slot="sankey-chart-node"
+                        x={node.x}
+                        y={node.y}
+                        width={node.width}
+                        height={Math.max(0, node.height)}
+                        rx={Math.min(SANKEY_NODE_RADIUS, node.height / 2)}
+                        fill={getChartColor(node.paint, colors)}
+                      />
+                    </ChartDimmable>
+                  )
+                })}
+              </G>
+              {drawnNodes.map((node) => {
+                const labels = getSankeyLabels(node, fontSize)
+                if (!labels.name) return null
+                const isDimmed =
+                  !node.isLeaving &&
+                  highlight !== null &&
+                  !highlight.nodes.has(node.id)
+                return (
+                  <G
+                    key={node.id}
+                    data-slot="sankey-chart-label"
+                    opacity={getStaggeredProgress(
                       reveal,
                       node.column,
                       Math.max(1, model.columns)
-                    ) * (isDimmed ? labelDimmed : 1)
-                  }
-                >
-                  <SvgText
-                    x={labels.name.x}
-                    y={labels.name.y}
-                    textAnchor={labels.name.anchor}
-                    fill={nameText.color}
-                    fontSize={fontSize}
-                    fontWeight={nameText.fontWeight}
-                    fontFamily="Inter"
+                    )}
                   >
-                    {node.label}
-                  </SvgText>
-                  {labels.value && (
-                    <SvgText
-                      x={labels.value.x}
-                      y={labels.value.y}
-                      textAnchor={labels.value.anchor}
-                      fill={valueText.color}
-                      fontSize={fontSize}
-                      fontFamily="Inter"
+                    <ChartLabelPresence
+                      isLeaving={node.isLeaving === true}
+                      leavingOpacity={labelLeavingOpacity}
                     >
-                      {node.valueText}
-                    </SvgText>
-                  )}
-                </G>
-              )
-            })}
-          </Svg>
+                      <ChartDimmable
+                        isDimmed={isDimmed}
+                        dimmedOpacity={labelDimmed}
+                      >
+                        <SvgText
+                          x={labels.name.x}
+                          y={labels.name.y}
+                          textAnchor={labels.name.anchor}
+                          fill={nameText.color}
+                          fontSize={fontSize}
+                          fontWeight={nameText.fontWeight}
+                          fontFamily="Inter"
+                        >
+                          {node.label}
+                        </SvgText>
+                        {labels.value && (
+                          <SvgText
+                            x={labels.value.x}
+                            y={labels.value.y}
+                            textAnchor={labels.value.anchor}
+                            fill={valueText.color}
+                            fontSize={fontSize}
+                            fontFamily="Inter"
+                          >
+                            {node.valueText}
+                          </SvgText>
+                        )}
+                      </ChartDimmable>
+                    </ChartLabelPresence>
+                  </G>
+                )
+              })}
+            </Svg>
+          </ChartRevealFade>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (
@@ -368,7 +411,7 @@ function SankeyChart<
                 : null
             }
             onActiveChange={inspect}
-            getIndexAt={(point) => getSankeyMarkAt(model, point)}
+            getIndexAt={(point) => getSankeyMarkAt(model, point, activeIndex)}
             valueText={
               content
                 ? `${content.title}: ${content.rows

@@ -20,6 +20,7 @@ import {
   type ChartOrientation,
 } from "@/registry/fabricator/shared/lib/chart-cartesian-model"
 import {
+  areChartMarksPropsEqual,
   getChartSeries,
   getNearestIndex,
   getStaggeredProgress,
@@ -33,13 +34,16 @@ import {
   ChartAxis,
   ChartBand,
   ChartDataTable,
+  ChartDimmable,
   ChartEmpty,
   ChartGrid,
   ChartInspector,
   ChartLegend,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
+  useChartDrawOrder,
   useChartLegendState,
   useChartReveal,
   useChartSize,
@@ -103,6 +107,58 @@ function grow(
   }
 }
 
+/**
+ * The bars, memoized: a scrub only moves the band and the tooltip, so an
+ * index change doesn't draw every bar again.
+ */
+const ChartBarMarks = React.memo(function ChartBarMarks({
+  bars,
+  reveal,
+  dataLength,
+  baseline,
+  layout,
+  colors,
+  spotlight,
+  dimmedOpacity,
+}: {
+  bars: readonly BarRect[]
+  reveal: number
+  dataLength: number
+  baseline: number
+  layout: ChartOrientation
+  colors: Record<string, string>
+  spotlight: string | null
+  dimmedOpacity: number
+}) {
+  return (
+    <>
+      {bars.map((bar) => {
+        const amount = getStaggeredProgress(reveal, bar.index, dataLength)
+        const isDimmed =
+          (spotlight !== null && spotlight !== bar.key) ||
+          bar.isLeaving === true
+        return (
+          <ChartDimmable
+            key={bar.id}
+            isDimmed={isDimmed}
+            dimmedOpacity={dimmedOpacity}
+          >
+            <Path
+              data-slot="chart-bar"
+              d={getBarPath(grow(bar, baseline, layout, amount))}
+              fill={getChartColor(bar.paint, colors)}
+            />
+          </ChartDimmable>
+        )
+      })}
+    </>
+  )
+}, areChartMarksPropsEqual)
+
+function getBarKey(bar: BarRect) {
+  return bar.id
+}
+
 function ChartBarPlot<TDatum extends ChartDatum>({
   data,
   config,
@@ -130,7 +186,7 @@ function ChartBarPlot<TDatum extends ChartDatum>({
   const [active, setActive] = React.useState<number | null>(null)
   const dimmed = useResolveClassNames(chartBarStyle())
   const dimmedOpacity =
-    typeof dimmed.opacity === "number" ? dimmed.opacity : 0.25
+    typeof dimmed.opacity === "number" ? dimmed.opacity : 0.4
 
   const allSeries = React.useMemo(() => getChartSeries(config), [config])
   const colors = useChartColors(allSeries.map((item) => item.paint))
@@ -167,7 +223,8 @@ function ChartBarPlot<TDatum extends ChartDatum>({
     () => ({ data, config, layout, stack, hidden }),
     [data, config, layout, stack, hidden]
   )
-  const reveal = useChartReveal(size !== null, animate)
+  const plotRef = React.useRef<React.ComponentRef<typeof View>>(null)
+  const reveal = useChartReveal(size !== null, animate, plotRef)
   const bars = useChartTween(
     size ? model.bars : NO_BARS,
     (from, to, progress) =>
@@ -178,6 +235,7 @@ function ChartBarPlot<TDatum extends ChartDatum>({
       ),
     animate ? dataVersion : null
   )
+  const drawnBars = useChartDrawOrder(bars, getBarKey)
 
   const activeIndex = active !== null && active < data.length ? active : null
   const content =
@@ -199,7 +257,7 @@ function ChartBarPlot<TDatum extends ChartDatum>({
   const activeBars =
     activeIndex === null
       ? []
-      : model.bars.filter((bar) => bar.index === activeIndex)
+      : bars.filter((bar) => bar.index === activeIndex && !bar.isLeaving)
   const anchor =
     activeIndex === null
       ? null
@@ -230,6 +288,7 @@ function ChartBarPlot<TDatum extends ChartDatum>({
       {...props}
     >
       <View
+        ref={plotRef}
         data-slot="chart-plot"
         data-loading={loading}
         onLayout={onLayout}
@@ -237,48 +296,41 @@ function ChartBarPlot<TDatum extends ChartDatum>({
       >
         {band && <ChartBand rect={band} />}
         {size && !isEmpty && (
-          <Svg
-            width={size.width}
-            height={size.height}
-            style={{ position: "absolute" }}
-            importantForAccessibility="no-hide-descendants"
-          >
-            <ChartGrid
-              ticks={valueTicks}
-              orientation={isVertical ? "horizontal" : "vertical"}
-              start={isVertical ? plot.x : plot.y}
-              end={isVertical ? plot.x + plot.width : plot.y + plot.height}
-            />
-            <ChartAxis
-              side="start"
-              ticks={isVertical ? valueTicks : indexTicks}
-              offset={plot.x - CHART_LABEL_GAP}
-            />
-            <ChartAxis
-              side="bottom"
-              ticks={isVertical ? indexTicks : valueTicks}
-              offset={plot.y + plot.height + CHART_LABEL_GAP}
-            />
-            {bars.map((bar) => {
-              const amount = getStaggeredProgress(
-                reveal,
-                bar.index,
-                data.length
-              )
-              const isDimmed =
-                (spotlight !== null && spotlight !== bar.key) ||
-                bar.isLeaving === true
-              return (
-                <Path
-                  key={bar.id}
-                  data-slot="chart-bar"
-                  d={getBarPath(grow(bar, model.baseline, layout, amount))}
-                  fill={getChartColor(bar.paint, colors)}
-                  opacity={isDimmed ? dimmedOpacity : 1}
-                />
-              )
-            })}
-          </Svg>
+          <ChartRevealFade isReady={size !== null} enabled={animate}>
+            <Svg
+              width={size.width}
+              height={size.height}
+              style={{ position: "absolute" }}
+              importantForAccessibility="no-hide-descendants"
+            >
+              <ChartGrid
+                ticks={valueTicks}
+                orientation={isVertical ? "horizontal" : "vertical"}
+                start={isVertical ? plot.x : plot.y}
+                end={isVertical ? plot.x + plot.width : plot.y + plot.height}
+              />
+              <ChartAxis
+                side="start"
+                ticks={isVertical ? valueTicks : indexTicks}
+                offset={plot.x - CHART_LABEL_GAP}
+              />
+              <ChartAxis
+                side="bottom"
+                ticks={isVertical ? indexTicks : valueTicks}
+                offset={plot.y + plot.height + CHART_LABEL_GAP}
+              />
+              <ChartBarMarks
+                bars={drawnBars}
+                reveal={reveal}
+                dataLength={data.length}
+                baseline={model.baseline}
+                layout={layout}
+                colors={colors}
+                spotlight={spotlight}
+                dimmedOpacity={dimmedOpacity}
+              />
+            </Svg>
+          </ChartRevealFade>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (

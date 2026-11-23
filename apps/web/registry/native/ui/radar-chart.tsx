@@ -26,13 +26,17 @@ import {
 } from "@/registry/fabricator/shared/lib/chart-radar-model"
 import {
   ChartDataTable,
+  ChartDimmable,
   ChartDot,
   ChartEmpty,
+  ChartFrame,
   ChartInspector,
   ChartLegend,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
+  useChartDrawOrder,
   useChartLegendState,
   useChartReveal,
   useChartSize,
@@ -79,6 +83,10 @@ function readOpacity(style: { opacity?: unknown }, fallback: number) {
   return typeof style.opacity === "number" ? style.opacity : fallback
 }
 
+function getSeriesKey(item: RadarSeriesGeometry) {
+  return item.key
+}
+
 function RadarChart<TDatum extends ChartDatum>({
   data,
   config,
@@ -107,10 +115,10 @@ function RadarChart<TDatum extends ChartDatum>({
   )
   const fontSize =
     typeof labelStyle.fontSize === "number" ? labelStyle.fontSize : 11
-  const areaDimmed = readOpacity(useResolveClassNames(radarAreaStyle()), 0.25)
+  const areaDimmed = readOpacity(useResolveClassNames(radarAreaStyle()), 0.4)
   const seriesDimmed = readOpacity(
     useResolveClassNames(radarSeriesStyle()),
-    0.25
+    0.4
   )
 
   const allSeries = React.useMemo(() => getChartSeries(config), [config])
@@ -131,12 +139,14 @@ function RadarChart<TDatum extends ChartDatum>({
     () => ({ data, config, index, hidden }),
     [data, config, index, hidden]
   )
-  const reveal = useChartReveal(size !== null, animate)
+  const plotRef = React.useRef<React.ComponentRef<typeof View>>(null)
+  const reveal = useChartReveal(size !== null, animate, plotRef)
   const series = useChartTween(
     size ? model.series : NO_SERIES,
     interpolateRadarSeries,
     animate ? dataVersion : null
   )
+  const drawnSeries = useChartDrawOrder(series, getSeriesKey)
 
   const activeIndex =
     active !== null && active < model.axes.length ? active : null
@@ -158,8 +168,13 @@ function RadarChart<TDatum extends ChartDatum>({
   const showLegend = legend ?? allSeries.length > 1
   const isDimmed = (item: RadarSeriesGeometry) =>
     (spotlight !== null && spotlight !== item.key) || item.isLeaving === true
-  const grow = (radii: readonly number[]) =>
+  const grow = (radii: number[]) =>
     reveal >= 1 ? radii : radii.map((radius) => radius * reveal)
+  // The series as drawn now, so the dots and the tooltip ride the morph and
+  // the draw-in instead of waiting at the final shape.
+  const grownSeries = series
+    .filter((item) => !item.isLeaving)
+    .map((item) => ({ ...item, radii: grow(item.radii) }))
 
   return (
     <View
@@ -170,85 +185,96 @@ function RadarChart<TDatum extends ChartDatum>({
       {...props}
     >
       <View
+        ref={plotRef}
         data-slot="chart-plot"
         data-loading={loading}
         onLayout={onLayout}
         className="cn-chart-plot relative min-h-0 w-full flex-1"
       >
         {size && !isEmpty && (
-          <Svg
-            width={size.width}
-            height={size.height}
-            style={{ position: "absolute" }}
-            importantForAccessibility="no-hide-descendants"
-          >
-            <G data-slot="radar-chart-grid">
-              {model.levels.map((radius) => (
-                <Path
-                  key={radius}
-                  d={getRadarGridPath(model, radius)}
-                  fill="none"
-                  stroke={gridColor}
-                  strokeWidth={1}
-                />
-              ))}
-              {model.axes.map((axis, axisIndex) => (
-                <Line
-                  key={axis.id}
-                  data-slot="radar-chart-spoke"
-                  x1={model.center.x}
-                  y1={model.center.y}
-                  x2={axis.end.x}
-                  y2={axis.end.y}
-                  stroke={axisIndex === activeIndex ? spokeColor : gridColor}
-                  strokeWidth={1}
-                />
-              ))}
-            </G>
-            <G>
-              {model.axes.map((axis, axisIndex) => (
-                <SvgText
-                  key={axis.id}
-                  data-slot="radar-chart-label"
-                  x={axis.labelX}
-                  y={axis.labelY}
-                  fill={
-                    axisIndex === activeIndex ? activeLabelColor : labelColor
-                  }
-                  fontSize={fontSize}
-                  fontFamily="Inter"
-                  textAnchor={axis.anchor}
+          <ChartRevealFade isReady={size !== null} enabled={animate}>
+            <Svg
+              width={size.width}
+              height={size.height}
+              style={{ position: "absolute" }}
+              importantForAccessibility="no-hide-descendants"
+            >
+              <ChartFrame data-slot="radar-chart-grid">
+                {model.levels.map((radius) => (
+                  <Path
+                    key={radius}
+                    d={getRadarGridPath(model, radius)}
+                    fill="none"
+                    stroke={gridColor}
+                    strokeWidth={1}
+                  />
+                ))}
+                {model.axes.map((axis, axisIndex) => (
+                  <Line
+                    key={axis.id}
+                    data-slot="radar-chart-spoke"
+                    x1={model.center.x}
+                    y1={model.center.y}
+                    x2={axis.end.x}
+                    y2={axis.end.y}
+                    stroke={axisIndex === activeIndex ? spokeColor : gridColor}
+                    strokeWidth={1}
+                  />
+                ))}
+              </ChartFrame>
+              <G>
+                {model.axes.map((axis, axisIndex) => (
+                  <SvgText
+                    key={axis.id}
+                    data-slot="radar-chart-label"
+                    x={axis.labelX}
+                    y={axis.labelY}
+                    fill={
+                      axisIndex === activeIndex ? activeLabelColor : labelColor
+                    }
+                    fontSize={fontSize}
+                    fontFamily="Inter"
+                    textAnchor={axis.anchor}
+                  >
+                    {axis.text}
+                  </SvgText>
+                ))}
+              </G>
+              {drawnSeries.map((item) => (
+                <ChartDimmable
+                  key={item.key}
+                  isDimmed={isDimmed(item)}
+                  dimmedOpacity={areaDimmed}
                 >
-                  {axis.text}
-                </SvgText>
+                  <Path
+                    data-slot="radar-chart-area"
+                    d={getRadarPolygonPath(model, grow(item.radii))}
+                    fill={getChartColor(item.paint, colors)}
+                    fillOpacity={RADAR_WASH_OPACITY}
+                  />
+                </ChartDimmable>
               ))}
-            </G>
-            {series.map((item) => (
-              <Path
-                key={item.key}
-                data-slot="radar-chart-area"
-                d={getRadarPolygonPath(model, grow(item.radii))}
-                fill={getChartColor(item.paint, colors)}
-                fillOpacity={RADAR_WASH_OPACITY}
-                opacity={isDimmed(item) ? areaDimmed : 1}
-              />
-            ))}
-            {series.map((item) => (
-              <Path
-                key={item.key}
-                data-slot="radar-chart-series"
-                d={getRadarPolygonPath(model, grow(item.radii))}
-                fill="none"
-                stroke={getChartColor(item.paint, colors)}
-                strokeWidth={2}
-                strokeLinejoin="round"
-                opacity={isDimmed(item) ? seriesDimmed : 1}
-              />
-            ))}
-          </Svg>
+              {drawnSeries.map((item) => (
+                <ChartDimmable
+                  key={item.key}
+                  isDimmed={isDimmed(item)}
+                  dimmedOpacity={seriesDimmed}
+                >
+                  <Path
+                    data-slot="radar-chart-series"
+                    d={getRadarPolygonPath(model, grow(item.radii))}
+                    fill="none"
+                    stroke={getChartColor(item.paint, colors)}
+                    strokeWidth={2}
+                    strokeLinejoin="round"
+                  />
+                </ChartDimmable>
+              ))}
+            </Svg>
+          </ChartRevealFade>
         )}
         {activeIndex !== null &&
-          model.series.map((item) => (
+          grownSeries.map((item) => (
             <ChartDot
               key={item.key}
               point={getRadarPoint(
@@ -263,7 +289,10 @@ function RadarChart<TDatum extends ChartDatum>({
         {tooltip && size && content && activeIndex !== null && (
           <ChartTooltip
             content={content}
-            anchor={getRadarAnchor(model, activeIndex)}
+            anchor={getRadarAnchor(
+              { ...model, series: grownSeries },
+              activeIndex
+            )}
             frame={size}
             colors={colors}
           />

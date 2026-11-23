@@ -198,13 +198,27 @@ describe("getFunnelLabels", () => {
     expect(labels[1].conversion?.anchor).toBe("middle")
   })
 
-  it("labels nothing on a leaving stage", () => {
+  it("labels a leaving stage so it can fade out", () => {
     const current = model()
     const labels = getFunnelLabels(
       [{ ...current.stages[0], isLeaving: true }],
       current
     )
-    expect(labels[0]).toEqual({ name: null, pill: null, conversion: null })
+    expect(labels[0].name?.text).toBe(current.stages[0].name)
+  })
+
+  it("gives a leaving stage no conversion, and leaves the next one's alone", () => {
+    const current = model()
+    const [first, second, third] = current.stages
+    const settled = getFunnelLabels([first, third], current)
+    const leaving = { ...second, isLeaving: true }
+    // The tween lists leaving stages last; the chart draws them in place.
+    const listed = getFunnelLabels([first, third, leaving], current)
+    expect(listed[2].conversion).toBeNull()
+    expect(listed[1].conversion).toEqual(settled[1].conversion)
+    const inPlace = getFunnelLabels([first, leaving, third], current)
+    expect(inPlace[1].conversion).toBeNull()
+    expect(inPlace[2].conversion).toEqual(settled[1].conversion)
   })
 })
 

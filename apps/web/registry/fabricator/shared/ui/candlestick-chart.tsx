@@ -32,6 +32,8 @@ import {
   ChartInspector,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -70,11 +72,75 @@ type CandlestickChartProps<TDatum extends ChartDatum> = {
 
 const FALLBACK_SIZE = { width: 480, height: 240 }
 const NO_CANDLES: Candle[] = []
+
+function getCandleId(candle: Candle) {
+  return candle.id
+}
 const DIRECTIONS = ["up", "down"] as const
 
 function toSvgId(id: string) {
   return id.replace(/[^a-zA-Z0-9_-]/g, "")
 }
+
+/** The candles and their volume, clipped to the plot. Memoized: the
+ * crosshair and tooltip moving don't redraw every candle. */
+const CandlestickCandles = React.memo(function CandlestickCandles({
+  candles,
+  clipId,
+}: {
+  candles: readonly Candle[]
+  clipId: string
+}) {
+  return (
+    <g clipPath={`url(#${clipId})`}>
+      {candles.map((candle) => {
+        const color = getChartColor(candle.paint)
+        const body = getCandleBody(candle)
+        const bar = getCandleVolume(candle)
+        const wick = getCandleWickX(candle)
+        return (
+          <g
+            key={candle.id}
+            data-slot="candlestick-chart-candle"
+            data-direction={candle.direction}
+            data-leaving={candle.isLeaving || undefined}
+            className="cn-candlestick-chart-candle"
+            fill={color}
+            stroke={color}
+          >
+            {bar && (
+              <rect
+                data-slot="candlestick-chart-volume"
+                className="cn-candlestick-chart-volume"
+                x={bar.x}
+                y={bar.y}
+                width={bar.width}
+                height={bar.height}
+                strokeWidth={0}
+              />
+            )}
+            <line
+              data-slot="candlestick-chart-wick"
+              x1={wick}
+              x2={wick}
+              y1={candle.high}
+              y2={candle.low}
+              strokeWidth={1}
+            />
+            <rect
+              data-slot="candlestick-chart-body"
+              x={body.x}
+              y={body.y}
+              width={body.width}
+              height={body.height}
+              strokeWidth={0}
+            />
+          </g>
+        )
+      })}
+    </g>
+  )
+})
 
 function CandlestickChart<TDatum extends ChartDatum>({
   data,
@@ -126,10 +192,14 @@ function CandlestickChart<TDatum extends ChartDatum>({
   )
 
   const activeIndex = active !== null && active < data.length ? active : null
+  // The readout outlives inspection by the tooltip role's exit, to fade out.
+  const readout = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    readout.value !== null && readout.value < data.length ? readout.value : null
   const content =
-    activeIndex === null
+    shownIndex === null
       ? null
-      : getCandlestickTooltip(model, activeIndex, formatValue)
+      : getCandlestickTooltip(model, shownIndex, formatValue)
   const table = React.useMemo(
     () => getCandlestickTable(model, formatValue),
     [model, formatValue]
@@ -143,23 +213,30 @@ function CandlestickChart<TDatum extends ChartDatum>({
   const { plot, valueTicks } = model.layout
   const { price } = model
   const isEmpty = data.length === 0
-  const shown = candles.map((candle) =>
-    revealCandle(
-      candle,
-      getStaggeredProgress(reveal, candle.index, data.length)
-    )
+  const shown = React.useMemo(
+    () =>
+      candles.map((candle) =>
+        revealCandle(
+          candle,
+          getStaggeredProgress(reveal, candle.index, data.length)
+        )
+      ),
+    [candles, reveal, data.length]
   )
+  const drawnCandles = useChartDrawOrder(shown, getCandleId)
   const mark = getLastCloseMark(model, shown)
-  const activeCandle =
-    activeIndex === null
+  // The crosshair and the tooltip sit on the candle as drawn now, so during
+  // a morph they travel with it instead of arriving first.
+  const drawnCandle =
+    shownIndex === null
       ? undefined
-      : model.candles.find((candle) => candle.index === activeIndex)
+      : shown.find((candle) => candle.index === shownIndex && !candle.isLeaving)
   const anchor =
-    activeIndex === null
+    shownIndex === null
       ? null
       : {
-          x: model.centers[activeIndex],
-          y: activeCandle ? activeCandle.high : price.y + price.height / 2,
+          x: drawnCandle?.x ?? model.centers[shownIndex],
+          y: drawnCandle ? drawnCandle.high : price.y + price.height / 2,
         }
 
   return (
@@ -211,53 +288,7 @@ function CandlestickChart<TDatum extends ChartDatum>({
                 label: model.labels[position],
               }))}
             />
-            <g clipPath={`url(#${id}-plot)`}>
-              {shown.map((candle) => {
-                const color = getChartColor(candle.paint)
-                const body = getCandleBody(candle)
-                const bar = getCandleVolume(candle)
-                const wick = getCandleWickX(candle)
-                return (
-                  <g
-                    key={candle.id}
-                    data-slot="candlestick-chart-candle"
-                    data-direction={candle.direction}
-                    data-dimmed={candle.isLeaving || undefined}
-                    className="cn-candlestick-chart-candle"
-                    fill={color}
-                    stroke={color}
-                  >
-                    {bar && (
-                      <rect
-                        data-slot="candlestick-chart-volume"
-                        className="cn-candlestick-chart-volume"
-                        x={bar.x}
-                        y={bar.y}
-                        width={bar.width}
-                        height={bar.height}
-                        strokeWidth={0}
-                      />
-                    )}
-                    <line
-                      data-slot="candlestick-chart-wick"
-                      x1={wick}
-                      x2={wick}
-                      y1={candle.high}
-                      y2={candle.low}
-                      strokeWidth={1}
-                    />
-                    <rect
-                      data-slot="candlestick-chart-body"
-                      x={body.x}
-                      y={body.y}
-                      width={body.width}
-                      height={body.height}
-                      strokeWidth={0}
-                    />
-                  </g>
-                )
-              })}
-            </g>
+            <CandlestickCandles candles={drawnCandles} clipId={`${id}-plot`} />
             {mark && (
               <g data-slot="candlestick-chart-last-close">
                 <line
@@ -287,18 +318,24 @@ function CandlestickChart<TDatum extends ChartDatum>({
                 </text>
               </g>
             )}
-            {activeIndex !== null && (
+            {shownIndex !== null && (
               <ChartCrosshair
-                x={model.centers[activeIndex]}
+                x={drawnCandle?.x ?? model.centers[shownIndex]}
                 top={plot.y}
                 bottom={plot.y + plot.height}
+                leaving={readout.isLeaving}
               />
             )}
           </svg>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (
-          <ChartTooltip content={content} anchor={anchor} frame={size} />
+          <ChartTooltip
+            content={content}
+            anchor={anchor}
+            frame={size}
+            leaving={readout.isLeaving}
+          />
         )}
         {!isEmpty && (
           <ChartInspector
@@ -308,7 +345,7 @@ function CandlestickChart<TDatum extends ChartDatum>({
             onActiveChange={inspect}
             getIndexAt={(point) => getNearestIndex(model.centers, point.x)}
             valueText={
-              content
+              activeIndex !== null && content
                 ? `${content.title}: ${content.rows
                     .map((row) => `${row.label} ${row.value}`)
                     .join(", ")}`

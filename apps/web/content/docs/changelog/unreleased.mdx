@@ -29,6 +29,28 @@ These changes are merged and ship in the next version.
 
 **Tab Strip rename.** Base UI and Radix focus the inline field after a rename starts. Tab Strip now passes Biome's autofocus rule while keeping keyboard renaming.
 
+**Smoother chart hover.** Charts redraw only the crosshair, highlight and tooltip as the pointer moves, so hovering a large Candlestick or Heat Calendar no longer redraws every candle or day. `onActiveChange` now fires when the inspected mark changes, not on every pointer move or React Native drag event. Status Bar lifts a copy of the inspected pill that glides along the bar, and the other pills dim to 40%, so hovering no longer lays out the whole page on every step.
+
+**Chart readouts fade out.** When the pointer leaves a chart or you press Escape, its tooltip, crosshair, dots, band and lifted day or pill fade out on the tooltip's exit timing instead of vanishing, and the tooltip shrinks slightly toward its mark. Coming back during the fade picks up the same readout without a second entrance. Dimming still clears at once. On React Native, the overlays fade out when you lift your finger.
+
+**Chart tooltips grow from their mark.** The tooltip grows and shrinks from the edge facing the mark it describes, as popups grow from their trigger. The positioner carries `data-placement` (`after`, `before` or `above`).
+
+**Charts under Reduce Motion.** With Reduce Motion on, charts appear fully drawn and fade in, instead of popping in when scrolled into view. Dimming and highlight washes still fade; only sweeps, growth, glides and morphs are dropped. The same holds on React Native, where the crosshair, dots and tooltip also keep their fade.
+
+**One dim level for charts.** Spotlit and inspected marks dim the others to 40% on the hover timing in every chart, on the web and React Native. Treemap cells keep their lighter dim so their labels stay readable.
+
+**Steadier Sankey and Bump hover.** Moving across the gaps between Sankey ribbons keeps the last ribbon lit and its tooltip in place, instead of flashing the whole diagram back to full strength. On Bump Chart, the spotlight hands over from one line to the next without lighting every line in between, and the tooltip stays on a line: the one you pointed at, or rank 1 when you use the keyboard.
+
+**Charts morph as one.** When the data changes or the legend hides a series, leaving marks fade out as they shrink instead of stopping at the dim level and popping. Bump Chart names ride their lines to new ranks and down with a hidden series, Funnel and Sankey labels fade with their stage or node, and the Radial Chart's centre counts up with its first ring. Tooltips, crosshairs and lifted marks travel with the drawn marks during a morph instead of arriving first. On React Native, names, the radial centre and tooltips follow the morph, leaving marks fade to the dim level as they shrink, and Funnel and Sankey labels fade with their stage or node.
+
+**Donut centre and value list.** Moving across slices swaps the Donut Chart's centre value through a soft blur, so two numbers never smear together. The value list's share bars open with the ring on its timing and finish with it, then resize smoothly when the data changes, on the web and React Native.
+
+**Chart frames fade in.** Gridlines and axis labels fade in once when a chart first draws, instead of appearing at full strength while the marks are still drawing. Radar's grid and Heat Calendar's month and weekday labels fade the same way, on the web and React Native.
+
+**Lifted marks grow out of their mark.** Heat Calendar's lifted day and Status Bar's lifted pill grow from the size of their mark as they fade in where the pointer lands, then glide from mark to mark without growing again. With Reduce Motion on, they fade in at full size.
+
+**React Native chart motion.** The Pie and Donut slice lift, the Line and Area draw-in and every dim run on the UI thread instead of redrawing the chart each frame, and a scrub on Line, Area, Bar or Composition no longer redraws its marks. The lift glides on the same quick timing as the website, and dimmed marks fade instead of snapping. Scrub ticks are at least 40ms apart: a fast scrub across a dense chart gives distinct ticks instead of a buzz, and the mark you stop on always ticks. In apps that enable React Native's IntersectionObserver, a chart's draw-in waits until a quarter of it is on screen.
+
 ## Docs
 
 **App Shell primitives.** The App Shell row under Components links to the overview and expands to show its installable companions and individual references. Each primitive reference starts with a live preview and its code. The overview shows how to customize sidebar grouping and tab placement.

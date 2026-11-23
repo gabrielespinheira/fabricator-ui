@@ -4,6 +4,7 @@ import * as React from "react"
 import { cn } from "cn"
 
 import {
+  getBumpAnchor,
   getBumpChartModel,
   getBumpLegendValue,
   getBumpPath,
@@ -12,6 +13,7 @@ import {
   getBumpTable,
   getBumpTooltip,
   interpolateBumpSeries,
+  type BumpName,
   type BumpRanking,
   type BumpSeriesGeometry,
 } from "@/registry/bases/__base__/lib/chart-bump-model"
@@ -32,7 +34,9 @@ import {
   ChartInspector,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
   useChartLegendState,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -67,6 +71,10 @@ type BumpChartProps<TDatum extends ChartDatum> = {
 
 const FALLBACK_SIZE = { width: 480, height: 240 }
 const NO_SERIES: BumpSeriesGeometry[] = []
+
+function getSeriesKey(item: BumpSeriesGeometry) {
+  return item.key
+}
 
 function toSvgId(id: string) {
   return id.replace(/[^a-zA-Z0-9_-]/g, "")
@@ -195,12 +203,37 @@ function BumpChart<TDatum extends ChartDatum>({
     (from, to, progress) => interpolateBumpSeries(from, to, progress, floor),
     animate ? dataVersion : null
   )
+  const drawnSeries = useChartDrawOrder(series, getSeriesKey)
+  // A hidden series leaves the model's names at once, but its name should
+  // ride down with its line: keep the last one seen for every series. Not
+  // the previous names: the tween renders every frame, so they would hold
+  // the new names from the second frame on.
+  const [knownNames, setKnownNames] = React.useState<
+    ReadonlyMap<string, BumpName>
+  >(() => new Map())
+  const hasNewNames = model.names.some(
+    (entry) => knownNames.get(entry.key) !== entry
+  )
+  if (hasNewNames) {
+    setKnownNames(
+      new Map([
+        ...knownNames,
+        ...model.names.map((entry): [string, BumpName] => [entry.key, entry]),
+      ])
+    )
+  }
 
   const activeIndex = active !== null && active < data.length ? active : null
+  // The readout outlives inspection by the tooltip role's exit, to fade out.
+  const shown = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    shown.value !== null && shown.value < data.length ? shown.value : null
+  // The pointed line clears as the pointer leaves too: the fading readout
+  // keeps the last one so it doesn't slide to the middle on its way out.
+  const shownPointed = useChartPresence(plotRef, pointed)
+  const anchorKey = shown.isLeaving ? shownPointed.value : pointed
   const content =
-    activeIndex === null
-      ? null
-      : getBumpTooltip(model, activeIndex, formatValue)
+    shownIndex === null ? null : getBumpTooltip(model, shownIndex, formatValue)
   const table = React.useMemo(
     () => getBumpTable(model, formatValue),
     [model, formatValue]
@@ -216,22 +249,11 @@ function BumpChart<TDatum extends ChartDatum>({
   const showLegend = legend ?? allSeries.length > 1
   const focus = spotlight ?? pointed
   const isDimmed = (item: BumpSeriesGeometry) =>
-    (focus !== null && focus !== item.key) || item.isLeaving === true
+    item.isLeaving !== true && focus !== null && focus !== item.key
   const sweep =
     reveal >= 1 ? Number.POSITIVE_INFINITY : (size?.width ?? 0) * reveal
-  const pointedPoint =
-    activeIndex === null || pointed === null
-      ? null
-      : (model.series.find((item) => item.key === pointed)?.points[
-          activeIndex
-        ] ?? null)
   const anchor =
-    activeIndex === null
-      ? null
-      : {
-          x: model.positions[activeIndex],
-          y: pointedPoint ? pointedPoint.y : plot.y + plot.height / 2,
-        }
+    shownIndex === null ? null : getBumpAnchor(model, shownIndex, anchorKey)
 
   return (
     <div
@@ -247,12 +269,13 @@ function BumpChart<TDatum extends ChartDatum>({
         className="cn-chart-plot relative min-h-0 flex-1"
         onPointerMove={(event) => {
           const box = event.currentTarget.getBoundingClientRect()
-          setPointed(
-            getBumpSeriesAt(model, {
-              x: event.clientX - box.left,
-              y: event.clientY - box.top,
-            })
-          )
+          const hit = getBumpSeriesAt(model, {
+            x: event.clientX - box.left,
+            y: event.clientY - box.top,
+          })
+          // A miss keeps the line last pointed at, so crossing from one line
+          // to the next moves the spotlight once instead of blinking.
+          if (hit !== null) setPointed(hit)
         }}
         onPointerLeave={() => setPointed(null)}
       >
@@ -286,18 +309,20 @@ function BumpChart<TDatum extends ChartDatum>({
                 label: model.labels[position],
               }))}
             />
-            {activeIndex !== null && (
+            {shownIndex !== null && (
               <ChartCrosshair
-                x={model.positions[activeIndex]}
+                x={model.positions[shownIndex]}
                 top={plot.y - radius}
                 bottom={plot.y + plot.height + radius}
+                leaving={shown.isLeaving}
               />
             )}
             <g clipPath={`url(#${id}-reveal)`}>
-              {series.map((item) => (
+              {drawnSeries.map((item) => (
                 <path
                   key={item.key}
                   data-slot="chart-series"
+                  data-leaving={item.isLeaving || undefined}
                   data-dimmed={isDimmed(item) || undefined}
                   className="cn-chart-series"
                   d={getBumpPath(item.points)}
@@ -309,9 +334,15 @@ function BumpChart<TDatum extends ChartDatum>({
                 />
               ))}
             </g>
-            {series.map((item) => {
+            {drawnSeries.map((item) => {
               const color = getChartColor(item.paint)
-              const name = model.names.find((entry) => entry.key === item.key)
+              const name =
+                model.names.find((entry) => entry.key === item.key) ??
+                (item.isLeaving ? knownNames.get(item.key) : undefined)
+              // The name rides the drawn line's last point, so it travels
+              // with its line when the ranks change instead of waiting there.
+              const last = item.points[item.points.length - 1]
+              const nameY = last ? last.y : name?.y
               const nameAmount = name
                 ? getBumpRevealAmount(sweep, name.x, radius)
                 : 0
@@ -319,6 +350,7 @@ function BumpChart<TDatum extends ChartDatum>({
                 <g
                   key={item.key}
                   data-slot="bump-chart-points"
+                  data-leaving={item.isLeaving || undefined}
                   data-dimmed={isDimmed(item) || undefined}
                   className="cn-chart-series"
                 >
@@ -350,12 +382,12 @@ function BumpChart<TDatum extends ChartDatum>({
                       </g>
                     )
                   })}
-                  {name && !item.isLeaving && (
+                  {name && nameY !== undefined && (
                     <text
                       data-slot="bump-chart-name"
                       className="cn-bump-chart-name"
                       x={name.x}
-                      y={name.y}
+                      y={nameY}
                       opacity={nameAmount}
                       dominantBaseline="central"
                     >
@@ -369,7 +401,12 @@ function BumpChart<TDatum extends ChartDatum>({
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (
-          <ChartTooltip content={content} anchor={anchor} frame={size} />
+          <ChartTooltip
+            content={content}
+            anchor={anchor}
+            frame={size}
+            leaving={shown.isLeaving}
+          />
         )}
         {!isEmpty && (
           <ChartInspector
@@ -379,7 +416,7 @@ function BumpChart<TDatum extends ChartDatum>({
             onActiveChange={inspect}
             getIndexAt={(point) => getNearestIndex(model.positions, point.x)}
             valueText={
-              content
+              activeIndex !== null && content
                 ? `${content.title}: ${content.rows
                     .map((row) => `${row.label} ${row.value}`)
                     .join(", ")}`

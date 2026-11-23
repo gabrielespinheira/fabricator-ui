@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  getBumpAnchor,
   getBumpChartModel,
   getBumpLegendValue,
   getBumpMovement,
@@ -217,6 +218,55 @@ describe("getBumpSeriesAt", () => {
     expect(
       getBumpSeriesAt(current, { x: current.positions[0], y: top - 40 })
     ).toBeNull()
+  })
+})
+
+describe("getBumpAnchor", () => {
+  it("points at the pointed series' point at the index", () => {
+    const current = model()
+    const beta = find(current, "beta").points[1]
+    expect(getBumpAnchor(current, 1, "beta")).toEqual({
+      x: current.positions[1],
+      y: beta?.y,
+    })
+  })
+
+  it("points at the top-most point with no pointed series", () => {
+    const current = model()
+    const ys = current.series.flatMap((item) => {
+      const point = item.points[1]
+      return point ? [point.y] : []
+    })
+    expect(getBumpAnchor(current, 1, null)).toEqual({
+      x: current.positions[1],
+      y: Math.min(...ys),
+    })
+    expect(getBumpAnchor(current, 1, null).y).toBe(
+      find(current, "beta").points[1]?.y
+    )
+  })
+
+  it("falls back to the top-most point where the pointed series has a gap", () => {
+    const current = model({
+      data: [
+        { month: "Jan", alpha: 1, beta: 2, gamma: 3 },
+        { month: "Feb", beta: 1, gamma: 2 },
+      ],
+    })
+    expect(find(current, "alpha").points[1]).toBeNull()
+    expect(getBumpAnchor(current, 1, "alpha").y).toBe(
+      find(current, "beta").points[1]?.y
+    )
+  })
+
+  it("points at the plot's middle where every series has a gap", () => {
+    const current = model({
+      data: [{ month: "Jan", alpha: 1, beta: 2, gamma: 3 }, { month: "Feb" }],
+    })
+    expect(getBumpAnchor(current, 1, "alpha")).toEqual({
+      x: current.positions[1],
+      y: current.plot.y + current.plot.height / 2,
+    })
   })
 })
 

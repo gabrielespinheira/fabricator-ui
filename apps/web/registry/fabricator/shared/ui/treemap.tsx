@@ -31,7 +31,9 @@ import {
   ChartLegend,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
   useChartLegendState,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -66,6 +68,10 @@ type TreemapProps<TDatum extends ChartDatum> = {
 
 const FALLBACK_SIZE = { width: 480, height: 288 }
 const NO_CELLS: TreemapCell[] = []
+
+function getCellId(cell: TreemapCell) {
+  return cell.id
+}
 
 function Treemap<TDatum extends ChartDatum>({
   data,
@@ -137,14 +143,23 @@ function Treemap<TDatum extends ChartDatum>({
     interpolateTreemapCells,
     animate ? dataVersion : null
   )
+  const drawnCells = useChartDrawOrder(cells, getCellId)
 
   const activeIndex =
     active !== null && active < model.cells.length ? active : null
   const activeCell = activeIndex === null ? null : model.cells[activeIndex]
+  // The readout outlives inspection by the tooltip role's exit, to fade out.
+  // The lit cell and the dim follow the live index.
+  const shown = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    shown.value !== null && shown.value < model.cells.length
+      ? shown.value
+      : null
+  const shownCell = shownIndex === null ? null : model.cells[shownIndex]
   const content =
-    activeIndex === null
+    shownIndex === null
       ? null
-      : getTreemapTooltip(model, activeIndex, formatValue)
+      : getTreemapTooltip(model, shownIndex, formatValue)
   const table = React.useMemo(
     () => getTreemapTable(model, formatValue),
     [model, formatValue]
@@ -162,8 +177,8 @@ function Treemap<TDatum extends ChartDatum>({
 
   const isEmpty = model.cells.length === 0
   const showLegend = legend ?? groups.length > 1
-  const drawnActive = activeCell
-    ? (cells.find((cell) => cell.id === activeCell.id) ?? activeCell)
+  const drawnActive = shownCell
+    ? (cells.find((cell) => cell.id === shownCell.id) ?? shownCell)
     : null
   const anchor = drawnActive
     ? {
@@ -195,19 +210,19 @@ function Treemap<TDatum extends ChartDatum>({
             height={size.height}
             className="absolute inset-0 overflow-visible"
           >
-            {cells.map((cell, order) => {
+            {drawnCells.map((cell, order) => {
               const revealed = revealTreemapCell(
                 cell,
-                getStaggeredProgress(reveal, order, cells.length)
+                getStaggeredProgress(reveal, order, drawnCells.length)
               )
               const drawn = revealed.cell
               const isActive = cell.id === activeCell?.id
               const isDimmed =
-                cell.isLeaving ||
-                (activeCell !== null && !isActive) ||
-                (activeCell === null &&
-                  spotlight !== null &&
-                  spotlight !== cell.group)
+                !cell.isLeaving &&
+                ((activeCell !== null && !isActive) ||
+                  (activeCell === null &&
+                    spotlight !== null &&
+                    spotlight !== cell.group))
               const color = getChartColor(cell.paint)
               const labels = getTreemapLabels(drawn, fontSize)
               const width = Math.max(0, drawn.width - 1)
@@ -217,6 +232,7 @@ function Treemap<TDatum extends ChartDatum>({
                   <g
                     data-slot="treemap-cell"
                     data-active={isActive || undefined}
+                    data-leaving={cell.isLeaving || undefined}
                     data-dimmed={isDimmed || undefined}
                     className="cn-treemap-cell"
                   >
@@ -263,7 +279,12 @@ function Treemap<TDatum extends ChartDatum>({
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (
-          <ChartTooltip content={content} anchor={anchor} frame={size} />
+          <ChartTooltip
+            content={content}
+            anchor={anchor}
+            frame={size}
+            leaving={shown.isLeaving}
+          />
         )}
         {!isEmpty && (
           <ChartInspector
@@ -273,7 +294,7 @@ function Treemap<TDatum extends ChartDatum>({
             onActiveChange={inspect}
             getIndexAt={(point) => getTreemapCellAt(model, point)}
             valueText={
-              content
+              activeIndex !== null && content
                 ? `${content.title}: ${content.rows
                     .map((row) => `${row.label} ${row.value}`)
                     .join(", ")}`

@@ -10,7 +10,9 @@ import {
 } from "react-native"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
 import Animated, {
+  ReduceMotion,
   runOnJS,
+  useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -22,6 +24,8 @@ import { MOTION_SPEED_NAMES, MOTION_SPEEDS } from "@/registry/fabricator/motion"
 import { type ChartTick } from "@/registry/fabricator/shared/lib/chart-cartesian-model"
 import {
   getCubicBezier,
+  getScrubTick,
+  getSteadyDrawOrder,
   getSteppedIndex,
   getTooltipPosition,
   parseCubicBezier,
@@ -44,6 +48,8 @@ import { Text } from "@/registry/native/ui/text"
 // geometry comes from the same models the website draws.
 
 // The plot, gridline and axis rules are read as styles and drawn into SVG.
+const AnimatedG = Animated.createAnimatedComponent(G)
+
 const chartPlotStyle = cva("cn-chart-plot")
 const chartGridStyle = cva("cn-chart-grid")
 const chartAxisStyle = cva("cn-chart-axis")
@@ -119,11 +125,49 @@ function animateProgress(
   return () => cancelAnimationFrame(frame)
 }
 
+/** A host view React Native's IntersectionObserver can watch. */
+function isObservable(value: unknown): value is Element {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "getBoundingClientRect" in value
+  )
+}
+
 /**
- * The draw-in: 0 until the plot has a size, then 1 over the reveal role's
- * duration. Once per mount; 1 straight away when `enabled` is off.
+ * Calls `start` once a quarter of `element` is on screen, as the website's
+ * draw-in waits, and returns the cleanup. React Native installs
+ * IntersectionObserver only where the app enables it; without it, or
+ * without a host view, `start` runs at once.
  */
-function useChartReveal(isReady: boolean, enabled: boolean) {
+function startWhenVisible(element: unknown, start: () => void) {
+  if (typeof IntersectionObserver === "undefined" || !isObservable(element)) {
+    start()
+    return undefined
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return
+      observer.disconnect()
+      start()
+    },
+    { threshold: 0.25 }
+  )
+  observer.observe(element)
+  return () => observer.disconnect()
+}
+
+/**
+ * The draw-in: 0 until the plot is on screen, then 1 over the reveal role's
+ * duration, as on the website. Where the app hasn't enabled React Native's
+ * IntersectionObserver, it starts once the plot has a size. Once per mount;
+ * 1 straight away when `enabled` is off.
+ */
+function useChartReveal(
+  isReady: boolean,
+  enabled: boolean,
+  target?: React.RefObject<React.ComponentRef<typeof View> | null>
+) {
   const timing = useChartTiming("reveal")
   const [progress, setProgress] = React.useState(enabled ? 0 : 1)
   const hasStarted = React.useRef(!enabled)
@@ -133,11 +177,95 @@ function useChartReveal(isReady: boolean, enabled: boolean) {
   // unmounting stops it.
   React.useEffect(() => {
     if (hasStarted.current || !isReady) return
-    hasStarted.current = true
-    cancel.current = animateProgress(timing, setProgress)
-  }, [isReady, timing])
+    const start = () => {
+      hasStarted.current = true
+      cancel.current = animateProgress(timing, setProgress)
+    }
+    // With no draw-in to watch (Reduce Motion, motion off), the chart is
+    // drawn at once, as the website's is, and its fade runs on mount.
+    if (timing.duration <= 0) {
+      start()
+      return
+    }
+    return startWhenVisible(target?.current, start)
+  }, [isReady, target, timing])
   React.useEffect(() => () => cancel.current(), [])
 
+  return progress
+}
+
+/**
+ * Under Reduce Motion the draw-in's sweeps and growth go, but the plot still
+ * fades in once, the first time it has a size, on the tooltip role as the
+ * website's plot SVG does, so it doesn't appear in a single frame. Nothing
+ * fades with motion off or `animate` off, and nothing changes without
+ * Reduce Motion.
+ */
+function ChartRevealFade({
+  isReady,
+  enabled,
+  children,
+}: {
+  isReady: boolean
+  enabled: boolean
+  children: React.ReactNode
+}) {
+  const tooltip = useMotion("tooltip")
+  const isFading = enabled && tooltip.isReduced && !tooltip.isOff
+  const opacity = useSharedValue(isFading ? 0 : 1)
+  const hasStarted = React.useRef(!isFading)
+  React.useEffect(() => {
+    if (hasStarted.current || !isReady) return
+    hasStarted.current = true
+    opacity.set(
+      withTiming(1, {
+        duration: tooltip.enterMs,
+        easing: tooltip.enterEasing,
+        reduceMotion: ReduceMotion.Never,
+      })
+    )
+  }, [isReady, tooltip, opacity])
+  const style = useAnimatedStyle(() => ({ opacity: opacity.get() }))
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[StyleSheet.absoluteFill, style]}
+    >
+      {children}
+    </Animated.View>
+  )
+}
+
+/**
+ * The draw-in as a shared value, for a reveal that only widens a clip: it
+ * runs on the UI thread, so the plot doesn't re-render per frame. The same
+ * timing and start as useChartReveal.
+ */
+function useChartRevealValue(
+  isReady: boolean,
+  enabled: boolean,
+  target?: React.RefObject<React.ComponentRef<typeof View> | null>
+) {
+  const reveal = useMotion("reveal")
+  const progress = useSharedValue(enabled ? 0 : 1)
+  const hasStarted = React.useRef(!enabled)
+  React.useEffect(() => {
+    if (hasStarted.current || !isReady) return
+    if (reveal.isReduced || reveal.isOff) {
+      hasStarted.current = true
+      progress.set(1)
+      return
+    }
+    return startWhenVisible(target?.current, () => {
+      hasStarted.current = true
+      progress.set(
+        withTiming(1, {
+          duration: reveal.enterMs,
+          easing: reveal.enterEasing,
+        })
+      )
+    })
+  }, [isReady, progress, reveal, target])
   return progress
 }
 
@@ -184,6 +312,34 @@ function useChartTween<TValue>(
   }, [run, timing])
 
   return blend(tween.from, target, tween.progress)
+}
+
+/**
+ * Tweened marks in a steady drawing order: the tweens list leaving marks
+ * last, which would lift a leaving mark over the others while it fades, so
+ * each keeps its place and keys that left are remembered. Pass a `getKey`
+ * defined outside the component, so the result stays memoized.
+ */
+function useChartDrawOrder<TItem>(
+  items: readonly TItem[],
+  getKey: (item: TItem) => string
+): readonly TItem[] {
+  const keys = items.map(getKey)
+  const [order, setOrder] = React.useState<readonly string[]>(keys)
+  const nextOrder = getSteadyDrawOrder(order, keys)
+  if (nextOrder !== order) setOrder(nextOrder)
+
+  return React.useMemo(() => {
+    const byKey = new Map(items.map((item) => [getKey(item), item]))
+    const ordered = nextOrder.flatMap((key) => {
+      const item = byKey.get(key)
+      return item === undefined ? [] : [item]
+    })
+    const isInOrder = ordered.every(
+      (item, position) => item === items[position]
+    )
+    return isInOrder ? items : ordered
+  }, [items, nextOrder, getKey])
 }
 
 // --- State ---------------------------------------------------------------------
@@ -248,6 +404,24 @@ function readColor(
 
 // --- SVG parts -----------------------------------------------------------------
 
+/**
+ * A group of the chart's frame (gridlines, axis labels): it fades in once on
+ * the tooltip role when the chart first draws, so the frame doesn't pop
+ * while the marks draw in. Never keyed, so it doesn't fade again.
+ */
+function ChartFrame({ children, ...props }: React.ComponentProps<typeof G>) {
+  // Under Reduce Motion the plot's ChartRevealFade fades the whole chart, so
+  // the frame doesn't fade a second time inside it.
+  const isReduced = useMotion("tooltip").isReduced
+  const opacity = useFadeIn(isReduced)
+  const fadeProps = useAnimatedProps(() => ({ opacity: opacity.get() }))
+  return (
+    <AnimatedG {...props} animatedProps={fadeProps}>
+      {children}
+    </AnimatedG>
+  )
+}
+
 function ChartGrid({
   ticks,
   orientation = "horizontal",
@@ -264,7 +438,7 @@ function ChartGrid({
   const style = useResolveClassNames(cn(chartGridStyle(), className))
   const stroke = readColor(style, "color")
   return (
-    <G data-slot="chart-grid">
+    <ChartFrame data-slot="chart-grid">
       {ticks.map((tick) =>
         orientation === "horizontal" ? (
           <Line
@@ -288,7 +462,7 @@ function ChartGrid({
           />
         )
       )}
-    </G>
+    </ChartFrame>
   )
 }
 
@@ -307,7 +481,7 @@ function ChartAxis({
   const fill = readColor(style, "color")
   const fontSize = typeof style.fontSize === "number" ? style.fontSize : 11
   return (
-    <G data-slot="chart-axis">
+    <ChartFrame data-slot="chart-axis">
       {ticks.map((tick, index) =>
         side === "start" ? (
           <SvgText
@@ -335,8 +509,72 @@ function ChartAxis({
           </SvgText>
         )
       )}
-    </G>
+    </ChartFrame>
   )
+}
+
+/**
+ * A mark that fades back while another is spotlit or inspected, or while it
+ * leaves the data, on the feedback timing both ways, as the website's
+ * data-dimmed transition. Reduce Motion keeps it: a fade isn't movement.
+ */
+function ChartDimmable({
+  isDimmed,
+  dimmedOpacity,
+  children,
+}: {
+  isDimmed: boolean
+  dimmedOpacity: number
+  children: React.ReactNode
+}) {
+  const feedback = useMotion("feedback")
+  const target = isDimmed ? dimmedOpacity : 1
+  const opacity = useSharedValue(target)
+  React.useEffect(() => {
+    opacity.set(
+      feedback.isOff
+        ? target
+        : withTiming(target, {
+            duration: feedback.enterMs,
+            easing: feedback.feedbackEasing,
+            reduceMotion: ReduceMotion.Never,
+          })
+    )
+  }, [target, opacity, feedback])
+  const animatedProps = useAnimatedProps(() => ({ opacity: opacity.get() }))
+  return <AnimatedG animatedProps={animatedProps}>{children}</AnimatedG>
+}
+
+/**
+ * A mark's labels: they fade in with an arriving mark on the move role, and
+ * out to `leavingOpacity` while it leaves, as the website's label presence
+ * rule does, instead of popping. Reduce Motion keeps the fade.
+ */
+function ChartLabelPresence({
+  isLeaving,
+  leavingOpacity,
+  children,
+}: {
+  isLeaving: boolean
+  leavingOpacity: number
+  children: React.ReactNode
+}) {
+  const move = useMotion("move")
+  const target = isLeaving ? leavingOpacity : 1
+  const opacity = useSharedValue(move.isOff ? target : 0)
+  React.useEffect(() => {
+    opacity.set(
+      move.isOff
+        ? target
+        : withTiming(target, {
+            duration: move.enterMs,
+            easing: move.moveEasing,
+            reduceMotion: ReduceMotion.Never,
+          })
+    )
+  }, [target, opacity, move])
+  const animatedProps = useAnimatedProps(() => ({ opacity: opacity.get() }))
+  return <AnimatedG animatedProps={animatedProps}>{children}</AnimatedG>
 }
 
 // --- Overlays ------------------------------------------------------------------
@@ -369,21 +607,50 @@ function useGlide(value: number, isReady = true) {
   return shared
 }
 
-/** An opacity that fades in on the tooltip role when an overlay mounts. */
-function useFadeIn() {
+/**
+ * An opacity that fades in on the tooltip role when an overlay mounts.
+ * Reanimated jumps a timing to its end under Reduce Motion by default; a
+ * fade isn't movement, so it stays. `isInstant` skips it for a part whose
+ * fade something around it already carries.
+ */
+function useFadeIn(isInstant = false) {
   const tooltip = useMotion("tooltip")
   const opacity = useSharedValue(0)
   React.useEffect(() => {
     opacity.set(
-      tooltip.isOff
+      isInstant || tooltip.isOff
         ? 1
         : withTiming(1, {
             duration: tooltip.enterMs,
             easing: tooltip.enterEasing,
+            reduceMotion: ReduceMotion.Never,
           })
     )
-  }, [opacity, tooltip])
+  }, [isInstant, opacity, tooltip])
   return opacity
+}
+
+/**
+ * An overlay's exit: it fades out on the tooltip role as it unmounts, Reduce
+ * Motion included, since a fade moves nothing.
+ */
+function useFadeOut() {
+  const tooltip = useMotion("tooltip")
+  return React.useMemo(() => {
+    if (tooltip.isOff) return undefined
+    const exit = {
+      duration: tooltip.exitMs,
+      easing: tooltip.exitEasing,
+      reduceMotion: ReduceMotion.Never,
+    }
+    return () => {
+      "worklet"
+      return {
+        initialValues: { opacity: 1 },
+        animations: { opacity: withTiming(0, exit) },
+      }
+    }
+  }, [tooltip])
 }
 
 /** The vertical hairline that finds the inspected index. */
@@ -400,6 +667,7 @@ function ChartCrosshair({
 }) {
   const position = useGlide(x)
   const opacity = useFadeIn()
+  const exiting = useFadeOut()
   const animated = useAnimatedStyle(() => ({
     opacity: opacity.get(),
     transform: [{ translateX: position.get() }],
@@ -407,6 +675,7 @@ function ChartCrosshair({
   return (
     <Animated.View
       data-slot="chart-crosshair"
+      exiting={exiting}
       pointerEvents="none"
       className={cn("cn-chart-crosshair absolute left-0", className)}
       style={[
@@ -432,6 +701,7 @@ function ChartDot({
   const x = useGlide(point.x)
   const y = useGlide(point.y)
   const opacity = useFadeIn()
+  const exiting = useFadeOut()
   const animated = useAnimatedStyle(() => ({
     opacity: opacity.get(),
     transform: [{ translateX: x.get() - 6 }, { translateY: y.get() - 6 }],
@@ -439,6 +709,7 @@ function ChartDot({
   return (
     <Animated.View
       data-slot="chart-dot"
+      exiting={exiting}
       pointerEvents="none"
       className={cn("cn-chart-dot absolute top-0 left-0", className)}
       style={animated}
@@ -462,6 +733,7 @@ function ChartBand({
   const x = useGlide(rect.x)
   const y = useGlide(rect.y)
   const opacity = useFadeIn()
+  const exiting = useFadeOut()
   const animated = useAnimatedStyle(() => ({
     opacity: opacity.get(),
     transform: [{ translateX: x.get() }, { translateY: y.get() }],
@@ -469,6 +741,7 @@ function ChartBand({
   return (
     <Animated.View
       data-slot="chart-band"
+      exiting={exiting}
       pointerEvents="none"
       className={cn("cn-chart-band absolute top-0 left-0", className)}
       style={[{ width: rect.width, height: rect.height }, animated]}
@@ -506,6 +779,7 @@ function ChartTooltip({
   const x = useGlide(position.x, isPlaced)
   const y = useGlide(position.y, isPlaced)
   const opacity = useFadeIn()
+  const exiting = useFadeOut()
   const animated = useAnimatedStyle(() => ({
     opacity: isPlaced ? opacity.get() : 0,
     transform: [{ translateX: x.get() }, { translateY: y.get() }],
@@ -514,6 +788,7 @@ function ChartTooltip({
   return (
     <Animated.View
       data-slot="chart-tooltip"
+      exiting={exiting}
       pointerEvents="none"
       importantForAccessibility="no-hide-descendants"
       accessibilityElementsHidden
@@ -729,16 +1004,49 @@ function ChartInspector({
   const feedback = useFeedback()
   const last = React.useRef<number | null>(null)
   const isScrubbing = useSharedValue(false)
+  const lastTickAt = React.useRef<number | null>(null)
+  const pendingTick = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  const cancelPendingTick = React.useCallback(() => {
+    if (pendingTick.current === null) return
+    clearTimeout(pendingTick.current)
+    pendingTick.current = null
+  }, [])
+  // Snaps closer than CHART_TICK_GAP skip their tick, and the mark the
+  // finger comes to rest on gets it once the gap has passed.
+  const tick = React.useCallback(
+    (index: number) => {
+      cancelPendingTick()
+      const now = Date.now()
+      const decision = getScrubTick(now, lastTickAt.current)
+      if (decision.isPlayed) {
+        lastTickAt.current = now
+        feedback("tick")
+        return
+      }
+      pendingTick.current = setTimeout(() => {
+        pendingTick.current = null
+        if (last.current !== index) return
+        lastTickAt.current = Date.now()
+        feedback("tick")
+      }, decision.wait)
+    },
+    [cancelPendingTick, feedback]
+  )
+  React.useEffect(() => cancelPendingTick, [cancelPendingTick])
 
   const pick = React.useCallback(
     (x: number, y: number) => {
       const index = getIndexAt({ x, y })
       const next = index < 0 ? null : index
-      if (next !== last.current && next !== null) feedback("tick")
+      // Every report re-renders the chart: a finger moving within one mark
+      // reports nothing.
+      if (next === last.current) return
+      // Set first: a held tick checks the finger is still on its mark.
       last.current = next
+      if (next !== null) tick(next)
       onActiveChange(next)
     },
-    [feedback, getIndexAt, onActiveChange]
+    [getIndexAt, onActiveChange, tick]
   )
   // A tap pins the readout to the nearest mark; tapping that mark again lets
   // it go.
@@ -747,17 +1055,21 @@ function ChartInspector({
       const index = getIndexAt({ x, y })
       if (index < 0 || index === last.current) {
         last.current = null
+        cancelPendingTick()
+        lastTickAt.current = null
         onActiveChange(null)
         return
       }
       pick(x, y)
     },
-    [getIndexAt, onActiveChange, pick]
+    [cancelPendingTick, getIndexAt, onActiveChange, pick]
   )
   const release = React.useCallback(() => {
     last.current = null
+    cancelPendingTick()
+    lastTickAt.current = null
     onActiveChange(null)
-  }, [onActiveChange])
+  }, [cancelPendingTick, onActiveChange])
 
   const gesture = React.useMemo(() => {
     const start =
@@ -806,7 +1118,10 @@ function ChartInspector({
               ? "ArrowRight"
               : "ArrowLeft"
           const next = getStep(active ?? -1, key, count)
-          if (next !== null) onActiveChange(next)
+          if (next === null) return
+          // A later scrub compares with the last report, so this step counts.
+          last.current = next
+          onActiveChange(next)
         }}
         className={cn("cn-chart-inspector absolute inset-0", className)}
         {...props}
@@ -863,18 +1178,25 @@ export {
   ChartBand,
   ChartCrosshair,
   ChartDataTable,
+  ChartDimmable,
   ChartDot,
   ChartEmpty,
+  ChartFrame,
   ChartGrid,
   ChartInspector,
+  ChartLabelPresence,
   ChartLegend,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
+  useChartDrawOrder,
   useChartLegendState,
   useChartReveal,
+  useChartRevealValue,
   useChartSize,
   useChartTween,
   useFadeIn,
+  useFadeOut,
   useGlide,
 }

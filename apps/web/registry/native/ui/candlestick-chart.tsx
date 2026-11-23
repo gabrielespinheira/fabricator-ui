@@ -36,12 +36,15 @@ import {
   ChartAxis,
   ChartCrosshair,
   ChartDataTable,
+  ChartDimmable,
   ChartEmpty,
   ChartGrid,
   ChartInspector,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
+  useChartDrawOrder,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -102,6 +105,10 @@ function readStyle(style: ReturnType<typeof useResolveClassNames>) {
   }
 }
 
+function getCandleId(candle: Candle) {
+  return candle.id
+}
+
 function CandlestickChart<TDatum extends ChartDatum>({
   data,
   index,
@@ -150,7 +157,8 @@ function CandlestickChart<TDatum extends ChartDatum>({
     () => ({ data, config, volume }),
     [data, config, volume]
   )
-  const reveal = useChartReveal(size !== null, animate)
+  const plotRef = React.useRef<React.ComponentRef<typeof View>>(null)
+  const reveal = useChartReveal(size !== null, animate, plotRef)
   const candles = useChartTween(
     size ? model.candles : NO_CANDLES,
     interpolateCandles,
@@ -181,17 +189,22 @@ function CandlestickChart<TDatum extends ChartDatum>({
       getStaggeredProgress(reveal, candle.index, data.length)
     )
   )
+  const drawnCandles = useChartDrawOrder(shown, getCandleId)
   const mark = getLastCloseMark(model, shown)
-  const activeCandle =
+  // The crosshair and the tooltip sit on the candle as drawn now, so during
+  // a morph they travel with it instead of arriving first.
+  const drawnCandle =
     activeIndex === null
       ? undefined
-      : model.candles.find((candle) => candle.index === activeIndex)
+      : shown.find(
+          (candle) => candle.index === activeIndex && !candle.isLeaving
+        )
   const anchor =
     activeIndex === null
       ? null
       : {
-          x: model.centers[activeIndex],
-          y: activeCandle ? activeCandle.high : price.y + price.height / 2,
+          x: drawnCandle?.x ?? model.centers[activeIndex],
+          y: drawnCandle ? drawnCandle.high : price.y + price.height / 2,
         }
 
   return (
@@ -203,131 +216,136 @@ function CandlestickChart<TDatum extends ChartDatum>({
       {...props}
     >
       <View
+        ref={plotRef}
         data-slot="chart-plot"
         data-loading={loading}
         onLayout={onLayout}
         className="cn-chart-plot relative min-h-0 flex-1"
       >
         {size && !isEmpty && (
-          <Svg
-            width={size.width}
-            height={size.height}
-            style={{ position: "absolute" }}
-            importantForAccessibility="no-hide-descendants"
-          >
-            <Defs>
-              <ClipPath id={`${id}-plot`}>
-                <Rect
-                  x={plot.x}
-                  y={0}
-                  width={plot.width}
-                  height={size.height}
-                />
-              </ClipPath>
-            </Defs>
-            <ChartGrid
-              ticks={valueTicks}
-              start={plot.x}
-              end={plot.x + plot.width}
-            />
-            <ChartAxis
-              side="start"
-              ticks={valueTicks}
-              offset={plot.x - CHART_LABEL_GAP}
-            />
-            <ChartAxis
-              side="bottom"
-              offset={plot.y + plot.height + CHART_LABEL_GAP}
-              ticks={model.labelIndices.map((position) => ({
-                position: model.centers[position],
-                label: model.labels[position],
-              }))}
-            />
-            <G clipPath={`url(#${id}-plot)`}>
-              {shown.map((candle) => {
-                const color = getChartColor(candle.paint, colors)
-                const body = getCandleBody(candle)
-                const bar = getCandleVolume(candle)
-                const wick = getCandleWickX(candle)
-                return (
-                  <G
-                    key={candle.id}
-                    data-slot="candlestick-chart-candle"
-                    opacity={candle.isLeaving ? (dimmed.opacity ?? 0.25) : 1}
-                  >
-                    {bar && (
-                      <Rect
-                        data-slot="candlestick-chart-volume"
-                        x={bar.x}
-                        y={bar.y}
-                        width={bar.width}
-                        height={bar.height}
-                        fill={color}
-                        opacity={faint.opacity ?? 0.3}
-                      />
-                    )}
-                    <Line
-                      data-slot="candlestick-chart-wick"
-                      x1={wick}
-                      x2={wick}
-                      y1={candle.high}
-                      y2={candle.low}
-                      stroke={color}
-                      strokeWidth={1}
-                    />
-                    <Rect
-                      data-slot="candlestick-chart-body"
-                      x={body.x}
-                      y={body.y}
-                      width={body.width}
-                      height={body.height}
-                      fill={color}
-                    />
-                  </G>
-                )
-              })}
-            </G>
-            {mark && (
-              <G data-slot="candlestick-chart-last-close">
-                <Line
-                  x1={plot.x}
-                  x2={mark.pill.x}
-                  y1={mark.y}
-                  y2={mark.y}
-                  stroke={lastLine.color}
-                  strokeWidth={1}
-                  strokeDasharray={[2, 3]}
-                />
-                <Rect
-                  x={mark.pill.x}
-                  y={mark.pill.y}
-                  width={mark.pill.width}
-                  height={mark.pill.height}
-                  rx={mark.pill.height / 2}
-                  fill={lastPill.backgroundColor}
-                />
-                <SvgText
-                  x={mark.pill.x + mark.pill.width / 2}
-                  y={
-                    mark.pill.y +
-                    mark.pill.height / 2 +
-                    lastLabel.fontSize * 0.35
-                  }
-                  fill={lastLabel.color}
-                  fontSize={lastLabel.fontSize}
-                  fontWeight={lastLabel.fontWeight}
-                  fontFamily="Inter"
-                  textAnchor="middle"
-                >
-                  {mark.label}
-                </SvgText>
+          <ChartRevealFade isReady={size !== null} enabled={animate}>
+            <Svg
+              width={size.width}
+              height={size.height}
+              style={{ position: "absolute" }}
+              importantForAccessibility="no-hide-descendants"
+            >
+              <Defs>
+                <ClipPath id={`${id}-plot`}>
+                  <Rect
+                    x={plot.x}
+                    y={0}
+                    width={plot.width}
+                    height={size.height}
+                  />
+                </ClipPath>
+              </Defs>
+              <ChartGrid
+                ticks={valueTicks}
+                start={plot.x}
+                end={plot.x + plot.width}
+              />
+              <ChartAxis
+                side="start"
+                ticks={valueTicks}
+                offset={plot.x - CHART_LABEL_GAP}
+              />
+              <ChartAxis
+                side="bottom"
+                offset={plot.y + plot.height + CHART_LABEL_GAP}
+                ticks={model.labelIndices.map((position) => ({
+                  position: model.centers[position],
+                  label: model.labels[position],
+                }))}
+              />
+              <G clipPath={`url(#${id}-plot)`}>
+                {drawnCandles.map((candle) => {
+                  const color = getChartColor(candle.paint, colors)
+                  const body = getCandleBody(candle)
+                  const bar = getCandleVolume(candle)
+                  const wick = getCandleWickX(candle)
+                  return (
+                    <ChartDimmable
+                      key={candle.id}
+                      isDimmed={candle.isLeaving === true}
+                      dimmedOpacity={dimmed.opacity ?? 0.25}
+                    >
+                      <G data-slot="candlestick-chart-candle">
+                        {bar && (
+                          <Rect
+                            data-slot="candlestick-chart-volume"
+                            x={bar.x}
+                            y={bar.y}
+                            width={bar.width}
+                            height={bar.height}
+                            fill={color}
+                            opacity={faint.opacity ?? 0.3}
+                          />
+                        )}
+                        <Line
+                          data-slot="candlestick-chart-wick"
+                          x1={wick}
+                          x2={wick}
+                          y1={candle.high}
+                          y2={candle.low}
+                          stroke={color}
+                          strokeWidth={1}
+                        />
+                        <Rect
+                          data-slot="candlestick-chart-body"
+                          x={body.x}
+                          y={body.y}
+                          width={body.width}
+                          height={body.height}
+                          fill={color}
+                        />
+                      </G>
+                    </ChartDimmable>
+                  )
+                })}
               </G>
-            )}
-          </Svg>
+              {mark && (
+                <G data-slot="candlestick-chart-last-close">
+                  <Line
+                    x1={plot.x}
+                    x2={mark.pill.x}
+                    y1={mark.y}
+                    y2={mark.y}
+                    stroke={lastLine.color}
+                    strokeWidth={1}
+                    strokeDasharray={[2, 3]}
+                  />
+                  <Rect
+                    x={mark.pill.x}
+                    y={mark.pill.y}
+                    width={mark.pill.width}
+                    height={mark.pill.height}
+                    rx={mark.pill.height / 2}
+                    fill={lastPill.backgroundColor}
+                  />
+                  <SvgText
+                    x={mark.pill.x + mark.pill.width / 2}
+                    y={
+                      mark.pill.y +
+                      mark.pill.height / 2 +
+                      lastLabel.fontSize * 0.35
+                    }
+                    fill={lastLabel.color}
+                    fontSize={lastLabel.fontSize}
+                    fontWeight={lastLabel.fontWeight}
+                    fontFamily="Inter"
+                    textAnchor="middle"
+                  >
+                    {mark.label}
+                  </SvgText>
+                </G>
+              )}
+            </Svg>
+          </ChartRevealFade>
         )}
         {activeIndex !== null && (
           <ChartCrosshair
-            x={model.centers[activeIndex]}
+            x={drawnCandle?.x ?? model.centers[activeIndex]}
             top={plot.y}
             bottom={plot.y + plot.height}
           />

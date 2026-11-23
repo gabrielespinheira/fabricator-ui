@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import { ScrollView, View, type ViewProps } from "react-native"
 import Animated, { useAnimatedStyle } from "react-native-reanimated"
-import Svg, { G, Rect, Text as SvgText } from "react-native-svg"
+import Svg, { Rect, Text as SvgText } from "react-native-svg"
 import { useResolveClassNames } from "uniwind"
 
 import { CHART_LABEL_GAP } from "@/registry/fabricator/shared/lib/chart-cartesian-model"
@@ -23,11 +23,14 @@ import {
   type ChartColor,
   type ChartDatum,
 } from "@/registry/fabricator/shared/lib/chart-model"
+import { useMotion } from "@/registry/native/lib/motion"
 import {
   ChartAxis,
   ChartDataTable,
   ChartEmpty,
+  ChartFrame,
   ChartInspector,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
@@ -35,6 +38,7 @@ import {
   useChartSize,
   useChartTween,
   useFadeIn,
+  useFadeOut,
   useGlide,
 } from "@/registry/native/ui/chart-kit"
 import { Text } from "@/registry/native/ui/text"
@@ -132,17 +136,27 @@ function HeatCalendarLift({
   const x = useGlide(cell.x - 2)
   const y = useGlide(cell.y - 2)
   const opacity = useFadeIn()
-  const animated = useAnimatedStyle(() => ({
-    opacity: opacity.get(),
-    transform: [
-      { translateX: x.get() },
-      { translateY: y.get() },
-      { scale: LIFT_SCALE },
-    ],
-  }))
+  const exiting = useFadeOut()
+  const tooltip = useMotion("tooltip")
+  // It grows out of the cell on the fade's clock; Reduce Motion keeps the
+  // fade and lands at the full lift.
+  const grows = !tooltip.isReduced
+  const animated = useAnimatedStyle(() => {
+    const presence = opacity.get()
+    const amount = grows ? presence : 1
+    return {
+      opacity: presence,
+      transform: [
+        { translateX: x.get() },
+        { translateY: y.get() },
+        { scale: 1 + (LIFT_SCALE - 1) * amount },
+      ],
+    }
+  })
   return (
     <Animated.View
       data-slot="heat-calendar-lift"
+      exiting={exiting}
       pointerEvents="none"
       className="cn-heat-calendar-lift absolute top-0 left-0"
       style={[{ width: cell.size + 4, height: cell.size + 4 }, animated]}
@@ -261,7 +275,8 @@ function HeatCalendar<TDatum extends ChartDatum>({
       color,
     ]
   )
-  const reveal = useChartReveal(size !== null, animate)
+  const plotRef = React.useRef<React.ComponentRef<typeof View>>(null)
+  const reveal = useChartReveal(size !== null, animate, plotRef)
   const cells = useChartTween(
     size ? model.cells : NO_CELLS,
     interpolateHeatCells,
@@ -315,11 +330,17 @@ function HeatCalendar<TDatum extends ChartDatum>({
   }
 
   const isEmpty = model.cells.length === 0
+  // The lift and the tooltip sit on the day as drawn now, so during a morph
+  // they travel with it instead of arriving first.
+  const drawnCell = activeCell
+    ? (cells.find((cell) => cell.id === activeCell.id && !cell.isLeaving) ??
+      activeCell)
+    : null
   const anchor =
-    activeCell && active
+    drawnCell && active
       ? {
-          x: model.gutter + activeCell.x + activeCell.size / 2 - active.offset,
-          y: activeCell.y,
+          x: model.gutter + drawnCell.x + drawnCell.size / 2 - active.offset,
+          y: drawnCell.y,
         }
       : null
   const keyCell = Math.min(KEY_CELL, model.cellSize)
@@ -333,6 +354,7 @@ function HeatCalendar<TDatum extends ChartDatum>({
       {...props}
     >
       <View
+        ref={plotRef}
         data-slot="chart-plot"
         data-loading={loading}
         data-empty={isEmpty}
@@ -375,70 +397,72 @@ function HeatCalendar<TDatum extends ChartDatum>({
           >
             <View style={{ width: model.width, height: model.height }}>
               {size && (
-                <Svg
-                  width={model.width}
-                  height={model.height}
-                  style={{ position: "absolute" }}
-                  importantForAccessibility="no-hide-descendants"
-                >
-                  <G data-slot="heat-calendar-months">
-                    {model.monthLabels.map((month) => (
-                      <SvgText
-                        key={`${month.label}-${month.x}`}
-                        x={month.x}
-                        y={monthFontSize * 0.9}
-                        fill={readColor(monthStyle)}
-                        fontSize={monthFontSize}
-                        fontFamily="Inter"
-                      >
-                        {month.label}
-                      </SvgText>
-                    ))}
-                  </G>
-                  {cells.map((cell) => {
-                    const amount = getStaggeredProgress(
-                      reveal,
-                      cell.week + cell.day,
-                      model.columns + 6,
-                      0.5
-                    )
-                    const scale = REVEAL_SCALE + (1 - REVEAL_SCALE) * amount
-                    const side = cell.size * scale
-                    const inset = (cell.size - side) / 2
-                    const shown = amount * cell.presence
-                    const radius = model.radius * scale
-                    return (
-                      <React.Fragment key={cell.id}>
-                        <Rect
-                          data-slot="heat-calendar-cell"
-                          x={cell.x + inset}
-                          y={cell.y + inset}
-                          width={side}
-                          height={side}
-                          rx={radius}
-                          fill={emptyCell.color}
-                          fillOpacity={emptyCell.opacity * shown}
-                        />
-                        {cell.opacity > 0 && (
+                <ChartRevealFade isReady={size !== null} enabled={animate}>
+                  <Svg
+                    width={model.width}
+                    height={model.height}
+                    style={{ position: "absolute" }}
+                    importantForAccessibility="no-hide-descendants"
+                  >
+                    <ChartFrame data-slot="heat-calendar-months">
+                      {model.monthLabels.map((month) => (
+                        <SvgText
+                          key={`${month.label}-${month.x}`}
+                          x={month.x}
+                          y={monthFontSize * 0.9}
+                          fill={readColor(monthStyle)}
+                          fontSize={monthFontSize}
+                          fontFamily="Inter"
+                        >
+                          {month.label}
+                        </SvgText>
+                      ))}
+                    </ChartFrame>
+                    {cells.map((cell) => {
+                      const amount = getStaggeredProgress(
+                        reveal,
+                        cell.week + cell.day,
+                        model.columns + 6,
+                        0.5
+                      )
+                      const scale = REVEAL_SCALE + (1 - REVEAL_SCALE) * amount
+                      const side = cell.size * scale
+                      const inset = (cell.size - side) / 2
+                      const shown = amount * cell.presence
+                      const radius = model.radius * scale
+                      return (
+                        <React.Fragment key={cell.id}>
                           <Rect
-                            data-slot="heat-calendar-level"
+                            data-slot="heat-calendar-cell"
                             x={cell.x + inset}
                             y={cell.y + inset}
                             width={side}
                             height={side}
                             rx={radius}
-                            fill={paint}
-                            fillOpacity={cell.opacity * shown}
+                            fill={emptyCell.color}
+                            fillOpacity={emptyCell.opacity * shown}
                           />
-                        )}
-                      </React.Fragment>
-                    )
-                  })}
-                </Svg>
+                          {cell.opacity > 0 && (
+                            <Rect
+                              data-slot="heat-calendar-level"
+                              x={cell.x + inset}
+                              y={cell.y + inset}
+                              width={side}
+                              height={side}
+                              rx={radius}
+                              fill={paint}
+                              fillOpacity={cell.opacity * shown}
+                            />
+                          )}
+                        </React.Fragment>
+                      )
+                    })}
+                  </Svg>
+                </ChartRevealFade>
               )}
-              {activeCell && (
+              {drawnCell && (
                 <HeatCalendarLift
-                  cell={activeCell}
+                  cell={drawnCell}
                   radius={model.radius}
                   empty={emptyCell}
                   color={paint}

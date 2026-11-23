@@ -33,7 +33,9 @@ import {
   ChartLegend,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
   useChartLegendState,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -69,9 +71,73 @@ type ChartLinePlotProps<TDatum extends ChartDatum> = {
 const FALLBACK_SIZE = { width: 480, height: 240 }
 const NO_SERIES: LineSeriesGeometry[] = []
 
+function getSeriesKey(item: LineSeriesGeometry) {
+  return item.key
+}
+
 function toSvgId(id: string) {
   return id.replace(/[^a-zA-Z0-9_-]/g, "")
 }
+
+/** Every series' wash and line, clipped to the draw-in. Memoized: the
+ * crosshair, dots and tooltip moving don't rebuild every path. */
+const ChartLineSeries = React.memo(function ChartLineSeries({
+  id,
+  variant,
+  series,
+  positions,
+  curve,
+  spotlight,
+}: {
+  id: string
+  variant: "area" | "line"
+  series: readonly LineSeriesGeometry[]
+  positions: readonly number[]
+  curve: ChartCurve
+  spotlight: string | null
+}) {
+  return (
+    <g clipPath={`url(#${id}-reveal)`}>
+      {/* Every wash first, then every line, so no wash covers a line. */}
+      {variant === "area" &&
+        series.map((item) => (
+          <path
+            key={item.key}
+            data-slot="chart-area"
+            data-leaving={item.isLeaving || undefined}
+            data-dimmed={
+              (!item.isLeaving &&
+                spotlight !== null &&
+                spotlight !== item.key) ||
+              undefined
+            }
+            className="cn-chart-series"
+            d={getAreaPath(positions, item.top, item.bottom, curve)}
+            fill={`url(#${id}-fill-${toSvgId(item.key)})`}
+          />
+        ))}
+      {series.map((item) => (
+        <path
+          key={item.key}
+          data-slot="chart-series"
+          data-leaving={item.isLeaving || undefined}
+          data-dimmed={
+            (!item.isLeaving && spotlight !== null && spotlight !== item.key) ||
+            undefined
+          }
+          className="cn-chart-series"
+          d={getLinePath(positions, item.top, curve)}
+          fill="none"
+          stroke={getChartColor(item.paint)}
+          strokeWidth={2}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          strokeDasharray={item.dashed ? "4 4" : undefined}
+        />
+      ))}
+    </g>
+  )
+})
 
 function ChartLinePlot<TDatum extends ChartDatum>({
   variant,
@@ -128,11 +194,15 @@ function ChartLinePlot<TDatum extends ChartDatum>({
     animate ? dataVersion : null
   )
 
+  const drawnSeries = useChartDrawOrder(series, getSeriesKey)
+
   const activeIndex = active !== null && active < data.length ? active : null
+  // The readout outlives inspection by the tooltip role's exit, to fade out.
+  const shown = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    shown.value !== null && shown.value < data.length ? shown.value : null
   const content =
-    activeIndex === null
-      ? null
-      : getLineTooltip(model, activeIndex, formatValue)
+    shownIndex === null ? null : getLineTooltip(model, shownIndex, formatValue)
   const table = React.useMemo(
     () => getLineTable(model, formatValue),
     [model, formatValue]
@@ -149,20 +219,20 @@ function ChartLinePlot<TDatum extends ChartDatum>({
   const revealWidth =
     reveal >= 1 ? (size?.width ?? 0) : plot.x + plot.width * reveal
   const activeTops =
-    activeIndex === null
+    shownIndex === null
       ? []
       : series
           .filter((item) => !item.isLeaving)
-          .map((item) => ({ item, top: item.top[activeIndex] }))
+          .map((item) => ({ item, top: item.top[shownIndex] }))
           .filter(
             (entry): entry is { item: LineSeriesGeometry; top: number } =>
               entry.top !== null && entry.top !== undefined
           )
   const anchor =
-    activeIndex === null
+    shownIndex === null
       ? null
       : {
-          x: model.positions[activeIndex],
+          x: model.positions[shownIndex],
           y: activeTops.length
             ? Math.min(...activeTops.map((entry) => entry.top))
             : plot.y + plot.height / 2,
@@ -237,67 +307,40 @@ function ChartLinePlot<TDatum extends ChartDatum>({
                 label: model.labels[position],
               }))}
             />
-            <g clipPath={`url(#${id}-reveal)`}>
-              {/* Every wash first, then every line, so no wash covers a line. */}
-              {variant === "area" &&
-                series.map((item) => (
-                  <path
-                    key={item.key}
-                    data-slot="chart-area"
-                    data-dimmed={
-                      (spotlight !== null && spotlight !== item.key) ||
-                      item.isLeaving ||
-                      undefined
-                    }
-                    className="cn-chart-series"
-                    d={getAreaPath(
-                      model.positions,
-                      item.top,
-                      item.bottom,
-                      curve
-                    )}
-                    fill={`url(#${id}-fill-${toSvgId(item.key)})`}
-                  />
-                ))}
-              {series.map((item) => (
-                <path
-                  key={item.key}
-                  data-slot="chart-series"
-                  data-dimmed={
-                    (spotlight !== null && spotlight !== item.key) ||
-                    item.isLeaving ||
-                    undefined
-                  }
-                  className="cn-chart-series"
-                  d={getLinePath(model.positions, item.top, curve)}
-                  fill="none"
-                  stroke={getChartColor(item.paint)}
-                  strokeWidth={2}
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeDasharray={item.dashed ? "4 4" : undefined}
-                />
-              ))}
-            </g>
-            {activeIndex !== null && (
+            <ChartLineSeries
+              id={id}
+              variant={variant}
+              series={drawnSeries}
+              positions={model.positions}
+              curve={curve}
+              spotlight={spotlight}
+            />
+            {shownIndex !== null && (
               <ChartCrosshair
-                x={model.positions[activeIndex]}
+                x={model.positions[shownIndex]}
                 top={plot.y}
                 bottom={plot.y + plot.height}
+                leaving={shown.isLeaving}
               />
             )}
             {activeTops.map(({ item, top }) => (
               <ChartDot
                 key={item.key}
-                point={{ x: model.positions[activeIndex ?? 0], y: top }}
+                point={{ x: model.positions[shownIndex ?? 0], y: top }}
                 color={getChartColor(item.paint)}
+                leaving={shown.isLeaving}
               />
             ))}
           </svg>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (
-          <ChartTooltip content={content} anchor={anchor} frame={size} />
+          <ChartTooltip
+            content={content}
+            anchor={anchor}
+            frame={size}
+            leaving={shown.isLeaving}
+          />
         )}
         {!isEmpty && (
           <ChartInspector
@@ -307,7 +350,7 @@ function ChartLinePlot<TDatum extends ChartDatum>({
             onActiveChange={inspect}
             getIndexAt={(point) => getNearestIndex(model.positions, point.x)}
             valueText={
-              content
+              activeIndex !== null && content
                 ? `${content.title}: ${content.rows
                     .map((row) => `${row.label} ${row.value}`)
                     .join(", ")}`

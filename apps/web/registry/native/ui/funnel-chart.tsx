@@ -26,12 +26,16 @@ import {
 import {
   ChartBand,
   ChartDataTable,
+  ChartDimmable,
   ChartEmpty,
   ChartInspector,
+  ChartLabelPresence,
   ChartLegend,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
+  useChartDrawOrder,
   useChartLegendState,
   useChartReveal,
   useChartSize,
@@ -52,6 +56,7 @@ const funnelPillStyle = cva("cn-funnel-chart-pill")
 const funnelValueStyle = cva("cn-funnel-chart-value")
 const funnelNameStyle = cva("cn-funnel-chart-name")
 const funnelConversionStyle = cva("cn-funnel-chart-conversion")
+const labelPresenceStyle = cva("cn-chart-label-presence")
 
 type FunnelChartProps<TDatum extends ChartDatum> = {
   data: readonly TDatum[]
@@ -95,6 +100,10 @@ function readText(style: {
   }
 }
 
+function getStageId(stage: FunnelStage) {
+  return stage.id
+}
+
 function FunnelChart<TDatum extends ChartDatum>({
   data,
   nameKey,
@@ -133,6 +142,9 @@ function FunnelChart<TDatum extends ChartDatum>({
   const valueText = readText(useResolveClassNames(funnelValueStyle()))
   const nameText = readText(useResolveClassNames(funnelNameStyle()))
   const conversionText = readText(useResolveClassNames(funnelConversionStyle()))
+  const labelPresence = useResolveClassNames(labelPresenceStyle())
+  const labelLeavingOpacity =
+    typeof labelPresence.opacity === "number" ? labelPresence.opacity : 0
   const [active, setActive] = React.useState<number | null>(null)
 
   const model = React.useMemo(
@@ -170,12 +182,14 @@ function FunnelChart<TDatum extends ChartDatum>({
     () => ({ data, config, nameField, valueField, color, orientation }),
     [data, config, nameField, valueField, color, orientation]
   )
-  const reveal = useChartReveal(size !== null, animate)
+  const plotRef = React.useRef<React.ComponentRef<typeof View>>(null)
+  const reveal = useChartReveal(size !== null, animate, plotRef)
   const stages = useChartTween(
     size ? model.stages : NO_STAGES,
     interpolateFunnelStages,
     animate ? dataVersion : null
   )
+  const drawnStages = useChartDrawOrder(stages, getStageId)
 
   const activeIndex = active !== null && active < data.length ? active : null
   const content =
@@ -195,7 +209,7 @@ function FunnelChart<TDatum extends ChartDatum>({
   const isVertical = orientation === "vertical"
   const isEmpty = data.length === 0
   const fill = getChartColor(model.series.paint, colors)
-  const labels = getFunnelLabels(stages, model)
+  const labels = getFunnelLabels(drawnStages, model)
   const activeStage =
     activeIndex === null
       ? null
@@ -224,6 +238,7 @@ function FunnelChart<TDatum extends ChartDatum>({
       {...props}
     >
       <View
+        ref={plotRef}
         data-slot="chart-plot"
         data-loading={loading}
         onLayout={onLayout}
@@ -231,93 +246,104 @@ function FunnelChart<TDatum extends ChartDatum>({
       >
         {band && <ChartBand rect={band} />}
         {size && !isEmpty && (
-          <Svg
-            width={size.width}
-            height={size.height}
-            style={{ position: "absolute" }}
-            importantForAccessibility="no-hide-descendants"
-          >
-            {stages.map((stage) => (
-              <Path
-                key={stage.id}
-                data-slot="funnel-chart-stage"
-                d={getFunnelStagePath(
-                  stage,
-                  orientation,
-                  getStaggeredProgress(reveal, stage.index, data.length)
-                )}
-                fill={fill}
-                fillOpacity={stage.opacity}
-                opacity={stage.isLeaving ? dimmedOpacity : 1}
-              />
-            ))}
-            {stages.map((stage, position) => {
-              const { name, pill, conversion } = labels[position]
-              return (
-                <G
+          <ChartRevealFade isReady={size !== null} enabled={animate}>
+            <Svg
+              width={size.width}
+              height={size.height}
+              style={{ position: "absolute" }}
+              importantForAccessibility="no-hide-descendants"
+            >
+              {drawnStages.map((stage) => (
+                <ChartDimmable
                   key={stage.id}
-                  opacity={getStaggeredProgress(
-                    reveal,
-                    stage.index,
-                    data.length
-                  )}
+                  isDimmed={stage.isLeaving === true}
+                  dimmedOpacity={dimmedOpacity}
                 >
-                  {name && (
-                    <SvgText
-                      data-slot="funnel-chart-name"
-                      x={name.x}
-                      y={name.y}
-                      textAnchor={name.anchor}
-                      fill={nameText.color}
-                      fontSize={fontSize}
-                      fontWeight={nameText.fontWeight}
-                      fontFamily="Inter"
+                  <Path
+                    data-slot="funnel-chart-stage"
+                    d={getFunnelStagePath(
+                      stage,
+                      orientation,
+                      getStaggeredProgress(reveal, stage.index, data.length)
+                    )}
+                    fill={fill}
+                    fillOpacity={stage.opacity}
+                  />
+                </ChartDimmable>
+              ))}
+              {drawnStages.map((stage, position) => {
+                const { name, pill, conversion } = labels[position]
+                return (
+                  <G
+                    key={stage.id}
+                    opacity={getStaggeredProgress(
+                      reveal,
+                      stage.index,
+                      data.length
+                    )}
+                  >
+                    <ChartLabelPresence
+                      isLeaving={stage.isLeaving === true}
+                      leavingOpacity={labelLeavingOpacity}
                     >
-                      {name.text}
-                    </SvgText>
-                  )}
-                  {conversion && (
-                    <SvgText
-                      data-slot="funnel-chart-conversion"
-                      x={conversion.x}
-                      y={conversion.y}
-                      textAnchor={conversion.anchor}
-                      fill={conversionText.color}
-                      fontSize={fontSize}
-                      fontFamily="Inter"
-                    >
-                      {conversion.text}
-                    </SvgText>
-                  )}
-                  {pill && (
-                    <G data-slot="funnel-chart-value">
-                      <Rect
-                        x={pill.x}
-                        y={pill.y}
-                        width={pill.width}
-                        height={pill.height}
-                        rx={pill.height / 2}
-                        fill={pillFill}
-                        stroke={pillEdge}
-                        strokeWidth={1}
-                      />
-                      <SvgText
-                        x={pill.text.x}
-                        y={pill.text.y}
-                        textAnchor={pill.text.anchor}
-                        fill={valueText.color}
-                        fontSize={fontSize}
-                        fontWeight={valueText.fontWeight}
-                        fontFamily="Inter"
-                      >
-                        {pill.text.text}
-                      </SvgText>
-                    </G>
-                  )}
-                </G>
-              )
-            })}
-          </Svg>
+                      {name && (
+                        <SvgText
+                          data-slot="funnel-chart-name"
+                          x={name.x}
+                          y={name.y}
+                          textAnchor={name.anchor}
+                          fill={nameText.color}
+                          fontSize={fontSize}
+                          fontWeight={nameText.fontWeight}
+                          fontFamily="Inter"
+                        >
+                          {name.text}
+                        </SvgText>
+                      )}
+                      {conversion && (
+                        <SvgText
+                          data-slot="funnel-chart-conversion"
+                          x={conversion.x}
+                          y={conversion.y}
+                          textAnchor={conversion.anchor}
+                          fill={conversionText.color}
+                          fontSize={fontSize}
+                          fontFamily="Inter"
+                        >
+                          {conversion.text}
+                        </SvgText>
+                      )}
+                      {pill && (
+                        <G data-slot="funnel-chart-value">
+                          <Rect
+                            x={pill.x}
+                            y={pill.y}
+                            width={pill.width}
+                            height={pill.height}
+                            rx={pill.height / 2}
+                            fill={pillFill}
+                            stroke={pillEdge}
+                            strokeWidth={1}
+                          />
+                          <SvgText
+                            x={pill.text.x}
+                            y={pill.text.y}
+                            textAnchor={pill.text.anchor}
+                            fill={valueText.color}
+                            fontSize={fontSize}
+                            fontWeight={valueText.fontWeight}
+                            fontFamily="Inter"
+                          >
+                            {pill.text.text}
+                          </SvgText>
+                        </G>
+                      )}
+                    </ChartLabelPresence>
+                  </G>
+                )
+              })}
+            </Svg>
+          </ChartRevealFade>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (

@@ -2,6 +2,7 @@ import * as React from "react"
 import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import { View, type ViewProps } from "react-native"
+import Animated, { useAnimatedProps } from "react-native-reanimated"
 import Svg, {
   ClipPath,
   Defs,
@@ -26,6 +27,7 @@ import {
   type LineSeriesGeometry,
 } from "@/registry/fabricator/shared/lib/chart-line-model"
 import {
+  areChartMarksPropsEqual,
   getChartSeries,
   getNearestIndex,
   type ChartActive,
@@ -36,16 +38,19 @@ import {
   ChartAxis,
   ChartCrosshair,
   ChartDataTable,
+  ChartDimmable,
   ChartDot,
   ChartEmpty,
   ChartGrid,
   ChartInspector,
   ChartLegend,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
+  useChartDrawOrder,
   useChartLegendState,
-  useChartReveal,
+  useChartRevealValue,
   useChartSize,
   useChartTween,
 } from "@/registry/native/ui/chart-kit"
@@ -85,6 +90,75 @@ function toSvgId(id: string) {
   return id.replace(/[^a-zA-Z0-9_-]/g, "")
 }
 
+const AnimatedRect = Animated.createAnimatedComponent(Rect)
+
+/**
+ * The lines and their washes, memoized: a scrub only moves the overlays, so
+ * an index change doesn't draw every path again.
+ */
+const ChartLineMarks = React.memo(function ChartLineMarks({
+  variant,
+  series,
+  positions,
+  curve,
+  id,
+  colors,
+  spotlight,
+  dimmedOpacity,
+}: {
+  variant: "area" | "line"
+  series: readonly LineSeriesGeometry[]
+  positions: readonly number[]
+  curve: ChartCurve
+  id: string
+  colors: Record<string, string>
+  spotlight: string | null
+  dimmedOpacity: number
+}) {
+  const isDimmed = (item: LineSeriesGeometry) =>
+    (spotlight !== null && spotlight !== item.key) || item.isLeaving === true
+  return (
+    <>
+      {variant === "area" &&
+        series.map((item) => (
+          <ChartDimmable
+            key={item.key}
+            isDimmed={isDimmed(item)}
+            dimmedOpacity={dimmedOpacity}
+          >
+            <Path
+              data-slot="chart-area"
+              d={getAreaPath(positions, item.top, item.bottom, curve)}
+              fill={`url(#${id}-fill-${toSvgId(item.key)})`}
+            />
+          </ChartDimmable>
+        ))}
+      {series.map((item) => (
+        <ChartDimmable
+          key={item.key}
+          isDimmed={isDimmed(item)}
+          dimmedOpacity={dimmedOpacity}
+        >
+          <Path
+            data-slot="chart-series"
+            d={getLinePath(positions, item.top, curve)}
+            fill="none"
+            stroke={getChartColor(item.paint, colors)}
+            strokeWidth={2}
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            strokeDasharray={item.dashed ? [4, 4] : undefined}
+          />
+        </ChartDimmable>
+      ))}
+    </>
+  )
+}, areChartMarksPropsEqual)
+
+function getSeriesKey(item: LineSeriesGeometry) {
+  return item.key
+}
+
 function ChartLinePlot<TDatum extends ChartDatum>({
   variant,
   data,
@@ -112,7 +186,7 @@ function ChartLinePlot<TDatum extends ChartDatum>({
   const [active, setActive] = React.useState<number | null>(null)
   const dimmed = useResolveClassNames(chartSeriesStyle())
   const dimmedOpacity =
-    typeof dimmed.opacity === "number" ? dimmed.opacity : 0.25
+    typeof dimmed.opacity === "number" ? dimmed.opacity : 0.4
 
   const allSeries = React.useMemo(() => getChartSeries(config), [config])
   const colors = useChartColors(allSeries.map((item) => item.paint))
@@ -134,12 +208,14 @@ function ChartLinePlot<TDatum extends ChartDatum>({
     () => ({ data, config, stack, hidden }),
     [data, config, stack, hidden]
   )
-  const reveal = useChartReveal(size !== null, animate)
+  const plotRef = React.useRef<React.ComponentRef<typeof View>>(null)
+  const reveal = useChartRevealValue(size !== null, animate, plotRef)
   const series = useChartTween(
     size ? model.series : NO_SERIES,
     interpolateLineSeries,
     animate ? dataVersion : null
   )
+  const drawnSeries = useChartDrawOrder(series, getSeriesKey)
 
   const activeIndex = active !== null && active < data.length ? active : null
   const content =
@@ -159,8 +235,14 @@ function ChartLinePlot<TDatum extends ChartDatum>({
   const { plot, valueTicks } = model.layout
   const isEmpty = data.length === 0
   const showLegend = legend ?? allSeries.length > 1
-  const revealWidth =
-    reveal >= 1 ? (size?.width ?? 0) : plot.x + plot.width * reveal
+  const plotStart = plot.x
+  const plotWidth = plot.width
+  const fullWidth = size?.width ?? 0
+  // The draw-in only widens the clip, so it runs on the UI thread and the
+  // plot doesn't re-render per frame.
+  const revealProps = useAnimatedProps(() => ({
+    width: reveal.get() >= 1 ? fullWidth : plotStart + plotWidth * reveal.get(),
+  }))
   const activeTops =
     activeIndex === null
       ? []
@@ -180,8 +262,6 @@ function ChartLinePlot<TDatum extends ChartDatum>({
             ? Math.min(...activeTops.map((entry) => entry.top))
             : plot.y + plot.height / 2,
         }
-  const isDimmed = (item: LineSeriesGeometry) =>
-    (spotlight !== null && spotlight !== item.key) || item.isLeaving === true
 
   return (
     <View
@@ -191,100 +271,84 @@ function ChartLinePlot<TDatum extends ChartDatum>({
       {...props}
     >
       <View
+        ref={plotRef}
         data-slot="chart-plot"
         data-loading={loading}
         onLayout={onLayout}
         className={cn("cn-chart-plot relative min-h-0 flex-1", plotClassName)}
       >
         {size && !isEmpty && (
-          <Svg
-            width={size.width}
-            height={size.height}
-            style={{ position: "absolute" }}
-            importantForAccessibility="no-hide-descendants"
-          >
-            <Defs>
-              {variant === "area" &&
-                series.map((item) => (
-                  <LinearGradient
-                    key={item.key}
-                    id={`${id}-fill-${toSvgId(item.key)}`}
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <Stop
-                      offset="0"
-                      stopColor={getChartColor(item.paint, colors)}
-                      stopOpacity={stack === "none" ? 0.24 : 0.34}
-                    />
-                    <Stop
-                      offset="1"
-                      stopColor={getChartColor(item.paint, colors)}
-                      stopOpacity={stack === "none" ? 0 : 0.14}
-                    />
-                  </LinearGradient>
-                ))}
-              <ClipPath id={`${id}-reveal`}>
-                <Rect
-                  x={0}
-                  y={-8}
-                  width={revealWidth}
-                  height={size.height + 16}
-                />
-              </ClipPath>
-            </Defs>
-            <ChartGrid
-              ticks={valueTicks}
-              start={plot.x}
-              end={plot.x + plot.width}
-            />
-            <ChartAxis
-              side="start"
-              ticks={valueTicks}
-              offset={plot.x - CHART_LABEL_GAP}
-            />
-            <ChartAxis
-              side="bottom"
-              offset={plot.y + plot.height + CHART_LABEL_GAP}
-              ticks={model.labelIndices.map((position) => ({
-                position: model.positions[position],
-                label: model.labels[position],
-              }))}
-            />
-            <G clipPath={`url(#${id}-reveal)`}>
-              {variant === "area" &&
-                series.map((item) => (
-                  <Path
-                    key={item.key}
-                    data-slot="chart-area"
-                    d={getAreaPath(
-                      model.positions,
-                      item.top,
-                      item.bottom,
-                      curve
-                    )}
-                    fill={`url(#${id}-fill-${toSvgId(item.key)})`}
-                    opacity={isDimmed(item) ? dimmedOpacity : 1}
+          <ChartRevealFade isReady={size !== null} enabled={animate}>
+            <Svg
+              width={size.width}
+              height={size.height}
+              style={{ position: "absolute" }}
+              importantForAccessibility="no-hide-descendants"
+            >
+              <Defs>
+                {variant === "area" &&
+                  series.map((item) => (
+                    <LinearGradient
+                      key={item.key}
+                      id={`${id}-fill-${toSvgId(item.key)}`}
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <Stop
+                        offset="0"
+                        stopColor={getChartColor(item.paint, colors)}
+                        stopOpacity={stack === "none" ? 0.24 : 0.34}
+                      />
+                      <Stop
+                        offset="1"
+                        stopColor={getChartColor(item.paint, colors)}
+                        stopOpacity={stack === "none" ? 0 : 0.14}
+                      />
+                    </LinearGradient>
+                  ))}
+                <ClipPath id={`${id}-reveal`}>
+                  <AnimatedRect
+                    x={0}
+                    y={-8}
+                    height={size.height + 16}
+                    animatedProps={revealProps}
                   />
-                ))}
-              {series.map((item) => (
-                <Path
-                  key={item.key}
-                  data-slot="chart-series"
-                  d={getLinePath(model.positions, item.top, curve)}
-                  fill="none"
-                  stroke={getChartColor(item.paint, colors)}
-                  strokeWidth={2}
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeDasharray={item.dashed ? [4, 4] : undefined}
-                  opacity={isDimmed(item) ? dimmedOpacity : 1}
+                </ClipPath>
+              </Defs>
+              <ChartGrid
+                ticks={valueTicks}
+                start={plot.x}
+                end={plot.x + plot.width}
+              />
+              <ChartAxis
+                side="start"
+                ticks={valueTicks}
+                offset={plot.x - CHART_LABEL_GAP}
+              />
+              <ChartAxis
+                side="bottom"
+                offset={plot.y + plot.height + CHART_LABEL_GAP}
+                ticks={model.labelIndices.map((position) => ({
+                  position: model.positions[position],
+                  label: model.labels[position],
+                }))}
+              />
+              <G clipPath={`url(#${id}-reveal)`}>
+                <ChartLineMarks
+                  variant={variant}
+                  series={drawnSeries}
+                  positions={model.positions}
+                  curve={curve}
+                  id={id}
+                  colors={colors}
+                  spotlight={spotlight}
+                  dimmedOpacity={dimmedOpacity}
                 />
-              ))}
-            </G>
-          </Svg>
+              </G>
+            </Svg>
+          </ChartRevealFade>
         )}
         {activeIndex !== null && (
           <ChartCrosshair

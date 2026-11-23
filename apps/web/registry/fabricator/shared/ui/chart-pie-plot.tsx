@@ -12,11 +12,12 @@ import {
 } from "@/registry/bases/__base__/lib/chart-model"
 import {
   getDonutCenterFontSize,
-  getPieAnchor,
+  getDonutListBarClip,
   getPieChartModel,
   getPieListRows,
   getPieParts,
   getPieSeries,
+  getPieSliceAnchor,
   getPieSliceAt,
   getPieSlicePath,
   getPieTable,
@@ -35,7 +36,9 @@ import {
   ChartLegend,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
   useChartLegendState,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -77,6 +80,10 @@ type ChartPiePlotProps<TDatum extends ChartDatum> = {
 
 const FALLBACK_SIZE = { width: 240, height: 240 }
 const NO_SLICES: PieSlice[] = []
+
+function getSliceId(slice: PieSlice) {
+  return slice.id
+}
 const NO_CONFIG: ChartConfig = {}
 
 function ChartPiePlot<TDatum extends ChartDatum>({
@@ -146,6 +153,7 @@ function ChartPiePlot<TDatum extends ChartDatum>({
     animate ? dataVersion : null
   )
   const slices = sweepPieSlices(tweened, reveal)
+  const drawnSlices = useChartDrawOrder(slices, getSliceId)
   // Labels wait for the slices to settle, so none is placed on a slice
   // still turning.
   const isSettled = tweened === target && reveal >= 1
@@ -154,8 +162,26 @@ function ChartPiePlot<TDatum extends ChartDatum>({
     active !== null && active < model.slices.length ? active : null
   const activeSlice = activeIndex === null ? null : model.slices[activeIndex]
   const highlighted = activeSlice?.id ?? spotlight
+  // The readout outlives inspection by the tooltip role's exit, to fade out.
+  // The lift, the spotlight and the donut centre follow the live index.
+  const shown = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    shown.value !== null && shown.value < model.slices.length
+      ? shown.value
+      : null
   const content =
-    activeIndex === null ? null : getPieTooltip(model, activeIndex, formatValue)
+    shownIndex === null ? null : getPieTooltip(model, shownIndex, formatValue)
+  // The tooltip points at the slice as drawn now, so during a morph it
+  // travels with the slice instead of arriving first.
+  const targetSlice = shownIndex === null ? null : model.slices[shownIndex]
+  const anchor = targetSlice
+    ? getPieSliceAnchor(
+        model,
+        slices.find(
+          (slice) => slice.id === targetSlice.id && !slice.isLeaving
+        ) ?? targetSlice
+      )
+    : null
   const table = React.useMemo(
     () => getPieTable(model, formatValue),
     [model, formatValue]
@@ -214,7 +240,7 @@ function ChartPiePlot<TDatum extends ChartDatum>({
               className="absolute inset-0 overflow-visible"
             >
               <g transform={`translate(${model.center.x} ${model.center.y})`}>
-                {slices.map((slice) => {
+                {drawnSlices.map((slice) => {
                   const isActive = slice.id === highlighted
                   const offset =
                     isActive && canLift && !slice.isLeaving
@@ -226,9 +252,11 @@ function ChartPiePlot<TDatum extends ChartDatum>({
                       key={slice.id}
                       data-slot="chart-slice"
                       data-active={isActive || undefined}
+                      data-leaving={slice.isLeaving || undefined}
                       data-dimmed={
-                        (highlighted !== null && !isActive) ||
-                        slice.isLeaving ||
+                        (!slice.isLeaving &&
+                          highlighted !== null &&
+                          !isActive) ||
                         undefined
                       }
                       className="cn-chart-slice"
@@ -312,11 +340,12 @@ function ChartPiePlot<TDatum extends ChartDatum>({
             </div>
           )}
           {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
-          {showTooltip && size && content && activeIndex !== null && (
+          {showTooltip && size && content && anchor && (
             <ChartTooltip
               content={content}
-              anchor={getPieAnchor(model, activeIndex)}
+              anchor={anchor}
               frame={size}
+              leaving={shown.isLeaving}
             />
           )}
           {!isEmpty && (
@@ -327,7 +356,7 @@ function ChartPiePlot<TDatum extends ChartDatum>({
               onActiveChange={inspect}
               getIndexAt={(point) => getPieSliceAt(model, point)}
               valueText={
-                content
+                activeIndex !== null && content
                   ? `${content.title}: ${content.rows
                       .map((row) => `${row.value}, ${row.label}`)
                       .join(", ")}`
@@ -386,9 +415,10 @@ function ChartPiePlot<TDatum extends ChartDatum>({
                     className="cn-donut-chart-list-bar block overflow-hidden"
                   >
                     <span
-                      className="cn-donut-chart-list-bar-fill block h-full"
+                      data-settled={reveal >= 1 || undefined}
+                      className="cn-donut-chart-list-bar-fill block h-full w-full"
                       style={{
-                        width: reveal > 0 ? `${row.share * 100}%` : 0,
+                        clipPath: getDonutListBarClip(row.share, reveal > 0),
                         backgroundColor: getChartColor(row.paint),
                       }}
                     />

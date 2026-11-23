@@ -340,7 +340,6 @@ function getFunnelLabels(
   const shift = fontSize * CENTER_BASELINE
   let previous: FunnelStage | null = null
   return stages.map((stage) => {
-    if (stage.isLeaving) return { name: null, pill: null, conversion: null }
     const flatMiddle = (stage.start + stage.flatEnd) / 2
     const length = stage.end - stage.start
     const nameFits =
@@ -385,7 +384,10 @@ function getFunnelLabels(
       : null
 
     let conversion: FunnelText | null = null
-    if (previous && stage.conversionText !== null) {
+    // A leaving stage is collapsing out of the funnel, so no taper leads to
+    // it and it can't be the one before the next stage: it keeps its name
+    // and pill to fade out with, but no conversion.
+    if (previous && !stage.isLeaving && stage.conversionText !== null) {
       // Halfway along the taper, just outside the curve it describes: as far
       // out as the curve reaches anywhere along the text, so a steep taper
       // never runs into it.
@@ -416,7 +418,7 @@ function getFunnelLabels(
             text: stage.conversionText,
           }
     }
-    previous = stage
+    if (!stage.isLeaving) previous = stage
     return { name, pill, conversion }
   })
 }

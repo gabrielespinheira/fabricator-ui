@@ -14,6 +14,7 @@ import Svg, {
 import { useResolveClassNames } from "uniwind"
 
 import {
+  getBumpAnchor,
   getBumpChartModel,
   getBumpLegendValue,
   getBumpPath,
@@ -39,12 +40,15 @@ import {
   ChartAxis,
   ChartCrosshair,
   ChartDataTable,
+  ChartDimmable,
   ChartEmpty,
   ChartGrid,
   ChartInspector,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
+  useChartDrawOrder,
   useChartLegendState,
   useChartReveal,
   useChartSize,
@@ -185,6 +189,10 @@ function BumpLegend({
   )
 }
 
+function getSeriesKey(item: BumpSeriesGeometry) {
+  return item.key
+}
+
 function BumpChart<TDatum extends ChartDatum>({
   data,
   config,
@@ -236,7 +244,8 @@ function BumpChart<TDatum extends ChartDatum>({
     () => ({ data, config, ranking, hidden }),
     [data, config, ranking, hidden]
   )
-  const reveal = useChartReveal(size !== null, animate)
+  const plotRef = React.useRef<React.ComponentRef<typeof View>>(null)
+  const reveal = useChartReveal(size !== null, animate, plotRef)
   // Series being shown rise from just under the bottom slot; hidden ones
   // sink there.
   const floor = model.plot.y + model.plot.height + model.radius
@@ -245,6 +254,7 @@ function BumpChart<TDatum extends ChartDatum>({
     (from, to, progress) => interpolateBumpSeries(from, to, progress, floor),
     animate ? dataVersion : null
   )
+  const drawnSeries = useChartDrawOrder(series, getSeriesKey)
 
   const activeIndex = active !== null && active < data.length ? active : null
   const content =
@@ -263,7 +273,10 @@ function BumpChart<TDatum extends ChartDatum>({
   }
   // The finger picks the index and, on a line, the series it touches.
   const locate = (point: ChartPoint) => {
-    setPointed(getBumpSeriesAt(model, point))
+    // A miss keeps the line last touched, so scrubbing from one line to the
+    // next moves the spotlight once instead of blinking.
+    const hit = getBumpSeriesAt(model, point)
+    if (hit !== null) setPointed(hit)
     return getNearestIndex(model.positions, point.x)
   }
 
@@ -273,23 +286,12 @@ function BumpChart<TDatum extends ChartDatum>({
   const focus = spotlight ?? pointed
   const isDimmed = (item: BumpSeriesGeometry) =>
     (focus !== null && focus !== item.key) || item.isLeaving === true
-  const dimmedOpacity = dimmed.opacity ?? 0.25
+  const dimmedOpacity = dimmed.opacity ?? 0.4
   const sweep =
     reveal >= 1 ? Number.POSITIVE_INFINITY : (size?.width ?? 0) * reveal
   const ringFill = ring.backgroundColor ?? getChartColor(CARD_PAINT, colors)
-  const pointedPoint =
-    activeIndex === null || pointed === null
-      ? null
-      : (model.series.find((item) => item.key === pointed)?.points[
-          activeIndex
-        ] ?? null)
   const anchor =
-    activeIndex === null
-      ? null
-      : {
-          x: model.positions[activeIndex],
-          y: pointedPoint ? pointedPoint.y : plot.y + plot.height / 2,
-        }
+    activeIndex === null ? null : getBumpAnchor(model, activeIndex, pointed)
 
   return (
     <View
@@ -300,6 +302,7 @@ function BumpChart<TDatum extends ChartDatum>({
       {...props}
     >
       <View
+        ref={plotRef}
         data-slot="chart-plot"
         data-loading={loading}
         onLayout={onLayout}
@@ -313,111 +316,131 @@ function BumpChart<TDatum extends ChartDatum>({
           />
         )}
         {size && !isEmpty && (
-          <Svg
-            width={size.width}
-            height={size.height}
-            style={{ position: "absolute" }}
-            importantForAccessibility="no-hide-descendants"
-          >
-            <Defs>
-              <ClipPath id={`${id}-reveal`}>
-                <Rect
-                  x={0}
-                  y={-8}
-                  width={Number.isFinite(sweep) ? sweep : size.width + 16}
-                  height={size.height + 16}
-                />
-              </ClipPath>
-            </Defs>
-            <ChartGrid
-              ticks={model.slots}
-              start={plot.x}
-              end={plot.x + plot.width}
-            />
-            <ChartAxis
-              side="bottom"
-              offset={model.axisOffset}
-              ticks={model.labelIndices.map((position) => ({
-                position: model.positions[position],
-                label: model.labels[position],
-              }))}
-            />
-            <G clipPath={`url(#${id}-reveal)`}>
-              {series.map((item) => (
-                <Path
-                  key={item.key}
-                  data-slot="chart-series"
-                  d={getBumpPath(item.points)}
-                  fill="none"
-                  stroke={getChartColor(item.paint, colors)}
-                  strokeWidth={2}
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  opacity={isDimmed(item) ? dimmedOpacity : 1}
-                />
-              ))}
-            </G>
-            {series.map((item) => {
-              const color = getChartColor(item.paint, colors)
-              const nameMark = model.names.find(
-                (entry) => entry.key === item.key
-              )
-              return (
-                <G
-                  key={item.key}
-                  data-slot="bump-chart-points"
-                  opacity={isDimmed(item) ? dimmedOpacity : 1}
-                >
-                  {item.points.map((point, position) => {
-                    if (!point) return null
-                    const amount = getBumpRevealAmount(sweep, point.x, radius)
-                    return (
-                      <G
-                        key={position}
-                        data-slot="bump-chart-dot"
-                        opacity={amount}
-                      >
-                        <Circle
-                          cx={point.x}
-                          cy={point.y}
-                          r={radius * (0.5 + amount * 0.5)}
-                          fill={ringFill}
-                          stroke={color}
-                          strokeWidth={2}
-                        />
-                        {model.showRanks && (
-                          <SvgText
-                            x={point.x}
-                            y={point.y + rank.fontSize * 0.35}
-                            fill={rank.color}
-                            fontSize={rank.fontSize}
-                            fontWeight={rank.fontWeight}
-                            fontFamily="Inter"
-                            textAnchor="middle"
+          <ChartRevealFade isReady={size !== null} enabled={animate}>
+            <Svg
+              width={size.width}
+              height={size.height}
+              style={{ position: "absolute" }}
+              importantForAccessibility="no-hide-descendants"
+            >
+              <Defs>
+                <ClipPath id={`${id}-reveal`}>
+                  <Rect
+                    x={0}
+                    y={-8}
+                    width={Number.isFinite(sweep) ? sweep : size.width + 16}
+                    height={size.height + 16}
+                  />
+                </ClipPath>
+              </Defs>
+              <ChartGrid
+                ticks={model.slots}
+                start={plot.x}
+                end={plot.x + plot.width}
+              />
+              <ChartAxis
+                side="bottom"
+                offset={model.axisOffset}
+                ticks={model.labelIndices.map((position) => ({
+                  position: model.positions[position],
+                  label: model.labels[position],
+                }))}
+              />
+              <G clipPath={`url(#${id}-reveal)`}>
+                {drawnSeries.map((item) => (
+                  <ChartDimmable
+                    key={item.key}
+                    isDimmed={isDimmed(item)}
+                    dimmedOpacity={dimmedOpacity}
+                  >
+                    <Path
+                      data-slot="chart-series"
+                      d={getBumpPath(item.points)}
+                      fill="none"
+                      stroke={getChartColor(item.paint, colors)}
+                      strokeWidth={2}
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                    />
+                  </ChartDimmable>
+                ))}
+              </G>
+              {drawnSeries.map((item) => {
+                const color = getChartColor(item.paint, colors)
+                const nameMark = model.names.find(
+                  (entry) => entry.key === item.key
+                )
+                // The name rides the drawn line's last point, so it travels
+                // with its line when the ranks change instead of waiting there.
+                const last = item.points[item.points.length - 1]
+                const nameY = last ? last.y : nameMark?.y
+                return (
+                  <ChartDimmable
+                    key={item.key}
+                    isDimmed={isDimmed(item)}
+                    dimmedOpacity={dimmedOpacity}
+                  >
+                    <G data-slot="bump-chart-points">
+                      {item.points.map((point, position) => {
+                        if (!point) return null
+                        const amount = getBumpRevealAmount(
+                          sweep,
+                          point.x,
+                          radius
+                        )
+                        return (
+                          <G
+                            key={position}
+                            data-slot="bump-chart-dot"
+                            opacity={amount}
                           >
-                            {point.rank}
-                          </SvgText>
-                        )}
-                      </G>
-                    )
-                  })}
-                  {nameMark && !item.isLeaving && (
-                    <SvgText
-                      data-slot="bump-chart-name"
-                      x={nameMark.x}
-                      y={nameMark.y + name.fontSize * 0.35}
-                      fill={name.color}
-                      fontSize={name.fontSize}
-                      fontFamily="Inter"
-                      opacity={getBumpRevealAmount(sweep, nameMark.x, radius)}
-                    >
-                      {nameMark.text}
-                    </SvgText>
-                  )}
-                </G>
-              )
-            })}
-          </Svg>
+                            <Circle
+                              cx={point.x}
+                              cy={point.y}
+                              r={radius * (0.5 + amount * 0.5)}
+                              fill={ringFill}
+                              stroke={color}
+                              strokeWidth={2}
+                            />
+                            {model.showRanks && (
+                              <SvgText
+                                x={point.x}
+                                y={point.y + rank.fontSize * 0.35}
+                                fill={rank.color}
+                                fontSize={rank.fontSize}
+                                fontWeight={rank.fontWeight}
+                                fontFamily="Inter"
+                                textAnchor="middle"
+                              >
+                                {point.rank}
+                              </SvgText>
+                            )}
+                          </G>
+                        )
+                      })}
+                      {nameMark && nameY !== undefined && !item.isLeaving && (
+                        <SvgText
+                          data-slot="bump-chart-name"
+                          x={nameMark.x}
+                          y={nameY + name.fontSize * 0.35}
+                          fill={name.color}
+                          fontSize={name.fontSize}
+                          fontFamily="Inter"
+                          opacity={getBumpRevealAmount(
+                            sweep,
+                            nameMark.x,
+                            radius
+                          )}
+                        >
+                          {nameMark.text}
+                        </SvgText>
+                      )}
+                    </G>
+                  </ChartDimmable>
+                )
+              })}
+            </Svg>
+          </ChartRevealFade>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (

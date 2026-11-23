@@ -29,7 +29,9 @@ import {
   ChartLegend,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
   useChartLegendState,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -66,6 +68,10 @@ type FunnelChartProps<TDatum extends ChartDatum> = {
 
 const FALLBACK_SIZE = { width: 480, height: 288 }
 const NO_STAGES: FunnelStage[] = []
+
+function getStageId(stage: FunnelStage) {
+  return stage.id
+}
 
 function FunnelChart<TDatum extends ChartDatum>({
   data,
@@ -133,10 +139,14 @@ function FunnelChart<TDatum extends ChartDatum>({
   )
 
   const activeIndex = active !== null && active < data.length ? active : null
+  // The readout outlives inspection by the tooltip role's exit, to fade out.
+  const shown = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    shown.value !== null && shown.value < data.length ? shown.value : null
   const content =
-    activeIndex === null
+    shownIndex === null
       ? null
-      : getFunnelTooltip(model, activeIndex, formatValue)
+      : getFunnelTooltip(model, shownIndex, formatValue)
   const table = React.useMemo(
     () => getFunnelTable(model, formatValue),
     [model, formatValue]
@@ -150,11 +160,12 @@ function FunnelChart<TDatum extends ChartDatum>({
   const isVertical = orientation === "vertical"
   const isEmpty = data.length === 0
   const fill = getChartColor(model.series.paint)
-  const labels = getFunnelLabels(stages, model)
+  const drawnStages = useChartDrawOrder(stages, getStageId)
+  const labels = getFunnelLabels(drawnStages, model)
   const activeStage =
-    activeIndex === null
+    shownIndex === null
       ? null
-      : (stages.find((stage) => stage.id === model.stages[activeIndex]?.id) ??
+      : (stages.find((stage) => stage.id === model.stages[shownIndex]?.id) ??
         null)
   const anchor = activeStage
     ? isVertical
@@ -167,7 +178,7 @@ function FunnelChart<TDatum extends ChartDatum>({
           y: activeStage.center,
         }
     : null
-  const band = activeIndex === null ? null : model.bands[activeIndex]
+  const band = shownIndex === null ? null : model.bands[shownIndex]
 
   return (
     <div
@@ -193,12 +204,12 @@ function FunnelChart<TDatum extends ChartDatum>({
             height={size.height}
             className="absolute inset-0 overflow-visible"
           >
-            {band && <ChartBand rect={band} />}
-            {stages.map((stage) => (
+            {band && <ChartBand rect={band} leaving={shown.isLeaving} />}
+            {drawnStages.map((stage) => (
               <path
                 key={stage.id}
                 data-slot="funnel-chart-stage"
-                data-dimmed={stage.isLeaving || undefined}
+                data-leaving={stage.isLeaving || undefined}
                 className="cn-funnel-chart-stage"
                 d={getFunnelStagePath(
                   stage,
@@ -209,7 +220,7 @@ function FunnelChart<TDatum extends ChartDatum>({
                 fillOpacity={stage.opacity}
               />
             ))}
-            {stages.map((stage, position) => {
+            {drawnStages.map((stage, position) => {
               const { name, pill, conversion } = labels[position]
               const amount = getStaggeredProgress(
                 reveal,
@@ -218,48 +229,53 @@ function FunnelChart<TDatum extends ChartDatum>({
               )
               return (
                 <g key={stage.id} opacity={amount}>
-                  {name && (
-                    <text
-                      data-slot="funnel-chart-name"
-                      className="cn-funnel-chart-name"
-                      x={name.x}
-                      y={name.y}
-                      textAnchor={name.anchor}
-                    >
-                      {name.text}
-                    </text>
-                  )}
-                  {conversion && (
-                    <text
-                      data-slot="funnel-chart-conversion"
-                      className="cn-funnel-chart-conversion"
-                      x={conversion.x}
-                      y={conversion.y}
-                      textAnchor={conversion.anchor}
-                    >
-                      {conversion.text}
-                    </text>
-                  )}
-                  {pill && (
-                    <g data-slot="funnel-chart-value">
-                      <rect
-                        className="cn-funnel-chart-pill"
-                        x={pill.x}
-                        y={pill.y}
-                        width={pill.width}
-                        height={pill.height}
-                        rx={pill.height / 2}
-                      />
+                  <g
+                    data-leaving={stage.isLeaving || undefined}
+                    className="cn-chart-label-presence"
+                  >
+                    {name && (
                       <text
-                        className="cn-funnel-chart-value"
-                        x={pill.text.x}
-                        y={pill.text.y}
-                        textAnchor={pill.text.anchor}
+                        data-slot="funnel-chart-name"
+                        className="cn-funnel-chart-name"
+                        x={name.x}
+                        y={name.y}
+                        textAnchor={name.anchor}
                       >
-                        {pill.text.text}
+                        {name.text}
                       </text>
-                    </g>
-                  )}
+                    )}
+                    {conversion && (
+                      <text
+                        data-slot="funnel-chart-conversion"
+                        className="cn-funnel-chart-conversion"
+                        x={conversion.x}
+                        y={conversion.y}
+                        textAnchor={conversion.anchor}
+                      >
+                        {conversion.text}
+                      </text>
+                    )}
+                    {pill && (
+                      <g data-slot="funnel-chart-value">
+                        <rect
+                          className="cn-funnel-chart-pill"
+                          x={pill.x}
+                          y={pill.y}
+                          width={pill.width}
+                          height={pill.height}
+                          rx={pill.height / 2}
+                        />
+                        <text
+                          className="cn-funnel-chart-value"
+                          x={pill.text.x}
+                          y={pill.text.y}
+                          textAnchor={pill.text.anchor}
+                        >
+                          {pill.text.text}
+                        </text>
+                      </g>
+                    )}
+                  </g>
                 </g>
               )
             })}
@@ -267,7 +283,12 @@ function FunnelChart<TDatum extends ChartDatum>({
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (
-          <ChartTooltip content={content} anchor={anchor} frame={size} />
+          <ChartTooltip
+            content={content}
+            anchor={anchor}
+            frame={size}
+            leaving={shown.isLeaving}
+          />
         )}
         {!isEmpty && (
           <ChartInspector
@@ -279,7 +300,7 @@ function FunnelChart<TDatum extends ChartDatum>({
               getNearestIndex(model.centers, isVertical ? point.y : point.x)
             }
             valueText={
-              content
+              activeIndex !== null && content
                 ? `${content.title}: ${content.rows
                     .map((row) => `${row.label} ${row.value}`)
                     .join(", ")}`

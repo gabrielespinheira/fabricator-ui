@@ -14,7 +14,7 @@
   /* The opacity the other pills take while one is inspected, read by the
      bar and applied to SVG. */
   .cn-status-bar-pill {
-    @apply opacity-60;
+    @apply opacity-40;
   }
 
   /* The lifted pill sits over the bar and under the tooltip. */

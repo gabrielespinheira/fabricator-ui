@@ -1202,5 +1202,26 @@
     "name": "mail-01",
     "reason": "New web email block on App Shell. Its React Native port waits for a phone composition of the thread list, the thread sheet and the compose form; the folder, filter and selection rules are pure modules it can reuse.",
     "date": "2026-11-17"
+  },
+  {
+    "item": "status-bar",
+    "kind": "placeholder",
+    "name": "cn-status-bar-lift-mark",
+    "reason": "The website's lift fades its SVG mark in separately from the group that glides; native's lift is one Animated.View that fades itself.",
+    "date": "2026-11-22"
+  },
+  {
+    "item": "chart-kit",
+    "kind": "export",
+    "name": "useChartPresence",
+    "reason": "The website holds the last inspected mark so its readout can fade out with CSS. Native overlays fade out on unmount through Reanimated's exiting animation (useFadeOut), so they need no held state.",
+    "date": "2026-11-22"
+  },
+  {
+    "item": "chart-kit",
+    "kind": "prop",
+    "name": "leaving",
+    "reason": "The website marks a held readout data-leaving so CSS fades it out. Native overlays unmount when the finger lifts and fade out through Reanimated's exiting animation instead.",
+    "date": "2026-11-22"
   }
 ]

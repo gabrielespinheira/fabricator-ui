@@ -13,9 +13,10 @@
     @apply text-(length:--density-text-12);
   }
 
-  /* A stage leaving the data fades as it shrinks into the centre line. */
+  /* A stage leaving the data fades out on the move role as it shrinks into
+     the centre line. */
   .cn-funnel-chart-stage {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Values sit on a pill of the card, so they keep the text colour and its

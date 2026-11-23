@@ -30,9 +30,9 @@
   /* The opacity a series' wash and outline take while another is spotlit,
      or while it shrinks away. Read by the chart, applied to SVG. */
   .cn-radar-chart-area {
-    @apply opacity-25;
+    @apply opacity-40;
   }
 
   .cn-radar-chart-series {
-    @apply opacity-25;
+    @apply opacity-40;
   }

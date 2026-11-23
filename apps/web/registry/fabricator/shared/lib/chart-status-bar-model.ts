@@ -298,7 +298,10 @@ export function getStatusBarTooltip(
     title: day.title,
     rows: [
       {
-        key: day.status.key,
+        // One row whatever the status, keyed so it stays mounted as the
+        // pointer moves: on a page with ancestor `:has()` rules every DOM
+        // insertion restyles the whole page.
+        key: "status",
         label: "Status",
         paint: day.status.paint,
         dashed: false,

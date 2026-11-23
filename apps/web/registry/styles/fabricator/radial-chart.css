@@ -12,9 +12,10 @@
     @apply aspect-square w-full max-w-72 data-[shape=half]:aspect-[20/11] data-[shape=half]:max-w-96;
   }
 
-  /* While another ring is inspected or spotlit, this one fades back. */
+  /* While another ring is inspected or spotlit, this one fades back. A ring
+     leaving the data fades out on the move role as it unwinds. */
   .cn-radial-chart-ring {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* The track: the whole target in a faint neutral, so the value reads as a

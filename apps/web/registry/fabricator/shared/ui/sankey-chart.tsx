@@ -32,7 +32,9 @@ import {
   ChartLegend,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
   useChartLegendState,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -65,6 +67,10 @@ type SankeyChartProps<
 
 const FALLBACK_SIZE = { width: 480, height: 288 }
 const NO_GEOMETRY: SankeyGeometry = { nodes: [], links: [] }
+
+function getMarkId(mark: { id: string }) {
+  return mark.id
+}
 
 function toSvgId(id: string) {
   return id.replace(/[^a-zA-Z0-9_-]/g, "")
@@ -126,6 +132,8 @@ function SankeyChart<
     interpolateSankey,
     animate ? dataVersion : null
   )
+  const drawnLinks = useChartDrawOrder(drawn.links, getMarkId)
+  const drawnNodes = useChartDrawOrder(drawn.nodes, getMarkId)
 
   const markCount = model.links.length + model.nodes.length
   const activeIndex = active !== null && active < markCount ? active : null
@@ -139,10 +147,15 @@ function SankeyChart<
       : spotlightIndex >= 0
         ? getSankeyHighlight(model, model.links.length + spotlightIndex)
         : null
+  // The readout outlives inspection by the tooltip role's exit, to fade out.
+  // The highlight follows the live index.
+  const shown = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    shown.value !== null && shown.value < markCount ? shown.value : null
   const content =
-    activeIndex === null
+    shownIndex === null
       ? null
-      : getSankeyTooltip(model, activeIndex, formatValue)
+      : getSankeyTooltip(model, shownIndex, formatValue)
   const table = React.useMemo(
     () => getSankeyTable(model, formatValue),
     [model, formatValue]
@@ -169,24 +182,37 @@ function SankeyChart<
   }
 
   const isEmpty = model.links.length === 0
-  const mark = activeIndex === null ? null : getSankeyMark(model, activeIndex)
-  const anchor =
-    mark === null
-      ? null
-      : mark.kind === "link"
-        ? {
-            x: (mark.link.x0 + mark.link.x1) / 2,
-            y:
-              (mark.link.sourceTop +
-                mark.link.sourceBottom +
-                mark.link.targetTop +
-                mark.link.targetBottom) /
-              4,
-          }
-        : {
-            x: mark.node.x + mark.node.width,
-            y: mark.node.y + mark.node.height / 2,
-          }
+  const target = shownIndex === null ? null : getSankeyMark(model, shownIndex)
+  // The tooltip points at the mark as drawn now, so during a morph it
+  // travels with the ribbon or node instead of arriving first.
+  const drawnLink =
+    target?.kind === "link"
+      ? (drawn.links.find(
+          (link) => link.id === target.link.id && !link.isLeaving
+        ) ?? target.link)
+      : null
+  const drawnNode =
+    target?.kind === "node"
+      ? (drawn.nodes.find(
+          (node) => node.id === target.node.id && !node.isLeaving
+        ) ?? target.node)
+      : null
+  const anchor = drawnLink
+    ? {
+        x: (drawnLink.x0 + drawnLink.x1) / 2,
+        y:
+          (drawnLink.sourceTop +
+            drawnLink.sourceBottom +
+            drawnLink.targetTop +
+            drawnLink.targetBottom) /
+          4,
+      }
+    : drawnNode
+      ? {
+          x: drawnNode.x + drawnNode.width,
+          y: drawnNode.y + drawnNode.height / 2,
+        }
+      : null
   const revealWidth =
     reveal >= 1 ? (size?.width ?? 0) : (size?.width ?? 0) * reveal
 
@@ -224,15 +250,15 @@ function SankeyChart<
               </clipPath>
             </defs>
             <g clipPath={`url(#${id}-reveal)`}>
-              {drawn.links.map((link) => {
+              {drawnLinks.map((link) => {
                 const isLit = highlight?.links.has(link.id) ?? false
                 return (
                   <path
                     key={link.id}
                     data-slot="sankey-chart-link"
+                    data-leaving={link.isLeaving || undefined}
                     data-dimmed={
-                      link.isLeaving ||
-                      (highlight !== null && !isLit) ||
+                      (!link.isLeaving && highlight !== null && !isLit) ||
                       undefined
                     }
                     className="cn-sankey-chart-link"
@@ -244,13 +270,15 @@ function SankeyChart<
                   />
                 )
               })}
-              {drawn.nodes.map((node) => (
+              {drawnNodes.map((node) => (
                 <rect
                   key={node.id}
                   data-slot="sankey-chart-node"
+                  data-leaving={node.isLeaving || undefined}
                   data-dimmed={
-                    node.isLeaving ||
-                    (highlight !== null && !highlight.nodes.has(node.id)) ||
+                    (!node.isLeaving &&
+                      highlight !== null &&
+                      !highlight.nodes.has(node.id)) ||
                     undefined
                   }
                   className="cn-sankey-chart-node"
@@ -263,13 +291,14 @@ function SankeyChart<
                 />
               ))}
             </g>
-            {drawn.nodes.map((node) => {
-              if (node.isLeaving) return null
+            {drawnNodes.map((node) => {
               const labels = getSankeyLabels(node, fontSize)
               if (!labels.name) return null
               return (
                 // The draw-in fades labels in column by column on the outer
-                // group; the inner one dims without retiming that fade.
+                // group; the middle one fades them in and out with their node
+                // on the move role, and the inner one dims on the feedback
+                // role, so no fade retimes another.
                 <g
                   key={node.id}
                   opacity={getStaggeredProgress(
@@ -279,30 +308,37 @@ function SankeyChart<
                   )}
                 >
                   <g
-                    data-slot="sankey-chart-label"
-                    data-dimmed={
-                      (highlight !== null && !highlight.nodes.has(node.id)) ||
-                      undefined
-                    }
-                    className="cn-sankey-chart-label"
-                    textAnchor={labels.name.anchor}
+                    data-leaving={node.isLeaving || undefined}
+                    className="cn-chart-label-presence"
                   >
-                    <text
-                      className="cn-sankey-chart-name"
-                      x={labels.name.x}
-                      y={labels.name.y}
+                    <g
+                      data-slot="sankey-chart-label"
+                      data-dimmed={
+                        (!node.isLeaving &&
+                          highlight !== null &&
+                          !highlight.nodes.has(node.id)) ||
+                        undefined
+                      }
+                      className="cn-sankey-chart-label"
+                      textAnchor={labels.name.anchor}
                     >
-                      {node.label}
-                    </text>
-                    {labels.value && (
                       <text
-                        className="cn-sankey-chart-value"
-                        x={labels.value.x}
-                        y={labels.value.y}
+                        className="cn-sankey-chart-name"
+                        x={labels.name.x}
+                        y={labels.name.y}
                       >
-                        {node.valueText}
+                        {node.label}
                       </text>
-                    )}
+                      {labels.value && (
+                        <text
+                          className="cn-sankey-chart-value"
+                          x={labels.value.x}
+                          y={labels.value.y}
+                        >
+                          {node.valueText}
+                        </text>
+                      )}
+                    </g>
                   </g>
                 </g>
               )
@@ -311,7 +347,12 @@ function SankeyChart<
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (
-          <ChartTooltip content={content} anchor={anchor} frame={size} />
+          <ChartTooltip
+            content={content}
+            anchor={anchor}
+            frame={size}
+            leaving={shown.isLeaving}
+          />
         )}
         {!isEmpty && (
           <ChartInspector
@@ -323,9 +364,9 @@ function SankeyChart<
                 : null
             }
             onActiveChange={inspect}
-            getIndexAt={(point) => getSankeyMarkAt(model, point)}
+            getIndexAt={(point) => getSankeyMarkAt(model, point, activeIndex)}
             valueText={
-              content
+              activeIndex !== null && content
                 ? `${content.title}: ${content.rows
                     .map((row) => `${row.label} ${row.value}`)
                     .join(", ")}`

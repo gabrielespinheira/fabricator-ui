@@ -405,6 +405,33 @@ export function getBumpSeriesAt(model: BumpChartModel, point: ChartPoint) {
   return found
 }
 
+/**
+ * Where the tooltip points at an index: the pointed series' point there, or
+ * the top-most point at that index, like the line chart's. The plot's middle
+ * only when every series has a gap there.
+ */
+export function getBumpAnchor(
+  model: Pick<BumpChartModel, "positions" | "series" | "plot">,
+  index: number,
+  pointed: string | null
+): ChartPoint {
+  const x = model.positions[index]
+  const pointedPoint =
+    pointed === null
+      ? null
+      : (model.series.find((item) => item.key === pointed)?.points[index] ??
+        null)
+  if (pointedPoint) return { x, y: pointedPoint.y }
+  const ys = model.series.flatMap((item) => {
+    const point = item.points[index]
+    return point ? [point.y] : []
+  })
+  return {
+    x,
+    y: ys.length > 0 ? Math.min(...ys) : model.plot.y + model.plot.height / 2,
+  }
+}
+
 /** How much of a dot the draw-in shows, as the sweep passes over it. */
 export function getBumpRevealAmount(sweep: number, x: number, radius: number) {
   return Math.max(0, Math.min(1, (sweep - (x - radius)) / (2 * radius)))

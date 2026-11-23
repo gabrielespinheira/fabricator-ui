@@ -145,7 +145,7 @@ describe("getStatusBarTooltip", () => {
       title: "Mon, Nov 2",
       rows: [
         {
-          key: "degraded",
+          key: "status",
           label: "Status",
           paint: { token: "warning" },
           dashed: false,

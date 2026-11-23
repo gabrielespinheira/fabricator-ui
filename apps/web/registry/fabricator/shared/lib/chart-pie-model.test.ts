@@ -2,10 +2,13 @@ import { describe, expect, it } from "vitest"
 
 import {
   getDonutCenterFontSize,
+  getDonutListBarClip,
   getPieAnchor,
   getPieChartModel,
   getPieListRows,
+  getPieSliceAnchor,
   getPieSliceAt,
+  getPieSliceOverlap,
   getPieSlicePath,
   getPieTable,
   getPieTooltip,
@@ -33,6 +36,28 @@ function model(options: Partial<Parameters<typeof getPieChartModel>[0]> = {}) {
   })
 }
 
+describe("getPieSliceOverlap", () => {
+  it("overlaps touching slices by less than a pixel", () => {
+    const pie = model()
+    const overlap = getPieSliceOverlap(pie, pie.slices[0])
+    expect(overlap).toBeGreaterThan(0)
+    expect(overlap).toBeLessThan(1)
+  })
+
+  it("leaves a donut's gaps and a lone slice's circle alone", () => {
+    const donut = model({ variant: "donut" })
+    expect(getPieSliceOverlap(donut, donut.slices[0])).toBe(0)
+    const lone = model({ data: [{ plan: "Pro", revenue: 5 }] })
+    expect(getPieSliceOverlap(lone, lone.slices[0])).toBe(0)
+  })
+
+  it("adds nothing to a slice with no width yet", () => {
+    const pie = model()
+    const [first] = sweepPieSlices(pie.slices, 0)
+    expect(getPieSliceOverlap(pie, first)).toBe(0)
+  })
+})
+
 describe("getPieChartModel", () => {
   it("lays slices clockwise from 12 o'clock in data order", () => {
     const { slices } = model()
@@ -51,14 +76,24 @@ describe("getPieChartModel", () => {
     expect(span(1) / span(0)).toBeCloseTo(2.5, 1)
   })
 
-  it("pads slices so they keep a 2px gap at any radius", () => {
+  it("draws a pie as one disc: touching slices with square corners", () => {
+    const { slices, cornerRadius } = model()
+    expect(slices.map((slice) => slice.padAngle)).toEqual([0, 0, 0])
+    expect(cornerRadius).toBe(0)
+  })
+
+  it("pads a donut's slices so they keep a 2px gap, rounded", () => {
+    expect(model({ variant: "donut" }).cornerRadius).toBe(6)
     const { slices, outerRadius, innerRadius } = model({ variant: "donut" })
     const padRadius = Math.hypot(innerRadius, outerRadius)
     expect(slices[0].padAngle * padRadius).toBeCloseTo(2)
   })
 
   it("leaves a lone slice whole, without a gap", () => {
-    const { slices } = model({ data: [{ plan: "Pro", revenue: 5 }] })
+    const { slices } = model({
+      variant: "donut",
+      data: [{ plan: "Pro", revenue: 5 }],
+    })
     expect(slices[0].padAngle).toBe(0)
   })
 
@@ -198,6 +233,11 @@ describe("geometry helpers", () => {
     expect(offset.y).toBeCloseTo(0)
   })
 
+  it("anchors on a given slice as it anchors on that index", () => {
+    const pie = model()
+    expect(getPieSliceAnchor(pie, pie.slices[1])).toEqual(getPieAnchor(pie, 1))
+  })
+
   it("anchors the tooltip past the slice's rim", () => {
     const pie = model()
     const anchor = getPieAnchor(pie, 1)
@@ -306,5 +346,18 @@ describe("tooltip, table and list", () => {
       expect.objectContaining({ id: "Pro", share: 0.5 }),
       expect.objectContaining({ id: "Team", share: 0.3 }),
     ])
+  })
+
+  it("clips a list bar to its share once the ring starts drawing", () => {
+    expect(getDonutListBarClip(0.25, true)).toBe(
+      "inset(0 75% 0 0 round 9999px)"
+    )
+    expect(getDonutListBarClip(1, true)).toBe("inset(0 0% 0 0 round 9999px)")
+  })
+
+  it("clips a list bar shut before the ring draws", () => {
+    expect(getDonutListBarClip(0.25, false)).toBe(
+      "inset(0 100% 0 0 round 9999px)"
+    )
   })
 })

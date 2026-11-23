@@ -1232,9 +1232,10 @@
   }
 
   /* A candle's wick and body sit on whole pixels so a 1px wick stays one
-     pixel. A candle that left the data fades while it slides out. */
+     pixel. A candle that left the data fades out on the move role while it
+     slides out. */
   .cn-candlestick-chart-candle {
-    @apply [shape-rendering:crispEdges] transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply [shape-rendering:crispEdges] transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Volume is context, not the subject: the candle's colour, faint. */
@@ -1315,36 +1316,44 @@
 /* MARK: Chart Kit */
 
   /* The plot: its font size is the axis labels', which the layout measures
-     against. */
+     against. Under Reduce Motion its SVG fades in on mount: the draw-in
+     without the sweep. */
   .cn-chart-plot {
-    @apply text-(length:--density-text-11) transition-opacity duration-feedback ease-feedback in-data-loading:opacity-50;
+    @apply text-(length:--density-text-11) transition-opacity duration-feedback ease-feedback in-data-loading:opacity-50 motion-reduce:[&_svg]:animate-in motion-reduce:[&_svg]:fade-in-0 motion-reduce:[&_svg]:duration-tooltip motion-reduce:[&_svg]:ease-enter;
   }
 
-  /* A series dims while another is spotlit from the legend, or while it
-     shrinks away after being hidden. */
+  /* A series dims while another is spotlit from the legend. One being
+     hidden fades out on the move role while it shrinks away, so it leaves
+     with its tween instead of popping from the dim level. */
   .cn-chart-series {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Gridlines: a hairline at each value tick, one step off the surface,
-     never dashed. The data is the only loud thing in a chart. */
+     never dashed. The data is the only loud thing in a chart. It fades in
+     once when the chart first appears, so the frame doesn't pop while the
+     marks draw. Under Reduce Motion the plot's SVG fade carries it, so the
+     frame fades once, not twice. */
   .cn-chart-grid {
-    @apply stroke-border [shape-rendering:crispEdges];
+    @apply stroke-border [shape-rendering:crispEdges] motion-safe:animate-in fade-in-0 duration-tooltip ease-enter;
   }
 
-  /* Axis labels: small and grey, tabular so ticks line up. */
+  /* Axis labels: small and grey, tabular so ticks line up. They fade in
+     with the grid. */
   .cn-chart-axis {
-    @apply fill-muted-foreground text-(length:--density-text-11) tabular-nums select-none;
+    @apply fill-muted-foreground text-(length:--density-text-11) tabular-nums select-none motion-safe:animate-in fade-in-0 duration-tooltip ease-enter;
   }
 
   /* The crosshair glides between indices on the glide role; its line fades
-     in where it first lands. Reduced motion keeps the fade, drops the glide. */
+     in where it first lands and out on the tooltip role's exit when
+     inspection ends, as the dots, the band and the tooltip do. Reduced
+     motion keeps the fades, drops the glide. */
   .cn-chart-crosshair {
     @apply transition-transform duration-glide ease-enter motion-reduce:transition-none;
   }
 
   .cn-chart-crosshair-line {
-    @apply stroke-foreground/20 animate-in fade-in-0 duration-tooltip ease-enter [shape-rendering:crispEdges];
+    @apply stroke-foreground/20 animate-in fade-in-0 duration-tooltip ease-enter [shape-rendering:crispEdges] [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)];
   }
 
   /* The inspected point on each series: an 8px dot ringed by 2px of the
@@ -1354,7 +1363,7 @@
   }
 
   .cn-chart-dot-mark {
-    @apply stroke-card [stroke-width:2] animate-in fade-in-0 duration-tooltip ease-enter;
+    @apply stroke-card [stroke-width:2] animate-in fade-in-0 duration-tooltip ease-enter [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)];
   }
 
   /* The category under the pointer on bar charts: a faint wash behind its
@@ -1365,12 +1374,13 @@
   }
 
   .cn-chart-band-mark {
-    @apply fill-hover animate-in fade-in-0 duration-tooltip ease-enter;
+    @apply fill-hover animate-in fade-in-0 duration-tooltip ease-enter [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)];
   }
 
-  /* Bars dim while another series is spotlit, or while they shrink away. */
+  /* Bars dim while another series is spotlit, and fade out on the move role
+     while they shrink away. */
   .cn-chart-bar {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* The tooltip's positioner only places it: no surface of its own, so the
@@ -1385,9 +1395,13 @@
 
   /* Two steps over the card a chart usually sits on (surface 3), as Chat
      Input's menus and the Data Table's panels are, so the readout stands
-     apart from the card in both themes instead of matching it. */
+     apart from the card in both themes instead of matching it. When
+     inspection ends it fades out and shrinks a little, as the library's
+     Tooltip leaves; reduced motion keeps only the fade. It grows and
+     shrinks from the side facing its mark, as popups grow from their
+     trigger. */
   .cn-chart-tooltip-content {
-    @apply bg-surface-5 shadow-surface-5 text-popover-foreground flex min-w-36 flex-col gap-(--density-6) rounded-lg px-(--density-10) py-(--density-8) text-(length:--density-text-12) motion-tooltip animate-in fade-in-0;
+    @apply bg-surface-5 shadow-surface-5 text-popover-foreground flex min-w-36 flex-col gap-(--density-6) rounded-lg px-(--density-10) py-(--density-8) text-(length:--density-text-12) motion-tooltip animate-in fade-in-0 [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter),scale_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 motion-safe:in-data-leaving:scale-(--motion-tooltip-scale) in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit),scale_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)] in-data-[placement=after]:origin-left in-data-[placement=before]:origin-right in-data-[placement=above]:origin-bottom;
   }
 
   .cn-chart-tooltip-title {
@@ -1437,6 +1451,12 @@
      inset so it isn't clipped. */
   .cn-chart-inspector {
     @apply rounded-md focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
+  }
+
+  /* A label that arrives with its mark fades in on the move role, and fades
+     out with it while the mark leaves, instead of popping. */
+  .cn-chart-label-presence {
+    @apply animate-in fade-in-0 duration-move ease-move transition-opacity data-leaving:opacity-0;
   }
 
   .cn-chart-empty {
@@ -2779,9 +2799,11 @@
   }
 
   /* The total and each slice's value share one spot; the one shown fades
-     in as the last fades out. */
+     in as the last fades out, each through a 2px blur so the two never
+     read as one smeared number. Reduced motion keeps the fade and drops
+     the blur. */
   .cn-donut-chart-center-layer {
-    @apply opacity-0 transition-opacity duration-feedback ease-feedback data-active:opacity-100;
+    @apply opacity-0 blur-[2px] transition-[opacity,filter] duration-feedback ease-feedback data-active:opacity-100 data-active:blur-none motion-reduce:blur-none;
   }
 
   /* The value leads, large and tabular; its size comes from the hole. */
@@ -2833,8 +2855,11 @@
     @apply bg-muted h-1 rounded-full;
   }
 
+  /* The share bar is always full width and clipped to its share: it opens
+     with the ring on the reveal role, then moves on the move role when the
+     data changes. Reduced motion drops the travel. */
   .cn-donut-chart-list-bar-fill {
-    @apply rounded-full transition-[width] duration-move ease-move motion-reduce:transition-none;
+    @apply rounded-full transition-[clip-path] duration-reveal ease-enter data-settled:duration-move data-settled:ease-move motion-reduce:transition-none;
   }
 
 /* MARK: Drawer */
@@ -4019,9 +4044,10 @@
     @apply text-(length:--density-text-12);
   }
 
-  /* A stage leaving the data fades as it shrinks into the centre line. */
+  /* A stage leaving the data fades out on the move role as it shrinks into
+     the centre line. */
   .cn-funnel-chart-stage {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Values sit on a pill of the card, so they keep the text colour and its
@@ -4077,10 +4103,12 @@
     @apply pointer-events-none transition-transform duration-glide ease-enter motion-reduce:transition-none;
   }
 
-  /* A quarter larger than the cell, with a soft shadow, fading in where it
-     first lands. */
+  /* A quarter larger than the cell, with a soft shadow. Where it first
+     lands it grows out of the cell (from its size, scale 1) as it fades
+     in, on one clock, and it fades out with the tooltip when inspection
+     ends. Reduced motion keeps the fades and drops the growth. */
   .cn-heat-calendar-lift-mark {
-    @apply scale-125 drop-shadow-sm [transform-box:fill-box] origin-center animate-in fade-in-0 duration-tooltip ease-enter;
+    @apply scale-125 drop-shadow-sm [transform-box:fill-box] origin-center motion-safe:starting:scale-100 animate-in fade-in-0 duration-tooltip ease-enter [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter),scale_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)];
   }
 
   /* The 2px surface ring every mark keeps where it overlaps others. */
@@ -4088,9 +4116,10 @@
     @apply fill-card;
   }
 
-  /* The lifted cell's level eases between days as it glides. */
+  /* The lifted cell's level eases between days as it glides, Reduce Motion
+     included: it changes colour, not place. */
   .cn-heat-calendar-lift-level {
-    @apply transition-[fill-opacity] duration-glide ease-enter motion-reduce:transition-none;
+    @apply transition-[fill-opacity] duration-glide ease-enter;
   }
 
   /* The range and the key: small and grey, under the grid. */
@@ -5028,10 +5057,11 @@
   }
 
   /* The slice under the pointer lifts out on the glide timing while the
-     others fade back. Reduced motion keeps the fade and drops the lift's
-     travel. */
+     others fade back on the feedback role. A slice leaving the data fades
+     out on the move role as it closes. Reduced motion keeps the fade and
+     drops the lift's travel. */
   .cn-chart-slice {
-    @apply transition-[transform,opacity] duration-glide ease-enter data-dimmed:opacity-40 motion-reduce:transition-opacity;
+    @apply transition-[transform,opacity] [transition-duration:calc(var(--motion-glide)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1))] [transition-timing-function:var(--motion-ease-enter),var(--motion-ease-feedback)] data-dimmed:opacity-40 motion-reduce:[transition:opacity_calc(var(--motion-feedback)*var(--motion-scale,1))_var(--motion-ease-feedback)] data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Share labels fade in once the slices have settled. */
@@ -5278,9 +5308,10 @@
   }
 
   /* The grid: four polygons and the spokes as hairlines in the border
-     colour, one step off the surface. The data is the loud part. */
+     colour, one step off the surface. The data is the loud part. It fades
+     in once with the chart, as the other charts' grids do. */
   .cn-radar-chart-grid {
-    @apply stroke-border;
+    @apply stroke-border motion-safe:animate-in fade-in-0 duration-tooltip ease-enter;
   }
 
   /* The inspected axis' spoke steps forward, as the crosshair does. */
@@ -5293,14 +5324,14 @@
     @apply fill-muted-foreground transition-[fill] duration-feedback ease-feedback select-none data-active:fill-foreground;
   }
 
-  /* A series' wash and outline fade back while another is spotlit, or while
-     it shrinks away after being hidden. */
+  /* A series' wash and outline fade back while another is spotlit, and
+     fade out on the move role while it shrinks away after being hidden. */
   .cn-radar-chart-area {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   .cn-radar-chart-series {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
 /* MARK: Radial Chart */
@@ -5317,9 +5348,10 @@
     @apply aspect-square w-full max-w-72 data-[shape=half]:aspect-[20/11] data-[shape=half]:max-w-96;
   }
 
-  /* While another ring is inspected or spotlit, this one fades back. */
+  /* While another ring is inspected or spotlit, this one fades back. A ring
+     leaving the data fades out on the move role as it unwinds. */
   .cn-radial-chart-ring {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* The track: the whole target in a faint neutral, so the value reads as a
@@ -5456,20 +5488,21 @@
     @apply text-(length:--density-text-12);
   }
 
-  /* Links dim while another mark is inspected, and their wash deepens on
-     the glide role while they are lit, so the highlight follows the
-     pointer. */
+  /* Links dim on the feedback role while another mark is inspected, and
+     their wash deepens on the glide role while they are lit, so the
+     highlight follows the pointer. A link or node leaving the data fades
+     out on the move role as it narrows. */
   .cn-sankey-chart-link {
-    @apply transition-[opacity,fill-opacity] duration-glide ease-enter data-dimmed:opacity-35 motion-reduce:transition-none;
+    @apply transition-[opacity,fill-opacity] [transition-duration:calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-glide)*var(--motion-scale,1))] [transition-timing-function:var(--motion-ease-feedback),var(--motion-ease-enter)] data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Nodes and their labels dim with the links they don't touch. */
   .cn-sankey-chart-node {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-35;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   .cn-sankey-chart-label {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-35;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40;
   }
 
   /* Names lead in the text colour, never the node's. */
@@ -6010,11 +6043,28 @@
     @apply h-(--density-32);
   }
 
-  /* The pill under the pointer lifts a little and the rest dim, both
-     gliding as the pointer moves along. Reduced motion keeps the change
-     and drops the movement. */
+  /* While a pill is inspected the rest dim on the feedback role, keyed on
+     their group so hovering changes nothing on the pills. A pill leaving
+     the data fades out with its presence instead of dimming. Reduced motion
+     keeps the fade. */
   .cn-status-bar-pill {
-    @apply transition-[scale,opacity] duration-glide ease-enter [transform-box:fill-box] origin-center data-active:scale-x-125 data-active:scale-y-110 data-dimmed:opacity-60 motion-reduce:transition-none;
+    @apply transition-opacity duration-feedback ease-feedback in-data-[inspecting]:opacity-40;
+  }
+
+  /* A lifted copy of the inspected pill, a quarter wider and a tenth
+     taller, glides from pill to pill on the glide role, as Heat Calendar's
+     lift does. Reduced motion drops the glide. */
+  .cn-status-bar-lift {
+    @apply pointer-events-none transition-transform duration-glide ease-enter motion-reduce:transition-none;
+  }
+
+  /* Drawn at the pill's size and lifted here. Where it first lands it
+     grows out of the pill (from scale 1) as it fades in, on one clock, as
+     Heat Calendar's lifted day does, and it fades out with the tooltip
+     when inspection ends. Reduced motion keeps the fades
+     and drops the growth. */
+  .cn-status-bar-lift-mark {
+    @apply scale-x-125 scale-y-110 [transform-box:fill-box] origin-center motion-safe:starting:scale-100 animate-in fade-in-0 duration-tooltip ease-enter [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter),scale_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)];
   }
 
   /* The first and last day and the uptime: small and grey, tabular so the
@@ -6658,9 +6708,10 @@
 
   /* A cell dims a little while another is inspected or spotlit: the one in
      focus stands out and the rest stays readable. Its wash deepens on the
-     glide role, so the highlight travels with the pointer. */
+     glide role, so the highlight travels with the pointer. A cell leaving
+     the data fades out on the move role as it shrinks. */
   .cn-treemap-cell {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-60 [&>rect]:transition-[fill-opacity] [&>rect]:duration-glide [&>rect]:ease-enter motion-reduce:[&>rect]:transition-none;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-60 [&>rect]:transition-[fill-opacity] [&>rect]:duration-glide [&>rect]:ease-enter data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Names lead in the text colour, never the group's: the wash behind them

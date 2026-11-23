@@ -7,9 +7,10 @@
   }
 
   /* A candle's wick and body sit on whole pixels so a 1px wick stays one
-     pixel. A candle that left the data fades while it slides out. */
+     pixel. A candle that left the data fades out on the move role while it
+     slides out. */
   .cn-candlestick-chart-candle {
-    @apply [shape-rendering:crispEdges] transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply [shape-rendering:crispEdges] transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Volume is context, not the subject: the candle's colour, faint. */

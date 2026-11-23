@@ -407,6 +407,30 @@ describe("getSankeyMarkAt", () => {
     expect(getSankeyMarkAt(current, { x, y })).toBe(0)
     expect(getSankeyMarkAt(current, { x: -50, y: -50 })).toBe(-1)
   })
+
+  it("keeps the previous mark on a miss", () => {
+    const current = model()
+    expect(getSankeyMarkAt(current, { x: -50, y: -50 }, 3)).toBe(3)
+  })
+
+  it("lets a hit replace the previous mark", () => {
+    const current = model()
+    const link = current.links[0]
+    const x = (link.x0 + link.x1) / 2
+    const y =
+      (link.sourceTop +
+        link.sourceBottom +
+        link.targetTop +
+        link.targetBottom) /
+      4
+    expect(getSankeyMarkAt(current, { x, y }, 3)).toBe(0)
+  })
+
+  it("drops a previous mark the model no longer has", () => {
+    const current = model()
+    const count = current.links.length + current.nodes.length
+    expect(getSankeyMarkAt(current, { x: -50, y: -50 }, count)).toBe(-1)
+  })
 })
 
 describe("getSankeyHighlight", () => {

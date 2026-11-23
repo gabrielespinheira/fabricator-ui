@@ -326,11 +326,15 @@ export function estimateTextWidth(text: string, fontSize: number) {
 
 const TOOLTIP_GAP = 12
 
+/** The side of its mark the tooltip sits on: after and before are physical x. */
+export type ChartTooltipPlacement = "after" | "before" | "above"
+
 /**
  * Where the tooltip's top-left corner goes. Beside the anchor (after it, or
  * before it near the end edge) for a pointer; above it, for a finger, which
  * would cover anything below, and beside it when there's no room above.
- * Always inside the frame.
+ * Always inside the frame. It also says which side it chose, so the tooltip
+ * can grow from the mark.
  */
 export function getTooltipPosition({
   anchor,
@@ -342,7 +346,7 @@ export function getTooltipPosition({
   frame: ChartSize
   tooltip: ChartSize
   side?: "end" | "top"
-}): ChartPoint {
+}): ChartPoint & { placement: ChartTooltipPlacement } {
   const clamp = (value: number, max: number) =>
     Math.max(0, Math.min(value, Math.max(0, max)))
   const above = anchor.y - TOOLTIP_GAP - tooltip.height
@@ -350,6 +354,7 @@ export function getTooltipPosition({
     return {
       x: clamp(anchor.x - tooltip.width / 2, frame.width - tooltip.width),
       y: above,
+      placement: "above",
     }
   }
   const after = anchor.x + TOOLTIP_GAP
@@ -359,6 +364,7 @@ export function getTooltipPosition({
       ? after
       : clamp(anchor.x - TOOLTIP_GAP - tooltip.width, frame.width),
     y: clamp(anchor.y - tooltip.height / 2, frame.height - tooltip.height),
+    placement: fitsAfter ? "after" : "before",
   }
 }
 
@@ -376,6 +382,15 @@ export function parseCssDuration(css: string) {
   const value = Number(match[1])
   if (!Number.isFinite(value)) return 0
   return match[2]?.toLowerCase() === "s" ? value * 1000 : value
+}
+
+/**
+ * A role's duration in milliseconds as the theme times it: the CSS time
+ * times `--motion-scale`, which reads as 1 when it isn't set.
+ */
+export function getScaledDuration(duration: string, scale: string) {
+  const factor = Number.parseFloat(scale)
+  return parseCssDuration(duration) * (Number.isFinite(factor) ? factor : 1)
 }
 
 /** The four numbers of a CSS `cubic-bezier()`, or null for anything else. */
@@ -452,4 +467,83 @@ export function getStaggeredProgress(
   if (count <= 1) return Math.max(0, Math.min(1, progress))
   const delay = (order / (count - 1)) * spread
   return Math.max(0, Math.min(1, (progress - delay) / (1 - spread)))
+}
+
+/**
+ * The fewest milliseconds between two scrub ticks: a finger crossing a
+ * dense chart would otherwise blur its ticks into a buzz.
+ */
+export const CHART_TICK_GAP = 40
+
+/**
+ * Whether a scrub's snap ticks now, or how many milliseconds until the tick
+ * it is owed if the finger stays on that mark. The first snap (no tick yet)
+ * always ticks.
+ */
+export function getScrubTick(
+  now: number,
+  lastTickAt: number | null,
+  gap = CHART_TICK_GAP
+): { isPlayed: true } | { isPlayed: false; wait: number } {
+  if (lastTickAt === null) return { isPlayed: true }
+  const elapsed = now - lastTickAt
+  if (elapsed >= gap) return { isPlayed: true }
+  return { isPlayed: false, wait: gap - elapsed }
+}
+
+/**
+ * Props equality for a memoized marks layer: the colours compare by value,
+ * since a chart resolves them into a new object each render; everything
+ * else by identity.
+ */
+export function areChartMarksPropsEqual<
+  TProps extends { colors: Record<string, string> },
+>(previous: TProps, next: TProps) {
+  for (const key in next) {
+    if (key === "colors") continue
+    if (!Object.is(previous[key], next[key])) return false
+  }
+  const before = Object.entries(previous.colors)
+  return (
+    before.length === Object.keys(next.colors).length &&
+    before.every(([token, color]) => next.colors[token] === color)
+  )
+}
+
+/** How many keys that left a steady order remembers beyond the ones drawn. */
+const FORGOTTEN_KEY_SLACK = 32
+
+/** `order` with every key of `next` it lacks, each after its predecessor. */
+function addNewKeys(order: readonly string[], next: readonly string[]) {
+  const known = new Set(order)
+  if (next.every((key) => known.has(key))) return order
+  const grown = [...order]
+  next.forEach((key, position) => {
+    if (known.has(key)) return
+    const before = position === 0 ? -1 : grown.indexOf(next[position - 1])
+    grown.splice(before + 1, 0, key)
+    known.add(key)
+  })
+  return grown
+}
+
+/**
+ * Mark keys in a steady drawing order: keys already in it keep their order,
+ * and a new key goes after the one it follows in `next`. The tweens list
+ * leaving marks last, and moving an element in the DOM drops its running
+ * CSS transitions, so a mark that starts leaving must keep its place to
+ * fade out. Keys that left are remembered, because a tween's first render
+ * after a change lists only the new target, without the marks about to
+ * leave; they are forgotten once they outnumber the drawn keys. Returns
+ * `previous` itself when nothing changed.
+ */
+export function getSteadyDrawOrder(
+  previous: readonly string[],
+  next: readonly string[]
+): readonly string[] {
+  const order = addNewKeys(previous, next)
+  const forgotten = order.length - next.length
+  if (forgotten <= Math.max(next.length, FORGOTTEN_KEY_SLACK)) return order
+  const drawn = new Set(next)
+  return order.filter((key) => drawn.has(key))
 }

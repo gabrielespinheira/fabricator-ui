@@ -23,6 +23,7 @@ import {
   ChartInspector,
   ChartTooltip,
   getChartColor,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -60,6 +61,48 @@ const FALLBACK_SIZE = { width: 480, height: 32 }
 const NO_PILLS: StatusPill[] = []
 /** How far below its place a pill starts rising, as a share of its height. */
 const RISE = 0.4
+
+/** One day's pill. Memoized per pill, and nothing on it changes on hover:
+ * on a page with ancestor `:has()` rules, an attribute change on ~90 pills
+ * restyles and lays out the whole page on every pointer step. */
+const StatusBarPill = React.memo(function StatusBarPill({
+  pill,
+  amount,
+}: {
+  pill: StatusPill
+  amount: number
+}) {
+  const shown = amount * pill.presence
+  const y = pill.y + (1 - amount) * pill.height * RISE
+  return (
+    <g
+      data-slot="status-bar-pill"
+      data-status={pill.status}
+      className="cn-status-bar-pill"
+    >
+      <rect
+        x={pill.x}
+        y={y}
+        width={pill.width}
+        height={pill.height}
+        rx={pill.radius}
+        fill={getChartColor(pill.paint)}
+        fillOpacity={pill.opacity * shown}
+      />
+      {pill.previous && (
+        <rect
+          x={pill.x}
+          y={y}
+          width={pill.width}
+          height={pill.height}
+          rx={pill.radius}
+          fill={getChartColor(pill.previous.paint)}
+          fillOpacity={pill.previous.opacity * shown}
+        />
+      )}
+    </g>
+  )
+})
 
 function StatusBar<TDatum extends ChartDatum>({
   data,
@@ -109,8 +152,22 @@ function StatusBar<TDatum extends ChartDatum>({
   const activeIndex =
     active !== null && active < model.pills.length ? active : null
   const activePill = activeIndex === null ? null : model.pills[activeIndex]
+  // The lift and the readout outlive inspection by the tooltip role's exit,
+  // to fade out. The dim follows the live pill.
+  const shown = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    shown.value !== null && shown.value < model.pills.length
+      ? shown.value
+      : null
+  const targetPill = shownIndex === null ? null : model.pills[shownIndex]
+  // The lift and the tooltip sit on the pill as drawn now, so during a
+  // morph they travel with it instead of arriving first.
+  const shownPill = targetPill
+    ? (pills.find((pill) => pill.id === targetPill.id && !pill.isLeaving) ??
+      targetPill)
+    : null
   const content =
-    activeIndex === null ? null : getStatusBarTooltip(model, activeIndex)
+    shownIndex === null ? null : getStatusBarTooltip(model, shownIndex)
   const table = React.useMemo(() => getStatusBarTable(model), [model])
 
   const inspect = (next: number | null) => {
@@ -122,8 +179,8 @@ function StatusBar<TDatum extends ChartDatum>({
   }
 
   const isEmpty = data.length === 0
-  const anchor = activePill
-    ? { x: activePill.x + activePill.width / 2, y: activePill.y }
+  const anchor = shownPill
+    ? { x: shownPill.x + shownPill.width / 2, y: shownPill.y }
     : null
 
   return (
@@ -146,57 +203,56 @@ function StatusBar<TDatum extends ChartDatum>({
             height={size.height}
             className="absolute inset-0 overflow-visible"
           >
-            {pills.map((pill) => {
-              const amount = getStaggeredProgress(
-                reveal,
-                pill.index - model.first,
-                model.pills.length,
-                0.5
-              )
-              const shown = amount * pill.presence
-              const y = pill.y + (1 - amount) * pill.height * RISE
-              const isActive = activePill?.id === pill.id
-              return (
-                <g
+            {/* One attribute on the group dims every pill, so hovering
+                never touches the pills themselves. */}
+            <g
+              data-slot="status-bar-pills"
+              data-inspecting={activePill !== null || undefined}
+            >
+              {pills.map((pill) => (
+                <StatusBarPill
                   key={pill.id}
-                  data-slot="status-bar-pill"
-                  data-status={pill.status}
-                  data-active={isActive || undefined}
-                  data-dimmed={
-                    (activePill !== null && !isActive) ||
-                    pill.isLeaving ||
-                    undefined
-                  }
-                  className="cn-status-bar-pill"
-                >
-                  <rect
-                    x={pill.x}
-                    y={y}
-                    width={pill.width}
-                    height={pill.height}
-                    rx={pill.radius}
-                    fill={getChartColor(pill.paint)}
-                    fillOpacity={pill.opacity * shown}
-                  />
-                  {pill.previous && (
-                    <rect
-                      x={pill.x}
-                      y={y}
-                      width={pill.width}
-                      height={pill.height}
-                      rx={pill.radius}
-                      fill={getChartColor(pill.previous.paint)}
-                      fillOpacity={pill.previous.opacity * shown}
-                    />
+                  pill={pill}
+                  amount={getStaggeredProgress(
+                    reveal,
+                    pill.index - model.first,
+                    model.pills.length,
+                    0.5
                   )}
-                </g>
-              )
-            })}
+                />
+              ))}
+            </g>
+            {shownPill && (
+              <g
+                data-slot="status-bar-lift"
+                data-leaving={shown.isLeaving || undefined}
+                className="cn-status-bar-lift"
+                style={{
+                  transform: `translate(${shownPill.x + shownPill.width / 2}px, ${shownPill.y + shownPill.height / 2}px)`,
+                }}
+              >
+                <rect
+                  className="cn-status-bar-lift-mark"
+                  x={-shownPill.width / 2}
+                  y={-shownPill.height / 2}
+                  width={shownPill.width}
+                  height={shownPill.height}
+                  rx={shownPill.radius}
+                  fill={getChartColor(shownPill.paint)}
+                  fillOpacity={shownPill.opacity}
+                />
+              </g>
+            )}
           </svg>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (
-          <ChartTooltip content={content} anchor={anchor} frame={size} />
+          <ChartTooltip
+            content={content}
+            anchor={anchor}
+            frame={size}
+            leaving={shown.isLeaving}
+          />
         )}
         {!isEmpty && (
           <ChartInspector
@@ -206,7 +262,7 @@ function StatusBar<TDatum extends ChartDatum>({
             onActiveChange={inspect}
             getIndexAt={(point) => getNearestIndex(model.centers, point.x)}
             valueText={
-              content
+              activeIndex !== null && content
                 ? `${content.title}: ${content.rows
                     .map((row) => `${row.label} ${row.value}`)
                     .join(", ")}${content.note ? `. ${content.note}` : ""}`

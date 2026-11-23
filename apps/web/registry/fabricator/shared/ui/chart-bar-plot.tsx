@@ -37,7 +37,9 @@ import {
   ChartLegend,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
   useChartLegendState,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
@@ -83,6 +85,10 @@ type ChartBarPlotProps<TDatum extends ChartDatum> = {
 const FALLBACK_SIZE = { width: 480, height: 240 }
 const NO_BARS: BarRect[] = []
 
+function getBarKey(bar: BarRect) {
+  return bar.id
+}
+
 function grow(
   bar: BarRect,
   baseline: number,
@@ -99,6 +105,41 @@ function grow(
     height: interpolateNumber(collapsed.height, bar.height, amount),
   }
 }
+
+/** Every bar. Memoized: the band and tooltip moving don't redraw them. */
+const ChartBars = React.memo(function ChartBars({
+  bars,
+  reveal,
+  count,
+  baseline,
+  layout,
+  spotlight,
+}: {
+  bars: readonly BarRect[]
+  reveal: number
+  count: number
+  baseline: number
+  layout: ChartOrientation
+  spotlight: string | null
+}) {
+  return bars.map((bar) => {
+    const amount = getStaggeredProgress(reveal, bar.index, count)
+    return (
+      <path
+        key={bar.id}
+        data-slot="chart-bar"
+        data-leaving={bar.isLeaving || undefined}
+        data-dimmed={
+          (!bar.isLeaving && spotlight !== null && spotlight !== bar.key) ||
+          undefined
+        }
+        className="cn-chart-bar"
+        d={getBarPath(grow(bar, baseline, layout, amount))}
+        fill={getChartColor(bar.paint)}
+      />
+    )
+  })
+})
 
 function ChartBarPlot<TDatum extends ChartDatum>({
   data,
@@ -173,9 +214,15 @@ function ChartBarPlot<TDatum extends ChartDatum>({
     animate ? dataVersion : null
   )
 
+  const drawnBars = useChartDrawOrder(bars, getBarKey)
+
   const activeIndex = active !== null && active < data.length ? active : null
+  // The readout outlives inspection by the tooltip role's exit, to fade out.
+  const shown = useChartPresence(plotRef, activeIndex)
+  const shownIndex =
+    shown.value !== null && shown.value < data.length ? shown.value : null
   const content =
-    activeIndex === null ? null : getBarTooltip(model, activeIndex, formatValue)
+    shownIndex === null ? null : getBarTooltip(model, shownIndex, formatValue)
   const table = React.useMemo(
     () => getBarTable(model, formatValue),
     [model, formatValue]
@@ -190,16 +237,18 @@ function ChartBarPlot<TDatum extends ChartDatum>({
   const { plot, valueTicks } = model.layout
   const isEmpty = data.length === 0
   const showLegend = legend ?? allSeries.length > 1
+  // The tooltip sits on the bars as drawn now, so during a morph it travels
+  // with them instead of arriving first.
   const activeBars =
-    activeIndex === null
+    shownIndex === null
       ? []
-      : model.bars.filter((bar) => bar.index === activeIndex)
+      : bars.filter((bar) => bar.index === shownIndex && !bar.isLeaving)
   const anchor =
-    activeIndex === null
+    shownIndex === null
       ? null
       : isVertical
         ? {
-            x: model.centers[activeIndex],
+            x: model.centers[shownIndex],
             y: activeBars.length
               ? Math.min(...activeBars.map((bar) => bar.y))
               : plot.y + plot.height / 2,
@@ -208,9 +257,9 @@ function ChartBarPlot<TDatum extends ChartDatum>({
             x: activeBars.length
               ? Math.max(...activeBars.map((bar) => bar.x + bar.width))
               : plot.x + plot.width / 2,
-            y: model.centers[activeIndex],
+            y: model.centers[shownIndex],
           }
-  const band = activeIndex === null ? null : model.bands[activeIndex]
+  const band = shownIndex === null ? null : model.bands[shownIndex]
   const indexTicks = model.labelIndices.map((position) => ({
     position: model.centers[position],
     label: model.labels[position],
@@ -241,7 +290,7 @@ function ChartBarPlot<TDatum extends ChartDatum>({
               start={isVertical ? plot.x : plot.y}
               end={isVertical ? plot.x + plot.width : plot.y + plot.height}
             />
-            {band && <ChartBand rect={band} />}
+            {band && <ChartBand rect={band} leaving={shown.isLeaving} />}
             {isVertical ? (
               <>
                 <ChartAxis
@@ -269,32 +318,24 @@ function ChartBarPlot<TDatum extends ChartDatum>({
                 />
               </>
             )}
-            {bars.map((bar) => {
-              const amount = getStaggeredProgress(
-                reveal,
-                bar.index,
-                data.length
-              )
-              return (
-                <path
-                  key={bar.id}
-                  data-slot="chart-bar"
-                  data-dimmed={
-                    (spotlight !== null && spotlight !== bar.key) ||
-                    bar.isLeaving ||
-                    undefined
-                  }
-                  className="cn-chart-bar"
-                  d={getBarPath(grow(bar, model.baseline, layout, amount))}
-                  fill={getChartColor(bar.paint)}
-                />
-              )
-            })}
+            <ChartBars
+              bars={drawnBars}
+              reveal={reveal}
+              count={data.length}
+              baseline={model.baseline}
+              layout={layout}
+              spotlight={spotlight}
+            />
           </svg>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (
-          <ChartTooltip content={content} anchor={anchor} frame={size} />
+          <ChartTooltip
+            content={content}
+            anchor={anchor}
+            frame={size}
+            leaving={shown.isLeaving}
+          />
         )}
         {!isEmpty && (
           <ChartInspector
@@ -306,7 +347,7 @@ function ChartBarPlot<TDatum extends ChartDatum>({
               getNearestIndex(model.centers, isVertical ? point.x : point.y)
             }
             valueText={
-              content
+              activeIndex !== null && content
                 ? `${content.title}: ${content.rows
                     .map((row) => `${row.label} ${row.value}`)
                     .join(", ")}`

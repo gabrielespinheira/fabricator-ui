@@ -1,36 +1,44 @@
 /* MARK: Chart Kit */
 
   /* The plot: its font size is the axis labels', which the layout measures
-     against. */
+     against. Under Reduce Motion its SVG fades in on mount: the draw-in
+     without the sweep. */
   .cn-chart-plot {
-    @apply text-(length:--density-text-11) transition-opacity duration-feedback ease-feedback in-data-loading:opacity-50;
+    @apply text-(length:--density-text-11) transition-opacity duration-feedback ease-feedback in-data-loading:opacity-50 motion-reduce:[&_svg]:animate-in motion-reduce:[&_svg]:fade-in-0 motion-reduce:[&_svg]:duration-tooltip motion-reduce:[&_svg]:ease-enter;
   }
 
-  /* A series dims while another is spotlit from the legend, or while it
-     shrinks away after being hidden. */
+  /* A series dims while another is spotlit from the legend. One being
+     hidden fades out on the move role while it shrinks away, so it leaves
+     with its tween instead of popping from the dim level. */
   .cn-chart-series {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* Gridlines: a hairline at each value tick, one step off the surface,
-     never dashed. The data is the only loud thing in a chart. */
+     never dashed. The data is the only loud thing in a chart. It fades in
+     once when the chart first appears, so the frame doesn't pop while the
+     marks draw. Under Reduce Motion the plot's SVG fade carries it, so the
+     frame fades once, not twice. */
   .cn-chart-grid {
-    @apply stroke-border [shape-rendering:crispEdges];
+    @apply stroke-border [shape-rendering:crispEdges] motion-safe:animate-in fade-in-0 duration-tooltip ease-enter;
   }
 
-  /* Axis labels: small and grey, tabular so ticks line up. */
+  /* Axis labels: small and grey, tabular so ticks line up. They fade in
+     with the grid. */
   .cn-chart-axis {
-    @apply fill-muted-foreground text-(length:--density-text-11) tabular-nums select-none;
+    @apply fill-muted-foreground text-(length:--density-text-11) tabular-nums select-none motion-safe:animate-in fade-in-0 duration-tooltip ease-enter;
   }
 
   /* The crosshair glides between indices on the glide role; its line fades
-     in where it first lands. Reduced motion keeps the fade, drops the glide. */
+     in where it first lands and out on the tooltip role's exit when
+     inspection ends, as the dots, the band and the tooltip do. Reduced
+     motion keeps the fades, drops the glide. */
   .cn-chart-crosshair {
     @apply transition-transform duration-glide ease-enter motion-reduce:transition-none;
   }
 
   .cn-chart-crosshair-line {
-    @apply stroke-foreground/20 animate-in fade-in-0 duration-tooltip ease-enter [shape-rendering:crispEdges];
+    @apply stroke-foreground/20 animate-in fade-in-0 duration-tooltip ease-enter [shape-rendering:crispEdges] [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)];
   }
 
   /* The inspected point on each series: an 8px dot ringed by 2px of the
@@ -40,7 +48,7 @@
   }
 
   .cn-chart-dot-mark {
-    @apply stroke-card [stroke-width:2] animate-in fade-in-0 duration-tooltip ease-enter;
+    @apply stroke-card [stroke-width:2] animate-in fade-in-0 duration-tooltip ease-enter [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)];
   }
 
   /* The category under the pointer on bar charts: a faint wash behind its
@@ -51,12 +59,13 @@
   }
 
   .cn-chart-band-mark {
-    @apply fill-hover animate-in fade-in-0 duration-tooltip ease-enter;
+    @apply fill-hover animate-in fade-in-0 duration-tooltip ease-enter [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)];
   }
 
-  /* Bars dim while another series is spotlit, or while they shrink away. */
+  /* Bars dim while another series is spotlit, and fade out on the move role
+     while they shrink away. */
   .cn-chart-bar {
-    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-25;
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-40 data-leaving:opacity-0 data-leaving:duration-move data-leaving:ease-move;
   }
 
   /* The tooltip's positioner only places it: no surface of its own, so the
@@ -71,9 +80,13 @@
 
   /* Two steps over the card a chart usually sits on (surface 3), as Chat
      Input's menus and the Data Table's panels are, so the readout stands
-     apart from the card in both themes instead of matching it. */
+     apart from the card in both themes instead of matching it. When
+     inspection ends it fades out and shrinks a little, as the library's
+     Tooltip leaves; reduced motion keeps only the fade. It grows and
+     shrinks from the side facing its mark, as popups grow from their
+     trigger. */
   .cn-chart-tooltip-content {
-    @apply bg-surface-5 shadow-surface-5 text-popover-foreground flex min-w-36 flex-col gap-(--density-6) rounded-lg px-(--density-10) py-(--density-8) text-(length:--density-text-12) motion-tooltip animate-in fade-in-0;
+    @apply bg-surface-5 shadow-surface-5 text-popover-foreground flex min-w-36 flex-col gap-(--density-6) rounded-lg px-(--density-10) py-(--density-8) text-(length:--density-text-12) motion-tooltip animate-in fade-in-0 [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter),scale_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 motion-safe:in-data-leaving:scale-(--motion-tooltip-scale) in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit),scale_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)] in-data-[placement=after]:origin-left in-data-[placement=before]:origin-right in-data-[placement=above]:origin-bottom;
   }
 
   .cn-chart-tooltip-title {
@@ -123,6 +136,12 @@
      inset so it isn't clipped. */
   .cn-chart-inspector {
     @apply rounded-md focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
+  }
+
+  /* A label that arrives with its mark fades in on the move role, and fades
+     out with it while the mark leaves, instead of popping. */
+  .cn-chart-label-presence {
+    @apply animate-in fade-in-0 duration-move ease-move transition-opacity data-leaving:opacity-0;
   }
 
   .cn-chart-empty {

@@ -12,9 +12,11 @@
   }
 
   /* The total and each slice's value share one spot; the one shown fades
-     in as the last fades out. */
+     in as the last fades out, each through a 2px blur so the two never
+     read as one smeared number. Reduced motion keeps the fade and drops
+     the blur. */
   .cn-donut-chart-center-layer {
-    @apply opacity-0 transition-opacity duration-feedback ease-feedback data-active:opacity-100;
+    @apply opacity-0 blur-[2px] transition-[opacity,filter] duration-feedback ease-feedback data-active:opacity-100 data-active:blur-none motion-reduce:blur-none;
   }
 
   /* The value leads, large and tabular; its size comes from the hole. */
@@ -66,6 +68,9 @@
     @apply bg-muted h-1 rounded-full;
   }
 
+  /* The share bar is always full width and clipped to its share: it opens
+     with the ring on the reveal role, then moves on the move role when the
+     data changes. Reduced motion drops the travel. */
   .cn-donut-chart-list-bar-fill {
-    @apply rounded-full transition-[width] duration-move ease-move motion-reduce:transition-none;
+    @apply rounded-full transition-[clip-path] duration-reveal ease-enter data-settled:duration-move data-settled:ease-move motion-reduce:transition-none;
   }

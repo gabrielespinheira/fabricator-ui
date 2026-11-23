@@ -28,9 +28,11 @@ import {
 } from "@/registry/fabricator/shared/lib/chart-treemap-model"
 import {
   ChartDataTable,
+  ChartDimmable,
   ChartEmpty,
   ChartInspector,
   ChartLegend,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
@@ -165,7 +167,8 @@ function Treemap<TDatum extends ChartDatum>({
     () => ({ data, config, nameField, valueField, childrenField, hidden }),
     [data, config, nameField, valueField, childrenField, hidden]
   )
-  const reveal = useChartReveal(size !== null, animate)
+  const plotRef = React.useRef<React.ComponentRef<typeof View>>(null)
+  const reveal = useChartReveal(size !== null, animate, plotRef)
   const cells = useChartTween(
     size ? model.cells : NO_CELLS,
     interpolateTreemapCells,
@@ -215,82 +218,92 @@ function Treemap<TDatum extends ChartDatum>({
       {...props}
     >
       <View
+        ref={plotRef}
         data-slot="chart-plot"
         data-loading={loading}
         onLayout={onLayout}
         className="cn-chart-plot relative min-h-0 flex-1"
       >
         {size && !isEmpty && (
-          <Svg
-            width={size.width}
-            height={size.height}
-            style={{ position: "absolute" }}
-            importantForAccessibility="no-hide-descendants"
-          >
-            {cells.map((cell, order) => {
-              const revealed = revealTreemapCell(
-                cell,
-                getStaggeredProgress(reveal, order, cells.length)
-              )
-              const drawn = revealed.cell
-              const isActive = cell.id === activeCell?.id
-              const isDimmed =
-                cell.isLeaving === true ||
-                (activeCell !== null && !isActive) ||
-                (activeCell === null &&
-                  spotlight !== null &&
-                  spotlight !== cell.group)
-              const color = getChartColor(cell.paint, colors)
-              const labels = getTreemapLabels(drawn, fontSize)
-              const width = Math.max(0, drawn.width - 1)
-              const height = Math.max(0, drawn.height - 1)
-              return (
-                <G
-                  key={cell.id}
-                  data-slot="treemap-cell"
-                  opacity={revealed.opacity * (isDimmed ? dimmedOpacity : 1)}
-                >
-                  <Rect
-                    x={drawn.x + 0.5}
-                    y={drawn.y + 0.5}
-                    width={width}
-                    height={height}
-                    rx={Math.min(TREEMAP_RADIUS, width / 2, height / 2)}
-                    fill={color}
-                    fillOpacity={isActive ? TREEMAP_ACTIVE_WASH : TREEMAP_WASH}
-                    stroke={color}
-                    strokeOpacity={TREEMAP_EDGE}
-                    strokeWidth={1}
-                  />
-                  {labels.name && (
-                    <SvgText
-                      data-slot="treemap-cell-name"
-                      x={labels.name.x}
-                      y={labels.name.y}
-                      fill={nameText.color}
-                      fontSize={fontSize}
-                      fontWeight={nameText.fontWeight}
-                      fontFamily="Inter"
+          <ChartRevealFade isReady={size !== null} enabled={animate}>
+            <Svg
+              width={size.width}
+              height={size.height}
+              style={{ position: "absolute" }}
+              importantForAccessibility="no-hide-descendants"
+            >
+              {cells.map((cell, order) => {
+                const revealed = revealTreemapCell(
+                  cell,
+                  getStaggeredProgress(reveal, order, cells.length)
+                )
+                const drawn = revealed.cell
+                const isActive = cell.id === activeCell?.id
+                const isDimmed =
+                  cell.isLeaving === true ||
+                  (activeCell !== null && !isActive) ||
+                  (activeCell === null &&
+                    spotlight !== null &&
+                    spotlight !== cell.group)
+                const color = getChartColor(cell.paint, colors)
+                const labels = getTreemapLabels(drawn, fontSize)
+                const width = Math.max(0, drawn.width - 1)
+                const height = Math.max(0, drawn.height - 1)
+                return (
+                  <G
+                    key={cell.id}
+                    data-slot="treemap-cell"
+                    opacity={revealed.opacity}
+                  >
+                    <ChartDimmable
+                      isDimmed={isDimmed}
+                      dimmedOpacity={dimmedOpacity}
                     >
-                      {cell.name}
-                    </SvgText>
-                  )}
-                  {labels.value && (
-                    <SvgText
-                      data-slot="treemap-cell-value"
-                      x={labels.value.x}
-                      y={labels.value.y}
-                      fill={valueText.color}
-                      fontSize={fontSize}
-                      fontFamily="Inter"
-                    >
-                      {cell.valueText}
-                    </SvgText>
-                  )}
-                </G>
-              )
-            })}
-          </Svg>
+                      <Rect
+                        x={drawn.x + 0.5}
+                        y={drawn.y + 0.5}
+                        width={width}
+                        height={height}
+                        rx={Math.min(TREEMAP_RADIUS, width / 2, height / 2)}
+                        fill={color}
+                        fillOpacity={
+                          isActive ? TREEMAP_ACTIVE_WASH : TREEMAP_WASH
+                        }
+                        stroke={color}
+                        strokeOpacity={TREEMAP_EDGE}
+                        strokeWidth={1}
+                      />
+                      {labels.name && (
+                        <SvgText
+                          data-slot="treemap-cell-name"
+                          x={labels.name.x}
+                          y={labels.name.y}
+                          fill={nameText.color}
+                          fontSize={fontSize}
+                          fontWeight={nameText.fontWeight}
+                          fontFamily="Inter"
+                        >
+                          {cell.name}
+                        </SvgText>
+                      )}
+                      {labels.value && (
+                        <SvgText
+                          data-slot="treemap-cell-value"
+                          x={labels.value.x}
+                          y={labels.value.y}
+                          fill={valueText.color}
+                          fontSize={fontSize}
+                          fontFamily="Inter"
+                        >
+                          {cell.valueText}
+                        </SvgText>
+                      )}
+                    </ChartDimmable>
+                  </G>
+                )
+              })}
+            </Svg>
+          </ChartRevealFade>
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}
         {tooltip && size && content && anchor && (

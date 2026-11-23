@@ -21,10 +21,13 @@ import {
   type StatusConfig,
   type StatusPill,
 } from "@/registry/fabricator/shared/lib/chart-status-bar-model"
+import { useMotion } from "@/registry/native/lib/motion"
 import {
   ChartDataTable,
+  ChartDimmable,
   ChartEmpty,
   ChartInspector,
+  ChartRevealFade,
   ChartTooltip,
   getChartColor,
   useChartColors,
@@ -32,6 +35,7 @@ import {
   useChartSize,
   useChartTween,
   useFadeIn,
+  useFadeOut,
   useGlide,
 } from "@/registry/native/ui/chart-kit"
 import { Text } from "@/registry/native/ui/text"
@@ -70,17 +74,27 @@ const LIFT = { x: 1.25, y: 1.1 }
 function StatusBarLift({ pill, color }: { pill: StatusPill; color: string }) {
   const x = useGlide(pill.x)
   const opacity = useFadeIn()
-  const animated = useAnimatedStyle(() => ({
-    opacity: opacity.get(),
-    transform: [
-      { translateX: x.get() },
-      { scaleX: LIFT.x },
-      { scaleY: LIFT.y },
-    ],
-  }))
+  const exiting = useFadeOut()
+  const tooltip = useMotion("tooltip")
+  // It grows out of the pill on the fade's clock; Reduce Motion keeps the
+  // fade and lands at the full lift.
+  const grows = !tooltip.isReduced
+  const animated = useAnimatedStyle(() => {
+    const presence = opacity.get()
+    const amount = grows ? presence : 1
+    return {
+      opacity: presence,
+      transform: [
+        { translateX: x.get() },
+        { scaleX: 1 + (LIFT.x - 1) * amount },
+        { scaleY: 1 + (LIFT.y - 1) * amount },
+      ],
+    }
+  })
   return (
     <Animated.View
       data-slot="status-bar-lift"
+      exiting={exiting}
       pointerEvents="none"
       className="cn-status-bar-lift absolute top-0 left-0"
       style={[{ width: pill.width, height: pill.height }, animated]}
@@ -118,7 +132,7 @@ function StatusBar<TDatum extends ChartDatum>({
   const [active, setActive] = React.useState<number | null>(null)
   const dimmed = useResolveClassNames(statusBarPillStyle())
   const dimmedOpacity =
-    typeof dimmed.opacity === "number" ? dimmed.opacity : 0.6
+    typeof dimmed.opacity === "number" ? dimmed.opacity : 0.4
 
   const model = React.useMemo(
     () =>
@@ -142,7 +156,8 @@ function StatusBar<TDatum extends ChartDatum>({
     () => ({ data, index, statusKey, statuses }),
     [data, index, statusKey, statuses]
   )
-  const reveal = useChartReveal(size !== null, animate)
+  const plotRef = React.useRef<React.ComponentRef<typeof View>>(null)
+  const reveal = useChartReveal(size !== null, animate, plotRef)
   const pills = useChartTween(
     size ? model.pills : NO_PILLS,
     interpolateStatusPills,
@@ -165,8 +180,14 @@ function StatusBar<TDatum extends ChartDatum>({
   }
 
   const isEmpty = data.length === 0
-  const anchor = activePill
-    ? { x: activePill.x + activePill.width / 2, y: activePill.y }
+  // The lift and the tooltip sit on the pill as drawn now, so during a
+  // morph they travel with it instead of arriving first.
+  const drawnPill = activePill
+    ? (pills.find((pill) => pill.id === activePill.id && !pill.isLeaving) ??
+      activePill)
+    : null
+  const anchor = drawnPill
+    ? { x: drawnPill.x + drawnPill.width / 2, y: drawnPill.y }
     : null
 
   return (
@@ -178,66 +199,72 @@ function StatusBar<TDatum extends ChartDatum>({
       {...props}
     >
       <View
+        ref={plotRef}
         data-slot="chart-plot"
         data-loading={loading}
         onLayout={onLayout}
         className="cn-chart-plot cn-status-bar-plot relative"
       >
         {size && !isEmpty && (
-          <Svg
-            width={size.width}
-            height={size.height}
-            style={{ position: "absolute" }}
-            importantForAccessibility="no-hide-descendants"
-          >
-            {pills.map((pill) => {
-              const amount = getStaggeredProgress(
-                reveal,
-                pill.index - model.first,
-                model.pills.length,
-                0.5
-              )
-              const shown = amount * pill.presence
-              const y = pill.y + (1 - amount) * pill.height * RISE
-              const isDimmed =
-                (activePill !== null && activePill.id !== pill.id) ||
-                pill.isLeaving === true
-              return (
-                <G
-                  key={pill.id}
-                  data-slot="status-bar-pill"
-                  data-status={pill.status}
-                  opacity={isDimmed ? dimmedOpacity : 1}
-                >
-                  <Rect
-                    x={pill.x}
-                    y={y}
-                    width={pill.width}
-                    height={pill.height}
-                    rx={pill.radius}
-                    fill={getChartColor(pill.paint, colors)}
-                    fillOpacity={pill.opacity * shown}
-                  />
-                  {pill.previous && (
-                    <Rect
-                      x={pill.x}
-                      y={y}
-                      width={pill.width}
-                      height={pill.height}
-                      rx={pill.radius}
-                      fill={getChartColor(pill.previous.paint, colors)}
-                      fillOpacity={pill.previous.opacity * shown}
-                    />
-                  )}
-                </G>
-              )
-            })}
-          </Svg>
+          <ChartRevealFade isReady={size !== null} enabled={animate}>
+            <Svg
+              width={size.width}
+              height={size.height}
+              style={{ position: "absolute" }}
+              importantForAccessibility="no-hide-descendants"
+            >
+              <G data-slot="status-bar-pills">
+                {pills.map((pill) => {
+                  const amount = getStaggeredProgress(
+                    reveal,
+                    pill.index - model.first,
+                    model.pills.length,
+                    0.5
+                  )
+                  const shown = amount * pill.presence
+                  const y = pill.y + (1 - amount) * pill.height * RISE
+                  const isDimmed =
+                    (activePill !== null && activePill.id !== pill.id) ||
+                    pill.isLeaving === true
+                  return (
+                    <ChartDimmable
+                      key={pill.id}
+                      isDimmed={isDimmed}
+                      dimmedOpacity={dimmedOpacity}
+                    >
+                      <G data-slot="status-bar-pill" data-status={pill.status}>
+                        <Rect
+                          x={pill.x}
+                          y={y}
+                          width={pill.width}
+                          height={pill.height}
+                          rx={pill.radius}
+                          fill={getChartColor(pill.paint, colors)}
+                          fillOpacity={pill.opacity * shown}
+                        />
+                        {pill.previous && (
+                          <Rect
+                            x={pill.x}
+                            y={y}
+                            width={pill.width}
+                            height={pill.height}
+                            rx={pill.radius}
+                            fill={getChartColor(pill.previous.paint, colors)}
+                            fillOpacity={pill.previous.opacity * shown}
+                          />
+                        )}
+                      </G>
+                    </ChartDimmable>
+                  )
+                })}
+              </G>
+            </Svg>
+          </ChartRevealFade>
         )}
-        {activePill && (
+        {drawnPill && (
           <StatusBarLift
-            pill={activePill}
-            color={getChartColor(activePill.paint, colors)}
+            pill={drawnPill}
+            color={getChartColor(drawnPill.paint, colors)}
           />
         )}
         {isEmpty && !loading && <ChartEmpty>{empty}</ChartEmpty>}

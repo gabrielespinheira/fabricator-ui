@@ -6,9 +6,10 @@ import { cn } from "cn"
 import { type ChartTick } from "@/registry/bases/__base__/lib/chart-cartesian-model"
 import {
   getCubicBezier,
+  getScaledDuration,
+  getSteadyDrawOrder,
   getSteppedIndex,
   getTooltipPosition,
-  parseCssDuration,
   parseCubicBezier,
   type ChartConfig,
   type ChartPaint,
@@ -78,18 +79,17 @@ function readChartTiming(element: Element, role: ChartMotionRole): ChartTiming {
     return { duration: 0, easing: EASE_FALLBACK }
   }
   const style = getComputedStyle(element)
-  // The minified stylesheet writes 250ms as .25s, so read the unit.
-  const duration = parseCssDuration(style.getPropertyValue(`--motion-${role}`))
-  const scale = Number.parseFloat(style.getPropertyValue("--motion-scale"))
   const curve = parseCubicBezier(
     style.getPropertyValue(
       role === "reveal" ? "--motion-ease-enter" : "--motion-ease-move"
     )
   )
   return {
-    duration:
-      (Number.isFinite(duration) ? duration : 0) *
-      (Number.isFinite(scale) ? scale : 1),
+    // The minified stylesheet writes 250ms as .25s, so the unit is read.
+    duration: getScaledDuration(
+      style.getPropertyValue(`--motion-${role}`),
+      style.getPropertyValue("--motion-scale")
+    ),
     easing: curve ? getCubicBezier(curve) : EASE_FALLBACK,
   }
 }
@@ -115,7 +115,8 @@ function animateProgress(
 
 /**
  * The draw-in: 0 until the chart is first on screen, then 1 over the reveal
- * role's duration. Once per mount; 1 straight away when `enabled` is off.
+ * role's duration. Once per mount; 1 straight away when `enabled` is off,
+ * and on mount under Reduce Motion, where the plot fades in instead.
  */
 function useChartReveal(
   ref: React.RefObject<Element | null>,
@@ -127,6 +128,13 @@ function useChartReveal(
   React.useEffect(() => {
     const element = ref.current
     if (!element || hasStarted.current) return
+    // Reduce Motion: no sweep or growth. The chart is drawn at once and the
+    // plot's SVG fades in instead (cn-chart-plot's motion-reduce rule).
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      hasStarted.current = true
+      setProgress(1)
+      return
+    }
     let cancel = () => {}
     const observer = new IntersectionObserver(
       (entries) => {
@@ -196,6 +204,71 @@ function useChartTween<TValue>(
   }, [run, ref])
 
   return blend(tween.from, target, tween.progress)
+}
+
+/** The tooltip role's exit, as the theme sets it on this element. */
+function readChartExitDuration(element: Element) {
+  const style = getComputedStyle(element)
+  return getScaledDuration(
+    style.getPropertyValue("--motion-tooltip-exit"),
+    style.getPropertyValue("--motion-scale")
+  )
+}
+
+/**
+ * The inspected mark, held for the tooltip role's exit after inspection
+ * ends, so the readout fades out instead of vanishing. Pass a number or a
+ * string, never an object: a new object every render would never settle.
+ */
+function useChartPresence<TValue extends number | string>(
+  ref: React.RefObject<Element | null>,
+  value: TValue | null
+) {
+  const [held, setHeld] = React.useState<TValue | null>(value)
+  if (value !== null && held !== value) setHeld(value)
+  const isLeaving = value === null && held !== null
+
+  React.useEffect(() => {
+    if (!isLeaving) return
+    const element = ref.current
+    const duration = element ? readChartExitDuration(element) : 0
+    if (duration <= 0) {
+      setHeld(null)
+      return
+    }
+    const timer = window.setTimeout(() => setHeld(null), duration)
+    return () => window.clearTimeout(timer)
+  }, [isLeaving, ref])
+
+  return { value: value ?? held, isLeaving }
+}
+
+/**
+ * Tweened marks in a steady drawing order, so a mark that starts leaving
+ * keeps its place in the DOM and its fade runs: the tweens list leaving
+ * marks last, and moving an element drops its CSS transitions. Pass a
+ * `getKey` defined outside the component, so the result stays memoized.
+ */
+function useChartDrawOrder<TItem>(
+  items: readonly TItem[],
+  getKey: (item: TItem) => string
+): readonly TItem[] {
+  const keys = items.map(getKey)
+  const [order, setOrder] = React.useState<readonly string[]>(keys)
+  const nextOrder = getSteadyDrawOrder(order, keys)
+  if (nextOrder !== order) setOrder(nextOrder)
+
+  return React.useMemo(() => {
+    const byKey = new Map(items.map((item) => [getKey(item), item]))
+    const ordered = nextOrder.flatMap((key) => {
+      const item = byKey.get(key)
+      return item === undefined ? [] : [item]
+    })
+    const isInOrder = ordered.every(
+      (item, position) => item === items[position]
+    )
+    return isInOrder ? items : ordered
+  }, [items, nextOrder, getKey])
 }
 
 // --- State ---------------------------------------------------------------------
@@ -331,16 +404,20 @@ function ChartCrosshair({
   x,
   top,
   bottom,
+  leaving,
   className,
 }: {
   x: number
   top: number
   bottom: number
+  /** Inspection has ended: the line fades out on the tooltip role's exit. */
+  leaving?: boolean
   className?: string
 }) {
   return (
     <g
       data-slot="chart-crosshair"
+      data-leaving={leaving || undefined}
       className={cn("cn-chart-crosshair", className)}
       style={{ transform: `translateX(${Math.round(x) + 0.5}px)` }}
     >
@@ -359,15 +436,19 @@ function ChartCrosshair({
 function ChartDot({
   point,
   color,
+  leaving,
   className,
 }: {
   point: ChartPoint
   color: string
+  /** Inspection has ended: the dot fades out on the tooltip role's exit. */
+  leaving?: boolean
   className?: string
 }) {
   return (
     <g
       data-slot="chart-dot"
+      data-leaving={leaving || undefined}
       className={cn("cn-chart-dot", className)}
       style={{ transform: `translate(${point.x}px, ${point.y}px)` }}
     >
@@ -382,14 +463,18 @@ function ChartDot({
  */
 function ChartBand({
   rect,
+  leaving,
   className,
 }: {
   rect: { x: number; y: number; width: number; height: number }
+  /** Inspection has ended: the wash fades out on the tooltip role's exit. */
+  leaving?: boolean
   className?: string
 }) {
   return (
     <g
       data-slot="chart-band"
+      data-leaving={leaving || undefined}
       className={cn("cn-chart-band", className)}
       style={{ transform: `translate(${rect.x}px, ${rect.y}px)` }}
     >
@@ -415,12 +500,15 @@ function ChartTooltip({
   anchor,
   frame,
   side = "end",
+  leaving,
   className,
 }: {
   content: ChartTooltipContent
   anchor: ChartPoint
   frame: ChartSize
   side?: "end" | "top"
+  /** Inspection has ended: the tooltip fades out on its role's exit. */
+  leaving?: boolean
   className?: string
 }) {
   const ref = React.useRef<HTMLDivElement>(null)
@@ -449,20 +537,24 @@ function ChartTooltip({
 
   const position = size
     ? getTooltipPosition({ anchor, frame, tooltip: size, side })
-    : anchor
+    : null
+  const x = position?.x ?? anchor.x
+  const y = position?.y ?? anchor.y
 
   return (
     <div
       ref={ref}
       data-slot="chart-tooltip"
+      data-leaving={leaving || undefined}
       data-placed={size !== null || undefined}
+      data-placement={position?.placement}
       data-gliding={isGliding || undefined}
       aria-hidden
       className={cn(
         "cn-chart-tooltip-positioner pointer-events-none absolute top-0 left-0 z-10",
         className
       )}
-      style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+      style={{ transform: `translate(${x}px, ${y}px)` }}
     >
       <div
         data-slot="chart-tooltip-content"
@@ -499,11 +591,16 @@ function ChartTooltip({
             </div>
           ))}
         </div>
-        {content.note && (
-          <div data-slot="chart-tooltip-note" className="cn-chart-tooltip-note">
-            {content.note}
-          </div>
-        )}
+        {/* Always mounted and hidden without a note: on a page with ancestor
+            `:has()` rules every DOM insertion restyles the whole page, and
+            the pointer crosses marks with and without notes. */}
+        <div
+          data-slot="chart-tooltip-note"
+          hidden={!content.note}
+          className="cn-chart-tooltip-note"
+        >
+          {content.note}
+        </div>
       </div>
     </div>
   )
@@ -598,6 +695,16 @@ function ChartInspector({
   className?: string
 }) {
   const isFocused = React.useRef(false)
+  const reported = React.useRef(active)
+
+  // Every report re-renders the chart, so a pointer moving within one mark
+  // reports nothing. `active` resets itself on data changes; the last report
+  // covers charts that pass only part of their state (Sankey's nodes).
+  const report = (next: number | null) => {
+    if (next === active && next === reported.current) return
+    reported.current = next
+    onActiveChange(next)
+  }
 
   const fromPointer = (event: React.PointerEvent<HTMLDivElement>) => {
     const box = event.currentTarget.getBoundingClientRect()
@@ -605,7 +712,7 @@ function ChartInspector({
       x: event.clientX - box.left,
       y: event.clientY - box.top,
     })
-    onActiveChange(index < 0 ? null : index)
+    report(index < 0 ? null : index)
   }
 
   return (
@@ -627,24 +734,24 @@ function ChartInspector({
       onPointerDown={fromPointer}
       onPointerLeave={(event) => {
         if (event.pointerType === "mouse" && !isFocused.current) {
-          onActiveChange(null)
+          report(null)
         }
       }}
       onKeyDown={(event) => {
         const next = getStep(active ?? -1, event.key, count)
         if (next === null) {
-          if (event.key === "Escape") onActiveChange(null)
+          if (event.key === "Escape") report(null)
           return
         }
         event.preventDefault()
-        onActiveChange(next)
+        report(next)
       }}
       onFocus={() => {
         isFocused.current = true
       }}
       onBlur={() => {
         isFocused.current = false
-        onActiveChange(null)
+        report(null)
       }}
     />
   )
@@ -652,8 +759,9 @@ function ChartInspector({
 
 // --- Table ---------------------------------------------------------------------
 
-/** Every value as a table, for screen readers. */
-function ChartDataTable({
+/** Every value as a table, for screen readers. Memoized: every chart passes
+ * a memoized table, so hovering doesn't rebuild hundreds of hidden rows. */
+const ChartDataTable = React.memo(function ChartDataTable({
   label,
   table,
   className,
@@ -687,7 +795,7 @@ function ChartDataTable({
       </tbody>
     </table>
   )
-}
+})
 
 /** What a chart shows with no data: the `empty` content, or a quiet line. */
 function ChartEmpty({
@@ -730,7 +838,9 @@ export {
   ChartLegend,
   ChartTooltip,
   getChartColor,
+  useChartDrawOrder,
   useChartLegendState,
+  useChartPresence,
   useChartReveal,
   useChartSize,
   useChartTween,
