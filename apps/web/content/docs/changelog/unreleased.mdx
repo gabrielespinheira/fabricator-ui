@@ -29,6 +29,8 @@ These changes are merged and ship in the next version.
 
 **Tab Strip rename.** Base UI and Radix focus the inline field after a rename starts. Tab Strip now passes Biome's autofocus rule while keeping keyboard renaming.
 
+**App Shell across platforms.** Tauri’s macOS window controls line up with Electron in the default layout, and the window material follows the light or dark theme. The pinned Details button stays visible in WebKit. On SwiftUI, the Details panel opens in a drawer when the view is too narrow to dock it. On Compose, inset shells put the main content and Details panel on matching cards above the status bar. The Compose macOS example uses its native window controls over the App Shell.
+
 **Smoother chart hover.** Charts redraw only the crosshair, highlight and tooltip as the pointer moves, so hovering a large Candlestick or Heat Calendar no longer redraws every candle or day. `onActiveChange` now fires when the inspected mark changes, not on every pointer move or React Native drag event. Status Bar lifts a copy of the inspected pill that glides along the bar, and the other pills dim to 40%, so hovering no longer lays out the whole page on every step.
 
 **Chart readouts fade out.** When the pointer leaves a chart or you press Escape, its tooltip, crosshair, dots, band and lifted day or pill fade out on the tooltip's exit timing instead of vanishing, and the tooltip shrinks slightly toward its mark. Coming back during the fade picks up the same readout without a second entrance. Dimming still clears at once. On React Native, the overlays fade out when you lift your finger.

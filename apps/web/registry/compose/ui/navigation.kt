@@ -156,7 +156,12 @@ fun FabricatorAppNav(items: List<FabricatorNavItem>, selectedId: String, onNavig
 @Composable
 fun FabricatorSidebar(items: List<FabricatorNavItem>, selectedId: String, onNavigate: (String) -> Unit, modifier: Modifier = Modifier, header: (@Composable () -> Unit)? = null, footer: (@Composable () -> Unit)? = null) {
     val theme = LocalFabricatorTheme.current
-    Column(modifier.width(248.dp).fillMaxHeight().background(theme.color("sidebar")).padding(8.dp)) {
+    FabricatorSidebarContent(items, selectedId, onNavigate, modifier.width(248.dp).background(theme.color("sidebar")), header, footer)
+}
+
+@Composable
+private fun FabricatorSidebarContent(items: List<FabricatorNavItem>, selectedId: String, onNavigate: (String) -> Unit, modifier: Modifier, header: (@Composable () -> Unit)?, footer: (@Composable () -> Unit)?) {
+    Column(modifier.fillMaxHeight().padding(LocalFabricatorTheme.current.space(8))) {
         header?.invoke()
         FabricatorAppNav(items, selectedId, onNavigate, Modifier.weight(1f))
         footer?.invoke()
@@ -177,30 +182,48 @@ fun FabricatorAppShell(
     val theme = LocalFabricatorTheme.current
     var sidebarOpen by remember { mutableStateOf(false) }
     var panelOpen by remember { mutableStateOf(false) }
+    val sidebarWidth = 256.dp
+    val panelWidth = 320.dp
+    val gap = theme.space(8)
+    val shape = RoundedCornerShape(theme.radius("xl"))
     BoxWithConstraints(modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
-        val wide = maxWidth >= 768.dp
-        Row(Modifier.fillMaxSize().background(theme.color("sidebar"))) {
-            if (wide && showsSidebar) FabricatorSidebar(items, selectedId, onNavigate, header = sidebarHeader, footer = sidebarFooter)
-            Column(Modifier.weight(1f).fillMaxHeight().padding(if (variant == FabricatorShellVariant.Inset && wide) 8.dp else 0.dp).clip(RoundedCornerShape(if (wide) theme.radius("xl") else 0.dp)).background(theme.color("background"))) {
-                Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    if (!wide && showsSidebar) FabricatorButton({ sidebarOpen = true }, Modifier.semantics { contentDescription = "Open navigation" }, FabricatorVariant.Ghost, FabricatorSize.Icon) { FabricatorIcon("panel-left") }
-                    FabricatorText(title, Modifier.weight(1f).semantics { heading() }, weight = FontWeight.SemiBold, size = 14)
-                    actions?.invoke(this)
-                    if (panel != null) FabricatorButton({ panelOpen = !panelOpen }, Modifier.semantics { contentDescription = "Toggle details panel" }, FabricatorVariant.Ghost, FabricatorSize.Icon) { FabricatorIcon("panel-right") }
+        val isWide = maxWidth >= 768.dp
+        val hasSidebar = isWide && showsSidebar
+        val canDockPanel = isWide && maxWidth - (if (hasSidebar) sidebarWidth else 0.dp) - panelWidth >= 520.dp
+        val isInset = isWide && variant == FabricatorShellVariant.Inset
+        val showStatus = isWide && status != null
+        Row(Modifier.fillMaxSize().background(theme.color("app-shell-frame"))) {
+            if (hasSidebar) FabricatorSidebarContent(items, selectedId, onNavigate, Modifier.width(sidebarWidth), sidebarHeader, sidebarFooter)
+            Column(Modifier.weight(1f).fillMaxHeight()) {
+                val inset = if (isInset) {
+                    Modifier.padding(start = if (hasSidebar) 0.dp else gap, top = gap, end = gap, bottom = if (showStatus) 0.dp else gap)
+                } else Modifier
+                Row(Modifier.weight(1f).fillMaxWidth().then(inset), horizontalArrangement = Arrangement.spacedBy(if (isInset) gap else 0.dp)) {
+                    val mainSurface = if (isInset) Modifier.shadow(1.dp, shape).clip(shape) else Modifier
+                    Column(Modifier.weight(1f).fillMaxHeight().then(mainSurface).background(theme.color("app-shell-main"))) {
+                        Row(Modifier.fillMaxWidth().heightIn(min = theme.space(48)).padding(horizontal = theme.space(12)), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(gap)) {
+                            if (!isWide && showsSidebar) FabricatorButton({ sidebarOpen = true }, Modifier.semantics { contentDescription = "Open navigation" }, FabricatorVariant.Ghost, FabricatorSize.Icon) { FabricatorIcon("panel-left") }
+                            FabricatorText(title, Modifier.weight(1f).semantics { heading() }, weight = FontWeight.Medium, size = 13, maxLines = 1)
+                            actions?.invoke(this)
+                            if (panel != null) FabricatorButton({ panelOpen = !panelOpen }, Modifier.semantics { contentDescription = if (panelOpen) "Close details" else "Open details" }, FabricatorVariant.Ghost, FabricatorSize.Icon) { FabricatorIcon("panel-right") }
+                        }
+                        Box(Modifier.weight(1f).fillMaxWidth()) { content() }
+                        if (!isWide && bottomNavigation.isNotEmpty()) { FabricatorSeparator(); Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) { bottomNavigation.forEach { item -> FabricatorButton({ onNavigate(item.id) }, Modifier.semantics { selected = item.id == selectedId }, if (item.id == selectedId) FabricatorVariant.Secondary else FabricatorVariant.Ghost) { Column(horizontalAlignment = Alignment.CenterHorizontally) { FabricatorIcon(item.icon); FabricatorText(item.title, size = 11) } } } } }
+                    }
+                    if (canDockPanel && panelOpen && panel != null) {
+                        if (!isInset) FabricatorSeparator(vertical = true)
+                        Box(Modifier.width(panelWidth).fillMaxHeight().then(mainSurface).background(theme.color("app-shell-panel")).padding(theme.space(16))) { panel() }
+                    }
                 }
-                FabricatorSeparator()
-                Row(Modifier.weight(1f)) {
-                    Box(Modifier.weight(1f).fillMaxHeight()) { content() }
-                    if (wide && panelOpen && panel != null) { FabricatorSeparator(vertical = true); Box(Modifier.width(300.dp).fillMaxHeight().padding(16.dp)) { panel() } }
+                if (isWide && status != null) {
+                    Box(Modifier.fillMaxWidth().heightIn(min = theme.space(36)).padding(horizontal = theme.space(12)), contentAlignment = Alignment.CenterStart) { status() }
                 }
-                if (!wide && bottomNavigation.isNotEmpty()) { FabricatorSeparator(); Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) { bottomNavigation.forEach { item -> FabricatorButton({ onNavigate(item.id) }, Modifier.semantics { selected = item.id == selectedId }, if (item.id == selectedId) FabricatorVariant.Secondary else FabricatorVariant.Ghost) { Column(horizontalAlignment = Alignment.CenterHorizontally) { FabricatorIcon(item.icon); FabricatorText(item.title, size = 11) } } } } }
-                if (status != null) { FabricatorSeparator(); Box(Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) { status() } }
             }
         }
-        if (!wide) {
+        if (!isWide) {
             FabricatorSheet(sidebarOpen, { sidebarOpen = false }, "Navigation", side = FabricatorSheetSide.Left) { FabricatorSidebar(items, selectedId, { onNavigate(it); sidebarOpen = false }, header = sidebarHeader, footer = sidebarFooter) }
-            if (panel != null) FabricatorDrawer(panelOpen, { panelOpen = false }, "Details") { panel() }
         }
+        if (!canDockPanel && panel != null) FabricatorDrawer(panelOpen, { panelOpen = false }, "Details") { panel() }
     }
 }
 

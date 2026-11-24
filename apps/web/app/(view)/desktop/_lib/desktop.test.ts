@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  getAppearanceSetter,
   getDesktopWindow,
   getPlatform,
   getTrafficLightsSetter,
@@ -8,6 +9,45 @@ import {
   readDesktopRuntime,
   withGlass,
 } from "./desktop"
+
+describe("getAppearanceSetter", () => {
+  it("sends the page theme to the Electron window", () => {
+    const themes: string[] = []
+    const setAppearance = getAppearanceSetter({
+      fabricatorDesktop: {
+        setAppearance: (theme: string) => themes.push(theme),
+      },
+    })
+
+    setAppearance?.("dark")
+
+    expect(themes).toEqual(["dark"])
+  })
+
+  it("sends light and dark to the Tauri window", async () => {
+    const calls: unknown[] = []
+    const setAppearance = getAppearanceSetter({
+      __TAURI_INTERNALS__: {
+        invoke(command: string, args: unknown) {
+          calls.push([command, args])
+          return Promise.resolve()
+        },
+      },
+    })
+
+    await setAppearance?.("dark")
+    await setAppearance?.("light")
+
+    expect(calls).toEqual([
+      ["plugin:window|set_theme", { value: "dark" }],
+      ["plugin:window|set_theme", { value: "light" }],
+    ])
+  })
+
+  it("leaves appearance to the browser when there is no native bridge", () => {
+    expect(getAppearanceSetter({})).toBeNull()
+  })
+})
 
 describe("withGlass", () => {
   const glassWindow = { controls: "macos", isTranslucent: true } as const

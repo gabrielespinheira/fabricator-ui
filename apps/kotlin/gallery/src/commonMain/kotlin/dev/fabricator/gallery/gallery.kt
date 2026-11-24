@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.fabricator.ui.*
 import dev.fabricator.ui.generated.FabricatorGenerated
@@ -22,7 +23,7 @@ private val demoNavigation = listOf(FabricatorNavItem("overview", "Overview", "h
 private val demoMarkdown = "# A quieter workspace\nComponents that feel familiar, across every platform.\n\nUse **strong emphasis**, _a softer note_ and `inline code`.\n\n- Consistent tokens\n- Native keyboard and text editing\n- [Fabricator UI](https://fabricator-ui.vercel.app)\n\n```kotlin\nFabricatorButton(\"Create project\", onClick = ::createProject)\n```"
 
 @Composable
-fun FabricatorGallery() {
+fun FabricatorGallery(sidebarTopInset: Dp = 0.dp) {
     var isDark by remember { mutableStateOf(false) }
     var density by remember { mutableStateOf(FabricatorDensity.Default) }
     var motion by remember { mutableStateOf(FabricatorMotion.Default) }
@@ -40,6 +41,7 @@ fun FabricatorGallery() {
                 FabricatorAppShell(
                     catalog.firstOrNull { it.name == route }?.title ?: "Fabricator UI", navigation, route, { route = it },
                     sidebarHeader = {
+                        if (sidebarTopInset > 0.dp) Spacer(Modifier.height(sidebarTopInset))
                         FabricatorItem("Fabricator UI", description = "Kotlin · Compose", leading = { FabricatorIcon("blocks") })
                         FabricatorSearch(query, { query = it }, placeholder = "Find a component…")
                     },

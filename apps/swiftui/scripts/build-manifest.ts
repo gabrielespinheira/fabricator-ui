@@ -225,6 +225,7 @@ const items: Item[] = contract.items.map((item) => {
         "@fabricator/foundations",
         "@fabricator/button",
         "@fabricator/breadcrumb",
+        "@fabricator/drawer",
       ],
     }
   if (structure.has(item.name))

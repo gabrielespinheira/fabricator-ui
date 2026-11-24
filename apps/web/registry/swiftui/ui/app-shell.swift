@@ -111,6 +111,8 @@ public struct FabricatorUserMenu: View {
 public struct FabricatorAppShell<Content: View, Toolbar: View, Panel: View>: View {
     @Environment(\.fabricatorTheme) private var theme
     @State private var isNavigationPresented = false
+    @State private var isDetailsPresented = false
+    @State private var isDetailsDocked = true
     @State private var workspace: String
     public var title: String
     public var subtitle: String?
@@ -132,11 +134,13 @@ public struct FabricatorAppShell<Content: View, Toolbar: View, Panel: View>: Vie
     }
     public var body: some View {
         GeometryReader { geometry in
-            let isCompact = geometry.size.width < 700
+            let isCompact = geometry.size.width < 768
+            let hasPanel = Panel.self != EmptyView.self
+            let canDockPanel = !isCompact && geometry.size.width - (showsSidebar ? sidebarWidth : 0) - panelWidth >= 520
             HStack(alignment: .top, spacing: 0) {
                 if showsSidebar, !isCompact { sidebar.frame(width: sidebarWidth).frame(maxHeight: .infinity, alignment: .top) }
                 VStack(spacing: 0) {
-                    main(isCompact: isCompact)
+                    main(isCompact: isCompact, hasPanel: hasPanel, canDockPanel: canDockPanel)
                     if !isCompact, let status {
                         HStack(spacing: theme.space(8)) {
                             Text(status).lineLimit(1)
@@ -145,18 +149,41 @@ public struct FabricatorAppShell<Content: View, Toolbar: View, Panel: View>: Vie
                         }.font(theme.font(theme.text(12))).foregroundStyle(theme.color("mutedOnFrame")).padding(.horizontal, theme.space(12)).frame(height: theme.space(36))
                     }
                 }.frame(maxHeight: .infinity, alignment: .top)
-            }.background(theme.color("app-shell-frame")).background { if isCompact { FabricatorOverlayHost(isPresented: $isNavigationPresented, placement: .leading, showsScrim: true, scrimDismisses: true) { sidebar.frame(maxWidth: .infinity, maxHeight: .infinity) } } }.onChange(of: selection) { _, _ in isNavigationPresented = false }
+            }
+            .background(theme.color("app-shell-frame"))
+            .background {
+                if showsSidebar && isCompact {
+                    FabricatorOverlayHost(isPresented: $isNavigationPresented, placement: .leading, showsScrim: true, scrimDismisses: true) {
+                        sidebar.frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                }
+                if hasPanel && !canDockPanel {
+                    FabricatorDrawer("Details", isPresented: $isDetailsPresented) {
+                        panel.frame(maxHeight: geometry.size.height * 0.6, alignment: .topLeading)
+                    }
+                }
+            }
+            .onChange(of: selection) { _, _ in isNavigationPresented = false }
+            .onChange(of: canDockPanel) { _, canDock in
+                if canDock { isDetailsPresented = false }
+            }
         }
     }
-    private func main(isCompact: Bool) -> some View {
+    private func main(isCompact: Bool, hasPanel: Bool, canDockPanel: Bool) -> some View {
         let column = VStack(spacing: 0) {
             HStack(spacing: theme.space(8)) {
-                if isCompact { FabricatorButton("Open navigation", icon: "panel-left", variant: .ghost, size: .icon) { isNavigationPresented = true } }
-                if breadcrumb.isEmpty {
+                if showsSidebar && isCompact { FabricatorButton("Open navigation", icon: "panel-left", variant: .ghost, size: .icon) { isNavigationPresented = true } }
+                if breadcrumb.isEmpty || isCompact {
                     Text(title).font(theme.font(theme.text(), weight: .medium)).lineLimit(1)
-                    if let subtitle { Text(subtitle).font(theme.font(theme.text(12))).foregroundStyle(theme.color("muted-foreground")).lineLimit(1) }
-                } else { FabricatorBreadcrumb(breadcrumb).layoutPriority(isCompact ? 0 : 1).fixedSize(horizontal: !isCompact, vertical: false) }
+                    if breadcrumb.isEmpty, let subtitle { Text(subtitle).font(theme.font(theme.text(12))).foregroundStyle(theme.color("muted-foreground")).lineLimit(1) }
+                } else { FabricatorBreadcrumb(breadcrumb).layoutPriority(1).fixedSize(horizontal: true, vertical: false) }
                 Spacer(minLength: 8); toolbar.layoutPriority(isCompact ? 1 : 0).fixedSize()
+                if hasPanel {
+                    FabricatorButton(canDockPanel && isDetailsDocked ? "Close details" : "Open details", icon: "panel-right", variant: .ghost, size: .iconSm) {
+                        if canDockPanel { isDetailsDocked.toggle() }
+                        else { isDetailsPresented = true }
+                    }
+                }
             }.padding(.horizontal, theme.space(12)).frame(minHeight: theme.minimumControlHeight(48))
             content.frame(maxWidth: .infinity, maxHeight: .infinity)
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -164,7 +191,7 @@ public struct FabricatorAppShell<Content: View, Toolbar: View, Panel: View>: Vie
         let inset = theme.space(8)
         return Group {
             if isCompact { column.background(theme.color("app-shell-main")) }
-            else if Panel.self == EmptyView.self {
+            else if !(hasPanel && canDockPanel && isDetailsDocked) {
                 card.padding(.top, inset).padding(.leading, showsSidebar ? 0 : inset).padding(.trailing, inset).padding(.bottom, status == nil ? inset : 0)
             } else {
                 HStack(alignment: .top, spacing: inset) {

@@ -81,7 +81,7 @@ struct ShellShowcase: View {
     @State private var inspector = "details"
     var body: some View {
         GeometryReader { geometry in
-            let isCompact = geometry.size.width < 700
+            let isCompact = geometry.size.width < 768
             shell(isCompact: isCompact, width: geometry.size.width).overlay(alignment: .bottom) {
                 if !isCompact, let onCatalog { FabricatorButton("Catalog", icon: "arrow-left", variant: .ghost, size: .sm) { onCatalog() } }
             }
@@ -120,7 +120,7 @@ struct ShellShowcase: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     Text("Q4 launch").font(theme.font(24, weight: .semibold)).tracking(-0.4)
-                    Text("Scroll down: the page title takes the breadcrumb's place in the header. Press F6 to move between the sidebar, the page and the panel.").font(theme.bodyFont).foregroundStyle(theme.color("muted-foreground")).fixedSize(horizontal: false, vertical: true)
+                    Text("Open Details to see project information, activity, and comments.").font(theme.bodyFont).foregroundStyle(theme.color("muted-foreground")).fixedSize(horizontal: false, vertical: true)
                     ForEach(0..<8, id: \.self) { _ in RoundedRectangle(cornerRadius: theme.radius("xl"), style: .continuous).fill(theme.color("muted").opacity(0.5)).frame(height: 128) }
                 }.padding(24).frame(maxWidth: 896, alignment: .leading).frame(maxWidth: .infinity)
             }
@@ -136,13 +136,12 @@ struct ShellShowcase: View {
                         }
                     }.padding(theme.space(4)).background(theme.color("foreground").opacity(0.05), in: RoundedRectangle(cornerRadius: theme.radius("xl"), style: .continuous))
                     Spacer(minLength: 0)
-                    FabricatorButton("Close inspector", icon: "panel-right", variant: .ghost, size: .iconSm) {}
                 }.padding(.horizontal, theme.space(8)).frame(height: theme.space(48))
                 Group {
                     if inspector == "details" {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Q4 launch").font(theme.font(theme.text(), weight: .medium))
-                            Text("Drag the panel's edge to resize it, or past its minimum to close it. Press ⌘\\ to toggle it.").font(theme.bodyFont).foregroundStyle(theme.color("muted-foreground")).fixedSize(horizontal: false, vertical: true)
+                            Text("In progress · 12 tasks").font(theme.bodyFont).foregroundStyle(theme.color("muted-foreground")).fixedSize(horizontal: false, vertical: true)
                         }
                     } else if inspector == "activity" {
                         Text("Nothing new today.").font(theme.bodyFont).foregroundStyle(theme.color("muted-foreground"))

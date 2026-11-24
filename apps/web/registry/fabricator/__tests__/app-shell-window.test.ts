@@ -90,3 +90,16 @@ describe("the guard's rule", () => {
     expect(rule).toContain("[data-pinned]")
   })
 })
+
+describe("the pinned Details toggle", () => {
+  it("keeps the toggle visible across the main card edge in WebKit", () => {
+    const rule = styleMap.slice(
+      styleMap.indexOf(".cn-app-shell-main {"),
+      styleMap.indexOf(".cn-app-shell-header {")
+    )
+    const pinned =
+      "has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]"
+    expect(rule).toContain(`${pinned}:overflow-visible`)
+    expect(rule).not.toContain(`${pinned}:overflow-y-clip`)
+  })
+})

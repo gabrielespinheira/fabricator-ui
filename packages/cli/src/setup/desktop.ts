@@ -90,8 +90,9 @@ export function toAppIdentifier(name: string) {
   return `app.${/^[a-z]/.test(slug) ? slug : `a${slug}`}.desktop`
 }
 
-/** Tauri can't move the lights after launch, so its titlebar row stays tall. */
-const TAURI_LIGHTS = { x: 16, y: 23 }
+// Tauri positions the titlebar container. The buttons sit 9pt up from its
+// resulting top inset, so y: 32 aligns them with Electron's y: 23.
+const TAURI_LIGHTS = { x: 16, y: 32 }
 
 /**
  * Tauri refuses to build when this Cargo feature and the config's

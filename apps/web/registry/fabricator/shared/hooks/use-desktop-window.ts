@@ -55,8 +55,7 @@ function readTheme() {
  * The desktop shell hosting the page and the window it gives the App Shell.
  * `undefined` in a browser and on the server, so one layout serves both. A
  * translucent window needs a transparent page, so the native glass shows
- * through; Electron's glass also takes the page's theme, and its lights follow
- * the layout.
+ * through and follows the page's theme. Electron's lights follow the layout.
  */
 function useDesktopWindow({
   hasTitlebar,
@@ -100,8 +99,14 @@ function useDesktopWindow({
   }, [isGlass])
 
   React.useEffect(() => {
-    if (theme) getAppearanceSetter(window)?.(theme)
-  }, [theme])
+    if (!theme || host.runtime === "browser") return
+    getAppearanceSetter(window)?.(theme)?.catch((error: unknown) => {
+      console.warn(
+        "Could not match the desktop window to the page theme",
+        error
+      )
+    })
+  }, [host.runtime, theme])
 
   const lightsX = shellWindow?.trafficLights?.x
   const lightsY = shellWindow?.trafficLights?.y

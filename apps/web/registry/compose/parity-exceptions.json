@@ -1,6 +1,6 @@
 {
   "renderer": "compose",
-  "updatedAt": "2026-11-17",
+  "updatedAt": "2026-11-23",
   "status": "implementation-in-progress",
   "exceptions": [
     {
@@ -90,7 +90,7 @@
     {
       "items": ["app-shell", "menubar", "tab-strip", "sidebar", "preview-rail"],
       "kind": "implementation-gap",
-      "detail": "Responsive Compose navigation, mobile sheets, tabs and optional panels exist. Full web App Shell configurator/peek/reorder/window behaviors and operating-system menu/tray/shortcut integration are incomplete. Desktop host currently creates a normal native JVM window; no fake window controls stand in for native integration. The header's page menu (AppShellHeaderActions menu, added 2026-11-17) is not ported."
+      "detail": "Responsive Compose navigation, mobile sheets, tabs and optional panels exist. Inset shells share the web frame and panel colors, 8-point gutters and 36-point status row at default density. The macOS example uses native window controls over the shell. Runtime geometry, native control positions and keyboard behavior still need qualification. Full web App Shell configurator, peek, reorder, page menu and operating-system menu, tray and shortcut integration are incomplete."
     },
     {
       "items": ["sounds"],

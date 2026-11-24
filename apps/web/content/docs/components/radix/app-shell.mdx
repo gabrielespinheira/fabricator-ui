@@ -478,7 +478,7 @@ new BrowserWindow({
 
 The material follows the system's appearance; set `nativeTheme.themeSource` to your app's theme so a dark app gets the dark material.
 
-**Tauri.** Use the `Overlay` title bar style on macOS (`trafficLightPosition` needs it), and allow dragging in your capabilities with `core:window:allow-start-dragging`. For the glass, set `"transparent": true` and `"windowEffects": { "effects": ["sidebar"] }` (`["mica"]` on Windows) in the window config. Drag regions carry `data-tauri-drag-region`. Tauri applies it to the element itself and not to its children, so only the empty parts of a bar move the window.
+**Tauri.** On macOS, set `titleBarStyle` to `Overlay` and `hiddenTitle` to `true` to put the native traffic lights over the App Shell. Allow dragging with `core:window:allow-start-dragging`. Allow `core:window:allow-set-theme` so `useDesktopWindow` can match the native window material to the page theme. For the glass, set `"transparent": true` and `"windowEffects": { "effects": ["sidebar"] }` (`["mica"]` on Windows) in the window config. Drag regions carry `data-tauri-drag-region`. Tauri applies it to the element itself and not to its children, so only the empty parts of a bar move the window.
 
 ## React Native
 

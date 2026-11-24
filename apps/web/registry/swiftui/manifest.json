@@ -81,7 +81,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/breadcrumb"
+        "@fabricator/breadcrumb",
+        "@fabricator/drawer"
       ]
     },
     {
@@ -92,7 +93,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/breadcrumb"
+        "@fabricator/breadcrumb",
+        "@fabricator/drawer"
       ]
     },
     {
@@ -1794,7 +1796,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/breadcrumb"
+        "@fabricator/breadcrumb",
+        "@fabricator/drawer"
       ]
     },
     {
@@ -2430,7 +2433,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/breadcrumb"
+        "@fabricator/breadcrumb",
+        "@fabricator/drawer"
       ]
     },
     {
@@ -2453,7 +2457,8 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button",
-        "@fabricator/breadcrumb"
+        "@fabricator/breadcrumb",
+        "@fabricator/drawer"
       ]
     }
   ]

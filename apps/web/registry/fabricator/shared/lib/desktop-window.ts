@@ -58,18 +58,29 @@ export function readDesktopRuntime(
   return { runtime: "browser", platform: getPlatform(userAgent) }
 }
 
-/** The Electron bridge's appearance setter, so the native glass follows the page's theme. */
+/** Updates the native material to match the page's theme. */
 export function getAppearanceSetter(
   host: object
-): ((appearance: "light" | "dark") => void) | null {
+): ((appearance: "light" | "dark") => void | Promise<unknown>) | null {
   const bridge = Reflect.get(host, "fabricatorDesktop")
-  if (!isRecord(bridge) || typeof bridge.setAppearance !== "function") {
-    return null
+  if (isRecord(bridge) && typeof bridge.setAppearance === "function") {
+    const { setAppearance } = bridge
+    return (appearance) => {
+      Reflect.apply(setAppearance, bridge, [appearance])
+    }
   }
-  const { setAppearance } = bridge
-  return (appearance) => {
-    Reflect.apply(setAppearance, bridge, [appearance])
+  const tauri = Reflect.get(host, "__TAURI_INTERNALS__")
+  if (isRecord(tauri) && typeof tauri.invoke === "function") {
+    const { invoke } = tauri
+    return (appearance) =>
+      Promise.resolve(
+        Reflect.apply(invoke, tauri, [
+          "plugin:window|set_theme",
+          { value: appearance },
+        ])
+      )
   }
+  return null
 }
 
 /** The Electron bridge's traffic lights setter, for a layout that moves them. */

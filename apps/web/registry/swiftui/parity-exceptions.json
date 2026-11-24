@@ -1,6 +1,6 @@
 {
   "renderer": "swiftui",
-  "updatedAt": "2026-11-17",
+  "updatedAt": "2026-11-23",
   "status": "implemented-with-documented-gaps",
   "exceptions": [
     {
@@ -164,7 +164,7 @@
     {
       "items": ["app-shell"],
       "kind": "implementation-gap",
-      "detail": "The web header's actions and its page menu (AppShellHeaderActions with menu, added 2026-11-17: page settings behind one ellipsis on every width, joined by the folded actions on phones) have no SwiftUI equivalent yet."
+      "detail": "The Details panel docks when there is room and opens from the header in a drawer on compact layouts. SwiftUI uses a single panel with a fixed width. Web panel resizing, swap placement, configurable header actions and the page settings menu are incomplete."
     },
     {
       "items": [

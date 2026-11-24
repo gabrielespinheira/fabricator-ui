@@ -322,9 +322,11 @@
   /* The main column: the page's surface everywhere, phones included; with
      the inset sidebar, a card 6px from the window's edges. Inside it
      --background is that surface, so anything painting bg-background
-     matches the plane it sits on. */
+     matches the plane it sits on. The pinned panel toggle crosses the card
+     edge. Keep both axes visible there because WebKit clips the toggle when
+     only the horizontal axis is visible. The content owns vertical scrolling. */
   .cn-app-shell-main {
-    @apply isolate has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:z-1 has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:overflow-x-visible has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:overflow-y-clip mb-(--app-shell-status-bar-height) bg-(--app-shell-main) [--background:var(--app-shell-main)] md:peer-data-[variant=inset]:mt-(--density-8) md:peer-data-[variant=inset]:me-(--density-8) md:peer-data-[variant=inset]:peer-data-[state=collapsed]:peer-not-data-[collapsible=icon]:ms-(--density-8) md:peer-data-[variant=inset]:mb-[max(var(--density-8),var(--app-shell-status-bar-height))] md:peer-data-[variant=inset]:bg-(--app-shell-main) md:peer-data-[variant=inset]:shadow-(--app-shell-card-shadow)!;
+    @apply isolate has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:z-1 has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:overflow-visible mb-(--app-shell-status-bar-height) bg-(--app-shell-main) [--background:var(--app-shell-main)] md:peer-data-[variant=inset]:mt-(--density-8) md:peer-data-[variant=inset]:me-(--density-8) md:peer-data-[variant=inset]:peer-data-[state=collapsed]:peer-not-data-[collapsible=icon]:ms-(--density-8) md:peer-data-[variant=inset]:mb-[max(var(--density-8),var(--app-shell-status-bar-height))] md:peer-data-[variant=inset]:bg-(--app-shell-main) md:peer-data-[variant=inset]:shadow-(--app-shell-card-shadow)!;
   }
 
   /* The header: 48px, a hairline once the content scrolls. A tab strip starting

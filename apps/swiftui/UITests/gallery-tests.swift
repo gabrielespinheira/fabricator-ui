@@ -9,6 +9,26 @@ final class GalleryTests: XCTestCase {
 
     override func setUpWithError() throws { continueAfterFailure = false }
 
+    func testAppShellKeepsTheInspectorReachableOnPhone() throws {
+        try XCTSkipIf(UIDevice.current.userInterfaceIdiom != .phone)
+        let app = XCUIApplication()
+        app.launchArguments = ["--page", "app-shell", "--dark", "--motion-off"]
+        app.launch()
+
+        let trigger = app.buttons["Open details"]
+        XCTAssertTrue(trigger.waitForExistence(timeout: 5))
+        trigger.tap()
+
+        let activity = app.buttons["Activity"]
+        XCTAssertTrue(activity.waitForExistence(timeout: 3))
+        activity.tap()
+        XCTAssertTrue(app.staticTexts["Nothing new today."].exists)
+
+        app.buttons["Close dialog"].tap()
+        XCTAssertTrue(activity.waitForNonExistence(timeout: 3))
+        XCTAssertTrue(trigger.isHittable)
+    }
+
     func testTimeInputCommitsTypedClockInvalidDraftAndExternalReset() {
         let app = XCUIApplication()
         app.launchArguments = ["--page", "time-input", "--motion-off"]

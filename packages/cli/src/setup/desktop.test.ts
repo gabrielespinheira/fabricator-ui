@@ -96,10 +96,11 @@ describe("buildTauriConfig", () => {
     expect(config().app.windows[0]?.title).toBe("Acme")
   })
 
-  it("starts the lights where the layout needs them, since it can't move them", () => {
-    expect(config().app.windows[0]?.trafficLightPosition).toEqual({
-      x: 16,
-      y: 23,
+  it("overlays the native lights in the App Shell without a second title bar", () => {
+    expect(config().app.windows[0]).toMatchObject({
+      titleBarStyle: "Overlay",
+      hiddenTitle: true,
+      trafficLightPosition: { x: 16, y: 32 },
     })
   })
 

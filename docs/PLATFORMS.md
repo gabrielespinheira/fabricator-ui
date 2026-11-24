@@ -261,6 +261,8 @@ screenshot qualification remain open.
 
 - The desktop example (`apps/desktop`) wraps the site's `/desktop` route (`app/(view)/desktop/`) in Electron (`electron/`) or Tauri (`src-tauri/`). Run `bun run example:desktop-electron` or `bun run example:desktop-tauri` (needs Rust; the first build takes minutes).
 - The CLI scaffolds desktop apps from `packages/cli/templates/desktop-{electron,tauri}`. An App Shell with `desktop=<electron|tauri>` finds its window at runtime through the `desktop-window` item.
+- On macOS, Electron and Tauri overlay native window controls on the App Shell. Tauri uses `titleBarStyle: "Overlay"` and `hiddenTitle: true` for the main window. Its configured traffic-light inset is `{ x: 16, y: 32 }` to place the buttons at `{ x: 16, y: 23 }` on the tested macOS release. The `core:window:allow-set-theme` permission lets the window material follow the page theme. Tauri uses the same traffic-light position in both tab layouts, so the dedicated titlebar is 20px taller than Electron's.
+- The Compose macOS example uses AWT full-window content and reserves space for native traffic lights in its sidebar. SwiftUI uses a hidden-title-bar window. Insets for browser and mobile shells come from their renderer.
 - CDP clicks skip the native hit test, so a window control is proven only by auditing its `app-region` rects.
 - The desktop example and `apps/mobile` share the component explorer's sidebar (`apps/web/lib/component-explorer.ts`) and shell options.
 
