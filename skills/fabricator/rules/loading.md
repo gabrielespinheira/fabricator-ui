@@ -1,9 +1,10 @@
 # Loading without layout shift
 
-How to build the loading rules in the project's `DESIGN.md` (its Loading section) with each framework's own tools. The design rule behind all of it: the layout is settled before the data arrives, everything already known renders at once, and each part that waits holds the exact space its content will take.
+The rule behind all of it: the layout is settled before the data arrives, everything already known renders at once, and each part that waits holds the exact space its content will take. This file builds it with each framework's own tools; the other states are in [states.md](../states.md).
 
 ## Contents
 
+- Choosing the indicator
 - What the components already do
 - Next.js
 - React
@@ -12,6 +13,18 @@ How to build the loading rules in the project's `DESIGN.md` (its Loading section
 - Checks
 
 ---
+
+## Choosing the indicator
+
+| Waiting for | Show |
+| --- | --- |
+| The first data of a page or region | One `Skeleton` filling each card's content area, or one per row |
+| New data for what is on screen | The current content, dimmed |
+| The result of an action | The result at once when it can be undone; else a `Spinner` in the button |
+| Work of known length | `Progress` with words: "Importing 240 of 1,200 rows" |
+| Text being written | `shimmer` text, then the text streaming in |
+| An image, a map, a video | Its `AspectRatio` box until it loads |
+| Under about 300ms | Nothing |
 
 ## What the components already do
 

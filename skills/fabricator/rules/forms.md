@@ -1,146 +1,112 @@
-# Forms & Inputs
+# Fields
+
+How controls are written. Which control, how many, and whether to ask at all: [asking.md](../asking.md).
 
 ## Contents
 
-- Forms use FieldGroup + Field
-- InputGroup requires InputGroupInput/InputGroupTextarea
-- Buttons inside inputs use InputGroup + InputGroupAddon
-- Short single choices use default Tabs
-- FieldSet + FieldLegend for grouping related fields
-- Field validation and disabled states
+- Field, FieldGroup, FieldSet
+- Orientation
+- Input groups
+- Validation
+- Warnings
+- Choice cards
+- Disabled and read only
+- With a form library
 
 ---
 
-## Forms use FieldGroup + Field
+## Field, FieldGroup, FieldSet
 
-Always use `FieldGroup` + `Field` — never raw `div` with `space-y-*`:
+`FieldGroup` spaces fields, `Field` holds one control with its label, help and error, `FieldSet` + `FieldLegend` names a group of related controls. Never a `div` with `space-y-*`.
 
 ```tsx
 <FieldGroup>
   <Field>
-    <FieldLabel htmlFor="email">Email</FieldLabel>
-    <Input id="email" type="email" />
+    <FieldLabel htmlFor="email">Work email</FieldLabel>
+    <Input id="email" type="email" autoComplete="email" inputMode="email" />
+    <FieldDescription>Invoices go here.</FieldDescription>
   </Field>
-  <Field>
-    <FieldLabel htmlFor="password">Password</FieldLabel>
-    <Input id="password" type="password" />
-  </Field>
+  <FieldSet>
+    <FieldLegend variant="label">Notify me about</FieldLegend>
+    <FieldGroup className="gap-(--density-12)">
+      <Field orientation="horizontal">
+        <Checkbox id="mentions" />
+        <FieldLabel htmlFor="mentions" className="font-normal">Mentions</FieldLabel>
+      </Field>
+    </FieldGroup>
+  </FieldSet>
 </FieldGroup>
 ```
 
-Use `Field orientation="horizontal"` for settings pages. Use `FieldLabel className="sr-only"` for visually hidden labels.
+A hidden label is `<FieldLabel className="sr-only">`; a placeholder is never the label. A control without an `id` target (`Tabs`, a `Slider`) is named by `aria-label`, or by `aria-labelledby` pointing at a `FieldTitle`.
 
-**Choosing form controls:**
+## Orientation
 
-- Simple text input → `Input`
-- Five or more options, or short choices that do not fit → `Select`
-- Searchable dropdown → `Combobox`
-- Boolean toggle → `Switch` (for settings) or `Checkbox` (for forms)
-- Two to four short single-choice options → default `Tabs` if they fit
-- A choice that needs a description per option → `RadioGroup` with choice cards
-- OTP/verification code → `InputOTP`
-- Multi-line text → `Textarea`
+- **Vertical** (default): label above. Forms.
+- **`horizontal`**: label and control side by side at every width. `Switch`, `Checkbox`, `RadioGroupItem`, `ColorPickerPopover`, small buttons.
+- **`responsive`**: stacked on phones, side by side from `@md/field-group`. Controls with a width of their own: `Select`, `Combobox`, `Tabs`, `NumberField`. Needs a `FieldGroup` around it; cap the control with `@md/field-group:max-w-*`.
 
----
+A `Switch` or `Checkbox` in a `responsive` field stretches on phones and collapses on desktop, so it is always `horizontal`.
 
-## InputGroup requires InputGroupInput/InputGroupTextarea
+## Input groups
 
-Never use raw `Input` or `Textarea` inside an `InputGroup`.
-
-**Incorrect:**
+`InputGroupInput` or `InputGroupTextarea` first, then the addons; `align` places them. Buttons inside are `InputGroupButton`.
 
 ```tsx
 <InputGroup>
-  <Input placeholder="Search..." />
-</InputGroup>
-```
-
-**Correct:**
-
-```tsx
-import { InputGroup, InputGroupInput } from "@/components/ui/input-group"
-
-<InputGroup>
-  <InputGroupInput placeholder="Search..." />
-</InputGroup>
-```
-
----
-
-## Buttons inside inputs use InputGroup + InputGroupAddon
-
-Never place a `Button` directly inside or adjacent to an `Input` with custom positioning.
-
-**Incorrect:**
-
-```tsx
-<div className="relative">
-  <Input placeholder="Search..." className="pr-10" />
-  <Button className="absolute right-0 top-0" size="icon">
-    <SearchIcon />
-  </Button>
-</div>
-```
-
-**Correct:**
-
-```tsx
-import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/ui/input-group"
-
-<InputGroup>
-  <InputGroupInput placeholder="Search..." />
-  <InputGroupAddon>
-    <Button size="icon">
-      <SearchIcon data-icon="inline-start" />
-    </Button>
+  <InputGroupInput id="key" value={key} readOnly />
+  <InputGroupAddon align="inline-end">
+    <InputGroupButton size="icon-xs" aria-label="Copy">
+      <CopyIcon />
+    </InputGroupButton>
   </InputGroupAddon>
 </InputGroup>
 ```
 
----
+A fixed part is `InputGroupText` ("https://", ".relaymail.com", "kg"). A `Textarea` takes `align="block-start"` or `"block-end"`.
 
-## Short single choices use default Tabs
+## Validation
 
-Follow [Tabs and short single choices](composition.md#tabs-and-short-single-choices) for settings and form values. Use the visible field title to name the list with `aria-labelledby`. Bind the selected value to the form field when it is submitted. Use a labelled `Select` for five or more options or when the labels cannot fit on one line.
-
----
-
-## FieldSet + FieldLegend for grouping related fields
-
-Use `FieldSet` + `FieldLegend` for related checkboxes, radios, or switches — not `div` with a heading:
+`data-invalid` on the `Field` colours the label; `aria-invalid` on the control draws the ring; `FieldError` says what to do. All three together.
 
 ```tsx
-<FieldSet>
-  <FieldLegend variant="label">Preferences</FieldLegend>
-  <FieldDescription>Select all that apply.</FieldDescription>
-  <FieldGroup className="gap-3">
+<Field data-invalid={!!error || undefined}>
+  <FieldLabel htmlFor="slug">Address</FieldLabel>
+  <Input id="slug" aria-invalid={!!error || undefined} aria-describedby="slug-error" />
+  {error && <FieldError id="slug-error">{error}</FieldError>}
+</Field>
+```
+
+`FieldError errors={issues}` takes React Hook Form errors and Standard Schema issues (Zod, Valibot, ArkType) and lists several. After a failed submit, focus the first invalid control. A server error that belongs to a field goes to that field; any other is an `Alert` above the buttons.
+
+## Warnings
+
+Something worth knowing that doesn't block: `FieldDescription` with a warning icon, and no invalid state ([recipes/states.md](../recipes/states.md#a-warning-on-a-field)).
+
+## Choice cards
+
+A `FieldLabel` wrapped around a horizontal `Field`, with a `RadioGroupItem`, `Checkbox` or `Switch` at the end.
+
+```tsx
+<RadioGroup value={plan} onValueChange={setPlan}>
+  <FieldLabel htmlFor="yearly">
     <Field orientation="horizontal">
-      <Checkbox id="dark" />
-      <FieldLabel htmlFor="dark" className="font-normal">Dark mode</FieldLabel>
+      <FieldContent>
+        <FieldTitle>Yearly</FieldTitle>
+        <FieldDescription>$96 a seat, billed today. Saves 20%.</FieldDescription>
+      </FieldContent>
+      <RadioGroupItem value="yearly" id="yearly" />
     </Field>
-  </FieldGroup>
-</FieldSet>
+  </FieldLabel>
+</RadioGroup>
 ```
 
----
+A `FieldLabel` beside a `Switch`, `Checkbox` or `RadioGroupItem` stretches its press area over the whole `FieldContent`, so a link or button inside it can't be pressed. Put it after the `Field`, or in the row that appears once the option is chosen. Descriptions on a chosen card take `text-foreground/70`.
 
-## Field validation and disabled states
+## Disabled and read only
 
-Both attributes are needed — `data-invalid`/`data-disabled` styles the field (label, description), while `aria-invalid`/`disabled` styles the control.
+`data-disabled` on the `Field`, `disabled` on the control, and the reason in the description. A value people may need to copy is `readOnly`, not `disabled`.
 
-```tsx
-// Invalid.
-<Field data-invalid>
-  <FieldLabel htmlFor="email">Email</FieldLabel>
-  <Input id="email" aria-invalid />
-  <FieldDescription>Invalid email address.</FieldDescription>
-</Field>
+## With a form library
 
-// Disabled.
-<Field data-disabled>
-  <FieldLabel htmlFor="email">Email</FieldLabel>
-  <Input id="email" disabled />
-</Field>
-```
-
-Works for all controls: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroupItem`, `Switch`, `Slider`, `InputOTP`.
+Follow the project's library. Share one schema between client and server. Bind `Tabs`, `Select`, `DatePicker`, `Slider` and the other controlled components through the library's controller with `value` and the base's change callback ([base-vs-radix.md](base-vs-radix.md)).

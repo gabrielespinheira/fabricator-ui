@@ -94,9 +94,21 @@ When the skill loads, the assistant follows the same process, scaled to the task
 5. **Design the flows and states:** loading, empty, partial, stale, denied, over the limit, failed, undone.
 6. **Fit every platform:** phone, tablet, desktop browser, desktop window, React Native.
 7. **Build** with the API rules for your base.
-8. **Look, then fix.** It opens the running screen at phone, tablet and desktop widths in both themes, uses the keyboard, forces the failure states, and repeats until a pass finds nothing.
+8. **Refine.** After any change to what a screen looks like, it takes screenshots at phone, tablet and desktop widths in both themes and in the failure states, has them judged, shows you a list of findings, asks which to address, fixes those and looks again. See [Refining a screen](#refining-a-screen).
 
 It runs `fabricator-ui` commands only when the task needs them, through the runner that matches your lockfile, and never overwrites a component without your approval.
+
+### Refining a screen
+
+Building is half of it. After every visual change, and whenever you ask it to review or improve a screen, the assistant runs a loop:
+
+1. **Capture.** Screenshots of the running screen, before and after, plus a small script that measures what pictures hide: sideways scroll, covered controls, cut-off text, how many text fields are on screen.
+2. **Judge.** A sub-agent that has seen the pictures and your brief, and never the code, returns findings with their evidence, what each costs the person using the screen, and how to fix it. Without sub-agents, the assistant judges in a separate pass.
+3. **Check.** It confirms each finding against the code, drops the ones that don't hold, and fixes what it broke itself.
+4. **Ask.** You get the list by severity and choose: the ones worth fixing, all of them, some, or none.
+5. **Fix and look again,** at most three rounds, with before and after pictures in the report.
+
+Ask for it on its own, too: _"Judge the billing page and tell me what to improve."_
 
 ### Updating components
 
@@ -117,6 +129,7 @@ Ask the assistant to switch presets. It asks how you want to apply the preset (o
 | Components  | Every component, when to reach for it, what is easy to miss, and which neighbour to pick instead                           |
 | States      | What each region and action does when it loads, fails, conflicts, hits a limit or is denied, and how loud to be about it   |
 | Platforms   | What each part of a screen becomes on phones, tablets, desktop browsers, desktop windows and React Native                  |
+| Refine      | The capture, judge, ask, fix and look-again loop, and what to look for in a screenshot                                     |
 | Foundations | Surfaces, colour roles, type, space, density, shape, motion and the small details that make a screen look finished         |
 | Recipes     | Working layout code for dashboards, lists, setup pages, settings, create overlays and states                               |
 | Rules       | Composition, fields, styling, icons, loading, chat, the differences between bases, React Native, SwiftUI and Compose       |

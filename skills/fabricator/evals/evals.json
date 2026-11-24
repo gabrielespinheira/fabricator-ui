@@ -4,12 +4,13 @@
     {
       "id": 1,
       "prompt": "I'm building a Next.js app with Fabricator UI (base-nova style, lucide icons). Create a settings form component with fields for: full name, email address, and notification preferences (email, SMS, push notifications as toggle options). Add validation states for required fields.",
-      "expected_output": "A React component using FieldGroup, Field, Switch, data-invalid/aria-invalid validation, gap-* spacing, and semantic colors.",
+      "expected_output": "A React component using FieldGroup, Field and Switch, with FieldError validation, gap-* spacing and semantic colors. Known values are prefilled.",
       "files": [],
       "expectations": [
         "Uses FieldGroup and Field components for form layout instead of raw div with space-y",
         "Uses Switch for independent on/off notification toggles (not looping Button with manual active state)",
-        "Uses data-invalid on Field and aria-invalid on the input control for validation states",
+        "Puts each Switch in a horizontal Field, never a responsive one",
+        "Writes the error in FieldError with data-invalid on Field and aria-invalid on the control",
         "Uses gap-* (e.g. gap-4, gap-6) instead of space-y-* or space-x-* for spacing",
         "Uses semantic color tokens (e.g. bg-background, text-muted-foreground, text-destructive) instead of raw colors like bg-red-500",
         "No manual dark: color overrides"
@@ -35,7 +36,7 @@
       "expected_output": "A React component with full Card composition, Skeleton for loading, Badge for changes, semantic colors, gap-* spacing.",
       "files": [],
       "expectations": [
-        "Uses full Card composition with CardHeader, CardTitle, CardContent (not dumping everything into CardContent)",
+        "Uses Card composition and the KPI row recipe's label, metric and delta roles instead of styled divs",
         "Uses Skeleton component for loading placeholders instead of custom animate-pulse divs",
         "Each card's loading state keeps its title and fills its content area with one Skeleton block at a set height, not text-line bars or circles",
         "Uses Badge component for percentage change instead of custom styled spans",
@@ -118,10 +119,10 @@
     {
       "id": 9,
       "prompt": "Design a support queue for an existing Fabricator app. Agents scan urgent tickets and inspect one ticket at a time. Keep the existing theme. Include phone behavior and failure states.",
-      "expected_output": "Reads project DESIGN.md and bundled design guidance before implementing; Uses a queue/list and detail pattern with a clear task and primary action, rather than a generic stat-card dashboard; Reuses the existing frame or inspects AppShell blocks before building one; Maps regions to actual installed components and base-specific APIs; Defines phone list-to-detail navigation, partial failure, no results and loading states; Reports rendered checks separately from checks it could not run",
+      "expected_output": "Reads project DESIGN.md and the bundled pattern and state guidance before implementing; uses a queue or list and detail pattern with a clear task and primary action, rather than a generic stat-card dashboard; reuses the existing frame or inspects AppShell blocks before building one; maps regions to installed components and base-specific APIs; defines phone list-to-detail navigation, partial failure, no results and loading states; reports rendered checks separately from checks it could not run",
       "files": [],
       "expectations": [
-        "Reads project DESIGN.md and bundled design guidance before implementing",
+        "Reads the project's DESIGN.md when there is one, patterns.md and states.md before implementing",
         "Uses a queue/list and detail pattern with a clear task and primary action, rather than a generic stat-card dashboard",
         "Reuses the existing frame or inspects AppShell blocks before building one",
         "Maps regions to actual installed components and base-specific APIs",
@@ -139,7 +140,8 @@
         "Produces a product-specific DESIGN.md with review tasks, component maps, regional density and responsive behavior",
         "Preserves existing typography and primary colour; distinguishes verified facts from proposals",
         "Includes a representative document-review screen and its loading, empty, failure and permission states",
-        "References token sources and component APIs rather than inventing values or copying a prop catalog"
+        "References token sources and component APIs rather than inventing values or copying a prop catalog",
+        "Covers what each shipped platform changes and what the product never asks people for"
       ]
     },
     {
@@ -194,10 +196,10 @@
     {
       "id": 15,
       "prompt": "My Next.js SaaS uses Fabricator UI (base-nova, App Shell installed). Build the Overview dashboard for a billing product: MRR, active customers, churn and revenue per account for the last 30 days, a revenue trend against the previous period, failed payments and trials ending soon, and the top customers.",
-      "expected_output": "An App Shell page on a 12-column container-query grid in one rhythm: a period toolbar, a KPI row of stat cards with signed status deltas, a LineChart comparing periods, a list card and an edge-to-edge table card aligned to the card inset, built from the rules/dashboards.md recipes.",
+      "expected_output": "An App Shell page on a 12-column container-query grid in one rhythm: a period toolbar, a KPI row of stat cards with signed status deltas, a LineChart comparing periods, a list card and an edge-to-edge table card aligned to the card inset, built from the recipes/dashboard.md recipes.",
       "files": [],
       "expectations": [
-        "Reads DESIGN.md (or design.md) and rules/dashboards.md before writing the page",
+        "Reads patterns.md and recipes/dashboard.md (and the project's DESIGN.md when there is one) before writing the page",
         "Uses AppShellContent size=\"lg\" with AppShellPageTitle and a grid using @container and @4xl:grid-cols-12",
         "Keeps one rhythm: a row of four stat cards with full-width and half-width rows, not 8 + 4 rows under four stats",
         "Separates the stat cards, rows and sections with space and surfaces, with no Separator, border or divider lines, and no icon tiles",
@@ -216,6 +218,124 @@
         "Imports Button and Dialog from their @fabricator-ui/react subpaths",
         "Respects the existing shared CSS and loads package styles once",
         "Keeps package mode and leaves registry files alone"
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "My Next.js SaaS uses Fabricator UI (base-nova, App Shell installed). Build the New campaign feature for our email product: name, audience with exclusions, sender, subject and preview text, template, timing (now, scheduled, best time) and time zone, subject A/B test with a split, daily limit, tracking options, goal and tags.",
+      "expected_output": "A draft-first setup page from recipes/setup.md: one line per decision with its answer, opening in place to a few controls, with checks and a live preview beside it, instead of a long form.",
+      "files": [],
+      "expectations": [
+        "Reads asking.md and recipes/setup.md and places the values on the ask ladder before writing code",
+        "Creates the draft from a name or nothing, saves changes itself and says so",
+        "Shows each decision as one line with its state and current answer, one open at a time, with at most five controls in an open line",
+        "Shows at most three text fields on screen at once; time zone, sender, tracking and limit arrive with defaults",
+        "Uses Slider with its people count for the split, Tabs for timing, DatePicker with hasTime for the moment, MultiSelect for exclusions and tags",
+        "Has a live preview or other signature made of the campaign's own content",
+        "Separates checks that block from warnings that don't; warnings use no red ring and disable nothing",
+        "Confirms sending with who it reaches, when and how much, and offers a test",
+        "Works at 390px with one column, a drawer instead of a dialog and no sideways scroll"
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Build the Members page for our B2B SaaS on Fabricator UI (base-nova): see who is in the workspace, invite people, change roles, pending invitations, 18 of 20 seats used, remove people and restrict sign-in domains. Cover what can go wrong.",
+      "expected_output": "A list page with roles edited in the row, pending invitations among the rows, a paste-friendly invite overlay with role choice cards, and the flows for seats, partial failure, last owner, expiry and permissions.",
+      "files": [],
+      "expectations": [
+        "Starts from recipes/list.md with columns that fold under the name at phone width instead of scrolling sideways",
+        "Changes roles with a control in the row that saves at once with Undo or a rollback on failure",
+        "Invites several people from one box that accepts a paste and checks each address, with role choice cards that say what each role can do",
+        "Shows seats beside the action that uses them, with a warning near the limit and a way forward at the limit",
+        "Reports partly sent invitations as rows with a reason and a fix",
+        "Protects the last owner and the current person, and asks what happens to what a removed person owns",
+        "Differs by person: actions a viewer can never take are absent, ones that depend on a rule are disabled with the reason",
+        "Uses AlertDialog only for what can't be undone, named with the object and consequence"
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Our monorepo has apps/web (Next.js, base-nova), apps/mobile (Expo) and apps/desktop (Electron) on Fabricator UI. Add an Approvals feature: people review requests, approve or reject with a reason, and see history.",
+      "expected_output": "One feature with a shared model and three bodies: web list with a docked panel, native screens with a full-screen detail, and a desktop window with shortcuts, context menus and offline behaviour.",
+      "files": [],
+      "expectations": [
+        "Finds all three targets from the repository and covers each, or names the one left out",
+        "Shares types, status map, permission checks, schemas and navigation data in a package instead of duplicating them",
+        "Uses the native tree's components and rules/react-native.md on mobile, with no DataTable and no DOM markup",
+        "On phones, opens a request as a full screen or drawer, keeps the decision reachable by thumb and has no hover-only action",
+        "On desktop, passes useDesktopWindow's window to the same AppShell, registers shortcuts with useShellShortcut and mirrors row menus in ContextMenu",
+        "Keeps the same names, statuses and icons on every platform",
+        "Handles someone else deciding first, offline decisions, and lacking permission",
+        "Reports which platforms were run and which were not"
+      ]
+    },
+    {
+      "id": 20,
+      "prompt": "The project list card on our Fabricator dashboard shows nothing when the request fails and flashes a spinner on every refresh. Fix its states.",
+      "expected_output": "A narrow change to that card: skeleton on first load only, dimmed content on refresh, Empty after a finished load, and an error Alert with Retry inside the card, without redesigning the dashboard.",
+      "files": [],
+      "expectations": [
+        "Reads states.md or recipes/states.md and changes only the card",
+        "Keeps the card's header and one content height through every state",
+        "Uses one Skeleton for the first load and keeps the old rows dimmed on refresh",
+        "Shows Empty only after a load finished with nothing",
+        "Shows an error Alert with Retry inside the card and leaves other cards alone",
+        "Forces and looks at each state, or says which were not seen"
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "Pick the right Fabricator components for: uptime of 12 services over 90 days, an on-call rota, a rollout percentage with its effect, a person's presence, one of three report views, 4,000 editable invoices, and a new API key shown once.",
+      "expected_output": "StatusBar per service, EventCalendar, Slider with the number of people beside it, AvatarBadge or a status dot with its word, default Tabs, DataTable with editable cells and load, SyntaxHighlight with Copy.",
+      "files": [],
+      "expectations": [
+        "StatusBar for uptime, not a bar chart or a row of hand-built pills",
+        "EventCalendar for the rota, not Calendar",
+        "Slider with its value and consequence for the rollout",
+        "AvatarBadge or a status dot beside a word for presence, not a Badge alone",
+        "Tabs with the default TabsList for the three views, not ToggleGroup or Select",
+        "DataTable with load and editable cells for the invoices, with Table or Items as the React Native answer",
+        "SyntaxHighlight or an InputGroup with Copy for the key, with a note that it won't show again"
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "Look at our Customers page on Fabricator UI and tell me what would make it look better.",
+      "expected_output": "Captures the page at the shot list without editing anything, has a sub-agent judge it from pictures, checks each finding, and asks which ones to address.",
+      "files": [],
+      "expectations": [
+        "Reads refine.md and captures phone, tablet and desktop widths in both themes plus the states that differ, opening each picture",
+        "Runs probe.js in the page and gives its results to the judge",
+        "Sends the judge the brief, the pictures and the path of judge.md, and leaves out code, reasoning and suspicions",
+        "Judges in a separate pass with judge.md, and says so, when no sub-agent is available",
+        "Confirms, rejects with a reason or sharpens every finding before showing it",
+        "Lists findings by severity, each with where, what it costs and a concrete fix with its size, and what already works",
+        "Asks which to address with the question tool, recommending the ones worth fixing, and edits nothing before the answer"
+      ]
+    },
+    {
+      "id": 23,
+      "prompt": "The toolbar on our projects list feels cramped. Fix the spacing.",
+      "expected_output": "Captures before editing, makes the small change, captures the same shots after, judges them itself, and reports with the pair of pictures.",
+      "files": [],
+      "expectations": [
+        "Captures the page before the first edit",
+        "Sizes the loop to the change: affected widths only, no sub-agent needed",
+        "Compares the same names before and after and fixes anything the change broke",
+        "Doesn't widen the change to things already there; lists them instead",
+        "Asks nothing when no finding is left, and shows the before and after"
+      ]
+    },
+    {
+      "id": 24,
+      "prompt": "You run as a nightly routine with nobody to answer. Build the empty state for the reports page in our Fabricator app.",
+      "expected_output": "Builds, captures, judges, fixes Broken and Weak findings inside the request, and reports the rest without asking.",
+      "files": [],
+      "expectations": [
+        "Runs the refine loop without waiting for an answer",
+        "Fixes Broken and Weak findings within the scope of the request and leaves Polish and what was already there, listed",
+        "Stops after at most three rounds and says why it stopped",
+        "Reports before and after pictures and what was not looked at"
       ]
     }
   ]

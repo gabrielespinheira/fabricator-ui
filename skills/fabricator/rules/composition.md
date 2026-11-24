@@ -6,15 +6,13 @@
 - Callouts use Alert
 - Empty states use Empty component
 - Toast notifications follow the project base
-- Choosing between overlay components
 - Dialog, Sheet, and Drawer always need a Title
 - Card structure
 - Button has no isPending or isLoading prop
 - Tabs and short single choices
 - Avatar always needs AvatarFallback
-- Separate with space or a surface, not lines
-- Use Skeleton for loading placeholders
-- Use Badge instead of custom styled spans
+- AppNav and other links
+- Use existing components instead of custom markup
 
 ---
 
@@ -42,6 +40,8 @@ Never render items directly inside the content container.
 </SelectContent>
 ```
 
+`ItemGroup` is a list, and `Item` is not a list item by itself. A static row is `<Item role="listitem">`; a row that is a link or a button goes inside `<div role="listitem">`.
+
 This applies to all group-based components:
 
 | Item                                                       | Group                    |
@@ -62,10 +62,16 @@ Chat components nest in a fixed order (`MessageScrollerProvider` → `MessageScr
 
 ## Callouts use Alert
 
+The icon is a direct child; the action sits at the end. `variant` is `default`, `info`, `success`, `warning`, `error` or `destructive`; `contrast="high"` is for the one that must be dealt with.
+
 ```tsx
-<Alert>
-  <AlertTitle>Warning</AlertTitle>
-  <AlertDescription>Something needs attention.</AlertDescription>
+<Alert variant="warning">
+  <TriangleAlertIcon />
+  <AlertTitle>Your trial ends on Friday</AlertTitle>
+  <AlertDescription>Add a card to keep sending.</AlertDescription>
+  <AlertAction>
+    <Button variant="outline" size="sm">Add card</Button>
+  </AlertAction>
 </Alert>
 ```
 
@@ -97,8 +103,18 @@ For Base UI projects, use the `toast` component:
 ```tsx
 import { toast } from "@/components/ui/toast"
 
-toast.add({
-  title: "Changes saved.",
+toast.add({ title: "Changes saved" })
+toast.add({ type: "error", title: "Changes weren't saved", description: "The server didn't answer." })
+
+const id = toast.add({
+  title: "File deleted",
+  actionProps: {
+    children: "Undo",
+    onClick() {
+      undoDelete()
+      toast.close(id)
+    },
+  },
 })
 ```
 
@@ -107,25 +123,12 @@ For Radix and React Aria projects, use Sonner:
 ```tsx
 import { toast } from "sonner"
 
-toast.success("Changes saved.")
-toast.error("Something went wrong.")
-toast("File deleted.", {
+toast.success("Changes saved")
+toast.error("Changes weren't saved", { description: "The server didn't answer." })
+toast("File deleted", {
   action: { label: "Undo", onClick: () => undoDelete() },
 })
 ```
-
----
-
-## Choosing between overlay components
-
-| Use case                           | Component     |
-| ---------------------------------- | ------------- |
-| Focused task that requires input   | `Dialog`      |
-| Destructive action confirmation    | `AlertDialog` |
-| Side panel with details or filters | `Sheet`       |
-| Mobile-first bottom panel          | `Drawer`      |
-| Quick info on hover                | `HoverCard`   |
-| Small contextual content on click  | `Popover`     |
 
 ---
 
@@ -142,6 +145,8 @@ toast("File deleted.", {
   ...
 </DialogContent>
 ```
+
+An overlay opened from a menu item, a toast or a header action has no trigger, so focus would fall to the page. Pass `finalFocus` on the content (Base UI) or `onCloseAutoFocus` (Radix) pointing at the button that led there, or at the neighbouring row after a delete.
 
 ---
 
@@ -171,9 +176,11 @@ Compose with `Spinner` + `data-icon` + `disabled`:
 ```tsx
 <Button disabled>
   <Spinner data-icon="inline-start" />
-  Saving...
+  Saving…
 </Button>
 ```
+
+The button keeps the width of its longer label, and the spinner takes the icon's place.
 
 ---
 
@@ -218,6 +225,22 @@ Always include `AvatarFallback` for when the image fails to load:
   <AvatarFallback>JD</AvatarFallback>
 </Avatar>
 ```
+
+---
+
+## AppNav and other links
+
+Pass `renderLink` to `AppNav`, `AppNavBottomBar` and `AppShellBreadcrumb`, returning the router's link without children. It gives client navigation, and `AppNav` rows keep their icon and badge.
+
+```tsx
+<AppNav
+  groups={groups}
+  pathname={pathname}
+  renderLink={(item) => <Link href={item.href ?? "/"} />}
+/>
+```
+
+A link that looks like a button uses `buttonVariants` on the router's link, which works in every base.
 
 ---
 

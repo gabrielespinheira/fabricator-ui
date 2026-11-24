@@ -18,7 +18,7 @@ Configuration is read from `components.json`.
 
 ## Commands
 
-### `create` — Create a project or monorepo in one command
+### `create`: Create a project or monorepo in one command
 
 ```bash
 npx fabricator-ui@latest create [name] [options]
@@ -44,14 +44,14 @@ Creates the app, installs the look and components, adds the App Shell and sounds
 | `--yes`                            | `-y`  | Use the defaults for anything not given                                                                     |
 | `--dry-run` / `--json`             |       | Print the plan; machine-readable output                                                                     |
 
-### `apps add` — Add an app to a monorepo
+### `apps add`: Add an app to a monorepo
 
 ```bash
 npx fabricator-ui@latest apps add mobile
 npx fabricator-ui@latest apps add desktop electron
 ```
 
-### `agents add` — Set up AI assistants
+### `agents add`: Set up AI assistants
 
 ```bash
 npx fabricator-ui@latest agents add claude codex
@@ -59,7 +59,7 @@ npx fabricator-ui@latest agents add claude codex
 
 Writes the skill and the MCP server for each. `--no-skill` and `--no-mcp` narrow it.
 
-### `upgrade` — Reinstall components at their latest versions
+### `upgrade`: Reinstall components at their latest versions
 
 ```bash
 npx fabricator-ui@latest upgrade [items...] [--dry-run] [--yes] [--force]
@@ -67,7 +67,7 @@ npx fabricator-ui@latest upgrade [items...] [--dry-run] [--yes] [--force]
 
 Overwrites component files, so it stops on uncommitted work unless `--force` is passed.
 
-### `init` — Initialize or create a project
+### `init`: Initialize or create a project
 
 ```bash
 npx fabricator-ui@latest init [components...] [options]
@@ -77,14 +77,14 @@ Sets up Fabricator UI in an existing project, or creates a new project when `--t
 
 | Flag                                     | Short | Description                                                                       | Default                  |
 | ---------------------------------------- | ----- | --------------------------------------------------------------------------------- | ------------------------ |
-| `--template <template>`                  | `-t`  | Create a new project: `next`, `start`, `vite`, `react-router`, `laravel`, `astro` | —                        |
+| `--template <template>`                  | `-t`  | Create a new project: `next`, `start`, `vite`, `react-router`, `laravel`, `astro` | none                      |
 | `--base <base>`                          | `-b`  | Component library: `base`, `radix`, or `aria`                                     | `base`, or the project's |
 | `--preset <preset>`                      | `-p`  | Preset name, preset code, or init URL                                             | `fabricator`             |
 | `--monorepo` / `--no-monorepo`           |       | Scaffold a monorepo project / skip the monorepo prompt                            | prompt                   |
-| `--rtl` / `--no-rtl`                     |       | Enable / disable RTL support                                                      | —                        |
+| `--rtl` / `--no-rtl`                     |       | Enable / disable RTL support                                                      | none                      |
 | `--pointer`                              |       | Use a pointer cursor for buttons                                                  | `false`                  |
 | `--css-variables` / `--no-css-variables` |       | Theme with CSS variables / inline utility colors                                  | CSS variables            |
-| `--reinstall` / `--no-reinstall`         |       | Re-install / keep existing UI components                                          | —                        |
+| `--reinstall` / `--no-reinstall`         |       | Re-install / keep existing UI components                                          | none                      |
 | `--yes`                                  | `-y`  | Skip confirmation prompts                                                         | `false`                  |
 | `--force`                                | `-f`  | Force overwrite of an existing `components.json`                                  | `false`                  |
 | `--cwd <cwd>`                            | `-c`  | Working directory                                                                 | current                  |
@@ -99,7 +99,7 @@ Sets up Fabricator UI in an existing project, or creates a new project when `--t
 
 **New projects.** With `--template`, the project is created in `<cwd>/<name>` (monorepos keep the app in `apps/web`), the `@fabricator` registry is configured, and the starter button is replaced with `@fabricator/button`.
 
-### `apply` — Apply a preset to an existing project
+### `apply`: Apply a preset to an existing project
 
 ```bash
 npx fabricator-ui@latest apply [preset] [options]
@@ -109,7 +109,7 @@ Applies a preset (default `fabricator`) to an existing project: theme, fonts, an
 
 | Flag             | Short | Description                                                                               | Default       |
 | ---------------- | ----- | ----------------------------------------------------------------------------------------- | ------------- |
-| `--only <parts>` |       | Apply only parts of the preset: `theme`, `font` (comma-separated); no component reinstall | —             |
+| `--only <parts>` |       | Apply only parts of the preset: `theme`, `font` (comma-separated); no component reinstall | none           |
 | `--base <base>`  | `-b`  | Component library: `base`, `radix`, or `aria`                                             | the project's |
 | `--yes`          | `-y`  | Skip confirmation prompt                                                                  | `false`       |
 | `--cwd <cwd>`    | `-c`  | Working directory                                                                         | current       |
@@ -117,7 +117,7 @@ Applies a preset (default `fabricator`) to an existing project: theme, fonts, an
 
 `[preset]` is positional; there is no `--preset` flag on `apply`.
 
-### `add` — Add components
+### `add`: Add components
 
 > **IMPORTANT:** To compare local components against the registry or to preview changes, ALWAYS use `npx fabricator-ui@latest add <component> --dry-run`, `--diff`, or `--view`. NEVER fetch raw files from GitHub or other sources manually. The CLI handles registry resolution, file paths, and CSS diffing automatically.
 
@@ -133,11 +133,11 @@ Bare names resolve to the `@fabricator` registry (`button` → `@fabricator/butt
 | `--overwrite`   | `-o`  | Overwrite existing files                                                                                             | `false` |
 | `--cwd <cwd>`   | `-c`  | Working directory                                                                                                    | current |
 | `--all`         | `-a`  | Add all Fabricator UI components                                                                                     | `false` |
-| `--path <path>` | `-p`  | Target path for the component                                                                                        | —       |
+| `--path <path>` | `-p`  | Target path for the component                                                                                        | none     |
 | `--silent`      | `-s`  | Mute output                                                                                                          | `false` |
 | `--dry-run`     |       | Preview all changes without writing files                                                                            | `false` |
-| `--diff [path]` |       | Show diffs. Without a path, shows the first 5 files. With a path, shows that file only (implies `--dry-run`)         | —       |
-| `--view [path]` |       | Show file contents. Without a path, shows the first 5 files. With a path, shows that file only (implies `--dry-run`) | —       |
+| `--diff [path]` |       | Show diffs. Without a path, shows the first 5 files. With a path, shows that file only (implies `--dry-run`)         | none     |
+| `--view [path]` |       | Show file contents. Without a path, shows the first 5 files. With a path, shows that file only (implies `--dry-run`) | none     |
 | `--upstream`    |       | Keep bare names as-is and install the upstream registry item instead of `@fabricator`                                | `false` |
 
 #### Dry-Run Mode
@@ -172,19 +172,23 @@ npx fabricator-ui@latest add button --diff globals.css
 
 **When to use dry-run:**
 
-- When the user asks "what files will this add?" or "what will this change?" — use `--dry-run`.
-- Before overwriting existing components — use `--diff` to preview the changes first.
-- When the user wants to inspect component source code without installing — use `--view`.
-- When checking what CSS changes would be made to `globals.css` — use `--diff globals.css`.
-- When the user asks to review or audit third-party registry code before installing — use `--view` to inspect the source.
+- When the user asks "what files will this add?" or "what will this change?": use `--dry-run`.
+- Before overwriting existing components: use `--diff` to preview the changes first.
+- When the user wants to inspect component source code without installing: use `--view`.
+- When checking what CSS changes would be made to `globals.css`: use `--diff globals.css`.
+- When the user asks to review or audit third-party registry code before installing: use `--view` to inspect the source.
 
 > **`add --dry-run` vs `view`:** Prefer `npx fabricator-ui@latest add --dry-run/--diff/--view` over `npx fabricator-ui@latest view` when the user wants to preview changes to their project. `view` only shows raw registry metadata. `add --dry-run` shows exactly what would happen in the user's project: resolved file paths, diffs against existing files, and CSS updates. Use `view` only when the user wants to browse registry info without a project context.
 
-#### Smart Merge from the Registry
+#### Updating components
 
-See [Updating Components in SKILL.md](./SKILL.md#updating-components) for the full workflow.
+Components belong to the user and may be customized, so an update is a merge:
 
-### `search` — Search the @fabricator registry
+1. `add <name> --dry-run` lists the files; `add <name> --diff <file>` shows each difference.
+2. A file with no local edits can be overwritten once the user approves. A file with edits keeps them: apply the registry's changes by hand.
+3. Re-read the result, fix aliases and icon imports, and run the project's checks. `--overwrite` is used only with explicit approval.
+
+### `search`: Search the @fabricator registry
 
 ```bash
 npx fabricator-ui@latest search [query] [options]
@@ -194,14 +198,14 @@ Fuzzy search over `@fabricator` items. Also aliased as `npx fabricator-ui@latest
 
 | Flag                | Short | Description                                                       | Default |
 | ------------------- | ----- | ----------------------------------------------------------------- | ------- |
-| `--query <query>`   | `-q`  | Search query (same as the positional `[query]`)                   | —       |
-| `--type <type>`     | `-t`  | Filter by item type (e.g. `ui`, `block`, `hook`); comma-separated | —       |
-| `--limit <number>`  | `-l`  | Max items to display                                              | —       |
+| `--query <query>`   | `-q`  | Search query (same as the positional `[query]`)                   | none     |
+| `--type <type>`     | `-t`  | Filter by item type (e.g. `ui`, `block`, `hook`); comma-separated | none     |
+| `--limit <number>`  | `-l`  | Max items to display                                              | none     |
 | `--offset <number>` | `-o`  | Items to skip                                                     | `0`     |
 | `--json`            |       | Output as JSON                                                    | `false` |
 | `--cwd <cwd>`       | `-c`  | Working directory                                                 | current |
 
-### `view` — View item details
+### `view`: View item details
 
 ```bash
 npx fabricator-ui@latest view <items...> [options]
@@ -217,7 +221,7 @@ Displays item info including file contents. Bare names resolve to `@fabricator`.
 | `--cwd <cwd>` | `-c`  | Working directory                          | current |
 | `--upstream`  |       | View bare names from the upstream registry | `false` |
 
-### `docs` — Get component documentation URLs
+### `docs`: Get component documentation URLs
 
 ```bash
 npx fabricator-ui@latest docs <components...> [options]
@@ -234,7 +238,7 @@ Outputs the documentation, example, and API reference URLs for one or more compo
 
 Some components include an `api` link to the underlying library (e.g. `cmdk` for the command component).
 
-### `diff` — Compare your copy with the registry
+### `diff`: Compare your copy with the registry
 
 ```bash
 npx fabricator-ui@latest diff <item> [options]
@@ -246,7 +250,7 @@ Shows what changed between the registry version of an item and the project's cop
 | ------------- | ----- | ----------------- | ------- |
 | `--cwd <cwd>` | `-c`  | Working directory | current |
 
-### `info` — Project information
+### `info`: Project information
 
 ```bash
 npx fabricator-ui@latest info [options]
@@ -277,10 +281,10 @@ Displays project info, `components.json` configuration, and installed components
 | Field                | Type      | Meaning                                                                                                                                                                                                  |
 | -------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `style`              | `string`  | `<base>-<style>`, e.g. `base-nova`                                                                                                                                                                       |
-| `base`               | `string`  | Primitive library (`base`, `radix`, or `aria`) — determines component APIs and props                                                                                                                     |
+| `base`               | `string`  | Primitive library (`base`, `radix`, or `aria`); determines component APIs and props                                                                                                                     |
 | `rsc`                | `boolean` | RSC flag from config                                                                                                                                                                                     |
 | `typescript`         | `boolean` | TypeScript flag                                                                                                                                                                                          |
-| `iconLibrary`        | `string`  | Icon library — determines icon import package (e.g. `lucide-react`, `@tabler/icons-react`), unless the `@fabricator` registry entry has `params.icons: "fabricator"`, which means `@fabricator-ui/icons` |
+| `iconLibrary`        | `string`  | Icon library: determines icon import package (e.g. `lucide-react`, `@tabler/icons-react`), unless the `@fabricator` registry entry has `params.icons: "fabricator"`, which means `@fabricator-ui/icons` |
 | `rtl`                | `boolean` | Whether RTL support is enabled                                                                                                                                                                           |
 | `aliases.components` | `string`  | Component import alias (e.g. `@/components`)                                                                                                                                                             |
 | `aliases.utils`      | `string`  | Utils import alias (e.g. `@/lib/utils`)                                                                                                                                                                  |
@@ -292,7 +296,7 @@ Displays project info, `components.json` configuration, and installed components
 
 **`components`:** array of installed component names.
 
-### `doctor` — Check the project setup
+### `doctor`: Check the project setup
 
 ```bash
 npx fabricator-ui@latest doctor [options]
@@ -304,7 +308,7 @@ Checks that the project is ready for Fabricator UI and prints a fix for each pro
 | ------------- | ----- | ----------------- | ------- |
 | `--cwd <cwd>` | `-c`  | Working directory | current |
 
-### `mcp` — MCP server
+### `mcp`: MCP server
 
 ```bash
 npx fabricator-ui@latest mcp                       # run the server over stdio
@@ -348,7 +352,7 @@ Three ways to specify a preset via `init --preset` or `apply [preset]`:
 2. **Code:** `a2r6bw` (version-prefixed base62 string, e.g. `a2r6bw` or `b0`)
 3. **URL:** `"https://fabricator-ui.vercel.app/init?base=radix&preset=fabricator&..."`
 
-> **IMPORTANT:** Never try to decode, fetch, or resolve preset codes manually. Preset codes are opaque — pass them directly to `npx fabricator-ui@latest init --preset <code>` or `npx fabricator-ui@latest apply <code>` and let the CLI handle resolution.
+> **IMPORTANT:** Never try to decode, fetch, or resolve preset codes manually. Preset codes are opaque; pass them directly to `npx fabricator-ui@latest init --preset <code>` or `npx fabricator-ui@latest apply <code>` and let the CLI handle resolution.
 
 ## Switching Presets
 
@@ -356,7 +360,7 @@ Ask the user first: **overwrite**, **partial**, **merge**, or **skip** existing 
 
 - **Overwrite / Re-install** → `npx fabricator-ui@latest apply <preset>`. Applies theme and fonts, then reinstalls installed components from `@fabricator`. Use when the user hasn't customized components.
 - **Partial** → `npx fabricator-ui@latest apply <preset> --only theme,font`. No component reinstall.
-- **Merge** → `npx fabricator-ui@latest init --preset <preset> --force --no-reinstall`, then run `npx fabricator-ui@latest info` to get the list of installed components and use the [smart merge workflow](./SKILL.md#updating-components) to update them one by one, preserving local changes. Use when the user has customized components.
+- **Merge** → `npx fabricator-ui@latest init --preset <preset> --force --no-reinstall`, then run `npx fabricator-ui@latest info` to get the list of installed components and use the [merge workflow](#updating-components) to update them one by one, preserving local changes. Use when the user has customized components.
 - **Skip** → `npx fabricator-ui@latest init --preset <preset> --force --no-reinstall`. Only updates config and CSS variables, leaves existing components as-is.
 
-Always run preset commands inside the user's project directory. `apply` only works in an existing project with a `components.json` file. The CLI preserves the current base (`base`, `radix`, or `aria`) from `components.json`. If you must use a scratch/temp directory (e.g. for `--dry-run` comparisons), pass `--base <current-base>` explicitly — preset codes do not encode the base.
+Always run preset commands inside the user's project directory. `apply` only works in an existing project with a `components.json` file. The CLI preserves the current base (`base`, `radix`, or `aria`) from `components.json`. If you must use a scratch/temp directory (e.g. for `--dry-run` comparisons), pass `--base <current-base>` explicitly: preset codes do not encode the base.

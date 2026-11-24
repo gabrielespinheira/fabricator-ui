@@ -105,7 +105,7 @@ npx fabricator-ui@latest add @acme/login-form
 
 After installing from another registry, check the added files for hardcoded
 import paths and icon libraries that don't match the project (see the Workflow
-in [SKILL.md](./SKILL.md#workflow)).
+in [the merge workflow](./cli.md#updating-components)).
 
 ## Address Schemes
 

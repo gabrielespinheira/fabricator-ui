@@ -1,5 +1,7 @@
 # React Native
 
+What each region becomes on phones and tablets is in [platforms.md](../platforms.md#react-native); this file is how the code is written.
+
 Identify Expo from local project files or the native `/r/fabricator/native/{name}.json` registry URL in `components.json`; use the selected CLI's `info --json` when needed. In a React Native project the CLI installs native source under the same item names. Use native patterns here.
 
 ## Contents

@@ -1,5 +1,5 @@
 interface:
   display_name: "Fabricator UI"
-  short_description: "Design and build with Fabricator UI components and icons."
+  short_description: "Design and build product interfaces with Fabricator UI on web, mobile and desktop."
   icon_small: "./assets/fabricator-small.svg"
   icon_large: "./assets/fabricator.svg"

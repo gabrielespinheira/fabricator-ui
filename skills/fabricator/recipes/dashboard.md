@@ -1,8 +1,8 @@
-# Dashboard recipes
+# Dashboard recipe
 
-Working code for the parts of a dashboard and of any page of cards. The design rules behind them (the grid, card anatomy, numbers, states, polish) are in the project's `DESIGN.md`, under Layout, Cards and Dashboards; read those first.
+Working code for the parts of a dashboard and of any page of cards. The rules behind them (the grid, card anatomy, numbers, order) are in [patterns.md](../patterns.md#dashboards); widget states are in [states.md](states.md).
 
-Each recipe was checked in a running app at phone and desktop widths, in light and dark. Change the content and keep the layout and alignment classes: they are what line every card up with the page and every row up with its card. Import paths follow `components.json`; icons come from the project's icon package (`@fabricator-ui/icons` by default). Every recipe uses APIs shared by the three web bases; where a base differs (a row as a link, a toggle group's value), the comment says so and the component's docs settle it.
+Change the content and keep the layout and alignment classes: they are what line every card up with the page and every row up with its card. Import paths follow `components.json`; icons come from the project's icon package (`@fabricator-ui/icons` by default). Every recipe uses APIs shared by the three web bases; where a base differs (a row as a link, a toggle group's value), the comment says so and the component's docs settle it.
 
 ## Contents
 
@@ -310,8 +310,8 @@ function RevenueCard({ days, className }: { days: Day[]; className?: string }) {
   <CardContent className="px-[calc(var(--card-spacing)-var(--density-12))]">
     <ItemGroup>
       {tasks.map((task) => (
-        // A link to where the task is done: render (Base, React Aria) or asChild (Radix).
-        <Item key={task.id} size="sm">
+        // For a link to where the task is done, wrap a rendered Item in <div role="listitem">.
+        <Item role="listitem" key={task.id} size="sm">
           <ItemMedia variant="icon">
             <task.icon />
           </ItemMedia>
