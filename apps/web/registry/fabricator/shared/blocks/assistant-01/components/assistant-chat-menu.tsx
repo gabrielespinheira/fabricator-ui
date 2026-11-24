@@ -7,18 +7,26 @@ import {
 } from "@/registry/bases/__base__/ui/dropdown-menu"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-// The chat's page menu, in the header's ellipsis. React Aria picks menu
-// items with onAction, so that base has its own copy of this file.
+// What can be done to a chat, in the menu its title opens. React Aria picks
+// menu items with onAction, so that base has its own copy of this file.
 
-export function AssistantChatMenu({
-  onRename,
-  onExport,
-  onDelete,
-}: {
+export type AssistantChatMenuProps = {
+  isPinned: boolean
   onRename: () => void
+  onTogglePin: () => void
+  onShare: () => void
   onExport: () => void
   onDelete: () => void
-}) {
+}
+
+export function AssistantChatMenu({
+  isPinned,
+  onRename,
+  onTogglePin,
+  onShare,
+  onExport,
+  onDelete,
+}: AssistantChatMenuProps) {
   return (
     <>
       <DropdownMenuGroup>
@@ -31,6 +39,26 @@ export function AssistantChatMenu({
             remixicon="RiPencilLine"
           />
           Rename…
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={onTogglePin}>
+          <IconPlaceholder
+            lucide="PinIcon"
+            tabler="IconPin"
+            hugeicons="PinIcon"
+            phosphor="PushPinIcon"
+            remixicon="RiPushpinLine"
+          />
+          {isPinned ? "Unpin" : "Pin"}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={onShare}>
+          <IconPlaceholder
+            lucide="ShareIcon"
+            tabler="IconShare"
+            hugeicons="Share01Icon"
+            phosphor="ShareIcon"
+            remixicon="RiShareLine"
+          />
+          Share link
         </DropdownMenuItem>
         <DropdownMenuItem onClick={onExport}>
           <IconPlaceholder

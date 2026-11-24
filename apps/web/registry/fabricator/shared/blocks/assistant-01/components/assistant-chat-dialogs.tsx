@@ -30,8 +30,8 @@ import {
 import { Input } from "@/registry/bases/__base__/ui/input"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-// Renaming and deleting a chat. React Aria opens dialogs with isOpen, so
-// that base has its own copy of this file.
+// Renaming and deleting a chat. React Aria opens dialogs with isOpen, and Radix
+// needs telling where focus returns, so those bases have their own copies.
 
 type DialogProps = {
   open: boolean

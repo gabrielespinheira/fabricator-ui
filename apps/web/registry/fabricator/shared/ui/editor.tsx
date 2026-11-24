@@ -3,8 +3,14 @@
 import * as React from "react"
 import { cva } from "class-variance-authority"
 import { cn } from "cn"
-import { createPortal } from "react-dom"
 
+import {
+  getClipRect,
+  getVisibleRect,
+  openInTopLayer,
+  useEditorFloating,
+} from "@/registry/bases/__base__/hooks/use-editor-floating"
+import { useEditorToolbar } from "@/registry/bases/__base__/hooks/use-editor-toolbar"
 import {
   type EditorCommand,
   type EditorCommandArgs,
@@ -12,6 +18,7 @@ import {
 } from "@/registry/bases/__base__/lib/editor-commands"
 import {
   getDomSelection,
+  getDomTextRect,
   getFlatOffsetFromDom,
   readDomFlatText,
   setDomSelection,
@@ -41,6 +48,8 @@ import {
 import {
   getKeyboardBarLayout,
   getShortcutPlatform,
+  intersectRects,
+  type SurfaceRect,
 } from "@/registry/bases/__base__/lib/editor-surface-model"
 import {
   getTableDraft,
@@ -104,8 +113,8 @@ type EditorContextValue = {
   isFocused: boolean
   setFocused: (isFocused: boolean) => void
   isComposingRef: React.RefObject<boolean>
-  link: EditorLinkState | null
-  openLink: (anchor?: DOMRect) => void
+  isLinkOpen: boolean
+  openLink: () => void
   /** The table being edited in place, by block id. */
   editingTableId: string | null
   setEditingTableId: (id: string | null) => void
@@ -113,8 +122,6 @@ type EditorContextValue = {
   /** Focuses the surface and puts the model's selection back in the DOM. */
   focusContent: () => void
 }
-
-type EditorLinkState = { anchor: DOMRect }
 
 const EditorContext = React.createContext<EditorContextValue | null>(null)
 
@@ -247,7 +254,7 @@ function Editor({
   const contentRef = React.useRef<HTMLDivElement | null>(null)
   const isComposingRef = React.useRef(false)
   const [isFocused, setFocused] = React.useState(false)
-  const [link, setLink] = React.useState<EditorLinkState | null>(null)
+  const [isLinkOpen, setLinkOpen] = React.useState(false)
   const [editingTableId, setEditingTableId] = React.useState<string | null>(
     null
   )
@@ -266,14 +273,8 @@ function Editor({
     )
   }, [store])
 
-  const openLink = React.useCallback((anchor?: DOMRect) => {
-    const fallback = contentRef.current?.getBoundingClientRect()
-    const rect =
-      anchor ?? getSelectionRect() ?? fallback ?? new DOMRect(0, 0, 0, 0)
-    setLink({ anchor: rect })
-  }, [])
-
-  const closeLink = React.useCallback(() => setLink(null), [])
+  const openLink = React.useCallback(() => setLinkOpen(true), [])
+  const closeLink = React.useCallback(() => setLinkOpen(false), [])
 
   const context = React.useMemo<EditorContextValue>(
     () => ({
@@ -284,7 +285,7 @@ function Editor({
       isFocused,
       setFocused,
       isComposingRef,
-      link,
+      isLinkOpen,
       openLink,
       closeLink,
       editingTableId,
@@ -296,7 +297,7 @@ function Editor({
       readOnly,
       placeholder,
       isFocused,
-      link,
+      isLinkOpen,
       openLink,
       closeLink,
       editingTableId,
@@ -319,14 +320,6 @@ function Editor({
 }
 
 // MARK: Content
-
-function getSelectionRect() {
-  const selection = window.getSelection()
-  if (!selection || selection.rangeCount === 0) return null
-  const rect = selection.getRangeAt(0).getBoundingClientRect()
-  if (rect.width === 0 && rect.height === 0) return null
-  return rect
-}
 
 function getDeleteUnit(inputType: string) {
   if (inputType.includes("Word")) return "word" as const
@@ -424,6 +417,223 @@ const EditorBlockElement = React.memo(function EditorBlockElement({
   }
 })
 
+// MARK: Menus
+
+type EditorMenuItem = {
+  id: string
+  label: string
+  role?: "menuitem" | "menuitemradio" | "menuitemcheckbox"
+  icon?: React.ReactNode
+  /** Its shortcut or Markdown, in mono at the end. */
+  hint?: string
+  isChecked?: boolean
+  isDisabled?: boolean
+  /** Starts a new group, under a hairline. */
+  hasSeparator?: boolean
+  onPick: () => void
+}
+
+function EditorMenuChevron() {
+  return (
+    <IconPlaceholder
+      lucide="ChevronDownIcon"
+      tabler="IconChevronDown"
+      hugeicons="ArrowDown01Icon"
+      phosphor="CaretDownIcon"
+      remixicon="RiArrowDownSLine"
+      data-icon="inline-end"
+    />
+  )
+}
+
+function getMenuButtons(menu: HTMLElement) {
+  return Array.from(
+    menu.querySelectorAll<HTMLButtonElement>("[role^=menuitem]:enabled")
+  )
+}
+
+function EditorMenuPopup({
+  id,
+  label,
+  align,
+  items,
+  triggerRef,
+  onClose,
+}: {
+  id: string
+  label: string
+  align: "start" | "end"
+  items: readonly EditorMenuItem[]
+  triggerRef: React.RefObject<HTMLButtonElement | null>
+  onClose: (reason: "escape" | "tab" | "pick") => void
+}) {
+  const menuRef = React.useRef<HTMLDivElement>(null)
+  useEditorFloating(menuRef, {
+    getAnchor: () => triggerRef.current && getVisibleRect(triggerRef.current),
+    side: "bottom",
+    align,
+    gap: 6,
+    canShrink: true,
+    onEscape: () => onClose("escape"),
+  })
+
+  React.useEffect(() => {
+    const menu = menuRef.current
+    if (!menu) return
+    const buttons = getMenuButtons(menu)
+    const checked = buttons.find(
+      (button) => button.getAttribute("aria-checked") === "true"
+    )
+    const first = checked ?? buttons[0]
+    first?.focus()
+  }, [])
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Tab") {
+      onClose("tab")
+      return
+    }
+    const buttons = getMenuButtons(event.currentTarget)
+    const last = buttons.length - 1
+    const index = buttons.findIndex(
+      (button) => button === event.currentTarget.ownerDocument.activeElement
+    )
+    const moves: Record<string, number> = {
+      ArrowDown: index >= last ? 0 : index + 1,
+      ArrowUp: index <= 0 ? last : index - 1,
+      Home: 0,
+      End: last,
+    }
+    const move = moves[event.key]
+    if (move === undefined) return
+    event.preventDefault()
+    event.stopPropagation()
+    buttons[move]?.focus()
+  }
+
+  return (
+    <div
+      ref={menuRef}
+      id={id}
+      popover="manual"
+      role="menu"
+      aria-label={label}
+      data-slot="editor-block-type-menu"
+      className="cn-editor-block-type-menu fixed inset-auto z-50 m-0 flex flex-col data-anchor-hidden:invisible"
+      onKeyDown={onKeyDown}
+    >
+      {items.map((item) => (
+        <React.Fragment key={item.id}>
+          {item.hasSeparator ? (
+            <div
+              role="separator"
+              data-slot="editor-menu-separator"
+              className="cn-editor-menu-separator shrink-0"
+            />
+          ) : null}
+          <button
+            type="button"
+            role={item.role ?? "menuitem"}
+            aria-checked={item.isChecked}
+            tabIndex={-1}
+            disabled={item.isDisabled}
+            data-slot="editor-block-type-item"
+            className="cn-editor-block-type-item flex shrink-0 items-center text-start"
+            onPointerDown={keepSelection}
+            onMouseEnter={(event) =>
+              event.currentTarget.focus({ preventScroll: true })
+            }
+            onClick={() => {
+              onClose("pick")
+              item.onPick()
+            }}
+          >
+            {item.icon ? (
+              <span aria-hidden className="cn-editor-block-type-icon flex">
+                {item.icon}
+              </span>
+            ) : null}
+            <span className="flex-1">{item.label}</span>
+            {item.hint ? (
+              <span
+                aria-hidden
+                className="cn-editor-block-type-shortcut font-mono"
+              >
+                {item.hint}
+              </span>
+            ) : null}
+          </button>
+        </React.Fragment>
+      ))}
+    </div>
+  )
+}
+
+/**
+ * A menu button (WAI-ARIA): its menu opens in the top layer beside it, so
+ * the bar, code block or parent holding it never crops the menu, and inside
+ * it in the DOM, so a bar holding it keeps focus within itself. Arrow keys
+ * move, Enter picks, Escape closes.
+ */
+function EditorMenu({
+  menuLabel,
+  items,
+  align = "start",
+  onEscape,
+  ...props
+}: React.ComponentProps<"button"> & {
+  menuLabel: string
+  items: readonly EditorMenuItem[]
+  align?: "start" | "end"
+  /** Where focus goes on Escape; the button, by default. */
+  onEscape?: () => void
+}) {
+  const [isOpen, setOpen] = React.useState(false)
+  const triggerRef = React.useRef<HTMLButtonElement>(null)
+  const menuId = React.useId()
+  return (
+    <div
+      className="flex"
+      onBlur={(event) => {
+        const next = event.relatedTarget
+        if (next instanceof Node && event.currentTarget.contains(next)) return
+        setOpen(false)
+      }}
+    >
+      <button
+        ref={triggerRef}
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        aria-controls={isOpen ? menuId : undefined}
+        onPointerDown={keepSelection}
+        onClick={() => setOpen((value) => !value)}
+        onKeyDown={(event) => {
+          if (event.key !== "ArrowDown") return
+          event.preventDefault()
+          setOpen(true)
+        }}
+        {...props}
+      />
+      {isOpen ? (
+        <EditorMenuPopup
+          id={menuId}
+          label={menuLabel}
+          align={align}
+          items={items}
+          triggerRef={triggerRef}
+          onClose={(reason) => {
+            setOpen(false)
+            if (reason !== "escape") return
+            if (onEscape) onEscape()
+            else triggerRef.current?.focus()
+          }}
+        />
+      ) : null}
+    </div>
+  )
+}
+
 // MARK: Code
 
 const TOKEN_CLASS_NAMES: Record<SyntaxTokenKind, () => string> = {
@@ -507,16 +717,7 @@ function renderCodeTokens(code: string, language: string | null) {
 /** Picks a code block's language; the fence in the Markdown follows. */
 function EditorCodeLanguage({ block }: { block: EditorBlock }) {
   const { store, readOnly, focusContent } = useEditorContext()
-  const [isOpen, setOpen] = React.useState(false)
   const language = getStringAttribute(block, "language")
-  const listRef = React.useRef<HTMLDivElement>(null)
-
-  React.useEffect(() => {
-    if (!isOpen) return
-    listRef.current
-      ?.querySelector<HTMLButtonElement>("[aria-checked=true]")
-      ?.focus()
-  }, [isOpen])
 
   const pick = (next: string | null) => {
     store.apply((state, now) =>
@@ -530,94 +731,28 @@ function EditorCodeLanguage({ block }: { block: EditorBlock }) {
         time: now,
       })
     )
-    setOpen(false)
     focusContent()
   }
 
   return (
-    <div
-      className="relative"
-      onBlur={(event) => {
-        const next = event.relatedTarget
-        if (next instanceof Node && event.currentTarget.contains(next)) return
-        setOpen(false)
-      }}
+    <EditorMenu
+      menuLabel="Language"
+      items={CODE_LANGUAGES.map((option) => ({
+        id: option ?? "plain",
+        role: "menuitemradio",
+        label: getLanguageLabel(option),
+        hint: option ?? undefined,
+        isChecked: (language ?? null) === option,
+        onPick: () => pick(option),
+      }))}
+      onEscape={focusContent}
+      aria-label={`Language, now ${getLanguageLabel(language)}`}
+      disabled={readOnly}
+      className={cn(toggleVariants({ size: "sm" }), "cn-editor-code-language")}
     >
-      <button
-        type="button"
-        aria-haspopup="menu"
-        aria-expanded={isOpen}
-        aria-label={`Language, now ${getLanguageLabel(language)}`}
-        disabled={readOnly}
-        className={cn(
-          toggleVariants({ size: "sm" }),
-          "cn-editor-code-language"
-        )}
-        onClick={() => setOpen((value) => !value)}
-      >
-        {getLanguageLabel(language)}
-        {readOnly ? null : (
-          <IconPlaceholder
-            lucide="ChevronDownIcon"
-            tabler="IconChevronDown"
-            hugeicons="ArrowDown01Icon"
-            phosphor="CaretDownIcon"
-            remixicon="RiArrowDownSLine"
-            data-icon="inline-end"
-          />
-        )}
-      </button>
-      {isOpen ? (
-        <div
-          ref={listRef}
-          role="menu"
-          aria-label="Language"
-          className="cn-editor-block-type-menu absolute start-0 top-full z-50 flex flex-col"
-          onKeyDown={(event) => {
-            const items = Array.from(
-              event.currentTarget.querySelectorAll<HTMLButtonElement>(
-                "[role=menuitemradio]"
-              )
-            )
-            const index = items.findIndex(
-              (item) => item === event.currentTarget.ownerDocument.activeElement
-            )
-            if (event.key === "Escape") {
-              event.preventDefault()
-              setOpen(false)
-              focusContent()
-              return
-            }
-            const step =
-              event.key === "ArrowDown" ? 1 : event.key === "ArrowUp" ? -1 : 0
-            if (step === 0) return
-            event.preventDefault()
-            items[(index + step + items.length) % items.length]?.focus()
-          }}
-        >
-          {CODE_LANGUAGES.map((option) => (
-            <button
-              key={option ?? "plain"}
-              type="button"
-              role="menuitemradio"
-              aria-checked={(language ?? null) === option}
-              className="cn-editor-block-type-item flex items-center text-start"
-              onClick={() => pick(option)}
-            >
-              <span className="flex-1">{getLanguageLabel(option)}</span>
-              {option ? (
-                <span
-                  aria-hidden
-                  className="cn-editor-block-type-shortcut font-mono"
-                >
-                  {option}
-                </span>
-              ) : null}
-            </button>
-          ))}
-        </div>
-      ) : null}
-    </div>
+      {getLanguageLabel(language)}
+      {readOnly ? null : <EditorMenuChevron />}
+    </EditorMenu>
   )
 }
 
@@ -678,7 +813,7 @@ function EditorCodeBlock({
           )}
         </button>
       </div>
-      <pre className="cn-editor-code-pre">
+      <pre className="cn-editor-code-pre [contain:inline-size]">
         <code
           data-block-id={block.id}
           data-placeholder={placeholder}
@@ -749,6 +884,10 @@ const ALIGN_OPTIONS: readonly {
     ),
   },
 ]
+
+// A placeholder in a condition would ship unreplaced; in cva() it compiles.
+const tableHeadVariants = cva("cn-markdown-table-head")
+const tableCellVariants = cva("cn-markdown-table-cell")
 
 function EditorTableAction({
   label,
@@ -982,8 +1121,8 @@ function EditorTableEditor({ block }: { block: EditorBlock }) {
                       data-align={draft.align[column] ?? undefined}
                       className={cn(
                         rowIndex === 0
-                          ? "cn-markdown-table-head"
-                          : "cn-markdown-table-cell",
+                          ? tableHeadVariants()
+                          : tableCellVariants(),
                         "cn-editor-table-cell"
                       )}
                     >
@@ -1030,7 +1169,7 @@ function EditorTableBlock({ block }: { block: EditorBlock }) {
       data-editing={isEditing || undefined}
       contentEditable={false}
       data-slot="editor-table"
-      className="cn-editor-table relative"
+      className="cn-editor-table relative wrap-break-word [contain:inline-size]"
     >
       {isEditing ? (
         <EditorTableEditor block={block} />
@@ -1492,7 +1631,7 @@ function EditorContent({
       spellCheck
       className={cn(
         markdownVariants({ size }),
-        "cn-editor-content outline-none",
+        "cn-editor-content wrap-anywhere outline-none",
         className
       )}
       {...props}
@@ -1767,7 +1906,7 @@ function formatShortcut(shortcut: string, platform: "apple" | "other") {
       if (key === "mod") return isApple ? "⌘" : "Ctrl+"
       if (key === "alt") return isApple ? "⌥" : "Alt+"
       if (key === "shift") return isApple ? "⇧" : "Shift+"
-      if (key === "Period") return "."
+      if (key === "period") return "."
       return key.length === 1 ? key.toUpperCase() : key
     })
     .join("")
@@ -1814,13 +1953,17 @@ function EditorToolbarButton({
       aria-keyshortcuts={command.shortcut}
       title={shortcut ? `${command.label} (${shortcut})` : command.label}
       disabled={readOnly || !isCommandEnabled(command, snapshot)}
-      className={cn(toggleVariants(), "cn-editor-toolbar-button", className)}
+      className={cn(
+        toggleVariants(),
+        "cn-editor-toolbar-button data-overflowed:hidden",
+        className
+      )}
       onPointerDown={keepSelection}
       onClick={(event) => {
         onClick?.(event)
         if (event.defaultPrevented) return
         if (command.id === "link") {
-          openLink(event.currentTarget.getBoundingClientRect())
+          openLink()
           return
         }
         store.runCommand(command.id)
@@ -1837,10 +1980,16 @@ function EditorToolbarButton({
 function onToolbarKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
   const keys = ["ArrowLeft", "ArrowRight", "Home", "End"]
   if (!keys.includes(event.key)) return
+  if (event.target instanceof Element && event.target.closest("[role=menu]")) {
+    return
+  }
   const buttons = Array.from(
     event.currentTarget.querySelectorAll<HTMLButtonElement>(
       "button:not(:disabled)"
     )
+  ).filter(
+    (button) =>
+      button.getClientRects().length > 0 && !button.closest("[role=menu]")
   )
   const index = buttons.findIndex(
     (button) => button === event.currentTarget.ownerDocument.activeElement
@@ -1870,7 +2019,10 @@ function EditorToolbarGroup({
     <div
       role="group"
       data-slot="editor-toolbar-group"
-      className={cn("cn-editor-toolbar-group flex items-center", className)}
+      className={cn(
+        "cn-editor-toolbar-group flex shrink-0 items-center data-overflowed:hidden",
+        className
+      )}
       {...props}
     />
   )
@@ -1885,7 +2037,10 @@ function EditorToolbarSeparator({
       role="separator"
       aria-orientation="vertical"
       data-slot="editor-toolbar-separator"
-      className={cn("cn-editor-toolbar-separator shrink-0", className)}
+      className={cn(
+        "cn-editor-toolbar-separator shrink-0 data-overflowed:hidden",
+        className
+      )}
       {...props}
     />
   )
@@ -1904,62 +2059,181 @@ function useToolbarGroups(defaults: readonly (readonly string[])[]) {
   return [...groups, extra].filter((group) => group.length > 0)
 }
 
+const STRUT_PIECES = 16
+
+/** Leads the toolbar; folds into Turn into when the editor is narrow. */
+function isHeadingGroup(group: readonly string[]) {
+  return group.includes("heading-1")
+}
+
+/** The groups a narrow toolbar keeps by folding the headings. */
+function isEssentialGroup(group: readonly string[]) {
+  return group.includes("bold") || group.includes("bulleted")
+}
+
+function DefaultToolbar() {
+  const groups = useToolbarGroups(DEFAULT_TOOLBAR)
+  return (
+    <>
+      {groups.map((group, index) => (
+        <React.Fragment key={group.join()}>
+          {index > 0 ? <EditorToolbarSeparator /> : null}
+          {isHeadingGroup(group) ? (
+            <EditorBlockTypeMenu className="hidden group-data-compact/editor-toolbar:flex" />
+          ) : null}
+          <EditorToolbarGroup
+            data-essential={isEssentialGroup(group) || undefined}
+            className={
+              isHeadingGroup(group)
+                ? "group-data-compact/editor-toolbar:hidden"
+                : undefined
+            }
+          >
+            {group.map((id) => (
+              <EditorToolbarButton key={id} command={id} />
+            ))}
+          </EditorToolbarGroup>
+        </React.Fragment>
+      ))}
+    </>
+  )
+}
+
+/** The commands the toolbar has no room for, as a menu at its end. */
+function EditorToolbarMore({
+  groups,
+  listRef,
+}: {
+  groups: readonly (readonly string[])[]
+  listRef: React.RefObject<HTMLElement | null>
+}) {
+  const { store, readOnly, focusContent } = useEditorContext()
+  const snapshot = useEditorSnapshot(store)
+  const items = groups.flatMap((group, groupIndex) =>
+    group.flatMap((id, index): EditorMenuItem[] => {
+      const command = store.kit.getCommand(id)
+      if (!command) return []
+      const hint = command.shortcut
+        ? formatShortcut(command.shortcut, store.platform)
+        : undefined
+      return [
+        {
+          id,
+          role: command.isActive ? "menuitemcheckbox" : "menuitem",
+          label: command.label,
+          icon: COMMAND_ICONS[id],
+          hint,
+          isChecked: command.isActive
+            ? isCommandActive(command, snapshot)
+            : undefined,
+          isDisabled: readOnly || !isCommandEnabled(command, snapshot),
+          hasSeparator: groupIndex > 0 && index === 0,
+          // The hidden button runs it, with whatever its onClick adds.
+          onPick: () =>
+            listRef.current
+              ?.querySelector<HTMLButtonElement>(
+                `[data-command="${CSS.escape(id)}"]`
+              )
+              ?.click(),
+        },
+      ]
+    })
+  )
+  return (
+    <div
+      data-slot="editor-toolbar-more"
+      className="cn-editor-toolbar-more hidden shrink-0 group-data-overflowing/editor-toolbar:block"
+    >
+      <EditorMenu
+        menuLabel="More formatting"
+        align="end"
+        items={items}
+        onEscape={focusContent}
+        aria-label="More formatting"
+        title="More"
+        className={cn(
+          toggleVariants(),
+          "cn-editor-toolbar-button cn-editor-toolbar-more-trigger"
+        )}
+      >
+        <IconPlaceholder
+          lucide="EllipsisIcon"
+          tabler="IconDots"
+          hugeicons="MoreHorizontalIcon"
+          phosphor="DotsThreeIcon"
+          remixicon="RiMoreLine"
+        />
+      </EditorMenu>
+    </div>
+  )
+}
+
+/**
+ * Stands in for the row's width, in pieces that wrap: a parent sized to its
+ * content still gets a toolbar's width, and a grid or flex parent that can't
+ * go under its content's narrowest width isn't held open by the whole row.
+ */
+function EditorToolbarStrut() {
+  return (
+    <div aria-hidden className="flex h-0 flex-wrap overflow-clip">
+      {Array.from({ length: STRUT_PIECES }, (_, index) => (
+        <span
+          key={index}
+          className="h-0 shrink-0"
+          style={{
+            width: `calc(var(--editor-toolbar-size) / ${STRUT_PIECES})`,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+/**
+ * The commands as toggles, in one row that fits any width: those without
+ * room move to a More menu at the end, and the default row's headings fold
+ * into Turn into first when the editor is narrow.
+ */
 function EditorToolbar({
   className,
   children,
   ...props
 }: React.ComponentProps<"div">) {
-  const groups = useToolbarGroups(DEFAULT_TOOLBAR)
+  const toolbarRef = React.useRef<HTMLDivElement>(null)
+  const listRef = React.useRef<HTMLDivElement>(null)
+  const hidden = useEditorToolbar(toolbarRef, listRef)
   return (
     <div
+      ref={toolbarRef}
       role="toolbar"
       aria-label="Formatting"
       tabIndex={0}
       data-slot="editor-toolbar"
       className={cn(
-        "cn-editor-toolbar flex items-center overflow-x-auto",
+        "cn-editor-toolbar group/editor-toolbar flex items-center",
         className
       )}
       onKeyDown={onToolbarKeyDown}
       {...props}
     >
-      {children ??
-        groups.map((group, index) => (
-          <React.Fragment key={group.join()}>
-            {index > 0 ? <EditorToolbarSeparator /> : null}
-            <EditorToolbarGroup>
-              {group.map((id) => (
-                <EditorToolbarButton key={id} command={id} />
-              ))}
-            </EditorToolbarGroup>
-          </React.Fragment>
-        ))}
+      <div className="min-w-0 flex-1">
+        <div className="[contain:inline-size]">
+          <div
+            ref={listRef}
+            data-slot="editor-toolbar-list"
+            className="cn-editor-toolbar-list relative flex items-center overflow-x-auto"
+          >
+            {children ?? <DefaultToolbar />}
+          </div>
+        </div>
+        <EditorToolbarStrut />
+      </div>
+      <EditorToolbarMore groups={hidden} listRef={listRef} />
     </div>
   )
 }
 
 // MARK: Floating parts
-
-function useSelectionRect(isEnabled: boolean) {
-  const { store } = useEditorContext()
-  const selection = useEditorSelector(store, (state) => state.selection)
-  const [rect, setRect] = React.useState<DOMRect | null>(null)
-  React.useLayoutEffect(() => {
-    if (!isEnabled) {
-      setRect(null)
-      return
-    }
-    const update = () => setRect(getSelectionRect())
-    update()
-    window.addEventListener("scroll", update, true)
-    window.addEventListener("resize", update)
-    return () => {
-      window.removeEventListener("scroll", update, true)
-      window.removeEventListener("resize", update)
-    }
-  }, [isEnabled, selection])
-  return rect
-}
 
 function useFinePointer() {
   return React.useSyncExternalStore(
@@ -1998,9 +2272,7 @@ const BLOCK_TYPE_COMMANDS: readonly string[] = [
 
 /**
  * "Turn into": the block type at the selection as a button, opening a menu
- * of every type (WAI-ARIA menu button). Arrow keys move, Enter picks,
- * Escape closes. The menu opens inside the control, so a bar holding it
- * keeps focus within itself.
+ * of every type. Arrow keys move, Enter picks, Escape closes.
  */
 function EditorBlockTypeMenu({
   className,
@@ -2008,196 +2280,162 @@ function EditorBlockTypeMenu({
 }: React.ComponentProps<"div">) {
   const { store, readOnly, focusContent } = useEditorContext()
   const snapshot = useEditorSnapshot(store)
-  const [isOpen, setOpen] = React.useState(false)
-  const [active, setActive] = React.useState(0)
-  const menuRef = React.useRef<HTMLDivElement>(null)
-  const triggerRef = React.useRef<HTMLButtonElement>(null)
-  const menuId = React.useId()
   const commands = BLOCK_TYPE_COMMANDS.flatMap((id) => {
     const command = store.kit.getCommand(id)
     return command ? [command] : []
   })
-  const currentIndex = commands.findIndex((command) =>
-    isCommandActive(command, snapshot)
+  const current = commands.find((command) => isCommandActive(command, snapshot))
+  const hasSelection = useEditorSelector(
+    store,
+    (state) => state.selection !== null
   )
-  const current = commands[currentIndex]
-
-  React.useEffect(() => {
-    if (!isOpen) return
-    menuRef.current
-      ?.querySelector<HTMLButtonElement>(`[data-index="${active}"]`)
-      ?.focus()
-  }, [isOpen, active])
-
-  const open = () => {
-    setActive(Math.max(currentIndex, 0))
-    setOpen(true)
-  }
-  const close = (shouldReturnFocus: boolean) => {
-    setOpen(false)
-    if (shouldReturnFocus) triggerRef.current?.focus()
-  }
-  const pick = (command: EditorCommand) => {
-    store.runCommand(command.id)
-    setOpen(false)
-    focusContent()
-  }
-
-  const onMenuKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    const last = commands.length - 1
-    const moves: Record<string, number> = {
-      ArrowDown: active >= last ? 0 : active + 1,
-      ArrowUp: active <= 0 ? last : active - 1,
-      Home: 0,
-      End: last,
-    }
-    const move = moves[event.key]
-    if (move !== undefined) {
-      event.preventDefault()
-      event.stopPropagation()
-      setActive(move)
-      return
-    }
-    if (event.key === "Escape") {
-      event.preventDefault()
-      event.stopPropagation()
-      close(true)
-      return
-    }
-    if (event.key === "Tab") close(false)
-  }
-
+  const label = current?.label ?? (hasSelection ? "Mixed" : "Text")
   return (
     <div
       data-slot="editor-block-type"
       className={cn("cn-editor-block-type relative", className)}
-      onBlur={(event) => {
-        const next = event.relatedTarget
-        if (next instanceof Node && event.currentTarget.contains(next)) return
-        setOpen(false)
-      }}
       {...props}
     >
-      <button
-        ref={triggerRef}
-        type="button"
-        aria-haspopup="menu"
-        aria-expanded={isOpen}
-        aria-controls={isOpen ? menuId : undefined}
-        aria-label={`Turn into, now ${current?.label ?? "mixed"}`}
-        disabled={readOnly}
+      <EditorMenu
+        menuLabel="Turn into"
+        items={commands.map((command) => ({
+          id: command.id,
+          role: "menuitemradio",
+          label: command.label,
+          icon: COMMAND_ICONS[command.id],
+          hint: command.markdownShortcut?.trim(),
+          isChecked: command === current,
+          onPick: () => {
+            store.runCommand(command.id)
+            focusContent()
+          },
+        }))}
+        aria-label={`Turn into, now ${label}`}
+        disabled={readOnly || !hasSelection}
         className={cn(toggleVariants(), "cn-editor-block-type-trigger")}
-        onPointerDown={keepSelection}
-        onClick={() => (isOpen ? close(false) : open())}
-        onKeyDown={(event) => {
-          if (event.key !== "ArrowDown") return
-          event.preventDefault()
-          open()
-        }}
       >
-        {current?.label ?? "Mixed"}
-        <IconPlaceholder
-          lucide="ChevronDownIcon"
-          tabler="IconChevronDown"
-          hugeicons="ArrowDown01Icon"
-          phosphor="CaretDownIcon"
-          remixicon="RiArrowDownSLine"
-          data-icon="inline-end"
-        />
-      </button>
-      {isOpen ? (
-        <div
-          ref={menuRef}
-          id={menuId}
-          role="menu"
-          aria-label="Turn into"
-          data-slot="editor-block-type-menu"
-          className="cn-editor-block-type-menu absolute start-0 top-full z-50 flex flex-col"
-          onKeyDown={onMenuKeyDown}
-        >
-          {commands.map((command, index) => (
-            <button
-              key={command.id}
-              type="button"
-              role="menuitemradio"
-              aria-checked={index === currentIndex}
-              tabIndex={index === active ? 0 : -1}
-              data-index={index}
-              data-slot="editor-block-type-item"
-              className="cn-editor-block-type-item flex items-center text-start"
-              onPointerDown={keepSelection}
-              onMouseEnter={() => setActive(index)}
-              onClick={() => pick(command)}
-            >
-              <span aria-hidden className="cn-editor-block-type-icon flex">
-                {COMMAND_ICONS[command.id]}
-              </span>
-              <span className="flex-1">{command.label}</span>
-              {command.markdownShortcut ? (
-                <span
-                  aria-hidden
-                  className="cn-editor-block-type-shortcut font-mono"
-                >
-                  {command.markdownShortcut.trim()}
-                </span>
-              ) : null}
-            </button>
-          ))}
-        </div>
-      ) : null}
+        {label}
+        <EditorMenuChevron />
+      </EditorMenu>
     </div>
   )
 }
 
+/** Room between a bar and its text, and between it and the editor's edges. */
+const BAR_GAP = 8
+const BAR_INSET = 8
+
 /**
- * Formatting over a text selection, for mouse and trackpad (touch uses the
- * keyboard bar). By default: Turn into, then the marks and any kit command
- * with the `bubble` surface. Pass children to choose its controls.
+ * Where a bar on the selected text goes: the text's box, the visible part of
+ * it, and the boxes to keep the bar in (the editor, clear of its toolbar).
  */
-function EditorBubbleMenu({
+function useSelectionAnchor() {
+  const { store, contentRef } = useEditorContext()
+  // Both move the text on screen, so a bar using them places itself again.
+  const document = useEditorSelector(store, (state) => state.document)
+  const selection = useEditorSelector(store, (state) => state.selection)
+
+  const getAnchor = (): SurfaceRect | null => {
+    const content = contentRef.current
+    if (!content || !selection) return null
+    const anchor = toFlatOffset(document, selection.anchor)
+    const focus = toFlatOffset(document, selection.focus)
+    const text = getDomTextRect(
+      content,
+      document,
+      Math.min(anchor, focus),
+      Math.max(anchor, focus)
+    )
+    const visible = getVisibleRect(content)
+    return text && visible && intersectRects(text, visible)
+  }
+
+  const getLimits = (): readonly SurfaceRect[] => {
+    const content = contentRef.current
+    const editor = content?.closest("[data-slot=editor]")
+    if (!content || !editor) return []
+    const room = getClipRect(editor)
+    const visible = getVisibleRect(editor)
+    if (!room || !visible) return []
+    const toolbar = editor.querySelector("[data-slot=editor-toolbar]")
+    const toolbarRect = toolbar?.getBoundingClientRect()
+    const isToolbarFirst =
+      toolbar?.compareDocumentPosition(content) ===
+      Node.DOCUMENT_POSITION_FOLLOWING
+    return [
+      {
+        left: visible.left + BAR_INSET,
+        right: visible.right - BAR_INSET,
+        top:
+          toolbarRect && isToolbarFirst
+            ? Math.max(room.top, toolbarRect.bottom)
+            : room.top,
+        bottom:
+          toolbarRect && !isToolbarFirst
+            ? Math.min(room.bottom, toolbarRect.top)
+            : room.bottom,
+      },
+    ]
+  }
+
+  return { getAnchor, getLimits }
+}
+
+/** Whether a pointer is selecting text, so the bar waits for it to let go. */
+function useIsSelecting() {
+  const { contentRef } = useEditorContext()
+  const [isSelecting, setIsSelecting] = React.useState(false)
+  React.useEffect(() => {
+    const content = contentRef.current
+    if (!content) return
+    const view = content.ownerDocument.defaultView ?? window
+    const start = (event: PointerEvent) => setIsSelecting(event.button === 0)
+    const end = () => setIsSelecting(false)
+    content.addEventListener("pointerdown", start)
+    view.addEventListener("pointerup", end)
+    view.addEventListener("pointercancel", end)
+    // Its menu can swallow the pointerup.
+    view.addEventListener("contextmenu", end)
+    return () => {
+      content.removeEventListener("pointerdown", start)
+      view.removeEventListener("pointerup", end)
+      view.removeEventListener("pointercancel", end)
+      view.removeEventListener("contextmenu", end)
+    }
+  }, [contentRef])
+  return isSelecting
+}
+
+function EditorBubbleBar({
   className,
   children,
   ...props
 }: React.ComponentProps<"div">) {
-  const { store, isFocused, readOnly, link } = useEditorContext()
-  const snapshot = useEditorSnapshot(store)
-  const isFine = useFinePointer()
-  const [hasFocusWithin, setHasFocusWithin] = React.useState(false)
-  const isOpen =
-    isFine &&
-    !readOnly &&
-    !link &&
-    ((isFocused && !snapshot.isCollapsed) || hasFocusWithin)
-  const rect = useSelectionRect(isOpen)
-  if (!isOpen || !rect) return null
+  const { store } = useEditorContext()
+  const barRef = React.useRef<HTMLDivElement>(null)
+  useEditorFloating(barRef, {
+    ...useSelectionAnchor(),
+    side: "top",
+    align: "center",
+    gap: BAR_GAP,
+  })
   const listed = new Set(BUBBLE_COMMANDS)
   const extra = store.kit
     .getCommandsFor("bubble")
     .map((command) => command.id)
     .filter((id) => !listed.has(id))
-  const isAbove = rect.top > 56
-  return createPortal(
+  return (
     <div
+      ref={barRef}
+      popover="manual"
       role="toolbar"
       aria-label="Selection formatting"
       data-slot="editor-bubble-menu"
-      data-side={isAbove ? "top" : "bottom"}
       className={cn(
-        "cn-editor-bubble-menu fixed z-50 flex items-center",
+        "cn-editor-bubble-menu fixed inset-auto z-50 m-0 flex flex-wrap items-center overflow-visible data-anchor-hidden:invisible",
         className
       )}
-      style={{
-        left: rect.left + rect.width / 2,
-        top: isAbove ? rect.top : rect.bottom,
-        translate: isAbove ? "-50% calc(-100% - 8px)" : "-50% 8px",
-      }}
       onKeyDown={onToolbarKeyDown}
-      onFocus={() => setHasFocusWithin(true)}
-      onBlur={(event) => {
-        const next = event.relatedTarget
-        if (next instanceof Node && event.currentTarget.contains(next)) return
-        setHasFocusWithin(false)
-      }}
       {...props}
     >
       {children ?? (
@@ -2209,42 +2447,108 @@ function EditorBubbleMenu({
           ))}
         </>
       )}
-    </div>,
-    document.body
+    </div>
+  )
+}
+
+/**
+ * Formatting over a text selection, for mouse and trackpad (touch uses the
+ * keyboard bar). It stays whole: inside the editor when it fits, on screen
+ * always, clear of the toolbar, and out of the way when the text scrolls
+ * out of view. By default: Turn into, then the marks and any kit command
+ * with the `bubble` surface. Pass children to choose its controls.
+ */
+function EditorBubbleMenu({
+  onFocus,
+  onBlur,
+  ...props
+}: React.ComponentProps<"div">) {
+  const { store, isFocused, readOnly, isLinkOpen } = useEditorContext()
+  const snapshot = useEditorSnapshot(store)
+  const isFine = useFinePointer()
+  const isSelecting = useIsSelecting()
+  const [hasFocusWithin, setHasFocusWithin] = React.useState(false)
+  const isOpen =
+    isFine &&
+    !readOnly &&
+    !isLinkOpen &&
+    !isSelecting &&
+    ((isFocused && !snapshot.isCollapsed) || hasFocusWithin)
+  if (!isOpen) return null
+  return (
+    <EditorBubbleBar
+      onFocus={(event) => {
+        onFocus?.(event)
+        setHasFocusWithin(true)
+      }}
+      onBlur={(event) => {
+        onBlur?.(event)
+        const next = event.relatedTarget
+        if (next instanceof Node && event.currentTarget.contains(next)) return
+        setHasFocusWithin(false)
+      }}
+      {...props}
+    />
   )
 }
 
 function EditorLinkForm({ className, ...props }: React.ComponentProps<"form">) {
-  const { store, link, closeLink, focusContent } = useEditorContext()
+  const { store, contentRef, closeLink, focusContent } = useEditorContext()
   const snapshot = useEditorSnapshot(store)
   const [href, setHref] = React.useState(snapshot.link?.href ?? "")
-  if (!link) return null
+  const formRef = React.useRef<HTMLFormElement>(null)
+  const { getAnchor, getLimits } = useSelectionAnchor()
+  useEditorFloating(formRef, {
+    // It's being typed in, so it stays when its text scrolls away.
+    getAnchor: () =>
+      getAnchor() ??
+      (contentRef.current ? getVisibleRect(contentRef.current) : null),
+    getLimits,
+    side: "bottom",
+    align: "start",
+    gap: BAR_GAP,
+    onEscape: () => {
+      closeLink()
+      focusContent()
+    },
+  })
+
+  React.useEffect(() => {
+    const form = formRef.current
+    form?.querySelector("input")?.focus({ preventScroll: true })
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && form?.contains(event.target)) return
+      closeLink()
+    }
+    form?.ownerDocument.addEventListener("pointerdown", onPointerDown)
+    return () =>
+      form?.ownerDocument.removeEventListener("pointerdown", onPointerDown)
+  }, [closeLink])
+
   const close = () => {
     closeLink()
     focusContent()
   }
   return (
     <form
+      ref={formRef}
+      popover="manual"
       role="dialog"
       aria-label="Link"
       data-slot="editor-link"
-      className={cn("cn-editor-link fixed z-50 flex items-center", className)}
-      style={{ left: link.anchor.left, top: link.anchor.bottom + 8 }}
+      className={cn(
+        "cn-editor-link fixed inset-auto z-50 m-0 flex items-center",
+        className
+      )}
       onSubmit={(event) => {
         event.preventDefault()
         const value = href.trim()
         store.runCommand("link", value ? { href: value } : undefined)
         close()
       }}
-      onKeyDown={(event) => {
-        if (event.key !== "Escape") return
-        event.preventDefault()
-        close()
-      }}
       {...props}
     >
       <input
-        autoFocus
         type="url"
         inputMode="url"
         value={href}
@@ -2280,9 +2584,9 @@ function EditorLinkForm({ className, ...props }: React.ComponentProps<"form">) {
 
 /** Edits the link at the selection; opens from the toolbar or Mod+K. */
 function EditorLinkPopover(props: React.ComponentProps<"form">) {
-  const { link } = useEditorContext()
-  if (!link) return null
-  return createPortal(<EditorLinkForm {...props} />, document.body)
+  const { isLinkOpen } = useEditorContext()
+  if (!isLinkOpen) return null
+  return <EditorLinkForm {...props} />
 }
 
 function useKeyboardBarLayout(isEnabled: boolean) {
@@ -2324,13 +2628,15 @@ function EditorKeyboardBar({
   const layout = useKeyboardBarLayout(!isFine && isFocused && !readOnly)
   if (!layout.isVisible) return null
   const ids = snapshot.isCollapsed ? KEYBOARD_BAR_CARET : KEYBOARD_BAR_SELECTION
-  return createPortal(
+  return (
     <div
+      ref={openInTopLayer}
+      popover="manual"
       role="toolbar"
       aria-label="Formatting"
       data-slot="editor-keyboard-bar"
       className={cn(
-        "cn-editor-keyboard-bar fixed inset-x-0 z-50 flex items-center",
+        "cn-editor-keyboard-bar fixed inset-x-0 top-auto z-50 m-0 flex w-full items-center",
         className
       )}
       style={{ bottom: layout.bottom }}
@@ -2359,8 +2665,7 @@ function EditorKeyboardBar({
           remixicon="RiKeyboardLine"
         />
       </button>
-    </div>,
-    document.body
+    </div>
   )
 }
 

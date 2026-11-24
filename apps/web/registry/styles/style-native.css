@@ -7299,7 +7299,7 @@
   }
 
   .cn-user-menu-content {
-    @apply min-w-56;
+    @apply min-w-60;
   }
 
   .cn-user-menu-label {
@@ -7313,7 +7313,7 @@
   }
 
   .cn-user-menu-theme-label {
-    @apply gap-(--density-8);
+    @apply gap-(--density-8) pe-(--density-8);
   }
 
   /* Reads as a row that isn't pressed. */

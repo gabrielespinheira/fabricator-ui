@@ -15,43 +15,63 @@ import {
 } from "@/registry/bases/__base__/ui/dropdown-menu"
 import { Spinner } from "@/registry/bases/__base__/ui/spinner"
 import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/registry/bases/__base__/ui/toggle-group"
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/bases/__base__/ui/tabs"
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/registry/bases/__base__/ui/tooltip"
+import { toast } from "@/registry/bases/base/ui/toast"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-// The finance home's controls whose API differs by base: this is Base UI's.
+// The finance overview's controls whose API differs by base: this is Base UI's.
 
-export type FinancePageAction = "statement" | "export" | "settings"
+export type FinancePageAction =
+  | "transfer"
+  | "request"
+  | "statement"
+  | "export"
+  | "settings"
 
-/** The period presets; one is always selected. */
-export function FinancePeriodToggle({
+/** The period presets, what stands beside them, and the cards they change. */
+export function FinancePeriodTabs({
   value,
   onValueChange,
+  toolbar,
+  children,
 }: {
   value: FinancePeriod
   onValueChange: (period: FinancePeriod) => void
+  toolbar: React.ReactNode
+  children: React.ReactNode
 }) {
   return (
-    <ToggleGroup
-      size="sm"
-      aria-label="Period"
-      value={[value]}
-      onValueChange={([next]) => {
+    <Tabs
+      value={value}
+      onValueChange={(next) => {
         if (isFinancePeriod(next)) onValueChange(next)
       }}
+      className="gap-(--density-24)"
     >
-      {FINANCE_PERIODS.map((period) => (
-        <ToggleGroupItem key={period.value} value={period.value}>
-          {period.label}
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroup>
+      <div className="flex flex-wrap items-center gap-(--density-8)">
+        <TabsList aria-label="Period">
+          {FINANCE_PERIODS.map((period) => (
+            <TabsTrigger key={period.value} value={period.value}>
+              {period.label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {toolbar}
+      </div>
+      {/* Its cards hold the tab stops, so the panel isn't one. */}
+      <TabsContent value={value} tabIndex={-1}>
+        {children}
+      </TabsContent>
+    </Tabs>
   )
 }
 
@@ -92,7 +112,7 @@ export function FinanceRefreshButton({
   )
 }
 
-/** The header's page menu: what the page shows, exports, its settings. */
+/** The page menu: other ways to move money, what the page shows, exports. */
 export function FinancePageMenu({
   isComparing,
   onComparingChange,
@@ -104,6 +124,29 @@ export function FinancePageMenu({
 }) {
   return (
     <>
+      <DropdownMenuGroup>
+        <DropdownMenuItem onClick={() => onAction("transfer")}>
+          <IconPlaceholder
+            lucide="ArrowLeftRightIcon"
+            tabler="IconArrowsLeftRight"
+            hugeicons="ArrowDataTransferHorizontalIcon"
+            phosphor="ArrowsLeftRightIcon"
+            remixicon="RiArrowLeftRightLine"
+          />
+          Transfer between accounts
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onAction("request")}>
+          <IconPlaceholder
+            lucide="ReceiptTextIcon"
+            tabler="IconReceipt"
+            hugeicons="Invoice01Icon"
+            phosphor="ReceiptIcon"
+            remixicon="RiBillLine"
+          />
+          Request payment
+        </DropdownMenuItem>
+      </DropdownMenuGroup>
+      <DropdownMenuSeparator />
       <DropdownMenuGroup>
         <DropdownMenuLabel>View</DropdownMenuLabel>
         <DropdownMenuCheckboxItem
@@ -158,4 +201,18 @@ export function FinancePageMenu({
       </DropdownMenuGroup>
     </>
   )
+}
+
+/** Says what just happened, with Undo while it can be taken back. */
+export function notifyFinance(message: string, undo?: () => void) {
+  const id = toast.add({
+    title: message,
+    actionProps: undo && {
+      children: "Undo",
+      onClick: () => {
+        toast.close(id)
+        undo()
+      },
+    },
+  })
 }

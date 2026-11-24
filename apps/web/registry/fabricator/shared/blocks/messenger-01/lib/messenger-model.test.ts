@@ -773,25 +773,34 @@ describe("messengerReducer", () => {
   })
 
   it("deletes a message and puts it back where it was", () => {
-    const sent = messengerReducer(initial, {
-      type: "send",
-      id: "maya",
-      message: text("c", ME, NOW),
-    })
+    const sent = ["b", "c"].reduce(
+      (state, id) =>
+        messengerReducer(state, {
+          type: "send",
+          id: "maya",
+          message: text(id, ME, NOW),
+        }),
+      initial
+    )
     const deleted = messengerReducer(sent, {
       type: "delete",
       id: "maya",
-      messageId: "a",
+      messageId: "b",
     })
-    expect(deleted.conversations[0].messages.map(({ id }) => id)).toEqual(["c"])
+    expect(deleted.conversations[0].messages.map(({ id }) => id)).toEqual([
+      "a",
+      "c",
+    ])
 
     const restored = messengerReducer(deleted, {
       type: "restore",
       id: "maya",
-      message: sent.conversations[0].messages[0],
+      message: sent.conversations[0].messages[1],
+      index: 1,
     })
     expect(restored.conversations[0].messages.map(({ id }) => id)).toEqual([
       "a",
+      "b",
       "c",
     ])
   })

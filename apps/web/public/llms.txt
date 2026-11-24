@@ -176,7 +176,7 @@ Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name
 
 ## Blocks
 
-Whole screens built from the components, installed as a page with its parts: `npx fabricator-ui@latest add <name>`. Browse them with live previews and code at https://fabricator-ui.vercel.app/blocks.
+Whole screens built from the components, installed as a page with its parts: `npx fabricator-ui@latest add <name>`. Browse them at https://fabricator-ui.vercel.app/blocks; each has a live preview and its code at https://fabricator-ui.vercel.app/blocks/<name>.
 
 - `sign-in-01`, `sign-up-01`, `forgot-password-01`: sign in, sign up with a check-your-email screen, and a three-step password reset with a six-digit code.
 - `finance-01`: a business banking dashboard: cash and runway, a balance trend, approvals, accounts, spending and transactions.
@@ -184,6 +184,8 @@ Whole screens built from the components, installed as a page with its parts: `np
 - `messenger-01`: a messaging app with conversations, a transcript with reactions and attachments, and a contact panel.
 - `mail-01`: an email app with folders, labels, a searchable inbox with bulk actions, a thread view with replies and a compose form.
 - `calendar-app-01`: a calendar app on Event Calendar with calendars to show or hide and event details.
+- `settings-01`, `members-01`, `billing-01`: workspace settings that save as they change, a team page with roles, invitations and seats, and a plan and billing page with usage and invoices.
+- `onboarding-01`: a first run of one decision per step, with a preview that changes with each answer.
 - `app-shell-01` to `app-shell-05`: App Shell starters, shown on the [App Shell](https://fabricator-ui.vercel.app/docs/components/base/app-shell.md) page: a workspace app, a workbench, a classic SaaS layout, a desktop window and a mobile-first app.
 
 ## Dark Mode

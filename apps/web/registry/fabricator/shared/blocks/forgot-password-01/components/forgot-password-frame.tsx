@@ -59,7 +59,7 @@ export function ForgotPasswordFrame({
       <main className="mx-auto flex w-full max-w-104 flex-1 flex-col gap-(--density-24) px-(--density-16) pt-(--density-20) pb-(--density-24) sm:pt-[clamp(var(--density-24),14svh,12rem)]">
         {children}
       </main>
-      <footer className="flex items-center justify-between gap-(--density-16) p-(--density-16) text-(length:--density-text-12) text-muted-foreground sm:px-(--density-24)">
+      <footer className="flex items-center justify-between gap-(--density-16) px-(--density-16) py-(--density-8) text-(length:--density-text-12) text-muted-foreground sm:px-(--density-24)">
         <p>© 2026 Acme Inc</p>
         <nav aria-label="Support" className="flex gap-(--density-20)">
           <a href="/help" className={footerLinkClassName}>

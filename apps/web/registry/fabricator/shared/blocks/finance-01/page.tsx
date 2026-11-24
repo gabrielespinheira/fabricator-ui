@@ -199,84 +199,88 @@ export default function FinanceDashboardPage() {
                 {getApprovalsLead(waiting)}
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-(--density-8)">
-              <FinancePeriodTabs value={period} onValueChange={setPeriod} />
-              {/* Wraps under the tabs as one row. */}
-              <div className="flex flex-1 basis-72 items-center gap-(--density-4) text-(length:--density-text-12) text-muted-foreground">
-                {isComparing && <span>{getComparisonLabel(period)}</span>}
-                <span aria-live="polite" className="ms-auto">
-                  {isRefreshing ? "Updating…" : updatedLabel}
-                </span>
-                <FinanceRefreshButton
-                  isRefreshing={isRefreshing}
-                  onRefresh={refresh}
+            <FinancePeriodTabs
+              value={period}
+              onValueChange={setPeriod}
+              toolbar={
+                // Wraps under the tabs as one row.
+                <div className="flex flex-1 basis-72 items-center gap-(--density-4) text-(length:--density-text-12) text-muted-foreground">
+                  {isComparing && <span>{getComparisonLabel(period)}</span>}
+                  <span aria-live="polite" className="ms-auto">
+                    {isRefreshing ? "Updating…" : updatedLabel}
+                  </span>
+                  <FinanceRefreshButton
+                    isRefreshing={isRefreshing}
+                    onRefresh={refresh}
+                  />
+                </div>
+              }
+            >
+              <div className="grid grid-cols-1 gap-(--density-16) @4xl:grid-cols-12">
+                {declined && (
+                  <Alert variant="error" className="@4xl:col-span-12">
+                    <IconPlaceholder
+                      lucide="CircleAlertIcon"
+                      tabler="IconAlertCircle"
+                      hugeicons="AlertCircleIcon"
+                      phosphor="WarningCircleIcon"
+                      remixicon="RiErrorWarningLine"
+                    />
+                    <AlertTitle className="text-balance">
+                      {declined.payee.name} declined{" "}
+                      {formatMoney(-declined.amount, { cents: true })} on card{" "}
+                      {FINANCE_CARD.number}
+                    </AlertTitle>
+                    <AlertAction>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        aria-label={`Retry ${declined.payee.name}`}
+                        onClick={() => retryPayment(declined)}
+                      >
+                        Retry
+                      </Button>
+                    </AlertAction>
+                  </Alert>
+                )}
+                <FinanceCashCard
+                  overview={overview}
+                  balance={BALANCE}
+                  isComparing={isComparing}
+                  isLoading={isRefreshing}
+                  className="@4xl:col-span-8"
+                />
+                <FinanceAccountsCard
+                  accounts={FINANCE_ACCOUNTS}
+                  card={FINANCE_CARD}
+                  cardSpent={getCardSpent(entries, SAMPLE_NOW)}
+                  className="@4xl:col-span-4"
+                />
+                <FinanceKpiRow
+                  metrics={overview.metrics}
+                  isComparing={isComparing}
+                  isLoading={isRefreshing}
+                  className="@4xl:col-span-12"
+                />
+                <FinanceApprovalsCard
+                  approvals={waiting}
+                  now={SAMPLE_NOW}
+                  onApprove={approve}
+                  className="@4xl:col-span-8"
+                />
+                <FinanceSpendingCard
+                  spending={overview.spending}
+                  payroll={overview.payroll}
+                  isLoading={isRefreshing}
+                  className="@4xl:col-span-4"
+                />
+                <FinanceTransactionsCard
+                  transactions={recent}
+                  accountNames={ACCOUNT_NAMES}
+                  className="@4xl:col-span-12"
                 />
               </div>
-            </div>
-            <div className="grid grid-cols-1 gap-(--density-16) @4xl:grid-cols-12">
-              {declined && (
-                <Alert variant="error" className="@4xl:col-span-12">
-                  <IconPlaceholder
-                    lucide="CircleAlertIcon"
-                    tabler="IconAlertCircle"
-                    hugeicons="AlertCircleIcon"
-                    phosphor="WarningCircleIcon"
-                    remixicon="RiErrorWarningLine"
-                  />
-                  <AlertTitle className="text-balance">
-                    {declined.payee.name} declined{" "}
-                    {formatMoney(-declined.amount, { cents: true })} on card{" "}
-                    {FINANCE_CARD.number}
-                  </AlertTitle>
-                  <AlertAction>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      aria-label={`Retry ${declined.payee.name}`}
-                      onClick={() => retryPayment(declined)}
-                    >
-                      Retry
-                    </Button>
-                  </AlertAction>
-                </Alert>
-              )}
-              <FinanceCashCard
-                overview={overview}
-                balance={BALANCE}
-                isComparing={isComparing}
-                isLoading={isRefreshing}
-                className="@4xl:col-span-8"
-              />
-              <FinanceAccountsCard
-                accounts={FINANCE_ACCOUNTS}
-                card={FINANCE_CARD}
-                cardSpent={getCardSpent(entries, SAMPLE_NOW)}
-                className="@4xl:col-span-4"
-              />
-              <FinanceKpiRow
-                metrics={overview.metrics}
-                isComparing={isComparing}
-                isLoading={isRefreshing}
-                className="@4xl:col-span-12"
-              />
-              <FinanceApprovalsCard
-                approvals={waiting}
-                now={SAMPLE_NOW}
-                onApprove={approve}
-                className="@4xl:col-span-8"
-              />
-              <FinanceSpendingCard
-                spending={overview.spending}
-                payroll={overview.payroll}
-                isLoading={isRefreshing}
-                className="@4xl:col-span-4"
-              />
-              <FinanceTransactionsCard
-                transactions={recent}
-                accountNames={ACCOUNT_NAMES}
-                className="@4xl:col-span-12"
-              />
-            </div>
+            </FinancePeriodTabs>
           </div>
         </AppShellContent>
       </AppShellMain>

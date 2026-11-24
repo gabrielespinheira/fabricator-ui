@@ -12798,6 +12798,11 @@ export const Index: Record<string, Record<string, any>> = {
           target: "",
         },
         {
+          path: "styles/base-fabricator/blocks/assistant-01/components/assistant-artifact-table-header.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
           path: "styles/base-fabricator/blocks/assistant-01/components/assistant-chat-dialogs.tsx",
           type: "registry:component",
           target: "",
@@ -15583,6 +15588,11 @@ export const Index: Record<string, Record<string, any>> = {
           target: "",
         },
         {
+          path: "styles/radix-fabricator/blocks/assistant-01/components/assistant-artifact-table-header.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
           path: "styles/radix-fabricator/blocks/assistant-01/components/assistant-chat-dialogs.tsx",
           type: "registry:component",
           target: "",
@@ -18352,6 +18362,11 @@ export const Index: Record<string, Record<string, any>> = {
         },
         {
           path: "styles/aria-fabricator/blocks/assistant-01/components/assistant-artifact-panel.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/assistant-01/components/assistant-artifact-table-header.tsx",
           type: "registry:component",
           target: "",
         },

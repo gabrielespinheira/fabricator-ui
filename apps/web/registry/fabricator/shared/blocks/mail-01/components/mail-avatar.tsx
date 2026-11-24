@@ -16,7 +16,7 @@ import {
   AvatarImage,
 } from "@/registry/bases/__base__/ui/avatar"
 
-// Companies are their logo, people their photo or initials.
+// Companies are their logo, people their photo or coloured initials.
 const BRANDS: Record<string, BrandIconComponent> = {
   booking: BookingComIcon,
   figma: FigmaIcon,
@@ -33,6 +33,15 @@ function getInitials(name: string) {
     .slice(0, 2)
     .map((word) => word[0]?.toUpperCase() ?? "")
     .join("")
+}
+
+/** One hue per person, with text that reads on it in both themes. */
+function getInitialsStyle(id: string) {
+  const hue = [...id].reduce((sum, letter) => sum + letter.charCodeAt(0), 0)
+  return {
+    background: `oklch(0.88 0.06 ${(hue * 47) % 360})`,
+    color: `oklch(0.36 0.09 ${(hue * 47) % 360})`,
+  }
 }
 
 export function MailAvatar({
@@ -61,7 +70,13 @@ export function MailAvatar({
   return (
     <Avatar size={size} className={className}>
       {contact?.avatar && <AvatarImage src={contact.avatar} alt="" />}
-      <AvatarFallback>{getInitials(name)}</AvatarFallback>
+      <AvatarFallback
+        style={
+          contact && !contact.avatar ? getInitialsStyle(contact.id) : undefined
+        }
+      >
+        {getInitials(name)}
+      </AvatarFallback>
     </Avatar>
   )
 }

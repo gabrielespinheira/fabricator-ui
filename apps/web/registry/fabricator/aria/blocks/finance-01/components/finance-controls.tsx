@@ -1,5 +1,7 @@
 "use client"
 
+import { toast } from "sonner"
+
 import {
   FINANCE_PERIODS,
   isFinancePeriod,
@@ -14,45 +16,58 @@ import {
 } from "@/registry/bases/aria/ui/dropdown-menu"
 import { Spinner } from "@/registry/bases/aria/ui/spinner"
 import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/registry/bases/aria/ui/toggle-group"
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/bases/aria/ui/tabs"
 import { Tooltip, TooltipTrigger } from "@/registry/bases/aria/ui/tooltip"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-// The finance home's controls whose API differs by base: this is React
+// The finance overview's controls whose API differs by base: this is React
 // Aria's.
 
-export type FinancePageAction = "statement" | "export" | "settings"
+export type FinancePageAction =
+  | "transfer"
+  | "request"
+  | "statement"
+  | "export"
+  | "settings"
 
 const COMPARE = "compare"
 
-/** The period presets; one is always selected. */
-export function FinancePeriodToggle({
+/** The period presets, what stands beside them, and the cards they change. */
+export function FinancePeriodTabs({
   value,
   onValueChange,
+  toolbar,
+  children,
 }: {
   value: FinancePeriod
   onValueChange: (period: FinancePeriod) => void
+  toolbar: React.ReactNode
+  children: React.ReactNode
 }) {
   return (
-    <ToggleGroup
-      size="sm"
-      aria-label="Period"
-      selectionMode="single"
-      disallowEmptySelection
-      selectedKeys={[value]}
-      onSelectionChange={(keys) => {
-        const [next] = keys
+    <Tabs
+      selectedKey={value}
+      onSelectionChange={(next) => {
         if (isFinancePeriod(next)) onValueChange(next)
       }}
+      className="gap-(--density-24)"
     >
-      {FINANCE_PERIODS.map((period) => (
-        <ToggleGroupItem key={period.value} id={period.value}>
-          {period.label}
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroup>
+      <div className="flex flex-wrap items-center gap-(--density-8)">
+        <TabsList aria-label="Period">
+          {FINANCE_PERIODS.map((period) => (
+            <TabsTrigger key={period.value} id={period.value}>
+              {period.label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {toolbar}
+      </div>
+      <TabsContent id={value}>{children}</TabsContent>
+    </Tabs>
   )
 }
 
@@ -89,7 +104,7 @@ export function FinanceRefreshButton({
   )
 }
 
-/** The header's page menu: what the page shows, exports, its settings. */
+/** The page menu: other ways to move money, what the page shows, exports. */
 export function FinancePageMenu({
   isComparing,
   onComparingChange,
@@ -101,6 +116,29 @@ export function FinancePageMenu({
 }) {
   return (
     <>
+      <DropdownMenuGroup>
+        <DropdownMenuItem onAction={() => onAction("transfer")}>
+          <IconPlaceholder
+            lucide="ArrowLeftRightIcon"
+            tabler="IconArrowsLeftRight"
+            hugeicons="ArrowDataTransferHorizontalIcon"
+            phosphor="ArrowsLeftRightIcon"
+            remixicon="RiArrowLeftRightLine"
+          />
+          Transfer between accounts
+        </DropdownMenuItem>
+        <DropdownMenuItem onAction={() => onAction("request")}>
+          <IconPlaceholder
+            lucide="ReceiptTextIcon"
+            tabler="IconReceipt"
+            hugeicons="Invoice01Icon"
+            phosphor="ReceiptIcon"
+            remixicon="RiBillLine"
+          />
+          Request payment
+        </DropdownMenuItem>
+      </DropdownMenuGroup>
+      <DropdownMenuSeparator />
       <DropdownMenuGroup
         selectionMode="multiple"
         selectedKeys={isComparing ? [COMPARE] : []}
@@ -158,4 +196,9 @@ export function FinancePageMenu({
       </DropdownMenuGroup>
     </>
   )
+}
+
+/** Says what just happened, with Undo while it can be taken back. */
+export function notifyFinance(message: string, undo?: () => void) {
+  toast(message, undo ? { action: { label: "Undo", onClick: undo } } : {})
 }

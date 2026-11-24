@@ -24,20 +24,17 @@ import {
 } from "@/registry/bases/__base__/ui/card"
 
 function PlanStatus({ account }: { account: BillingAccount }) {
-  if (account.status === "past-due") {
-    return <Badge variant="destructive">Payment failed</Badge>
-  }
   if (account.status === "trial") {
     const { daysLeft } = getProration(account, SAMPLE_NOW)
     return (
-      <Badge variant="info">
+      <Badge variant="info" className="-my-1">
         Trial, {formatQuantity(daysLeft, "day", "days")} left
       </Badge>
     )
   }
   if (account.status === "canceled") {
     return (
-      <Badge variant="warning">
+      <Badge variant="warning" className="-my-1">
         Ends {formatDay(account.periodEnd, SAMPLE_NOW)}
       </Badge>
     )
@@ -75,10 +72,7 @@ export function BillingPlanCard({
     },
     {
       label: "Billed",
-      value:
-        interval === "month"
-          ? "Monthly, on the 1st"
-          : `Yearly, on ${formatDay(account.periodEnd, SAMPLE_NOW)}`,
+      value: `${interval === "month" ? "Monthly" : "Yearly"}, next on ${formatDay(account.periodEnd, SAMPLE_NOW)}`,
     },
     {
       label: "Includes",

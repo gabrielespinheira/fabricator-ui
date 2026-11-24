@@ -314,6 +314,21 @@ describe("getWaterfall", () => {
     expect(Math.max(...steps.map(({ end }) => end))).toBeLessThanOrEqual(100)
   })
 
+  it("keeps a line that a change takes away, at nothing", () => {
+    const before = getNextInvoice(account, NOW)
+    const after = getNextInvoice({ ...account, extraRuns: "pause" }, NOW)
+    const steps = getWaterfall(after, before)
+    expect(steps.map(({ id }) => id)).toEqual([
+      "seats",
+      "runs",
+      "credit",
+      "tax",
+      "total",
+    ])
+    expect(steps[1]).toMatchObject({ amount: 0, detail: "None" })
+    expect(steps[1].start).toBeCloseTo(steps[1].end)
+  })
+
   it("has no bars for an invoice of nothing", () => {
     const steps = getWaterfall(getInvoice({ lines: [], details }))
     expect(steps.every(({ start, end }) => start === 0 && end === 0)).toBe(true)

@@ -90,7 +90,9 @@ export function BillingNextInvoiceCard({
       <CardHeader>
         <CardTitle>Next invoice</CardTitle>
         <CardDescription>
-          {isEnding ? "None" : `${date}, estimated from the last 7 days`}
+          {isEnding
+            ? `None after ${date}`
+            : `${date}, estimated from the last 7 days`}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 flex-col gap-(--density-16)">
@@ -99,7 +101,7 @@ export function BillingNextInvoiceCard({
             role="status"
             aria-busy
             aria-label="Loading the next invoice"
-            className="min-h-72 flex-1"
+            className="min-h-112 flex-1"
           />
         )}
         {!isLoading && isEnding && (

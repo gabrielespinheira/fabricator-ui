@@ -1,10 +1,12 @@
 "use client"
 
-import { MessengerAvatar } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-avatar"
+import { MessengerConversationAvatar } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-avatar"
 import {
-  MessengerConversationMenu,
   MessengerIconButton,
+  MessengerMenuItems,
+  type MessengerMenuEntry,
 } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-controls"
+import { WarningIcon } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-icons"
 import {
   formatPresence,
   type Conversation,
@@ -18,21 +20,193 @@ import {
 } from "@/registry/bases/__base__/ui/app-shell"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-function getSubtitle(
+/** What the conversation's menu does. */
+export type ConversationHandlers = {
+  onCall: (kind: "voice" | "video") => void
+  onShowDetails: () => void
+  onTogglePin: () => void
+  onToggleMute: () => void
+  onBlock: () => void
+  onUnblock: () => void
+  onReport: () => void
+}
+
+const blockIcon = (
+  <IconPlaceholder
+    lucide="BanIcon"
+    tabler="IconBan"
+    hugeicons="UnavailableIcon"
+    phosphor="ProhibitIcon"
+    remixicon="RiForbidLine"
+  />
+)
+
+function getMenu(
   conversation: Conversation,
-  people: Person[],
-  now: number,
+  handlers: ConversationHandlers
+): MessengerMenuEntry[][] {
+  const { isPinned, isMuted, isBlocked, kind } = conversation
+  const options: MessengerMenuEntry[] = [
+    {
+      id: "details",
+      label: "Details",
+      icon: (
+        <IconPlaceholder
+          lucide="InfoIcon"
+          tabler="IconInfoCircle"
+          hugeicons="InformationCircleIcon"
+          phosphor="InfoIcon"
+          remixicon="RiInformationLine"
+        />
+      ),
+      onSelect: handlers.onShowDetails,
+    },
+    {
+      id: "pin",
+      label: isPinned ? "Unpin" : "Pin to top",
+      icon: isPinned ? (
+        <IconPlaceholder
+          lucide="PinOffIcon"
+          tabler="IconPinnedOff"
+          hugeicons="PinOffIcon"
+          phosphor="PushPinSlashIcon"
+          remixicon="RiUnpinLine"
+        />
+      ) : (
+        <IconPlaceholder
+          lucide="PinIcon"
+          tabler="IconPin"
+          hugeicons="PinIcon"
+          phosphor="PushPinIcon"
+          remixicon="RiPushpinLine"
+        />
+      ),
+      onSelect: handlers.onTogglePin,
+    },
+    {
+      id: "mute",
+      label: isMuted ? "Unmute" : "Mute",
+      icon: isMuted ? (
+        <IconPlaceholder
+          lucide="BellIcon"
+          tabler="IconBell"
+          hugeicons="Notification01Icon"
+          phosphor="BellIcon"
+          remixicon="RiNotification3Line"
+        />
+      ) : (
+        <IconPlaceholder
+          lucide="BellOffIcon"
+          tabler="IconBellOff"
+          hugeicons="NotificationOff01Icon"
+          phosphor="BellSlashIcon"
+          remixicon="RiNotificationOffLine"
+        />
+      ),
+      onSelect: handlers.onToggleMute,
+    },
+  ]
+  if (kind === "group") return [options]
+  return [
+    options,
+    [
+      isBlocked
+        ? {
+            id: "unblock",
+            label: "Unblock",
+            icon: blockIcon,
+            onSelect: handlers.onUnblock,
+          }
+        : {
+            id: "block",
+            label: "Block…",
+            icon: blockIcon,
+            isDestructive: true,
+            onSelect: handlers.onBlock,
+          },
+      {
+        id: "report",
+        label: "Report…",
+        icon: <WarningIcon />,
+        isDestructive: true,
+        onSelect: handlers.onReport,
+      },
+    ],
+  ]
+}
+
+function getCalls(handlers: ConversationHandlers) {
+  return [
+    {
+      id: "voice-call",
+      label: "Voice call",
+      icon: (
+        <IconPlaceholder
+          lucide="PhoneIcon"
+          tabler="IconPhone"
+          hugeicons="Call02Icon"
+          phosphor="PhoneIcon"
+          remixicon="RiPhoneLine"
+        />
+      ),
+      onSelect: () => handlers.onCall("voice"),
+    },
+    {
+      id: "video-call",
+      label: "Video call",
+      icon: (
+        <IconPlaceholder
+          lucide="VideoIcon"
+          tabler="IconVideo"
+          hugeicons="Video01Icon"
+          phosphor="VideoCameraIcon"
+          remixicon="RiVidiconLine"
+        />
+      ),
+      onSelect: () => handlers.onCall("video"),
+    },
+  ]
+}
+
+function Subtitle({
+  conversation,
+  members,
+  now,
+  timeFormat,
+}: {
+  conversation: Conversation
+  members: Person[]
+  now: number
   timeFormat: TimeFormat
-) {
-  const members = conversation.memberIds.flatMap(
-    (id) => people.find((person) => person.id === id) ?? []
-  )
-  if (conversation.kind === "group") {
-    const names = members.map((person) => person.name.split(" ")[0])
-    return `${names.join(", ")} and you`
+}) {
+  if (conversation.kind === "direct") {
+    const [contact] = members
+    if (!contact) return null
+    return (
+      <>
+        {contact.presence.kind === "online" && (
+          <span
+            aria-hidden
+            className="size-(--density-6) shrink-0 rounded-full bg-success"
+          />
+        )}
+        <span className="truncate">
+          {formatPresence(contact.presence, now, timeFormat)}
+        </span>
+      </>
+    )
   }
-  const [contact] = members
-  return contact ? formatPresence(contact.presence, now, timeFormat) : ""
+  const names = members.map((person) => person.name.split(" ")[0]).join(", ")
+  return (
+    <>
+      <span className="truncate @max-[48rem]/app-shell:hidden">
+        {names} and you
+      </span>
+      <span className="@min-[48rem]/app-shell:hidden">
+        {members.length + 1} people
+      </span>
+    </>
+  )
 }
 
 /**
@@ -42,38 +216,26 @@ function getSubtitle(
  */
 export function MessengerConversationHeader({
   conversation,
-  people,
+  members,
   now,
   timeFormat,
   canShowList,
   onShowList,
-  onCall,
-  onShowDetails,
-  onToggleMute,
-  onBlock,
+  handlers,
 }: {
   conversation: Conversation
-  people: Person[]
+  members: Person[]
   now: number
   timeFormat: TimeFormat
   canShowList: boolean
   onShowList: () => void
-  onCall: (kind: "voice" | "video") => void
-  onShowDetails: () => void
-  onToggleMute: () => void
-  onBlock: () => void
+  handlers: ConversationHandlers
 }) {
-  const contact =
-    conversation.kind === "direct"
-      ? people.find((person) => person.id === conversation.memberIds[0])
-      : undefined
-  const isOnline = contact?.presence.kind === "online"
-
   return (
-    <AppShellHeader trigger="never" className="gap-(--density-8)">
+    <AppShellHeader trigger="never">
       {canShowList && (
         <MessengerIconButton
-          label="Conversations"
+          label="Back to conversations"
           onClick={onShowList}
           className="-ms-(--density-4)"
         >
@@ -87,68 +249,28 @@ export function MessengerConversationHeader({
         </MessengerIconButton>
       )}
       <div className="flex min-w-0 flex-1 items-center gap-(--density-10)">
-        <MessengerAvatar
-          name={conversation.title}
-          src={conversation.avatar ?? contact?.avatar}
+        <MessengerConversationAvatar
+          conversation={conversation}
+          members={members}
         />
         <div className="flex min-w-0 flex-col">
-          <h1 className="truncate text-(length:--density-text-13) font-semibold">
+          <h1 className="truncate text-(length:--density-text-13) weight-semibold">
             {conversation.title}
           </h1>
           <p className="flex min-w-0 items-center gap-(--density-6) text-(length:--density-text-12) text-muted-foreground">
-            {isOnline && (
-              <span
-                aria-hidden
-                className="size-1.5 shrink-0 rounded-full bg-success"
-              />
-            )}
-            <span className="truncate">
-              {getSubtitle(conversation, people, now, timeFormat)}
-            </span>
+            <Subtitle
+              conversation={conversation}
+              members={members}
+              now={now}
+              timeFormat={timeFormat}
+            />
           </p>
         </div>
       </div>
       <AppShellHeaderActions
-        actions={[
-          {
-            id: "voice-call",
-            label: "Voice call",
-            icon: (
-              <IconPlaceholder
-                lucide="PhoneIcon"
-                tabler="IconPhone"
-                hugeicons="Call02Icon"
-                phosphor="PhoneIcon"
-                remixicon="RiPhoneLine"
-              />
-            ),
-            onSelect: () => onCall("voice"),
-          },
-          {
-            id: "video-call",
-            label: "Video call",
-            icon: (
-              <IconPlaceholder
-                lucide="VideoIcon"
-                tabler="IconVideo"
-                hugeicons="Video01Icon"
-                phosphor="VideoCameraIcon"
-                remixicon="RiVidiconLine"
-              />
-            ),
-            onSelect: () => onCall("video"),
-          },
-        ]}
+        actions={conversation.isBlocked ? [] : getCalls(handlers)}
         menuLabel="Conversation options"
-        menu={
-          <MessengerConversationMenu
-            isMuted={conversation.isMuted}
-            canBlock={conversation.kind === "direct" && !conversation.isBlocked}
-            onShowDetails={onShowDetails}
-            onToggleMute={onToggleMute}
-            onBlock={onBlock}
-          />
-        }
+        menu={<MessengerMenuItems groups={getMenu(conversation, handlers)} />}
       />
       <AppShellPanelTrigger panel="details" />
     </AppShellHeader>

@@ -192,11 +192,13 @@ function Messenger() {
         case "retry":
           dispatch({ type: "retry", id, messageId: message.id, at: clock() })
           return transmit(id, [message.id])
-        case "delete":
+        case "delete": {
+          const index = conversation.messages.indexOf(message)
           dispatch({ type: "delete", id, messageId: message.id })
           return notifyMessenger("Message deleted", () =>
-            dispatch({ type: "restore", id, message })
+            dispatch({ type: "restore", id, message, index })
           )
+        }
       }
     },
     onReact: (message, emoji) =>

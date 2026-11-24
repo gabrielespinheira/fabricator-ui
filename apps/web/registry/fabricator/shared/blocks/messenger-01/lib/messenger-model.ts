@@ -473,7 +473,7 @@ export type MessengerAction =
   | { type: "fail"; id: string; messageId: string }
   | { type: "retry"; id: string; messageId: string; at: number }
   | { type: "delete"; id: string; messageId: string }
-  | { type: "restore"; id: string; message: ChatMessage }
+  | { type: "restore"; id: string; message: ChatMessage; index: number }
   | { type: "react"; id: string; messageId: string; emoji: string }
   | { type: "typing"; id: string; personId: string | undefined }
   | {
@@ -679,8 +679,10 @@ export function messengerReducer(
         ...state,
         conversations: updateConversation(state, action.id, (conversation) => ({
           ...conversation,
-          messages: [...conversation.messages, action.message].toSorted(
-            (a, b) => a.sentAt - b.sentAt
+          messages: conversation.messages.toSpliced(
+            action.index,
+            0,
+            action.message
           ),
         })),
       }

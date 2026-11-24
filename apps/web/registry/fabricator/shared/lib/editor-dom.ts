@@ -197,6 +197,38 @@ function setDomSelection(
 }
 
 /**
+ * The box of the text between two flat offsets: the lines' own rects, so a
+ * selection ending at the start of the next line doesn't reach into it. A
+ * caret on an empty line takes its block's line.
+ */
+function getDomTextRect(
+  root: Element,
+  document: EditorDocument,
+  from: number,
+  to: number
+) {
+  const start = getDomPointFromFlat(root, document, from)
+  const end = getDomPointFromFlat(root, document, to)
+  if (!start || !end) return null
+  const range = root.ownerDocument.createRange()
+  range.setStart(start.node, start.offset)
+  range.setEnd(end.node, end.offset)
+  const rects = Array.from(range.getClientRects())
+  const filled = rects.filter((rect) => rect.width > 0)
+  const boxes = filled.length > 0 ? filled : rects
+  if (boxes.length === 0) {
+    const element = isElement(start.node) ? start.node : null
+    return element?.getBoundingClientRect() ?? null
+  }
+  return {
+    left: Math.min(...boxes.map((box) => box.left)),
+    top: Math.min(...boxes.map((box) => box.top)),
+    right: Math.max(...boxes.map((box) => box.right)),
+    bottom: Math.max(...boxes.map((box) => box.bottom)),
+  }
+}
+
+/**
  * The surface's text as the browser left it, in flat-text form, for input
  * the browser applied itself (compositions, Android's Backspace). Blocks the
  * browser removed are left out, which is how a merge shows up.
@@ -223,6 +255,7 @@ function readDomFlatText(root: Element, document: EditorDocument) {
 export {
   getDomPointFromFlat,
   getDomSelection,
+  getDomTextRect,
   getFlatOffsetFromDom,
   readDomFlatText,
   setDomSelection,

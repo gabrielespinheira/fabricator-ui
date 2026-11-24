@@ -3074,8 +3074,9 @@
     @apply text-foreground shrink-0 px-(--density-10) font-semibold;
   }
 
+  /* Important, over the padding of Markdown's cell it's drawn as. */
   .cn-editor-table-cell {
-    @apply p-0 focus-within:ring-ring focus-within:ring-1 focus-within:ring-inset;
+    @apply p-0! focus-within:ring-ring focus-within:ring-1 focus-within:ring-inset;
   }
 
   .cn-editor-table-input {
@@ -6893,7 +6894,7 @@
   }
 
   .cn-user-menu-content {
-    @apply min-w-56;
+    @apply min-w-60;
   }
 
   .cn-user-menu-label {
@@ -6912,7 +6913,7 @@
   /* Reads as a row that isn't pressed: its icon and text keep the rows' resting
      colour and edge. */
   .cn-user-menu-theme-label {
-    @apply gap-(--density-8) text-(length:--density-text-13) text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+    @apply gap-(--density-8) pe-(--density-8) text-(length:--density-text-13) text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
   }
 
   /* A tab: the whole cell takes the press. Muted at rest; lit and picked turn

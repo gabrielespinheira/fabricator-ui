@@ -277,6 +277,22 @@
       ]
     },
     {
+      "name": "billing-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
       "name": "bot-face",
       "files": [
         "ui/chat.swift",
@@ -1489,6 +1505,22 @@
       ]
     },
     {
+      "name": "members-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
       "name": "menubar",
       "files": [
         "ui/overlays.swift"
@@ -1579,6 +1611,22 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/button"
+      ]
+    },
+    {
+      "name": "onboarding-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
       ]
     },
     {
@@ -1775,6 +1823,22 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "settings-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
       ]
     },
     {

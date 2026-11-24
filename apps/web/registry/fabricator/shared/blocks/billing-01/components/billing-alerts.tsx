@@ -84,7 +84,7 @@ export function BillingAlert({
           {name} stays on until December 3. We try again on Thursday.
         </AlertDescription>
         <AlertAction>
-          <Button variant="outline" size="sm" onClick={onUpdateCard}>
+          <Button size="sm" onClick={onUpdateCard}>
             Update card
           </Button>
         </AlertAction>
@@ -111,7 +111,7 @@ export function BillingAlert({
           lose their seat.
         </AlertDescription>
         <AlertAction>
-          <Button variant="outline" size="sm" onClick={onUpdateCard}>
+          <Button size="sm" onClick={onUpdateCard}>
             Add card
           </Button>
         </AlertAction>

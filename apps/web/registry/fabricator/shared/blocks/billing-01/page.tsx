@@ -193,7 +193,9 @@ function BillingScreen({
             <p className="text-[15px] text-pretty text-muted-foreground tabular-nums">
               {isPicking
                 ? "Nothing changes until you confirm."
-                : getBillingLead(account, SAMPLE_NOW)}
+                : isLoading
+                  ? `${plan.name} plan.`
+                  : getBillingLead(account, SAMPLE_NOW)}
             </p>
           </div>
           {isPicking ? (
@@ -231,7 +233,6 @@ function BillingScreen({
                 card={card}
                 canManage={canManage}
                 isDeclined={failed !== undefined}
-                isPrimary={!isTrying && (isMissingCard || failed !== undefined)}
                 onUpdateCard={() => setUpdatingCard(true)}
                 className="@4xl:col-span-4"
               />

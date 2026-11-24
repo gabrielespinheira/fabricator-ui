@@ -59,14 +59,12 @@ export function BillingPaymentCard({
   card,
   canManage,
   isDeclined,
-  isPrimary,
   onUpdateCard,
   className,
 }: {
   card: BillingCard | null
   canManage: boolean
   isDeclined: boolean
-  isPrimary: boolean
   onUpdateCard: () => void
   className?: string
 }) {
@@ -100,10 +98,7 @@ export function BillingPaymentCard({
       </CardContent>
       {canManage && (
         <CardFooter className="mt-auto">
-          <Button
-            variant={isPrimary ? "default" : "outline"}
-            onClick={onUpdateCard}
-          >
+          <Button variant="outline" onClick={onUpdateCard}>
             {card ? "Update card" : "Add card"}
           </Button>
         </CardFooter>

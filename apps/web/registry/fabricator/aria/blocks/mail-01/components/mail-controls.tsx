@@ -7,8 +7,22 @@ import {
   type MailContact,
   type MailFilter,
 } from "@/registry/bases/__base__/blocks/mail-01/lib/mail-model"
+import { useIsMobile } from "@/registry/bases/__base__/hooks/use-mobile"
 import { Button } from "@/registry/bases/aria/ui/button"
 import { Checkbox } from "@/registry/bases/aria/ui/checkbox"
+import {
+  Dialog,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/registry/bases/aria/ui/dialog"
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/registry/bases/aria/ui/drawer"
 import {
   DropdownMenu,
   DropdownMenuGroup,
@@ -18,6 +32,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/registry/bases/aria/ui/dropdown-menu"
+import { Kbd } from "@/registry/bases/aria/ui/kbd"
 import {
   MultiSelect,
   MultiSelectContent,
@@ -28,31 +43,20 @@ import {
   MultiSelectTrigger,
   MultiSelectValue,
 } from "@/registry/bases/aria/ui/multi-select"
-import {
-  Sheet,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/registry/bases/aria/ui/sheet"
-import { Toggle } from "@/registry/bases/aria/ui/toggle"
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/registry/bases/aria/ui/toggle-group"
+import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/aria/ui/tabs"
 import { Tooltip, TooltipTrigger } from "@/registry/bases/aria/ui/tooltip"
 
 // The mail block's controls whose API differs between Base UI, Radix and
-// React Aria: tooltips, checkboxes, toggles, menus with their triggers, the
-// compose sheet, the recipient picker and toasts. This is React Aria's; the
+// React Aria: tooltips, checkboxes, tabs, menus with their triggers, the
+// compose overlay, the recipient picker and toasts. This is React Aria's; the
 // rest of the block is shared.
 
 export type MailMenuEntry = {
   id: string
   label: string
-  icon?: React.ReactNode
-  /** Text at the end of the row, such as when a snooze ends. */
+  icon: React.ReactNode
+  /** Text at the end of the row: a shortcut, or when a snooze ends. */
   detail?: string
-  destructive?: boolean
   onSelect: () => void
 }
 
@@ -63,36 +67,50 @@ export type MailMenuGroup = {
   entries: MailMenuEntry[]
 }
 
-/**
- * An icon button named by a tooltip. `isFocusable={false}` keeps a pointer
- * shortcut out of the tab order when the same action is reachable elsewhere.
- */
-export function MailIconButton({
-  label,
-  onClick,
-  isFocusable = true,
-  className,
-  children,
-}: {
+type IconButtonProps = {
   label: string
+  /** Shown in the tooltip after the label. */
+  shortcut?: string
   onClick: () => void
+  /** For a control that is on or off, such as a star. */
+  isPressed?: boolean
+  isDisabled?: boolean
+  /** false keeps a pointer shortcut out of the tab order. */
   isFocusable?: boolean
   className?: string
   children: React.ReactNode
-}) {
+}
+
+/** An icon button named by a tooltip, with its shortcut. */
+export function MailIconButton({
+  label,
+  shortcut,
+  onClick,
+  isPressed,
+  isDisabled = false,
+  isFocusable = true,
+  className,
+  children,
+}: IconButtonProps) {
+  const isMobile = useIsMobile()
   return (
-    <TooltipTrigger>
+    <TooltipTrigger delay={600}>
       <Button
         variant="ghost"
-        size="icon-sm"
+        size={isMobile ? "icon" : "icon-sm"}
         aria-label={label}
+        aria-pressed={isPressed}
+        isDisabled={isDisabled}
         excludeFromTabOrder={!isFocusable}
         onPress={onClick}
         className={className}
       >
         {children}
       </Button>
-      <Tooltip>{label}</Tooltip>
+      <Tooltip>
+        {label}
+        {shortcut && <Kbd>{shortcut}</Kbd>}
+      </Tooltip>
     </TooltipTrigger>
   )
 }
@@ -102,12 +120,14 @@ export function MailCheckbox({
   indeterminate = false,
   onCheckedChange,
   label,
+  isFocusable = true,
   className,
 }: {
   checked: boolean
   indeterminate?: boolean
   onCheckedChange: (checked: boolean) => void
   label: string
+  isFocusable?: boolean
   className?: string
 }) {
   return (
@@ -115,35 +135,10 @@ export function MailCheckbox({
       isSelected={checked}
       isIndeterminate={indeterminate}
       onChange={onCheckedChange}
+      excludeFromTabOrder={!isFocusable}
       aria-label={label}
       className={className}
     />
-  )
-}
-
-export function MailStarToggle({
-  pressed,
-  onPressedChange,
-  label,
-  className,
-  children,
-}: {
-  pressed: boolean
-  onPressedChange: (pressed: boolean) => void
-  label: string
-  className?: string
-  children: React.ReactNode
-}) {
-  return (
-    <Toggle
-      size="sm"
-      isSelected={pressed}
-      onChange={onPressedChange}
-      aria-label={label}
-      className={className}
-    >
-      {children}
-    </Toggle>
   )
 }
 
@@ -157,36 +152,36 @@ function isMailFilter(value: unknown): value is MailFilter {
   return FILTERS.some((filter) => filter.value === value)
 }
 
-export function MailFilterToggle({
+/** What the list shows: one of three, so tabs. */
+export function MailFilterTabs({
   value,
   onValueChange,
+  className,
 }: {
   value: MailFilter
   onValueChange: (filter: MailFilter) => void
+  className?: string
 }) {
   return (
-    <ToggleGroup
-      size="sm"
-      aria-label="Show"
-      selectionMode="single"
-      disallowEmptySelection
-      selectedKeys={[value]}
-      onSelectionChange={(keys) => {
-        const [selected] = keys
-        if (isMailFilter(selected)) onValueChange(selected)
+    <Tabs
+      selectedKey={value}
+      onSelectionChange={(next) => {
+        if (isMailFilter(next)) onValueChange(next)
       }}
+      className={className}
     >
-      {FILTERS.map((filter) => (
-        <ToggleGroupItem key={filter.value} id={filter.value}>
-          {filter.label}
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroup>
+      <TabsList aria-label="Show">
+        {FILTERS.map((filter) => (
+          <TabsTrigger key={filter.value} id={filter.value}>
+            {filter.label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
   )
 }
 
-/** Menu rows, for a menu button or the App Shell header's page menu. */
-export function MailMenuItems({ groups }: { groups: MailMenuGroup[] }) {
+function MailMenuItems({ groups }: { groups: MailMenuGroup[] }) {
   return groups.map((group, index) => (
     <React.Fragment key={group.id}>
       {index > 0 && <DropdownMenuSeparator />}
@@ -197,7 +192,6 @@ export function MailMenuItems({ groups }: { groups: MailMenuGroup[] }) {
             key={entry.id}
             id={entry.id}
             textValue={entry.label}
-            variant={entry.destructive ? "destructive" : undefined}
             onAction={entry.onSelect}
           >
             {entry.icon}
@@ -217,25 +211,32 @@ export function MailMenuButton({
   label,
   icon,
   groups,
+  align = "end",
 }: {
   label: string
   icon: React.ReactNode
   groups: MailMenuGroup[]
+  align?: "start" | "end"
 }) {
+  const isMobile = useIsMobile()
   return (
     <DropdownMenuTrigger>
-      <Button variant="ghost" size="icon-sm" aria-label={label}>
+      <Button
+        variant="ghost"
+        size={isMobile ? "icon" : "icon-sm"}
+        aria-label={label}
+      >
         {icon}
       </Button>
-      <DropdownMenu placement="bottom end" className="min-w-56">
+      <DropdownMenu placement={`bottom ${align}`} className="min-w-60">
         <MailMenuItems groups={groups} />
       </DropdownMenu>
     </DropdownMenuTrigger>
   )
 }
 
-/** The compose form's surface: a sheet from the end edge. */
-export function MailComposeSheet({
+/** Where a message is written: a dialog, or a drawer on phones. */
+export function MailComposeOverlay({
   open,
   onOpenChange,
   title,
@@ -248,19 +249,28 @@ export function MailComposeSheet({
   description: string
   children: React.ReactNode
 }) {
+  const isMobile = useIsMobile()
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={onOpenChange} showSwipeHandle>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>{title}</DrawerTitle>
+            <DrawerDescription>{description}</DrawerDescription>
+          </DrawerHeader>
+          {children}
+        </DrawerContent>
+      </Drawer>
+    )
+  }
   return (
-    <Sheet
-      isOpen={open}
-      onOpenChange={onOpenChange}
-      side="right"
-      className="gap-0 data-[side=right]:w-full data-[side=right]:sm:max-w-xl"
-    >
-      <SheetHeader>
-        <SheetTitle>{title}</SheetTitle>
-        <SheetDescription>{description}</SheetDescription>
-      </SheetHeader>
+    <Dialog isOpen={open} onOpenChange={onOpenChange} className="sm:max-w-140">
+      <DialogHeader>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogDescription>{description}</DialogDescription>
+      </DialogHeader>
       {children}
-    </Sheet>
+    </Dialog>
   )
 }
 
@@ -316,7 +326,13 @@ export function MailRecipientPicker({
   )
 }
 
-/** A short report of what just happened, with Undo when it can be undone. */
-export function notifyMail(message: string, undo?: () => void) {
-  toast(message, undo ? { action: { label: "Undo", onClick: undo } } : {})
+/** A short report of what just happened, with a way back. */
+export function notifyMail(
+  message: string,
+  action?: { label: string; onSelect: () => void }
+) {
+  toast(
+    message,
+    action && { action: { label: action.label, onClick: action.onSelect } }
+  )
 }

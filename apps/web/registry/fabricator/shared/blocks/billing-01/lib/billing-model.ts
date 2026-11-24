@@ -538,14 +538,24 @@ export type BillingWaterfallStep = {
   isTotal: boolean
 }
 
+/** The lines, with the ones a change took away kept in place at nothing. */
+function keepRemovedLines(lines: BillingLine[], before: BillingLine[]) {
+  return before.reduce<BillingLine[]>((kept, line, index) => {
+    if (kept.some(({ id }) => id === line.id)) return kept
+    const previous = before[index - 1]?.id
+    const at = kept.findIndex(({ id }) => id === previous) + 1
+    const gone = { ...line, detail: "None", amount: 0 }
+    return [...kept.slice(0, at), gone, ...kept.slice(at)]
+  }, lines)
+}
+
 /** Each line as a bar that starts where the one above it ended. */
-export function getWaterfall({
-  lines,
-  tax,
-  total,
-}: BillingInvoiceSum): BillingWaterfallStep[] {
+export function getWaterfall(
+  { lines, tax, total }: BillingInvoiceSum,
+  before?: BillingInvoiceSum
+): BillingWaterfallStep[] {
   const rows = [
-    ...lines,
+    ...keepRemovedLines(lines, before?.lines ?? []),
     { id: "tax", label: "VAT", detail: tax.detail, amount: tax.amount },
   ]
   let running = 0

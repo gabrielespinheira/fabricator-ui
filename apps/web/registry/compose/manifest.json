@@ -416,6 +416,27 @@
       "dependencies": ["@fabricator/foundations", "@fabricator/button"]
     },
     {
+      "name": "billing-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
       "name": "bot-face",
       "files": [
         {
@@ -1214,6 +1235,27 @@
       ]
     },
     {
+      "name": "members-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
       "name": "menubar",
       "files": [
         {
@@ -1328,6 +1370,27 @@
         "@fabricator/button",
         "@fabricator/dialog",
         "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "onboarding-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
       ]
     },
     {
@@ -1540,6 +1603,27 @@
         }
       ],
       "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "settings-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
     },
     {
       "name": "sheet",

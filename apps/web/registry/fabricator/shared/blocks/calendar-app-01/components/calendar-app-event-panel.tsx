@@ -1,18 +1,27 @@
 "use client"
 
 import * as React from "react"
+import { cn } from "cn"
 
-import { CalendarAppRsvp } from "@/registry/bases/__base__/blocks/calendar-app-01/components/calendar-app-rsvp"
 import {
-  CALENDAR_APP_CALENDARS,
+  CalendarAppMenu,
+  CalendarAppTabs,
+  CalendarAppValueMenu,
+} from "@/registry/bases/__base__/blocks/calendar-app-01/components/calendar-app-controls"
+import { CalendarAppDot } from "@/registry/bases/__base__/blocks/calendar-app-01/components/calendar-app-sidebar"
+import {
+  type CalendarAppCalendar,
   type CalendarAppEvent,
   type CalendarAppEventData,
+  type CalendarAppGuest,
   type CalendarAppResponse,
 } from "@/registry/bases/__base__/blocks/calendar-app-01/lib/calendar-app-events"
 import {
+  CALENDAR_APP_REMINDERS,
   CALENDAR_APP_RESPONSE_LABELS,
   describeEventWhen,
   describeResponses,
+  orderGuests,
   summarizeResponses,
   withYourResponse,
 } from "@/registry/bases/__base__/blocks/calendar-app-01/lib/calendar-app-model"
@@ -21,6 +30,11 @@ import {
   EventCalendarRecurrenceError,
   parseRecurrence,
 } from "@/registry/bases/__base__/lib/event-calendar-recurrence"
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/registry/bases/__base__/ui/alert"
 import {
   AppShellPanel,
   AppShellPanelClose,
@@ -31,10 +45,9 @@ import {
 import {
   Avatar,
   AvatarFallback,
-  AvatarGroup,
-  AvatarGroupCount,
+  AvatarImage,
 } from "@/registry/bases/__base__/ui/avatar"
-import { Button } from "@/registry/bases/__base__/ui/button"
+import { Button, buttonVariants } from "@/registry/bases/__base__/ui/button"
 import {
   Empty,
   EmptyDescription,
@@ -43,52 +56,127 @@ import {
   EmptyTitle,
 } from "@/registry/bases/__base__/ui/empty"
 import { type EventCalendarController } from "@/registry/bases/__base__/ui/event-calendar"
-import { getChipColorStyle } from "@/registry/bases/__base__/ui/event-calendar-event"
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemTitle,
-} from "@/registry/bases/__base__/ui/item"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 export const CALENDAR_APP_EVENT_PANEL = "event"
 
-const MAX_AVATARS = 5
+const RESPONSES = [
+  { value: "yes", label: "Yes" },
+  { value: "maybe", label: "Maybe" },
+  { value: "no", label: "No" },
+] as const
 
-export function CalendarAppEventPanel({
-  calendar,
-  event,
-  response,
-  onResponseChange,
-}: {
+/** An overlap, and the next time the event would fit. */
+export type CalendarAppConflict = {
+  title: string
+  time: string
+  move?: { label: string; onMove: () => void }
+}
+
+type EventPanelProps = {
   calendar: EventCalendarController<CalendarAppEventData>
-  /** The event open in the panel; nothing open shows an empty state. */
+  calendars: CalendarAppCalendar[]
+  /** The event open in the panel, or the next one; neither shows an empty state. */
   event: CalendarAppEvent | undefined
+  /** The event is being created: there is nothing to edit yet. */
+  isDraft: boolean
+  /** "in 12 min", when the event is the next one. */
+  startsIn: string | undefined
+  isOver: boolean
+  conflict: CalendarAppConflict | undefined
   response: CalendarAppResponse | undefined
   onResponseChange: (response: CalendarAppResponse) => void
-}) {
+  reminderMinutes: number | undefined
+  onReminderChange: (minutes: number) => void
+}
+
+export function CalendarAppEventPanel(props: EventPanelProps) {
+  const { calendar, event, isDraft, startsIn, response, onResponseChange } =
+    props
+  const rsvpLabelId = React.useId()
+  const you = event?.data?.guests?.find((guest) => guest.isYou)
+  const isInvited = you !== undefined && !you.isOrganizer
+  const canEdit = event !== undefined && !isDraft && calendar.canEdit(event)
+
   return (
     <AppShellPanel
       id={CALENDAR_APP_EVENT_PANEL}
       label="Event details"
-      defaultWidth={340}
+      defaultOpen
+      defaultWidth={320}
       minWidth={300}
+      maxWidth={480}
     >
-      <AppShellPanelHeader>
-        <AppShellPanelTitle>Event details</AppShellPanelTitle>
+      <AppShellPanelHeader className="ps-(--density-16)">
+        <AppShellPanelTitle>
+          {startsIn ? (
+            <>
+              Up next{" "}
+              <span className="font-normal text-muted-foreground tabular-nums">
+                {startsIn}
+              </span>
+            </>
+          ) : isDraft ? (
+            "New event"
+          ) : (
+            "Event details"
+          )}
+        </AppShellPanelTitle>
+        {event && canEdit ? (
+          <CalendarAppMenu
+            label="Event actions"
+            entries={[
+              {
+                id: "edit",
+                label: "Edit event…",
+                icon: (
+                  <IconPlaceholder
+                    lucide="PencilIcon"
+                    tabler="IconPencil"
+                    hugeicons="PencilEdit01Icon"
+                    phosphor="PencilSimpleIcon"
+                    remixicon="RiPencilLine"
+                  />
+                ),
+                onSelect: () => calendar.editEvent(event),
+              },
+              {
+                id: "duplicate",
+                label: "Duplicate",
+                icon: (
+                  <IconPlaceholder
+                    lucide="CopyIcon"
+                    tabler="IconCopy"
+                    hugeicons="Copy01Icon"
+                    phosphor="CopyIcon"
+                    remixicon="RiFileCopyLine"
+                  />
+                ),
+                onSelect: () => calendar.duplicateEvent(event),
+              },
+              {
+                id: "delete",
+                label: "Delete event",
+                icon: (
+                  <IconPlaceholder
+                    lucide="Trash2Icon"
+                    tabler="IconTrash"
+                    hugeicons="Delete02Icon"
+                    phosphor="TrashIcon"
+                    remixicon="RiDeleteBinLine"
+                  />
+                ),
+                isDestructive: true,
+                onSelect: () => calendar.deleteEvent(event),
+              },
+            ]}
+          />
+        ) : null}
         <AppShellPanelClose />
       </AppShellPanelHeader>
       <AppShellPanelContent>
         {event ? (
-          <CalendarAppEventDetails
-            key={event.id}
-            calendar={calendar}
-            event={event}
-            response={response}
-            onResponseChange={onResponseChange}
-          />
+          <CalendarAppEventDetails {...props} key={event.id} event={event} />
         ) : (
           <Empty className="h-full">
             <EmptyHeader>
@@ -101,15 +189,31 @@ export function CalendarAppEventPanel({
                   remixicon="RiCalendarLine"
                 />
               </EmptyMedia>
-              <EmptyTitle>No event open</EmptyTitle>
+              <EmptyTitle>Nothing ahead</EmptyTitle>
               <EmptyDescription>
-                Select an event to see when and where it is, and who&apos;s
-                going.
+                Select an event to see where it is and who is going.
               </EmptyDescription>
             </EmptyHeader>
           </Empty>
         )}
       </AppShellPanelContent>
+      {event && isInvited ? (
+        <div className="flex shrink-0 items-center justify-between gap-(--density-12) px-(--density-16) pt-(--density-12) pb-[calc(var(--density-16)+env(safe-area-inset-bottom))]">
+          <span
+            id={rsvpLabelId}
+            className="text-(length:--density-text-13) font-medium"
+          >
+            Going?
+          </span>
+          <CalendarAppTabs
+            label="Your answer"
+            options={RESPONSES}
+            value={response}
+            onValueChange={onResponseChange}
+            className="max-w-56 flex-1"
+          />
+        </div>
+      ) : null}
     </AppShellPanel>
   )
 }
@@ -127,60 +231,68 @@ function describeRepeat(recurrence: string | undefined) {
 
 function CalendarAppEventDetails({
   calendar,
+  calendars,
   event,
+  isOver,
+  conflict,
   response,
-  onResponseChange,
-}: {
-  calendar: EventCalendarController<CalendarAppEventData>
-  event: CalendarAppEvent
-  response: CalendarAppResponse | undefined
-  onResponseChange: (response: CalendarAppResponse) => void
-}) {
-  const rsvpLabelId = React.useId()
-  const source = CALENDAR_APP_CALENDARS.find(
-    ({ id }) => id === event.calendarId
+  reminderMinutes,
+  onReminderChange,
+}: EventPanelProps & { event: CalendarAppEvent }) {
+  const source = calendars.find(({ id }) => id === event.calendarId)
+  const guests = orderGuests(
+    withYourResponse(event.data?.guests ?? [], response)
   )
-  const color = event.color ?? source?.color
-  const guests = withYourResponse(event.data?.guests ?? [], response)
-  const you = guests.find((guest) => guest.isYou)
-  const organizer = guests.find((guest) => guest.isOrganizer)
-  const conference = event.data?.conference
+  const conference = isOver ? undefined : event.data?.conference
   const repeat = describeRepeat(event.recurrence)
-  const canEdit = calendar.canEdit(event)
+  const when = describeEventWhen(event, {
+    locale: calendar.locale,
+    timeZone: calendar.timeZone,
+    hourCycle: calendar.settings.hourCycle,
+  })
 
   return (
-    <div className="flex flex-col gap-(--density-20) p-(--density-16)">
-      <div className="flex items-start gap-(--density-12)">
-        <span
-          aria-hidden
-          style={color ? getChipColorStyle(color) : undefined}
-          className="mt-(--density-6) size-3.5 shrink-0 rounded-sm bg-(--event-calendar-fill-light) dark:bg-(--event-calendar-fill-dark)"
-        />
-        <div className="flex min-w-0 flex-col gap-(--density-4)">
-          <h3 className="text-base font-semibold text-balance">
-            {event.title || "(No title)"}
-          </h3>
-          <p className="text-(length:--density-text-13) text-muted-foreground">
-            {describeEventWhen(event, {
-              locale: calendar.locale,
-              timeZone: calendar.timeZone,
-              hourCycle: calendar.settings.hourCycle,
-            })}
-          </p>
-          {repeat ? (
-            <p className="text-(length:--density-text-13) text-muted-foreground">
-              {repeat}
-            </p>
-          ) : null}
-        </div>
+    <div className="flex flex-col gap-(--density-20) px-(--density-16) pt-(--density-8) pb-(--density-16)">
+      <div className="flex flex-col gap-(--density-4)">
+        <h3 className="text-(length:--density-text-16) text-balance weight-semibold">
+          {event.title || "(No title)"}
+        </h3>
+        <p className="text-muted-foreground tabular-nums">{when.day}</p>
+        <p className="text-muted-foreground tabular-nums">{when.time}</p>
+        {repeat ? <p className="text-muted-foreground">{repeat}</p> : null}
       </div>
+
+      {conflict ? (
+        <Alert variant="warning">
+          <IconPlaceholder
+            lucide="TriangleAlertIcon"
+            tabler="IconAlertTriangle"
+            hugeicons="Alert02Icon"
+            phosphor="WarningIcon"
+            remixicon="RiAlertLine"
+          />
+          <AlertTitle>Overlaps {conflict.title}</AlertTitle>
+          <AlertDescription className="flex flex-col items-start gap-(--density-8)">
+            <span className="tabular-nums">{conflict.time}</span>
+            {conflict.move ? (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={conflict.move.onMove}
+              >
+                {conflict.move.label}
+              </Button>
+            ) : null}
+          </AlertDescription>
+        </Alert>
+      ) : null}
 
       {conference ? (
         <a
           href={conference.url}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex h-(--density-36) w-fit items-center gap-(--density-6) rounded-lg bg-secondary px-(--density-12) text-(length:--density-text-13) font-medium text-secondary-foreground outline-none hover:bg-secondary/80 focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-(--density-icon-16)"
+          className={cn(buttonVariants(), "w-full")}
         >
           <IconPlaceholder
             lucide="VideoIcon"
@@ -188,15 +300,16 @@ function CalendarAppEventDetails({
             hugeicons="Video01Icon"
             phosphor="VideoCameraIcon"
             remixicon="RiVidiconLine"
+            data-icon="inline-start"
           />
           {conference.label}
         </a>
       ) : null}
 
-      <dl className="flex flex-col gap-(--density-12) text-(length:--density-text-13)">
+      <dl className="flex flex-col gap-(--density-4)">
         {event.location ? (
           <DetailsRow
-            label="Location"
+            label="Place"
             icon={
               <IconPlaceholder
                 lucide="MapPinIcon"
@@ -213,128 +326,87 @@ function CalendarAppEventDetails({
         {source ? (
           <DetailsRow
             label="Calendar"
-            icon={
-              <IconPlaceholder
-                lucide="CalendarIcon"
-                tabler="IconCalendar"
-                hugeicons="Calendar03Icon"
-                phosphor="CalendarBlankIcon"
-                remixicon="RiCalendarLine"
-              />
-            }
+            icon={<CalendarAppDot color={event.color ?? source.color} />}
           >
             {source.name}
           </DetailsRow>
         ) : null}
-        {guests.length > 0 ? (
+        {reminderMinutes === undefined || isOver ? null : (
           <DetailsRow
-            label="Guests"
+            label="Reminder"
             icon={
               <IconPlaceholder
-                lucide="UsersIcon"
-                tabler="IconUsers"
-                hugeicons="UserGroupIcon"
-                phosphor="UsersIcon"
-                remixicon="RiGroupLine"
+                lucide="BellIcon"
+                tabler="IconBell"
+                hugeicons="Notification03Icon"
+                phosphor="BellIcon"
+                remixicon="RiNotification3Line"
               />
             }
           >
-            <div className="flex flex-col gap-(--density-8)">
-              <span>
-                {guests.length} guests ·{" "}
-                <span className="text-muted-foreground">
-                  {describeResponses(summarizeResponses(guests))}
-                </span>
-              </span>
-              <AvatarGroup>
-                {guests.slice(0, MAX_AVATARS).map((guest) => (
-                  <Avatar
-                    key={guest.id}
-                    tooltip={`${guest.name}${guest.isYou ? " (you)" : ""}${guest.isOrganizer ? ", organizer" : ""}: ${CALENDAR_APP_RESPONSE_LABELS[guest.response ?? "awaiting"]}`}
-                  >
-                    <AvatarFallback>{guest.initials}</AvatarFallback>
-                  </Avatar>
-                ))}
-                {guests.length > MAX_AVATARS ? (
-                  <AvatarGroupCount>
-                    +{guests.length - MAX_AVATARS}
-                  </AvatarGroupCount>
-                ) : null}
-              </AvatarGroup>
-            </div>
+            <CalendarAppValueMenu
+              label="Reminder"
+              options={CALENDAR_APP_REMINDERS}
+              value={String(reminderMinutes)}
+              onValueChange={(value) => onReminderChange(Number(value))}
+            />
           </DetailsRow>
-        ) : null}
-        {event.description ? (
-          <DetailsRow
-            label="Description"
-            icon={
-              <IconPlaceholder
-                lucide="AlignLeftIcon"
-                tabler="IconAlignLeft"
-                hugeicons="TextAlignLeftIcon"
-                phosphor="TextAlignLeftIcon"
-                remixicon="RiAlignLeft"
-              />
-            }
-          >
-            <span className="text-pretty whitespace-pre-line">
-              {event.description}
-            </span>
-          </DetailsRow>
-        ) : null}
+        )}
       </dl>
 
-      {you ? (
-        <Item variant="muted" size="sm">
-          <ItemContent>
-            <ItemTitle id={rsvpLabelId}>Going?</ItemTitle>
-            {organizer && !organizer.isYou ? (
-              <ItemDescription>
-                {organizer.name} sees your answer.
-              </ItemDescription>
-            ) : null}
-          </ItemContent>
-          <ItemActions>
-            <CalendarAppRsvp
-              aria-labelledby={rsvpLabelId}
-              value={response ?? you.response}
-              onValueChange={onResponseChange}
-            />
-          </ItemActions>
-        </Item>
+      {guests.length > 1 ? (
+        <section className="flex flex-col gap-(--density-8)">
+          <div className="flex items-baseline justify-between gap-(--density-12)">
+            <h4 className="font-medium">{guests.length} guests</h4>
+            <p
+              aria-live="polite"
+              className="text-(length:--density-text-12) text-muted-foreground tabular-nums"
+            >
+              {describeResponses(summarizeResponses(guests))}
+            </p>
+          </div>
+          <ul className="flex flex-col">
+            {guests.map((guest) => (
+              <GuestRow key={guest.id} guest={guest} />
+            ))}
+          </ul>
+        </section>
       ) : null}
 
-      {canEdit ? (
-        <div className="flex items-center gap-(--density-8)">
-          <Button variant="outline" onClick={() => calendar.editEvent(event)}>
-            <IconPlaceholder
-              lucide="PencilIcon"
-              tabler="IconPencil"
-              hugeicons="PencilEdit01Icon"
-              phosphor="PencilSimpleIcon"
-              remixicon="RiPencilLine"
-              data-icon="inline-start"
-            />
-            Edit
-          </Button>
-          <Button
-            variant="destructive"
-            className="ms-auto"
-            onClick={() => calendar.deleteEvent(event)}
-          >
-            <IconPlaceholder
-              lucide="Trash2Icon"
-              tabler="IconTrash"
-              hugeicons="Delete02Icon"
-              phosphor="TrashIcon"
-              remixicon="RiDeleteBinLine"
-              data-icon="inline-start"
-            />
-            Delete event
-          </Button>
-        </div>
+      {event.description ? (
+        <section className="flex flex-col gap-(--density-4)">
+          <h4 className="font-medium">Notes</h4>
+          <p className="text-pretty whitespace-pre-line text-muted-foreground">
+            {event.description}
+          </p>
+        </section>
       ) : null}
     </div>
+  )
+}
+
+function GuestRow({ guest }: { guest: CalendarAppGuest }) {
+  const response = guest.response ?? "awaiting"
+  const note = guest.isOrganizer ? "Organizer" : undefined
+  return (
+    <li className="flex min-h-(--density-36) items-center gap-(--density-10)">
+      <Avatar size="sm">
+        {guest.avatar ? <AvatarImage src={guest.avatar} alt="" /> : null}
+        <AvatarFallback>{guest.initials}</AvatarFallback>
+      </Avatar>
+      <span className="min-w-0 flex-1 truncate">
+        {guest.name}
+        {guest.isYou ? " (you)" : ""}
+      </span>
+      <span
+        className={cn(
+          "shrink-0 text-(length:--density-text-12) text-muted-foreground",
+          guest.isYou && response === "awaiting" && "text-warning-text"
+        )}
+      >
+        {note ?? CALENDAR_APP_RESPONSE_LABELS[response]}
+      </span>
+    </li>
   )
 }
 
@@ -349,11 +421,13 @@ function DetailsRow({
 }) {
   return (
     <div className="flex items-start gap-(--density-12)">
-      <dt className="flex h-5 shrink-0 items-center text-muted-foreground [&_svg]:size-(--density-icon-16)">
+      <dt className="flex h-(--density-28) w-(--density-16) shrink-0 items-center justify-center text-muted-foreground [&_svg]:size-(--density-icon-16)">
         {icon}
         <span className="sr-only">{label}</span>
       </dt>
-      <dd className="min-w-0 flex-1 leading-5">{children}</dd>
+      <dd className="flex min-h-(--density-28) min-w-0 flex-1 items-center">
+        {children}
+      </dd>
     </div>
   )
 }

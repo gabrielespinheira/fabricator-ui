@@ -10,7 +10,7 @@ import {
 import { Badge } from "@/registry/bases/__base__/ui/badge"
 
 function StepBar({ step }: { step: BillingWaterfallStep }) {
-  if (step.end === 0) return null
+  if (step.end === step.start) return null
   return (
     <span
       className={cn(
@@ -64,7 +64,7 @@ export function BillingInvoiceLines({
   before?: BillingInvoiceSum
   label: string
 }) {
-  const steps = getWaterfall(invoice)
+  const steps = getWaterfall(invoice, before)
   const previous = before ? getWaterfall(before) : []
 
   return (
@@ -83,7 +83,7 @@ export function BillingInvoiceLines({
             <span className="flex min-w-0 flex-col">
               <span
                 className={cn(
-                  "flex items-center gap-(--density-8)",
+                  "flex min-h-(--density-24) items-center gap-(--density-8)",
                   step.isTotal && "weight-semibold"
                 )}
               >

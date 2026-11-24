@@ -76,7 +76,7 @@ function TranscriptRows({
 }: TranscriptProps) {
   const { messages } = conversation
   const contentRef = React.useRef<HTMLDivElement>(null)
-  const { scrollToMessage } = useMessageScroller()
+  const { scrollToEnd, scrollToMessage } = useMessageScroller()
   const [focusId, setFocusId] = React.useState<string>()
   const days = React.useMemo(
     () => groupTranscript(messages, { now, format: timeFormat, unreadFromId }),
@@ -88,6 +88,16 @@ function TranscriptRows({
   const ids = messages.map(({ id }) => id)
   // One message is in the tab order; ↑ and ↓ move between them from there.
   const tabStopId = focusId && ids.includes(focusId) ? focusId : ids.at(-1)
+
+  // What I send is shown, wherever I had scrolled to.
+  const last = messages.at(-1)
+  const sentId = last?.senderId === ME ? last.id : undefined
+  const shownId = React.useRef(sentId)
+  React.useEffect(() => {
+    if (!sentId || shownId.current === sentId) return
+    shownId.current = sentId
+    scrollToEnd()
+  }, [sentId, scrollToEnd])
 
   const showMessage = (id: string) => {
     const run = days
