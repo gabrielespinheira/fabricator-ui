@@ -62,7 +62,7 @@ A card is one discrete thing: a metric, a chart, a list of things to do, a plan,
 | The state of things | Dashboard | Period toolbar, KPI row, hero chart, work, breakdowns | `recipes/dashboard.md`, `finance-01` |
 | Many records | List | View tabs, search, filters, table, selection bar, detail panel | `recipes/list.md` |
 | One record | Detail | Title with status, one primary, views as tabs, metadata panel, activity | `app-shell-01` |
-| A queue to clear | List and detail | List and open item as two panes of the main column, one at a time on phones ([recipe](recipes/app-shell.md#a-queue)), context in a panel, ↑ ↓ to move, act and advance | `mail-01`, `app-shell-05` |
+| A queue to clear | List and detail | List and open item as two panes of the main column, one at a time on phones ([recipe](recipes/app-shell.md#a-queue)), context in a panel; a list people resize is a start panel with `mobile="swap"`; ↑ ↓ to move, act and advance | `mail-01`, `app-shell-05` |
 | Something to configure before it goes live | Setup | One-line answers that open in place, checks and preview beside them | `recipes/setup.md` |
 | Preferences | Settings | Cards of one-line settings that save at once, danger last | `recipes/settings.md` |
 | One small thing to make | Create | Dialog or drawer, three asks | `recipes/create.md` |

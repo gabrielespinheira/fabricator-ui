@@ -52,7 +52,6 @@ None of these throws or logs. Most look right at one width and wrong at another.
 | A trigger for a panel the page doesn't render | A button that does nothing | Render them together |
 | A right panel's trigger anywhere but last in its row | It jumps when the panel opens | Last, in the top row |
 | Two panels open on one side | They dock without counting each other and leave the page about 160px at 1280; the pinned trigger of one sits on the other's header and takes the close button from both | One panel a side ([Panels](#panels)) |
-| Panel `views` without icons | Under 360px the tabs show icons only, and 320 is the default width: blank tabs | An icon on each view |
 | State kept inside a panel | Lost when the panel changes from docked to sheet to drawer | State above the panel |
 | `--background` set on the shell, or a background on a part | Parts read different planes | `--app-shell-frame`, `--app-shell-main`, `--app-shell-panel` |
 

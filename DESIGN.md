@@ -613,7 +613,7 @@ The title, its status `Badge`, one primary action and a "More" menu in the heade
 
 ### List and detail
 
-The list fills the main column and the open record sits in a side panel (the whole screen on phones); ↑ ↓ move through the queue, and an `Empty` waits until something is open (`app-shell-05`).
+The list fills the main column and the open record sits in a side panel (the whole screen on phones); ↑ ↓ move through the queue, and an `Empty` waits until something is open (`app-shell-05`). When the record is what people read or answer (mail, support, messages), turn it around: the list is a resizable start panel and the record the main column, capped at a reading width (`mail-01`, `messenger-01`).
 
 ### Create and edit
 
