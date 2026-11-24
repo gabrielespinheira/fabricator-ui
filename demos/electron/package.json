@@ -1,0 +1,17 @@
+{
+  "name": "@fabricator-ui/demo-electron",
+  "version": "0.9.0",
+  "private": true,
+  "description": "The Electron demo: the website's /desktop route in an Electron window.",
+  "license": "MIT",
+  "type": "module",
+  "main": "main.mjs",
+  "scripts": {
+    "dev": "bun ./scripts/dev.ts",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check \"**/*.{ts,mjs,cjs,json}\" \"../scripts/*.ts\" \"../*.{ts,json,md}\" --cache"
+  },
+  "devDependencies": {
+    "electron": "45.3.2"
+  }
+}

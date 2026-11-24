@@ -629,7 +629,7 @@ Notion-style blocks (`/` menu, handles, drag through `lib/sortable.tsx`, block s
 - **iOS undo:** the text view records nothing; shake, Cmd+Z and the shortcuts bar go to the editor's history.
 - **iOS italic:** Inter ships no italic cut in the example app, so the native view slants the upright font. The native Markdown preview draws `*em*` upright.
 - **Fast typing on iOS.** Content for an older keystroke could reach the view after it had moved on. The view skips content matching text it already passed. Content the engine changed itself (an input rule) still can't be told apart from old content, so typing very fast through `# ` can drop characters. The fix is an edit counter in the module's protocol: the view tags each edit, the engine echoes the last one it applied, and the engine rebases edits made against older content.
-- **KeyboardProvider.** The native keyboard bar needs `KeyboardProvider` from react-native-keyboard-controller at the app's root. `apps/mobile` has it now; a fresh project needs it too, which belongs in `FabricatorRoot` or the install docs.
+- **KeyboardProvider.** The native keyboard bar needs `KeyboardProvider` from react-native-keyboard-controller at the app's root. `demos/react-native` has it now; a fresh project needs it too, which belongs in `FabricatorRoot` or the install docs.
 
 ### Not built
 

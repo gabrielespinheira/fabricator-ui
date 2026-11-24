@@ -1,0 +1,12 @@
+dist/
+src-tauri/target/
+src-tauri/gen/schemas/
+src-tauri/gen/apple/build/
+src-tauri/gen/apple/Externals/
+src-tauri/gen/android/.gradle/
+src-tauri/gen/android/app/build/
+src-tauri/gen/android/tauri-android/
+src-tauri/gen/android/local.properties
+*.tsbuildinfo
+desktop/src-tauri/target/
+desktop/src-tauri/gen/

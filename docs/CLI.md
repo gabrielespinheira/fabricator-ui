@@ -12,7 +12,7 @@ The `fabricator-ui` CLI (`packages/cli`), the shared setup model (`packages/setu
 - **Bundle:** `dependencies` stay external; `@fabricator-ui/setup` is bundled. `scripts/build.ts` copies `templates/`, `skills/fabricator` and the root `DESIGN.md` into `dist/`.
 - **Project docs.** New scaffolds get a root `README.md` with the project name, run commands and component setup, plus `DESIGN.md` and a concise Fabricator section in `AGENTS.md`. The CLI merges that section beside template guidance, such as Next.js's block. Selecting Claude Code adds a `CLAUDE.md` import. The skill and MCP server remain optional. `init` on an existing project and `agents add` preserve its root docs.
 - **Scaffold formatting.** Biome and Vite+ format the generated project after its docs are written and before the first commit.
-- **Agent skill.** `skills/fabricator/SKILL.md` starts from local project context and routes screen design to bundled `design.md`, API rules to `rules/`, and optional setup to the CLI and MCP references. Keep it portable, with local files as the entry point. CLI examples request `fabricator-ui@latest` through the project's package runner. Update `evals/evals.json` when changing skill behavior. Keep `AGENTS.md` concise and design rules in `DESIGN.md`, within one agent read (about 25,000 tokens).
+- **Agent skill.** `skills/fabricator/SKILL.md` holds the design process, the house rules and the routing. Design references sit beside it (`patterns.md`, `asking.md`, `components.md`, `states.md`, `platforms.md`, `foundations.md`, `design-md.md`), verified layout code in `recipes/`, API rules in `rules/`, and the CLI, MCP, registry and theming references in `setup/`. Keep it portable, with local files as the entry point, and its tables unpadded: it is read by the token. CLI examples request `fabricator-ui@latest` through the project's package runner. Render a recipe at 390 and 1440px in both themes before changing it. A new component gets a line in `components.md` (`apps/web/lib/skill-catalog.test.ts`), links are checked by `skill.test.ts`, and behaviour changes update `evals/evals.json`. The skill and `DESIGN.md` state the same rules; change both together. Keep `AGENTS.md` concise and `DESIGN.md` within one agent read (about 25,000 tokens).
 - **Runtime:** Node ≥ 20.18.1, ESM, Node APIs only, so it runs the same under `npx`, `pnpm dlx`, `yarn dlx` and `bunx`.
 - Bumping the pinned `shadcn` is its own change, verified by the e2e matrix.
 
@@ -77,7 +77,7 @@ payloads cannot import from repository example apps.
 - `framework=<name>` adds `app-shell-root.tsx`, the router adapter (`app-shell-root-source.ts`), and picks the storage. `desktop=<electron|tauri>` uses the `desktop-window` item. `platform=native` serves the React Native version.
 - A card inside a running shell passes `platform` and shows only what that shell can preview; `/create` passes none.
 - The cards' command names `app-shell` as well as the URL, because `add` ensures the `@fabricator` registry only when a Fabricator name is present.
-- `apps/mobile/src/shell-options-model.ts` uses the same option names, and a test reads its command back through the endpoint's parsers.
+- `demos/react-native/src/shell-options-model.ts` uses the same option names, and a test reads its command back through the endpoint's parsers.
 
 ## `/create`
 

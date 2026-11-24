@@ -336,9 +336,9 @@ Components are never shared across platforms (D14). Web and mobile match because
 
 **React and React Native.** The Next template pins `react` 19.3.1; Expo SDK 58 pins 19.3.0 and React Native 0.88. Expo's docs say duplicate React Native versions in a monorepo are unsupported and duplicate React in one app causes runtime errors. This repo keeps `apps/mobile` out of its workspace for the same reason. Phase 0 settled it: §8.3.
 
-**Desktop** is a thin window around `apps/web`, taken from `apps/desktop`:
+**Desktop** is a thin window around `apps/web`, taken from `demos/electron` and `demos/tauri/desktop`:
 
-- **Dev:** loads the web dev server, using the wait-for-port logic in `apps/desktop/scripts/dev.ts`. The dev URL comes from a per-framework port map.
+- **Dev:** loads the web dev server, using the wait-for-port logic in `demos/scripts/open-desktop.ts`. The dev URL comes from a per-framework port map.
 - **Production:** a static build of the web app. [Tauri has no server-based mode](https://tauri.app/start/frontend/nextjs/). Electron follows the same rule so both runtimes behave alike. It serves the folder through a custom protocol, because `file://` breaks Next's absolute `/_next` paths. A project that needs a server can point the window at its deployed URL by hand: Tauri's `frontendDist` accepts one. The CLI doesn't set that up.
 - **Runtime detection:** a project's web app runs in a browser and in a window, so the shell has to find out at runtime. `readDesktopRuntime` and `useDesktopWindow` move from `app/(view)/desktop/_lib` into a new registry item, `desktop-window`, in `registry/fabricator/shared/`. `app-shell-source.ts` uses it when `desktop` is set, and `/desktop` moves onto it, so there is one implementation. Two things change on the way: it must be safe to render on the server, because `next build` prerenders it, and it can't import `next-themes`, because Vite's template has its own theme provider, so it takes the theme as an argument. It is web-only, so it needs a dated entry in `registry/native/parity-exceptions.json` (contract item 9).
 - **Missing Rust:** `create` still succeeds, and the summary and `doctor` say what's needed. The CLI never installs a toolchain.

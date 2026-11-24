@@ -1,7 +1,7 @@
 // The desktop example (/desktop): which shell hosts the page, and the window
 // the App Shell lays out around. The explorer's navigation is in
 // lib/component-explorer, shared with the React Native example. The Electron
-// and Tauri shells live in apps/desktop.
+// and Tauri shells live in demos/electron and demos/tauri/desktop.
 
 import type { AppShellWindow } from "@/styles/base-fabricator/ui/app-shell"
 

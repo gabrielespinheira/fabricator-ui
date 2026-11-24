@@ -63,7 +63,7 @@ Dual-axis charts (two y-scales; two charts or an index instead), 3D, gauges with
 ## 3. Names and group
 
 - Names are the form plus `-chart` where people say it that way (`area-chart`), the bare noun where they don't (`treemap`, `status-bar`, `heat-calendar`). None exists in upstream's catalog; upstream's chart demos are `chart-*`, which `isFabricatorExcludedDemo` keeps dropping because no chart of ours starts with `chart-` except `chart-kit`, which has no demos.
-- **Charts** is the eighth group. It changes every surface at once, as `docs/COMPONENT-GROUPS.md` says: `COMPONENT_GROUPS` and `GROUP_BY_SLUG`, the icons in `apps/web/lib/explorer-icons.ts` and `apps/mobile/src/nav.ts`, the ID in `apps/web/lib/component-explorer.ts`, COMPONENT-GROUPS.md's table and rules, `docs/plans/component-groups.md`, DESIGN.md's "Choosing a component", and the changelog.
+- **Charts** is the eighth group. It changes every surface at once, as `docs/COMPONENT-GROUPS.md` says: `COMPONENT_GROUPS` and `GROUP_BY_SLUG`, the icons in `apps/web/lib/explorer-icons.ts` and `demos/react-native/src/nav.ts`, the ID in `apps/web/lib/component-explorer.ts`, COMPONENT-GROUPS.md's table and rules, `docs/plans/component-groups.md`, DESIGN.md's "Choosing a component", and the changelog.
 - Choosing a group gains a rule before Content's: **Charts** when the component draws numbers as marks (lines, bars, areas, arcs, cells). A table of numbers stays Content.
 
 ---
@@ -93,7 +93,7 @@ Four layers. Domain code never imports React, the DOM or React Native (Ports and
 | `d3-scale`     | Linear, band, point and time scales with nice domains and ticks                                 | ~9 kB with `d3-array`, `d3-interpolate`     |
 | `d3-hierarchy` | Squarified treemap                                                                              | ~3 kB                                       |
 
-All exact-pinned, typed through `@types/d3-*` as dev dependencies of the items that use them. Sizes are estimates to be measured once installed; the PR states the measured numbers. They go in `apps/web` and `apps/mobile`. Sankey's layout is ours (~200 lines, tested): node columns by longest path, sizes by flow, and a few passes of relaxation to straighten links.
+All exact-pinned, typed through `@types/d3-*` as dev dependencies of the items that use them. Sizes are estimates to be measured once installed; the PR states the measured numbers. They go in `apps/web` and `demos/react-native`. Sankey's layout is ours (~200 lines, tested): node columns by longest path, sizes by flow, and a few passes of relaxation to straighten links.
 
 ---
 

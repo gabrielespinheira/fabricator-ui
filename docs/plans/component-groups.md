@@ -31,7 +31,7 @@ These counts cover the 85 entries in the shared grouping map. A surface's badge 
 
 1. Add tests for the six names, existing assignments and stable group navigation IDs before changing the implementation.
 2. Update `apps/web/lib/component-groups.ts`, shared by docs, desktop, mobile and the homepage gallery.
-3. Update group icon keys in `apps/web/lib/explorer-icons.ts` and `apps/mobile/src/nav.ts`.
+3. Update group icon keys in `apps/web/lib/explorer-icons.ts` and `demos/react-native/src/nav.ts`.
 4. Replace label-derived navigation IDs in `apps/web/lib/component-explorer.ts` with an explicit mapping to the existing IDs. No saved-state migration is needed.
 5. Update explorer test fixtures and add a changelog entry.
 6. Verify the full 85-entry assignment remains equivalent after applying the label changes. Run lint, types, formatting and tests, including the mobile app's separate typecheck.
@@ -63,7 +63,7 @@ Added by Gabs on 2026-11-12. A seventh group, **Advanced**, placed last, holds t
 | `audio-player`     | Content        |
 
 - Its navigation ID is `group-advanced`; the six existing IDs are unchanged, so saved preferences still apply.
-- Its icon is `ZapIcon` in `apps/web/lib/explorer-icons.ts` and `apps/mobile/src/nav.ts`.
+- Its icon is `ZapIcon` in `apps/web/lib/explorer-icons.ts` and `demos/react-native/src/nav.ts`.
 - Component URLs, registry names and install commands are unchanged; only the group shown in the docs sidebar, homepage filter, desktop explorer and mobile example moves.
 
 ## Charts
@@ -71,5 +71,5 @@ Added by Gabs on 2026-11-12. A seventh group, **Advanced**, placed last, holds t
 Added by Gabs on 2026-11-15. An eighth group, **Charts**, between Content and Chat, holds the components that draw numbers as marks: `area-chart`, `line-chart`, `bar-chart`, `composition-chart`, `candlestick-chart`, `bump-chart`, `pie-chart`, `donut-chart`, `radial-chart`, `radar-chart`, `treemap`, `funnel-chart`, `sankey-chart`, `heat-calendar` and `status-bar`. The plan is [`charts.md`](charts.md).
 
 - Its navigation ID is `group-charts`; the seven existing IDs are unchanged, so saved preferences still apply.
-- Its icon is `ChartColumnIcon`, taken from Content, which moves to `NewspaperIcon` so two chart icons don't sit side by side, in `apps/web/lib/explorer-icons.ts` and `apps/mobile/src/nav.ts`.
+- Its icon is `ChartColumnIcon`, taken from Content, which moves to `NewspaperIcon` so two chart icons don't sit side by side, in `apps/web/lib/explorer-icons.ts` and `demos/react-native/src/nav.ts`.
 - No existing component moves.

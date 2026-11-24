@@ -1,14 +1,16 @@
-name: Native platform builds
+name: Native libraries
 
+# The demos never run in CI: this checks the SwiftUI and Compose sources the
+# registry publishes, as a project that installs them would compile them.
 on:
   pull_request:
     paths:
-      - apps/swiftui/**
-      - apps/kotlin/**
-      - apps/tauri-mobile/**
       - apps/web/registry/**
       - apps/web/scripts/build-*platform*.mts
       - apps/web/scripts/native-platforms*
+      - apps/web/scripts/swiftui/**
+      - apps/web/scripts/compose/**
+      - packages/editor-native/**
       - packages/icons-core/**
       - package.json
       - bun.lock
@@ -24,25 +26,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  tauri:
-    name: Tauri bundled frontend and macOS host
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: 1.4.4
-      - run: bun install --frozen-lockfile
-      - run: bun run --cwd apps/web icons:packages
-      - run: bun run registry:build
-      - run: bun run --cwd apps/tauri-mobile typecheck
-      - run: bun run --cwd apps/tauri-mobile test
-      - run: bun run --cwd apps/tauri-mobile build
-      - run: bun run --cwd apps/tauri-mobile check:assets
-      - run: cargo test --locked --manifest-path apps/tauri-mobile/src-tauri/Cargo.toml
-
   swiftui:
-    name: SwiftUI apps and standalone consumers
+    name: SwiftUI library
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v7
@@ -50,16 +35,17 @@ jobs:
         with:
           bun-version: 1.4.4
       - run: bun install --frozen-lockfile
-      - name: Install the Xcode project generator
-        run: brew install xcodegen
       - run: bun run platforms:build
-      - run: bun run example:mobile-swiftui:check
-      - run: bun run example:desktop-swiftui:check
+      - name: Library tests
+        run: swift test --package-path apps/web/registry/swiftui
+      - name: Compile for iOS
+        working-directory: apps/web/registry/swiftui
+        run: xcodebuild -quiet -scheme FabricatorUI -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/swiftui" ONLY_ACTIVE_ARCH=YES ARCHS=arm64 build
       - name: Compile every distinct consumer source closure
         run: bun scripts/check-native-consumers.ts --renderer swiftui --build
 
   compose:
-    name: Compose Android and desktop
+    name: Compose library
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -77,8 +63,7 @@ jobs:
       - run: sdkmanager 'platforms;android-37.0' 'build-tools;36.0.0'
       - run: bun install --frozen-lockfile
       - run: bun run platforms:build
-      - run: bun run --cwd apps/kotlin check:source
-      - run: xvfb-run bun run example:desktop-kotlin:check
-      - run: bun run example:mobile-kotlin:build
-      - name: Compile every distinct consumer source closure
-        run: bun scripts/check-native-consumers.ts --renderer compose --build
+      - name: Source inventory
+        run: bun run --cwd apps/web compose:check
+      - name: Library tests, and every distinct consumer source closure
+        run: xvfb-run bun scripts/check-native-consumers.ts --renderer compose --build --tests

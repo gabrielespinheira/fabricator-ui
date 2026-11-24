@@ -5,7 +5,6 @@ import { z } from "zod"
 
 import { nativeItems } from "@/registry/native/_registry"
 
-import { getExplorerComponents } from "../../mobile/src/components/component-model"
 import { getExplorerNavGroups } from "./component-explorer"
 import { COMPONENT_GROUPS, getComponentGroup } from "./component-groups"
 import { getDocsExplorerGroups } from "./docs-explorer"
@@ -88,7 +87,11 @@ describe("cross-platform explorer coverage", () => {
       )
         .filter((name) => name.endsWith(".mdx"))
         .map((name) => name.replace(".mdx", ""))
-      const components = getExplorerComponents(names)
+      const components = names.map((slug) => ({
+        slug,
+        title: slug,
+        group: getComponentGroup(slug),
+      }))
       const docsGroups = getDocsExplorerGroups(
         components.map((component) => ({
           url: `/docs/components/${base}/${component.slug}`,

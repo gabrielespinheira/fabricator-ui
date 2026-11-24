@@ -66,7 +66,7 @@ elif ! npm view @fabricator-ui/icons version > /dev/null 2>&1; then
 fi
 
 vercel pull --yes --environment="$mode"
-# apps/mobile's typecheck links its node_modules into the native source folders
+# demos/react-native's typecheck links its node_modules into the native source folders
 # (scripts/link-native-types.mjs). The site's `./registry/**/*` trace include
 # follows the link, which puts React Native in every function and an absolute
 # symlink Vercel rejects at deploy. `outputFileTracingExcludes` doesn't reach

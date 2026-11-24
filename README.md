@@ -119,7 +119,7 @@ The registry also works with the shadcn CLI directly. See [Registry](https://fab
 ## AI assistants
 
 - **MCP:** `npx fabricator-ui@latest mcp init --client <claude|cursor|vscode|codex|opencode>` lets your assistant browse, search and install components. See [MCP](https://fabricator-ui.vercel.app/docs/mcp).
-- **Agent skill:** `npx skills add gabrielespinheira/fabricator-ui` teaches your assistant how to add, compose and style Fabricator components. See [Agent Skill](https://fabricator-ui.vercel.app/docs/skills) and its [skills.sh page](https://www.skills.sh/gabrielespinheira/fabricator-ui/fabricator).
+- **Agent skill:** `npx skills add gabrielespinheira/fabricator-ui` teaches your assistant to design product screens and to add, compose and style Fabricator components. See [Agent Skill](https://fabricator-ui.vercel.app/docs/skills) and its [skills.sh page](https://www.skills.sh/gabrielespinheira/fabricator-ui/fabricator).
 - **Design guide:** copy [`DESIGN.md`](DESIGN.md) into your project, and your agent designs screens the Fabricator way: which component fits, layout, states and patterns.
 - **Docs for models:** [`llms.txt`](https://fabricator-ui.vercel.app/llms.txt), [`llms-full.txt`](https://fabricator-ui.vercel.app/llms-full.txt), and `.md` on any docs URL.
 
@@ -135,17 +135,19 @@ The registry also works with the shadcn CLI directly. See [Registry](https://fab
 
 ## Repository
 
-This monorepo holds the component registry, the CLI, Fabricator Icons, the website that documents and serves the registry, and example apps for every platform.
+This monorepo holds the component registry, the CLI, Fabricator Icons, the website that documents and serves the registry, and a runnable demo per framework.
 
 | Path                                               | What                                                                                        |
 | -------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | [`apps/web`](apps/web)                             | The website (Next.js, Fumadocs) and the registry it serves at `/r`                          |
 | [`apps/web/registry`](apps/web/registry)           | Component source for each primitive library and React Native, and the styles                |
-| [`apps/desktop`](apps/desktop)                     | Desktop example in Electron and Tauri                                                       |
-| [`apps/mobile`](apps/mobile)                       | React Native example with Expo                                                              |
-| [`apps/swiftui`](apps/swiftui)                     | SwiftUI explorer for iOS, iPadOS and macOS                                                  |
-| [`apps/kotlin`](apps/kotlin)                       | Kotlin Compose explorer for Android and desktop                                             |
-| [`apps/tauri-mobile`](apps/tauri-mobile)           | The React components in a Tauri mobile app                                                  |
+| [`demos`](demos/README.md)                         | A runnable demo per framework, and their commands                                           |
+| [`demos/react`](demos/react)                       | Every React web component, example and block in a Vite app                                  |
+| [`demos/electron`](demos/electron)                 | The web components in an Electron window                                                    |
+| [`demos/tauri`](demos/tauri)                       | The web components in Tauri desktop and mobile apps                                         |
+| [`demos/react-native`](demos/react-native)         | React Native with Expo                                                                      |
+| [`demos/swiftui`](demos/swiftui)                   | SwiftUI explorer for iOS, iPadOS and macOS                                                  |
+| [`demos/compose`](demos/compose)                   | Kotlin Compose explorer for Android and desktop                                             |
 | [`packages/cli`](packages/cli)                     | The [`fabricator-ui`](https://www.npmjs.com/package/fabricator-ui) CLI                      |
 | [`packages/setup`](packages/setup)                 | Project setup shared by the CLI and the website: commands, plans, agent prompts             |
 | [`packages/icons`](packages/icons)                 | Fabricator Icons for React; `icons-core`, `icons-react-native` and `icons-static` beside it |
@@ -162,12 +164,11 @@ Requires [Bun](https://bun.sh) 1.4 or later and Node.js 20.18.1 or later.
 git clone https://github.com/gabrielespinheira/fabricator-ui.git
 cd fabricator-ui
 bun install
-bun install --cwd apps/mobile   # once, for the tests
-bun run registry:build          # once on a fresh clone
-bun run dev                     # http://localhost:4000
+bun run registry:build   # once on a fresh clone
+bun run dev              # http://localhost:4000
 ```
 
-`bun run check` lints, typechecks and checks formatting; `bun run test` runs the unit tests. The example apps run with `bun run example:<platform>-<framework>`, such as `example:desktop-electron`, `example:mobile-reactnative` or `example:mobile-swiftui`; [`docs/PLATFORMS.md`](docs/PLATFORMS.md) lists each one and its prerequisites. Every other task is in [`CONTRIBUTING.md`](CONTRIBUTING.md).
+`bun run check` lints, typechecks and checks formatting; `bun run test` runs the unit tests. The demos run with `bun run demo <command>`, such as `react`, `electron` or `react-native:ios`; [`demos/`](demos/README.md) lists each one. Every other task is in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Contributing
 

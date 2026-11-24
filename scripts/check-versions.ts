@@ -89,13 +89,13 @@ export function getVersionProblems({
   }
 
   expect(
-    "apps/mobile/package.json",
-    readJsonVersion(read("apps/mobile/package.json"))
+    "demos/react-native/package.json",
+    readJsonVersion(read("demos/react-native/package.json"))
   )
-  const mobileApp = read("apps/mobile/app.json")
+  const mobileApp = read("demos/react-native/app.json")
   if (mobileApp !== null) {
     const app: { expo: { version: string } } = JSON.parse(mobileApp)
-    expect("apps/mobile/app.json", app.expo.version)
+    expect("demos/react-native/app.json", app.expo.version)
   }
 
   for (const path of files.filter((file) =>

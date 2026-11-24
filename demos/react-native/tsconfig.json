@@ -1,0 +1,48 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@fabricator-ui/app-shell-model": [
+        "../../apps/web/registry/fabricator/shared/lib/app-shell-model.ts"
+      ],
+      "@fabricator-ui/icons-react-native": [
+        "../../packages/icons-react-native/dist/esm/index.d.ts"
+      ],
+      "@fabricator-ui/icons-react-native/brands": [
+        "../../packages/icons-react-native/dist/esm/brands.d.ts"
+      ],
+      "@/registry/fabricator/*": ["../../apps/web/registry/fabricator/*"],
+      "@/registry/bases/__base__/lib/*": [
+        "../../apps/web/registry/fabricator/shared/lib/*"
+      ],
+      "@/registry/native/*": ["../../apps/web/registry/native/*"],
+      "@/examples/native/*": ["../../apps/web/examples/native/*"],
+      "@/lib/component-groups": ["../../apps/web/lib/component-groups.ts"],
+      "@/lib/component-explorer": ["../../apps/web/lib/component-explorer.ts"],
+      "@/lib/icon-explorer": ["../../apps/web/lib/icon-explorer.ts"],
+      "@fabricator-ui/icons/catalog": [
+        "../../packages/icons/dist/esm/catalog.d.ts"
+      ],
+      "@fabricator-ui/icons-static/nodes": [
+        "../../packages/icons-static/dist/esm/nodes.d.ts"
+      ],
+      "@fabricator-ui/icons-react-native/files": [
+        "../../packages/icons-react-native/dist/esm/files.d.ts"
+      ]
+    }
+  },
+  "include": [
+    "index.ts",
+    "src",
+    "../../apps/web/registry/native/**/*.ts",
+    "../../apps/web/registry/native/**/*.tsx",
+    "../../apps/web/examples/native/**/*.tsx"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "../../apps/web/registry/native/_registry.ts",
+    "../../apps/web/registry/native/items",
+    "../../apps/web/registry/native/**/*.test.ts"
+  ]
+}

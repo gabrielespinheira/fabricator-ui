@@ -26,7 +26,7 @@ const eslintConfig = tseslint.config(
       "generated/platforms/**",
       "registry/swiftui/resources/**",
       "**/.build/**",
-      // React Native source, checked with apps/mobile's types.
+      // React Native source, checked by `bun run demo check` and the CLI's Expo test.
       "registry/native/ui/**",
       "registry/native/components/**",
       "registry/native/blocks/**",

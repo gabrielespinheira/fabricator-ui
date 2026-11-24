@@ -2,7 +2,7 @@
 
 React Native versions of every published Fabricator item, under the same names. `@fabricator/button` installs this tree's `ui/button.tsx` when a project's registry URL is `/r/fabricator/native/{name}.json`. It is not a base: bases are DOM primitive libraries. The plan is `docs/plans/react-native.md`.
 
-`apps/mobile` is a private example of this library. Nothing here imports from it.
+`demos/react-native` is a private example of this library. Nothing here imports from it.
 
 ## Porting a component
 
@@ -88,7 +88,7 @@ Run from `apps/web`:
 
 - `bun run registry:native --check <name>,<name>`: compiles the items, and fails on a placeholder with no rule. Writes nothing, so it's safe alongside other work.
 - `bun run native:parity`: the item should not appear as a gap.
-- `bunx tsc --noEmit -p ../mobile`: types, with React Native's.
+- `bunx tsc --noEmit -p ../../demos/react-native`: types, with React Native's.
 - `bunx --bun vitest run registry/native`: pure logic.
 
 The full `bun run registry:native` rewrites `styles/native`; don't run it while others are working.

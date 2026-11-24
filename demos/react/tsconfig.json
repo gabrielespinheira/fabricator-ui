@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "paths": {
+      "@/lib/site-icons": ["../../packages/icons/dist/esm/index.d.ts"],
+      "@/components/ui/*": ["../../apps/web/styles/base-fabricator/ui/*"],
+      "@/*": ["../../apps/web/*"]
+    }
+  },
+  "include": [
+    "src",
+    "scripts",
+    "explorer-config.ts",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
+}

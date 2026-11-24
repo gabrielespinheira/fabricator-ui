@@ -4,7 +4,7 @@ Status: built on `release/v0.5.0` (2026-11-04): 67 of 67 components and 32 of 32
 
 Every published Fabricator item gets a React Native version: same item name, same install command, same exports, variants and tokens, on iOS and Android. A checker in CI enforces it, so the number stays true after release.
 
-The deliverable is the library: components a React Native project installs with the CLI, the way a web project does today. `apps/mobile` is a private example that lives only in this repo. It is never published, installed or required by anything (§3, §10).
+The deliverable is the library: components a React Native project installs with the CLI, the way a web project does today. `demos/react-native` is a private example that lives only in this repo. It is never published, installed or required by anything (§3, §10).
 
 ---
 
@@ -49,17 +49,17 @@ import { Button } from "@/components/ui/button"
 
 **Already shared and working:**
 
-- `lib/app-shell-model.ts` and `lib/sidebar-model.ts`: DOM-free, used by web and `apps/mobile`.
+- `lib/app-shell-model.ts` and `lib/sidebar-model.ts`: DOM-free, used by web and `demos/react-native`.
 - `registry/fabricator/native-theme.ts`: resolves a look to hex, numbers and shadow strings, pinned to browser measurements. It only covers what the App Shell draws: `primary` of the six colour roles, and the sheet and move timings.
 - `@fabricator-ui/icons-react-native`: built, not yet on npm.
 - `look-presets.ts`, the `fabricator-ui://look?…` deep link and the settings screen.
 
 **Missing:**
 
-- Any installable native component. The only native UI is `apps/mobile`'s 3,143 lines of hand-written `StyleSheet` code, which no project can install.
-- The theme as an item. `native-theme.ts` has no registry entry; only `apps/mobile` can reach it, through a Metro alias. A real project would get no native theme at all today.
-- Android: nothing has run on it. `apps/mobile/app.json` has `"platforms": ["ios"]`, and this machine has no Android SDK, `adb` or emulator.
-- Reanimated, gesture handler, keyboard handling: `apps/mobile` uses RN's `Animated` and `Modal`.
+- Any installable native component. The only native UI is `demos/react-native`'s 3,143 lines of hand-written `StyleSheet` code, which no project can install.
+- The theme as an item. `native-theme.ts` has no registry entry; only `demos/react-native` can reach it, through a Metro alias. A real project would get no native theme at all today.
+- Android: nothing has run on it. `demos/react-native/app.json` has `"platforms": ["ios"]`, and this machine has no Android SDK, `adb` or emulator.
+- Reanimated, gesture handler, keyboard handling: `demos/react-native` uses RN's `Animated` and `Modal`.
 - Install path, docs, native tests, CI.
 
 **Inventory to cover** (counted 2026-11-04, Base tree):
@@ -93,7 +93,7 @@ apps/web/registry/styles/style-native.css         assembled, generated, committe
 apps/web/public/r/native/<name>.json              output, gitignored
 apps/web/examples/native/<name>-example.tsx       demos, shared by the app and the docs
 apps/web/styles/native/ui/                        compiled components, gitignored
-apps/mobile/                                      private example, repo only (§10)
+demos/react-native/                                      private example, repo only (§10)
 ```
 
 Served at `/r/fabricator/native/{name}.json`. An Expo project's `components.json`:
@@ -111,20 +111,20 @@ The URL has no `{style}` segment and the `style` id stays a valid upstream one, 
 
 It is not a base. Bases are DOM primitive libraries with mandatory parity across them; native has its own rule (§8).
 
-The tree typechecks under `apps/mobile`'s `tsconfig`, which has React Native's types and its own React outside the bun workspace. It stays out of `apps/web/tsconfig.json` (DOM lib) and out of the website's Tailwind `@source` lines.
+The tree typechecks under `demos/react-native`'s `tsconfig`, which has React Native's types and its own React outside the bun workspace. It stays out of `apps/web/tsconfig.json` (DOM lib) and out of the website's Tailwind `@source` lines.
 
 ### Decision: the library doesn't know the example app exists
 
-| Ships to users                                                              | Stays in this repo                                                    |
-| --------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| Registry items at `/r/fabricator/native/` (components, libs, theme, blocks) | `apps/mobile`: `private: true`, outside the bun workspace, no release |
-| `@fabricator-ui/icons-react-native` on npm                                  | Its Metro aliases, screens, sample data and Maestro flows             |
-| `fabricator-ui` CLI support (`init`, `add`, `doctor`)                       | `examples/native/` as source, shown in docs, like web's examples      |
-| Docs pages for each item                                                    | Capture scripts and parity fixtures                                   |
+| Ships to users                                                              | Stays in this repo                                                           |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Registry items at `/r/fabricator/native/` (components, libs, theme, blocks) | `demos/react-native`: `private: true`, outside the bun workspace, no release |
+| `@fabricator-ui/icons-react-native` on npm                                  | Its Metro aliases, screens, sample data and Maestro flows                    |
+| `fabricator-ui` CLI support (`init`, `add`, `doctor`)                       | `examples/native/` as source, shown in docs, like web's examples             |
+| Docs pages for each item                                                    | Capture scripts and parity fixtures                                          |
 
-Dependencies run one way: the app imports the library, never the reverse. Registry source can't import from `apps/mobile`, and no published item lists a file from it. Anything the library needs that lives there today moves into the registry: `native-theme.ts` becomes an installable item, and `src/shell/*` becomes `app-shell` and `sidebar` in Phase 4.
+Dependencies run one way: the app imports the library, never the reverse. Registry source can't import from `demos/react-native`, and no published item lists a file from it. Anything the library needs that lives there today moves into the registry: `native-theme.ts` becomes an installable item, and `src/shell/*` becomes `app-shell` and `sidebar` in Phase 4.
 
-The test of the library is a fresh `create-expo-app` project using only what the CLI installs (§9). A component that works in `apps/mobile` but not there isn't done.
+The test of the library is a fresh `create-expo-app` project using only what the CLI installs (§9). A component that works in `demos/react-native` but not there isn't done.
 
 ### Decision: same placeholders and same build
 
@@ -136,7 +136,7 @@ Native source uses `cn-button-variant-default` like web, compiled by the same `c
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Uniwind 1.13 (MIT)** | **Pick.** Tailwind v4 like the web tree, `className` kept (the override contract), data selectors, `ScopedVariables`, `updateCSSVariables`, OKLCH parsing, bare RN and Expo. Metro plugin, no Babel preset. Stable. |
 | NativeWind v5          | Still RC (`5.0.0-rc.0`) with `4.x` stable on Tailwind 3. Uniwind's own benchmark puts it about 5× slower; vendor numbers, so a tiebreak at most.                                                                    |
-| StyleSheet plus tokens | What `apps/mobile` does. No `className`, so consumers can't override the way the contract requires, and no Tailwind in the user's own screens.                                                                      |
+| StyleSheet plus tokens | What `demos/react-native` does. No `className`, so consumers can't override the way the contract requires, and no Tailwind in the user's own screens.                                                               |
 
 Free-tier limits the design must accept, from Uniwind's docs:
 
@@ -166,28 +166,28 @@ React Native Web, React Strict DOM or Tamagui-style single trees would replace B
 
 ## 4. Mapping the design system
 
-| Web                                  | Native                                                                                                                                                                                                                                   |
-| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tokens as CSS variables              | `global.css` theme block for the default look. `getNativeCssVariables(mode, look)`, added to `native-theme.ts`, feeds `Uniwind.updateCSSVariables` for the full token contract. Same names and meanings.                                 |
-| `color-mix()`, `calc()` hue recipes  | Resolved in JS from `color-roles.ts` and `surface-tint.ts`. Runtime modules stay free of React and the DOM, as they are today.                                                                                                           |
-| `data-density`, `DensityProvider`    | Same export. Renders `ScopedVariables` with the `--density-*` set. `size="sm"` and `"lg"` pin compact and spacious on that control. Default density is **spacious** on phones, as `apps/mobile` found: 30pt rows are small for a finger. |
-| Portalled parts read `useDensity()`  | Same rule. Portal content leaves the React tree, so each overlay re-wraps its scope.                                                                                                                                                     |
-| `motion-*`, `duration-<role>`        | `useMotion("dialog")` returns Reanimated configs from `MOTION_SPEEDS`. `motion-usage.test.ts` extends to the native tree and fails on literal durations. `off` and Reduce Motion give zero.                                              |
-| `hover:`                             | `active:` for touch. `onHoverIn` where iPad and Android pointers exist.                                                                                                                                                                  |
-| `focus-visible:`                     | `focus:` on inputs. Rings for hardware keyboard focus only where RN reports it.                                                                                                                                                          |
-| `has-data-*`, `in-data-*`, `group-*` | Context from the parent (`ItemContext` and similar), or a `data-*` prop set on each child.                                                                                                                                               |
-| Text inherits from parent            | New `Text` item plus `TextClassContext`. `Button` and friends wrap string children in `Text`, so `<Button>Save</Button>` works as on web. Reusables makes you write the inner `Text`; we shouldn't.                                      |
-| `truncate`, `line-clamp`             | `numberOfLines` set by the component.                                                                                                                                                                                                    |
-| `backdrop-blur`                      | `expo-blur` in one adapter (2 usages).                                                                                                                                                                                                   |
-| `scroll-fade`                        | Gradient overlay on the scroll edges.                                                                                                                                                                                                    |
-| `shadow-surface-N`                   | RN `boxShadow`, strings already resolved by `native-theme.ts`. Android output needs checking.                                                                                                                                            |
-| Fluid Hover                          | Same `useFluidHover` export, driven on the UI thread. A press lights a row, a drag moves the highlight across strips and menus with a tick per row, and letting go activates the lit row. The selection background slides.               |
-| `lib/sortable.tsx`                   | Same adapter shape on gesture handler and Reanimated (D15 still applies). The menu alternative stays.                                                                                                                                    |
-| `<SoundEffects />` by DOM delegation | No DOM to delegate from, so `useFeedback("press")` is called by components. Sounds are rendered from `sounds.ts` to WAV at build time, played with `expo-audio`, alongside `expo-haptics`.                                               |
-| `data-slot`                          | Kept on every part. RN ignores it and it maps to `testID` by default, so tests and the parity check can read it.                                                                                                                         |
-| `IconPlaceholder`                    | Not used. Native imports `@fabricator-ui/icons-react-native` directly. The CLI's icon swap has no native target.                                                                                                                         |
-| `render` (Base), `asChild` (Radix)   | `asChild`, as `rn-primitives` does.                                                                                                                                                                                                      |
-| Routing                              | Same non-goal. `onSelect` and `isActive`. The library never imports a router. `<Link asChild>` with Expo Router is covered by the install test.                                                                                          |
+| Web                                  | Native                                                                                                                                                                                                                                          |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tokens as CSS variables              | `global.css` theme block for the default look. `getNativeCssVariables(mode, look)`, added to `native-theme.ts`, feeds `Uniwind.updateCSSVariables` for the full token contract. Same names and meanings.                                        |
+| `color-mix()`, `calc()` hue recipes  | Resolved in JS from `color-roles.ts` and `surface-tint.ts`. Runtime modules stay free of React and the DOM, as they are today.                                                                                                                  |
+| `data-density`, `DensityProvider`    | Same export. Renders `ScopedVariables` with the `--density-*` set. `size="sm"` and `"lg"` pin compact and spacious on that control. Default density is **spacious** on phones, as `demos/react-native` found: 30pt rows are small for a finger. |
+| Portalled parts read `useDensity()`  | Same rule. Portal content leaves the React tree, so each overlay re-wraps its scope.                                                                                                                                                            |
+| `motion-*`, `duration-<role>`        | `useMotion("dialog")` returns Reanimated configs from `MOTION_SPEEDS`. `motion-usage.test.ts` extends to the native tree and fails on literal durations. `off` and Reduce Motion give zero.                                                     |
+| `hover:`                             | `active:` for touch. `onHoverIn` where iPad and Android pointers exist.                                                                                                                                                                         |
+| `focus-visible:`                     | `focus:` on inputs. Rings for hardware keyboard focus only where RN reports it.                                                                                                                                                                 |
+| `has-data-*`, `in-data-*`, `group-*` | Context from the parent (`ItemContext` and similar), or a `data-*` prop set on each child.                                                                                                                                                      |
+| Text inherits from parent            | New `Text` item plus `TextClassContext`. `Button` and friends wrap string children in `Text`, so `<Button>Save</Button>` works as on web. Reusables makes you write the inner `Text`; we shouldn't.                                             |
+| `truncate`, `line-clamp`             | `numberOfLines` set by the component.                                                                                                                                                                                                           |
+| `backdrop-blur`                      | `expo-blur` in one adapter (2 usages).                                                                                                                                                                                                          |
+| `scroll-fade`                        | Gradient overlay on the scroll edges.                                                                                                                                                                                                           |
+| `shadow-surface-N`                   | RN `boxShadow`, strings already resolved by `native-theme.ts`. Android output needs checking.                                                                                                                                                   |
+| Fluid Hover                          | Same `useFluidHover` export, driven on the UI thread. A press lights a row, a drag moves the highlight across strips and menus with a tick per row, and letting go activates the lit row. The selection background slides.                      |
+| `lib/sortable.tsx`                   | Same adapter shape on gesture handler and Reanimated (D15 still applies). The menu alternative stays.                                                                                                                                           |
+| `<SoundEffects />` by DOM delegation | No DOM to delegate from, so `useFeedback("press")` is called by components. Sounds are rendered from `sounds.ts` to WAV at build time, played with `expo-audio`, alongside `expo-haptics`.                                                      |
+| `data-slot`                          | Kept on every part. RN ignores it and it maps to `testID` by default, so tests and the parity check can read it.                                                                                                                                |
+| `IconPlaceholder`                    | Not used. Native imports `@fabricator-ui/icons-react-native` directly. The CLI's icon swap has no native target.                                                                                                                                |
+| `render` (Base), `asChild` (Radix)   | `asChild`, as `rn-primitives` does.                                                                                                                                                                                                             |
+| Routing                              | Same non-goal. `onSelect` and `isActive`. The library never imports a router. `<Link asChild>` with Expo Router is covered by the install test.                                                                                                 |
 
 **Native-only needs, everywhere:** 44pt and 48dp minimum touch targets (`hitSlop` on compact controls), safe areas, Android back dismisses overlays, keyboard avoidance, Dynamic Type and font scale, `accessibilityRole` and `accessibilityState` on every part.
 
@@ -205,7 +205,7 @@ Run today against the pinned `shadcn` 4.22.1 in a scratch Expo-shaped project, n
 | **Theme through the item's `css` field**                                                 | **Broken.** `{"@layer theme": {":root": {"@variant light": …}}}` comes out as `@layer theme { :root {} @variant light {…} … }`, hoisting the variants out of `:root`. Uniwind's documented shape has them inside. So the theme ships as a CSS file item plus an `@import` (untested, Phase 0). |
 | **Dependency versions**                                                                  | **Gap.** The CLI's bundle has no `expo install`, so `add` would fetch latest, and Reanimated 4.7 peers on RN 0.86 to 0.88. Our wrapper must run `expo install --fix` after `add` in Expo projects.                                                                                             |
 
-Package versions below are from npm and from `expo/bundledNativeModules.json` in `apps/mobile`:
+Package versions below are from npm and from `expo/bundledNativeModules.json` in `demos/react-native`:
 
 | Package                                   | SDK 58 version                          |
 | ----------------------------------------- | --------------------------------------- |
@@ -230,7 +230,7 @@ Package versions below are from npm and from `expo/bundledNativeModules.json` in
 - Maestro on Expo 58 (my comparison search returned nothing, so this pick rests on prior knowledge).
 - Android at all. It needs Android Studio and an emulator on this machine first.
 - Uniwind in a fresh `create-expo-app` project, which is where consumers start.
-- Tailwind under Uniwind picking up classes from files outside `apps/mobile` (`apps/web/styles/native`, `apps/web/examples/native`). This one only affects the example app. Uniwind documents monorepo setups; I haven't tried this layout.
+- Tailwind under Uniwind picking up classes from files outside `demos/react-native` (`apps/web/styles/native`, `apps/web/examples/native`). This one only affects the example app. Uniwind documents monorepo setups; I haven't tried this layout.
 
 ---
 
@@ -280,18 +280,18 @@ Added for native only: `text`, `lib/portal`, `lib/native-theme`, `lib/motion`, `
 
 ### Phase 4: navigation, layout and shell (16)
 
-| Item                              | Tier | Native and differences                                                                                                                                                       |
-| --------------------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `tabs`, `tab-strip`               | S    | Sliding selection; strip scrolls horizontally.                                                                                                                               |
-| `sidebar`, `app-shell`, `app-nav` | A    | Promote `apps/mobile/src/shell/*`. Reveal, tab bar and panels from the shared model. Keyboard `shortcut` props are **N**: as far as I know RN core has no global key events. |
-| `workspace-switcher`, `user-menu` | S    | Sheet on phones.                                                                                                                                                             |
-| `breadcrumb`, `pagination`        | S    | Links become pressables; breadcrumb scrolls or folds.                                                                                                                        |
-| `navigation-menu`, `menubar`      | A    | Desktop patterns. Phone: triggers in a horizontal row, each opening a sheet. Tablet: popover.                                                                                |
-| `scroll-area`                     | S    | `ScrollView` plus fades. No custom scrollbar: touch keeps native scrolling, as on web.                                                                                       |
-| `table`                           | S    | Views in a horizontal `ScrollView`, column widths measured.                                                                                                                  |
-| `carousel`                        | R    | `embla` replaced with gesture handler and Reanimated.                                                                                                                        |
-| `resizable`                       | R    | `react-resizable-panels` replaced. Drag handle; useful on tablets, works on phones.                                                                                          |
-| `message-scroller`                | S    | Inverted list, FlashList if `FlatList` janks.                                                                                                                                |
+| Item                              | Tier | Native and differences                                                                                                                                                              |
+| --------------------------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tabs`, `tab-strip`               | S    | Sliding selection; strip scrolls horizontally.                                                                                                                                      |
+| `sidebar`, `app-shell`, `app-nav` | A    | Promote `demos/react-native/src/shell/*`. Reveal, tab bar and panels from the shared model. Keyboard `shortcut` props are **N**: as far as I know RN core has no global key events. |
+| `workspace-switcher`, `user-menu` | S    | Sheet on phones.                                                                                                                                                                    |
+| `breadcrumb`, `pagination`        | S    | Links become pressables; breadcrumb scrolls or folds.                                                                                                                               |
+| `navigation-menu`, `menubar`      | A    | Desktop patterns. Phone: triggers in a horizontal row, each opening a sheet. Tablet: popover.                                                                                       |
+| `scroll-area`                     | S    | `ScrollView` plus fades. No custom scrollbar: touch keeps native scrolling, as on web.                                                                                              |
+| `table`                           | S    | Views in a horizontal `ScrollView`, column widths measured.                                                                                                                         |
+| `carousel`                        | R    | `embla` replaced with gesture handler and Reanimated.                                                                                                                               |
+| `resizable`                       | R    | `react-resizable-panels` replaced. Drag handle; useful on tablets, works on phones.                                                                                                 |
+| `message-scroller`                | S    | Inverted list, FlashList if `FlatList` janks.                                                                                                                                       |
 
 ### Libs and blocks
 
@@ -332,7 +332,7 @@ npx fabricator-ui@latest add button
 6. **Placeholders.** Web `cn-*` ⊆ native `cn-*`, and every native placeholder has a rule. The native map also has its own density and motion usage tests.
 7. **Tokens.** Every name in the token contract and the foundations resolves in `getNativeCssVariables`, for both modes. The contrast check runs on the resolved hex.
 8. **Demos.** Every published item has an `examples/native/<name>-example.tsx`, and every `variant` and `size` value appears in it. States have no reliable AST signal, so they stay a review item.
-9. **Isolation.** Nothing in `registry/native/` or the published JSON references `apps/mobile`, and every import in an item resolves to a declared dependency, so an install can't depend on the repo.
+9. **Isolation.** Nothing in `registry/native/` or the published JSON references `demos/react-native`, and every import in an item resolves to a declared dependency, so an install can't depend on the repo.
 
 It runs as a report through Phases 1 to 4 with a ratchet: done items can't regress. At Phase 5 it fails on any gap. It writes a JSON file the docs compatibility page reads.
 
@@ -340,7 +340,7 @@ It runs as a report through Phases 1 to 4 with a ratchet: done items can't regre
 
 ## 9. Testing
 
-- **Install, the test that decides:** `packages/tests` adds an Expo template from `create-expo-app`: `init`, `add` of every item, `tsc`, `expo export`, then launch on iOS and Android. It has no access to `apps/mobile` or the repo's source.
+- **Install, the test that decides:** `packages/tests` adds an Expo template from `create-expo-app`: `init`, `add` of every item, `tsc`, `expo export`, then launch on iOS and Android. It has no access to `demos/react-native` or the repo's source.
 - **Pure logic:** Vitest, colocated. Anchor positioning, filtering, sheet snap points, date grids, feedback mapping, theme resolution.
 - **Component behaviour:** `@testing-library/react-native`, test first. Vitest if Phase 0 shows it can host it. Otherwise `jest-expo` for `registry/native` alone, and that's a stated exception to your Vitest rule.
 - **Style parity:** extends the `native-theme.test.ts` approach. A Playwright script measures height, padding, radius, font size and colour per variant from `/view/base-fabricator/<name>-example` into a committed fixture. A test compares Uniwind's resolved values to it, per look.
@@ -356,7 +356,7 @@ It runs as a report through Phases 1 to 4 with a ratchet: done items can't regre
 
 ## 10. The example app (repo only)
 
-`apps/mobile` shows the library working, the way the website's gallery does for web. It is for people working in this repo: `bun run mobile` and `bun run mobile:android` run it from source. No store listing, TestFlight or npm package.
+`demos/react-native` shows the library working, the way the website's gallery does for web. It is for people working in this repo: `bun run demo react-native:ios` and `bun run demo react-native:android` run it from source. No store listing, TestFlight or npm package.
 
 **What it gains:**
 
@@ -392,7 +392,7 @@ Sizes are rough, for one engineer with agents, and Phase 0 will correct them.
 
 ### Phase 0: spike and go or no-go (days)
 
-In a fresh `create-expo-app` project under `tmp/` (gitignored), the same starting point a consumer has. It changes nothing in `apps/mobile`, which has uncommitted work on `release/v0.5.0`. Needs your approval first, since it installs dependencies. Add Uniwind, Reanimated, gesture handler, `rn-primitives`. Build `Button`, `Dialog`, `DropdownMenu` and `Drawer` with an input. Answer every open item in §5, on iOS, and on Android once the emulator exists.
+In a fresh `create-expo-app` project under `tmp/` (gitignored), the same starting point a consumer has. It changes nothing in `demos/react-native`, which has uncommitted work on `release/v0.5.0`. Needs your approval first, since it installs dependencies. Add Uniwind, Reanimated, gesture handler, `rn-primitives`. Build `Button`, `Dialog`, `DropdownMenu` and `Drawer` with an input. Answer every open item in §5, on iOS, and on Android once the emulator exists.
 
 **Exit:** a short findings section appended here. **Stop and rethink if** Uniwind can't resolve density tokens at runtime or fails on RN 0.88: the fallback is StyleSheet with a `className`-free API, which costs much of the parity story, so you decide.
 
@@ -412,7 +412,7 @@ The 17 items. This is where the risk is: sheet plus keyboard, anchored overlays,
 
 ### Phase 4: navigation and shell (2 weeks)
 
-The 16 items. `apps/mobile/src/shell` moves into the registry and is deleted there. **Exit:** each installs into the fresh project, and a fresh project can build a full App Shell from registry items alone.
+The 16 items. `demos/react-native/src/shell` moves into the registry and is deleted there. **Exit:** each installs into the fresh project, and a fresh project can build a full App Shell from registry items alone.
 
 ### Phase 5: blocks, docs, release (1 to 2 weeks)
 
@@ -423,9 +423,9 @@ The 16 items. `apps/mobile/src/shell` moves into the registry and is deleted the
 ### Definition of Done additions
 
 - [ ] A web change to a component's API, variants or look updates native in the same change, or adds a dated exception.
-- [ ] `add <item>` in a fresh Expo project typechecks and renders, with nothing from `apps/mobile`.
+- [ ] `add <item>` in a fresh Expo project typechecks and renders, with nothing from `demos/react-native`.
 - [ ] Parity check passes.
-- [ ] The item's demo covers every variant and state, and opens in `apps/mobile`.
+- [ ] The item's demo covers every variant and state, and opens in `demos/react-native`.
 - [ ] Checked on iOS Simulator and Android Emulator, light and dark, phone and tablet, VoiceOver and TalkBack.
 - [ ] Style parity fixture updated if the look changed.
 
@@ -439,13 +439,13 @@ Applied only once you approve this plan.
 
 **`PLAN.md` D14**, replace with:
 
-> **React Native gets its own source tree; models and tokens are shared** (added 2026-11-03, changed 2026-11-04; plan in `docs/plans/react-native.md`). Behaviour both platforms need ships as DOM-free `registry:lib` files. Every published item has a native version in `registry/native/`, outside the three bases, styled with Uniwind, on `rn-primitives` and Reanimated, served at `/r/fabricator/native/{name}.json`. Web and native keep the same item names, exports, variants, `data-slot`s and tokens, checked by `check-native-parity`. Components are never shared across platforms. `apps/mobile` is a private example in this repo; the library never depends on it.
+> **React Native gets its own source tree; models and tokens are shared** (added 2026-11-03, changed 2026-11-04; plan in `docs/plans/react-native.md`). Behaviour both platforms need ships as DOM-free `registry:lib` files. Every published item has a native version in `registry/native/`, outside the three bases, styled with Uniwind, on `rn-primitives` and Reanimated, served at `/r/fabricator/native/{name}.json`. Web and native keep the same item names, exports, variants, `data-slot`s and tokens, checked by `check-native-parity`. Components are never shared across platforms. `demos/react-native` is a private example in this repo; the library never depends on it.
 
 **`AGENTS.md`:**
 
 - Vocabulary: add **Native tree** and **Platform parity**.
-- Contract: add item 9, "Platform parity: a web change to a component's API, variants or look lands in `registry/native/` in the same change, or adds a dated entry to `parity-exceptions.json`. Native registry source never imports from `apps/mobile`."
-- Repository map, Commands (`mobile:android`), Definition of Done and "The theme on React Native" updated. `apps/mobile` is described as a private, repo-only example of every component and block. `examples/native/` joins the examples row.
+- Contract: add item 9, "Platform parity: a web change to a component's API, variants or look lands in `registry/native/` in the same change, or adds a dated entry to `parity-exceptions.json`. Native registry source never imports from `demos/react-native`."
+- Repository map, Commands (`mobile:android`), Definition of Done and "The theme on React Native" updated. `demos/react-native` is described as a private, repo-only example of every component and block. `examples/native/` joins the examples row.
 
 ---
 
@@ -475,7 +475,7 @@ Alternative: iOS first, then a pass, which is faster to a first demo and leaves 
 Pick: yes. `release/v0.5.0` has uncommitted work, and this is a separate branch off `main` after it merges.
 Alternative: none worth taking.
 
-**Settled:** `apps/mobile` lives only in this repo as an example (Gabs, 2026-11-04). That removes the earlier questions about distributing it and about moving it to Expo Router.
+**Settled:** `demos/react-native` lives only in this repo as an example (Gabs, 2026-11-04). That removes the earlier questions about distributing it and about moving it to Expo Router.
 
 ---
 
@@ -508,7 +508,7 @@ Alternative: none worth taking.
 - **Token modules renamed at install.** shadcn rewrites imports by a file's last path segment, so `lib/fabricator/density.ts` collided with `ui/density.tsx`. They install as `density-scale` and `motion-speeds`.
 - **Theme through `cssVars` is out, as §5 feared.** It ships as `fabricator.css` with an `@import`.
 - **The CLI writes setup files itself.** `shadcn init` needs Tailwind already configured, so native `init` writes `components.json`, Metro config and stylesheet imports, then runs `shadcn add`.
-- **Expo's `tsconfigPaths` is off in `apps/mobile`.** Metro reads `tsconfig` paths at runtime, and the app's aliases differ between types (source) and bundling (compiled).
+- **Expo's `tsconfigPaths` is off in `demos/react-native`.** Metro reads `tsconfig` paths at runtime, and the app's aliases differ between types (source) and bundling (compiled).
 - **`foundation-tokens.ts` split out of `foundations.ts`,** so the runtime look doesn't install the website's CSS. The website's generated stylesheet is byte-identical.
 - **Sounds render on the device.** Registry JSON can't carry binary assets and the website's synth is Web Audio, so the recipes moved to a DOM-free `sound-recipes.ts`, and `lib/sound-synth.ts` renders each to a WAV in the cache on first use. Not the build-time rendering §4 planned. Playback through `expo-audio` starts about 90ms after a press on the simulator; `react-native-audio-api` would be nearer zero, at the cost of a native dependency.
 - **Expo Router stays out of the example,** per the settled note in §14.
@@ -541,7 +541,7 @@ Alternative: none worth taking.
 - `@rn-primitives/portal`'s `PortalHost` renders its portals without keys, so when one closes, the ones after it can remount. Read from its source, not seen running: a dialog open over a toast that expires would lose its state. A keyed host needs a patch or a fork of that package.
 - `init` doesn't write the `expo-font` config yet: `/docs/installation/react-native` has it as a manual step. Without it, text falls back to the system font.
 
-- `apps/mobile/src/shell/` still draws its own shell rather than using the registry's App Shell.
+- `demos/react-native/src/shell/` still draws its own shell rather than using the registry's App Shell.
 - Tab-strip tabs reorder from their menu only: `lib/sortable.tsx` isn't wired in, and its 400ms long press competes with the tab's 500ms menu.
 - `Gesture.Pan` and `runOnJS` are deprecated in the installed gesture handler and Reanimated.
 - A `DropdownMenuPortal` passed directly into a phone `MenuSheet` renders nothing, because `DropdownMenuInsideContext` isn't exported.

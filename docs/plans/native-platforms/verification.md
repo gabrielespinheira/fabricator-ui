@@ -74,7 +74,7 @@ and [final interaction regression](swiftui-final-interaction-summary.json).
 The authoritative item-level differences are
 [`swiftui/parity-exceptions.json`](../../../apps/web/registry/swiftui/parity-exceptions.json)
 and [`compose/parity-exceptions.json`](../../../apps/web/registry/compose/parity-exceptions.json).
-Tauri's [verification record](../../../apps/tauri-mobile/verification.md) separates
+Tauri's [verification record](../../../demos/tauri/verification.md) separates
 its browser, Rust desktop and unverified mobile results. Advanced option coverage,
 native window integration, Markdown/highlighting, animation details and complete
 assistive-technology behavior still need work. The CLI's native init/add adapter

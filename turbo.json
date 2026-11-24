@@ -21,7 +21,7 @@
         "generated/platforms/**"
       ]
     },
-    "@fabricator-ui/tauri-mobile#build": {
+    "@fabricator-ui/demo-react#build": {
       "dependsOn": ["^build", "web#build"],
       "outputs": ["dist/**"]
     },

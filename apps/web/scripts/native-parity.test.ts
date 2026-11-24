@@ -178,16 +178,16 @@ describe("imports", () => {
         [
           "cn",
           "@/registry/native/ui/button",
-          "@/apps/mobile/x",
-          "../../../mobile/src/theme",
+          "@/demos/react-native/x",
+          "../../../../demos/react-native/src/theme",
         ],
         items
       )
     ).toEqual([
       { kind: "import", name: "cn" },
       { kind: "import", name: "@/registry/native/ui/button" },
-      { kind: "import", name: "@/apps/mobile/x" },
-      { kind: "import", name: "../../../mobile/src/theme" },
+      { kind: "import", name: "@/demos/react-native/x" },
+      { kind: "import", name: "../../../../demos/react-native/src/theme" },
     ])
   })
 })

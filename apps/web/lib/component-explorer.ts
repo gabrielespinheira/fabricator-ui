@@ -1,5 +1,5 @@
 // The component explorer's navigation and tabs, shared by the desktop example
-// (/desktop) and the React Native example (apps/mobile): an overview, then a
+// (/desktop) and the React Native example (demos/react-native): an overview, then a
 // row per component group holding its components. Pure, so React Native can
 // import it.
 

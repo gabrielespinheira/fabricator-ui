@@ -1,6 +1,6 @@
 # Component groups
 
-Every component belongs to exactly one of eight groups. The groups order the homepage filter, desktop explorer, React Native example, and most entries in the docs sidebar. The source of truth is `apps/web/lib/component-groups.ts`; the decision behind them is in [`plans/component-groups.md`](plans/component-groups.md), and Charts in [`plans/charts.md`](plans/charts.md).
+Every component belongs to exactly one of eight groups. The groups order the homepage filter, desktop explorer, React Native demo, and most entries in the docs sidebar. The source of truth is `apps/web/lib/component-groups.ts`; the decision behind them is in [`plans/component-groups.md`](plans/component-groups.md), and Charts in [`plans/charts.md`](plans/charts.md).
 
 The docs sidebar lists collapsible category rows under Components. App Shell follows Basics. Its row links to the wrapper's overview and expands to show Sidebar, App Nav, Tab Strip, Workspace Switcher, User Menu, and the shared references for the wrapper's exports. `apps/web/lib/docs-explorer.ts` sets the sidebar and pagination order.
 
@@ -44,18 +44,19 @@ component groups.
 1. Add its slug to `GROUP_BY_SLUG` in `apps/web/lib/component-groups.ts`, under its group's comment. The slug is the docs page slug, which is the registry item name.
 2. Add its homepage card to `app/(app)/(root)/_components/catalog.tsx` with a card height, unless it is one of the kinds the homepage leaves out ([WEBSITE.md](WEBSITE.md#homepage)).
 3. Add the docs slug to `content/docs/components/<base>/meta.json` for every web base. The command menu reads this page tree; a page can render at its URL and in the grouped sidebar while remaining absent from ⌘K. `native:docs` generates the native metadata.
-4. Run `bun run test`. `getComponentGroup` throws `UngroupedComponentError` for a page without a group, and `lib/explorer-coverage.test.ts` fails while a published native component isn't browsable in a known group.
+4. Add it to the agent skill's catalogue, `skills/fabricator/components.md`, under the need it answers: when to reach for it and what is worth knowing.
+5. Run `bun run test`. `lib/skill-catalog.test.ts` fails for a documented component the skill doesn't name. `getComponentGroup` throws `UngroupedComponentError` for a page without a group, and `lib/explorer-coverage.test.ts` fails while a published native component isn't browsable in a known group.
 
 ## Changing the groups
 
 The eight groups are a settled decision. Adding, removing, renaming or reordering one changes every surface at once, so it needs a plan in `docs/plans/` first. When it happens, the change touches:
 
 - `COMPONENT_GROUPS` and the slugs in `apps/web/lib/component-groups.ts`, with `component-groups.test.ts`.
-- The group icons in `apps/web/lib/explorer-icons.ts` and `apps/mobile/src/nav.ts`.
+- The group icons in `apps/web/lib/explorer-icons.ts` and `demos/react-native/src/nav.ts`.
 - The navigation IDs in `apps/web/lib/component-explorer.ts`. Saved navigation preferences store them, so they never change on a rename (`Structure` keeps `group-navigation-layout`); a new group gets a new ID.
 - This file, the root [`DESIGN.md`](../DESIGN.md) if its "Choosing a component" table moves, and a section in the unreleased changelog page.
 
 ## Done when
 
 - [ ] The component has a group in `GROUP_BY_SLUG` that follows the order above, and `bun run test` passes.
-- [ ] It appears under that group in the homepage filter (when it has a card), the desktop explorer, and the React Native example when it has a native version. In the docs sidebar, App Shell and its companions appear under App Shell.
+- [ ] It appears under that group in the homepage filter (when it has a card), the desktop explorer, and the React Native demo when it has a native version. In the docs sidebar, App Shell and its companions appear under App Shell.

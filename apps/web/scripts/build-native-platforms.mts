@@ -46,8 +46,8 @@ export async function buildNativePlatforms(
   for (const renderer of renderers) {
     const adapter =
       renderer === "swiftui"
-        ? "apps/swiftui/scripts/sync-contract.ts"
-        : "apps/kotlin/scripts/generate-contract.ts"
+        ? "apps/web/scripts/swiftui/sync-contract.ts"
+        : "apps/web/scripts/compose/generate-contract.ts"
     await promisify(execFile)(
       process.execPath,
       ["run", path.join(repository, adapter)],
@@ -55,8 +55,8 @@ export async function buildNativePlatforms(
     )
     const metadata =
       renderer === "swiftui"
-        ? "apps/swiftui/scripts/build-manifest.ts"
-        : "apps/kotlin/scripts/generate-manifest.ts"
+        ? "apps/web/scripts/swiftui/build-manifest.ts"
+        : "apps/web/scripts/compose/generate-manifest.ts"
     await promisify(execFile)(
       process.execPath,
       ["run", path.join(repository, metadata)],

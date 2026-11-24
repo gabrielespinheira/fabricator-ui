@@ -21,6 +21,7 @@
     "registry:native": "bun ./scripts/build-native-registry.mts",
     "platforms:generate": "bun ./scripts/build-platform-contract.mts",
     "registry:platforms": "bun ./scripts/build-native-platforms.mts",
+    "compose:check": "bun ./scripts/compose/check-source.ts",
     "native:parity": "bun ./scripts/check-native-parity.mts",
     "native:docs": "bun ./scripts/build-native-docs.mts",
     "registry:capture": "bun --conditions=react-server ./scripts/capture-registry.mts",

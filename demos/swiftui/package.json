@@ -1,0 +1,20 @@
+{
+  "name": "@fabricator-ui/demo-swiftui",
+  "version": "0.9.0",
+  "private": true,
+  "description": "The SwiftUI demo: a native component explorer for iOS, iPadOS and macOS.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "ios": "bun scripts/run.ts ios",
+    "ipad": "bun scripts/run.ts ipad",
+    "macos": "bun scripts/run.ts macos",
+    "build:ios": "bun scripts/run.ts ios --build",
+    "build:macos": "bun scripts/run.ts macos --build",
+    "check:ios": "bun scripts/run.ts ios --check",
+    "check:macos": "bun scripts/run.ts macos --check",
+    "check:ui": "bun scripts/check-ui.ts",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check \"scripts/**/*.ts\" \"*.json\" \"*.yml\""
+  }
+}

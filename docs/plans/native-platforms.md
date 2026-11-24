@@ -96,7 +96,7 @@ new items enter scope automatically.
 | `foundation-tokens.ts`, `look.ts`, `density.ts`, `motion.ts` in the Fabricator registry | Canonical look inputs and design values        |
 | `apps/web/registry/fabricator/native-theme.ts`                                          | Existing conversion to native literal values   |
 | `packages/icons-core/src/runtime/types.ts`                                              | Icon geometry, layers and brand art            |
-| `apps/desktop`, `apps/mobile`                                                           | Existing reference explorers                   |
+| `demos/electron`, `demos/tauri/desktop`, `demos/react-native`                           | Existing reference explorers                   |
 
 Apply the registry build's exclusion and addition rules before counting. The
 current Base-derived result has **101 `registry:ui` declarations, 32 blocks,
@@ -219,19 +219,19 @@ Canonical look inputs, tokens, motion, icon geometry and component contracts
      -> generated Kotlin definitions   -> authored Compose components
 ```
 
-| Proposed path                                           | Ownership                                                            |
-| ------------------------------------------------------- | -------------------------------------------------------------------- |
-| `apps/web/registry/fabricator/resolved-theme.ts`        | Typed resolved design values extracted from current theme logic      |
-| `apps/web/registry/fabricator/platform-contracts.ts`    | Component capability/API/state mappings, validated with Zod          |
-| `apps/web/registry/fabricator/platform-examples/`       | Shared fixture data, routes, scenarios and reference measurements    |
-| `apps/web/registry/swiftui/{ui,models,platform,tests}/` | Authored Swift components, pure models and platform adapters         |
-| `apps/web/registry/compose/{ui,models,platform,tests}/` | Authored common Compose components/models and Android/JVM adapters   |
-| `apps/web/generated/platforms/{swiftui,compose}/`       | Generated native consumer sources/manifests; gitignored              |
-| `apps/web/public/r/{swiftui,compose}/`                  | Generated registry payloads; gitignored except catalog indexes       |
-| `apps/swiftui/`                                         | Private iOS/iPadOS/macOS example targets                             |
-| `apps/kotlin/`                                          | Private Android and desktop example targets using one common gallery |
-| `apps/tauri-mobile/`                                    | Private React/Tauri mobile gallery and native projects               |
-| Existing `apps/web`, `apps/desktop`, `apps/mobile`      | Existing reference apps kept in place                                |
+| Proposed path                                                                      | Ownership                                                            |
+| ---------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `apps/web/registry/fabricator/resolved-theme.ts`                                   | Typed resolved design values extracted from current theme logic      |
+| `apps/web/registry/fabricator/platform-contracts.ts`                               | Component capability/API/state mappings, validated with Zod          |
+| `apps/web/registry/fabricator/platform-examples/`                                  | Shared fixture data, routes, scenarios and reference measurements    |
+| `apps/web/registry/swiftui/{ui,models,platform,tests}/`                            | Authored Swift components, pure models and platform adapters         |
+| `apps/web/registry/compose/{ui,models,platform,tests}/`                            | Authored common Compose components/models and Android/JVM adapters   |
+| `apps/web/generated/platforms/{swiftui,compose}/`                                  | Generated native consumer sources/manifests; gitignored              |
+| `apps/web/public/r/{swiftui,compose}/`                                             | Generated registry payloads; gitignored except catalog indexes       |
+| `demos/swiftui/`                                                                   | Private iOS/iPadOS/macOS example targets                             |
+| `demos/compose/`                                                                   | Private Android and desktop example targets using one common gallery |
+| `demos/tauri/`                                                                     | Private React/Tauri mobile gallery and native projects               |
+| Existing `apps/web`, `demos/electron`, `demos/tauri/desktop`, `demos/react-native` | Existing reference apps kept in place                                |
 
 New folders are proposed names, not existing implementations. Update the owning
 docs' authored/generated tables when creating them. Library source never imports
@@ -339,37 +339,33 @@ rules; this plan authorizes no installations or releases itself.
 
 ### Commands available in this change
 
-| Command                                      | Existing implementation               |
-| -------------------------------------------- | ------------------------------------- |
-| `bun run example:web`                        | Website and registry dev server       |
-| `bun run example:desktop-electron`           | `apps/desktop`, Electron              |
-| `bun run example:desktop-tauri`              | `apps/desktop`, Tauri                 |
-| `bun run example:mobile-reactnative`         | React Native example, defaults to iOS |
-| `bun run example:mobile-reactnative:ios`     | iPhone Simulator/dev build            |
-| `bun run example:mobile-reactnative:ipad`    | iPad Simulator/dev build              |
-| `bun run example:mobile-reactnative:android` | Android emulator/device build         |
-| `bun run example:mobile-reactnative:check`   | Existing mobile screen checker        |
+| Command                             | Existing implementation         |
+| ----------------------------------- | ------------------------------- |
+| `bun run dev`                       | Website and registry dev server |
+| `bun run demo electron`             | `demos/electron`                |
+| `bun run demo tauri:desktop`        | `demos/tauri/desktop`           |
+| `bun run demo react-native:ios`     | iPhone Simulator/dev build      |
+| `bun run demo react-native:ipad`    | iPad Simulator/dev build        |
+| `bun run demo react-native:android` | Android emulator/device build   |
+| `bun run demo react-native:check`   | Existing mobile screen checker  |
 
-Legacy `desktop`, `desktop:tauri`, `mobile`, `mobile:ipad`, `mobile:android` and
-`mobile:check` remain aliases. Existing React Native install-before-run behavior
+The commands live in `demos/package.json`. Existing React Native install-before-run behavior
 is preserved. Dependencies are not installed by validation of this plan.
 
 ### Commands that land with the new runnable apps
 
-| Command family                           | Default and required variants                                                      |
-| ---------------------------------------- | ---------------------------------------------------------------------------------- |
-| `example:mobile-tauri`                   | iOS default; `:ios`, `:ipad`, `:android`, `:check`, `:build:ios`, `:build:android` |
-| `example:mobile-swiftui`                 | iOS default; `:ios`, `:ipad`, `:check`, `:build`                                   |
-| `example:desktop-swiftui`                | macOS; `:check`, `:build`                                                          |
-| `example:mobile-kotlin`                  | Android default; `:android`, `:tablet`, `:check`, `:build`                         |
-| `example:desktop-kotlin`                 | Current desktop OS; `:check`, `:build`                                             |
-| Existing desktop Electron/Tauri commands | Add `:check` and `:build` using the same production fixture frontend               |
+| Command family                           | Default and required variants                                                                      |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `tauri:*`                                | `desktop`, `ios`, `ipad`, `android`, `check`, `build:ios`, `build:android`                         |
+| `swiftui:*`                              | `ios`, `ipad`, `macos`, `check:ios`, `check:macos`, `check:ui`, `build:ios`, `build:macos`         |
+| `compose:*`                              | `android`, `tablet`, `desktop`, `check:android`, `check:desktop`, `build:android`, `build:desktop` |
+| Existing desktop Electron/Tauri commands | Add `:check` and `:build` using the same production fixture frontend                               |
 
 Use thin Bun launchers over installed `xcodebuild`/simulator, Gradle or Tauri
 tooling. Device selectors and argument forwarding must work. Missing prerequisites
 produce a specific actionable error, not an implicit installation or a fallback
 to a different app. App processes and their dev servers stop cleanly on exit.
-Add root scripts only when their target exists and launches; no placeholder
+Add `demos/package.json` scripts only when their target exists and launches; no placeholder
 commands that report success without starting an example.
 
 Keep the current app paths to avoid a migration unrelated to native support.
@@ -507,7 +503,7 @@ are covered, icon geometry passes tests, and existing registry/parity tests pass
 - [ ] Test and implement a minimal themed native Button to prove consumer
       installation; complete its full variant/state coverage in phase 3.
 - [ ] Install generated components into each host through the consumer path.
-- [ ] Add their working `example:*` launch/build/check commands from section 6.
+- [ ] Add their working `bun run demo` launch/build/check commands from section 6.
 - [x] Generate catalog routes and groups for every gallery. Tauri also consumes
       all current web scenarios; native scenario qualification remains separate.
 

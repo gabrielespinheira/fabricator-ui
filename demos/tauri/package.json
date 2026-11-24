@@ -1,0 +1,40 @@
+{
+  "name": "@fabricator-ui/demo-tauri",
+  "version": "0.9.0",
+  "private": true,
+  "description": "The Tauri demos: the React demo bundled for iOS and Android, and the website's /desktop route in a desktop window.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --strictPort",
+    "desktop": "bun ./scripts/desktop.ts",
+    "ios": "bun ./scripts/run.ts ios",
+    "ipad": "bun ./scripts/run.ts ipad",
+    "android": "bun ./scripts/run.ts android",
+    "build:ios": "bun ./scripts/run.ts build:ios",
+    "build:android": "bun ./scripts/run.ts build:android",
+    "check": "bun ./scripts/run.ts check",
+    "tauri": "tauri",
+    "typecheck": "tsc --noEmit",
+    "check:assets": "bun ./scripts/check-assets.ts",
+    "format:check": "prettier --check src scripts package.json tsconfig.json vite.config.ts index.html postcss.config.mjs README.md verification.md src-tauri/tauri.conf.json src-tauri/capabilities desktop/src-tauri/tauri.conf.json desktop/src-tauri/capabilities"
+  },
+  "dependencies": {
+    "@fabricator-ui/icons": "workspace:*",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.5",
+    "@tauri-apps/cli": "2.12.6",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tailwindcss": "4.3.5",
+    "typescript": "6.0.3",
+    "vite": "8.3.8"
+  }
+}

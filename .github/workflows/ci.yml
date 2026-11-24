@@ -38,9 +38,6 @@ jobs:
         run: bun run --cwd apps/web react:build
       - name: Lint, typecheck, format
         run: bun run check
-      # Web tests import apps/mobile, and resolving its tsconfig needs Expo.
-      - name: Install the React Native example
-        run: bun install --cwd apps/mobile --frozen-lockfile
       - name: Unit tests
         run: bun run test
       - name: Upstream parity (ui.shadcn.com)
@@ -48,10 +45,6 @@ jobs:
       - name: React Native parity with the web components
         working-directory: apps/web
         run: bun run native:parity --strict
-      - name: React Native types
-        run: |
-          bun run --cwd packages/icons-react-native build
-          bun run --cwd apps/mobile typecheck
 
   e2e:
     name: CLI end-to-end

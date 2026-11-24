@@ -40,5 +40,5 @@ plugins. WidgetKit and Live Activities need separate Apple extension targets.
 
 The Rust entry point includes real app-private storage commands and validates
 inputs on the native side. The web root does not depend on those commands to
-initialize. Follow the complete gallery in `apps/tauri-mobile` for its typed
+initialize. Follow the complete gallery in `demos/tauri` for its typed
 bridge, persisted navigation, keyboard insets and component scenarios.

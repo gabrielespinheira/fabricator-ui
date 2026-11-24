@@ -27,9 +27,9 @@ struct ContentView: View {
 }
 ```
 
-SwiftPM consumers can depend on this directory as a local package. Copy-in consumers use the native registry and receive only their requested family modules, dependencies and resources. `manifest.json` is generated from the shared catalog by the example's `scripts/build-manifest.ts`.
+SwiftPM consumers can depend on this directory as a local package. Copy-in consumers use the native registry and receive only their requested family modules, dependencies and resources. `manifest.json` is generated from the shared catalog by `apps/web/scripts/swiftui/build-manifest.ts`.
 
-Run `swift test --package-path apps/web/registry/swiftui` from the repository root. The real demo is `apps/swiftui`; its launcher uses installed Xcode and XcodeGen, with no dependency downloads. Device and macOS release performance and VoiceOver parity still require qualification.
+Run `swift test --package-path apps/web/registry/swiftui` from the repository root. The real demo is `demos/swiftui`; its launcher uses installed Xcode and XcodeGen, with no dependency downloads. Device and macOS release performance and VoiceOver parity still require qualification.
 
 Set `motionSpeed: .smooth`, `.default`, `.snappy` or `.instant` on `FabricatorRoot`; `motionScale` retimes transitions and `isMotionEnabled: false` stops them. System Reduce Motion also stops motion, including in overlays and loading indicators. Density and motion settings carry into popups, dialogs and sheets.
 

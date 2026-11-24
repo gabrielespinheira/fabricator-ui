@@ -20,18 +20,20 @@ Fabricator UI is an open-source component library for React web, React Native an
 | Need what shipped in a version                                 | [`CHANGELOG.md`](CHANGELOG.md)                         |
 | Plan or resume a large feature                                 | [`docs/plans/`](docs/plans/), one file per feature     |
 
-Scripts live in the root `package.json`. On a fresh clone: `bun install`, `bun install --cwd apps/mobile`, `bun run registry:build`, then `bun run dev` (port 4000).
+Scripts live in the root `package.json`; the demos' live in `demos/package.json` and run with `bun run demo <command>`. On a fresh clone: `bun install`, `bun run registry:build`, then `bun run dev` (port 4000).
 
 ## Layout
 
 | Path                     | What                                                                                  |
 | ------------------------ | ------------------------------------------------------------------------------------- |
 | `apps/web`               | The website and the registry it serves (`registry/`, `examples/`, `content/docs/`)    |
-| `apps/desktop`           | Electron and Tauri example around the site's `/desktop` route                         |
-| `apps/mobile`            | Private Expo example; its own install, outside the bun workspace                      |
-| `apps/swiftui`           | iOS/iPadOS/macOS component explorer; XcodeGen project and Bun launchers               |
-| `apps/kotlin`            | Compose Android/JVM explorer; Gradle hosts and Bun launchers                          |
-| `apps/tauri-mobile`      | Bundled React explorer in a Tauri mobile host                                         |
+| `demos/`                 | Runnable demos, one folder per framework; `demos/package.json` holds their commands   |
+| `demos/react`            | Vite explorer of every React web component, example and block                         |
+| `demos/electron`         | Electron window around the site's `/desktop` route                                    |
+| `demos/tauri`            | Tauri: the React explorer bundled for mobile, and the `/desktop` route in `desktop/`  |
+| `demos/react-native`     | Private Expo app; its own install, outside the bun workspace                          |
+| `demos/swiftui`          | iOS/iPadOS/macOS component explorer; XcodeGen project and Bun launchers               |
+| `demos/compose`          | Compose Android/JVM explorer; Gradle hosts and Bun launchers                          |
 | `packages/cli`           | The `fabricator-ui` CLI                                                               |
 | `packages/setup`         | Private, pure: one project setup, its command, plan and agent prompt                  |
 | `packages/icons*`        | Fabricator Icons: `icons-core` sources, `icons`, `icons-react-native`, `icons-static` |
@@ -63,8 +65,8 @@ A change that breaks one of these is a bug, even if everything builds. Code comm
 6. **Generated output is rebuilt, never hand-edited.** [`docs/REGISTRY.md`](docs/REGISTRY.md) lists what is generated.
 7. **Bun is the toolchain.** `bun install`, `bun run`, `bunx --bun`, one `bun.lock`. Only `scripts/publish.sh` uses `npm publish`.
 8. **Attribution.** Upstream-derived files stay MIT, with shadcn's copyright in `LICENSE.md` and `NOTICE.md`.
-9. **Platform parity.** A web change to a component's API, variants or look lands in the native tree in the same change, or adds a dated entry to `registry/native/parity-exceptions.json`. Native registry source never imports from `apps/mobile`.
-10. **Native-language parity.** SwiftUI/Compose keep component names, variant/state meaning, shared token and icon geometry, and behavior intent through idiomatic native APIs. Update the owning renderer or its dated `parity-exceptions.json` in the same change. Source coverage, compilation and behavior verification are separate results. Native library source imports no example app.
+9. **Platform parity.** A web change to a component's API, variants or look lands in the native tree in the same change, or adds a dated entry to `registry/native/parity-exceptions.json`. Native registry source never imports from `demos/react-native`.
+10. **Native-language parity.** SwiftUI/Compose keep component names, variant/state meaning, shared token and icon geometry, and behavior intent through idiomatic native APIs. Update the owning renderer or its dated `parity-exceptions.json` in the same change. Source coverage, compilation and behavior verification are separate results. Native library source imports no demo.
 
 ## Brand
 
@@ -74,7 +76,7 @@ Write "Fabricator UI", "the CLI" (`npx fabricator-ui@latest …`), "the registry
 
 Report each applicable line as passed, or name what wasn't run and why.
 
-- [ ] `bun run check` and `bun run test` pass.
+- [ ] `bun run check` and `bun run test` pass; a change to `demos/` also passes `bun run demo check`. Neither CI nor a root script runs the demos, and nothing outside `demos/` imports from them.
 - [ ] Authored registry changes are followed by a full `bun run registry:build`; committed indexes are updated and no gitignored output is staged.
 - [ ] The contract holds, and the area doc's own checks pass (each doc ends with a **Done when** list).
 - [ ] UI was checked in the running site: light and dark, keyboard only, phone and desktop widths, axe clean on touched pages.

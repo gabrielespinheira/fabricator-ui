@@ -243,7 +243,7 @@ Every part of a screen has a component made to hold it. Reach for it before a pl
 | A region that stands apart inside a card         | A muted well, such as `Item variant="muted"`                      |
 | A group of fields with a heading                 | `FieldSet` with a `FieldLegend` and a `FieldDescription`          |
 | Fields that belong together                      | `FieldGroup` of `Field`s: label, control, help                    |
-| A setting: name and description beside a control | `Field orientation="responsive"`: side by side, stacked on phones |
+| A setting: name and description beside a control | `Field orientation="responsive"`, `"horizontal"` for any `Switch` |
 | A choice that needs a sentence to explain it     | Choice cards: a `FieldLabel` around a horizontal `Field`          |
 | A list of people, files, apps or tasks           | `ItemGroup` of `Item`s: picture, title, description, actions      |
 | Records compared by column                       | `Table`; `DataTable` when people sort, filter or edit             |
@@ -293,7 +293,7 @@ The ellipsis at the end of the header (`menu` on `AppShellHeaderActions`) holds 
 
 ### Responsive
 
-Design the phone first and widen it. Components adapt to their room: the App Shell rearranges itself by its own width (on phones the sidebar sits behind the page, actions fold into one menu and the primary action floats), horizontal fields stack, and a `Dialog` becomes a bottom `Drawer`.
+Design the phone first and widen it. Components adapt to their room: the App Shell rearranges itself by its own width (on phones the sidebar sits behind the page, actions fold into one menu and the primary action floats), and responsive fields stack. Some changes are yours: a `Dialog` becomes a bottom `Drawer`, and a table folds its columns under the name.
 
 ## Elevation & Depth
 
@@ -480,7 +480,7 @@ Every text field is a question the person must answer from memory. Replace it wh
 **Short single choices.** Use `<TabsList>` with its default props, including in card headers and settings. Keep every label visible on the shared track. Use `Tabs` even when a choice only changes a setting, filter or view in place. Give the list an accessible name, bind it to the selected value and add `TabsContent` only for actual panels. Use `Select` where the full labels, including translations, would wrap, clip or crowd adjacent controls.
 
 - **Defaults are answers.** Pre-fill what you can know or guess (the workspace's currency, the person's time zone, the most common plan), so most forms are reviewed, not filled.
-- **Ask less.** Leave out what can be inferred, changed later or set by an admin. Put what most people never change in a closed "Advanced" `Accordion`. A form past about seven fields is a [multi-step flow](#multi-step-flow) or a settings page.
+- **Ask less.** Leave out what can be inferred, changed later or set by an admin. Put what most people never change in a closed "Advanced" `Accordion`. A form past about seven fields is a [setup page](#setup), a [multi-step flow](#multi-step-flow) or a settings page.
 - **Show the result as they choose.** A slider's value updates beside its label, a choice card shows its consequence ("Billed yearly, save 20%"), a colour previews on the thing it colours.
 - **Never the browser's controls** for dates, times, numbers, files, colours or selects: the library's match the look, follow the density and behave the same everywhere.
 
@@ -496,7 +496,7 @@ Every text field is a question the person must answer from memory. Replace it wh
 
 A stack of setting cards in one column (`size="sm"`), one per subject, in the order people need them.
 
-- **Each card** has a title and a sentence, then horizontal fields (`Field orientation="responsive"`): name and one-line description at the start, the smallest fitting control at the end (`Switch`, `Tabs` or `Select`, a `Slider` with its value, a `NumberField`, a `ColorPicker` swatch). Rows are parted by space; a text setting sits under its label at full width.
+- **Each card** has a title and a sentence, then one-line fields: name and one-line description at the start, the smallest fitting control at the end. `Field orientation="responsive"` for `Tabs`, a `Select`, a `NumberField` or a `Slider` with its value, which stack on phones; `"horizontal"` for a `Switch` or a `ColorPicker` swatch, which stay beside their label at every width. Rows are parted by space; a text setting sits under its label at full width.
 - **Switches and choices save at once,** with a quiet "Saved" toast and Undo when it matters. A card with text fields has its own Save in its footer, enabled once something changed.
 - **Choice cards** for settings that change how the product behaves, each with its consequence. Many subjects become pages in a sidebar group or vertical `Tabs`.
 - **The danger zone** is the last card, with a destructive button that opens an `AlertDialog` naming what is lost.
@@ -592,14 +592,14 @@ The cursor says what a press will do, on the web and in desktop windows. Compone
 
 ### Platforms
 
-- Base UI, Radix and React Aria look and behave the same; read the docs for the project's base (React Aria has no `Menubar` or `NavigationMenu`). React Native shares the components and rules; not there yet: `ChatInput`, `ColorPicker`, `FileTree`, file upload, `ModelPicker`, `NumberField`, the time inputs. Touch turns hover and right-click into a long press.
+- Base UI, Radix and React Aria look and behave the same; read the docs for the project's base (React Aria has no `Menubar` or `NavigationMenu`). React Native shares the components and rules; not there yet: `DataTable`, and the time in `DatePicker`. Touch turns hover and right-click into a long press.
 
 ## Patterns
 
 Start from the closest pattern, install its block when there is one, and remove what the product doesn't need.
 
 - **Blocks:** `app-shell-01` (workspace app with a Details panel), `app-shell-02` (workbench with document tabs and a status bar), `app-shell-03` (classic SaaS: team switcher on top, the person's menu at the bottom, an icon rail), `app-shell-04` (desktop app in a translucent window), `app-shell-05` (mobile first, with a bottom nav), the screens `sign-in-01`, `sign-up-01`, `forgot-password-01`, `finance-01` (a dashboard), `assistant-01` (AI chat), `messenger-01`, `mail-01` and `calendar-app-01`, `login-01` … `login-05`, `signup-01` … `signup-05`, `sidebar-01` … `sidebar-16`. The App Shell blocks fill their content with placeholders; build the content from this guide and the skill's recipes, or from the screen blocks, which are finished pages.
-- **Pick by what the screen is about:** the state of things ([Dashboards](#dashboards)); many records ([List](#list)); one record ([Detail](#detail)); a queue ([List and detail](#list-and-detail)); preferences ([Settings](#settings)); one record to make or change ([Create and edit](#create-and-edit)); a long task ([Multi-step flow](#multi-step-flow)); a product feature ([SaaS features](#saas-features)); open documents ([Workbench](#workbench)); one document ([Document](#document)); a conversation ([Chat](#chat)); getting in ([Sign in](#sign-in-and-sign-up)); selling the product ([Website](#website)).
+- **Pick by what the screen is about:** the state of things ([Dashboards](#dashboards)); many records ([List](#list)); one record ([Detail](#detail)); a queue ([List and detail](#list-and-detail)); preferences ([Settings](#settings)); one record to make or change ([Create and edit](#create-and-edit)); something to configure before it goes live ([Setup](#setup)); a long task ([Multi-step flow](#multi-step-flow)); a product feature ([SaaS features](#saas-features)); open documents ([Workbench](#workbench)); one document ([Document](#document)); a conversation ([Chat](#chat)); getting in ([Sign in](#sign-in-and-sign-up)); selling the product ([Website](#website)).
 
 ### List
 
@@ -618,6 +618,10 @@ The list fills the main column and the open record sits in a side panel (the who
 ### Create and edit
 
 Up to five fields in a `Dialog`, fields that need the list beside them in a `Sheet`, more on a page. Every field follows [Choosing a control](#choosing-a-control); forms open with defaults and the first field focused; the primary says what it creates. Enter submits, Escape closes.
+
+### Setup
+
+For a campaign, a workflow, a job post: many settings before something goes live. Creating makes a draft at once from its name, and it saves itself. The page is a column of one-line decisions in an `Accordion`, each with a state icon, its name and its current answer; one opens at a time to a few controls. Beside it, a live preview and a list of checks: what blocks, what to look at, what is fine, each opening the line that fixes it. Good defaults make most lines done on arrival. The primary action reviews who it reaches, when and how much before it commits.
 
 ### Multi-step flow
 

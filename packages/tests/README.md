@@ -20,4 +20,4 @@ Set `FABRICATOR_REGISTRY_URL` to test another deployment. Apps are created under
 
 `desktop-only` and `mobile-only` cover `--no-web`: the window keeps its web app, and a lone mobile app gets no monorepo. `monorepo-grow` starts from a web-only monorepo and runs what comes after `create`: `apps add`, `add --app`, `doctor` and `upgrade`. `create-everything` covers `--all` and a Tauri window without glass.
 
-The `expo` scenario is the test of the React Native library: it creates an app with `create-expo-app`, runs `init` and `add --all`, bundles for iOS and Android, and typechecks the installed files. It has no access to `apps/mobile`.
+The `expo` scenario is the test of the React Native library: it creates an app with `create-expo-app`, runs `init` and `add --all`, bundles for iOS and Android, and typechecks the installed files. It has no access to `demos/react-native`.

@@ -3,13 +3,14 @@ title: Agent Skill
 description: Install the Fabricator agent skill so Claude Code, Codex, Cursor and other AI assistants build with Fabricator UI the right way.
 ---
 
-The Fabricator skill teaches your AI assistant how to work with Fabricator UI. With it installed, the assistant reads your project setup, finds components in the `@fabricator` registry, installs them with the CLI, and writes code that follows the library's composition and styling rules for your base and icon library.
+The Fabricator skill teaches your AI assistant to design and build product interfaces with Fabricator UI. With it installed, the assistant reads your project, works out what the screen is for, picks the components that fit, designs the errors and edge cases with the happy path, and writes code that follows the library's rules for your base, icon library and platforms.
 
 For example, you can ask:
 
-- _"Add a login form with email and password fields."_
-- _"Build a settings page with tabs for profile, notifications and billing."_
-- _"Create a dashboard with a sidebar, stat cards and a data table."_
+- _"Build the Members page: invites, roles, seats and what happens when they run out."_
+- _"Design a New campaign flow that doesn't feel like a form."_
+- _"Create an overview for on-call engineers, for web and the phone app."_
+- _"This settings page is a wall of fields. Rework it."_
 - _"Make a chat view that streams the assistant's replies."_
 - _"Switch this project to preset a2r6bw."_
 - _"Update the button component but keep my changes."_
@@ -82,18 +83,20 @@ The skill is a folder of Markdown files. To install it without the skills CLI, c
 
 ## Usage
 
-You don't call the skill by name. Its description tells the assistant when to load it: when you ask to add, compose, style, fix or update Fabricator UI components, when a task involves the `fabricator-ui` CLI or a Fabricator preset, or when the project's `components.json` lists `@fabricator`. Ask for what you want in plain language.
+You don't call the skill by name. Its description tells the assistant when to load it: when you ask to design, build or improve a screen with Fabricator UI, choose or compose its components, set it up or update it, or when the project's `components.json` lists `@fabricator`. Ask for what you want in plain language.
 
-When the skill loads, the assistant follows the same workflow every time:
+When the skill loads, the assistant follows the same process, scaled to the task:
 
-1. **Read the project.** It runs `npx fabricator-ui@latest info --json` to learn your framework, Tailwind version, import aliases, base (`base`, `radix` or `aria`), icon library and installed components.
-2. **Reuse what you have.** It checks the installed components before adding anything.
-3. **Find the right item.** It searches the `@fabricator` registry with `search`. If an item isn't there, it asks you which registry to use instead of picking one for you.
-4. **Read the docs.** It runs `docs` for each component it will use and reads the pages for your base, so it writes the real API instead of guessing.
-5. **Install and review.** It installs with `add`, then reads every file that was written and fixes aliases, icon imports and composition.
-6. **Write the UI** with the installed components, following the rules below.
+1. **Read the ground.** Your agent instructions, `DESIGN.md`, `components.json`, installed components and a neighbouring screen: the base, the theme, the icon library and every platform the product ships on.
+2. **Write the brief.** Who is on the screen and what they came to do, the objects and actions, every value the feature needs, and which of those it can know, infer or default instead of asking.
+3. **Shape the screen** from a pattern, a recipe or a block.
+4. **Choose components** from the catalogue, installed ones first, and read their docs for your base.
+5. **Design the flows and states:** loading, empty, partial, stale, denied, over the limit, failed, undone.
+6. **Fit every platform:** phone, tablet, desktop browser, desktop window, React Native.
+7. **Build** with the API rules for your base.
+8. **Look, then fix.** It opens the running screen at phone, tablet and desktop widths in both themes, uses the keyboard, forces the failure states, and repeats until a pass finds nothing.
 
-The skill allows the assistant to run `fabricator-ui` commands through `npx`, `pnpm dlx`, `yarn dlx` and `bunx`, picking the runner that matches your lockfile.
+It runs `fabricator-ui` commands only when the task needs them, through the runner that matches your lockfile, and never overwrites a component without your approval.
 
 ### Updating components
 
@@ -107,20 +110,19 @@ Ask the assistant to switch presets. It asks how you want to apply the preset (o
 
 ## What the skill knows
 
-| Area          | What the assistant learns                                                                                                                 |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| Styling       | Variants before custom classes, semantic colour tokens, `gap-*` spacing, `size-*`, `cn()`, and leaving overlay stacking to the components |
-| Forms         | `FieldGroup` and `Field` layout, validation with `data-invalid` and `aria-invalid`, `InputGroup`, `ToggleGroup` for option sets           |
-| Composition   | Items inside their groups, titles on dialogs and sheets, the full Card structure, `Alert`, `Empty`, `Skeleton`, `Badge`, loading buttons  |
-| Bases         | `render` for Base UI, `asChild` for Radix, and React Aria triggers, plus the API differences of Select, ToggleGroup, Slider and Accordion |
-| Icons         | Imports from your configured icon library, `data-icon` in buttons, and letting components size their icons                                |
-| Chat          | `MessageScroller`, `Message`, `Bubble`, `Attachment` and `Marker`, with built-in streaming and scroll anchoring                           |
-| CLI           | Every `fabricator-ui` command and flag, dry runs, diffs, presets and templates                                                            |
-| Registry      | The `@fabricator` registry and its URL, other namespaced registries and item addresses                                                    |
-| Customization | CSS variables, dark mode, custom colours, radius, and extending components with variants                                                  |
-| MCP           | Setting up the [Fabricator MCP server](/docs/mcp)                                                                                         |
+| Area        | What the assistant learns                                                                                                  |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Patterns    | Page anatomy, hierarchy, the grid, dashboards, and blueprints for billing, members, integrations, approvals and more       |
+| Asking      | How to collect what a feature needs without a form: a ladder from known to typed, draft-first setup, the control per value |
+| Components  | Every component, when to reach for it, what is easy to miss, and which neighbour to pick instead                           |
+| States      | What each region and action does when it loads, fails, conflicts, hits a limit or is denied, and how loud to be about it   |
+| Platforms   | What each part of a screen becomes on phones, tablets, desktop browsers, desktop windows and React Native                  |
+| Foundations | Surfaces, colour roles, type, space, density, shape, motion and the small details that make a screen look finished         |
+| Recipes     | Working layout code for dashboards, lists, setup pages, settings, create overlays and states                               |
+| Rules       | Composition, fields, styling, icons, loading, chat, the differences between bases, React Native, SwiftUI and Compose       |
+| Setup       | The CLI, presets, registries, theming and the [MCP server](/docs/mcp)                                                      |
 
-Each rule area is a separate file with incorrect and correct code examples. The assistant reads a file only when the task touches its area, so the skill adds little to the context of each session.
+Each area is a separate file. The assistant reads one only when the task touches it, so the skill adds little to the context of each session.
 
 ---
 
@@ -128,7 +130,7 @@ Each rule area is a separate file with incorrect and correct code examples. The 
 
 The skill and the [MCP server](/docs/mcp) work well together:
 
-- The **skill** carries knowledge: the workflow, the rules and the CLI reference. It is plain text in your project and needs no running process.
+- The **skill** carries knowledge: the design process, the component catalogue, the rules and the CLI reference. It is plain text in your project and needs no running process.
 - The **MCP server** gives the assistant tools to list, search, view and install items from every registry in your `components.json`.
 
 With the skill alone, the assistant uses the CLI for the same tasks. Add the MCP server if your assistant works better with tools than with shell commands, or if you browse many registries.
@@ -168,7 +170,7 @@ npx skills remove fabricator
 
 ### The assistant writes code for the wrong base or icon library
 
-The skill reads both from `npx fabricator-ui@latest info --json`. Run it yourself and check `config.base` and `config.iconLibrary`. If they are wrong, fix them in `components.json`.
+The skill reads both from your project's files and, when they leave it unclear, from `npx fabricator-ui@latest info --json`. Run it yourself and check `config.base` and `config.iconLibrary`. If they are wrong, fix them in `components.json`.
 
 ---
 

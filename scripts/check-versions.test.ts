@@ -14,8 +14,10 @@ function createFiles(version: string): Record<string, string> {
     }),
     "apps/web/package.json": manifest(version),
     "packages/cli/package.json": manifest(version),
-    "apps/desktop/src-tauri/tauri.conf.json": JSON.stringify({ version }),
-    "apps/desktop/src-tauri/Cargo.toml": `[package]\nname = "desktop"\nversion = "${version}"\n`,
+    "demos/tauri/desktop/src-tauri/tauri.conf.json": JSON.stringify({
+      version,
+    }),
+    "demos/tauri/desktop/src-tauri/Cargo.toml": `[package]\nname = "desktop"\nversion = "${version}"\n`,
     "bun.lock": `{\n  "workspaces": {\n    "": {\n      "name": "root",\n    },\n    "apps/web": {\n      "name": "web",\n      "version": "${version}",\n    },\n  },\n}\n`,
     "CHANGELOG.md": `# Changelog\n\n## [${version}](https://example.com) (2026-11-11)\n\n### Features\n`,
   }
@@ -36,12 +38,14 @@ describe("getVersionProblems", () => {
   test("checks the separately installed mobile app and Expo version", () => {
     const files = {
       ...createFiles("0.8.0"),
-      "apps/mobile/package.json": manifest("0.0.0"),
-      "apps/mobile/app.json": JSON.stringify({ expo: { version: "0.0.0" } }),
+      "demos/react-native/package.json": manifest("0.0.0"),
+      "demos/react-native/app.json": JSON.stringify({
+        expo: { version: "0.0.0" },
+      }),
     }
     expect(check(files)).toEqual([
-      "apps/mobile/package.json is 0.0.0, not 0.8.0",
-      "apps/mobile/app.json is 0.0.0, not 0.8.0",
+      "demos/react-native/package.json is 0.0.0, not 0.8.0",
+      "demos/react-native/app.json is 0.0.0, not 0.8.0",
     ])
   })
 
@@ -59,12 +63,12 @@ describe("getVersionProblems", () => {
     const stale = createFiles("0.6.0")
     const files = {
       ...createFiles("0.7.0"),
-      "apps/desktop/src-tauri/Cargo.toml":
-        stale["apps/desktop/src-tauri/Cargo.toml"] ?? "",
+      "demos/tauri/desktop/src-tauri/Cargo.toml":
+        stale["demos/tauri/desktop/src-tauri/Cargo.toml"] ?? "",
       "bun.lock": stale["bun.lock"] ?? "",
     }
     expect(check(files)).toEqual([
-      "apps/desktop/src-tauri/Cargo.toml is 0.6.0, not 0.7.0",
+      "demos/tauri/desktop/src-tauri/Cargo.toml is 0.6.0, not 0.7.0",
       "bun.lock lists apps/web at 0.6.0, not 0.7.0",
     ])
   })

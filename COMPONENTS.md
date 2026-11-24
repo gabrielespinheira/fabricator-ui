@@ -360,7 +360,7 @@ Read [`registry/native/README.md`][native-readme] before writing native source. 
 - **Fluid hover on touch:** a press lights the row, a drag moves the highlight where `track` is set, and lists that scroll wait 90ms before lighting (`FluidHoverList`, `FluidHoverScrollList`, `useFluidRow`).
 - **Sizes for the device:** a phone's default is 44pt controls and 15pt text, a tablet's 40pt; `size` goes through `useControlSize`, and small controls reach 44pt through `getTouchSlop`. `md:` (768pt) is the tablet layout.
 - **Overlays** read `useDensity()` before the portal, wrap content in `DensityScope`, and handle Android back and outside press.
-- Icons import from `@fabricator-ui/icons-react-native` by value. Native source never imports from `apps/mobile`.
+- Icons import from `@fabricator-ui/icons-react-native` by value. Native source never imports from `demos/react-native`.
 
 ### SwiftUI and Compose
 
@@ -402,7 +402,7 @@ The site renders the Fabricator style, so it shows what `add` installs.
 
 - **CSS loop:** edit `registry/styles/fabricator/<name>.css`, run `bun run registry:build --examples` in `apps/web`, open `/view/base-fabricator/<name>-example`. It hot-reloads.
 - **Compiled loop** (overrides, docs pages): `scripts/build-fabricator.sh [base|radix|aria|all]` in `apps/web` rebuilds `styles/*-fabricator` under a lock, safe with parallel workers.
-- **Native:** `bun run registry:native --check <names>` compiles without writing; `bun run example:mobile-reactnative` runs the explorer. SwiftUI and Compose launchers are in [PLATFORMS.md](docs/PLATFORMS.md).
+- **Native:** `bun run registry:native --check <names>` compiles without writing; `bun run demo react-native:ios` runs the explorer. SwiftUI and Compose launchers are in [PLATFORMS.md](docs/PLATFORMS.md).
 - If the dev server can't resolve a generated file that exists, stop it, delete `apps/web/.next/dev`, restart. Every style folder the site renders needs an `@source` line in `app/globals.css`.
 - Check light and dark, each density and motion speed the change affects, keyboard only, a phone width and a wide desktop. Recapture visible changes: `bun run registry:capture --force && bun run pages:capture` in `apps/web`, dev server running.
 

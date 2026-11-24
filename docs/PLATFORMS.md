@@ -4,15 +4,15 @@ Fabricator UI shares component names, design tokens, icon geometry and behavior
 intent across renderers. React web and React Native keep their API parity
 contract. SwiftUI and Compose expose idiomatic native APIs.
 
-| Platform                       | Components                                        | Icons                                                        | Example app         |
-| ------------------------------ | ------------------------------------------------- | ------------------------------------------------------------ | ------------------- |
-| Web                            | Base UI, Radix or React Aria base trees           | `@fabricator-ui/icons`                                       | `apps/web`          |
-| Desktop                        | The web components in an Electron or Tauri window | `@fabricator-ui/icons` (+ PNGs from `icons-static`)          | `apps/desktop`      |
-| iOS, iPadOS, Android           | The native tree, on Expo and Uniwind              | `@fabricator-ui/icons-react-native`                          | `apps/mobile`       |
-| iOS, iPadOS, macOS             | SwiftUI source (qualification in progress)        | Generated Fabricator outline/brand geometry and file artwork | `apps/swiftui`      |
-| Android, desktop JVM           | Kotlin Compose source (qualification in progress) | Generated Fabricator outline and brand geometry              | `apps/kotlin`       |
-| iOS, iPadOS, Android via Tauri | Existing React web components in a WebView        | `@fabricator-ui/icons`                                       | `apps/tauri-mobile` |
-| No framework                   | (none)                                            | `@fabricator-ui/icons-static`                                | (none)              |
+| Platform                       | Components                                        | Icons                                                        | Demo                            |
+| ------------------------------ | ------------------------------------------------- | ------------------------------------------------------------ | ------------------------------- |
+| Web                            | Base UI, Radix or React Aria base trees           | `@fabricator-ui/icons`                                       | `demos/react`                   |
+| Desktop                        | The web components in an Electron or Tauri window | `@fabricator-ui/icons` (+ PNGs from `icons-static`)          | `demos/electron`, `demos/tauri` |
+| iOS, iPadOS, Android           | The native tree, on Expo and Uniwind              | `@fabricator-ui/icons-react-native`                          | `demos/react-native`            |
+| iOS, iPadOS, macOS             | SwiftUI source (qualification in progress)        | Generated Fabricator outline/brand geometry and file artwork | `demos/swiftui`                 |
+| Android, desktop JVM           | Kotlin Compose source (qualification in progress) | Generated Fabricator outline and brand geometry              | `demos/compose`                 |
+| iOS, iPadOS, Android via Tauri | Existing React web components in a WebView        | `@fabricator-ui/icons`                                       | `demos/tauri`                   |
+| No framework                   | (none)                                            | `@fabricator-ui/icons-static`                                | (none)                          |
 
 What a platform lacks is recorded, never silent: `registry/native/parity-exceptions.json` for native gaps (published on the React Native compatibility page by `native:docs`), the item's `meta` for a base fallback.
 
@@ -20,9 +20,8 @@ The expansion and its qualification checklist are specified in
 [`plans/native-platforms.md`](plans/native-platforms.md). New renderer source
 coverage does not mean every advanced behavior or OS host is verified. Read
 `registry/{swiftui,compose}/parity-exceptions.json` for current implementation gaps
-and platform mappings. Repository demos use
-`bun run example:<platform>-<framework>[:device|check]`. New launch commands land
-with runnable apps; `desktop`, `desktop:tauri` and `mobile:*` remain aliases.
+and platform mappings. The demos and their commands are in
+[`demos/`](../demos/README.md).
 
 ## SwiftUI, Kotlin Compose and Tauri mobile
 
@@ -47,19 +46,17 @@ with runnable apps; `desktop`, `desktop:tauri` and `mobile:*` remain aliases.
   render SwiftUI controls. The bundled demo works without a Next server; remote
   sample media still needs a network connection.
 
-| Demo                          | Launch                                              | Check / build                                                |
-| ----------------------------- | --------------------------------------------------- | ------------------------------------------------------------ |
-| SwiftUI iPhone / iPad         | `bun run example:mobile-swiftui`, `:ipad`           | `example:mobile-swiftui:check`, `:build`                     |
-| SwiftUI macOS                 | `bun run example:desktop-swiftui`                   | `example:desktop-swiftui:check`, `:build`                    |
-| Kotlin Android phone / tablet | `bun run example:mobile-kotlin`, `:tablet`          | `example:mobile-kotlin:check`, `:build`                      |
-| Kotlin desktop                | `bun run example:desktop-kotlin`                    | `example:desktop-kotlin:check`, `:build`                     |
-| Tauri iPhone / iPad / Android | `bun run example:mobile-tauri`, `:ipad`, `:android` | `example:mobile-tauri:check`, `:build:ios`, `:build:android` |
-| Tauri frontend                | `bun run example:mobile-tauri:web`                  | `bun run --cwd apps/tauri-mobile check:browser`              |
+The launch, check and build commands are in
+[`demos/README.md`](../demos/README.md#commands).
+`bun run demo react:check:browser` opens every demo of the React explorer in Chrome;
+the Tauri mobile app bundles the same explorer.
 
 `bun scripts/check-native-consumers.ts --renderer swiftui --build` resolves every
 published item, installs each distinct source closure into a fresh standalone
 package and compiles it. The Compose equivalent installs source; `--build` needs
-the configured native tools. This check is separate from running the galleries.
+the configured native tools, and `--tests` adds the library's Compose tests. CI
+runs both, with `swift test` and an iOS compile of the SwiftUI package; it never
+runs the demos.
 Run it after registry generation completes, so a run uses one set of payloads.
 SwiftUI foundations own the popup host and menu primitives shared by forms,
 navigation and overlays; shell items also depend on the breadcrumb module.
@@ -129,7 +126,7 @@ the keyboard viewport. macOS focus behavior remains unqualified. Time Input owns
 its pure parser and field state, depending on the standalone wheel; Date Picker
 uses that module for clock parsing. No JavaScript resource or dependency is added.
 
-`bun run example:mobile-swiftui:check:ui --device <UDID>` runs XCUITest against
+`bun run demo swiftui:check:ui --device <UDID>` runs XCUITest against
 an explicitly selected iOS Simulator. It launches every generated catalog route
 and exercises native field editing, project feedback, Select sizing/search reset
 and repeated dialog dismissal. Selection-control regressions exercise mixed,
@@ -243,7 +240,7 @@ its header stays visible and switching to ordinary text restores normal spacing.
 The iOS XcodeGen test scheme includes `FabricatorSwiftUI-UnitTests` for actual
 UIKit font/layout/selection checks, alongside the existing UI test target. After
 building the example, run that target with `xcodebuild test -project
-apps/swiftui/FabricatorSwiftUI.xcodeproj -scheme FabricatorSwiftUI-iOS
+demos/swiftui/FabricatorSwiftUI.xcodeproj -scheme FabricatorSwiftUI-iOS
 -destination 'platform=iOS Simulator,id=<UDID>'
 -only-testing:FabricatorSwiftUI-UnitTests CODE_SIGNING_ALLOWED=NO`.
 Editor also owns the optional Geist Mono fonts/license, shared with document/code
@@ -259,12 +256,12 @@ screenshot qualification remain open.
 
 ## Desktop
 
-- The desktop example (`apps/desktop`) wraps the site's `/desktop` route (`app/(view)/desktop/`) in Electron (`electron/`) or Tauri (`src-tauri/`). Run `bun run example:desktop-electron` or `bun run example:desktop-tauri` (needs Rust; the first build takes minutes).
+- The desktop demos wrap the site's `/desktop` route (`app/(view)/desktop/`) in Electron (`demos/electron`) or Tauri (`demos/tauri/desktop`). Run `bun run demo electron` or `bun run demo tauri:desktop` (needs Rust; the first build takes minutes).
 - The CLI scaffolds desktop apps from `packages/cli/templates/desktop-{electron,tauri}`. An App Shell with `desktop=<electron|tauri>` finds its window at runtime through the `desktop-window` item.
 - On macOS, Electron and Tauri overlay native window controls on the App Shell. Tauri uses `titleBarStyle: "Overlay"` and `hiddenTitle: true` for the main window. Its configured traffic-light inset is `{ x: 16, y: 32 }` to place the buttons at `{ x: 16, y: 23 }` on the tested macOS release. The `core:window:allow-set-theme` permission lets the window material follow the page theme. Tauri uses the same traffic-light position in both tab layouts, so the dedicated titlebar is 20px taller than Electron's.
 - The Compose macOS example uses AWT full-window content and reserves space for native traffic lights in its sidebar. SwiftUI uses a hidden-title-bar window. Insets for browser and mobile shells come from their renderer.
 - CDP clicks skip the native hit test, so a window control is proven only by auditing its `app-region` rects.
-- The desktop example and `apps/mobile` share the component explorer's sidebar (`apps/web/lib/component-explorer.ts`) and shell options.
+- The desktop demos and `demos/react-native` share the component explorer's sidebar (`apps/web/lib/component-explorer.ts`) and shell options.
 
 ## React Native
 
@@ -272,11 +269,11 @@ The native tree (`apps/web/registry/native/`) holds the React Native version of 
 
 - **Platform parity (contract 9):** same exports, `variant` and `size` values, declared props, `data-slot`s and placeholder names as web. Base UI's API is the one to match. Native may add, never rename. `bun run native:parity` (in `apps/web`) compares them; CI runs it `--strict`.
 - **Sizes:** phones use the spacious scale (44pt controls); tablets use 40pt controls with phone text. `FabricatorRoot` picks them from the window width; Split View under 768pt counts as a phone.
-- `apps/mobile` is a private example with its own install (React Native pins its own React). It runs every demo from the compiled registry through `metro.config.js`, and its shell is the library's `AppShell`. Nothing in the library imports it.
+- `demos/react-native` is a private demo with its own install (React Native pins its own React). It runs every demo from the compiled registry through `metro.config.js`, and its shell is the library's `AppShell`. Nothing in the library imports it.
 
 ### Theme
 
-`registry/fabricator/native-theme.ts` resolves a look to what React Native can draw (no OKLCH, CSS variables or `calc()`), from the same modules as the website's stylesheet. Never write a colour or size by hand in `apps/mobile`.
+`registry/fabricator/native-theme.ts` resolves a look to what React Native can draw (no OKLCH, CSS variables or `calc()`), from the same modules as the website's stylesheet. Never write a colour or size by hand in `demos/react-native`.
 
 - `getNativeCssVariables` gives every token under the website's names; `toNativeStylesheet` writes them into the installed `fabricator.css`, and `applyLook` hands them to Uniwind at runtime through `getNativeRuntimeVariables`.
 - Its tests pin values measured in a browser and read `app-shell.css` and `globals.css`, so a token or radius change fails there until `native-theme.ts` follows.
@@ -288,18 +285,19 @@ The native tree (`apps/web/registry/native/`) holds the React Native version of 
 - Uniwind can't hold `cubic-bezier()` in a variable: `--motion-speed` names the speed and `lib/motion.ts` reads curves from `motion.ts`. It splits shadow lists on commas, so shadow colours are hex. It mangles a runtime `-0.5px`, hence `getNativeRuntimeVariables`.
 - Reanimated's `Keyframe` left surfaces invisible; `useSurfaceAnimation` uses custom worklets.
 - Sounds share the web recipes (`shared/lib/sound-recipes.ts`); `lib/sound-synth.ts` renders them to files and `expo-audio` plays them. Seeking a finished player and playing in the same tick drops the play, so `lib/sounds.ts` rewinds on finish. Every sound has a matching haptic.
-- Expo's Metro reads `tsconfig` paths at runtime; `apps/mobile` turns that off because its aliases differ between types (source) and bundling (compiled).
+- The Android command needs Android Studio's SDK, JDK 17 and an emulator from its Device Manager. It fills in an unset `ANDROID_HOME` or `JAVA_HOME`, starts the emulator, and Gradle downloads the missing SDK packages on the first build.
+- Expo's Metro reads `tsconfig` paths at runtime; `demos/react-native` turns that off because its aliases differ between types (source) and bundling (compiled).
 
 ### Commands
 
-| Task                                         | Command                                                                                   |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| iPhone                                       | `bun run example:mobile-reactnative`                                                      |
-| iPad, Android                                | `bun run example:mobile-reactnative:ipad`, `bun run example:mobile-reactnative:android`   |
-| Every demo on an iPhone and iPad, for errors | `bun run example:mobile-reactnative:check` (`--device`, `--scope components`, `--strict`) |
-| Compile items without writing                | `bun run registry:native --check <names>` (in `apps/web`)                                 |
-| Types                                        | `bun run typecheck` (in `apps/mobile`)                                                    |
-| Docs pages from source and `differences.ts`  | `bun run native:docs` (in `apps/web`)                                                     |
+| Task                                         | Command                                                                          |
+| -------------------------------------------- | -------------------------------------------------------------------------------- |
+| iPhone                                       | `bun run demo react-native:ios`                                                  |
+| iPad, Android                                | `bun run demo react-native:ipad`, `bun run demo react-native:android`            |
+| Every demo on an iPhone and iPad, for errors | `bun run demo react-native:check` (`--device`, `--scope components`, `--strict`) |
+| Compile items without writing                | `bun run registry:native --check <names>` (in `apps/web`)                        |
+| Types (local; CI uses the CLI's Expo test)   | `bun run typecheck` (in `demos/react-native`)                                    |
+| Docs pages from source and `differences.ts`  | `bun run native:docs` (in `apps/web`)                                            |
 
 ## Fabricator Icons
 
@@ -324,7 +322,7 @@ Every Lucide icon under its Lucide name with identical geometry, plus Fabricator
 ## Done when
 
 - [ ] A web component change has its native item, or a dated `parity-exceptions.json` entry, and `bun run native:parity` passes.
-- [ ] `add <item>` works in a fresh Expo project using nothing from `apps/mobile`.
-- [ ] `bun run example:mobile-reactnative:check` passes, and the demo was checked on the iOS Simulator and Android Emulator, light and dark, with VoiceOver and TalkBack.
+- [ ] `add <item>` works in a fresh Expo project using nothing from `demos/react-native`.
+- [ ] `bun run demo react-native:check` passes, and the demo was checked on the iOS Simulator and Android Emulator, light and dark, with VoiceOver and TalkBack.
 - [ ] `bun run native:docs` was rerun after a native item changed.
 - [ ] Icon changes pass `bun run icons:check` and `bun run test`, with a review sheet on the PR for new drawings.

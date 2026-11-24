@@ -22,7 +22,7 @@ Upstream syncs, pinned tools, releases and deploys. Most of this is the maintain
 
 - One version for the whole repository, in lockstep: the root `package.json`, every workspace package (the CLI, icon packages, `editor-native`, private apps and packages), the Tauri and Cargo manifests, `bun.lock` and the root `DESIGN.md`'s `fabricatorVersion` (its `version: alpha` is the DESIGN.md format's and stays). There are no changesets and no release bot.
 - `/release` (or `/release X.Y.Z`) cuts it: a version commit that writes every version file and a `## [X.Y.Z]` section at the top of [`CHANGELOG.md`](../CHANGELOG.md), the only changelog, on a `release/v*` branch with its pull request. The same commit renames `apps/web/content/docs/changelog/unreleased.mdx` to `vX-Y-Z.mdx`, titles it `Version X.Y.Z`, dates it, adds the GitHub release link, and leaves a fresh `unreleased.mdx` only when changes remain. Feature PRs never touch versions or `CHANGELOG.md`.
-- The separately installed mobile example follows the same version in `apps/mobile/package.json` and `apps/mobile/app.json`. When the release writer omits it, update these mirrors on the source release branch before cutting. Scaffold templates keep their own starter versions.
+- The separately installed React Native demo follows the same version in `demos/react-native/package.json` and `demos/react-native/app.json`. When the release writer omits it, update these mirrors on the source release branch before cutting. Scaffold templates keep their own starter versions.
 - CI runs `bun run release:check`, which fails when a version file is out of step or a `release/v*` branch doesn't carry its version (`bun run test:scripts` tests it).
 
 ## Deploy
