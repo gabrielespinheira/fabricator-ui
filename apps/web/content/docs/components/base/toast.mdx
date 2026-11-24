@@ -116,7 +116,7 @@ The `success`, `info`, `warning` and `error` types colour their icon with the st
 
 ## Size
 
-A toast is as wide as its content, up to 27 times its text size (351px at the default density). Below it, "Link copied" is a small pill; past it, text wraps. Change the limit with `--toast-max-width` on `Toast`.
+Every toast has the same width, 26 times its text size (338px at the default density), or the screen's less a margin on a narrow phone. Only its height follows the content. Change the width with `--toast-width` on `Toast`.
 
 ## Action
 
@@ -151,7 +151,7 @@ The title shows two lines and the description three, and a word that can't wrap 
 ## Promise
 
 Use `toast.promise` to update one toast as an asynchronous task moves through
-loading, success, and error states. The toast changes size in place and fades its
+loading, success, and error states. The toast changes height in place and fades its
 new content in.
 
 <ComponentPreview styleName="base-nova" name="toast-promise" />

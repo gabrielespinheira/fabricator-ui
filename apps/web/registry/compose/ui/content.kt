@@ -77,7 +77,7 @@ class FabricatorToastState {
 }
 @Composable fun rememberFabricatorToastState(): FabricatorToastState = remember { FabricatorToastState() }
 
-/** As wide as its content, up to 27 times its text. A press shows all of a long text. */
+/** Every toast is 26 times its text wide. A press shows all of a long text. */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FabricatorToast(message: FabricatorToastMessage, onDismiss: () -> Unit, modifier: Modifier = Modifier, isExpanded: Boolean = false, onExpandedChange: ((Boolean) -> Unit)? = null) {
@@ -86,7 +86,7 @@ fun FabricatorToast(message: FabricatorToastMessage, onDismiss: () -> Unit, modi
     val interaction = remember { MutableInteractionSource() }
     Box(modifier.semantics { liveRegion = LiveRegionMode.Polite }) {
         Row(
-            Modifier.widthIn(max = (theme.text(13).value * 27).dp).shadow(if (theme.isDark) 18.dp else 12.dp, shape).clip(shape).background(theme.color("surface-5"))
+            Modifier.widthIn(max = (theme.text(13).value * 26).dp).fillMaxWidth().shadow(if (theme.isDark) 18.dp else 12.dp, shape).clip(shape).background(theme.color("surface-5"))
                 .then(if (onExpandedChange == null) Modifier else Modifier.clickable(interaction, indication = null) { onExpandedChange(!isExpanded) })
                 .animateContentSize(tween(theme.duration("toast"), easing = theme.easing("enter")))
                 .padding(horizontal = theme.space(12), vertical = theme.space(10)),
@@ -94,8 +94,8 @@ fun FabricatorToast(message: FabricatorToastMessage, onDismiss: () -> Unit, modi
         ) {
             message.resolvedIcon?.let { icon -> Box(Modifier.height(theme.space(20)), contentAlignment = Alignment.Center) { FabricatorIcon(icon, color = theme.color(if (message.role == FabricatorRole.Primary || message.role == FabricatorRole.Secondary) "foreground" else message.role.key)) } }
             // Beside text that leaves it room, under text that doesn't.
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(theme.space(12)), verticalArrangement = Arrangement.spacedBy(theme.space(8)), itemVerticalAlignment = Alignment.CenterVertically) {
-                Column {
+            FlowRow(Modifier.weight(1f), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(theme.space(8)), itemVerticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.padding(end = if (message.actionLabel == null) 0.dp else theme.space(12))) {
                     FabricatorText(message.title, weight = FontWeight.Medium, maxLines = if (isExpanded) Int.MAX_VALUE else 2, overflow = TextOverflow.Ellipsis)
                     if (message.description != null) FabricatorText(message.description, muted = true, maxLines = if (isExpanded) Int.MAX_VALUE else 3, overflow = TextOverflow.Ellipsis)
                 }

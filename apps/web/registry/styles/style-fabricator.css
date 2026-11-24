@@ -3163,8 +3163,9 @@
     @apply shrink-0;
   }
 
+  /* Its row's colour, so it reads on a lit row too. */
   .cn-editor-block-type-shortcut {
-    @apply text-muted-foreground text-(length:--density-text-11);
+    @apply text-(length:--density-text-11) font-normal text-inherit;
   }
 
   /* As wide as the editor up to a comfortable address. */
@@ -6607,7 +6608,7 @@
 /* MARK: Toast */
 
   /* Surface 5 with its shadow ring (no border), rounded-xl, 13px. Every toast
-     is 25 times the text size wide (325px), about 45 characters a line, so a
+     is 26 times the text size wide (338px), about 45 characters a line, so a
      stack keeps one edge; only the height follows the content. The surface
      classes are
      important because the source paints its own.
@@ -6617,15 +6618,16 @@
      one. Leaving is quicker, on the exit curve. `useToastStack` sets the box;
      reduced motion keeps only the fades. */
   .cn-toast {
-    @apply bg-surface-5! shadow-surface-5! text-popover-foreground rounded-xl! border-0! text-(length:--density-text-13) [--toast-width:min(calc(var(--density-text-13)*25),calc(100vw-2rem))] transition-[transform,opacity,width,height] duration-toast ease-enter data-ending-style:duration-toast-exit data-ending-style:ease-exit motion-reduce:transition-[opacity] focus-visible:ring-1 focus-visible:ring-ring;
+    @apply bg-surface-5! shadow-surface-5! text-popover-foreground rounded-xl! border-0! text-(length:--density-text-13) [--toast-width:min(calc(var(--density-text-13)*26),calc(100vw-2rem))] transition-[transform,opacity,width,height] duration-toast ease-enter data-ending-style:duration-toast-exit data-ending-style:ease-exit motion-reduce:transition-[opacity] focus-visible:ring-1 focus-visible:ring-ring;
   }
 
-  /* 40px tall with one line of text. The content keeps its final width and is
+  /* 40px tall with one line of text. An action beside the text ends 8px from
+     the edge in every toast, so a stack's actions line up. The content keeps its final width and is
      cut to the box on the box's timing (a little past the top and the start,
      where the close button sticks out), and fades out fast when another toast
      covers it. */
   .cn-toast-content {
-    @apply gap-(--density-8) px-(--density-12) py-(--density-10) [clip-path:inset(-12px_calc(100%-var(--toast-box-width))_calc(100%-var(--toast-box-height))_-12px)] transition-[clip-path,opacity] duration-toast ease-enter group-data-behind-front/toast:duration-feedback motion-reduce:transition-[opacity] has-data-[slot=toast-action]:pe-(--density-6) has-data-[slot=toast-description]:pe-(--density-12);
+    @apply gap-(--density-8) px-(--density-12) py-(--density-10) [clip-path:inset(-12px_calc(100%-var(--toast-box-width))_calc(100%-var(--toast-box-height))_-12px)] transition-[clip-path,opacity] duration-toast ease-enter group-data-behind-front/toast:duration-feedback motion-reduce:transition-[opacity] has-data-[slot=toast-action]:pe-(--density-8) group-data-stacked/toast:pe-(--density-12)!;
   }
 
   /* As tall as a line of text, at the first line. An avatar centres on the
@@ -6688,7 +6690,7 @@
   }
 
   .cn-sonner-toast {
-    @apply [--toast-width:min(calc(var(--density-text-13)*25),calc(100vw-2rem))] h-(--toast-box-height)! w-(--toast-box-width)! max-w-(--toast-width) data-measuring:h-auto! data-measuring:w-max! data-[styled=true]:data-[measuring=box]:min-w-(--toast-width) data-[measuring=row]:max-w-none transition-[transform,opacity,width,height]! duration-toast! ease-enter! data-[removed=true]:duration-toast-exit! data-[removed=true]:ease-exit! data-[swiping=true]:transition-none! motion-reduce:transition-[opacity]! [--toast-lift:-1] data-[y-position=bottom]:origin-bottom data-[y-position=top]:origin-top data-[y-position=top]:[--toast-lift:1] [--toast-x:-50%] left-[calc(50%-var(--mobile-offset-left))]! right-auto! data-[x-position=center]:min-[601px]:left-1/2! data-[x-position=left]:min-[601px]:left-0! data-[x-position=left]:min-[601px]:[--toast-x:var(--toast-inset,0px)] data-[x-position=right]:min-[601px]:right-0! data-[x-position=right]:min-[601px]:left-auto! data-[x-position=right]:min-[601px]:[--toast-x:calc(var(--toast-inset,0px)*-1)] [--toast-y:calc(var(--toast-lift)*var(--toast-offset,0px))] [--y:translate(var(--toast-x),var(--toast-y))]! motion-safe:data-[mounted=false]:[--y:translate(var(--toast-x),calc(var(--toast-lift)*-100%))_scale(var(--motion-popup-scale))]! motion-safe:data-[removed=true]:data-[swipe-out=false]:[--y:translate(var(--toast-x),calc(var(--toast-y)-var(--toast-lift)*50%))_scale(var(--motion-popup-scale))]! motion-safe:data-[removed=true]:data-[swipe-out=false]:data-[expanded=true]:[--y:translate(var(--toast-x),var(--toast-y))_scale(var(--motion-popup-scale))]! data-[styled=true]:bg-surface-5! data-[styled=true]:shadow-surface-5! data-[styled=true]:text-popover-foreground! data-[styled=true]:rounded-xl! data-[styled=true]:border-0! data-[styled=true]:text-(length:--density-text-13)! data-[styled=true]:grid! data-[styled=true]:content-start data-[styled=true]:items-center data-[styled=true]:justify-start data-[styled=true]:grid-cols-[auto_auto_auto_auto] data-[styled=true]:gap-0! data-[styled=true]:px-(--density-12)! data-[styled=true]:py-(--density-10)! data-[styled=true]:has-[[data-button]]:pe-(--density-6)! data-[styled=true]:has-[[data-description]]:pe-(--density-12)! data-measuring:grid-cols-[auto_minmax(0,1fr)_auto_auto]! data-stacked:grid-cols-[auto_auto_auto_1fr]! data-[styled=true]:not-data-stacked:[&>[data-content]~*]:ms-(--density-12)! data-[styled=true]:[&>[data-content]~*]:me-0! data-[styled=true]:[&>[data-content]~*]:whitespace-nowrap data-[styled=true]:not-data-stacked:[&>[data-content]~*~*]:ms-(--density-4)! data-stacked:[&>[data-content]~*]:row-start-2 data-stacked:[&>[data-content]~*]:mt-(--density-8)! data-stacked:[&>[data-content]~*]:mb-0! data-stacked:[&>[data-content]+*]:col-start-2 data-stacked:[&>[data-content]~*~*]:col-start-3 data-stacked:[&>[data-content]~*~*]:ms-(--density-6)! focus-visible:ring-1! focus-visible:ring-ring!;
+    @apply [--toast-width:min(calc(var(--density-text-13)*26),calc(100vw-2rem))] h-(--toast-box-height)! w-(--toast-box-width)! max-w-(--toast-width) data-measuring:h-auto! data-measuring:w-max! data-[styled=true]:data-[measuring=box]:min-w-(--toast-width) data-[measuring=row]:max-w-none transition-[transform,opacity,width,height]! duration-toast! ease-enter! data-[removed=true]:duration-toast-exit! data-[removed=true]:ease-exit! data-[swiping=true]:transition-none! motion-reduce:transition-[opacity]! [--toast-lift:-1] data-[y-position=bottom]:origin-bottom data-[y-position=top]:origin-top data-[y-position=top]:[--toast-lift:1] [--toast-x:-50%] left-[calc(50%-var(--mobile-offset-left))]! right-auto! data-[x-position=center]:min-[601px]:left-1/2! data-[x-position=left]:min-[601px]:left-0! data-[x-position=left]:min-[601px]:[--toast-x:var(--toast-inset,0px)] data-[x-position=right]:min-[601px]:right-0! data-[x-position=right]:min-[601px]:left-auto! data-[x-position=right]:min-[601px]:[--toast-x:calc(var(--toast-inset,0px)*-1)] [--toast-y:calc(var(--toast-lift)*var(--toast-offset,0px))] [--y:translate(var(--toast-x),var(--toast-y))]! motion-safe:data-[mounted=false]:[--y:translate(var(--toast-x),calc(var(--toast-lift)*-100%))_scale(var(--motion-popup-scale))]! motion-safe:data-[removed=true]:data-[swipe-out=false]:[--y:translate(var(--toast-x),calc(var(--toast-y)-var(--toast-lift)*50%))_scale(var(--motion-popup-scale))]! motion-safe:data-[removed=true]:data-[swipe-out=false]:data-[expanded=true]:[--y:translate(var(--toast-x),var(--toast-y))_scale(var(--motion-popup-scale))]! data-[styled=true]:bg-surface-5! data-[styled=true]:shadow-surface-5! data-[styled=true]:text-popover-foreground! data-[styled=true]:rounded-xl! data-[styled=true]:border-0! data-[styled=true]:text-(length:--density-text-13)! data-[styled=true]:grid! data-[styled=true]:content-start data-[styled=true]:items-center data-[styled=true]:justify-start data-[styled=true]:grid-cols-[auto_auto_auto_auto] data-[styled=true]:gap-0! data-[styled=true]:px-(--density-12)! data-[styled=true]:py-(--density-10)! data-[styled=true]:not-data-stacked:has-[[data-button]]:pe-(--density-8)! data-measuring:grid-cols-[auto_minmax(0,1fr)_auto_auto]! data-stacked:grid-cols-[auto_auto_auto_1fr]! data-[styled=true]:not-data-stacked:[&>[data-content]~*]:ms-(--density-12)! data-[styled=true]:[&>[data-content]~*]:me-0! data-[styled=true]:[&>[data-content]~*]:whitespace-nowrap data-[styled=true]:not-data-stacked:[&>[data-content]~*~*]:ms-(--density-4)! data-stacked:[&>[data-content]~*]:row-start-2 data-stacked:[&>[data-content]~*]:mt-(--density-8)! data-stacked:[&>[data-content]~*]:mb-0! data-stacked:[&>[data-content]+*]:col-start-2 data-stacked:[&>[data-content]~*~*]:col-start-3 data-stacked:[&>[data-content]~*~*]:ms-(--density-6)! focus-visible:ring-1! focus-visible:ring-ring!;
   }
 
   /* See Toast's icon. */
@@ -6861,9 +6863,10 @@
 /* MARK: User Menu */
 
   /* The mark (data-user-menu="mark") is the avatar alone, as a round
-     button. */
+     button. A lit or open row darkens its email: muted text misses 4.5:1 on
+     the wash in light mode. */
   .cn-user-menu-trigger {
-    @apply data-popup-open:bg-hover data-popup-open:text-foreground data-open:bg-hover data-open:text-foreground data-[user-menu=mark]:flex data-[user-menu=mark]:shrink-0 data-[user-menu=mark]:cursor-pointer data-[user-menu=mark]:items-center data-[user-menu=mark]:justify-center data-[user-menu=mark]:rounded-full data-[user-menu=mark]:ring-ring data-[user-menu=mark]:outline-none data-[user-menu=mark]:focus-visible:ring-1 data-[user-menu=mark]:focus-visible:ring-offset-1 data-[user-menu=mark]:focus-visible:ring-offset-background;
+    @apply data-popup-open:bg-hover data-popup-open:text-foreground data-popup-open:**:data-[slot=user-menu-email]:text-foreground/75 data-open:**:data-[slot=user-menu-email]:text-foreground/75 data-fluid-hover-active:**:data-[slot=user-menu-email]:text-foreground/75 data-open:bg-hover data-open:text-foreground data-[user-menu=mark]:flex data-[user-menu=mark]:shrink-0 data-[user-menu=mark]:cursor-pointer data-[user-menu=mark]:items-center data-[user-menu=mark]:justify-center data-[user-menu=mark]:rounded-full data-[user-menu=mark]:ring-ring data-[user-menu=mark]:outline-none data-[user-menu=mark]:focus-visible:ring-1 data-[user-menu=mark]:focus-visible:ring-offset-1 data-[user-menu=mark]:focus-visible:ring-offset-background;
   }
 
   /* Initials in full foreground: the avatar's muted fallback text misses
@@ -6895,6 +6898,27 @@
 
   .cn-user-menu-label {
     @apply gap-(--density-8) px-(--density-8) py-(--density-6) font-normal text-foreground;
+  }
+
+  /* The theme row, as tall as the rows around it. Its track (before) holds the
+     three tabs, the same gap from the row's top, bottom and end, so it nests in
+     the menu's corner. The pill (after) is the tabs' raised selection, inset
+     2px, and moves one tab's width per choice. Both are the row's own, so the
+     three bases draw one picture. */
+  .cn-user-menu-theme {
+    @apply h-(--density-36) ps-(--density-8) pe-[calc((var(--density-36)-var(--density-28))/2)] before:absolute before:inset-y-[calc((var(--density-36)-var(--density-28))/2)] before:end-[calc((var(--density-36)-var(--density-28))/2)] before:-z-10 before:w-[calc(var(--density-32)*3)] before:rounded-lg before:bg-foreground/[0.05] after:pointer-events-none after:absolute after:end-[calc((var(--density-36)-var(--density-28))/2+var(--density-32)*2+2px)] after:top-[calc((var(--density-36)-var(--density-28))/2+2px)] after:-z-10 after:h-[calc(var(--density-28)-4px)] after:w-[calc(var(--density-32)-4px)] after:rounded-md after:bg-surface-4 after:shadow-surface-4 dark:after:bg-foreground/14 not-data-value:after:opacity-0 data-[value=dark]:after:translate-x-(--density-32) data-[value=system]:after:translate-x-[calc(var(--density-32)*2)];
+  }
+
+  /* Reads as a row that isn't pressed: its icon and text keep the rows' resting
+     colour and edge. */
+  .cn-user-menu-theme-label {
+    @apply gap-(--density-8) text-(length:--density-text-13) text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  /* A tab: the whole cell takes the press. Muted at rest; lit and picked turn
+     foreground with a heavier icon, as Tabs do. */
+  .cn-user-menu-theme-item {
+    @apply h-(--density-28) w-(--density-32) cursor-pointer rounded-lg text-muted-foreground transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-checked:text-foreground data-checked:[&_svg]:stroke-2 data-selected:text-foreground data-selected:[&_svg]:stroke-2;
   }
 
 /* MARK: Video Player */

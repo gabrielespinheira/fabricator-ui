@@ -21,22 +21,22 @@ const LARGE = { width: 352, height: 120 }
 describe("shouldStackActions", () => {
   it("keeps the actions beside text that leaves them room", () => {
     expect(
-      shouldStackActions({ rowWidth: 180, maxWidth: 352, hasActions: true })
+      shouldStackActions({ rowWidth: 180, toastWidth: 352, hasActions: true })
     ).toBe(false)
     expect(
-      shouldStackActions({ rowWidth: 352, maxWidth: 352, hasActions: true })
+      shouldStackActions({ rowWidth: 352, toastWidth: 352, hasActions: true })
     ).toBe(false)
   })
 
   it("moves the actions under text that doesn't", () => {
     expect(
-      shouldStackActions({ rowWidth: 353, maxWidth: 352, hasActions: true })
+      shouldStackActions({ rowWidth: 353, toastWidth: 352, hasActions: true })
     ).toBe(true)
   })
 
   it("has nothing to move without actions, however long the text", () => {
     expect(
-      shouldStackActions({ rowWidth: 900, maxWidth: 352, hasActions: false })
+      shouldStackActions({ rowWidth: 900, toastWidth: 352, hasActions: false })
     ).toBe(false)
   })
 })

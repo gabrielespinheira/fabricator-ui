@@ -4,23 +4,144 @@ import * as React from "react"
 
 import {
   MailCheckbox,
-  MailFilterToggle,
+  MailFilterTabs,
   MailIconButton,
   MailMenuButton,
+  type MailMenuGroup,
 } from "@/registry/bases/__base__/blocks/mail-01/components/mail-controls"
+import { mailIcons } from "@/registry/bases/__base__/blocks/mail-01/components/mail-icons"
 import {
   type MailFilter,
+  type MailThreadMove,
   type SnoozeOption,
 } from "@/registry/bases/__base__/blocks/mail-01/lib/mail-model"
-import { Button } from "@/registry/bases/__base__/ui/button"
+import { Kbd } from "@/registry/bases/__base__/ui/kbd"
 import { Search } from "@/registry/bases/__base__/ui/search"
-import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-export type MailBulkAction = "archive" | "delete" | "markRead" | "markUnread"
+export type MailBulkAction =
+  | "archive"
+  | "moveToInbox"
+  | "delete"
+  | "markRead"
+  | "markUnread"
+
+/** "Snooze until" as a menu's rows, for the toolbar and the open thread. */
+export function getSnoozeMenu(
+  options: SnoozeOption[],
+  onSnooze: (until: number) => void
+): MailMenuGroup[] {
+  return [
+    {
+      id: "snooze",
+      label: "Snooze until",
+      entries: options.map(({ id, label, detail, until }) => ({
+        id,
+        label,
+        detail,
+        icon: mailIcons.snooze,
+        onSelect: () => onSnooze(until),
+      })),
+    },
+  ]
+}
+
+function SelectionBar({
+  selectedCount,
+  isAllSelected,
+  areSelectedRead,
+  moves,
+  snoozeOptions,
+  onSelectAll,
+  onClearSelection,
+  onBulkAction,
+  onSnooze,
+}: {
+  selectedCount: number
+  isAllSelected: boolean
+  areSelectedRead: boolean
+  /** What every selected conversation can do. */
+  moves: MailThreadMove[]
+  snoozeOptions: SnoozeOption[]
+  onSelectAll: (isSelected: boolean) => void
+  onClearSelection: () => void
+  onBulkAction: (action: MailBulkAction) => void
+  onSnooze: (until: number) => void
+}) {
+  return (
+    <>
+      <div className="grid size-(--density-32) shrink-0 place-items-center">
+        <MailCheckbox
+          checked={isAllSelected}
+          indeterminate={!isAllSelected}
+          onCheckedChange={onSelectAll}
+          label="Select all conversations"
+        />
+      </div>
+      <p
+        aria-live="polite"
+        className="min-w-0 truncate text-(length:--density-text-13) font-medium tabular-nums"
+      >
+        {selectedCount}
+        <span className="in-data-[size=phone]:sr-only"> selected</span>
+      </p>
+      <div className="ms-auto -me-(--density-6) flex shrink-0 items-center">
+        {moves.includes("archive") && (
+          <MailIconButton
+            label="Archive"
+            shortcut="E"
+            onClick={() => onBulkAction("archive")}
+          >
+            {mailIcons.archive}
+          </MailIconButton>
+        )}
+        {moves.includes("moveToInbox") && (
+          <MailIconButton
+            label="Move to inbox"
+            onClick={() => onBulkAction("moveToInbox")}
+          >
+            {mailIcons.inbox}
+          </MailIconButton>
+        )}
+        {moves.includes("delete") && (
+          <MailIconButton
+            label="Delete"
+            shortcut="#"
+            onClick={() => onBulkAction("delete")}
+          >
+            {mailIcons.trash}
+          </MailIconButton>
+        )}
+        <MailIconButton
+          label={areSelectedRead ? "Mark as unread" : "Mark as read"}
+          shortcut="U"
+          onClick={() =>
+            onBulkAction(areSelectedRead ? "markUnread" : "markRead")
+          }
+        >
+          {areSelectedRead ? mailIcons.unread : mailIcons.read}
+        </MailIconButton>
+        {moves.includes("snooze") && (
+          <MailMenuButton
+            label="Snooze"
+            icon={mailIcons.snooze}
+            groups={getSnoozeMenu(snoozeOptions, onSnooze)}
+          />
+        )}
+        <MailIconButton
+          label="Clear selection"
+          shortcut="Esc"
+          onClick={onClearSelection}
+        >
+          {mailIcons.close}
+        </MailIconButton>
+      </div>
+    </>
+  )
+}
 
 /**
- * What the list shows (search, a filter and the count), or, while rows are
- * selected, how many and what can be done to them.
+ * What the list shows: a search and one of three filters or, while rows are
+ * selected, how many there are and what can be done to them.
  */
 export function MailListToolbar({
   searchRef,
@@ -28,161 +149,53 @@ export function MailListToolbar({
   onQueryChange,
   filter,
   onFilterChange,
-  count,
-  selectedCount,
-  isAllSelected,
-  areSelectedRead,
-  snoozeOptions,
-  onSelectAll,
-  onClearSelection,
-  onBulkAction,
-  onSnooze,
+  selection,
 }: {
   searchRef: React.Ref<HTMLInputElement>
   query: string
   onQueryChange: (query: string) => void
   filter: MailFilter
   onFilterChange: (filter: MailFilter) => void
-  count: number
-  selectedCount: number
-  isAllSelected: boolean
-  areSelectedRead: boolean
-  snoozeOptions: SnoozeOption[]
-  onSelectAll: (isSelected: boolean) => void
-  onClearSelection: () => void
-  onBulkAction: (action: MailBulkAction) => void
-  onSnooze: (until: number) => void
+  /** While nothing is selected, null. */
+  selection: React.ComponentProps<typeof SelectionBar> | null
 }) {
-  const isSelecting = selectedCount > 0
-
   return (
-    // Sized by the list's width, not the window's: the panel and the
-    // sidebar change how much room it has.
-    <div className="@container/mail-toolbar">
-      <div className="flex min-h-(--density-36) flex-wrap items-center gap-x-(--density-10) gap-y-(--density-8) px-(--density-8)">
-        <MailCheckbox
-          checked={isAllSelected}
-          indeterminate={isSelecting && !isAllSelected}
-          onCheckedChange={onSelectAll}
-          label={isSelecting ? "Select all conversations" : "Select all"}
+    <div
+      className="flex shrink-0 flex-col gap-(--density-8) px-(--density-16) pb-(--density-8)"
+      onKeyDown={(event) => {
+        // Not from a menu: its events reach here through React.
+        const isInside =
+          event.target instanceof Node &&
+          event.currentTarget.contains(event.target)
+        if (event.key === "Escape" && isInside) selection?.onClearSelection()
+      }}
+    >
+      <form
+        role="search"
+        className="relative"
+        onSubmit={(event) => event.preventDefault()}
+      >
+        <Search
+          ref={searchRef}
+          collapsible={false}
+          width="100%"
+          label="Search mail"
+          placeholder="Search mail"
+          aria-keyshortcuts="/"
+          value={query}
+          onValueChange={onQueryChange}
         />
-        {isSelecting ? (
-          <>
-            <p
-              aria-live="polite"
-              className="text-(length:--density-text-13) font-medium tabular-nums"
-            >
-              {selectedCount} selected
-            </p>
-            <div className="flex items-center">
-              <MailIconButton
-                label="Archive"
-                onClick={() => onBulkAction("archive")}
-              >
-                <IconPlaceholder
-                  lucide="ArchiveIcon"
-                  tabler="IconArchive"
-                  hugeicons="Archive02Icon"
-                  phosphor="ArchiveIcon"
-                  remixicon="RiArchiveLine"
-                />
-              </MailIconButton>
-              <MailIconButton
-                label={areSelectedRead ? "Mark as unread" : "Mark as read"}
-                onClick={() =>
-                  onBulkAction(areSelectedRead ? "markUnread" : "markRead")
-                }
-              >
-                {areSelectedRead ? (
-                  <IconPlaceholder
-                    lucide="MailIcon"
-                    tabler="IconMail"
-                    hugeicons="Mail01Icon"
-                    phosphor="EnvelopeSimpleIcon"
-                    remixicon="RiMailLine"
-                  />
-                ) : (
-                  <IconPlaceholder
-                    lucide="MailOpenIcon"
-                    tabler="IconMailOpened"
-                    hugeicons="MailOpen01Icon"
-                    phosphor="EnvelopeOpenIcon"
-                    remixicon="RiMailOpenLine"
-                  />
-                )}
-              </MailIconButton>
-              <MailMenuButton
-                label="Snooze"
-                icon={
-                  <IconPlaceholder
-                    lucide="AlarmClockIcon"
-                    tabler="IconAlarm"
-                    hugeicons="AlarmClockIcon"
-                    phosphor="AlarmIcon"
-                    remixicon="RiAlarmLine"
-                  />
-                }
-                groups={[
-                  {
-                    id: "snooze",
-                    label: "Snooze until",
-                    entries: snoozeOptions.map((option) => ({
-                      id: option.id,
-                      label: option.label,
-                      detail: option.detail,
-                      onSelect: () => onSnooze(option.until),
-                    })),
-                  },
-                ]}
-              />
-              <MailIconButton
-                label="Delete"
-                onClick={() => onBulkAction("delete")}
-              >
-                <IconPlaceholder
-                  lucide="Trash2Icon"
-                  tabler="IconTrash"
-                  hugeicons="Delete02Icon"
-                  phosphor="TrashIcon"
-                  remixicon="RiDeleteBinLine"
-                />
-              </MailIconButton>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="ms-auto"
-              onClick={onClearSelection}
-            >
-              Clear selection
-            </Button>
-          </>
+        {query === "" && (
+          <Kbd className="absolute end-(--density-12) top-1/2 -translate-y-1/2 in-data-[size=phone]:hidden">
+            /
+          </Kbd>
+        )}
+      </form>
+      <div className="flex h-(--density-36) items-center gap-(--density-10)">
+        {selection ? (
+          <SelectionBar {...selection} />
         ) : (
-          <>
-            <form
-              role="search"
-              className="min-w-40 flex-1"
-              onSubmit={(event) => event.preventDefault()}
-            >
-              <Search
-                ref={searchRef}
-                collapsible={false}
-                width="100%"
-                label="Search mail"
-                placeholder="Search mail"
-                value={query}
-                onValueChange={onQueryChange}
-              />
-            </form>
-            <MailFilterToggle value={filter} onValueChange={onFilterChange} />
-            {/* A narrow list has no room for it beside the search. */}
-            <p
-              aria-live="polite"
-              className="ms-auto hidden text-(length:--density-text-12) text-muted-foreground tabular-nums @md/mail-toolbar:block"
-            >
-              {count === 1 ? "1 conversation" : `${count} conversations`}
-            </p>
-          </>
+          <MailFilterTabs value={filter} onValueChange={onFilterChange} />
         )}
       </div>
     </div>

@@ -4,104 +4,129 @@ import * as React from "react"
 
 import { SignUpCheckEmail } from "@/registry/bases/__base__/blocks/sign-up-01/components/sign-up-check-email"
 import { SignUpForm } from "@/registry/bases/__base__/blocks/sign-up-01/components/sign-up-form"
+import {
+  SignUpFrame,
+  SignUpHeading,
+} from "@/registry/bases/__base__/blocks/sign-up-01/components/sign-up-frame"
 import { SignUpProviders } from "@/registry/bases/__base__/blocks/sign-up-01/components/sign-up-providers"
 import {
+  type ProviderResult,
+  type SignUpMethod,
+  type SignUpProvider,
   type SignUpResult,
   type SignUpValues,
 } from "@/registry/bases/__base__/blocks/sign-up-01/lib/sign-up-form-model"
-import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
+
+// Sign up. Someone who wants to try Acme gets an account with three answers or
+// one button, then confirms the address from their inbox.
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-// Replace with your auth library's sign-up. It resolves with
-// { ok: false, error: "email-taken" } when the address has an account.
-async function signUp(values: SignUpValues): Promise<SignUpResult> {
+// Replace with your auth library's sign-up. To see each answer, use
+// taken@acme.com or offline@acme.com.
+async function signUpWithEmail({ email }: SignUpValues): Promise<SignUpResult> {
   await wait(900)
-  return values.email === "taken@acme.com"
-    ? { ok: false, error: "email-taken" }
-    : { ok: true }
+  if (email === "taken@acme.com") return { ok: false, error: "email-taken" }
+  if (email === "offline@acme.com") return { ok: false, error: "network" }
+  return { ok: true }
+}
+
+// Replace with your auth library's social sign-up. Here Apple is the window
+// someone closes.
+async function signUpWithProvider(
+  provider: SignUpProvider
+): Promise<ProviderResult> {
+  await wait(1600)
+  return provider === "apple" ? { ok: false, error: "cancelled" } : { ok: true }
 }
 
 // Replace with your auth library's "send verification email".
-async function resendVerification() {
+async function sendVerification() {
   await wait(700)
 }
 
+// Replace with your auth library's "has this address been confirmed". Open the
+// app when it has, e.g. router.push("/welcome"). Here the link is never opened.
+async function checkVerification() {
+  await wait(700)
+  return false
+}
+
 export default function SignUpPage() {
-  const [sentTo, setSentTo] = React.useState<string>()
+  const [pending, setPending] = React.useState<SignUpMethod>()
+  const [submitted, setSubmitted] = React.useState<SignUpValues>()
+  const [isSent, setSent] = React.useState(false)
+
+  // Back from a provider can restore this page as it was left, still waiting.
+  React.useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) setPending(undefined)
+    }
+    window.addEventListener("pageshow", handlePageShow)
+    return () => window.removeEventListener("pageshow", handlePageShow)
+  }, [])
+
+  const submit = async (values: SignUpValues) => {
+    setPending("email")
+    const result = await signUpWithEmail(values)
+    setPending(undefined)
+    if (result.ok) {
+      setSubmitted(values)
+      setSent(true)
+    }
+    return result
+  }
+
+  // A success stays pending until the provider's page opens.
+  const selectProvider = async (provider: SignUpProvider) => {
+    setPending(provider)
+    const result = await signUpWithProvider(provider)
+    if (!result.ok) setPending(undefined)
+    return result
+  }
+
+  if (isSent && submitted) {
+    return (
+      <SignUpFrame>
+        <SignUpCheckEmail
+          email={submitted.email}
+          onResend={sendVerification}
+          onContinue={checkVerification}
+          onChangeEmail={() => setSent(false)}
+        />
+      </SignUpFrame>
+    )
+  }
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-surface-0 px-(--density-16) py-(--density-40)">
-      <main className="flex w-full max-w-96 flex-col gap-(--density-24)">
-        {sentTo ? (
-          <SignUpCheckEmail
-            email={sentTo}
-            onResend={resendVerification}
-            onChangeEmail={() => setSentTo(undefined)}
-          />
-        ) : (
-          <>
-            <div className="flex flex-col items-center gap-(--density-16) text-center">
-              <a
-                href="/"
-                aria-label="Acme home"
-                className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                <IconPlaceholder
-                  lucide="GalleryVerticalEndIcon"
-                  tabler="IconLayoutRows"
-                  hugeicons="LayoutBottomIcon"
-                  phosphor="RowsIcon"
-                  remixicon="RiGalleryView"
-                  className="size-5"
-                />
-              </a>
-              <div className="flex flex-col gap-(--density-4)">
-                <h1 className="text-2xl font-semibold tracking-tight text-balance">
-                  Create your Acme account
-                </h1>
-                <p className="text-[15px] text-pretty text-muted-foreground">
-                  Free for 14 days. No card needed.
-                </p>
-              </div>
-            </div>
-            <SignUpProviders onSelect={() => {}} />
-            {/* Space and a caption part the providers from the form; no rule. */}
-            <p className="text-center text-(length:--density-text-12) text-muted-foreground">
-              or sign up with email
-            </p>
-            <SignUpForm onSubmit={signUp} onSignedUp={setSentTo} />
-            <p className="text-center text-(length:--density-text-13) text-muted-foreground">
-              Already have an account?{" "}
-              <a
-                href="/sign-in"
-                className="rounded-sm font-medium text-foreground underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                Sign in
-              </a>
-            </p>
-          </>
-        )}
-      </main>
-      <footer className="mt-(--density-40)">
-        <p className="max-w-80 text-center text-(length:--density-text-12) text-balance text-muted-foreground">
-          By creating an account, you agree to the{" "}
-          <a
-            href="/terms"
-            className="rounded-sm underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            Terms of Service
-          </a>{" "}
-          and{" "}
-          <a
-            href="/privacy"
-            className="rounded-sm underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            Privacy Policy
-          </a>
-          .
-        </p>
-      </footer>
-    </div>
+    <SignUpFrame>
+      <SignUpHeading title="Create your Acme account">
+        Free for 14 days. No card needed.
+      </SignUpHeading>
+      <SignUpForm
+        defaultValues={submitted}
+        pending={pending}
+        signInHref="/sign-in"
+        onSubmit={submit}
+      />
+      <SignUpProviders pending={pending} onSelect={selectProvider} />
+      <p className="text-(length:--density-text-12) text-balance text-muted-foreground">
+        By continuing you agree to the{" "}
+        <a
+          href="/terms"
+          className="rounded-sm underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          Terms
+        </a>{" "}
+        and{" "}
+        <a
+          href="/privacy"
+          className="rounded-sm underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          Privacy Policy
+        </a>
+        .
+      </p>
+    </SignUpFrame>
   )
 }

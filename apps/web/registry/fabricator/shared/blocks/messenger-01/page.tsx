@@ -1,33 +1,43 @@
 "use client"
 
 import * as React from "react"
+import { cn } from "cn"
 
 import { MessengerComposer } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-composer"
 import {
-  MessengerBlockDialog,
+  MessengerConfirmDialog,
   MessengerIconButton,
+  MessengerPhotoDialog,
+  notifyMessenger,
 } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-controls"
 import { MessengerConversationHeader } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-conversation-header"
 import { MessengerConversationList } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-conversation-list"
 import { MessengerDetails } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-details"
-import { MessengerTranscript } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-transcript"
+import { CloseIcon } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-icons"
+import { type MessengerMessageHandlers } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-message"
+import { type Photo } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-message-body"
+import { MessengerPeopleList } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-people-list"
+import { MessengerSidebar } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-sidebar"
 import {
-  CONVERSATIONS,
-  ME_PERSON,
+  MessengerNewConversation,
+  MessengerTranscript,
+} from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-transcript"
+import { useMessenger } from "@/registry/bases/__base__/blocks/messenger-01/hooks/use-messenger"
+import {
   PEOPLE,
   SAMPLE_NOW,
-  SAMPLE_REPLIES,
   SAMPLE_TIME_FORMAT,
 } from "@/registry/bases/__base__/blocks/messenger-01/lib/messenger-data"
 import {
+  describeBody,
   filterConversations,
-  formatFileSize,
+  filterPeople,
+  getVisibleUnread,
   ME,
-  messengerReducer,
   sortConversations,
   type ChatMessage,
+  type Person,
 } from "@/registry/bases/__base__/blocks/messenger-01/lib/messenger-model"
-import { AppNav, type AppNavGroup } from "@/registry/bases/__base__/ui/app-nav"
 import {
   AppShell,
   AppShellContent,
@@ -41,24 +51,14 @@ import {
   useShellPanel,
 } from "@/registry/bases/__base__/ui/app-shell"
 import { Button } from "@/registry/bases/__base__/ui/button"
-import {
-  DropdownMenuGroup,
-  DropdownMenuItem,
-} from "@/registry/bases/__base__/ui/dropdown-menu"
 import { Search } from "@/registry/bases/__base__/ui/search"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarRail,
-  SidebarTrigger,
-} from "@/registry/bases/__base__/ui/sidebar"
-import { UserMenu } from "@/registry/bases/__base__/ui/user-menu"
+import { SidebarTrigger } from "@/registry/bases/__base__/ui/sidebar"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-// A messaging app in three columns: the app's navigation as an icon rail, the
-// conversations, and the open conversation, with its details in a panel that
-// opens on the right.
+// For someone at work who catches up on their conversations and answers. The
+// transcript is the signature: it gets the main column, between the app's
+// navigation as an icon rail with the conversations beside it, and a details
+// panel that opens on the right.
 //
 // The conversations are a left App Shell panel rather than the sidebar, so a
 // phone gets a list first: on phones the panel takes the whole screen
@@ -70,112 +70,42 @@ import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 const NOW = SAMPLE_NOW
 const TIME_FORMAT = SAMPLE_TIME_FORMAT
 
-const chatIcon = (
-  <IconPlaceholder
-    lucide="MessageCircleIcon"
-    tabler="IconMessageCircle"
-    hugeicons="Message01Icon"
-    phosphor="ChatCircleIcon"
-    remixicon="RiChat1Line"
-  />
-)
+// On a phone the sidebar shows by moving the page aside. The list covers the
+// page, so it moves with it.
+const MOVES_WITH_PAGE =
+  "group-data-reveal/sidebar-wrapper:origin-left group-data-reveal/sidebar-wrapper:transition-[transform,border-radius,box-shadow] group-data-reveal/sidebar-wrapper:duration-sheet-exit group-data-reveal/sidebar-wrapper:ease-drawer group-data-reveal-dragging/sidebar-wrapper:transition-none group-data-[reveal=open]/sidebar-wrapper:z-15! group-data-[reveal=open]/sidebar-wrapper:[transform:translateX(calc(var(--sidebar-reveal-width)*var(--sidebar-reveal-direction)*var(--sidebar-reveal-progress,1)))_scale(calc(1-(1-var(--sidebar-reveal-scale))*var(--sidebar-reveal-progress,1)))] group-data-[reveal=open]/sidebar-wrapper:rounded-[48px] group-data-[reveal=open]/sidebar-wrapper:shadow-surface-6 group-data-[reveal=open]/sidebar-wrapper:duration-sheet motion-reduce:transition-none"
 
-function getNavGroups(unread: number): AppNavGroup[] {
-  return [
-    {
-      id: "main",
-      items: [
-        {
-          id: "chats",
-          label: "Chats",
-          href: "/messages",
-          icon: chatIcon,
-          badge: unread > 0 ? unread : undefined,
-        },
-        {
-          id: "calls",
-          label: "Calls",
-          href: "/calls",
-          icon: (
-            <IconPlaceholder
-              lucide="PhoneIcon"
-              tabler="IconPhone"
-              hugeicons="Call02Icon"
-              phosphor="PhoneIcon"
-              remixicon="RiPhoneLine"
-            />
-          ),
-        },
-        {
-          id: "contacts",
-          label: "Contacts",
-          href: "/contacts",
-          icon: (
-            <IconPlaceholder
-              lucide="UsersIcon"
-              tabler="IconUsers"
-              hugeicons="UserGroupIcon"
-              phosphor="UsersIcon"
-              remixicon="RiGroupLine"
-            />
-          ),
-        },
-        {
-          id: "archived",
-          label: "Archived",
-          href: "/messages/archived",
-          icon: (
-            <IconPlaceholder
-              lucide="ArchiveIcon"
-              tabler="IconArchive"
-              hugeicons="Archive02Icon"
-              phosphor="ArchiveIcon"
-              remixicon="RiArchiveLine"
-            />
-          ),
-        },
-      ],
-    },
-    {
-      id: "settings",
-      items: [
-        {
-          id: "settings",
-          label: "Settings",
-          href: "/settings",
-          icon: (
-            <IconPlaceholder
-              lucide="SettingsIcon"
-              tabler="IconSettings"
-              hugeicons="Settings01Icon"
-              phosphor="GearIcon"
-              remixicon="RiSettingsLine"
-            />
-          ),
-        },
-      ],
-    },
-  ]
+function getReplyTo(message: ChatMessage | undefined) {
+  if (!message) return undefined
+  const author = PEOPLE.find((person) => person.id === message.senderId)
+  return {
+    id: message.id,
+    author: message.senderId === ME ? "yourself" : (author?.name ?? "someone"),
+    text: describeBody(message.body),
+  }
 }
 
-// A stand-in for your backend: the other side reads your message, types for a
-// moment and answers. Replace it with your realtime subscription.
-const READ_AFTER = 900
-const TYPING_AFTER = 1600
-const REPLY_AFTER = 3400
-
 function Messenger() {
-  const [state, dispatch] = React.useReducer(messengerReducer, {
-    conversations: CONVERSATIONS,
-    openId: "maya",
-    drafts: {},
-    typing: {},
-  })
-  const [query, setQuery] = React.useState("")
-  const [isBlockOpen, setBlockOpen] = React.useState(false)
   const { size } = useAppShell()
   const list = useShellPanel("conversations")
   const details = useShellPanel("details")
+  const [hasChosen, setChosen] = React.useState(false)
+  // A phone starts on the list and shows one or the other: with the list up,
+  // nothing is being read.
+  const isAway = size === "phone" && (list.open || !hasChosen)
+  const { state, dispatch, clock, send, transmit } = useMessenger({
+    isReading: size !== null && !isAway,
+  })
+  const [query, setQuery] = React.useState("")
+  const [isPickingPerson, setPickingPerson] = React.useState(false)
+  const [confirming, setConfirming] = React.useState<"block" | "report">(
+    "block"
+  )
+  const [isConfirmOpen, setConfirmOpen] = React.useState(false)
+  const [photo, setPhoto] = React.useState<Photo>()
+  const [isPhotoOpen, setPhotoOpen] = React.useState(false)
+  const searchRef = React.useRef<HTMLInputElement>(null)
+  const listRef = React.useRef<HTMLDivElement>(null)
   const hasShownPhoneList = React.useRef(false)
 
   // A phone starts on the list. Floating panels start closed, so the list
@@ -188,122 +118,97 @@ function Messenger() {
     hasShownPhoneList.current = true
     setListOpen(true)
   }, [size, isListFloating, setListOpen])
-  const searchRef = React.useRef<HTMLInputElement>(null)
-  const timers = React.useRef<number[]>([])
-  const objectUrls = React.useRef<string[]>([])
-  const replyTurns = React.useRef<Record<string, number>>({})
-  const clockStart = React.useRef<number | null>(null)
-
-  React.useEffect(() => {
-    const pendingTimers = timers.current
-    const urls = objectUrls.current
-    return () => {
-      for (const timer of pendingTimers) window.clearTimeout(timer)
-      for (const url of urls) URL.revokeObjectURL(url)
-    }
-  }, [])
 
   const conversation =
     state.conversations.find(({ id }) => id === state.openId) ??
     state.conversations[0]
+  const { id } = conversation
+  const members = conversation.memberIds.flatMap(
+    (memberId) => PEOPLE.find((person) => person.id === memberId) ?? []
+  )
+  const contact = conversation.kind === "direct" ? members[0] : undefined
+  const contactName = contact?.name.split(" ")[0] ?? conversation.title
   const visible = filterConversations(
     sortConversations(state.conversations),
     query,
     PEOPLE
   )
   const unread = state.conversations.filter(
-    ({ unreadCount, isMuted }) => unreadCount > 0 && !isMuted
+    (entry) => !entry.isMuted && getVisibleUnread(entry, isAway ? null : id) > 0
   ).length
 
-  // The sample's clock starts at its "now" and runs in real time from the
-  // first message you send.
-  const clock = () => {
-    clockStart.current ??= Date.now()
-    return NOW + (Date.now() - clockStart.current)
-  }
-
-  const later = (delay: number, run: () => void) => {
-    timers.current.push(window.setTimeout(run, delay))
-  }
-
-  const send = (id: string, text: string, files: File[]) => {
-    const sent: ChatMessage[] = files.map((file) => {
-      const isImage = file.type.startsWith("image/")
-      const src = isImage ? URL.createObjectURL(file) : undefined
-      if (src) objectUrls.current.push(src)
-      return {
-        id: crypto.randomUUID(),
-        senderId: ME,
-        sentAt: clock(),
-        body: src
-          ? { kind: "image", src, alt: file.name }
-          : { kind: "file", name: file.name, size: formatFileSize(file.size) },
-      }
-    })
-    if (text) {
-      sent.push({
-        id: crypto.randomUUID(),
-        senderId: ME,
-        sentAt: clock(),
-        body: { kind: "text", text },
-      })
-    }
-    for (const message of sent) dispatch({ type: "send", id, message })
-
-    const target = state.conversations.find((entry) => entry.id === id)
-    const replies = SAMPLE_REPLIES[id] ?? []
-    if (sent.length === 0 || target?.isBlocked || replies.length === 0) return
-    const turn = replyTurns.current[id] ?? 0
-    replyTurns.current[id] = turn + 1
-    const reply = replies[turn % replies.length]
-    later(READ_AFTER, () => dispatch({ type: "read", id, at: clock() }))
-    later(TYPING_AFTER, () =>
-      dispatch({ type: "typing", id, personId: reply.senderId })
-    )
-    later(REPLY_AFTER, () =>
-      dispatch({
-        type: "receive",
-        id,
-        message: {
-          id: crypto.randomUUID(),
-          senderId: reply.senderId,
-          sentAt: clock(),
-          body: { kind: "text", text: reply.text },
-        },
-      })
-    )
-  }
-
-  const open = (id: string) => {
-    dispatch({ type: "open", id })
-    // Where the list covers the conversation, opening one steps it aside.
+  // Where the list covers the conversation, opening one steps it aside.
+  const showConversation = () => {
+    setChosen(true)
     if (list.isFloating) list.setOpen(false)
   }
 
-  const unblock = () =>
-    dispatch({ type: "block", id: conversation.id, isBlocked: false })
+  const open = (nextId: string) => {
+    dispatch({ type: "open", id: nextId })
+    showConversation()
+  }
 
-  const contactName =
-    conversation.kind === "direct"
-      ? conversation.title.split(" ")[0]
-      : conversation.title
+  const stopPicking = () => {
+    setPickingPerson(false)
+    setQuery("")
+  }
+
+  const startWith = (person: Person) => {
+    dispatch({ type: "start", person, at: clock() })
+    stopPicking()
+    showConversation()
+  }
+
+  const openPhoto = (next: Photo) => {
+    setPhoto(next)
+    setPhotoOpen(true)
+  }
+
+  const confirm = (next: "block" | "report") => {
+    setConfirming(next)
+    setConfirmOpen(true)
+  }
+
+  const copyText = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      notifyMessenger("Text copied")
+    } catch {
+      notifyMessenger("The browser didn't allow copying")
+    }
+  }
+
+  const unblock = () => dispatch({ type: "block", id, isBlocked: false })
+
+  const handlers: MessengerMessageHandlers = {
+    onAction: (action, message) => {
+      switch (action) {
+        case "reply":
+          return dispatch({ type: "reply", id, messageId: message.id })
+        case "copy":
+          return void copyText(describeBody(message.body))
+        case "unread":
+          return dispatch({ type: "unread", id, messageId: message.id })
+        case "retry":
+          dispatch({ type: "retry", id, messageId: message.id, at: clock() })
+          return transmit(id, [message.id])
+        case "delete":
+          dispatch({ type: "delete", id, messageId: message.id })
+          return notifyMessenger("Message deleted", () =>
+            dispatch({ type: "restore", id, message })
+          )
+      }
+    },
+    onReact: (message, emoji) =>
+      dispatch({ type: "react", id, messageId: message.id, emoji }),
+    onOpenPhoto: openPhoto,
+    // Download from your file storage.
+    onDownload: () => {},
+  }
 
   return (
     <>
-      <Sidebar variant="inset" collapsible="icon">
-        <SidebarContent>
-          <AppNav groups={getNavGroups(unread)} pathname="/messages" />
-        </SidebarContent>
-        <SidebarFooter>
-          <UserMenu user={ME_PERSON}>
-            <DropdownMenuGroup>
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Notifications</DropdownMenuItem>
-            </DropdownMenuGroup>
-          </UserMenu>
-        </SidebarFooter>
-        <SidebarRail />
-      </Sidebar>
+      <MessengerSidebar unread={unread} />
       <AppShellPanel
         id="conversations"
         side="left"
@@ -313,21 +218,38 @@ function Messenger() {
         minWidth={280}
         maxWidth={440}
         mobile="swap"
+        // The details panel's toggle is on the other side of the shell, so
+        // this header keeps no room for it and shares the list's edges.
+        className={cn(
+          "[--app-shell-control-inset:var(--density-8)] [--app-shell-panel-trigger-room:0px]",
+          MOVES_WITH_PAGE
+        )}
       >
-        <AppShellPanelHeader className="gap-(--density-4)">
+        <AppShellPanelHeader className="gap-(--density-4) ps-(--density-8)">
           <SidebarTrigger />
-          <AppShellPanelTitle>Messages</AppShellPanelTitle>
+          <AppShellPanelTitle>
+            {isPickingPerson ? "New message" : "Messages"}
+          </AppShellPanelTitle>
           <MessengerIconButton
-            label="New message"
-            onClick={() => searchRef.current?.focus()}
+            label={isPickingPerson ? "Back to messages" : "New message"}
+            onClick={() => {
+              if (isPickingPerson) return stopPicking()
+              setPickingPerson(true)
+              setQuery("")
+              searchRef.current?.focus()
+            }}
           >
-            <IconPlaceholder
-              lucide="SquarePenIcon"
-              tabler="IconEdit"
-              hugeicons="PencilEdit02Icon"
-              phosphor="NotePencilIcon"
-              remixicon="RiEditBoxLine"
-            />
+            {isPickingPerson ? (
+              <CloseIcon />
+            ) : (
+              <IconPlaceholder
+                lucide="SquarePenIcon"
+                tabler="IconEdit"
+                hugeicons="PencilEdit02Icon"
+                phosphor="NotePencilIcon"
+                remixicon="RiEditBoxLine"
+              />
+            )}
           </MessengerIconButton>
           {/* A sheet keeps its close button; on a phone, picking a
               conversation is the way out. */}
@@ -335,68 +257,97 @@ function Messenger() {
         </AppShellPanelHeader>
         <form
           role="search"
-          className="shrink-0 px-(--density-12) pb-(--density-12)"
+          className="shrink-0 px-(--density-8) pb-(--density-12)"
           onSubmit={(event) => event.preventDefault()}
+          onKeyDown={(event) => {
+            if (event.key === "Escape" && isPickingPerson && !query)
+              stopPicking()
+            if (event.key !== "ArrowDown") return
+            event.preventDefault()
+            listRef.current
+              ?.querySelector<HTMLElement>('[role="option"][tabindex="0"]')
+              ?.focus()
+          }}
         >
           <Search
             ref={searchRef}
             collapsible={false}
             width="100%"
-            label="Search conversations"
-            placeholder="Search or start a chat"
+            label={isPickingPerson ? "Search people" : "Search conversations"}
+            placeholder={isPickingPerson ? "Who to" : "Search"}
             value={query}
             onValueChange={setQuery}
           />
         </form>
-        <AppShellPanelContent>
-          <MessengerConversationList
-            conversations={visible}
-            people={PEOPLE}
-            openId={state.openId}
-            typing={state.typing}
-            query={query}
-            now={NOW}
-            timeFormat={TIME_FORMAT}
-            onSelect={(id) => dispatch({ type: "open", id })}
-            onOpen={open}
-            onClearQuery={() => setQuery("")}
-          />
+        <AppShellPanelContent ref={listRef}>
+          {isPickingPerson ? (
+            <MessengerPeopleList
+              people={filterPeople(PEOPLE, query)}
+              query={query}
+              onPick={startWith}
+              onClearQuery={() => setQuery("")}
+            />
+          ) : (
+            <MessengerConversationList
+              conversations={visible}
+              people={PEOPLE}
+              openId={id}
+              isAway={isAway}
+              typing={state.typing}
+              query={query}
+              now={NOW}
+              timeFormat={TIME_FORMAT}
+              onSelect={(nextId) => dispatch({ type: "open", id: nextId })}
+              onOpen={open}
+              onClearQuery={() => setQuery("")}
+            />
+          )}
         </AppShellPanelContent>
       </AppShellPanel>
 
       <AppShellMain>
         <MessengerConversationHeader
           conversation={conversation}
-          people={PEOPLE}
+          members={members}
           now={NOW}
           timeFormat={TIME_FORMAT}
           // Where the list floats, or was closed, a button brings it back.
           canShowList={list.isFloating || !list.open}
           onShowList={() => list.setOpen(true)}
-          // Start a call with your calling service.
-          onCall={() => {}}
-          onShowDetails={() => details.setOpen(true)}
-          onToggleMute={() =>
-            dispatch({
-              type: "mute",
-              id: conversation.id,
-              isMuted: !conversation.isMuted,
-            })
-          }
-          onBlock={() => setBlockOpen(true)}
+          handlers={{
+            // Start a call with your calling service.
+            onCall: () => {},
+            onShowDetails: () => details.setOpen(true),
+            onTogglePin: () =>
+              dispatch({ type: "pin", id, isPinned: !conversation.isPinned }),
+            onToggleMute: () =>
+              dispatch({ type: "mute", id, isMuted: !conversation.isMuted }),
+            onBlock: () => confirm("block"),
+            onUnblock: unblock,
+            onReport: () => confirm("report"),
+          }}
         />
         {/* The transcript scrolls in its own viewport above the composer. */}
         <AppShellContent className="flex flex-col overflow-hidden">
-          <MessengerTranscript
-            key={conversation.id}
-            conversation={conversation}
-            people={PEOPLE}
-            typingId={state.typing[conversation.id]}
-            now={NOW}
-            timeFormat={TIME_FORMAT}
-          />
+          {conversation.messages.length === 0 ? (
+            <MessengerNewConversation
+              conversation={conversation}
+              onWave={() => send(id, "👋", [])}
+            />
+          ) : (
+            <MessengerTranscript
+              key={id}
+              conversation={conversation}
+              people={PEOPLE}
+              unreadFromId={state.unreadFrom[id]}
+              typingId={state.typing[id]}
+              now={NOW}
+              timeFormat={TIME_FORMAT}
+              handlers={handlers}
+            />
+          )}
           {conversation.isBlocked ? (
-            <div className="flex shrink-0 flex-col items-center gap-(--density-8) px-(--density-16) pt-(--density-8) pb-(--density-24) text-center">
+            <div className="flex shrink-0 flex-col items-center gap-(--density-8) px-(--density-16) pt-(--density-8) pb-[max(var(--density-24),env(safe-area-inset-bottom))] text-center">
               <p className="text-(length:--density-text-13) text-muted-foreground">
                 You blocked {contactName}. They can&apos;t message or call you.
               </p>
@@ -406,13 +357,20 @@ function Messenger() {
             </div>
           ) : (
             <MessengerComposer
-              key={`composer-${conversation.id}`}
+              key={`composer-${id}`}
               recipient={contactName}
-              draft={state.drafts[conversation.id] ?? ""}
-              onDraftChange={(text) =>
-                dispatch({ type: "draft", id: conversation.id, text })
+              isNew={conversation.startedAt !== undefined}
+              draft={state.drafts[id] ?? ""}
+              replyTo={getReplyTo(
+                conversation.messages.find(
+                  (message) => message.id === state.replyTo[id]
+                )
+              )}
+              onDraftChange={(text) => dispatch({ type: "draft", id, text })}
+              onCancelReply={() =>
+                dispatch({ type: "reply", id, messageId: undefined })
               }
-              onSend={(text, files) => send(conversation.id, text, files)}
+              onSend={(text, files) => send(id, text, files)}
             />
           )}
         </AppShellContent>
@@ -421,24 +379,39 @@ function Messenger() {
       <AppShellPanel id="details" label="Details" defaultWidth={320}>
         <MessengerDetails
           conversation={conversation}
-          people={PEOPLE}
+          members={members}
           now={NOW}
           timeFormat={TIME_FORMAT}
-          onMutedChange={(isMuted) =>
-            dispatch({ type: "mute", id: conversation.id, isMuted })
-          }
-          onBlock={() => setBlockOpen(true)}
-          onUnblock={unblock}
+          onMutedChange={(isMuted) => dispatch({ type: "mute", id, isMuted })}
+          onOpenPhoto={openPhoto}
         />
       </AppShellPanel>
 
-      <MessengerBlockDialog
-        name={conversation.title}
-        open={isBlockOpen}
-        onOpenChange={setBlockOpen}
-        onConfirm={() =>
-          dispatch({ type: "block", id: conversation.id, isBlocked: true })
-        }
+      <MessengerPhotoDialog
+        photo={photo}
+        open={isPhotoOpen}
+        onOpenChange={setPhotoOpen}
+      />
+      <MessengerConfirmDialog
+        open={isConfirmOpen}
+        onOpenChange={setConfirmOpen}
+        {...(confirming === "block"
+          ? {
+              title: `Block ${conversation.title}?`,
+              description:
+                "They can't message or call you, and won't see when you're online. You can unblock them here at any time.",
+              cancelLabel: "Keep in touch",
+              actionLabel: `Block ${contactName}`,
+              onConfirm: () => dispatch({ type: "block", id, isBlocked: true }),
+            }
+          : {
+              title: `Report ${conversation.title}?`,
+              description:
+                "The last 20 messages go to your workspace admins. They aren't told who reported them.",
+              cancelLabel: "Don't report",
+              actionLabel: `Report ${contactName}`,
+              onConfirm: () => notifyMessenger("Report sent to your admins"),
+            })}
       />
     </>
   )

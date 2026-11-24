@@ -497,6 +497,20 @@
     "phosphor": "BankIcon",
     "remixicon": "RiBankLine"
   },
+  "CalendarArrowUpIcon": {
+    "lucide": "CalendarArrowUpIcon",
+    "tabler": "IconCalendarUp",
+    "hugeicons": "CalendarUpload01Icon",
+    "phosphor": "CalendarBlankIcon",
+    "remixicon": "RiCalendarTodoLine"
+  },
+  "CalendarDaysIcon": {
+    "lucide": "CalendarDaysIcon",
+    "tabler": "IconCalendarWeek",
+    "hugeicons": "Calendar03Icon",
+    "phosphor": "CalendarDotsIcon",
+    "remixicon": "RiCalendarView"
+  },
   "CameraIcon": {
     "lucide": "CameraIcon",
     "tabler": "IconCamera",
@@ -615,6 +629,13 @@
     "hugeicons": "PlusSignCircleIcon",
     "phosphor": "PlusCircleIcon",
     "remixicon": "RiAddCircleFill"
+  },
+  "CircleStopIcon": {
+    "lucide": "CircleStopIcon",
+    "tabler": "IconPlayerStop",
+    "hugeicons": "StopCircleIcon",
+    "phosphor": "StopCircleIcon",
+    "remixicon": "RiStopCircleLine"
   },
   "CircleUserIcon": {
     "lucide": "CircleUserIcon",
@@ -920,7 +941,7 @@
   "HashIcon": {
     "lucide": "HashIcon",
     "tabler": "IconHash",
-    "hugeicons": "HashtagIcon",
+    "hugeicons": "GridIcon",
     "phosphor": "HashIcon",
     "remixicon": "RiHashtag"
   },
@@ -1161,13 +1182,6 @@
     "hugeicons": "Logout01Icon",
     "phosphor": "SignOutIcon",
     "remixicon": "RiLogoutBoxLine"
-  },
-  "MailCheckIcon": {
-    "lucide": "MailCheckIcon",
-    "tabler": "IconMailCheck",
-    "hugeicons": "MailValidation01Icon",
-    "phosphor": "EnvelopeSimpleOpenIcon",
-    "remixicon": "RiMailCheckLine"
   },
   "MapIcon": {
     "lucide": "MapIcon",
@@ -1505,11 +1519,25 @@
     "phosphor": "ShareIcon",
     "remixicon": "RiShareLine"
   },
+  "ShieldCheckIcon": {
+    "lucide": "ShieldCheckIcon",
+    "tabler": "IconShieldCheck",
+    "hugeicons": "SecurityCheckIcon",
+    "phosphor": "ShieldCheckIcon",
+    "remixicon": "RiShieldCheckLine"
+  },
   "ShieldIcon": {
     "lucide": "ShieldIcon",
     "tabler": "IconShield",
     "hugeicons": "ShieldIcon",
     "phosphor": "ShieldIcon",
+    "remixicon": "RiShieldLine"
+  },
+  "ShieldOffIcon": {
+    "lucide": "ShieldOffIcon",
+    "tabler": "IconShieldOff",
+    "hugeicons": "ShieldBanIcon",
+    "phosphor": "ShieldSlashIcon",
     "remixicon": "RiShieldLine"
   },
   "ShoppingBagIcon": {
@@ -1532,6 +1560,13 @@
     "hugeicons": "SlidersHorizontalIcon",
     "phosphor": "SlidersHorizontalIcon",
     "remixicon": "RiEqualizerLine"
+  },
+  "SmartphoneIcon": {
+    "lucide": "SmartphoneIcon",
+    "tabler": "IconDeviceMobile",
+    "hugeicons": "SmartPhone01Icon",
+    "phosphor": "DeviceMobileIcon",
+    "remixicon": "RiSmartphoneLine"
   },
   "SparklesIcon": {
     "lucide": "SparklesIcon",

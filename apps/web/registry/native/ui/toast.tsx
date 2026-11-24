@@ -159,21 +159,21 @@ const ToastStackContext = React.createContext<{
   toggleExpanded: () => void
   /** Restarts the timers a touch paused, unless the stack it opened holds them. */
   releaseTimers: () => void
-  maxWidth: number
+  width: number
   isCentered: boolean
 }>({
   entries: new Map(),
   canExpand: false,
   isExpanded: false,
-  isOpened: false,
-  maxWidth: 0,
+  width: 0,
   isCentered: true,
   toggleExpanded: () => {},
+  releaseTimers: () => {},
 })
 
-// The width, in text sizes, past which a toast wraps, and the space it leaves
-// beside it, as on the website.
-const MAX_WIDTH_IN_TEXT = 27
+// How wide every toast is, in text sizes, and the space it leaves beside it, as
+// on the website.
+const WIDTH_IN_TEXT = 26
 const SCREEN_MARGIN = 32
 // Where a toast moves from the middle of the screen to its end (`sm`).
 const END_ALIGNED_MIN_WIDTH = 640
@@ -244,10 +244,7 @@ function ToastViewport({
       isExpanded,
       toggleExpanded: () => setOpened(!isOpened),
       releaseTimers,
-      maxWidth: Math.min(
-        textSize * MAX_WIDTH_IN_TEXT,
-        windowWidth - SCREEN_MARGIN
-      ),
+      width: Math.min(textSize * WIDTH_IN_TEXT, windowWidth - SCREEN_MARGIN),
       isCentered: windowWidth < END_ALIGNED_MIN_WIDTH,
     }
   }, [
@@ -547,8 +544,8 @@ function useBehindFade() {
   return { isBehind, style }
 }
 
-// Laid out at its natural size, whatever the toast around it is cut to: that's
-// the size the toast grows to, and its text never wraps again on the way.
+// Laid out at the toast's full size, whatever the toast around it is cut to:
+// that's the size it grows to, and its text never wraps again on the way.
 function ToastContent({
   className,
   children,
@@ -557,7 +554,7 @@ function ToastContent({
 }: React.ComponentProps<typeof View>) {
   const manager = useToastStore()
   const toastContext = React.use(ToastContext)
-  const { canExpand, toggleExpanded, maxWidth } = React.use(ToastStackContext)
+  const { canExpand, toggleExpanded, width } = React.use(ToastStackContext)
   const { isBehind, style: fadeStyle } = useBehindFade()
   const id = toastContext?.item.id
   return (
@@ -568,13 +565,12 @@ function ToastContent({
       <View
         pointerEvents="box-none"
         className="absolute top-0 left-0"
-        style={{ width: maxWidth }}
+        style={{ width }}
       >
         <Pressable
           accessible={false}
           disabled={!canExpand && !toastContext?.isClamped}
           onPress={toggleExpanded}
-          className="self-start"
           onLayout={({ nativeEvent: { layout } }) => {
             if (id === undefined) return
             manager.setSize(id, { width: layout.width, height: layout.height })
@@ -832,7 +828,7 @@ function ToastBody({ className, ...props }: React.ComponentProps<typeof View>) {
     <View
       data-slot="toast-body"
       className={cn(
-        "cn-toast-body shrink flex-row flex-wrap items-center",
+        "cn-toast-body shrink grow flex-row flex-wrap items-center justify-between",
         className
       )}
       {...props}

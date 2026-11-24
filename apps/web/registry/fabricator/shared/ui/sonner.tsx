@@ -8,8 +8,8 @@ import { useToastStack } from "@/registry/bases/__base__/hooks/use-toast-stack"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // Fabricator override of the upstream sonner, for every base: Sonner keeps its
-// API, timers and gestures, and takes Toast's look. Each toast is as wide as
-// its content, and the stack's sizes and places come from `useToastStack`.
+// API, timers and gestures, and takes Toast's look. Every toast has the same
+// width, and the stack's sizes and places come from `useToastStack`.
 
 // Sonner takes the classes of a toast's parts as plain values, and the build
 // compiles placeholders in `className` only.

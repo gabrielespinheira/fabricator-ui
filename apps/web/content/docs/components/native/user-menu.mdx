@@ -23,7 +23,7 @@ import {
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu"
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { UserMenu } from "@/components/ui/user-menu"
+import { UserMenu, UserMenuTheme } from "@/components/ui/user-menu"
 ```
 
 ```tsx
@@ -39,6 +39,8 @@ import { UserMenu } from "@/components/ui/user-menu"
 ## Composition
 
 - `UserMenu`
+- `UserMenuTheme`
+- `UserMenuThemeProps`
 - `UserMenuUser`
 
 ## Examples
@@ -51,8 +53,10 @@ import {
   LogOutIcon,
   UserIcon,
 } from "@fabricator-ui/icons-react-native"
-import { View } from "react-native"
+import { Appearance, View } from "react-native"
+import { Uniwind } from "uniwind"
 
+import type { ThemePreference } from "@/registry/fabricator/shared/lib/theme-toggle-model"
 import {
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -60,11 +64,17 @@ import {
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu"
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { UserMenu } from "@/components/ui/user-menu"
+import { UserMenu, UserMenuTheme } from "@/components/ui/user-menu"
 
 const USER = { name: "Gabs Fabricator", email: "gabs@fabricator.dev" }
 
 function Items() {
+  const [theme, setTheme] = React.useState("system")
+  const onThemeChange = (next: ThemePreference) => {
+    setTheme(next)
+    Appearance.setColorScheme(next === "system" ? "unspecified" : next)
+    Uniwind.setTheme(next)
+  }
   return (
     <>
       <DropdownMenuGroup>
@@ -82,6 +92,7 @@ function Items() {
           Notifications
         </DropdownMenuItem>
       </DropdownMenuGroup>
+      <UserMenuTheme theme={theme} onThemeChange={onThemeChange} />
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
         <DropdownMenuItem variant="destructive">
@@ -146,7 +157,7 @@ Props it adds to what it wraps: `align`, `side`, `user`, `variant`.
 
 ## Differences from web
 
-**Same.** Opens as a sheet on phones.
+**Same.** Opens as a sheet on phones. UserMenuTheme's tabs are the native Tabs, and the app's theme changes at once: variant and start are accepted without a page reveal.
 
 ## Accessibility
 

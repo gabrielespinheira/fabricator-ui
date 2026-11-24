@@ -27,20 +27,20 @@ export type ToastPlacement = ToastSize & {
 }
 
 /**
- * A toast is as wide as its content, up to the limit. Past it the actions move
- * under the text instead of squeezing it.
+ * Every toast has the same width. Actions that don't fit beside the text move
+ * under it instead of squeezing it.
  */
 export function shouldStackActions({
   rowWidth,
-  maxWidth,
+  toastWidth,
   hasActions,
 }: {
   /** The width of everything on one row. */
   rowWidth: number
-  maxWidth: number
+  toastWidth: number
   hasActions: boolean
 }) {
-  return hasActions && rowWidth > maxWidth
+  return hasActions && rowWidth > toastWidth
 }
 
 /**

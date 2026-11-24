@@ -41,17 +41,17 @@ function setBox(toast: HTMLElement, { width, height }: ToastSize) {
   setPixels(toast, "box-height", height)
 }
 
-/** The size it wants, leaving its natural width on it for its content. */
+/** The size it wants, leaving its width on it for its content. */
 function measureToast(toast: HTMLElement): ToastSize {
   const style = getComputedStyle(toast)
-  const maxWidth = parseFloat(style.maxWidth)
+  const toastWidth = parseFloat(style.maxWidth)
   toast.removeAttribute(STACKED)
   toast.setAttribute(MEASURING, "row")
   toast.toggleAttribute(
     STACKED,
     shouldStackActions({
       rowWidth: parseFloat(style.width),
-      maxWidth,
+      toastWidth,
       hasActions: toast.querySelector(ACTION) !== null,
     })
   )
@@ -115,7 +115,7 @@ function markSettled(toast: HTMLElement) {
 }
 
 /**
- * Sizes toasts to their content and stacks them, for the element that holds
+ * Sizes toasts to their text and stacks them, for the element that holds
  * them. The style map reads the result from each toast: its box
  * (`--toast-box-width`, `--toast-box-height`), its place (`--toast-offset`,
  * `--toast-inset`), `data-stacked` when its actions sit under its text,

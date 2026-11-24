@@ -35,33 +35,16 @@ describe("getBlockPageRoute", () => {
 })
 
 describe("getBlockLayout", () => {
-  it("draws each auth block's own form", () => {
-    expect(getBlockLayout("sign-in-01", ["authentication"])).toEqual({
-      kind: "auth",
-      hasProviders: true,
-      fields: 2,
-      hasSteps: false,
-    })
-    expect(getBlockLayout("sign-up-01", ["authentication"])).toMatchObject({
-      hasProviders: true,
-      fields: 3,
-    })
-    expect(
-      getBlockLayout("forgot-password-01", ["authentication"])
-    ).toMatchObject({ hasProviders: false, fields: 1, hasSteps: true })
+  it("draws an auth block as its form", () => {
+    expect(getBlockLayout(["authentication"])).toBe("auth")
   })
 
-  it("falls back to a sign-in form for other auth blocks", () => {
-    expect(getBlockLayout("login-01", ["authentication"])).toMatchObject({
-      kind: "auth",
-      fields: 2,
-    })
+  it("draws an onboarding block as its questions beside their preview", () => {
+    expect(getBlockLayout(["onboarding"])).toBe("onboarding")
   })
 
   it("draws every other block as an app", () => {
-    expect(getBlockLayout("finance-01", ["dashboard"])).toEqual({ kind: "app" })
-    expect(getBlockLayout("app-shell-01", ["app-shell", "dashboard"])).toEqual({
-      kind: "app",
-    })
+    expect(getBlockLayout(["dashboard"])).toBe("app")
+    expect(getBlockLayout(["app-shell", "dashboard"])).toBe("app")
   })
 })

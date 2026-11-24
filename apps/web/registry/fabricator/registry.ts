@@ -30,6 +30,7 @@ export const fabricatorItems = [
       { path: "ui/theme-toggle.tsx", type: "registry:ui" },
       { path: "lib/theme-toggle-model.ts", type: "registry:lib" },
       { path: "lib/theme-transition.ts", type: "registry:lib" },
+      { path: "hooks/use-theme-preference.ts", type: "registry:hook" },
     ],
     categories: ["basics"],
     meta: { fabricator: true },
@@ -959,6 +960,8 @@ export const fabricatorItems = [
     registryDependencies: ["markdown", "syntax-highlight", "toggle"],
     files: [
       { path: "ui/editor.tsx", type: "registry:ui" },
+      { path: "hooks/use-editor-floating.ts", type: "registry:hook" },
+      { path: "hooks/use-editor-toolbar.ts", type: "registry:hook" },
       { path: "lib/editor-commands.ts", type: "registry:lib" },
       { path: "lib/editor-dom.ts", type: "registry:lib" },
       { path: "lib/editor-input.ts", type: "registry:lib" },
@@ -1051,7 +1054,7 @@ export const fabricatorItems = [
     type: "registry:lib",
     title: "Toast Stack",
     description:
-      "Sizes toasts to their content and stacks them, for Toast and Sonner.",
+      "Sizes toasts to their text and stacks them, for Toast and Sonner.",
     files: [
       { path: "lib/toast-stack-model.ts", type: "registry:lib" },
       { path: "hooks/use-toast-stack.ts", type: "registry:hook" },
@@ -1200,8 +1203,13 @@ export const fabricatorItems = [
     type: "registry:component",
     title: "User Menu",
     description:
-      "The signed-in person's menu, as a sidebar row or an avatar mark.",
-    registryDependencies: ["sidebar", "avatar", "dropdown-menu"],
+      "The signed-in person's menu, as a sidebar row or an avatar mark, with tabs for the theme.",
+    registryDependencies: [
+      "sidebar",
+      "avatar",
+      "dropdown-menu",
+      "theme-toggle",
+    ],
     files: [{ path: "ui/user-menu.tsx", type: "registry:ui" }],
     categories: ["navigation"],
     meta: {

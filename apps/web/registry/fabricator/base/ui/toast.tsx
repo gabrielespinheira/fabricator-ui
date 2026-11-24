@@ -9,8 +9,8 @@ import { useMergedRef } from "@/registry/bases/__base__/lib/fluid-hover"
 import { Button } from "@/registry/bases/base/ui/button"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-// Fabricator override of the upstream toast: each toast is as wide as its
-// content, and the stack's sizes and places come from `useToastStack`.
+// Fabricator override of the upstream toast: every toast has the same width, and
+// the stack's sizes and places come from `useToastStack`.
 
 const toast = ToastPrimitive.createToastManager()
 
@@ -50,9 +50,9 @@ function Toast({ className, ...props }: ToastPrimitive.Root.Props) {
         "cn-toast group/toast pointer-events-auto absolute bottom-0 z-[calc(1000-var(--toast-index))] origin-bottom will-change-transform outline-none select-none",
         // The box `useToastStack` sets. Centred on phones, at the end of the
         // screen above them.
-        "left-1/2 h-(--toast-box-height)! w-(--toast-box-width)! max-w-(--toast-max-width) [--toast-x:-50%] sm:right-0 sm:left-auto sm:[--toast-x:calc(var(--toast-inset,0px)*-1)]",
+        "left-1/2 h-(--toast-box-height)! w-(--toast-box-width)! max-w-(--toast-width) [--toast-x:-50%] sm:right-0 sm:left-auto sm:[--toast-x:calc(var(--toast-inset,0px)*-1)]",
         "[transform:translate(calc(var(--toast-x)+var(--toast-swipe-movement-x,0px)),calc(var(--toast-y)+var(--toast-swipe-movement-y,0px)))] [--toast-y:calc(var(--toast-offset,0px)*-1)]",
-        "data-measuring:h-auto! data-measuring:w-max! data-[measuring=row]:max-w-none",
+        "data-measuring:h-auto! data-measuring:w-max! data-[measuring=box]:min-w-(--toast-width) data-[measuring=row]:max-w-none",
         // Covers the gap, so the pointer stays on the open stack between toasts.
         "after:absolute after:top-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-['']",
         "data-ending-style:opacity-0 data-limited:pointer-events-none data-limited:opacity-0 data-starting-style:opacity-0",

@@ -117,7 +117,7 @@ The `success`, `info`, `warning` and `error` types colour their icon with the st
 
 ## Size
 
-A toast is as wide as its content, up to 27 times its text size (351px at the default density). Below it, "Event created" is a small pill; past it, text wraps.
+Every toast has the same width, 26 times its text size (338px at the default density), or the screen's less a margin on a narrow phone. Only its height follows the content.
 
 ## Action
 
@@ -139,7 +139,7 @@ The title shows two lines and the description three, and a word that can't wrap 
 
 ## Promise
 
-One toast moves through loading, success and error. It changes size in place and fades its new content in.
+One toast moves through loading, success and error. It changes height in place and fades its new content in.
 
 <ComponentPreview styleName="radix-nova" name="sonner-promise" />
 

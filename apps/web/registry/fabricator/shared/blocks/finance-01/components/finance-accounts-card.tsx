@@ -1,11 +1,11 @@
 import { FinanceCardLink } from "@/registry/bases/__base__/blocks/finance-01/components/finance-card-link"
 import {
-  type FinanceAccount,
-  type FinanceCard,
-} from "@/registry/bases/__base__/blocks/finance-01/lib/finance-data"
-import {
   formatMoney,
   formatMoneyCompact,
+  getAccountShares,
+  type FinanceAccount,
+  type FinanceAccountId,
+  type FinanceCard,
 } from "@/registry/bases/__base__/blocks/finance-01/lib/finance-model"
 import {
   Card,
@@ -17,9 +17,9 @@ import {
 } from "@/registry/bases/__base__/ui/card"
 import {
   Item,
-  ItemActions,
   ItemContent,
   ItemDescription,
+  ItemFooter,
   ItemGroup,
   ItemMedia,
   ItemTitle,
@@ -27,7 +27,7 @@ import {
 import { Progress } from "@/registry/bases/__base__/ui/progress"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-const ACCOUNT_ICONS: Record<FinanceAccount["kind"], React.ReactNode> = {
+const ACCOUNT_ICONS: Record<FinanceAccountId, React.ReactNode> = {
   checking: (
     <IconPlaceholder
       lucide="LandmarkIcon"
@@ -55,76 +55,104 @@ const ACCOUNT_ICONS: Record<FinanceAccount["kind"], React.ReactNode> = {
       remixicon="RiSafe2Line"
     />
   ),
+  card: (
+    <IconPlaceholder
+      lucide="CreditCardIcon"
+      tabler="IconCreditCard"
+      hugeicons="CreditCardIcon"
+      phosphor="CreditCardIcon"
+      remixicon="RiBankCardLine"
+    />
+  ),
 }
 
-/** Where the cash sits, and how much of the card's limit is used. */
+/** One account or card: what it is, its amount, and what the amount is of. */
+function FinanceAccountRow({
+  id,
+  name,
+  detail,
+  amount,
+  scope,
+  children,
+}: {
+  id: FinanceAccountId
+  name: string
+  detail: string
+  amount: number
+  scope: string
+  children?: React.ReactNode
+}) {
+  return (
+    <Item role="listitem" size="sm">
+      <ItemMedia variant="icon" className="text-muted-foreground">
+        {ACCOUNT_ICONS[id]}
+      </ItemMedia>
+      <ItemContent className="min-w-0">
+        <ItemTitle>{name}</ItemTitle>
+        <ItemDescription>{detail}</ItemDescription>
+      </ItemContent>
+      <ItemContent className="items-end tabular-nums">
+        <ItemTitle>{formatMoney(amount)}</ItemTitle>
+        <ItemDescription>{scope}</ItemDescription>
+      </ItemContent>
+      {children && (
+        <ItemFooter className="ps-[calc(var(--density-icon-16)+var(--density-10))]">
+          {children}
+        </ItemFooter>
+      )}
+    </Item>
+  )
+}
+
+/** Where the cash sits, then how much of the card's limit is used. */
 export function FinanceAccountsCard({
   accounts,
   card,
+  cardSpent,
   className,
 }: {
-  accounts: FinanceAccount[]
+  accounts: readonly FinanceAccount[]
   card: FinanceCard
+  cardSpent: number
   className?: string
 }) {
-  const used = Math.round((card.spent / card.limit) * 100)
+  const shares = getAccountShares(accounts)
+  const used = Math.round((cardSpent / card.limit) * 100)
 
   return (
     <Card className={className}>
       <CardHeader>
         <CardTitle>Accounts</CardTitle>
-        <CardDescription>Balances today</CardDescription>
+        <CardDescription>Share of cash</CardDescription>
         <CardAction>
           <FinanceCardLink href="/accounts">View all</FinanceCardLink>
         </CardAction>
       </CardHeader>
-      <CardContent className="px-[calc(var(--card-spacing)-var(--density-12))]">
-        <ItemGroup>
+      <CardContent className="flex-1 px-[calc(var(--card-spacing)-var(--density-12))]">
+        <ItemGroup className="h-full justify-between">
           {accounts.map((account) => (
-            <Item key={account.id} role="listitem" size="sm">
-              <ItemMedia variant="icon" className="text-muted-foreground">
-                {ACCOUNT_ICONS[account.kind]}
-              </ItemMedia>
-              <ItemContent className="min-w-0">
-                <ItemTitle>{account.name}</ItemTitle>
-                <ItemDescription className="truncate">
-                  {account.detail}
-                </ItemDescription>
-              </ItemContent>
-              <ItemActions className="font-medium text-foreground tabular-nums">
-                {formatMoney(account.balance)}
-              </ItemActions>
-            </Item>
+            <FinanceAccountRow
+              key={account.id}
+              id={account.id}
+              name={account.name}
+              detail={account.detail}
+              amount={account.balance}
+              scope={`${shares[account.id]}%`}
+            />
           ))}
-          {/* The card is a limit, not a balance: a muted well sets it apart. */}
-          <Item role="listitem" size="sm" variant="muted">
-            <ItemMedia variant="icon" className="text-muted-foreground">
-              <IconPlaceholder
-                lucide="CreditCardIcon"
-                tabler="IconCreditCard"
-                hugeicons="CreditCardIcon"
-                phosphor="CreditCardIcon"
-                remixicon="RiBankCardLine"
-              />
-            </ItemMedia>
-            <ItemContent className="min-w-0 gap-(--density-8)">
-              <div className="flex flex-col">
-                <ItemTitle className="w-full">
-                  <span className="truncate">{card.name}</span>
-                  <span className="ms-auto font-medium tabular-nums">
-                    {formatMoney(card.spent)}
-                  </span>
-                </ItemTitle>
-                <ItemDescription className="flex w-full gap-(--density-8)">
-                  <span className="truncate">{card.detail}</span>
-                  <span className="ms-auto shrink-0 tabular-nums">
-                    {used}% of {formatMoneyCompact(card.limit)}
-                  </span>
-                </ItemDescription>
-              </div>
-              <Progress value={used} aria-label={`${card.name} limit used`} />
-            </ItemContent>
-          </Item>
+          <FinanceAccountRow
+            id={card.id}
+            name={card.name}
+            detail={card.detail}
+            amount={cardSpent}
+            scope={`${used}% of ${formatMoneyCompact(card.limit)}`}
+          >
+            <Progress
+              value={used}
+              aria-label={`${card.name} limit used`}
+              className="w-full"
+            />
+          </FinanceAccountRow>
         </ItemGroup>
       </CardContent>
     </Card>

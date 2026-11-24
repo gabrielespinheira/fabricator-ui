@@ -1,18 +1,33 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  canApplyMailAction,
+  findNextSnoozed,
   formatFileSize,
   formatMailDateTime,
   formatMailTime,
   getAdjacentId,
+  getComposeErrors,
+  getDraftBody,
+  getForwardQuote,
+  getListPosition,
   getMailCounts,
   getParticipants,
+  getReplyRecipientIds,
+  getShortName,
   getSnippet,
   getSnoozeOptions,
   getVisibleThreads,
+  hasDraftContent,
+  isSameDraft,
   mailReducer,
   ME,
+  splitDraftBody,
+  splitQuote,
+  toMailMarkdown,
+  type MailBox,
   type MailContact,
+  type MailMessage,
   type MailState,
   type MailThread,
   type TimeFormat,
@@ -39,6 +54,7 @@ function thread(
   return {
     id,
     subject: `Subject ${id}`,
+    account: "work",
     box: "inbox",
     isUnread: false,
     isStarred: false,
@@ -146,6 +162,26 @@ describe("getVisibleThreads", () => {
     ).toEqual(["b"])
   })
 
+  it("keeps the open thread listed after reading it, until it is left", () => {
+    const view = { kind: "folder", folder: "inbox" } as const
+    const read = mailReducer(
+      { threads, openId: null, selectedIds: [], replyDrafts: {} },
+      { type: "open", id: "a" }
+    ).threads
+    const unread = (keepId?: string) =>
+      getVisibleThreads(read, {
+        view,
+        filter: "unread",
+        query: "",
+        contacts,
+        keepId,
+      }).map(({ id }) => id)
+    expect(unread("a")).toEqual(["a"])
+    expect(unread()).toEqual([])
+    // Keeping it never brings a thread into a folder it left.
+    expect(unread("c")).toEqual([])
+  })
+
   it("searches subjects, bodies and senders, ignoring case and spaces", () => {
     const view = { kind: "folder", folder: "inbox" } as const
     const search = (query: string) =>
@@ -170,6 +206,7 @@ describe("mailReducer", () => {
     threads,
     openId: "b",
     selectedIds: [],
+    replyDrafts: {},
   }
 
   it("opens a thread and marks it read", () => {
@@ -268,6 +305,77 @@ describe("mailReducer", () => {
     expect(next.openId).toBe("b")
   })
 
+  it("closes the open thread and drops the selection", () => {
+    const next = mailReducer(
+      { ...initial, selectedIds: ["a"] },
+      { type: "close" }
+    )
+    expect(next.openId).toBeNull()
+    expect(next.selectedIds).toEqual([])
+  })
+
+  it("keeps a reply's draft per thread and drops it once sent", () => {
+    const draft = { body: "Half a thou", mode: "reply", files: [] } as const
+    let next = mailReducer(initial, { type: "draftReply", id: "a", draft })
+    expect(next.replyDrafts).toEqual({ a: draft })
+    next = mailReducer(next, {
+      type: "reply",
+      id: "a",
+      message: {
+        id: "r",
+        fromId: ME,
+        toIds: ["maya"],
+        sentAt: NOW,
+        body: "Half a thought",
+      },
+    })
+    expect(next.replyDrafts).toEqual({})
+    next = mailReducer(next, { type: "draftReply", id: "b", draft })
+    next = mailReducer(next, { type: "draftReply", id: "b", draft: null })
+    expect(next.replyDrafts).toEqual({})
+  })
+
+  it("unsends a reply back into its draft", () => {
+    const draft = { body: "Thanks!", mode: "replyAll", files: [] } as const
+    let next = mailReducer(initial, {
+      type: "reply",
+      id: "a",
+      message: {
+        id: "r",
+        fromId: ME,
+        toIds: ["maya"],
+        sentAt: NOW,
+        body: "Thanks!",
+      },
+    })
+    next = mailReducer(next, {
+      type: "unsendReply",
+      id: "a",
+      messageId: "r",
+      draft,
+    })
+    const restored = next.threads.find(({ id }) => id === "a")
+    expect(restored?.messages.map(({ id }) => id)).toEqual(["a-1"])
+    expect(next.replyDrafts.a).toEqual(draft)
+  })
+
+  it("saves a draft over its earlier version", () => {
+    const draft = thread("d1", { box: "drafts", subject: "First" })
+    let next = mailReducer(initial, { type: "send", thread: draft })
+    next = mailReducer(next, {
+      type: "send",
+      thread: { ...draft, subject: "Second" },
+    })
+    expect(
+      next.threads.filter(({ id }) => id === "d1").map(({ subject }) => subject)
+    ).toEqual(["Second"])
+  })
+
+  it("closes a thread that is removed", () => {
+    const next = mailReducer(initial, { type: "remove", id: "b" })
+    expect(next.openId).toBeNull()
+  })
+
   it("takes a sent message back out for Undo", () => {
     const sent = thread("new", { box: "sent" })
     let next = mailReducer(initial, { type: "send", thread: sent })
@@ -283,6 +391,208 @@ describe("getAdjacentId", () => {
     expect(getAdjacentId(["a", "b", "c"], "a", "previous")).toBe("a")
     expect(getAdjacentId(["a", "b", "c"], null, "next")).toBe("a")
     expect(getAdjacentId([], null, "next")).toBeUndefined()
+  })
+})
+
+describe("getListPosition", () => {
+  it("counts from one, and has no place for a thread outside the list", () => {
+    expect(getListPosition(["a", "b"], "b")).toEqual({ place: 2, total: 2 })
+    expect(getListPosition(["a", "b"], "z")).toBeNull()
+    expect(getListPosition([], null)).toBeNull()
+  })
+})
+
+describe("replying", () => {
+  const message: MailMessage = {
+    id: "m",
+    fromId: "maya",
+    toIds: [ME, "stripe"],
+    ccIds: ["lucas", "maya"],
+    sentAt: NOW,
+    body: "Hi",
+  }
+
+  it("answers the sender, or everyone else on the message once", () => {
+    expect(getReplyRecipientIds(message, "reply")).toEqual(["maya"])
+    expect(getReplyRecipientIds(message, "replyAll")).toEqual([
+      "maya",
+      "stripe",
+      "lucas",
+    ])
+  })
+
+  it("writes again to the same people after my own message", () => {
+    const mine = { ...message, fromId: ME, toIds: ["maya"], ccIds: ["lucas"] }
+    expect(getReplyRecipientIds(mine, "reply")).toEqual(["maya"])
+    expect(getReplyRecipientIds(mine, "replyAll")).toEqual(["maya", "lucas"])
+  })
+})
+
+describe("composing", () => {
+  it("needs someone to send to, and a message or a file", () => {
+    const empty = { toIds: [], subject: "", body: " \n" }
+    expect(getComposeErrors(empty, { fileCount: 0 })).toEqual({
+      to: "Add at least one person to send to.",
+      body: "Write a message or attach a file.",
+    })
+    expect(
+      getComposeErrors({ ...empty, toIds: ["maya"] }, { fileCount: 1 })
+    ).toEqual({})
+    // A forwarded message speaks for itself.
+    expect(
+      getComposeErrors(
+        { ...empty, toIds: ["maya"], quote: "> Hi" },
+        { fileCount: 0 }
+      )
+    ).toEqual({})
+  })
+
+  it("puts what it quotes under what was written", () => {
+    const draft = { toIds: [], subject: "", body: " Look at this. \n" }
+    expect(getDraftBody(draft)).toBe("Look at this.")
+    expect(getDraftBody({ ...draft, quote: "> Hi" })).toBe(
+      "Look at this.\n\n> Hi"
+    )
+    expect(getDraftBody({ ...draft, body: "", quote: "> Hi" })).toBe("> Hi")
+  })
+
+  it("opens a saved draft with its quote apart again", () => {
+    expect(splitDraftBody("Look at this.\n\n> Hi\n> there")).toEqual({
+      body: "Look at this.",
+      quote: "> Hi\n> there",
+    })
+    expect(splitDraftBody("> Hi")).toEqual({ body: "", quote: "> Hi" })
+    expect(splitDraftBody("Just text")).toEqual({ body: "Just text" })
+    // An answer's attribution stays with the text.
+    expect(splitDraftBody("Yes.\n\nOn Monday, Ada wrote:\n> Ok?")).toEqual({
+      body: "Yes.\n\nOn Monday, Ada wrote:",
+      quote: "> Ok?",
+    })
+  })
+
+  it("keeps a draft only when something was added", () => {
+    const empty = { toIds: [], subject: "", body: "" }
+    expect(hasDraftContent(empty, { fileCount: 0 })).toBe(false)
+    expect(hasDraftContent({ ...empty, body: "\n " }, { fileCount: 0 })).toBe(
+      false
+    )
+    expect(hasDraftContent({ ...empty, subject: "Hi" }, { fileCount: 0 })).toBe(
+      true
+    )
+    expect(hasDraftContent(empty, { fileCount: 1 })).toBe(true)
+  })
+
+  it("tells a draft that was changed from one that was only opened", () => {
+    const draft = { toIds: ["maya"], subject: "Hi", body: "Text" }
+    expect(isSameDraft(draft, { ...draft, toIds: ["maya"] })).toBe(true)
+    expect(isSameDraft(draft, { ...draft, toIds: [] })).toBe(false)
+    expect(isSameDraft(draft, { ...draft, toIds: ["stripe"] })).toBe(false)
+    expect(isSameDraft(draft, { ...draft, body: "Text." })).toBe(false)
+  })
+
+  it("quotes the latest message when forwarding, without its own quote", () => {
+    const forwarded = thread("t", {
+      subject: "Plan",
+      messages: [
+        {
+          id: "1",
+          fromId: "maya",
+          toIds: [ME],
+          sentAt: NOW,
+          body: "Two\nlines\n\nOn Monday, Ada wrote:\n> Older",
+        },
+      ],
+    })
+    expect(getForwardQuote(forwarded, contacts, UTC)).toBe(
+      [
+        "> Forwarded message",
+        "> From: Maya Chen, maya@acme.com",
+        "> Date: Tue, Nov 17, 3:20 PM",
+        "> Subject: Plan",
+        ">",
+        "> Two",
+        "> lines",
+      ].join("\n")
+    )
+  })
+})
+
+describe("canApplyMailAction", () => {
+  const allowed = (box: MailBox, overrides: Partial<MailThread> = {}) =>
+    (["archive", "moveToInbox", "delete", "snooze", "spam"] as const).filter(
+      (action) => canApplyMailAction(thread("t", { box, ...overrides }), action)
+    )
+
+  it("offers what makes sense where the thread is", () => {
+    expect(allowed("inbox")).toEqual(["archive", "delete", "snooze", "spam"])
+    expect(allowed("sent")).toEqual(["archive", "delete", "snooze"])
+    expect(allowed("archive")).toEqual([
+      "moveToInbox",
+      "delete",
+      "snooze",
+      "spam",
+    ])
+    expect(allowed("spam")).toEqual(["moveToInbox", "delete"])
+    expect(allowed("trash")).toEqual(["moveToInbox"])
+    expect(allowed("drafts")).toEqual(["delete"])
+  })
+
+  it("brings a snoozed thread back to the inbox", () => {
+    expect(allowed("inbox", { snoozedUntil: NOW + DAY })).toContain(
+      "moveToInbox"
+    )
+  })
+})
+
+describe("getShortName", () => {
+  it("is a person's first name, and a company's whole name", () => {
+    expect(getShortName(contacts[1])).toBe("Maya")
+    expect(
+      getShortName({ id: "b", name: "Blue Fox", email: "", brand: "fox" })
+    ).toBe("Blue Fox")
+    expect(
+      getShortName({
+        id: "l",
+        name: "City Library",
+        email: "",
+        isCompany: true,
+      })
+    ).toBe("City Library")
+    expect(getShortName(undefined)).toBe("")
+  })
+})
+
+describe("message text", () => {
+  it("parts what was written from what it quotes", () => {
+    expect(
+      splitQuote("Good call.\n\nOn Monday, Ada wrote:\n> Looks focused.\n> Ada")
+    ).toEqual({
+      text: "Good call.",
+      attribution: "On Monday, Ada wrote:",
+      quote: "Looks focused.\nAda",
+    })
+    expect(splitQuote("Just text")).toEqual({ text: "Just text" })
+    // A quote answered in the middle of the message stays where it is.
+    expect(splitQuote("> Is it ready?\n\nYes.")).toEqual({
+      text: "> Is it ready?\n\nYes.",
+    })
+  })
+
+  it("keeps single line breaks and leaves lists alone", () => {
+    expect(toMailMarkdown("In: Thursday\nOut: Sunday\n\n1. One\n2. Two")).toBe(
+      "In: Thursday  \nOut: Sunday\n\n1. One\n2. Two"
+    )
+    const quoted = toMailMarkdown("> From: Maya\n> Date: Today\n>\n> Hi")
+    expect(quoted).toBe("> From: Maya  \n> Date: Today\n>\n> Hi")
+    expect(toMailMarkdown(quoted)).toBe(quoted)
+  })
+})
+
+describe("findNextSnoozed", () => {
+  it("is the snoozed thread that returns first", () => {
+    const later = thread("z", { snoozedUntil: NOW + 3 * DAY })
+    expect(findNextSnoozed([later, ...threads])?.id).toBe("f")
+    expect(findNextSnoozed([])).toBeUndefined()
   })
 })
 
@@ -329,6 +639,33 @@ describe("getSnoozeOptions", () => {
 describe("getSnippet and getParticipants", () => {
   it("reads the latest message as one line", () => {
     expect(getSnippet(threads[0])).toBe("Body of a. Second paragraph.")
+  })
+
+  it("leaves quotes and formatting marks out of the line", () => {
+    const formatted = thread("t", {
+      messages: [
+        {
+          id: "1",
+          fromId: "maya",
+          toIds: [ME],
+          sentAt: NOW,
+          body: "**Short** version:\n\n- Keep it\n- _Move_ it\n\nOn Monday, Ada wrote:\n> Older",
+        },
+      ],
+    })
+    expect(getSnippet(formatted)).toBe("Short version: Keep it Move it")
+    const forwarded = thread("t", {
+      messages: [
+        {
+          id: "1",
+          fromId: ME,
+          toIds: ["maya"],
+          sentAt: NOW,
+          body: "\n\n> Forwarded message\n> Hi",
+        },
+      ],
+    })
+    expect(getSnippet(forwarded)).toBe("Forwarded message Hi")
   })
 
   it("names who wrote, with me last and a message count", () => {

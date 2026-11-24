@@ -7061,9 +7061,9 @@
 /* MARK: Toast */
 
   /* Surface 5 with its shadow ring (no border), rounded-xl, 13pt. Applies to the
-     toast root of both `toast` and `sonner`. As on the website, it's as wide as
-     its content, and its place, size and opacity follow the toast timing
-     (ui/toast). */
+     toast root of both `toast` and `sonner`. As on the website, every toast
+     has the same width, and its place, size and opacity follow the toast
+     timing (ui/toast). */
   .cn-toast {
     @apply bg-surface-5 shadow-surface-5 rounded-xl;
   }
@@ -7304,6 +7304,25 @@
 
   .cn-user-menu-label {
     @apply gap-(--density-8) px-(--density-8) py-(--density-6);
+  }
+
+  /* The theme row, as tall as the rows around it. The tabs' track is as tall as
+     the row, so it sits flush with the row's end. */
+  .cn-user-menu-theme {
+    @apply min-h-(--density-36) ps-(--density-8);
+  }
+
+  .cn-user-menu-theme-label {
+    @apply gap-(--density-8);
+  }
+
+  /* Reads as a row that isn't pressed. */
+  .cn-user-menu-theme-label-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-user-menu-theme-item {
+    @apply w-(--density-40) px-0;
   }
 
 /* MARK: Video Player */

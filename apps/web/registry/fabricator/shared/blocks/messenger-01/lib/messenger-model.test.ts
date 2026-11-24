@@ -1,19 +1,29 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  canReact,
+  createMessengerState,
   describeFile,
+  describeReaction,
   filterConversations,
+  filterPeople,
   formatDuration,
   formatFileSize,
   formatListTime,
   formatPresence,
   getAdjacentId,
+  getFirstUnreadId,
+  getMessageActions,
   getMessagePreview,
   getReadReceipt,
+  getRunPosition,
+  getSharedMedia,
+  getVisibleUnread,
   groupTranscript,
   ME,
   messengerReducer,
   sortConversations,
+  toggleReaction,
   type ChatMessage,
   type Conversation,
   type MessengerState,
@@ -96,6 +106,190 @@ describe("groupTranscript", () => {
       { now: NOW, format: FORMAT }
     )
     expect(days.map((day) => day.label)).toEqual(["Oct 28", "Saturday"])
+  })
+})
+
+describe("groupTranscript, where a run ends", () => {
+  const options = { now: NOW, format: FORMAT }
+
+  it("starts a run at the first unread message and marks it", () => {
+    const [today] = groupTranscript(
+      [
+        text("a", "maya", NOW - 10 * MINUTE),
+        text("b", "maya", NOW - 9 * MINUTE),
+        text("c", "maya", NOW - 8 * MINUTE),
+      ],
+      { ...options, unreadFromId: "b" }
+    )
+    expect(today.runs.map((run) => run.messages.map(({ id }) => id))).toEqual([
+      ["a"],
+      ["b", "c"],
+    ])
+    expect(today.runs.map((run) => run.isFirstUnread)).toEqual([false, true])
+  })
+
+  it("marks a run that was starting anyway", () => {
+    const [today] = groupTranscript(
+      [text("a", ME, NOW - 10 * MINUTE), text("b", "maya", NOW - 9 * MINUTE)],
+      { ...options, unreadFromId: "b" }
+    )
+    expect(today.runs.map((run) => run.isFirstUnread)).toEqual([false, true])
+  })
+
+  it("gives a failed message a run of its own, so its Retry is under it", () => {
+    const failed: ChatMessage = {
+      ...text("b", ME, NOW - 9 * MINUTE),
+      status: "failed",
+    }
+    const [today] = groupTranscript(
+      [
+        text("a", ME, NOW - 10 * MINUTE),
+        failed,
+        text("c", ME, NOW - 8 * MINUTE),
+      ],
+      options
+    )
+    expect(today.runs.map((run) => run.messages.map(({ id }) => id))).toEqual([
+      ["a"],
+      ["b"],
+      ["c"],
+    ])
+  })
+})
+
+describe("getRunPosition", () => {
+  it("says which corners of a bubble join its neighbours", () => {
+    expect(getRunPosition(0, 1)).toBe("only")
+    expect(getRunPosition(0, 3)).toBe("first")
+    expect(getRunPosition(1, 3)).toBe("middle")
+    expect(getRunPosition(2, 3)).toBe("last")
+  })
+})
+
+describe("getFirstUnreadId", () => {
+  const messages = [
+    text("a", "maya", NOW - 5 * MINUTE),
+    text("b", "maya", NOW - 4 * MINUTE),
+    text("c", ME, NOW - 3 * MINUTE),
+    text("d", "lucas", NOW - 2 * MINUTE),
+  ]
+
+  it("counts back over the messages from other people", () => {
+    expect(getFirstUnreadId(messages, 1)).toBe("d")
+    expect(getFirstUnreadId(messages, 2)).toBe("b")
+  })
+
+  it("has none when all is read, and starts at the first when older ones are unread too", () => {
+    expect(getFirstUnreadId(messages, 0)).toBeUndefined()
+    expect(getFirstUnreadId(messages, 12)).toBe("a")
+    expect(getFirstUnreadId([text("a", ME, NOW)], 3)).toBeUndefined()
+  })
+})
+
+describe("getVisibleUnread", () => {
+  const unread = conversation("maya", [], { unreadCount: 3 })
+
+  it("hides the count of the conversation being read", () => {
+    expect(getVisibleUnread(unread, "lucas")).toBe(3)
+    expect(getVisibleUnread(unread, "maya")).toBe(0)
+    expect(getVisibleUnread(unread, null)).toBe(3)
+  })
+
+  it("keeps the count of a conversation I marked unread", () => {
+    expect(getVisibleUnread({ ...unread, isMarkedUnread: true }, "maya")).toBe(
+      3
+    )
+  })
+})
+
+describe("reactions", () => {
+  it("adds mine, joins a reaction that is there and takes mine back", () => {
+    const added = toggleReaction(undefined, "👍", ME)
+    expect(added).toEqual([{ emoji: "👍", personIds: [ME] }])
+
+    const joined = toggleReaction(
+      [{ emoji: "👍", personIds: ["maya"] }],
+      "👍",
+      ME
+    )
+    expect(joined).toEqual([{ emoji: "👍", personIds: ["maya", ME] }])
+
+    expect(toggleReaction(joined, "👍", ME)).toEqual([
+      { emoji: "👍", personIds: ["maya"] },
+    ])
+    expect(toggleReaction(added, "👍", ME)).toEqual([])
+  })
+
+  it("names the reaction and who it is from", () => {
+    expect(
+      describeReaction({ emoji: "❤️", personIds: ["maya", ME] }, PEOPLE)
+    ).toBe("Heart from Maya and you")
+    expect(
+      describeReaction({ emoji: "🦄", personIds: ["lucas"] }, PEOPLE)
+    ).toBe("🦄 from Lucas")
+  })
+
+  it("waits until a message has been sent", () => {
+    expect(canReact(text("a", ME, NOW))).toBe(true)
+    expect(canReact({ ...text("a", ME, NOW), status: "sending" })).toBe(false)
+    expect(canReact({ ...text("a", ME, NOW), status: "failed" })).toBe(false)
+  })
+})
+
+describe("getMessageActions", () => {
+  it("offers what fits the message and whose it is", () => {
+    expect(getMessageActions(text("a", "maya", NOW))).toEqual([
+      "reply",
+      "copy",
+      "unread",
+    ])
+    expect(getMessageActions(text("a", ME, NOW))).toEqual([
+      "reply",
+      "copy",
+      "delete",
+    ])
+    expect(
+      getMessageActions({
+        id: "a",
+        senderId: "maya",
+        sentAt: NOW,
+        body: { kind: "file", name: "plan.pdf", size: "2 MB" },
+      })
+    ).toEqual(["reply", "unread"])
+  })
+
+  it("offers Retry on a failed message and nothing on one being sent", () => {
+    expect(
+      getMessageActions({ ...text("a", ME, NOW), status: "failed" })
+    ).toEqual(["retry", "copy", "delete"])
+    expect(
+      getMessageActions({ ...text("a", ME, NOW), status: "sending" })
+    ).toEqual(["copy"])
+  })
+})
+
+describe("getSharedMedia", () => {
+  it("lists photos and files, newest first", () => {
+    const photo = (id: string): ChatMessage => ({
+      id,
+      senderId: "maya",
+      sentAt: NOW,
+      body: { kind: "image", src: `${id}.jpg`, alt: id },
+    })
+    const file: ChatMessage = {
+      id: "f",
+      senderId: ME,
+      sentAt: NOW,
+      body: { kind: "file", name: "plan.pdf", size: "2 MB" },
+    }
+    const media = getSharedMedia([
+      photo("a"),
+      file,
+      text("t", "maya", NOW),
+      photo("b"),
+    ])
+    expect(media.photos.map(({ id }) => id)).toEqual(["b", "a"])
+    expect(media.files.map(({ id }) => id)).toEqual(["f"])
   })
 })
 
@@ -217,6 +411,26 @@ describe("getReadReceipt", () => {
     ).toEqual({ messageId: "a", label: "Delivered" })
     expect(getReadReceipt([text("a", "maya", NOW)], FORMAT)).toBeUndefined()
   })
+
+  it("says Sending until it lands, and skips a message that failed", () => {
+    const sending: ChatMessage = { ...text("b", ME, NOW), status: "sending" }
+    expect(getReadReceipt([sending], FORMAT)?.label).toBe("Sending")
+
+    const failed: ChatMessage = { ...text("c", ME, NOW), status: "failed" }
+    expect(
+      getReadReceipt([text("a", ME, NOW - MINUTE), failed], FORMAT)?.messageId
+    ).toBe("a")
+    expect(getReadReceipt([failed], FORMAT)).toBeUndefined()
+  })
+
+  it("names up to two readers in a group, then counts them", () => {
+    const readBy = (...ids: string[]) =>
+      getReadReceipt([{ ...text("a", ME, NOW), readBy: ids }], FORMAT, PEOPLE)
+        ?.label
+    expect(readBy("maya")).toBe("Read by Maya")
+    expect(readBy("maya", "lucas")).toBe("Read by Maya and Lucas")
+    expect(readBy("maya", "lucas", "sofia")).toBe("Read by 3")
+  })
 })
 
 describe("sortConversations", () => {
@@ -251,6 +465,30 @@ describe("filterConversations", () => {
     ).toEqual(["b"])
     expect(filterConversations(list, "", PEOPLE)).toHaveLength(2)
   })
+
+  it("puts a match in the title before one among the members", () => {
+    const list = [
+      conversation("offsite", [], { title: "Lisbon offsite" }),
+      conversation("maya", [], { title: "Maya Chen" }),
+    ]
+    expect(
+      filterConversations(list, "maya", PEOPLE).map(({ id }) => id)
+    ).toEqual(["maya", "offsite"])
+  })
+})
+
+describe("filterPeople", () => {
+  it("matches a name or a role, and everyone without a search", () => {
+    const people: Person[] = [
+      { ...PEOPLE[0], role: "Product designer" },
+      PEOPLE[1],
+    ]
+    expect(filterPeople(people, " DESIGN ").map(({ id }) => id)).toEqual([
+      "maya",
+    ])
+    expect(filterPeople(people, "ferr").map(({ id }) => id)).toEqual(["lucas"])
+    expect(filterPeople(people, "")).toHaveLength(2)
+  })
 })
 
 describe("getAdjacentId", () => {
@@ -276,6 +514,8 @@ describe("messengerReducer", () => {
     openId: "maya",
     drafts: { maya: "Half-written" },
     typing: {},
+    replyTo: {},
+    unreadFrom: {},
   }
 
   it("opens a conversation and clears its unread count", () => {
@@ -360,5 +600,236 @@ describe("messengerReducer", () => {
       isMuted: true,
     })
     expect(state.conversations[1].isMuted).toBe(true)
+  })
+
+  it("starts with the open conversation's unread messages marked", () => {
+    const state = createMessengerState(initial.conversations, "lucas")
+    expect(state.openId).toBe("lucas")
+    expect(state.unreadFrom.lucas).toBe("b")
+    expect(state.conversations[1].unreadCount).toBe(2)
+
+    const seen = messengerReducer(state, { type: "seen", id: "lucas" })
+    expect(seen.conversations[1].unreadCount).toBe(0)
+    expect(seen.unreadFrom.lucas).toBe("b")
+  })
+
+  it("marks where unread messages start on opening, and forgets it once read", () => {
+    const opened = messengerReducer(initial, { type: "open", id: "lucas" })
+    expect(opened.unreadFrom.lucas).toBe("b")
+
+    const away = messengerReducer(opened, { type: "open", id: "maya" })
+    const back = messengerReducer(away, { type: "open", id: "lucas" })
+    expect(back.unreadFrom.lucas).toBeUndefined()
+
+    const answered = messengerReducer(opened, {
+      type: "send",
+      id: "lucas",
+      message: text("c", ME, NOW),
+    })
+    expect(answered.unreadFrom.lucas).toBeUndefined()
+  })
+
+  it("counts a message that arrives while a phone shows the list", () => {
+    const state = messengerReducer(initial, {
+      type: "receive",
+      id: "maya",
+      message: text("d", "maya", NOW),
+      isAway: true,
+    })
+    expect(state.conversations[0].unreadCount).toBe(1)
+  })
+
+  it("keeps a conversation unread from a message until it is opened again", () => {
+    const marked = messengerReducer(initial, {
+      type: "unread",
+      id: "maya",
+      messageId: "a",
+    })
+    expect(marked.conversations[0].unreadCount).toBe(1)
+    expect(marked.unreadFrom.maya).toBe("a")
+    expect(
+      messengerReducer(marked, { type: "seen", id: "maya" }).conversations[0]
+        .unreadCount
+    ).toBe(1)
+
+    const opened = messengerReducer(marked, { type: "open", id: "maya" })
+    expect(opened.conversations[0].unreadCount).toBe(0)
+    expect(opened.conversations[0].isMarkedUnread).toBe(false)
+  })
+
+  it("sends, fails, retries at the end and delivers", () => {
+    const sending: ChatMessage = { ...text("c", ME, NOW), status: "sending" }
+    const sent = messengerReducer(initial, {
+      type: "send",
+      id: "maya",
+      message: sending,
+    })
+    const failed = messengerReducer(sent, {
+      type: "fail",
+      id: "maya",
+      messageId: "c",
+    })
+    expect(failed.conversations[0].messages.at(-1)?.status).toBe("failed")
+
+    const later = messengerReducer(failed, {
+      type: "receive",
+      id: "maya",
+      message: text("d", "maya", NOW + MINUTE),
+    })
+    const retried = messengerReducer(later, {
+      type: "retry",
+      id: "maya",
+      messageId: "c",
+      at: NOW + HOUR,
+    })
+    expect(retried.conversations[0].messages.at(-1)).toMatchObject({
+      id: "c",
+      status: "sending",
+      sentAt: NOW + HOUR,
+    })
+
+    const delivered = messengerReducer(retried, {
+      type: "deliver",
+      id: "maya",
+      messageId: "c",
+    })
+    expect(delivered.conversations[0].messages.at(-1)?.status).toBeUndefined()
+  })
+
+  it("never marks a failed message read", () => {
+    const failed: ChatMessage = { ...text("c", ME, NOW), status: "failed" }
+    const sent = messengerReducer(initial, {
+      type: "send",
+      id: "maya",
+      message: failed,
+    })
+    const read = messengerReducer(sent, { type: "read", id: "maya", at: NOW })
+    expect(read.conversations[0].messages.at(-1)?.readAt).toBeUndefined()
+  })
+
+  it("adds a reader to my messages in a group", () => {
+    const group: MessengerState = {
+      ...initial,
+      conversations: [
+        conversation("offsite", [text("a", ME, NOW)], { kind: "group" }),
+      ],
+    }
+    const read = messengerReducer(group, {
+      type: "read",
+      id: "offsite",
+      at: NOW,
+      personId: "maya",
+    })
+    const again = messengerReducer(read, {
+      type: "read",
+      id: "offsite",
+      at: NOW,
+      personId: "maya",
+    })
+    expect(again.conversations[0].messages[0].readBy).toEqual(["maya"])
+    expect(again.conversations[0].messages[0].readAt).toBeUndefined()
+  })
+
+  it("stops showing someone as typing in one conversation only", () => {
+    const typing = ["maya", "lucas"].reduce(
+      (state, id) =>
+        messengerReducer(state, { type: "typing", id, personId: id }),
+      initial
+    )
+    const received = messengerReducer(typing, {
+      type: "receive",
+      id: "lucas",
+      message: text("d", "lucas", NOW),
+    })
+    expect(received.typing).toEqual({ maya: "maya", lucas: undefined })
+  })
+
+  it("quotes the message being answered, then drops it", () => {
+    const replying = messengerReducer(initial, {
+      type: "reply",
+      id: "maya",
+      messageId: "a",
+    })
+    expect(replying.replyTo.maya).toBe("a")
+    const sent = messengerReducer(replying, {
+      type: "send",
+      id: "maya",
+      message: text("c", ME, NOW),
+    })
+    expect(sent.replyTo.maya).toBeUndefined()
+    expect(sent.conversations[0].messages.at(-1)?.replyToId).toBe("a")
+  })
+
+  it("reacts to a message", () => {
+    const state = messengerReducer(initial, {
+      type: "react",
+      id: "maya",
+      messageId: "a",
+      emoji: "👍",
+    })
+    expect(state.conversations[0].messages[0].reactions).toEqual([
+      { emoji: "👍", personIds: [ME] },
+    ])
+  })
+
+  it("deletes a message and puts it back where it was", () => {
+    const sent = messengerReducer(initial, {
+      type: "send",
+      id: "maya",
+      message: text("c", ME, NOW),
+    })
+    const deleted = messengerReducer(sent, {
+      type: "delete",
+      id: "maya",
+      messageId: "a",
+    })
+    expect(deleted.conversations[0].messages.map(({ id }) => id)).toEqual(["c"])
+
+    const restored = messengerReducer(deleted, {
+      type: "restore",
+      id: "maya",
+      message: sent.conversations[0].messages[0],
+    })
+    expect(restored.conversations[0].messages.map(({ id }) => id)).toEqual([
+      "a",
+      "c",
+    ])
+  })
+
+  it("starts a chat with someone new, and opens the one that is there", () => {
+    const priya: Person = {
+      id: "priya",
+      name: "Priya Raman",
+      presence: { kind: "online" },
+    }
+    const started = messengerReducer(initial, {
+      type: "start",
+      person: priya,
+      at: NOW,
+    })
+    expect(started.openId).toBe("priya")
+    expect(sortConversations(started.conversations)[0]).toMatchObject({
+      id: "priya",
+      title: "Priya Raman",
+      kind: "direct",
+      messages: [],
+    })
+
+    const existing = messengerReducer(initial, {
+      type: "start",
+      person: PEOPLE[0],
+      at: NOW,
+    })
+    expect(existing.conversations).toHaveLength(2)
+    expect(existing.openId).toBe("maya")
+  })
+
+  it("pins a conversation", () => {
+    const state = messengerReducer(initial, {
+      type: "pin",
+      id: "lucas",
+      isPinned: true,
+    })
+    expect(state.conversations[1].isPinned).toBe(true)
   })
 })

@@ -4,6 +4,11 @@
   "status": "implementation-in-progress",
   "exceptions": [
     {
+      "items": ["user-menu"],
+      "kind": "implementation-gap",
+      "detail": "FabricatorUserMenu has its settings and sign-out rows. The web's theme row (2026-11-24: light, dark and system tabs whose pick reveals the page with the blurred circle) is not ported."
+    },
+    {
       "items": ["date-picker"],
       "kind": "implementation-gap",
       "detail": "React Date Picker retains same-day clock changes at minute/second precision. Compose Date Picker uses CivilDate and has no integrated time selection; standalone time controls do not close that gap."
@@ -16,7 +21,7 @@
     {
       "items": ["editor"],
       "kind": "implementation-gap",
-      "detail": "Typed block/run/mark document source, range transactions, source-preserving Markdown subset, validated JSON schema adapter, slash commands, table/image editing and undo exist. Cross-block platform selection/IME edges, complete CommonMark/GFM/extension-kit behavior, nested list input rules, block drag and full table operations are incomplete. Native text input, resource decoding and serialization fixtures have not run on Android or JVM."
+      "detail": "Typed block/run/mark document source, range transactions, source-preserving Markdown subset, validated JSON schema adapter, slash commands, table/image editing and undo exist. The toolbar wraps onto more rows where the website (2026-11-24) folds the commands without room into a More menu and the headings into Turn into. Cross-block platform selection/IME edges, complete CommonMark/GFM/extension-kit behavior, nested list input rules, block drag and full table operations are incomplete. Native text input, resource decoding and serialization fixtures have not run on Android or JVM."
     },
     {
       "items": ["data-table"],
@@ -136,7 +141,7 @@
     {
       "items": ["toast", "sonner"],
       "kind": "implementation-gap",
-      "detail": "As of 2026-11-24, toasts take the canonical content width and limit, status and custom icons, an action beside or under the text, two and three line truncation opened by a press, the corner close button and the toast motion role. They list one above another instead of collapsing into the canonical stack, and have no swipe, promise or update API. Compilation and device qualification of this change were not run: Gradle 9.5 is missing."
+      "detail": "As of 2026-11-24, toasts take the canonical width, status and custom icons, an action beside or under the text, two and three line truncation opened by a press, the corner close button and the toast motion role. They list one above another instead of collapsing into the canonical stack, and have no swipe, promise or update API. Compilation and device qualification of this change were not run: Gradle 9.5 is missing."
     }
   ],
   "verification": {

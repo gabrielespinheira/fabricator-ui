@@ -202,16 +202,6 @@ public struct FabricatorToastMessage: Identifiable, Equatable, Sendable {
     public func show(_ title: String, description: String? = nil, variant: FabricatorBadgeVariant = .default, icon: String? = nil, action: FabricatorToastAction? = nil) { messages.append(FabricatorToastMessage(title, description: description, variant: variant, icon: icon, action: action)) }
     public func dismiss(_ id: UUID) { messages.removeAll { $0.id == id } }
 }
-/// As wide as its content, up to a limit.
-private struct FabricatorToastWidth: Layout {
-    var maximum: CGFloat
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        subviews.first?.sizeThatFits(ProposedViewSize(width: min(proposal.width ?? maximum, maximum), height: nil)) ?? .zero
-    }
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        subviews.first?.place(at: bounds.origin, proposal: ProposedViewSize(bounds.size))
-    }
-}
 public struct FabricatorToast: View {
     @Environment(\.fabricatorTheme) private var theme
     public var message: FabricatorToastMessage
@@ -230,16 +220,15 @@ public struct FabricatorToast: View {
         if let action = message.action { FabricatorButton(action.label, variant: .secondary, size: .sm) { action.perform(); onDismiss() }.fixedSize() }
     }
     public var body: some View {
-        FabricatorToastWidth(maximum: theme.text() * 27) {
-            HStack(alignment: .top, spacing: theme.space(8)) {
-                if let icon = message.resolvedIcon { FabricatorIcon(icon, size: theme.icon()).foregroundStyle(theme.color(isStatus ? message.variant.rawValue : "foreground")).frame(height: theme.text() * theme.fontScale * 1.5).accessibilityHidden(true) }
-                // Beside text that leaves it room, under text that doesn't.
-                ViewThatFits(in: .horizontal) {
-                    HStack(spacing: theme.space(12)) { text; action }
-                    VStack(alignment: .leading, spacing: theme.space(8)) { text.fixedSize(horizontal: false, vertical: true); action }
-                }
-            }.padding(.horizontal, theme.space(12)).padding(.vertical, theme.space(10))
-        }.fabricatorSurface(elevation: "surface-5", fill: theme.color("surface-5"))
+        HStack(alignment: .top, spacing: theme.space(8)) {
+            if let icon = message.resolvedIcon { FabricatorIcon(icon, size: theme.icon()).foregroundStyle(theme.color(isStatus ? message.variant.rawValue : "foreground")).frame(height: theme.text() * theme.fontScale * 1.5).accessibilityHidden(true) }
+            // Beside text that leaves it room, under text that doesn't.
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: theme.space(12)) { text.frame(maxWidth: .infinity, alignment: .leading); action }
+                VStack(alignment: .leading, spacing: theme.space(8)) { text.fixedSize(horizontal: false, vertical: true); action }.frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }.padding(.horizontal, theme.space(12)).padding(.vertical, theme.space(10)).frame(maxWidth: theme.text() * 26)
+            .fabricatorSurface(elevation: "surface-5", fill: theme.color("surface-5"))
             .overlay(alignment: .topLeading) {
                 Button(action: onDismiss) { FabricatorIcon("x", size: 12).frame(width: theme.space(20), height: theme.space(20)).background(theme.color("surface-5"), in: Circle()).overlay(Circle().stroke(theme.color("border"))).contentShape(Rectangle().inset(by: -8)) }.buttonStyle(.plain).foregroundStyle(theme.color("muted-foreground")).accessibilityLabel("Dismiss notification").offset(x: -6, y: -6)
             }.accessibilityElement(children: .contain).accessibilityAddTraits(.updatesFrequently)
