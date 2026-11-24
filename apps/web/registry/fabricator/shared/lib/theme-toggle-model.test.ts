@@ -1,12 +1,16 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  getResolvedTheme,
+  getThemePreference,
+  getThemePreferenceStep,
   getThemeToggleDuration,
   getThemeToggleFrames,
   getThemeToggleMask,
   getThemeToggleOrigin,
   getThemeToggleReveal,
   getThemeToggleShape,
+  THEME_PREFERENCES,
   THEME_TOGGLE_STARTS,
   THEME_TOGGLE_VARIANTS,
 } from "./theme-toggle-model"
@@ -248,4 +252,30 @@ it("matches beUI's full-reveal blur without an opacity fade or feather mask", ()
     { clipPath: "circle(150% at 50% 100%)", filter: "blur(0px)" },
   ])
   expect(getThemeToggleMask("circle-blur", "center", 1280, 900)).toBeNull()
+})
+
+describe("theme preferences", () => {
+  it("lists light, dark and system in the order the tabs show them", () => {
+    expect(THEME_PREFERENCES).toEqual(["light", "dark", "system"])
+  })
+
+  it("reads a preference out of a menu value", () => {
+    expect(getThemePreference("system")).toBe("system")
+    expect(getThemePreference("sepia")).toBeUndefined()
+    expect(getThemePreference("")).toBeUndefined()
+  })
+
+  it("resolves system to the device's theme", () => {
+    expect(getResolvedTheme("system", "dark")).toBe("dark")
+    expect(getResolvedTheme("system", "light")).toBe("light")
+    expect(getResolvedTheme("light", "dark")).toBe("light")
+  })
+
+  it("steps sideways between the tabs and wraps at the ends", () => {
+    expect(getThemePreferenceStep("ArrowRight", 0)).toBe(1)
+    expect(getThemePreferenceStep("ArrowRight", 2)).toBe(0)
+    expect(getThemePreferenceStep("ArrowLeft", 0)).toBe(2)
+    expect(getThemePreferenceStep("ArrowDown", 0)).toBeNull()
+    expect(getThemePreferenceStep("Enter", 0)).toBeNull()
+  })
 })

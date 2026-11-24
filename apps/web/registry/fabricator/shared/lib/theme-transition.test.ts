@@ -1,6 +1,6 @@
 import { afterEach, expect, it, vi } from "vitest"
 
-import { runThemeTransition } from "./theme-transition"
+import { runThemeTransition, slideThemeTabs } from "./theme-transition"
 
 const finishTransitions: (() => void)[] = []
 
@@ -38,6 +38,9 @@ function createBrowser({
       style: { viewTransitionName: "" },
       getBoundingClientRect: () => rectangle,
       querySelector: () => icon,
+      querySelectorAll: () => [],
+      matches: () => true,
+      click: vi.fn(),
     }
     styles.push(element)
     return element
@@ -69,7 +72,16 @@ function createBrowser({
     startViewTransition: supported ? startViewTransition : undefined,
   })
   vi.stubGlobal("CSS", { registerProperty: () => {}, supports: () => masks })
+  const listeners = new Map<string, (event: unknown) => void>()
   vi.stubGlobal("window", {
+    addEventListener: (
+      type: string,
+      listener: (event: unknown) => void,
+      { signal }: { signal: AbortSignal }
+    ) => {
+      listeners.set(type, listener)
+      signal.addEventListener("abort", () => listeners.delete(type))
+    },
     matchMedia: () => ({ matches: reduced }),
     innerWidth: 400,
     innerHeight: 800,
@@ -80,12 +92,27 @@ function createBrowser({
         "--motion-scale": scale,
         "--motion-theme": "0.7s",
         "--motion-move": "0.25s",
+        "--motion-feedback": "0.1s",
         "--motion-ease-drawer": "ease-out",
         "--motion-ease-theme": "cubic-bezier(0.4, 0, 0.2, 1)",
       })[name] ?? "",
   }))
+  const press = (type: string, clientX: number, clientY: number) => {
+    const event = {
+      type,
+      clientX,
+      clientY,
+      isTrusted: true,
+      stopImmediatePropagation: vi.fn(),
+      preventDefault: vi.fn(),
+    }
+    listeners.get(type)?.(event)
+    return event
+  }
   return {
     animate,
+    press,
+    listeners,
     cancel,
     callbacks,
     startViewTransition,
@@ -217,4 +244,92 @@ it("keeps polygon edge masks independent of circle-blur", async () => {
   expect(browser.styles.at(-1)?.textContent).toContain(
     "mask-image: linear-gradient"
   )
+})
+
+it("keeps a control sharp above the reveal and restores its name", async () => {
+  const browser = createBrowser()
+  const layer = document.createElement("div")
+  layer.style.viewTransitionName = "existing-layer-name"
+  runThemeTransition({
+    update: vi.fn(),
+    element: document.createElement("button"),
+    layer,
+  })
+  expect(layer.style.viewTransitionName).toBe("fabricator-theme-layer")
+  expect(browser.styles.at(-1)?.textContent).toContain(
+    "::view-transition-group(fabricator-theme-layer)"
+  )
+  // The group's animation is off, so the fades can't inherit its fill: without
+  // one the old layer comes back for the rest of the reveal.
+  expect(browser.styles.at(-1)?.textContent).toContain(
+    "animation-duration: 100ms; animation-fill-mode: both"
+  )
+  finishTransitions[0]?.()
+  await Promise.resolve()
+  expect(layer.style.viewTransitionName).toBe("existing-layer-name")
+})
+
+it("slides the tabs' pill from where it was, on the move timing", () => {
+  const browser = createBrowser()
+  const animate = vi.fn()
+  const tabs = Object.assign(document.createElement("div"), { animate })
+  slideThemeTabs(tabs, -64)
+  expect(animate).toHaveBeenCalledWith(
+    [{ transform: "translateX(-64px)" }, { transform: "translateX(0px)" }],
+    expect.objectContaining({
+      duration: 250,
+      pseudoElement: "::after",
+      composite: "add",
+    })
+  )
+  expect(browser.startViewTransition).not.toHaveBeenCalled()
+})
+
+it.each([{ reduced: true }, { scale: "0" }])(
+  "moves the tabs' pill at once when motion cannot run: %j",
+  (options) => {
+    createBrowser(options)
+    const animate = vi.fn()
+    slideThemeTabs(
+      Object.assign(document.createElement("div"), { animate }),
+      -64
+    )
+    expect(animate).not.toHaveBeenCalled()
+  }
+)
+
+it("gives the control the presses the snapshots would swallow", () => {
+  const browser = createBrowser()
+  const button = document.createElement("button")
+  runThemeTransition({ update: vi.fn(), element: button })
+  // The button sits at 252–288 by 52–88.
+  const down = browser.press("pointerdown", 260, 60)
+  expect(down.stopImmediatePropagation).toHaveBeenCalledOnce()
+  expect(down.preventDefault).toHaveBeenCalledOnce()
+  const click = browser.press("click", 260, 60)
+  expect(click.stopImmediatePropagation).toHaveBeenCalledOnce()
+  expect(button.click).toHaveBeenCalledOnce()
+})
+
+it("leaves presses elsewhere on the page alone", () => {
+  const browser = createBrowser()
+  const button = document.createElement("button")
+  runThemeTransition({ update: vi.fn(), element: button })
+  const down = browser.press("pointerdown", 10, 10)
+  browser.press("click", 10, 10)
+  expect(down.stopImmediatePropagation).not.toHaveBeenCalled()
+  expect(button.click).not.toHaveBeenCalled()
+})
+
+it("finishes a press that outlives the reveal, then stops listening", async () => {
+  const browser = createBrowser()
+  const button = document.createElement("button")
+  runThemeTransition({ update: vi.fn(), element: button })
+  browser.press("pointerdown", 260, 60)
+  finishTransitions[0]?.()
+  await Promise.resolve()
+  await Promise.resolve()
+  browser.press("click", 260, 60)
+  expect(button.click).toHaveBeenCalledOnce()
+  expect(browser.listeners.size).toBe(0)
 })

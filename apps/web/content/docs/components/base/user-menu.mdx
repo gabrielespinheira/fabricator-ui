@@ -11,6 +11,7 @@ User Menu shows who is signed in and opens their menu. The items are yours: pass
 
 - `variant="row"` fills a sidebar row with the avatar, the name and the email. Put it in the sidebar footer, or in the header.
 - `variant="mark"` is the avatar alone, for a header or a sidebar header row.
+- `UserMenuTheme` is the theme row: light, dark and system as small tabs.
 
 User Menu is part of the Fabricator style.
 
@@ -34,7 +35,7 @@ npx fabricator-ui@latest add user-menu
 
 <Steps className="mb-0 pt-2">
 
-<Step>Install Sidebar, Avatar and Dropdown Menu.</Step>
+<Step>Install Sidebar, Avatar, Dropdown Menu and Theme Toggle.</Step>
 
 <Step>Copy User Menu into your project.</Step>
 
@@ -55,7 +56,7 @@ npx fabricator-ui@latest add user-menu
 ## Usage
 
 ```tsx
-import { UserMenu } from "@/components/ui/user-menu"
+import { UserMenu, UserMenuTheme } from "@/components/ui/user-menu"
 ```
 
 ```tsx
@@ -67,6 +68,7 @@ import { UserMenu } from "@/components/ui/user-menu"
       <DropdownMenuItem>Profile</DropdownMenuItem>
       <DropdownMenuItem>Settings</DropdownMenuItem>
     </DropdownMenuGroup>
+    <UserMenuTheme theme={theme} onThemeChange={setTheme} />
     <DropdownMenuSeparator />
     <DropdownMenuGroup>
       <DropdownMenuItem onClick={signOut}>Sign out</DropdownMenuItem>
@@ -76,6 +78,24 @@ import { UserMenu } from "@/components/ui/user-menu"
 ```
 
 Without an `avatarUrl`, the avatar shows the name's initials.
+
+## Theme
+
+`UserMenuTheme` goes among the menu's groups. Your theme provider owns the theme; with next-themes, pass `theme` and `setTheme` as they are:
+
+```tsx
+const { theme, setTheme } = useTheme()
+
+<UserMenuTheme theme={theme} onThemeChange={setTheme} />
+```
+
+Picking a tab slides the pill to it and reveals the page from it, as [Theme Toggle](/docs/components/base/theme-toggle) does. The menu stays open, so people can try a theme and change their mind. The row keeps a snapshot of its own above the reveal, so its icons stay sharp while the page sweeps. A choice that doesn't change the page, such as from system to the theme the system already uses, only moves the pill.
+
+The default reveal is the blurred circle. `variant` takes any of Theme Toggle's:
+
+```tsx
+<UserMenuTheme theme={theme} onThemeChange={setTheme} variant="blinds" />
+```
 
 ## Placement
 
@@ -93,7 +113,18 @@ The menu opens to the right of a sidebar row, and below a mark or on phones. Set
 | `align`    | `"start" \| "center" \| "end"`           | `"end"`                                   |
 | `children` | Dropdown Menu groups                     | -                                         |
 
+### UserMenuTheme
+
+| Prop            | Type                                                                                                       | Default         |
+| --------------- | ---------------------------------------------------------------------------------------------------------- | --------------- |
+| `theme`         | `string \| undefined`: `"light"`, `"dark"` or `"system"`; any other value picks no tab                     | Required        |
+| `onThemeChange` | `(theme: "light" \| "dark" \| "system") => void`                                                           | Required        |
+| `variant`       | `"rectangle" \| "circle" \| "circle-blur" \| "blinds" \| "square" \| "diamond" \| "hexagon" \| "triangle"` | `"circle-blur"` |
+| `start`         | `"trigger" \| "top-left" \| "top-right" \| "bottom-left" \| "bottom-right" \| "center" \| "bottom-up"`     | `"trigger"`     |
+| `labels`        | `{ theme?: string; light?: string; dark?: string; system?: string }`                                       | English names   |
+
 ## Accessibility
 
 - The trigger is a button; the mark is named "Account:" followed by the person's name.
 - The menu starts with a label holding the avatar, the name and the email, then your items. Keyboard and focus behaviour come from Dropdown Menu.
+- The theme row is a group of radio items named Light, Dark and System. The up and down arrows reach them like any item, left and right move between them, and Enter or Space picks one. Reduced motion changes the theme at once.

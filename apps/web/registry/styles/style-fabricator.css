@@ -6917,9 +6917,10 @@
   }
 
   /* A tab: the whole cell takes the press. Muted at rest; lit and picked turn
-     foreground with a heavier icon, as Tabs do. */
+     foreground with a heavier icon, as Tabs do. The icons are a step under the
+     rows': at 16px they fill the pill and outweigh the menu's own icons. */
   .cn-user-menu-theme-item {
-    @apply h-(--density-28) w-(--density-32) cursor-pointer rounded-lg text-muted-foreground transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-checked:text-foreground data-checked:[&_svg]:stroke-2 data-selected:text-foreground data-selected:[&_svg]:stroke-2;
+    @apply h-(--density-28) w-(--density-32) cursor-pointer rounded-lg text-muted-foreground transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset [&_svg:not([class*='size-'])]:size-(--density-icon-14) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-checked:text-foreground data-checked:[&_svg]:stroke-2 data-selected:text-foreground data-selected:[&_svg]:stroke-2;
   }
 
 /* MARK: Video Player */

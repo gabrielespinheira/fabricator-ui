@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest"
 
-import { pickNearest } from "@/registry/fabricator/shared/lib/fluid-hover"
+import {
+  isOwnRegion,
+  pickNearest,
+} from "@/registry/fabricator/shared/lib/fluid-hover"
 
 type Box = { top: number; left: number; width: number; height: number }
 
@@ -97,5 +100,19 @@ describe("pickNearest", () => {
     expect(
       pickNearest(container(200, 100), [], { x: 10, y: 10 }, "y")
     ).toBeNull()
+  })
+})
+
+describe("isOwnRegion", () => {
+  const region = {} as unknown as Element
+  const target = (closest: Element | null) =>
+    ({ closest: () => closest }) as unknown as Element
+
+  it("keeps the gaps between a container's own items", () => {
+    expect(isOwnRegion(region, target(region))).toBe(true)
+  })
+
+  it("leaves a nested container's gaps alone", () => {
+    expect(isOwnRegion(region, target({} as unknown as Element))).toBe(false)
   })
 })

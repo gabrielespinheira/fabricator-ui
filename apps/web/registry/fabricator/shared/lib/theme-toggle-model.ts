@@ -21,6 +21,28 @@ export type ThemeToggleVariant = (typeof THEME_TOGGLE_VARIANTS)[number]
 export type ThemeToggleStart = (typeof THEME_TOGGLE_STARTS)[number]
 export type ThemeToggleTheme = "light" | "dark"
 
+/** What a person picks; `system` follows the device. In the tabs' order. */
+export const THEME_PREFERENCES = ["light", "dark", "system"] as const
+export type ThemePreference = (typeof THEME_PREFERENCES)[number]
+
+export function getThemePreference(value: string): ThemePreference | undefined {
+  return THEME_PREFERENCES.find((preference) => preference === value)
+}
+
+export function getResolvedTheme(
+  preference: ThemePreference,
+  systemTheme: ThemeToggleTheme
+): ThemeToggleTheme {
+  return preference === "system" ? systemTheme : preference
+}
+
+/** The tab an arrow key moves to, or null for a key the tabs leave alone. */
+export function getThemePreferenceStep(key: string, index: number) {
+  if (key !== "ArrowLeft" && key !== "ArrowRight") return null
+  const count = THEME_PREFERENCES.length
+  return (index + (key === "ArrowRight" ? 1 : count - 1)) % count
+}
+
 class ThemeToggleGeometryError extends Error {
   override name = "ThemeToggleGeometryError"
 }

@@ -130,6 +130,12 @@ function isOwnEvent(event: React.SyntheticEvent) {
   return (event.currentTarget as Node).contains(event.target as Node)
 }
 
+// A nested container's gaps are its own: the pointer there lights, and a click
+// there reaches, nothing of the outer one's.
+export function isOwnRegion(container: Element | null, target: Element) {
+  return target.closest("[data-fluid-hover]") === container
+}
+
 export function useFluidHover<T extends HTMLElement = HTMLElement>({
   items,
   disabled = DEFAULT_DISABLED,
@@ -320,11 +326,18 @@ export function useFluidHover<T extends HTMLElement = HTMLElement>({
       if (event.pointerType !== "mouse" || !isOwnEvent(event)) return
       pointerInside.current = true
       const point = { x: event.clientX, y: event.clientY }
+      const isNested =
+        event.target instanceof Element &&
+        !isOwnRegion(event.currentTarget, event.target)
       if (frame.current !== null) cancelAnimationFrame(frame.current)
       frame.current = requestAnimationFrame(() => {
         frame.current = null
         const container = containerRef.current
         if (!container) return
+        if (isNested) {
+          light(null)
+          return
+        }
         const along =
           axis === "auto"
             ? (container.getAttribute("aria-orientation") ??
@@ -352,6 +365,7 @@ export function useFluidHover<T extends HTMLElement = HTMLElement>({
       const target = event.target as HTMLElement
       const lit = litRef.current
       if (!lit || lit.matches(disabled)) return
+      if (!isOwnRegion(containerRef.current, target)) return
       if (getItems().some((element) => element.contains(target))) return
       if (
         target.closest("input, textarea, select, button, a, [contenteditable]")

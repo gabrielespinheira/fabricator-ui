@@ -6,8 +6,10 @@ import {
   LogOutIcon,
   UserIcon,
 } from "@fabricator-ui/icons-react-native"
-import { View } from "react-native"
+import { Appearance, View } from "react-native"
+import { Uniwind } from "uniwind"
 
+import type { ThemePreference } from "@/registry/fabricator/shared/lib/theme-toggle-model"
 import {
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -15,11 +17,17 @@ import {
   DropdownMenuShortcut,
 } from "@/registry/native/ui/dropdown-menu"
 import { SidebarProvider } from "@/registry/native/ui/sidebar"
-import { UserMenu } from "@/registry/native/ui/user-menu"
+import { UserMenu, UserMenuTheme } from "@/registry/native/ui/user-menu"
 
 const USER = { name: "Gabs Fabricator", email: "gabs@fabricator.dev" }
 
 function Items() {
+  const [theme, setTheme] = React.useState("system")
+  const onThemeChange = (next: ThemePreference) => {
+    setTheme(next)
+    Appearance.setColorScheme(next === "system" ? "unspecified" : next)
+    Uniwind.setTheme(next)
+  }
   return (
     <>
       <DropdownMenuGroup>
@@ -37,6 +45,7 @@ function Items() {
           Notifications
         </DropdownMenuItem>
       </DropdownMenuGroup>
+      <UserMenuTheme theme={theme} onThemeChange={onThemeChange} />
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
         <DropdownMenuItem variant="destructive">
