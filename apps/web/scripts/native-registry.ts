@@ -52,6 +52,7 @@ const SHARED_LIB_FILES = [
   "rating-model",
   "radio-glide-model",
   "accordion-model",
+  "toast-stack-model",
   "editor-model",
   "editor-transaction",
   "editor-input",

@@ -2745,9 +2745,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "time-input-seconds",
       filePath: "examples/base/time-input-seconds.tsx",
     },
+    "toast-action": {
+      name: "toast-action",
+      filePath: "examples/base/toast-action.tsx",
+    },
     "toast-demo": {
       name: "toast-demo",
       filePath: "examples/base/toast-demo.tsx",
+    },
+    "toast-icon": {
+      name: "toast-icon",
+      filePath: "examples/base/toast-icon.tsx",
+    },
+    "toast-long": {
+      name: "toast-long",
+      filePath: "examples/base/toast-long.tsx",
     },
     "toast-promise": {
       name: "toast-promise",
@@ -5323,6 +5335,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-vertical",
       filePath: "examples/aria/slider-vertical.tsx",
     },
+    "sonner-action": {
+      name: "sonner-action",
+      filePath: "examples/aria/sonner-action.tsx",
+    },
     "sonner-demo": {
       name: "sonner-demo",
       filePath: "examples/aria/sonner-demo.tsx",
@@ -5331,9 +5347,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sonner-description",
       filePath: "examples/aria/sonner-description.tsx",
     },
+    "sonner-icon": {
+      name: "sonner-icon",
+      filePath: "examples/aria/sonner-icon.tsx",
+    },
+    "sonner-long": {
+      name: "sonner-long",
+      filePath: "examples/aria/sonner-long.tsx",
+    },
     "sonner-position": {
       name: "sonner-position",
       filePath: "examples/aria/sonner-position.tsx",
+    },
+    "sonner-promise": {
+      name: "sonner-promise",
+      filePath: "examples/aria/sonner-promise.tsx",
     },
     "sonner-types": {
       name: "sonner-types",
@@ -8157,6 +8185,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-vertical",
       filePath: "examples/radix/slider-vertical.tsx",
     },
+    "sonner-action": {
+      name: "sonner-action",
+      filePath: "examples/radix/sonner-action.tsx",
+    },
     "sonner-demo": {
       name: "sonner-demo",
       filePath: "examples/radix/sonner-demo.tsx",
@@ -8165,9 +8197,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sonner-description",
       filePath: "examples/radix/sonner-description.tsx",
     },
+    "sonner-icon": {
+      name: "sonner-icon",
+      filePath: "examples/radix/sonner-icon.tsx",
+    },
+    "sonner-long": {
+      name: "sonner-long",
+      filePath: "examples/radix/sonner-long.tsx",
+    },
     "sonner-position": {
       name: "sonner-position",
       filePath: "examples/radix/sonner-position.tsx",
+    },
+    "sonner-promise": {
+      name: "sonner-promise",
+      filePath: "examples/radix/sonner-promise.tsx",
     },
     "sonner-types": {
       name: "sonner-types",
@@ -11156,9 +11200,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "time-input-seconds",
       filePath: "examples/__styles__/base-fabricator/time-input-seconds.tsx",
     },
+    "toast-action": {
+      name: "toast-action",
+      filePath: "examples/__styles__/base-fabricator/toast-action.tsx",
+    },
     "toast-demo": {
       name: "toast-demo",
       filePath: "examples/__styles__/base-fabricator/toast-demo.tsx",
+    },
+    "toast-icon": {
+      name: "toast-icon",
+      filePath: "examples/__styles__/base-fabricator/toast-icon.tsx",
+    },
+    "toast-long": {
+      name: "toast-long",
+      filePath: "examples/__styles__/base-fabricator/toast-long.tsx",
     },
     "toast-promise": {
       name: "toast-promise",
@@ -13564,6 +13620,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-vertical",
       filePath: "examples/__styles__/aria-fabricator/slider-vertical.tsx",
     },
+    "sonner-action": {
+      name: "sonner-action",
+      filePath: "examples/__styles__/aria-fabricator/sonner-action.tsx",
+    },
     "sonner-demo": {
       name: "sonner-demo",
       filePath: "examples/__styles__/aria-fabricator/sonner-demo.tsx",
@@ -13572,9 +13632,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sonner-description",
       filePath: "examples/__styles__/aria-fabricator/sonner-description.tsx",
     },
+    "sonner-icon": {
+      name: "sonner-icon",
+      filePath: "examples/__styles__/aria-fabricator/sonner-icon.tsx",
+    },
+    "sonner-long": {
+      name: "sonner-long",
+      filePath: "examples/__styles__/aria-fabricator/sonner-long.tsx",
+    },
     "sonner-position": {
       name: "sonner-position",
       filePath: "examples/__styles__/aria-fabricator/sonner-position.tsx",
+    },
+    "sonner-promise": {
+      name: "sonner-promise",
+      filePath: "examples/__styles__/aria-fabricator/sonner-promise.tsx",
     },
     "sonner-types": {
       name: "sonner-types",
@@ -16230,6 +16302,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-vertical",
       filePath: "examples/__styles__/radix-fabricator/slider-vertical.tsx",
     },
+    "sonner-action": {
+      name: "sonner-action",
+      filePath: "examples/__styles__/radix-fabricator/sonner-action.tsx",
+    },
     "sonner-demo": {
       name: "sonner-demo",
       filePath: "examples/__styles__/radix-fabricator/sonner-demo.tsx",
@@ -16238,9 +16314,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sonner-description",
       filePath: "examples/__styles__/radix-fabricator/sonner-description.tsx",
     },
+    "sonner-icon": {
+      name: "sonner-icon",
+      filePath: "examples/__styles__/radix-fabricator/sonner-icon.tsx",
+    },
+    "sonner-long": {
+      name: "sonner-long",
+      filePath: "examples/__styles__/radix-fabricator/sonner-long.tsx",
+    },
     "sonner-position": {
       name: "sonner-position",
       filePath: "examples/__styles__/radix-fabricator/sonner-position.tsx",
+    },
+    "sonner-promise": {
+      name: "sonner-promise",
+      filePath: "examples/__styles__/radix-fabricator/sonner-promise.tsx",
     },
     "sonner-types": {
       name: "sonner-types",

@@ -1047,6 +1047,17 @@ export const fabricatorItems = [
     ],
   },
   {
+    name: "toast-stack",
+    type: "registry:lib",
+    title: "Toast Stack",
+    description:
+      "Sizes toasts to their content and stacks them, for Toast and Sonner.",
+    files: [
+      { path: "lib/toast-stack-model.ts", type: "registry:lib" },
+      { path: "hooks/use-toast-stack.ts", type: "registry:hook" },
+    ],
+  },
+  {
     name: "radio-glide",
     type: "registry:lib",
     title: "Radio glide",
@@ -1307,6 +1318,8 @@ export const fabricatorOverrides: Record<
   questionnaire: { registryDependencies: ["fluid-hover"] },
   slider: { registryDependencies: ["slider-model"] },
   "radio-group": { registryDependencies: ["radio-glide"] },
+  toast: { registryDependencies: ["toast-stack", "fluid-hover"] },
+  sonner: { dependencies: ["cn"], registryDependencies: ["toast-stack"] },
   // The month and year dropdowns are the library's Select.
   calendar: { registryDependencies: ["select"] },
 }

@@ -34,7 +34,7 @@ Code that changes no pixel needs no refine.
 
 **A shot is usable** when fonts and data have loaded, pending work has settled, animation has ended, no development overlay or cursor is in it, and the data is realistic. Open each one yourself before it goes to the judge: a half-loaded picture produces false findings. Save them outside version control as `<round>/<screen>-<state>-<width>-<theme>.png`, the same names every round, so pairs line up.
 
-**Probe.** Run [probe.js](probe.js) in the page at each width (`page.evaluate` with the file's text, or the browser tool's script call). It reads the page, changes nothing, and returns what pictures miss: where each band of the page starts and the gap above it, text contrast, sideways scroll in the page or any region, text fields on screen, filled buttons, cut-off and shortened text, covered controls, small touch targets, unnamed controls, heading order. Add axe's violations and the console's errors when you can get them.
+**Probe.** Run [probe.js](probe.js) in the page at each width (`page.evaluate` with the file's text, or the browser tool's script call). It reads the page, changes nothing, and returns what pictures miss: a broken App Shell structure (`shellProblems`), where each band of the page starts and the gap above it, text contrast, sideways scroll in the page or any region, text fields on screen, filled buttons, cut-off and shortened text, covered controls, small touch targets, unnamed controls, heading order. Add axe's violations and the console's errors when you can get them.
 
 **Sweep** the changed files; every hit is replaced or justified:
 

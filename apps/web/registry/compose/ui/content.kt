@@ -1,20 +1,35 @@
 package dev.fabricator.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
@@ -39,38 +54,78 @@ fun FabricatorEmpty(title: String, description: String? = null, modifier: Modifi
     }
 }
 
-data class FabricatorToastMessage(val id: Long, val title: String, val description: String? = null, val role: FabricatorRole = FabricatorRole.Primary, val durationMilliseconds: Long = 4000, val actionLabel: String? = null, val action: (() -> Unit)? = null)
+data class FabricatorToastMessage(val id: Long, val title: String, val description: String? = null, val role: FabricatorRole = FabricatorRole.Primary, val durationMilliseconds: Long = 4000, val actionLabel: String? = null, val action: (() -> Unit)? = null, val icon: String? = null) {
+    /** The message's own icon, or its status's. */
+    val resolvedIcon: String? get() = icon ?: when (role) {
+        FabricatorRole.Success -> "circle-check"
+        FabricatorRole.Info -> "info"
+        FabricatorRole.Warning -> "triangle-exclamation-point"
+        FabricatorRole.Destructive -> "octagon-x"
+        FabricatorRole.Primary, FabricatorRole.Secondary -> null
+    }
+}
 @Stable
 class FabricatorToastState {
     var messages by mutableStateOf<List<FabricatorToastMessage>>(emptyList())
         private set
     private var nextId = 0L
-    fun show(title: String, description: String? = null, role: FabricatorRole = FabricatorRole.Primary, durationMilliseconds: Long = 4000, actionLabel: String? = null, action: (() -> Unit)? = null) {
+    fun show(title: String, description: String? = null, role: FabricatorRole = FabricatorRole.Primary, durationMilliseconds: Long = 4000, actionLabel: String? = null, icon: String? = null, action: (() -> Unit)? = null) {
         nextId += 1
-        messages = (messages + FabricatorToastMessage(nextId, title, description, role, durationMilliseconds, actionLabel, action)).takeLast(5)
+        messages = (messages + FabricatorToastMessage(nextId, title, description, role, durationMilliseconds, actionLabel, action, icon)).takeLast(5)
     }
     fun dismiss(id: Long) { messages = messages.filterNot { it.id == id } }
 }
 @Composable fun rememberFabricatorToastState(): FabricatorToastState = remember { FabricatorToastState() }
 
+/** As wide as its content, up to 27 times its text. A press shows all of a long text. */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FabricatorToast(message: FabricatorToastMessage, onDismiss: () -> Unit, modifier: Modifier = Modifier) {
-    FabricatorCard(modifier.widthIn(max = 380.dp).semantics { liveRegion = LiveRegionMode.Polite }) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) { FabricatorText(message.title, weight = FontWeight.Medium); if (message.description != null) FabricatorText(message.description, muted = true, size = 12) }
-            if (message.actionLabel != null) FabricatorButton(message.actionLabel, { message.action?.invoke(); onDismiss() }, variant = FabricatorVariant.Outline)
-            FabricatorButton(onDismiss, Modifier.semantics { contentDescription = "Dismiss notification" }, FabricatorVariant.Ghost, FabricatorSize.Icon) { FabricatorIcon("x") }
+fun FabricatorToast(message: FabricatorToastMessage, onDismiss: () -> Unit, modifier: Modifier = Modifier, isExpanded: Boolean = false, onExpandedChange: ((Boolean) -> Unit)? = null) {
+    val theme = LocalFabricatorTheme.current
+    val shape = RoundedCornerShape(theme.radius("xl"))
+    val interaction = remember { MutableInteractionSource() }
+    Box(modifier.semantics { liveRegion = LiveRegionMode.Polite }) {
+        Row(
+            Modifier.widthIn(max = (theme.text(13).value * 27).dp).shadow(if (theme.isDark) 18.dp else 12.dp, shape).clip(shape).background(theme.color("surface-5"))
+                .then(if (onExpandedChange == null) Modifier else Modifier.clickable(interaction, indication = null) { onExpandedChange(!isExpanded) })
+                .animateContentSize(tween(theme.duration("toast"), easing = theme.easing("enter")))
+                .padding(horizontal = theme.space(12), vertical = theme.space(10)),
+            horizontalArrangement = Arrangement.spacedBy(theme.space(8)),
+        ) {
+            message.resolvedIcon?.let { icon -> Box(Modifier.height(theme.space(20)), contentAlignment = Alignment.Center) { FabricatorIcon(icon, color = theme.color(if (message.role == FabricatorRole.Primary || message.role == FabricatorRole.Secondary) "foreground" else message.role.key)) } }
+            // Beside text that leaves it room, under text that doesn't.
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(theme.space(12)), verticalArrangement = Arrangement.spacedBy(theme.space(8)), itemVerticalAlignment = Alignment.CenterVertically) {
+                Column {
+                    FabricatorText(message.title, weight = FontWeight.Medium, maxLines = if (isExpanded) Int.MAX_VALUE else 2, overflow = TextOverflow.Ellipsis)
+                    if (message.description != null) FabricatorText(message.description, muted = true, maxLines = if (isExpanded) Int.MAX_VALUE else 3, overflow = TextOverflow.Ellipsis)
+                }
+                if (message.actionLabel != null) FabricatorButton(message.actionLabel, { message.action?.invoke(); onDismiss() }, variant = FabricatorVariant.Secondary, size = FabricatorSize.Small)
+            }
         }
+        Box(Modifier.offset((-6).dp, (-6).dp).size(theme.space(20)).shadow(2.dp, CircleShape).clip(CircleShape).background(theme.color("surface-5")).clickable(onClick = onDismiss).semantics { contentDescription = "Dismiss notification"; role = Role.Button }, contentAlignment = Alignment.Center) { FabricatorIcon("x", color = theme.color("muted-foreground"), size = 12.dp) }
     }
 }
 
 @Composable
+private fun FabricatorTimedToast(message: FabricatorToastMessage, onDismiss: () -> Unit) {
+    val theme = LocalFabricatorTheme.current
+    val visible = remember { MutableTransitionState(false).apply { targetState = true } }
+    var isExpanded by remember { mutableStateOf(false) }
+    // It waits while its whole text is being read.
+    LaunchedEffect(isExpanded) { if (!isExpanded && message.durationMilliseconds > 0) { delay(message.durationMilliseconds); visible.targetState = false } }
+    LaunchedEffect(visible.isIdle, visible.currentState) { if (visible.isIdle && !visible.currentState) onDismiss() }
+    val duration = theme.duration("toast")
+    AnimatedVisibility(
+        visible,
+        enter = fadeIn(tween(duration, easing = theme.easing("enter"))) + slideInVertically(tween(duration, easing = theme.easing("enter"))) { it / 2 } + scaleIn(tween(duration, easing = theme.easing("enter")), .95f),
+        exit = fadeOut(tween(duration * 2 / 3, easing = theme.easing("exit"))) + scaleOut(tween(duration * 2 / 3, easing = theme.easing("exit")), .95f),
+    ) { FabricatorToast(message, { visible.targetState = false }, Modifier.padding(6.dp), isExpanded, { isExpanded = it }) }
+}
+
+@Composable
 fun FabricatorSonner(state: FabricatorToastState, modifier: Modifier = Modifier) {
-    Column(modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) { state.messages.forEach { message ->
-        key(message.id) {
-            LaunchedEffect(message.id) { if (message.durationMilliseconds > 0) { delay(message.durationMilliseconds); state.dismiss(message.id) } }
-            FabricatorToast(message, { state.dismiss(message.id) })
-        }
+    Column(modifier, horizontalAlignment = Alignment.End) { state.messages.forEach { message ->
+        key(message.id) { FabricatorTimedToast(message) { state.dismiss(message.id) } }
     } }
 }
 

@@ -15,6 +15,8 @@ These changes are merged and ship in the next version.
 
 **The agent skill refines what it builds.** After any visual change, or when you ask it to review a screen, the skill takes screenshots at every width and theme, hands them to a sub-agent that judges them without seeing the code, checks the findings, and shows you a list to choose from before it fixes anything. It then captures the same pictures again and compares. A page probe adds what pictures hide, such as covered controls, cut-off numbers and sideways scroll.
 
+**The agent skill knows the App Shell.** A new reference explains how the App Shell's primitives fit together, how to design the sidebar, header, panels and routes from what a product does, and which changes break the frame without an error. A recipe has navigation as data, a layout that stays mounted, pages that bring their own header and panel, a sidebar that swaps its groups for settings, and a queue with its list and open item side by side. The page probe reports a broken structure as `shellProblems`.
+
 **Setup pages in the design guide.** `DESIGN.md` adds the Setup pattern: a draft that saves itself, one line per decision, and checks beside a live preview, in place of a long form. It also says which settings controls stay beside their label on phones, and that React Native is only missing the Data Table and the time in Date Picker.
 
 **Menu icons in the design guide.** The `DESIGN.md` new projects receive now asks every dropdown, context-menu and menubar action to lead with its icon, so menus scan by shape and their labels share one edge. Checkbox items and sub-menu triggers keep their icon, with the check or chevron at the end. A sub-menu of plain values goes without icons, and an action with no fitting icon takes `inset`. The fabricator skill's icon, design and dashboard rules say the same.
@@ -28,6 +30,16 @@ These changes are merged and ship in the next version.
 **Generated project formatting.** Biome and Vite+ format generated docs before the first commit.
 
 ## Components
+
+**App Nav icons.** On Base UI, rows and the phone tab bar show their icons again: the default link's own text was replacing them, so an icon rail showed cut-off labels. On Radix, the tab bar no longer prints each label twice. A `renderLink` that returns a link with text now works in every base. If you added App Nav or App Shell after November 18, update `app-nav`.
+
+**App Shell panel tabs.** In a panel under 360px, a view without an icon keeps its name instead of showing an empty tab.
+
+**App Shell swap panels.** On phones, a panel that takes the whole screen sits on the page surface, and the main column behind it leaves the tab order and the accessibility tree.
+
+**Event Calendar overlaps.** Events at the same time stand side by side in the day and week views, so none covers another's title.
+
+**Chat bubbles hug their text.** A wrapped bubble no longer leaves a wide empty strip beside its lines.
 
 **App Shell window dragging.** On macOS, drag the frame above the inset main column to move the window. Tabs and their controls remain clickable.
 
@@ -56,6 +68,10 @@ These changes are merged and ship in the next version.
 **Chart frames fade in.** Gridlines and axis labels fade in once when a chart first draws, instead of appearing at full strength while the marks are still drawing. Radar's grid and Heat Calendar's month and weekday labels fade the same way, on the web and React Native.
 
 **Lifted marks grow out of their mark.** Heat Calendar's lifted day and Status Bar's lifted pill grow from the size of their mark as they fade in where the pointer lands, then glide from mark to mark without growing again. With Reduce Motion on, they fade in at full size.
+
+**Toasts fit their content.** Toast and Sonner are as wide as what they say, up to 351px, instead of a fixed 384px or 356px. One line is 40px tall, with or without an action. The action sits beside text that leaves it room and under text that doesn't, and the status icon stays on the first line. Long titles and descriptions stop at two and three lines, long words break instead of running out of the toast, and hover, focus or a tap opens the full text. The close button moved to the corner, where it shows on hover, focus and touch. Toast takes a custom icon or avatar in `data.icon`, `ToastAction` defaults to the `secondary` button, and Sonner's `closeButton` is on by default and can be turned off. The base `sonner` item takes the same look. SwiftUI and Compose toasts gain the same width, status icons, actions, truncation and close button.
+
+**Toast motion.** Toasts fade and grow in from their edge and leave faster than they arrive. A stack steps back and narrows to the toast in front, opening and closing as one, and a toast that changes type (loading to success) changes size in place while its new content fades in. With Reduce Motion on, only the fades remain. On React Native, a new toast no longer takes the size of the one it covers, and an open stack no longer times out while it's being read.
 
 **Pie Chart rests as one disc.** Slices meet edge to edge with square corners instead of keeping a 2px gap, and the slice you point at lifts out of the pie, on the web, React Native, SwiftUI and Compose. Donut Chart keeps its gaps and rounded slices.
 

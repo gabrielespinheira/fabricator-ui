@@ -170,37 +170,111 @@ public struct FabricatorCommand: View {
     }
 }
 
+public struct FabricatorToastAction: Equatable, Sendable {
+    public var label: String
+    public var perform: @MainActor @Sendable () -> Void
+    public init(_ label: String, perform: @escaping @MainActor @Sendable () -> Void) { self.label = label; self.perform = perform }
+    public static func == (first: Self, second: Self) -> Bool { first.label == second.label }
+}
 public struct FabricatorToastMessage: Identifiable, Equatable, Sendable {
     public var id = UUID()
     public var title: String
     public var description: String?
     public var variant: FabricatorBadgeVariant
-    public init(_ title: String, description: String? = nil, variant: FabricatorBadgeVariant = .default) { self.title = title; self.description = description; self.variant = variant }
+    /// Shown instead of the variant's icon.
+    public var icon: String?
+    public var action: FabricatorToastAction?
+    public init(_ title: String, description: String? = nil, variant: FabricatorBadgeVariant = .default, icon: String? = nil, action: FabricatorToastAction? = nil) { self.title = title; self.description = description; self.variant = variant; self.icon = icon; self.action = action }
+    var resolvedIcon: String? {
+        if let icon { return icon }
+        switch variant {
+        case .success: return "circle-check"
+        case .info: return "info"
+        case .warning: return "triangle-exclamation-point"
+        case .destructive: return "octagon-x"
+        case .default, .secondary, .outline: return nil
+        }
+    }
 }
 @MainActor @Observable public final class FabricatorToaster {
     public private(set) var messages: [FabricatorToastMessage] = []
     public init() {}
-    public func show(_ title: String, description: String? = nil, variant: FabricatorBadgeVariant = .default) { messages.append(FabricatorToastMessage(title, description: description, variant: variant)) }
+    public func show(_ title: String, description: String? = nil, variant: FabricatorBadgeVariant = .default, icon: String? = nil, action: FabricatorToastAction? = nil) { messages.append(FabricatorToastMessage(title, description: description, variant: variant, icon: icon, action: action)) }
     public func dismiss(_ id: UUID) { messages.removeAll { $0.id == id } }
+}
+/// As wide as its content, up to a limit.
+private struct FabricatorToastWidth: Layout {
+    var maximum: CGFloat
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        subviews.first?.sizeThatFits(ProposedViewSize(width: min(proposal.width ?? maximum, maximum), height: nil)) ?? .zero
+    }
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        subviews.first?.place(at: bounds.origin, proposal: ProposedViewSize(bounds.size))
+    }
 }
 public struct FabricatorToast: View {
     @Environment(\.fabricatorTheme) private var theme
     public var message: FabricatorToastMessage
+    /// Shows all of a long text.
+    public var isExpanded: Bool
     public var onDismiss: () -> Void
-    public init(_ message: FabricatorToastMessage, onDismiss: @escaping () -> Void) { self.message = message; self.onDismiss = onDismiss }
+    public init(_ message: FabricatorToastMessage, isExpanded: Bool = false, onDismiss: @escaping () -> Void) { self.message = message; self.isExpanded = isExpanded; self.onDismiss = onDismiss }
+    private var isStatus: Bool { [.destructive, .success, .warning, .info].contains(message.variant) }
+    private var text: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(message.title).modifier(FabricatorTextMetrics(size: theme.text(), weight: .medium)).lineLimit(isExpanded ? nil : 2).foregroundStyle(theme.color("foreground"))
+            if let description = message.description { Text(description).modifier(FabricatorTextMetrics(size: theme.text())).lineLimit(isExpanded ? nil : 3).foregroundStyle(theme.color("muted-foreground")) }
+        }.accessibilityElement(children: .combine)
+    }
+    @ViewBuilder private var action: some View {
+        if let action = message.action { FabricatorButton(action.label, variant: .secondary, size: .sm) { action.perform(); onDismiss() }.fixedSize() }
+    }
     public var body: some View {
-        HStack(spacing: 12) {
-            FabricatorIcon(message.variant == .destructive ? "circle-alert" : message.variant == .success ? "circle-check" : "info", size: 18)
-            FabricatorCardHeader(message.title, description: message.description)
-            Spacer(minLength: 0); FabricatorButton("Dismiss notification", icon: "x", variant: .ghost, size: .iconSm, action: onDismiss)
-        }.padding(14).fabricatorSurface(elevation: "surface-5", fill: theme.color("surface-5")).accessibilityElement(children: .combine).accessibilityAddTraits(.updatesFrequently)
+        FabricatorToastWidth(maximum: theme.text() * 27) {
+            HStack(alignment: .top, spacing: theme.space(8)) {
+                if let icon = message.resolvedIcon { FabricatorIcon(icon, size: theme.icon()).foregroundStyle(theme.color(isStatus ? message.variant.rawValue : "foreground")).frame(height: theme.text() * theme.fontScale * 1.5).accessibilityHidden(true) }
+                // Beside text that leaves it room, under text that doesn't.
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: theme.space(12)) { text; action }
+                    VStack(alignment: .leading, spacing: theme.space(8)) { text.fixedSize(horizontal: false, vertical: true); action }
+                }
+            }.padding(.horizontal, theme.space(12)).padding(.vertical, theme.space(10))
+        }.fabricatorSurface(elevation: "surface-5", fill: theme.color("surface-5"))
+            .overlay(alignment: .topLeading) {
+                Button(action: onDismiss) { FabricatorIcon("x", size: 12).frame(width: theme.space(20), height: theme.space(20)).background(theme.color("surface-5"), in: Circle()).overlay(Circle().stroke(theme.color("border"))).contentShape(Rectangle().inset(by: -8)) }.buttonStyle(.plain).foregroundStyle(theme.color("muted-foreground")).accessibilityLabel("Dismiss notification").offset(x: -6, y: -6)
+            }.accessibilityElement(children: .contain).accessibilityAddTraits(.updatesFrequently)
+    }
+}
+/// A toast on its timer, which waits while its whole text is being read.
+private struct FabricatorTimedToast: View {
+    @Environment(\.fabricatorTheme) private var theme
+    var message: FabricatorToastMessage
+    var duration: Duration
+    var onDismiss: () -> Void
+    @State private var isExpanded = false
+    var body: some View {
+        FabricatorToast(message, isExpanded: isExpanded, onDismiss: onDismiss)
+            .onHover { isExpanded = $0 }
+            .onTapGesture { isExpanded.toggle() }
+            .animation(theme.animation("toast"), value: isExpanded)
+            .task(id: isExpanded) {
+                guard !isExpanded else { return }
+                do { try await Task.sleep(for: duration); onDismiss() } catch is CancellationError {} catch { assertionFailure("Toast task failed: \(error)") }
+            }
     }
 }
 public struct FabricatorSonner: View {
+    @Environment(\.fabricatorTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     public var toaster: FabricatorToaster
     public var duration: Duration
     public init(_ toaster: FabricatorToaster, duration: Duration = .seconds(5)) { self.toaster = toaster; self.duration = duration }
+    private var transition: AnyTransition { reduceMotion ? .opacity : .offset(y: 24).combined(with: .scale(scale: 0.95, anchor: .bottom)).combined(with: .opacity) }
     public var body: some View {
-        VStack(spacing: 8) { ForEach(toaster.messages.suffix(3)) { message in FabricatorToast(message) { toaster.dismiss(message.id) }.task(id: message.id) { do { try await Task.sleep(for: duration); toaster.dismiss(message.id) } catch is CancellationError {} catch { assertionFailure("Toast task failed: \(error)") } } } }.padding(16).frame(maxWidth: 420)
+        VStack(alignment: .trailing, spacing: 10) {
+            ForEach(toaster.messages.suffix(3)) { message in
+                FabricatorTimedToast(message: message, duration: duration) { toaster.dismiss(message.id) }.transition(transition)
+            }
+        }.padding(16).animation(theme.animation("toast"), value: toaster.messages)
     }
 }

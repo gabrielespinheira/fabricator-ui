@@ -10,6 +10,8 @@ Pick in this order: an installed component, a registry component, a block, a com
 
 ## Frame and navigation
 
+How these fit together, and what breaks them: [app-shell.md](app-shell.md).
+
 | Component | Reach for it when | Worth knowing |
 | --- | --- | --- |
 | `app-shell` | Any app around its pages | `AppShellMain` > `AppShellHeader` + `AppShellContent size="sm\|md\|lg"`; `AppShellPanel` (`mobile="drawer\|swap\|none"`), `AppShellStatusBar`, `AppShellTitlebar`, `window` for desktop. Adapts to its own width, remembers itself, owns shortcuts (`useShellShortcut`) |

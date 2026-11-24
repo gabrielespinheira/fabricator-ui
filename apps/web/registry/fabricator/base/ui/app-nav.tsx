@@ -115,12 +115,21 @@ type AppNavItem = NavItem<AppNavIcon>
 type AppNavGroup = NavGroup<AppNavIcon>
 type AppNavAction = NavAction<AppNavIcon>
 
-/** Returns the link element for an item, without children (a router Link). */
+/** The link element for an item (a router Link). The row fills it. */
 type AppNavRenderLink = (item: AppNavItem) => React.ReactElement
 
 const renderAnchor: AppNavRenderLink = (item) => (
   <a href={item.href}>{item.label}</a>
 )
+
+type LinkProps = { children?: React.ReactNode }
+
+/** The link without its own children, so a row's icon and label go in it. */
+function emptyLink(link: React.ReactElement) {
+  if (!React.isValidElement<LinkProps>(link)) return link
+  const { children: _children, ...props } = link.props
+  return React.createElement(link.type, props)
+}
 
 /** The pinned rows repeat items from their groups; their drag ids differ. */
 const PINNED_GROUP = "app-nav-pinned"
@@ -357,7 +366,7 @@ function AppNav({
     preferences,
     updatePreferences,
     activeId,
-    renderLink,
+    renderLink: (item) => emptyLink(renderLink(item)),
     onNavigate: (item) => {
       onNavigate?.(item)
       if (isMobile) setOpenMobile(false)
@@ -1194,7 +1203,7 @@ function AppNavBottomBar({
           icon={item.icon}
           label={item.label}
           isActive={containsNavItem(item, activeId)}
-          render={renderLink(item)}
+          render={emptyLink(renderLink(item))}
         />
       ))}
     </AppShellBottomNav>

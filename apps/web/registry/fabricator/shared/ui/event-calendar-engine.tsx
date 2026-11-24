@@ -1449,6 +1449,8 @@ function EventCalendarEngine<TData>({
       eventResizableFromStart: true,
       dayMaxEvents: true,
       eventMaxStack: 4,
+      // Events at one time stand side by side, so none covers another's title.
+      slotEventOverlap: false,
       eventLongPressDelay: 250,
       selectLongPressDelay: 250,
       longPressDelay: 250,

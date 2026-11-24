@@ -132,6 +132,11 @@
       ],
       "kind": "implementation-gap",
       "detail": "The web screen blocks added on 2026-11-17 have no Compose compositions yet. The block catalog lists them and its router shows its unknown-block placeholder; ports follow per block, starting with the auth blocks, whose rules are pure modules."
+    },
+    {
+      "items": ["toast", "sonner"],
+      "kind": "implementation-gap",
+      "detail": "As of 2026-11-24, toasts take the canonical content width and limit, status and custom icons, an action beside or under the text, two and three line truncation opened by a press, the corner close button and the toast motion role. They list one above another instead of collapsing into the canonical stack, and have no swipe, promise or update API. Compilation and device qualification of this change were not run: Gradle 9.5 is missing."
     }
   ],
   "verification": {

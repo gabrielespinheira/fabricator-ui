@@ -7,10 +7,12 @@ import {
   createToastManager,
   Toast,
   ToastAction,
+  ToastBody,
   ToastClose,
   ToastContent,
   ToastDescription,
   ToastIcon,
+  ToastMessage,
   ToastPortal,
   ToastProvider,
   ToastTitle,
@@ -226,7 +228,7 @@ function SonnerToast({
   const close = () => manager.close(item.id)
   const icon = data.icon ?? getTypeIcon(item.type, icons)
   const showClose = data.closeButton ?? toastOptions?.closeButton ?? closeButton
-  const hasActions = Boolean(data.cancel || data.action || showClose)
+  const hasActions = Boolean(data.cancel || data.action)
   return (
     <Toast
       toast={item}
@@ -239,53 +241,59 @@ function SonnerToast({
       )}
     >
       {data.jsx ? (
-        data.jsx(item.id)
+        <ToastContent className="cn-sonner-custom">
+          {data.jsx(item.id)}
+        </ToastContent>
       ) : (
         <ToastContent>
-          {icon === undefined ? <ToastIcon type={item.type} /> : icon}
-          <View className="min-w-0 flex-1 flex-col gap-1">
-            <ToastTitle className={classNames.title} />
-            <ToastDescription
-              className={cn(
-                toastOptions?.descriptionClassName,
-                classNames.description
-              )}
-            />
-          </View>
-          {hasActions && (
-            <View className="cn-sonner-actions shrink-0 flex-row items-center">
-              {isAction(data.cancel) ? (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={classNames.cancelButton}
-                  onPress={() => {
-                    if (isAction(data.cancel)) data.cancel.onPress()
-                    close()
-                  }}
-                >
-                  {data.cancel.label}
-                </Button>
-              ) : (
-                data.cancel
-              )}
-              {isAction(data.action) ? (
-                <ToastAction
-                  className={classNames.actionButton}
-                  onPress={() => {
-                    if (isAction(data.action)) data.action.onPress()
-                    close()
-                  }}
-                >
-                  {data.action.label}
-                </ToastAction>
-              ) : (
-                data.action
-              )}
-              {showClose && <ToastClose className={classNames.closeButton} />}
-            </View>
-          )}
+          <ToastIcon type={item.type} icon={icon} />
+          <ToastBody>
+            <ToastMessage>
+              <ToastTitle className={classNames.title} />
+              <ToastDescription
+                className={cn(
+                  toastOptions?.descriptionClassName,
+                  classNames.description
+                )}
+              />
+            </ToastMessage>
+            {hasActions && (
+              <View className="cn-sonner-actions shrink-0 flex-row items-center">
+                {isAction(data.cancel) ? (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className={cn("cn-sonner-cancel", classNames.cancelButton)}
+                    onPress={() => {
+                      if (isAction(data.cancel)) data.cancel.onPress()
+                      close()
+                    }}
+                  >
+                    {data.cancel.label}
+                  </Button>
+                ) : (
+                  data.cancel
+                )}
+                {isAction(data.action) ? (
+                  <ToastAction
+                    className={classNames.actionButton}
+                    onPress={() => {
+                      if (isAction(data.action)) data.action.onPress()
+                      close()
+                    }}
+                  >
+                    {data.action.label}
+                  </ToastAction>
+                ) : (
+                  data.action
+                )}
+              </View>
+            )}
+          </ToastBody>
         </ToastContent>
+      )}
+      {showClose && !data.jsx && item.type !== "loading" && (
+        <ToastClose className={classNames.closeButton} />
       )}
     </Toast>
   )
@@ -370,6 +378,7 @@ const Toaster = ({
   richColors: _richColors,
   duration = 4000,
   visibleToasts = 3,
+  closeButton = true,
   ...props
 }: ToasterProps) => (
   <ToastProvider
@@ -377,7 +386,7 @@ const Toaster = ({
     timeout={duration}
     limit={visibleToasts}
   >
-    <SonnerHost {...props} />
+    <SonnerHost closeButton={closeButton} {...props} />
   </ToastProvider>
 )
 

@@ -1,20 +1,120 @@
 /* MARK: Toast */
 
-  /* Surface 5 with its shadow ring (no border), rounded-xl, 13px. Applies
-     to the Base UI toast root and to each Sonner toast. The surface classes
-     are important: Sonner's own stylesheet (attribute selectors) and the
-     Base UI toast's inline border/bg-popover/shadow-lg would otherwise win. */
-  /* Status toasts (info, success, warning, error) colour only their icon,
-     with the role's fill (error is the destructive role), on the neutral
-     surface: FF's low-contrast banner. Base UI marks the root with data-type and the icon with
-     data-slot=toast-icon; Sonner uses data-type and [data-icon]. */
+  /* Surface 5 with its shadow ring (no border), rounded-xl, 13px. As wide as
+     its content, from a pill for "Link copied" to 27 times the text size
+     (351px), about 50 characters a line. The surface classes are
+     important because the source paints its own.
+
+     Motion: places and sizes follow the toast timing on the entrance curve, so
+     a new toast, the ones it pushes back and one that changes size all move as
+     one. Leaving is quicker, on the exit curve. `useToastStack` sets the box;
+     reduced motion keeps only the fades. */
   .cn-toast {
-    @apply bg-surface-5! shadow-surface-5! text-popover-foreground rounded-xl! border-0! text-(length:--density-text-13) [&[data-type=info]_[data-slot=toast-icon]_svg]:text-info! [&[data-type=info]_[data-icon]_svg]:text-info! [&[data-type=success]_[data-slot=toast-icon]_svg]:text-success! [&[data-type=success]_[data-icon]_svg]:text-success! [&[data-type=warning]_[data-slot=toast-icon]_svg]:text-warning! [&[data-type=warning]_[data-icon]_svg]:text-warning! [&[data-type=error]_[data-slot=toast-icon]_svg]:text-destructive! [&[data-type=error]_[data-icon]_svg]:text-destructive! [transition:transform_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),opacity_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),height_calc(var(--motion-feedback)*var(--motion-scale,1))_var(--motion-ease-feedback)]!;
+    @apply bg-surface-5! shadow-surface-5! text-popover-foreground rounded-xl! border-0! text-(length:--density-text-13) [--toast-max-width:min(calc(var(--density-text-13)*27),calc(100vw-2rem))] transition-[transform,opacity,width,height] duration-toast ease-enter data-ending-style:duration-toast-exit data-ending-style:ease-exit motion-reduce:transition-[opacity] focus-visible:ring-1 focus-visible:ring-ring;
   }
 
-  /* Sonner (Radix, React Aria): the same surface and status icons, applied
-     from the toaster, because the build compiles placeholders in className
-     only and Sonner takes its toast classes through toastOptions. */
+  /* 40px tall with one line of text. The content keeps its final width and is
+     cut to the box on the box's timing (a little past the top and the start,
+     where the close button sticks out), and fades out fast when another toast
+     covers it. */
+  .cn-toast-content {
+    @apply gap-(--density-8) px-(--density-12) py-(--density-10) [clip-path:inset(-12px_calc(100%-var(--toast-box-width))_calc(100%-var(--toast-box-height))_-12px)] transition-[clip-path,opacity] duration-toast ease-enter group-data-behind-front/toast:duration-feedback motion-reduce:transition-[opacity] has-data-[slot=toast-action]:pe-(--density-6) has-data-[slot=toast-description]:pe-(--density-12);
+  }
+
+  /* As tall as a line of text, at the first line. An avatar centres on the
+     text instead. Status toasts (info, success, warning, error) colour only
+     their icon, with the role's fill (error is the destructive role), on the
+     neutral surface: FF's low-contrast banner. */
+  .cn-toast-icon {
+    @apply flex min-h-(--density-20) items-center self-start has-data-[slot=avatar]:self-center has-data-[slot=avatar]:me-0.5 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16) group-data-[type=info]/toast:text-info group-data-[type=success]/toast:text-success group-data-[type=warning]/toast:text-warning group-data-[type=error]/toast:text-destructive group-data-[type=loading]/toast:text-muted-foreground group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0 group-data-settled/toast:zoom-in-75 group-data-settled/toast:duration-move group-data-settled/toast:ease-enter;
+  }
+
+  /* The action sits beside text that leaves it room, and under text that
+     doesn't. */
+  .cn-toast-body {
+    @apply gap-x-(--density-12) gap-y-(--density-8);
+  }
+
+  /* A toast that changes type fades its new text in as it changes size. */
+  .cn-toast-message {
+    @apply group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0 group-data-settled/toast:duration-move group-data-settled/toast:ease-enter;
+  }
+
+  /* Two lines, and all of it once the stack is open under the pointer, focus
+     or a tap. A word that can't wrap breaks instead of leaving the toast. */
+  .cn-toast-title {
+    @apply line-clamp-2 leading-(--density-20) font-medium text-pretty wrap-anywhere group-data-expanded/toast:line-clamp-none;
+  }
+
+  /* Three lines, and all of it once open. On its own it is the message, so it
+     takes the foreground. */
+  .cn-toast-description {
+    @apply text-muted-foreground line-clamp-3 leading-(--density-20) text-pretty wrap-anywhere only:text-popover-foreground group-data-expanded/toast:line-clamp-none;
+  }
+
+  /* The soft neutral fill, rather than a second edge. It takes its height out of the
+     line's, so a toast with an action is as tall as one without. Its margins
+     change at once: the toast is measured with them. */
+  .cn-toast-action {
+    @apply bg-foreground/8 hover:bg-foreground/12 active:bg-foreground/16 text-foreground transition-[background-color,color,scale] -my-[calc((var(--density-28)-var(--density-20))/2)] h-(--density-28) rounded-md px-(--density-10) text-(length:--density-text-12) group-data-stacked/toast:my-0;
+  }
+
+  /* Out of the way at rest: a toast is only its message. It sits on the corner
+     and shows on hover and focus, or always where there is no hover. */
+  .cn-toast-close {
+    @apply bg-surface-5 text-muted-foreground shadow-surface-3 hover:bg-surface-5 hover:text-foreground size-(--density-20) -top-1.5 -left-1.5 scale-75 rounded-full opacity-0 transition-[opacity,scale,color] duration-feedback ease-enter group-hover/toast:scale-100 group-hover/toast:opacity-100 group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100 focus-visible:scale-100 focus-visible:opacity-100 pointer-coarse:scale-100 pointer-coarse:opacity-100 group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0 [&_svg]:size-3!;
+  }
+
+  /* Sonner: the same toast on Sonner's element. Everything is important because
+     Sonner's own stylesheet is unlayered. Its parts sit in the toast itself, so
+     they take the columns of a grid, with the actions on a second row when they
+     are under the text. Toasts with their own markup keep it, and only stack.
+
+     Sonner takes a toast away 200ms after it closes, whatever the speed, by
+     when the exit curve has all but finished.
+
+     `--y` is the place Sonner's swipes and exits start from. It grows from the
+     edge its position names: `--toast-lift` is 1 from the top, -1 from the
+     bottom. */
   .cn-sonner {
-    @apply [&_[data-sonner-toast]]:bg-surface-5! [&_[data-sonner-toast]]:shadow-surface-5! [&_[data-sonner-toast]]:text-popover-foreground! [&_[data-sonner-toast]]:rounded-xl! [&_[data-sonner-toast]]:border-0! [&_[data-sonner-toast]]:text-(length:--density-text-13)! [&_[data-sonner-toast][data-type=info]_[data-icon]_svg]:text-info! [&_[data-sonner-toast][data-type=success]_[data-icon]_svg]:text-success! [&_[data-sonner-toast][data-type=warning]_[data-icon]_svg]:text-warning! [&_[data-sonner-toast][data-type=error]_[data-icon]_svg]:text-destructive! [&_[data-sonner-toast]]:[transition-duration:calc(var(--motion-toast)*var(--motion-scale,1))]! [&_[data-sonner-toast]]:[transition-timing-function:var(--motion-ease-enter)]!;
+    @apply [font-family:inherit]!;
+  }
+
+  .cn-sonner-toast {
+    @apply [--toast-max-width:min(calc(var(--density-text-13)*27),calc(100vw-2rem))] h-(--toast-box-height)! w-(--toast-box-width)! max-w-(--toast-max-width) data-measuring:h-auto! data-measuring:w-max! data-[measuring=row]:max-w-none transition-[transform,opacity,width,height]! duration-toast! ease-enter! data-[removed=true]:duration-toast-exit! data-[removed=true]:ease-exit! data-[swiping=true]:transition-none! motion-reduce:transition-[opacity]! [--toast-lift:-1] data-[y-position=bottom]:origin-bottom data-[y-position=top]:origin-top data-[y-position=top]:[--toast-lift:1] [--toast-x:-50%] left-[calc(50%-var(--mobile-offset-left))]! right-auto! data-[x-position=center]:min-[601px]:left-1/2! data-[x-position=left]:min-[601px]:left-0! data-[x-position=left]:min-[601px]:[--toast-x:var(--toast-inset,0px)] data-[x-position=right]:min-[601px]:right-0! data-[x-position=right]:min-[601px]:left-auto! data-[x-position=right]:min-[601px]:[--toast-x:calc(var(--toast-inset,0px)*-1)] [--toast-y:calc(var(--toast-lift)*var(--toast-offset,0px))] [--y:translate(var(--toast-x),var(--toast-y))]! motion-safe:data-[mounted=false]:[--y:translate(var(--toast-x),calc(var(--toast-lift)*-100%))_scale(var(--motion-popup-scale))]! motion-safe:data-[removed=true]:data-[swipe-out=false]:[--y:translate(var(--toast-x),calc(var(--toast-y)-var(--toast-lift)*50%))_scale(var(--motion-popup-scale))]! motion-safe:data-[removed=true]:data-[swipe-out=false]:data-[expanded=true]:[--y:translate(var(--toast-x),var(--toast-y))_scale(var(--motion-popup-scale))]! data-[styled=true]:bg-surface-5! data-[styled=true]:shadow-surface-5! data-[styled=true]:text-popover-foreground! data-[styled=true]:rounded-xl! data-[styled=true]:border-0! data-[styled=true]:text-(length:--density-text-13)! data-[styled=true]:grid! data-[styled=true]:content-start data-[styled=true]:items-center data-[styled=true]:justify-start data-[styled=true]:grid-cols-[auto_auto_auto_auto] data-[styled=true]:gap-0! data-[styled=true]:px-(--density-12)! data-[styled=true]:py-(--density-10)! data-[styled=true]:has-[[data-button]]:pe-(--density-6)! data-[styled=true]:has-[[data-description]]:pe-(--density-12)! data-measuring:grid-cols-[auto_minmax(0,1fr)_auto_auto]! data-stacked:grid-cols-[auto_auto_auto_1fr]! data-[styled=true]:not-data-stacked:[&>[data-content]~*]:ms-(--density-12)! data-[styled=true]:[&>[data-content]~*]:me-0! data-[styled=true]:[&>[data-content]~*]:whitespace-nowrap data-[styled=true]:not-data-stacked:[&>[data-content]~*~*]:ms-(--density-4)! data-stacked:[&>[data-content]~*]:row-start-2 data-stacked:[&>[data-content]~*]:mt-(--density-8)! data-stacked:[&>[data-content]~*]:mb-0! data-stacked:[&>[data-content]+*]:col-start-2 data-stacked:[&>[data-content]~*~*]:col-start-3 data-stacked:[&>[data-content]~*~*]:ms-(--density-6)! focus-visible:ring-1! focus-visible:ring-ring!;
+  }
+
+  /* See Toast's icon. */
+  .cn-sonner-icon {
+    @apply col-start-1 me-(--density-8)! ms-0! h-auto! min-h-(--density-20) w-auto! min-w-(--density-icon-16) items-center self-start has-data-[slot=avatar]:self-center has-data-[slot=avatar]:me-2.5! [&_svg]:m-0! [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_.sonner-loader]:static [&_.sonner-loader]:translate-none [&_.sonner-loader]:transform-none group-data-[type=info]/toast:text-info group-data-[type=success]/toast:text-success group-data-[type=warning]/toast:text-warning group-data-[type=error]/toast:text-destructive group-data-[type=loading]/toast:text-muted-foreground group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0 group-data-settled/toast:zoom-in-75 group-data-settled/toast:duration-move group-data-settled/toast:ease-enter;
+  }
+
+  /* Keeps the width it is going to have, cut to the toast around it on the
+     toast's timing. */
+  .cn-sonner-content {
+    @apply col-start-2 w-(--toast-text-width) flex-none! gap-0! [clip-path:polygon(-2px_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_calc(var(--toast-box-height)-var(--toast-part-y)),-2px_calc(var(--toast-box-height)-var(--toast-part-y)))] transition-[clip-path,opacity]! duration-toast! ease-enter! motion-reduce:transition-[opacity]! group-data-measuring/toast:w-auto group-data-stacked/toast:col-end-[-1] group-data-behind-front/toast:duration-feedback! group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0;
+  }
+
+  /* See Toast's title. */
+  .cn-sonner-title {
+    @apply group-data-[styled=true]/toast:line-clamp-2 group-data-[styled=true]/toast:leading-(--density-20)! group-data-[styled=true]/toast:font-medium! text-pretty wrap-anywhere group-data-[expanded=true]/toast:line-clamp-none!;
+  }
+
+  /* See Toast's description. */
+  .cn-sonner-description {
+    @apply group-data-[styled=true]/toast:text-muted-foreground! group-data-[styled=true]/toast:line-clamp-3 group-data-[styled=true]/toast:leading-(--density-20)! text-pretty wrap-anywhere group-data-[expanded=true]/toast:line-clamp-none!;
+  }
+
+  /* See Toast's action. Cancel is the quieter of the two. */
+  .cn-sonner-action {
+    @apply bg-foreground/8! hover:bg-foreground/12! active:bg-foreground/16! text-foreground! -my-[calc((var(--density-28)-var(--density-20))/2)]! h-(--density-28)! rounded-md! px-(--density-10)! text-(length:--density-text-12)! whitespace-nowrap motion-press [clip-path:polygon(-2px_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_calc(var(--toast-box-height)-var(--toast-part-y)),-2px_calc(var(--toast-box-height)-var(--toast-part-y)))] [transition:clip-path_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),background-color_calc(var(--motion-feedback)*var(--motion-scale,1)),color_calc(var(--motion-feedback)*var(--motion-scale,1)),opacity_calc(var(--motion-feedback)*var(--motion-scale,1)),scale_calc(var(--motion-feedback)*var(--motion-scale,1))]! motion-reduce:transition-[background-color,color,opacity]! focus-visible:ring-1! focus-visible:ring-ring!;
+  }
+
+  .cn-sonner-cancel {
+    @apply text-muted-foreground! hover:bg-hover! hover:text-foreground! -my-[calc((var(--density-28)-var(--density-20))/2)]! h-(--density-28)! rounded-md! bg-transparent! px-(--density-10)! text-(length:--density-text-12)! whitespace-nowrap motion-press [clip-path:polygon(-2px_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_calc(var(--toast-box-height)-var(--toast-part-y)),-2px_calc(var(--toast-box-height)-var(--toast-part-y)))] [transition:clip-path_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),background-color_calc(var(--motion-feedback)*var(--motion-scale,1)),color_calc(var(--motion-feedback)*var(--motion-scale,1)),opacity_calc(var(--motion-feedback)*var(--motion-scale,1)),scale_calc(var(--motion-feedback)*var(--motion-scale,1))]! motion-reduce:transition-[background-color,color,opacity]! focus-visible:ring-1! focus-visible:ring-ring!;
+  }
+
+  /* See Toast's close button. */
+  .cn-sonner-close {
+    @apply bg-surface-5! text-muted-foreground! shadow-surface-3! hover:text-foreground! -top-1.5! right-auto! -left-1.5! size-(--density-20)! transform-none! scale-75 rounded-full border-0! opacity-0! transition-[opacity,scale,color]! duration-feedback! ease-enter! after:absolute after:-inset-2 after:content-[''] focus-visible:ring-1! focus-visible:ring-ring! group-hover/toast:scale-100 group-hover/toast:opacity-100! group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100! focus-visible:scale-100 focus-visible:opacity-100! pointer-coarse:scale-100 pointer-coarse:opacity-100! group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0! [&_svg]:size-3! motion-press;
   }

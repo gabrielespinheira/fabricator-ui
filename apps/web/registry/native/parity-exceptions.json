@@ -1230,5 +1230,61 @@
     "name": "cn-chart-slice-mark",
     "reason": "Only fades the 0.5px outline that closes a pie's seams when its slice dims. Native draws no outline on a dimmed slice, so there is nothing to style.",
     "date": "2026-11-23"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-toast",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-icon",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-content",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-title",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-description",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-action",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-close",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
   }
 ]

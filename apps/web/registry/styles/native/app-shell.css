@@ -141,7 +141,7 @@
      column's edge; otherwise a hairline parts them. On phones, `swap` makes the
      panel the screen. */
   .cn-app-shell-panel {
-    @apply bg-app-shell-panel border-border data-[edge=left]:border-l data-[edge=right]:border-r data-[layout=card]:shadow-app-shell-card data-[layout=card]:overflow-hidden data-[layout=card]:rounded-xl data-[placement=swap]:bg-app-shell-frame data-[placement=swap]:h-full data-[placement=swap]:pt-safe;
+    @apply bg-app-shell-panel border-border data-[edge=left]:border-l data-[edge=right]:border-r data-[layout=card]:shadow-app-shell-card data-[layout=card]:overflow-hidden data-[layout=card]:rounded-xl data-[placement=swap]:h-full data-[placement=swap]:pt-safe;
   }
 
   .cn-app-shell-panel-text {

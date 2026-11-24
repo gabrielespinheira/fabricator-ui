@@ -5492,12 +5492,36 @@ export const Components: Record<string, any> = {
       ) || "time-input-seconds"
     return { default: mod.default || mod[exportName] }
   }),
+  "toast-action": React.lazy(async () => {
+    const mod = await import("@/examples/base/toast-action")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "toast-action"
+    return { default: mod.default || mod[exportName] }
+  }),
   "toast-demo": React.lazy(async () => {
     const mod = await import("@/examples/base/toast-demo")
     const exportName =
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "toast-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "toast-icon": React.lazy(async () => {
+    const mod = await import("@/examples/base/toast-icon")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "toast-icon"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "toast-long": React.lazy(async () => {
+    const mod = await import("@/examples/base/toast-long")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "toast-long"
     return { default: mod.default || mod[exportName] }
   }),
   "toast-promise": React.lazy(async () => {

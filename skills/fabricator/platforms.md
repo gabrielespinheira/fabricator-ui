@@ -22,7 +22,8 @@ A monorepo usually has several. Ask which ones the feature ships on only when th
 | Breadcrumb | The current page, with a menu of its parents | Full | Full | The only way back, so always there |
 | Page actions | One menu, the primary as a floating button (automatic) | Buttons | Buttons | Also in `Menubar` and shortcuts |
 | Table | Identity, status and one number per row; the rest folds under the name or into the detail | Two or three more columns | All columns, `DataTable` when worked | Denser |
-| Detail of a record| The whole screen (`mobile="swap"`) or a drawer | Sheet over the list | `AppShellPanel` docked beside the list | Several panels, resizable |
+| Detail of a record | The whole screen (`mobile="swap"`) or a drawer | Sheet over the list | `AppShellPanel` docked beside the list | Wider, resizable |
+| A queue: list and item | One at a time, with a way back | Side by side, sidebar as a rail | Side by side, context in a panel | The same; keys to act and advance |
 | Filters | A "Filters" button with a count, opening a `Drawer` | Inline, wrapping | Inline | Inline |
 | Toolbar | Two rows at most: view `Tabs`, then search and filters | One row | One row | Compact |
 | Create, edit | `Drawer` for one to three asks, a full page beyond | `Dialog` or `Sheet` | `Dialog`, `Sheet` or page | The same; ⌘N |
@@ -48,7 +49,7 @@ A monorepo usually has several. Ask which ones the feature ships on only when th
 - **The floating primary** is an icon over the page's end. Give every `primaryAction` an icon that says it, repeat it as a labelled button where the task ends when an icon can't, and leave room under the last row: `in-data-[size=phone]:pb-20` on the page's wrapper.
 - **Back works:** period, filters, tab, page and the open record live in the URL.
 
-- **Tablets are the trap.** At 834px a docked 256px sidebar leaves a column of about 530px, a wide phone. Start the sidebar as a rail there (`collapsible="icon"`, closed under 1024px), or lay that width out on purpose: one column, two or three table columns, controls on one row.
+- **Tablets are the trap.** At 834px a docked 256px sidebar leaves a column of about 530px, a wide phone. Collapse the sidebar to a rail there ([recipes/app-shell.md](recipes/app-shell.md#tablets)), or lay that width out on purpose: one column, two or three table columns, controls on one row.
 
 Check 390, 834 and 1440px, then 1280px with the sidebar and a panel open: that is the tightest desktop.
 

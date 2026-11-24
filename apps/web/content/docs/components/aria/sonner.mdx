@@ -115,6 +115,38 @@ The `success`, `info`, `warning` and `error` types colour their icon with the st
 
 <ComponentPreview styleName="aria-nova" name="sonner-description" />
 
+## Size
+
+A toast is as wide as its content, up to 27 times its text size (351px at the default density). Below it, "Event created" is a small pill; past it, text wraps.
+
+## Action
+
+The action sits beside text that leaves it room, and moves under text that doesn't. `cancel` is the quieter of two.
+
+<ComponentPreview styleName="aria-nova" name="sonner-action" />
+
+## Icon
+
+A type brings its own icon. Pass `icon` to show another, such as an icon or a small `Avatar`, or `null` to show none.
+
+<ComponentPreview styleName="aria-nova" name="sonner-icon" />
+
+## Long content
+
+The title shows two lines and the description three, and a word that can't wrap breaks. Hovering a toast opens it to its full text and pauses its timer.
+
+<ComponentPreview styleName="aria-nova" name="sonner-long" />
+
+## Promise
+
+One toast moves through loading, success and error. It changes size in place and fades its new content in.
+
+<ComponentPreview styleName="aria-nova" name="sonner-promise" />
+
+## Close button
+
+Every toast has a close button on its corner, which shows on hover and focus, and always on touch. Pass `closeButton={false}` to `Toaster` to remove it.
+
 ## Position
 
 Use the `position` prop to change the position of the toast.

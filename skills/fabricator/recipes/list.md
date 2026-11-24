@@ -44,7 +44,7 @@ Verified at 390 and 1440px in both themes, with the panel open and closed. Base 
 </AppShellPanel>
 ```
 
-Opening a row sets the record in the URL and calls `useShellPanel("customer").setOpen(true)`. The panel docks on desktop, floats on tablets and is a drawer on phones; for a queue people clear, use `mobile="swap"`.
+Opening a row sets the record in the URL and calls `useShellPanel("customer").setOpen(true)`. The panel docks on desktop, floats on tablets and is a drawer on phones; for a queue people clear, use the two panes in [app-shell.md](app-shell.md#a-queue).
 
 ## Toolbar
 

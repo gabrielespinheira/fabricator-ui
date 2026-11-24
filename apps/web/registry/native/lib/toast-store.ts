@@ -3,6 +3,8 @@
 
 import type { ReactNode } from "react"
 
+import type { ToastSize } from "@/registry/fabricator/shared/lib/toast-stack-model"
+
 export type ToastTimers = {
   /** Calls back after `ms`; the function it returns cancels that. */
   set: (callback: () => void, ms: number) => () => void
@@ -32,7 +34,8 @@ export type ToastObject<TData = unknown, TAction = unknown> = {
   updateKey: number
   /** Past the provider's `limit`: kept, but not shown. */
   limited?: boolean
-  height?: number
+  /** What its content takes, once laid out. */
+  size?: ToastSize
   onClose?: (
     reason: ToastCloseReason,
     toast: ToastObject<TData, TAction>
@@ -44,11 +47,11 @@ export type ToastObject<TData = unknown, TAction = unknown> = {
 
 export type ToastAddOptions<TData = unknown, TAction = unknown> = Omit<
   ToastObject<TData, TAction>,
-  "id" | "updateKey" | "limited" | "height"
+  "id" | "updateKey" | "limited" | "size"
 > & { id?: string }
 
 export type ToastUpdateOptions<TData = unknown, TAction = unknown> = Partial<
-  Omit<ToastObject<TData, TAction>, "id" | "updateKey" | "limited" | "height">
+  Omit<ToastObject<TData, TAction>, "id" | "updateKey" | "limited" | "size">
 >
 
 type PromiseOption<TResult, TData, TAction> =
@@ -237,12 +240,15 @@ export function createToastStore<TData = unknown, TAction = unknown>({
       isPaused = false
       for (const timer of scheduled.values()) start(timer)
     },
-    setHeight(id: string, height: number) {
+    setSize(id: string, size: ToastSize) {
       const toast = toasts.find((candidate) => candidate.id === id)
-      if (!toast || toast.height === height) return
+      if (!toast) return
+      const isUnchanged =
+        toast.size?.width === size.width && toast.size.height === size.height
+      if (isUnchanged) return
       commit(
         toasts.map((candidate) =>
-          candidate.id === id ? { ...candidate, height } : candidate
+          candidate.id === id ? { ...candidate, size } : candidate
         )
       )
     },
@@ -267,44 +273,3 @@ export function createToastStore<TData = unknown, TAction = unknown>({
 export type ToastStore<TData = unknown, TAction = unknown> = ReturnType<
   typeof createToastStore<TData, TAction>
 >
-
-/**
- * Where each toast sits. Collapsed, the newest is in front and the others peek
- * out from under it at its height, scaled down by index. Expanded, they run one
- * under another. Past the limit they're kept but transparent.
- */
-export function getToastStack(
-  toasts: readonly { height?: number }[],
-  {
-    expanded,
-    gap,
-    peek,
-    limit,
-  }: { expanded: boolean; gap: number; peek: number; limit: number }
-) {
-  // A new toast has no height until it's laid out; the one it covered does.
-  const frontHeight = toasts.find((toast) => toast.height)?.height
-  let offset = 0
-  return toasts.map((toast, index) => {
-    const opacity = index < limit ? 1 : 0
-    if (expanded) {
-      const translateY = offset
-      offset += (toast.height ?? 0) + gap
-      return {
-        translateY,
-        scale: 1,
-        opacity,
-        isBehind: false,
-        height: undefined,
-      }
-    }
-    const scale = Math.max(0, 1 - index * 0.1)
-    return {
-      translateY: ((frontHeight ?? 0) * (1 - scale)) / 2 + index * peek,
-      scale,
-      opacity,
-      isBehind: index > 0,
-      height: index > 0 ? frontHeight : undefined,
-    }
-  })
-}

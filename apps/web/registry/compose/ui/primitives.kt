@@ -59,6 +59,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -69,9 +70,10 @@ fun FabricatorText(
     text: String, modifier: Modifier = Modifier, muted: Boolean = false,
     weight: FontWeight = FontWeight.Normal, size: Int = 13,
     color: Color? = null, textAlign: TextAlign? = null, maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip,
 ) {
     val theme = LocalFabricatorTheme.current
-    BasicText(text, modifier, style = TextStyle(color = color ?: theme.color(if (muted) "muted-foreground" else "foreground"), fontFamily = theme.fontFamily, fontSize = theme.text(size), fontWeight = weight, textAlign = textAlign ?: TextAlign.Unspecified, lineHeight = theme.text(size) * 1.45f), maxLines = maxLines)
+    BasicText(text, modifier, style = TextStyle(color = color ?: theme.color(if (muted) "muted-foreground" else "foreground"), fontFamily = theme.fontFamily, fontSize = theme.text(size), fontWeight = weight, textAlign = textAlign ?: TextAlign.Unspecified, lineHeight = theme.text(size) * 1.45f), maxLines = maxLines, overflow = overflow)
 }
 
 @Composable

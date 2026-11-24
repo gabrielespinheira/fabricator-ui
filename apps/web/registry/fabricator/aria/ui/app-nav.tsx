@@ -116,7 +116,7 @@ type AppNavItem = NavItem<AppNavIcon>
 type AppNavGroup = NavGroup<AppNavIcon>
 type AppNavAction = NavAction<AppNavIcon>
 
-/** Returns the link element for an item, without children (a router Link). */
+/** The link element for an item (a router Link). The row fills it. */
 type AppNavRenderLink = (item: AppNavItem) => React.ReactElement
 
 const renderAnchor: AppNavRenderLink = (item) => (

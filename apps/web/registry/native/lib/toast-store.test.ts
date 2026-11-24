@@ -2,7 +2,6 @@ import { describe, expect, it, vi } from "vitest"
 
 import {
   createToastStore,
-  getToastStack,
   type ToastTimers,
 } from "@/registry/native/lib/toast-store"
 
@@ -198,69 +197,20 @@ describe("stacking", () => {
     expect(store.getToasts().filter((toast) => toast.limited)).toHaveLength(1)
   })
 
-  it("lays a collapsed stack out by index, bottoms lined up", () => {
-    const stack = getToastStack(
-      [{ height: 60 }, { height: 90 }, { height: 40 }],
-      { expanded: false, gap: 12, peek: 12, limit: 2 }
-    )
-    expect(stack[0]).toEqual({
-      translateY: 0,
-      scale: 1,
-      opacity: 1,
-      isBehind: false,
-      height: undefined,
-    })
-    expect(stack[1]).toMatchObject({
-      scale: 0.9,
-      opacity: 1,
-      isBehind: true,
-      height: 60,
-    })
-    expect(stack[1]?.translateY).toBeCloseTo(60 * 0.05 + 12)
-    expect(stack[2]).toMatchObject({ opacity: 0, isBehind: true })
-  })
-
-  it("lays an expanded stack out one under another", () => {
-    const stack = getToastStack([{ height: 60 }, { height: 90 }], {
-      expanded: true,
-      gap: 12,
-      peek: 12,
-      limit: 3,
-    })
-    expect(stack[0]).toMatchObject({ translateY: 0, scale: 1, isBehind: false })
-    expect(stack[1]).toMatchObject({
-      translateY: 72,
-      scale: 1,
-      isBehind: false,
-      height: undefined,
-    })
-  })
-
-  it("keeps the stack's height while a new toast measures itself", () => {
-    const stack = getToastStack([{}, { height: 60 }], {
-      expanded: false,
-      gap: 12,
-      peek: 12,
-      limit: 3,
-    })
-    expect(stack[1]?.height).toBe(60)
-  })
-
-  it("has no height for a stack that hasn't measured anything", () => {
-    const stack = getToastStack([{}, {}], {
-      expanded: false,
-      gap: 12,
-      peek: 12,
-      limit: 3,
-    })
-    expect(stack[1]?.height).toBeUndefined()
-  })
-
-  it("keeps the measured height", () => {
+  it("keeps the measured size", () => {
     const { store } = setup()
     const id = store.add({ title: "One" })
-    store.setHeight(id, 64)
-    expect(store.getToasts()[0]?.height).toBe(64)
+    store.setSize(id, { width: 180, height: 64 })
+    expect(store.getToasts()[0]?.size).toEqual({ width: 180, height: 64 })
+  })
+
+  it("tells no one when the size is the one it had", () => {
+    const { store } = setup()
+    const id = store.add({ title: "One" })
+    store.setSize(id, { width: 180, height: 64 })
+    const before = store.getToasts()
+    store.setSize(id, { width: 180, height: 64 })
+    expect(store.getToasts()).toBe(before)
   })
 })
 

@@ -174,9 +174,181 @@
       const gap = index === 0 ? 0 : box(band).top - box(every[index - 1]).bottom
       return `starts ${startOf(band)}, gap ${Math.round(gap)}: ${name(band).slice(0, 28)}`
     })
+  // The App Shell lays out by direct children and order, and fails silently.
+  const slot = (value, root = document) => [
+    ...root.querySelectorAll(`[data-slot=${value}]`),
+  ]
+  const shellProblems = () => {
+    const shells = slot("app-shell")
+    if (shells.length === 0) return undefined
+    const [body] = slot("sidebar-wrapper", shells[0])
+    const [main] = document.querySelectorAll("[data-app-shell-main]")
+    const [content] = slot("app-shell-content")
+    const [panelTrigger] = slot("app-shell-panel-trigger")
+    const isAfter = (element, other) =>
+      !!(
+        element.compareDocumentPosition(other) &
+        Node.DOCUMENT_POSITION_PRECEDING
+      )
+    const rightEdge = box(body).right
+    return [
+      [shells.length > 1, "a shell inside a shell"],
+      [
+        slot("sidebar-wrapper").length > shells.length,
+        "a SidebarProvider inside AppShell",
+      ],
+      [
+        slot("sidebar").some(
+          (element) =>
+            element.parentElement !== body && !element.closest("[role=dialog]")
+        ),
+        "Sidebar is not a direct child of AppShell",
+      ],
+      [
+        slot("sidebar").some(
+          (element) =>
+            main &&
+            element.parentElement === body &&
+            !element.closest("[role=dialog]") &&
+            element.dataset.side !== "right" &&
+            isAfter(element, main)
+        ),
+        "Sidebar comes after AppShellMain",
+      ],
+      [!main, "no AppShellMain"],
+      [
+        main && main.parentElement !== body,
+        "AppShellMain is not a direct child of AppShell",
+      ],
+      [
+        document.querySelectorAll("[data-app-shell-main]").length >
+          shells.length,
+        "more than one AppShellMain",
+      ],
+      [
+        slot("app-shell-panel").some(
+          (element) => element.parentElement !== body
+        ),
+        "AppShellPanel is not a direct child of AppShell",
+      ],
+      [
+        slot("app-shell-panel").some(
+          (element) =>
+            main && (element.dataset.side === "left") === isAfter(element, main)
+        ),
+        "a panel sits on the wrong side of AppShellMain for its side",
+      ],
+      [
+        slot("app-shell-status-bar").some(
+          (element) => element.parentElement !== body
+        ),
+        "AppShellStatusBar is not a direct child of AppShell",
+      ],
+      [
+        slot("app-shell-bottom-nav").some(
+          (element) => !element.parentElement.matches("[data-app-shell-main]")
+        ),
+        "the bottom nav is not inside AppShellMain",
+      ],
+      [
+        slot("app-shell-content").length > shells.length,
+        "more than one AppShellContent",
+      ],
+      [
+        content && !content.parentElement.matches("[data-app-shell-main]"),
+        "AppShellContent is not a direct child of AppShellMain",
+      ],
+      [
+        slot("app-shell-header").some((element) =>
+          element.closest("[data-slot=app-shell-content]")
+        ),
+        "AppShellHeader is inside AppShellContent",
+      ],
+      [
+        main && main.scrollHeight > main.clientHeight + 1,
+        "AppShellMain is cut off: something above AppShellContent lost its height",
+      ],
+      [
+        content && content.scrollWidth > content.clientWidth + 1,
+        "AppShellContent scrolls sideways",
+      ],
+      [!slot("app-shell-page-title").length, "no AppShellPageTitle"],
+      [
+        slot("app-shell-page-title").some(
+          (element) => !element.getClientRects().length
+        ),
+        "AppShellPageTitle is hidden, so the header shows its text as the page's",
+      ],
+      [
+        slot("app-shell-page-title").length > shells.length,
+        "more than one AppShellPageTitle",
+      ],
+      [
+        panelTrigger &&
+          (box(panelTrigger).right > rightEdge + 1 ||
+            box(panelTrigger).left < 0),
+        "a panel trigger is off screen: its panel is missing or misplaced",
+      ],
+      [
+        slot("app-shell-panel-trigger-anchor").some(
+          (element) =>
+            element.dataset.pinned !== undefined &&
+            element.dataset.state === "open" &&
+            slot("app-shell-panel").every(
+              (panel) =>
+                box(element).left < box(panel).left ||
+                box(element).right > box(panel).right + 1
+            )
+        ),
+        "a right panel's trigger is not last in its row, so it doesn't line up with the open panel",
+      ],
+      [
+        slot("app-shell-panel").some((element) =>
+          slot("app-shell-panel").some(
+            (other) =>
+              other !== element &&
+              [element, other].every(
+                ({ dataset }) =>
+                  dataset.placement === "inline" && dataset.state === "open"
+              ) &&
+              other.dataset.side === element.dataset.side
+          )
+        ),
+        "two panels are open on one side",
+      ],
+      [
+        slot("app-shell-panel-tabs").some((list) =>
+          [...list.querySelectorAll("[role=tab]")].some(
+            (tab) =>
+              tab.getClientRects().length &&
+              ![...tab.querySelectorAll("svg, span")].some(
+                (part) => box(part).width > 1 && box(part).height > 1
+              )
+          )
+        ),
+        "a panel's tabs are blank: give each view an icon",
+      ],
+      [
+        slot("sidebar-menu-button").some(
+          (element) =>
+            element.closest("[data-slot=app-nav-item]") &&
+            !element.querySelector("span, svg")
+        ),
+        "AppNav rows lost their icon and badge: pass renderLink without children",
+      ],
+      [
+        document.documentElement.scrollHeight > innerHeight + 1,
+        "the document scrolls behind the shell",
+      ],
+    ]
+      .filter(([isProblem]) => isProblem)
+      .map(([, problem]) => problem)
+  }
+
   return JSON.stringify(
     {
       width: innerWidth,
+      shellProblems: shellProblems(),
       sidewaysScroll: document.documentElement.scrollWidth > innerWidth + 1,
       sidewaysRegions: all("main *")
         .filter(

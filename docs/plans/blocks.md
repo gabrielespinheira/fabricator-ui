@@ -2,6 +2,8 @@
 
 Ready-made screens people install with the CLI or copy, shown on a new `/blocks` page and in a tabbed showcase under the homepage hero. Every block follows [`DESIGN.md`](../../DESIGN.md).
 
+The next design pass is [`blocks-redesign.md`](blocks-redesign.md).
+
 ## Blocks
 
 | Block                | Screen                                                                           | Pattern in DESIGN.md      | Installs to                    |

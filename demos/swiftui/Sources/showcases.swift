@@ -335,7 +335,13 @@ struct ComponentDetail: View {
                 }
             }
         case "progress": FabricatorProgress(value: value / 100); FabricatorSlider("Progress", value: $value)
-        case "toast", "sonner": FabricatorButton("Show notification", icon: "bell") { toaster.show("Changes saved", description: "Your workspace is up to date.", variant: .success) }
+        case "toast", "sonner": FabricatorFlowLayout {
+            FabricatorButton("Title only", variant: .outline) { toaster.show("Link copied") }
+            FabricatorButton("Status", variant: .outline) { toaster.show("Changes saved", description: "Your workspace is up to date.", variant: .success) }
+            FabricatorButton("Action", variant: .outline) { toaster.show("Event created", description: "Friday, December 4 at 9:00 AM", action: FabricatorToastAction("Undo") { toaster.show("Event removed") }) }
+            FabricatorButton("Action under the text", variant: .outline) { toaster.show("Changes weren't saved", description: "The server didn't answer. Your edits are still here, so you can try again in a moment.", variant: .destructive, action: FabricatorToastAction("Try again") { toaster.show("Changes saved", variant: .success) }) }
+            FabricatorButton("Long text", variant: .outline) { toaster.show("Three members couldn't be invited", description: "Their addresses belong to another workspace on your plan. Ask its owner to release them, or invite each person with a different address. Invitations already sent to the other nine people are on their way and expire in seven days.", variant: .warning) }
+        }
         case "markdown": MarkdownDemo()
         case "syntax-highlight": SyntaxHighlightDemo()
         case "table": FabricatorTable(columns: DemoData.invoiceColumns, rows: DemoData.invoiceRows, caption: "A list of your recent invoices.", footer: FabricatorTableRow(id: "total", cells: ["invoice": "Total", "amount": "$2,500.00"]), columnWidths: ["invoice": 100], emphasizedColumns: ["invoice"]).accessibilityIdentifier("fabricator-invoice-table")
