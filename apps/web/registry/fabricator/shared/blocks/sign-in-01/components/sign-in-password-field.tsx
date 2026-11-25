@@ -39,7 +39,7 @@ export function SignInPasswordField({
         <FieldLabel htmlFor="sign-in-password">Password</FieldLabel>
         <a
           href={forgotPasswordHref}
-          className={`text-(length:--density-text-12) text-muted-foreground ${captionLinkClassName}`}
+          className={`inline-flex min-h-6 items-center text-(length:--density-text-12) text-muted-foreground pointer-coarse:min-h-11 ${captionLinkClassName}`}
         >
           Forgot password?
         </a>

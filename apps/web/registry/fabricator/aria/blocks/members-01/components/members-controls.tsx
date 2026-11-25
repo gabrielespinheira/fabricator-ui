@@ -70,7 +70,12 @@ import {
 } from "@/registry/bases/aria/ui/select"
 import { Spinner } from "@/registry/bases/aria/ui/spinner"
 import { TableHead, TableHeader } from "@/registry/bases/aria/ui/table"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/aria/ui/tabs"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/bases/aria/ui/tabs"
 
 // The members page's controls whose API differs between Base UI, Radix and
 // React Aria. This is React Aria's; the rest of the block is shared.
@@ -288,25 +293,51 @@ export function MembersRoleFilter({
 export function MembersViewTabs({
   value,
   onValueChange,
+  children,
 }: {
+  children: React.ReactNode
   value: MembersView
   onValueChange: (view: MembersView) => void
 }) {
   return (
     <Tabs
+      className="gap-(--density-12)"
       selectedKey={value}
       onSelectionChange={(next) => {
         if (isMembersView(next)) onValueChange(next)
       }}
     >
-      <TabsList aria-label="Show">
-        {MEMBERS_VIEWS.map((view) => (
-          <TabsTrigger key={view.value} id={view.value}>
-            {view.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      {children}
     </Tabs>
+  )
+}
+
+export function MembersViewList() {
+  return (
+    <TabsList aria-label="Show">
+      {MEMBERS_VIEWS.map((view) => (
+        <TabsTrigger key={view.value} id={view.value}>
+          {view.label}
+        </TabsTrigger>
+      ))}
+    </TabsList>
+  )
+}
+
+export function MembersViewPanel({
+  value,
+  children,
+}: {
+  value: MembersView
+  children: React.ReactNode
+}) {
+  return (
+    <TabsContent
+      id={value}
+      className="focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset"
+    >
+      {children}
+    </TabsContent>
   )
 }
 

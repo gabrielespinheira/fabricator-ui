@@ -8,7 +8,7 @@ import {
   splitEmails,
   type OnboardingLayout,
 } from "@/registry/bases/__base__/blocks/onboarding-01/lib/onboarding-model"
-import { Field, FieldContent, FieldLabel } from "@/registry/bases/aria/ui/field"
+import { Field, FieldContent } from "@/registry/bases/aria/ui/field"
 import {
   MultiSelect,
   MultiSelectContent,
@@ -25,7 +25,6 @@ import {
 } from "@/registry/bases/aria/ui/radio-group"
 import { Slider } from "@/registry/bases/aria/ui/slider"
 import { Switch } from "@/registry/bases/aria/ui/switch"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/aria/ui/tabs"
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -55,12 +54,31 @@ export function OnboardingChoiceCards({
       className="gap-(--density-12)"
     >
       {options.map((option) => (
-        <FieldLabel key={option.value} htmlFor={`${id}-${option.value}`}>
-          <Field orientation="horizontal">
-            <FieldContent>{option.content}</FieldContent>
-            <RadioGroupItem value={option.value} id={`${id}-${option.value}`} />
-          </Field>
-        </FieldLabel>
+        <RadioGroupItem
+          key={option.value}
+          value={option.value}
+          aria-labelledby={`${id}-${option.value}`}
+          render={({ className, children, ...labelProps }) => (
+            <label
+              {...labelProps}
+              data-slot="field-label"
+              className="cn-field-label cn-field-label-aria group/field-label peer/field-label flex w-full flex-col"
+            >
+              <Field orientation="horizontal">
+                <FieldContent id={`${id}-${option.value}`}>
+                  {option.content}
+                </FieldContent>
+                <span
+                  className={className}
+                  data-slot="radio-group-item"
+                  data-selected={value === option.value || undefined}
+                >
+                  {children}
+                </span>
+              </Field>
+            </label>
+          )}
+        />
       ))}
     </RadioGroup>
   )
@@ -81,21 +99,36 @@ export function OnboardingSwitchCard({
   children: React.ReactNode
 }) {
   return (
-    <FieldLabel htmlFor={id}>
-      <Field orientation="horizontal">
-        <FieldContent>{children}</FieldContent>
-        <Switch
-          id={id}
-          isSelected={checked}
-          isDisabled={isBusy}
-          onChange={onCheckedChange}
-        />
-      </Field>
-    </FieldLabel>
+    <Switch
+      id={id}
+      aria-labelledby={`${id}-label`}
+      isSelected={checked}
+      isDisabled={isBusy}
+      onChange={onCheckedChange}
+      render={({ className, children: control, ...labelProps }) => (
+        <label
+          {...labelProps}
+          data-slot="field-label"
+          className="cn-field-label cn-field-label-aria group/field-label peer/field-label flex w-full flex-col"
+        >
+          <Field orientation="horizontal">
+            <FieldContent id={`${id}-label`}>{children}</FieldContent>
+            <span
+              className={className}
+              data-slot="switch"
+              data-selected={checked || undefined}
+              data-disabled={isBusy || undefined}
+            >
+              {control}
+            </span>
+          </Field>
+        </label>
+      )}
+    />
   )
 }
 
-export function OnboardingLayoutTabs({
+export function OnboardingLayoutChoice({
   labelledBy,
   value,
   options,
@@ -107,20 +140,27 @@ export function OnboardingLayoutTabs({
   onValueChange: (layout: OnboardingLayout) => void
 }) {
   return (
-    <Tabs
-      selectedKey={value}
-      onSelectionChange={(next) => {
+    <ToggleGroup
+      aria-labelledby={labelledBy}
+      size="sm"
+      spacing={0}
+      className="w-full bg-foreground/[0.05]"
+      selectedKeys={[value]}
+      onSelectionChange={(selection) => {
+        const next = selection.values().next().value
         if (isOnboardingLayout(next)) onValueChange(next)
       }}
     >
-      <TabsList aria-labelledby={labelledBy} className="w-full">
-        {options.map((option) => (
-          <TabsTrigger key={option.value} id={option.value}>
-            {option.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+      {options.map((option) => (
+        <ToggleGroupItem
+          className="flex-1 font-normal text-foreground"
+          key={option.value}
+          id={option.value}
+        >
+          {option.label}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   )
 }
 

@@ -1661,6 +1661,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-variant",
       filePath: "examples/base/item-variant.tsx",
     },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/base/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/base/kanban-loader.tsx",
+    },
     "kbd-button": {
       name: "kbd-button",
       filePath: "examples/base/kbd-button.tsx",
@@ -4519,6 +4527,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-variant",
       filePath: "examples/aria/item-variant.tsx",
     },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/aria/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/aria/kanban-loader.tsx",
+    },
     "kbd-button": {
       name: "kbd-button",
       filePath: "examples/aria/kbd-button.tsx",
@@ -7340,6 +7356,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "item-variant": {
       name: "item-variant",
       filePath: "examples/radix/item-variant.tsx",
+    },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/radix/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/radix/kanban-loader.tsx",
     },
     "kbd-button": {
       name: "kbd-button",
@@ -10198,6 +10222,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-variant",
       filePath: "examples/__styles__/base-fabricator/item-variant.tsx",
     },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/__styles__/base-fabricator/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/__styles__/base-fabricator/kanban-loader.tsx",
+    },
     "kbd-button": {
       name: "kbd-button",
       filePath: "examples/__styles__/base-fabricator/kbd-button.tsx",
@@ -12865,6 +12897,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-variant",
       filePath: "examples/__styles__/aria-fabricator/item-variant.tsx",
     },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/__styles__/aria-fabricator/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/__styles__/aria-fabricator/kanban-loader.tsx",
+    },
     "kbd-button": {
       name: "kbd-button",
       filePath: "examples/__styles__/aria-fabricator/kbd-button.tsx",
@@ -15520,6 +15560,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "item-variant": {
       name: "item-variant",
       filePath: "examples/__styles__/radix-fabricator/item-variant.tsx",
+    },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/__styles__/radix-fabricator/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/__styles__/radix-fabricator/kanban-loader.tsx",
     },
     "kbd-button": {
       name: "kbd-button",

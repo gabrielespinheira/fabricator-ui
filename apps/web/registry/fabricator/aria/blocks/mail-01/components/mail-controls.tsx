@@ -43,7 +43,12 @@ import {
   MultiSelectTrigger,
   MultiSelectValue,
 } from "@/registry/bases/aria/ui/multi-select"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/aria/ui/tabs"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/bases/aria/ui/tabs"
 import { Tooltip, TooltipTrigger } from "@/registry/bases/aria/ui/tooltip"
 
 // The mail block's controls whose API differs between Base UI, Radix and
@@ -156,11 +161,11 @@ function isMailFilter(value: unknown): value is MailFilter {
 export function MailFilterTabs({
   value,
   onValueChange,
-  className,
+  children,
 }: {
   value: MailFilter
   onValueChange: (filter: MailFilter) => void
-  className?: string
+  children: React.ReactNode
 }) {
   return (
     <Tabs
@@ -168,16 +173,39 @@ export function MailFilterTabs({
       onSelectionChange={(next) => {
         if (isMailFilter(next)) onValueChange(next)
       }}
-      className={className}
+      className="min-h-0 flex-1 gap-0"
     >
-      <TabsList aria-label="Show">
-        {FILTERS.map((filter) => (
-          <TabsTrigger key={filter.value} id={filter.value}>
-            {filter.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      {children}
     </Tabs>
+  )
+}
+
+export function MailFilterList() {
+  return (
+    <TabsList aria-label="Show">
+      {FILTERS.map((filter) => (
+        <TabsTrigger key={filter.value} id={filter.value}>
+          {filter.label}
+        </TabsTrigger>
+      ))}
+    </TabsList>
+  )
+}
+
+export function MailFilterPanel({
+  value,
+  children,
+}: {
+  value: MailFilter
+  children: React.ReactNode
+}) {
+  return (
+    <TabsContent
+      id={value}
+      className="flex min-h-0 flex-col focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset"
+    >
+      {children}
+    </TabsContent>
   )
 }
 

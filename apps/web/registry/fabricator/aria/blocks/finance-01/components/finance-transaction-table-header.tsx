@@ -5,6 +5,12 @@ export function FinanceTransactionTableHeader() {
     <TableHeader>
       <TableHead isRowHeader>Payee</TableHead>
       <TableHead className="hidden @lg/transactions:table-cell">Date</TableHead>
+      <TableHead className="hidden @2xl/transactions:table-cell">
+        Account
+      </TableHead>
+      <TableHead className="hidden @3xl/transactions:table-cell">
+        Category
+      </TableHead>
       <TableHead className="hidden @sm/transactions:table-cell">
         Status
       </TableHead>

@@ -30,8 +30,6 @@ type CalendarAppChipState = {
   /** The event open in the panel: drawn as the calendar draws its own. */
   selectedId: string | undefined
   responses: CalendarAppResponses
-  /** What the event being created overlaps. */
-  draftConflict: string | undefined
   /** A phone's month has no room for words: each event is a bar. */
   isBars: boolean
   /**
@@ -49,7 +47,6 @@ type CalendarAppChipState = {
 const CalendarAppChipContext = React.createContext<CalendarAppChipState>({
   selectedId: undefined,
   responses: {},
-  draftConflict: undefined,
   isBars: false,
   firstDay: undefined,
   buffer: 0,
@@ -66,7 +63,6 @@ export function CalendarAppChipProvider({
   const {
     selectedId,
     responses,
-    draftConflict,
     isBars,
     firstDay,
     buffer,
@@ -80,7 +76,6 @@ export function CalendarAppChipProvider({
     () => ({
       selectedId,
       responses,
-      draftConflict,
       isBars,
       firstDay,
       buffer,
@@ -91,7 +86,6 @@ export function CalendarAppChipProvider({
     }),
     [
       buffer,
-      draftConflict,
       firstDay,
       hourCycle,
       isBars,
@@ -151,7 +145,6 @@ function CalendarAppEventChip(
   const {
     selectedId,
     responses,
-    draftConflict,
     isBars,
     firstDay,
     buffer,
@@ -248,9 +241,6 @@ function CalendarAppEventChip(
     )
   }
 
-  const detail = isDraft
-    ? draftConflict && `Overlaps ${draftConflict}`
-    : event.location
   return (
     <EventCalendarEvent
       {...chip}
@@ -284,14 +274,9 @@ function CalendarAppEventChip(
               {timeText}
             </span>
           </span>
-          {detail ? (
-            <span
-              className={cn(
-                "w-full truncate font-normal",
-                !isDraft && "hidden @min-[8rem]:block"
-              )}
-            >
-              {detail}
+          {!isDraft && event.location ? (
+            <span className="hidden w-full truncate font-normal @min-[8rem]:block">
+              {event.location}
             </span>
           ) : null}
         </>

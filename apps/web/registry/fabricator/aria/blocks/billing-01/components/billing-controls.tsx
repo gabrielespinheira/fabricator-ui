@@ -50,7 +50,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/registry/bases/aria/ui/dropdown-menu"
-import { Field, FieldContent, FieldLabel } from "@/registry/bases/aria/ui/field"
+import { Field, FieldContent } from "@/registry/bases/aria/ui/field"
 import {
   NumberField,
   NumberFieldDecrement,
@@ -78,7 +78,10 @@ import {
   SheetTitle,
 } from "@/registry/bases/aria/ui/sheet"
 import { TableHead, TableHeader } from "@/registry/bases/aria/ui/table"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/aria/ui/tabs"
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/registry/bases/aria/ui/toggle-group"
 import { Tooltip, TooltipTrigger } from "@/registry/bases/aria/ui/tooltip"
 
 // The billing block's controls whose API differs between Base UI, Radix and
@@ -109,7 +112,7 @@ export function BillingIconButton({
   )
 }
 
-export function BillingIntervalTabs({
+export function BillingIntervalChoice({
   value,
   onValueChange,
 }: {
@@ -117,25 +120,32 @@ export function BillingIntervalTabs({
   onValueChange: (interval: BillingInterval) => void
 }) {
   return (
-    <Tabs
-      selectedKey={value}
-      onSelectionChange={(next) => {
+    <ToggleGroup
+      aria-label="Billed"
+      size="sm"
+      spacing={0}
+      className="bg-foreground/[0.05]"
+      selectedKeys={[value]}
+      onSelectionChange={(selection) => {
+        const next = selection.values().next().value
         if (isBillingInterval(next)) onValueChange(next)
       }}
     >
-      <TabsList aria-label="Billed">
-        {BILLING_INTERVALS.map((interval) => (
-          <TabsTrigger key={interval.value} id={interval.value}>
-            {interval.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+      {BILLING_INTERVALS.map((interval) => (
+        <ToggleGroupItem
+          className="flex-1 font-normal text-foreground"
+          key={interval.value}
+          id={interval.value}
+        >
+          {interval.label}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   )
 }
 
 /** What happens to automations at the limit. */
-export function BillingExtraRunsTabs({
+export function BillingExtraRunsChoice({
   labelledBy,
   value,
   onValueChange,
@@ -145,21 +155,35 @@ export function BillingExtraRunsTabs({
   onValueChange: (extraRuns: BillingExtraRuns) => void
 }) {
   return (
-    <Tabs
-      selectedKey={value}
-      onSelectionChange={(next) => {
+    <ToggleGroup
+      aria-labelledby={labelledBy}
+      size="sm"
+      spacing={0}
+      className="w-full bg-foreground/[0.05]"
+      selectedKeys={[value]}
+      onSelectionChange={(selection) => {
+        const next = selection.values().next().value
         if (isBillingExtraRuns(next)) onValueChange(next)
       }}
     >
-      <TabsList aria-labelledby={labelledBy} className="w-full">
-        <TabsTrigger id="continue">Keep running</TabsTrigger>
-        <TabsTrigger id="pause">Pause</TabsTrigger>
-      </TabsList>
-    </Tabs>
+      <ToggleGroupItem
+        className="flex-1 font-normal text-foreground"
+        id="continue"
+      >
+        Keep running
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        className="flex-1 font-normal text-foreground"
+        id="pause"
+      >
+        Pause
+      </ToggleGroupItem>
+    </ToggleGroup>
   )
 }
 
 export function BillingSeatsField({
+  id,
   labelledBy,
   describedBy,
   value,
@@ -167,6 +191,7 @@ export function BillingSeatsField({
   max,
   onValueChange,
 }: {
+  id: string
   labelledBy: string
   describedBy?: string
   value: number
@@ -185,7 +210,7 @@ export function BillingSeatsField({
     >
       <NumberFieldGroup>
         <NumberFieldDecrement aria-label="Fewer seats" />
-        <NumberFieldInput />
+        <NumberFieldInput id={id} />
         <NumberFieldIncrement aria-label="More seats" />
       </NumberFieldGroup>
     </NumberField>
@@ -248,12 +273,31 @@ export function BillingChoiceCards({
       className={className}
     >
       {options.map((option) => (
-        <FieldLabel key={option.value} htmlFor={`${id}-${option.value}`}>
-          <Field orientation="horizontal" className="h-full">
-            <FieldContent>{option.content}</FieldContent>
-            <RadioGroupItem value={option.value} id={`${id}-${option.value}`} />
-          </Field>
-        </FieldLabel>
+        <RadioGroupItem
+          key={option.value}
+          value={option.value}
+          aria-labelledby={`${id}-${option.value}`}
+          render={({ className, children, ...labelProps }) => (
+            <label
+              {...labelProps}
+              data-slot="field-label"
+              className="cn-field-label cn-field-label-aria group/field-label peer/field-label flex w-full flex-col"
+            >
+              <Field orientation="horizontal" className="h-full">
+                <FieldContent id={`${id}-${option.value}`}>
+                  {option.content}
+                </FieldContent>
+                <span
+                  className={className}
+                  data-slot="radio-group-item"
+                  data-selected={value === option.value || undefined}
+                >
+                  {children}
+                </span>
+              </Field>
+            </label>
+          )}
+        />
       ))}
     </RadioGroup>
   )

@@ -22,9 +22,11 @@
     "registry:native": "bun ./scripts/build-native-registry.mts",
     "native:parity": "bun ./scripts/check-native-parity.mts",
     "native:docs": "bun ./scripts/build-native-docs.mts",
+    "blocks:capture": "bun ./scripts/capture-blocks.mts",
     "registry:capture": "bun --conditions=react-server ./scripts/capture-registry.mts",
     "test": "vitest run",
     "postinstall": "fumadocs-mdx",
+    "blocks:check": "bun ./scripts/check-blocks.mts",
     "pages:capture": "bun ./scripts/capture-pages.mts"
   },
   "dependencies": {

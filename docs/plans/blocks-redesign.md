@@ -49,7 +49,7 @@ Each block is done when these hold, on top of the guide's [review checklist](../
 3. **The job gets the room.** Content that is read or worked takes the main column and grows with the window; lists and details are panels.
 4. **Emphasis budget.** One filled button. Status colour only on what needs someone; normal states are plain or outline.
 5. **Quiet until needed.** Row actions, checkboxes and stars appear on hover, focus or selection, and stay reachable on touch.
-6. **One world.** Ada Lovelace (ada@acme.com) at Acme Inc is signed in everywhere, with the same colleagues and avatars. One injected "now" per block, so "Today" means the same thing in all of them.
+6. **One world.** Ada Lovelace (ada@acme.com) at Acme Inc is signed in everywhere, with the same colleagues and avatars, on Tuesday 24 November 2026 (`SAMPLE_NOW`). Calendar alone follows the real date.
 7. **Every state is reachable in the demo:** loading, empty, error, long names.
 8. **Phone is its own layout,** with a back path, 44px targets and nothing truncated that identifies a thing.
 
@@ -98,7 +98,7 @@ Job: someone catches up on conversations and answers.
 
 - Signature: the transcript. B1 restores the rail.
 - On phones the covered conversation is inert, so keyboard and screen readers stay on the list.
-- **Bubbles:** mine `default` (primary), theirs `muted`. Corners join inside a group and one time closes it. Group chats show the sender's avatar and name once.
+- **Bubbles:** mine `tinted`, theirs `muted`, so the heaviest grey goes (`default` is a 6% grey, not the primary). Corners join inside a group and one time closes it. Group chats show the sender's avatar and name once.
 - **List:** unread names are medium weight with a primary count; presence dots are 10px, ringed in the surface under them (hover and selection included); the new-message button ends on the search field's edge; the phone list sits on the page surface, as on desktop.
 - **Details:** presence once, media in a three-column grid with enough photos to fill it, shared files as `Item`s, Mute as a switch row, Block and Report last in the header's menu instead of a red button.
 - A new-messages `Marker`, a typing indicator and a failed message with Retry.
@@ -130,9 +130,9 @@ Sidebar | Inbox                  [Compose] | (archive)(trash)(unread)(snooze) ..
 Job: someone sees their week and prepares for what is next.
 
 - Signature: the week, and the next event waiting beside it.
-- **One header row** in `AppShellHeader`: the period as the title (the `h1`), Today, previous and next, Day / Week / Month / Agenda as `Tabs`, Create event. The mini month keeps the only other month name. `EventCalendar`'s parts already allow this.
+- **One header row** in `AppShellHeader`: the period as the title (the `h1`), Today, previous and next, a segmented Day / Week / Month / Agenda selector, and Create event. The mini month keeps the only other month name.
 - B3: events stand side by side. Short events keep the title and drop the time.
-- **Event panel:** title and time, Join as the panel's one filled button, place, guests with their answers, notes, reminder, RSVP `Tabs` at the foot, Edit and Delete in its menu. Every sample event has this data. With nothing selected it shows the next event.
+- **Event panel:** title and time, Join as the panel's one filled button, place, guests with their answers, notes, reminder, and a segmented RSVP choice at the foot. Edit and Delete live in its menu. With nothing selected it shows the next event.
 - **Sidebar:** rows at control height, an "Up next" item ("Standup in 12 min"), Add calendar.
 - Weekends and out-of-hours share one lighter wash. The first hour label isn't clipped.
 - **Phone:** Day view with a week strip, one toolbar row, settings in the page menu, titles that wrap.
@@ -155,7 +155,7 @@ B1 and B2 only. Real content in place of their grey boxes is out of scope.
 - **`/blocks` becomes a gallery:** two columns of captured previews (light and dark), filters by category in `Tabs`, no iframes. Order: Dashboards, Chat, Email, Calendar, Authentication.
 - **`/blocks/<name>`:** the live viewer at full width, the command, the code, the components used (linked to their docs) and the states included. Own title, OG image and sitemap entry. Old `#name` links redirect on the client.
 - **Skeletons:** one block per region (sidebar, main, panel; one for an auth form).
-- **Captures** reuse `registry:capture`, cropped to the first fold, with dimensions declared.
+- **Captures** use `blocks:capture` at 1280 × 720. The gallery loads the matching theme and sets the image dimensions.
 - **Homepage:** same tabs; the frame shows each block's first fold at 1280 × 720.
 
 ## Decisions
@@ -186,7 +186,7 @@ Each phase is a pull request that can ship alone. Registry work lands in base, r
 - **B1. Fixed 24 November, uncommitted.** `AppNav` on Base and the tab bar on Base and Radix empty the link before filling it, which also covers rail menus. The same commit had dropped the tab bar's icons on Base and doubled its labels on Radix. Test: `app-nav-links.test.tsx`. Left: run the generated-project Biome check on it.
 - **B2.** Labels hide only when every view has an icon.
 - **B3.** `slotEventOverlap: false` in the engine; check drag, resize and `eventMaxStack`.
-- Native, SwiftUI and Compose: check each fix against the owning renderer and update it or its dated exception (contracts 9 and 10).
+- Check the React Native component fixes against the owning renderer and update it or its dated exception (contract 9). SwiftUI and Kotlin Compose are outside the redesign scope.
 
 ### Review and the block check
 
@@ -197,6 +197,13 @@ The block check automates the part that needs no eye. Add it beside `registry:ca
 ### Tests
 
 TDD for `lib/` models and behaviour (approve with Undo, collapsed steps, mail selection and reply, RSVP, OTP submit). Not for layout or copy.
+
+### Verification on 25 November 2026
+
+- All 17 blocks passed the Base UI phone audit at 390px in both themes. Finance, Mail, Assistant, Messenger, Calendar, Settings, Members, Billing, and Onboarding passed the desktop audit at 1440px across Base UI, Radix, and React Aria.
+- The gallery and Finance detail passed axe at 390, 834, 1440, and 1920px in both themes. The old-link redirects, detail viewer controls, and homepage preview switching were exercised in the running site.
+- Local install dry-runs resolved all 17 blocks on all three bases. The full registry build and strict React Native parity check passed.
+- The remaining viewport matrix and final thumbnail refresh depend on the shared dev server. It currently returns HTTP 500 because the Properties demo imports files missing from its registry declaration. The same change and the Kanban controller errors prevent a green root check.
 
 ## Risks
 
@@ -210,8 +217,8 @@ TDD for `lib/` models and behaviour (approve with Undo, collapsed steps, mail se
 
 - [ ] Every row in B1 to B5 and G1 to G11 is closed, with before and after screenshots in the pull request.
 - [ ] The rules for every block hold at 390, 834, 1280, 1440 and 1920px, light and dark, keyboard only, on base, radix and aria.
-- [ ] The block check passes for all 13 blocks, and the judge leaves no Broken or Weak finding in the eight redesigned ones.
-- [ ] `/blocks` loads no iframes; each `/blocks/<name>` loads one.
-- [ ] `bun run registry:build`, `bun run check`, `bun run test` and `native:parity --strict` pass.
-- [ ] `add --dry-run` of each block succeeds for each base.
-- [ ] `unreleased.mdx`, `WEBSITE.md`, `DESIGN.md`, the skill's recipes and `blocks.md` are updated.
+- [ ] The block check passes for all 17 blocks, including the five App Shell starters, and the judge leaves no Broken or Weak finding in the eight redesigned ones.
+- [x] `/blocks` loads no iframes and each `/blocks/<name>` loads one.
+- [ ] Fabricator style and registry builds pass for Base UI, Radix and React Aria. `bun run check`, `bun run test` and `native:parity --strict` pass.
+- [x] `add --dry-run` of each block succeeds for each base.
+- [x] `unreleased.mdx`, `WEBSITE.md`, `DESIGN.md`, the skill's recipes and `blocks.md` are updated.

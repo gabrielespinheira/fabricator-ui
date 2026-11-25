@@ -44,7 +44,12 @@ import {
   MultiSelectTrigger,
   MultiSelectValue,
 } from "@/registry/bases/base/ui/multi-select"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/base/ui/tabs"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/bases/base/ui/tabs"
 import { toast } from "@/registry/bases/base/ui/toast"
 import {
   Tooltip,
@@ -166,11 +171,11 @@ function isMailFilter(value: unknown): value is MailFilter {
 export function MailFilterTabs({
   value,
   onValueChange,
-  className,
+  children,
 }: {
   value: MailFilter
   onValueChange: (filter: MailFilter) => void
-  className?: string
+  children: React.ReactNode
 }) {
   return (
     <Tabs
@@ -178,16 +183,39 @@ export function MailFilterTabs({
       onValueChange={(next) => {
         if (isMailFilter(next)) onValueChange(next)
       }}
-      className={className}
+      className="min-h-0 flex-1 gap-0"
     >
-      <TabsList aria-label="Show">
-        {FILTERS.map((filter) => (
-          <TabsTrigger key={filter.value} value={filter.value}>
-            {filter.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      {children}
     </Tabs>
+  )
+}
+
+export function MailFilterList() {
+  return (
+    <TabsList aria-label="Show">
+      {FILTERS.map((filter) => (
+        <TabsTrigger key={filter.value} value={filter.value}>
+          {filter.label}
+        </TabsTrigger>
+      ))}
+    </TabsList>
+  )
+}
+
+export function MailFilterPanel({
+  value,
+  children,
+}: {
+  value: MailFilter
+  children: React.ReactNode
+}) {
+  return (
+    <TabsContent
+      value={value}
+      className="flex min-h-0 flex-col focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset"
+    >
+      {children}
+    </TabsContent>
   )
 }
 

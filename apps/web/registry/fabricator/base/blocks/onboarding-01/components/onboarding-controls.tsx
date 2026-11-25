@@ -24,7 +24,6 @@ import {
 } from "@/registry/bases/base/ui/radio-group"
 import { Slider } from "@/registry/bases/base/ui/slider"
 import { Switch } from "@/registry/bases/base/ui/switch"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/base/ui/tabs"
 import { toast } from "@/registry/bases/base/ui/toast"
 import {
   ToggleGroup,
@@ -59,8 +58,14 @@ export function OnboardingChoiceCards({
       {options.map((option) => (
         <FieldLabel key={option.value} htmlFor={`${id}-${option.value}`}>
           <Field orientation="horizontal">
-            <FieldContent>{option.content}</FieldContent>
-            <RadioGroupItem value={option.value} id={`${id}-${option.value}`} />
+            <FieldContent id={`${id}-${option.value}-label`}>
+              {option.content}
+            </FieldContent>
+            <RadioGroupItem
+              value={option.value}
+              id={`${id}-${option.value}`}
+              aria-labelledby={`${id}-${option.value}-label`}
+            />
           </Field>
         </FieldLabel>
       ))}
@@ -97,7 +102,7 @@ export function OnboardingSwitchCard({
   )
 }
 
-export function OnboardingLayoutTabs({
+export function OnboardingLayoutChoice({
   labelledBy,
   value,
   options,
@@ -109,20 +114,26 @@ export function OnboardingLayoutTabs({
   onValueChange: (layout: OnboardingLayout) => void
 }) {
   return (
-    <Tabs
-      value={value}
-      onValueChange={(next: unknown) => {
+    <ToggleGroup
+      aria-labelledby={labelledBy}
+      size="sm"
+      spacing={0}
+      className="w-full bg-foreground/[0.05]"
+      value={[value]}
+      onValueChange={([next]) => {
         if (isOnboardingLayout(next)) onValueChange(next)
       }}
     >
-      <TabsList aria-labelledby={labelledBy} className="w-full">
-        {options.map((option) => (
-          <TabsTrigger key={option.value} value={option.value}>
-            {option.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+      {options.map((option) => (
+        <ToggleGroupItem
+          className="flex-1 font-normal text-foreground"
+          key={option.value}
+          value={option.value}
+        >
+          {option.label}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   )
 }
 

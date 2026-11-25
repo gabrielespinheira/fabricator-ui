@@ -53,8 +53,11 @@ import {
 import { Slider } from "@/registry/bases/base/ui/slider"
 import { Spinner } from "@/registry/bases/base/ui/spinner"
 import { Switch } from "@/registry/bases/base/ui/switch"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/base/ui/tabs"
 import { toast } from "@/registry/bases/base/ui/toast"
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/registry/bases/base/ui/toggle-group"
 
 // The settings page's controls whose API differs between Base UI, Radix and
 // React Aria. This is Base UI's; the rest of the block is shared.
@@ -146,7 +149,7 @@ export function SettingsSwitch({
 }
 
 /** One of two to four short choices, every label in view. */
-export function SettingsTabs<Value extends string>({
+export function SettingsChoice<Value extends string>({
   label,
   value,
   options,
@@ -158,21 +161,27 @@ export function SettingsTabs<Value extends string>({
   onValueChange: (value: Value) => void
 }) {
   return (
-    <Tabs
-      value={value}
-      onValueChange={(next) => {
+    <ToggleGroup
+      aria-label={label}
+      size="sm"
+      spacing={0}
+      className="w-full bg-foreground/[0.05]"
+      value={[value]}
+      onValueChange={([next]) => {
         const option = options.find((candidate) => candidate.value === next)
         if (option) onValueChange(option.value)
       }}
     >
-      <TabsList aria-label={label} className="w-full">
-        {options.map((option) => (
-          <TabsTrigger key={option.value} value={option.value}>
-            {option.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+      {options.map((option) => (
+        <ToggleGroupItem
+          className="flex-1 font-normal text-foreground"
+          key={option.value}
+          value={option.value}
+        >
+          {option.label}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   )
 }
 
@@ -337,7 +346,7 @@ export function SettingsDomains({
     >
       <MultiSelectTrigger
         aria-invalid={isInvalid || undefined}
-        className="[&_[data-slot=multi-select-icon]]:hidden"
+        className="[&_[data-slot=multi-select-chip-remove]]:min-h-6 [&_[data-slot=multi-select-chip-remove]]:min-w-6 [&_[data-slot=multi-select-icon]]:hidden"
         {...getEntryHandlers(draft, onAdd)}
       >
         <MultiSelectValue />

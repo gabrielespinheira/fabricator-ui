@@ -229,7 +229,7 @@ function Messenger() {
       >
         <AppShellPanelHeader className="gap-(--density-4) ps-(--density-8)">
           <SidebarTrigger />
-          <AppShellPanelTitle>
+          <AppShellPanelTitle role="heading" aria-level={isAway ? 1 : 2}>
             {isPickingPerson ? "New message" : "Messages"}
           </AppShellPanelTitle>
           <MessengerIconButton

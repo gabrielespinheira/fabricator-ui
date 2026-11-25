@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { FINANCE_USER } from "@/registry/bases/__base__/blocks/finance-01/lib/finance-data"
 import { AppNav, type AppNavGroup } from "@/registry/bases/__base__/ui/app-nav"
+import { useAppShell } from "@/registry/bases/__base__/ui/app-shell"
 import {
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -15,6 +16,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from "@/registry/bases/__base__/ui/sidebar"
 import { UserMenu } from "@/registry/bases/__base__/ui/user-menu"
 import { WorkspaceSwitcher } from "@/registry/bases/__base__/ui/workspace-switcher"
@@ -154,6 +156,12 @@ const GROUPS: AppNavGroup[] = [
 /** The company switcher, the banking navigation and the person's menu. */
 export function FinanceSidebar() {
   const [company, setCompany] = React.useState("acme")
+  const { size } = useAppShell()
+  const { setOpen } = useSidebar()
+
+  React.useEffect(() => {
+    if (size === "tablet") setOpen(false)
+  }, [size, setOpen])
 
   return (
     <Sidebar variant="inset" collapsible="icon">

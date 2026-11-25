@@ -3,8 +3,8 @@
 import * as React from "react"
 
 import {
+  CalendarAppChoice,
   CalendarAppDateButton,
-  CalendarAppTabs,
   CalendarAppViewOptions,
 } from "@/registry/bases/__base__/blocks/calendar-app-01/components/calendar-app-controls"
 import { CALENDAR_APP_EVENT_PANEL } from "@/registry/bases/__base__/blocks/calendar-app-01/components/calendar-app-event-panel"
@@ -90,7 +90,7 @@ export function CalendarAppHeader({
             className="me-auto density-compact"
           />
         )}
-        <CalendarAppTabs
+        <CalendarAppChoice
           label="View"
           options={calendar.views.map((view) => ({
             value: view,

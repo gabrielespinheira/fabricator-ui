@@ -123,7 +123,7 @@ export function AssistantArtifactPanel({
   return (
     <AppShellPanel
       id={ASSISTANT_ARTIFACT_PANEL}
-      label="Artifact"
+      label={artifact.title}
       defaultOpen
       defaultWidth={400}
       minWidth={340}

@@ -31,7 +31,7 @@ const CHROME_PATHS = [
 const THEMES = ["light", "dark"] as const
 const VIEWPORT = { width: 1280, height: 720, deviceScaleFactor: 2 }
 const MAX_BYTES = 90 * 1024
-const QUALITIES = [88, 82, 76, 70, 64, 58, 52, 46, 40]
+const QUALITIES = [88, 82, 76, 70, 64, 58, 52, 46, 40, 34, 28]
 // The dev server may have the block to compile first.
 const NAVIGATION_TIMEOUT_MS = 120_000
 const SETTLE_INTERVAL_MS = 500
@@ -84,26 +84,32 @@ async function waitUntilStill(page: Page) {
 
 /** The best quality that stays under the size limit. */
 async function takeScreenshot(page: Page) {
-  let picture: Uint8Array = new Uint8Array()
   for (const quality of QUALITIES) {
-    picture = await page.screenshot({ type: "webp", quality })
+    const picture = await page.screenshot({ type: "webp", quality })
     if (picture.byteLength <= MAX_BYTES) return { picture, quality }
   }
-  return { picture, quality: QUALITIES.at(-1) }
+  throw new CaptureError(`Screenshot exceeds ${MAX_BYTES / 1024}KB`)
 }
 
 async function captureBlock(page: Page, name: string) {
   for (const theme of THEMES) {
-    await page.evaluateOnNewDocument((current) => {
+    const { identifier } = await page.evaluateOnNewDocument((current) => {
       localStorage.setItem("theme", current)
     }, theme)
     const response = await page.goto(
       `${BASE_URL}/view/${SITE_BLOCK_STYLE}/${name}`,
-      { waitUntil: "networkidle2", timeout: NAVIGATION_TIMEOUT_MS }
+      { waitUntil: "domcontentloaded", timeout: NAVIGATION_TIMEOUT_MS }
     )
+    await page.removeScriptToEvaluateOnNewDocument(identifier)
     if (!response?.ok()) {
       throw new CaptureError(`${name} returned ${response?.status()}`)
     }
+    await page.waitForSelector(
+      "html[data-preview-ready] [data-slot='view-preview'] h1",
+      {
+        timeout: NAVIGATION_TIMEOUT_MS,
+      }
+    )
     // Development chrome, and a caret that would blink.
     await page.addStyleTag({
       content:
@@ -120,9 +126,6 @@ async function captureBlock(page: Page, name: string) {
       `- ${name} (${theme}): ${size} at quality ${quality}` +
         (isStill ? "" : ", still moving")
     )
-    if (picture.byteLength > MAX_BYTES) {
-      console.warn(`  over ${MAX_BYTES / 1024}KB at the lowest quality`)
-    }
   }
 }
 

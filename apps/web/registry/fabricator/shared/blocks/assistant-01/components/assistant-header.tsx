@@ -21,13 +21,13 @@ import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 export function AssistantHeader({
   title,
-  hasArtifact,
+  artifactTitle,
   menu,
   onNewChat,
 }: {
   /** Null on a new chat, whose greeting is the heading. */
   title: string | null
-  hasArtifact: boolean
+  artifactTitle?: string
   menu: AssistantChatMenuProps
   onNewChat: () => void
 }) {
@@ -58,7 +58,17 @@ export function AssistantHeader({
           </AssistantIconButton>
         )}
       </div>
-      {hasArtifact && <AppShellPanelTrigger panel={ASSISTANT_ARTIFACT_PANEL} />}
+      {artifactTitle && (
+        <AppShellPanelTrigger panel={ASSISTANT_ARTIFACT_PANEL}>
+          <IconPlaceholder
+            lucide="ChartColumnIcon"
+            tabler="IconChartBar"
+            hugeicons="ChartColumnIcon"
+            phosphor="ChartBarIcon"
+            remixicon="RiBarChartLine"
+          />
+        </AppShellPanelTrigger>
+      )}
     </AppShellHeader>
   )
 }

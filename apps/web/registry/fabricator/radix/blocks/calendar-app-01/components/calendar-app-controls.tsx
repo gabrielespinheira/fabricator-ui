@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { cn } from "cn"
 
 import { Button } from "@/registry/bases/radix/ui/button"
 import {
@@ -21,18 +22,21 @@ import {
   PopoverTrigger,
 } from "@/registry/bases/radix/ui/popover"
 import { SidebarMenuButton } from "@/registry/bases/radix/ui/sidebar"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/radix/ui/tabs"
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/registry/bases/radix/ui/toggle-group"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // The calendar app's controls whose API differs between Base UI, Radix and
-// React Aria: tabs, menus with their triggers and the date picker. This is
+// React Aria: choices, menus with their triggers and the date picker. This is
 // Radix; the rest of the block is shared.
 
 /**
  * One of a few short values: the view, your answer. `value` is undefined
  * until something is picked.
  */
-export function CalendarAppTabs<TValue extends string>({
+export function CalendarAppChoice<TValue extends string>({
   label,
   options,
   value,
@@ -46,23 +50,28 @@ export function CalendarAppTabs<TValue extends string>({
   className?: string
 }) {
   return (
-    <Tabs
+    <ToggleGroup
+      aria-label={label}
+      size="sm"
+      spacing={0}
+      type="single"
       value={value ?? ""}
-      activationMode="manual"
-      onValueChange={(next: unknown) => {
+      onValueChange={(next) => {
         const option = options.find((item) => item.value === next)
         if (option) onValueChange(option.value)
       }}
-      className={className}
+      className={cn("rounded-lg bg-foreground/[0.05]", className)}
     >
-      <TabsList aria-label={label} className="w-full">
-        {options.map((option) => (
-          <TabsTrigger key={option.value} value={option.value}>
-            {option.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+      {options.map((option) => (
+        <ToggleGroupItem
+          key={option.value}
+          value={option.value}
+          className="min-w-0 flex-1 font-normal text-foreground"
+        >
+          {option.label}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   )
 }
 

@@ -42,9 +42,11 @@ Site chrome lives in new files so upstream merges stay small:
 
 `/blocks/<name>` (`[name]/page.tsx`) holds one block: its command, which copies in the reader's package manager, a viewer, the components it uses that have a docs page (from its `registryDependencies`), and the blocks before and after. The viewer's Preview renders `/view/base-fabricator/<name>` in the page's only frame, inside `BrowserWindow` (`components/fabricator/browser-window.tsx`: window controls, the block's route as `acme.com/<route>` from its page's install target, a new-tab link, and a reload button that remounts the frame). Desktop is the window's width, drawn at 1280px and scaled down on a narrower screen; tablet and phone are real widths. Code shows each file at the path the CLI writes it, formatted and highlighted on the server (`_lib/block-files.ts`). The sitemap lists every block's page.
 
-Pictures are `public/blocks/<name>-<theme>.webp`: the first fold at 1280 by 720, twice the resolution, under 90KB each, committed because the site ships them. With the dev server running, `bun run --cwd apps/web blocks:capture` takes them all, and `blocks:capture <name>` only the ones named; it waits for fonts, photos and charts, and fails on a block that doesn't render. Capture a block again whenever its first fold changes.
+Pictures are `public/blocks/<name>-<theme>.webp`: the first fold at 1280 by 720, twice the resolution, at most 90 KiB each. With the dev server running, `bun run --cwd apps/web blocks:capture` takes them all, and `blocks:capture <name>` captures the named block. It waits for the preview to hydrate and the assets to settle before saving. Capture a block again whenever its first fold changes.
 
-A new block needs its declaration, a category in `BLOCK_CATEGORIES`, a summary and its pictures.
+Run `bun run --cwd apps/web blocks:check` for the browser and accessibility checks across all three web bases. Pass a block name, `--base` or `--width` to focus on a specific preview.
+
+A new block needs its declaration, a category in `BLOCK_CATEGORIES`, a summary and its pictures. Import both pictures in `_lib/block-previews.ts` so the image cache uses a new URL when a picture changes.
 
 The homepage hero links to `/blocks` and shows six blocks in the tab row inside one `BrowserWindow` (`_components/blocks-showcase.tsx`). Switching tabs updates the address and the link to the block's page. Only the selected tab mounts its frame, a 16:9 box that renders the block at 1280px and scales it to the column, so the first fold at 1280 by 720 shows whole; phones show the block's phone layout.
 

@@ -456,6 +456,68 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "record-properties-model",
+    type: "registry:lib",
+    title: "Record Properties Model",
+    description: "Shared field formatting, filtering and comparison.",
+
+    files: [
+      { path: "lib/data-table-model.ts", type: "registry:lib" },
+      { path: "lib/property-model.ts", type: "registry:lib" },
+    ],
+  },
+  {
+    name: "properties",
+    type: "registry:ui",
+    title: "Properties",
+    description: "Typed fields, value editors and property definitions.",
+
+    registryDependencies: ["record-properties-model", "button", "input"],
+    files: [{ path: "ui/properties.tsx", type: "registry:ui" }],
+    meta: { fabricator: true },
+  },
+  {
+    name: "record-view",
+    type: "registry:ui",
+    title: "Record View",
+    description:
+      "One record in a side panel, center dialog or full-page surface.",
+
+    registryDependencies: ["button", "density", "dialog", "skeleton"],
+    files: [
+      { path: "ui/record-view.tsx", type: "registry:ui" },
+      { path: "components/record-view-parts.tsx", type: "registry:component" },
+      { path: "lib/record-view-model.ts", type: "registry:lib" },
+    ],
+    meta: { fabricator: true },
+  },
+  {
+    name: "kanban",
+    type: "registry:ui",
+    title: "Kanban",
+    description:
+      "Composable board with card drag and drop, lanes, typed properties, search and cursor pagination.",
+    dependencies: ["@tanstack/react-virtual@3.14.26"],
+    registryDependencies: [
+      "record-properties-model",
+      "sortable",
+      "button",
+      "input",
+      "skeleton",
+    ],
+    files: [
+      { path: "ui/kanban.tsx", type: "registry:ui" },
+      { path: "components/kanban-card.tsx", type: "registry:component" },
+      { path: "components/kanban-column.tsx", type: "registry:component" },
+      { path: "components/kanban-drag.tsx", type: "registry:component" },
+      { path: "components/kanban-settings.tsx", type: "registry:component" },
+      { path: "hooks/use-kanban.ts", type: "registry:hook" },
+      { path: "hooks/use-kanban-pages.ts", type: "registry:hook" },
+      { path: "lib/kanban-model.ts", type: "registry:lib" },
+    ],
+    meta: { fabricator: true },
+  },
+  {
     name: "event-calendar",
     type: "registry:ui",
     title: "Event Calendar",
@@ -501,6 +563,7 @@ export const fabricatorItems = [
       { path: "lib/event-calendar-model.ts", type: "registry:lib" },
       { path: "lib/event-calendar-recurrence.ts", type: "registry:lib" },
       { path: "lib/event-calendar-loader.ts", type: "registry:lib" },
+      { path: "lib/palette-model.ts", type: "registry:lib" },
     ],
     categories: ["data", "calendar"],
     meta: {

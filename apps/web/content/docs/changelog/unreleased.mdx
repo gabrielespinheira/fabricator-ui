@@ -33,6 +33,8 @@ These changes are merged and ship in the next version.
 
 ## Components
 
+**Drawer and Sheet widths.** Top and bottom panels are centered and capped at 36rem on wider screens. They keep their full width on phones.
+
 **Theme tabs in the User Menu.** `UserMenuTheme` adds a Theme row to the menu with light, dark and system as small tabs. The pill slides to the picked one and the page reveals from it with Theme Toggle's blurred circle, or any other `variant`. It comes with `useThemePreference`, the same behaviour for tabs of your own. React Native has the row without the page reveal.
 
 **Gaps in nested hover lists.** The gap around a list inside another list (the theme row in a menu) no longer lights or presses the outer list's nearest row.
@@ -85,6 +87,20 @@ These changes are merged and ship in the next version.
 
 **React Native chart motion.** The Pie and Donut slice lift, the Line and Area draw-in and every dim run on the UI thread instead of redrawing the chart each frame, and a scrub on Line, Area, Bar or Composition no longer redraws its marks. The lift glides on the same quick timing as the website, and dimmed marks fade instead of snapping. Scrub ticks are at least 40ms apart: a fast scrub across a dense chart gives distinct ticks instead of a buzz, and the mark you stop on always ticks. In apps that enable React Native's IntersectionObserver, a chart's draw-in waits until a quarter of it is on screen.
 
+## Blocks
+
+**Browse and preview blocks.** The Blocks gallery has category filters and light and dark previews. Each block has a shareable page with an install command, source files, component links and a live preview at desktop, tablet and phone widths. Existing block links still resolve.
+
+**Redesigned application screens.** Finance puts cash and accounts side by side. Mail gives the open thread the main column and keeps the inbox in a resizable panel. Assistant groups its work and opens artifacts beside the transcript. Messenger groups replies and adds conversation details. Calendar gives event details and RSVP their own panel. The authentication screens share the same form layout across steps.
+
+**Settings, Members, Billing and Onboarding.** Add `settings-01`, `members-01`, `billing-01` or `onboarding-01` for workspace settings, invitations and roles, plan and invoice management, or a guided setup with a live workspace preview.
+
+**Assistant upgrades.** If you previously installed `assistant-01`, its old `assistant-tool-call.tsx` can be removed after updating. The revised transcript uses grouped work steps.
+
 ## Docs
 
 **App Shell primitives.** The App Shell row under Components links to the overview and expands to show its installable companions and individual references. Each primitive reference starts with a live preview and its code. The overview shows how to customize sidebar grouping and tab placement.
+
+## Kanban
+
+New Kanban, Properties and Record View registry items for React web and React Native. Use your own record schema and persistence callbacks, including per-column cursor pagination, and compose the board with typed fields and record details.

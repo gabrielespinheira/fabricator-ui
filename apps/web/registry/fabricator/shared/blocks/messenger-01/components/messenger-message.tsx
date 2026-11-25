@@ -229,6 +229,7 @@ export function MessengerMessage({
               <Button
                 variant="outline"
                 size="xs"
+                className="pointer-coarse:min-h-11 pointer-coarse:px-3"
                 onClick={() => handlers.onAction("retry", message)}
               >
                 Retry

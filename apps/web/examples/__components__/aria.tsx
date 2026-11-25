@@ -3134,6 +3134,22 @@ export const Components: Record<string, any> = {
       ) || "item-variant"
     return { default: mod.default || mod[exportName] }
   }),
+  "kanban-demo": React.lazy(async () => {
+    const mod = await import("@/examples/aria/kanban-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "kanban-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "kanban-loader": React.lazy(async () => {
+    const mod = await import("@/examples/aria/kanban-loader")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "kanban-loader"
+    return { default: mod.default || mod[exportName] }
+  }),
   "kbd-button": React.lazy(async () => {
     const mod = await import("@/examples/aria/kbd-button")
     const exportName =

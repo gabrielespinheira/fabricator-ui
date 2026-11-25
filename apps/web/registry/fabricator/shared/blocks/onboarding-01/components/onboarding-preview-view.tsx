@@ -26,7 +26,8 @@ import {
 } from "@/registry/bases/__base__/ui/card"
 import { LineChart } from "@/registry/bases/__base__/ui/line-chart"
 
-const ARRIVES = "animate-in fade-in-0 zoom-in-95 duration-move ease-move"
+const ARRIVES =
+  "motion-safe:animate-in motion-safe:fade-in-0 duration-move ease-move"
 
 const trendConfig = { revenue: { label: "Revenue" } }
 

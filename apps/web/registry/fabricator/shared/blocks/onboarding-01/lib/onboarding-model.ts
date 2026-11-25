@@ -234,14 +234,14 @@ function getChannel(hex: string, start: number) {
 
 /** Black or white, whichever reads better on the color. */
 export function getReadableColor(color: string) {
-  if (!/^#[0-9a-f]{6}/i.test(color)) return "#ffffff"
+  if (!/^#[0-9a-f]{6}$/i.test(color)) return "#ffffff"
   const luminance =
     0.2126 * getChannel(color, 1) +
     0.7152 * getChannel(color, 3) +
     0.0722 * getChannel(color, 5)
   const onWhite = 1.05 / (luminance + 0.05)
   const onBlack = (luminance + 0.05) / 0.05
-  return onWhite >= Math.min(3, onBlack) ? "#ffffff" : "#000000"
+  return onWhite >= onBlack ? "#ffffff" : "#000000"
 }
 
 export function toAddress(text: string) {

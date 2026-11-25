@@ -2,7 +2,10 @@
 
 import * as React from "react"
 
-import { MailIconButton } from "@/registry/bases/__base__/blocks/mail-01/components/mail-controls"
+import {
+  MailIconButton,
+  MailMenuButton,
+} from "@/registry/bases/__base__/blocks/mail-01/components/mail-controls"
 import { MailFileList } from "@/registry/bases/__base__/blocks/mail-01/components/mail-file-list"
 import { mailIcons } from "@/registry/bases/__base__/blocks/mail-01/components/mail-icons"
 import { type MailReplyDraft } from "@/registry/bases/__base__/blocks/mail-01/lib/mail-model"
@@ -217,18 +220,35 @@ export function MailReplyBox({
             </InputGroupAddon>
           ) : (
             <InputGroupAddon align="inline-end" className="gap-0">
-              {canReplyAll && (
-                <MailIconButton
-                  label="Reply all"
-                  shortcut="A"
-                  onClick={() => setMode("replyAll")}
-                >
-                  {mailIcons.replyAll}
-                </MailIconButton>
-              )}
-              <MailIconButton label="Forward" shortcut="F" onClick={onForward}>
-                {mailIcons.forward}
-              </MailIconButton>
+              <MailMenuButton
+                label="Reply options"
+                icon={mailIcons.more}
+                groups={[
+                  {
+                    id: "reply-options",
+                    entries: [
+                      ...(canReplyAll
+                        ? [
+                            {
+                              id: "reply-all",
+                              label: "Reply all",
+                              icon: mailIcons.replyAll,
+                              detail: "A",
+                              onSelect: () => setMode("replyAll"),
+                            },
+                          ]
+                        : []),
+                      {
+                        id: "forward",
+                        label: "Forward",
+                        icon: mailIcons.forward,
+                        detail: "F",
+                        onSelect: onForward,
+                      },
+                    ],
+                  },
+                ]}
+              />
             </InputGroupAddon>
           )}
         </InputGroup>

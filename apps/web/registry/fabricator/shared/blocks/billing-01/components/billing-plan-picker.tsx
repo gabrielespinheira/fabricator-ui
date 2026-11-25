@@ -6,7 +6,7 @@ import { cn } from "cn"
 import {
   BillingChoiceCards,
   BillingConfirm,
-  BillingIntervalTabs,
+  BillingIntervalChoice,
   BillingSeatsField,
 } from "@/registry/bases/__base__/blocks/billing-01/components/billing-controls"
 import {
@@ -41,6 +41,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/registry/bases/__base__/ui/card"
+import { FieldLabel } from "@/registry/bases/__base__/ui/field"
 import {
   Item,
   ItemContent,
@@ -265,7 +266,7 @@ export function BillingPlanPicker({
     >
       <legend className="sr-only">Change plan</legend>
       <div className="flex flex-wrap items-center gap-x-(--density-12) gap-y-(--density-8)">
-        <BillingIntervalTabs
+        <BillingIntervalChoice
           value={selection.interval}
           onValueChange={(interval) => setSelection({ ...selection, interval })}
         />
@@ -280,10 +281,13 @@ export function BillingPlanPicker({
               : `Yearly saves ${formatMoney(saving, { isWhole: true })} a year`}
         </span>
         <div className="flex items-center gap-(--density-12) @2xl:ms-auto">
-          <span id={`${id}-seats`}>Seats</span>
+          <FieldLabel id={`${id}-seats-label`} htmlFor={`${id}-seats`}>
+            Seats
+          </FieldLabel>
           <div className="w-32">
             <BillingSeatsField
-              labelledBy={`${id}-seats`}
+              id={`${id}-seats`}
+              labelledBy={`${id}-seats-label`}
               value={selection.seats}
               min={1}
               max={plan.limits.seats ?? undefined}

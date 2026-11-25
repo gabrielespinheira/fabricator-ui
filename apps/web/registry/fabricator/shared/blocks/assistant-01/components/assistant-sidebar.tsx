@@ -1,5 +1,7 @@
 "use client"
 
+import * as React from "react"
+
 import {
   groupAssistantChats,
   type AssistantChat,
@@ -9,7 +11,10 @@ import {
   SAMPLE_NOW,
 } from "@/registry/bases/__base__/blocks/assistant-01/lib/assistant-chats"
 import { AppNav, type AppNavGroup } from "@/registry/bases/__base__/ui/app-nav"
-import { useShortcutLabel } from "@/registry/bases/__base__/ui/app-shell"
+import {
+  useAppShell,
+  useShortcutLabel,
+} from "@/registry/bases/__base__/ui/app-shell"
 import { BotFace } from "@/registry/bases/__base__/ui/bot-face"
 import {
   DropdownMenuGroup,
@@ -105,8 +110,13 @@ export function AssistantSidebar({
   onTogglePin: (chatId: string) => void
   onDelete: (chatId: string) => void
 }) {
-  const { isMobile } = useSidebar()
+  const { size } = useAppShell()
+  const { isMobile, setOpen } = useSidebar()
   const shortcut = useShortcutLabel({ keys: ASSISTANT_SEARCH_SHORTCUT })
+
+  React.useEffect(() => {
+    if (size === "tablet") setOpen(false)
+  }, [size, setOpen])
 
   const groups: AppNavGroup[] = [
     {

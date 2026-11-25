@@ -4,7 +4,7 @@ import * as React from "react"
 import { cn } from "cn"
 
 import {
-  BillingExtraRunsTabs,
+  BillingExtraRunsChoice,
   BillingSeatsField,
 } from "@/registry/bases/__base__/blocks/billing-01/components/billing-controls"
 import { BillingInvoiceLines } from "@/registry/bases/__base__/blocks/billing-01/components/billing-invoice-lines"
@@ -41,6 +41,7 @@ import {
 import {
   Field,
   FieldDescription,
+  FieldLabel,
   FieldTitle,
 } from "@/registry/bases/__base__/ui/field"
 import { Skeleton } from "@/registry/bases/__base__/ui/skeleton"
@@ -134,9 +135,12 @@ export function BillingNextInvoiceCard({
         {canTry && (
           <div className="mt-auto grid grid-cols-1 gap-(--density-16) rounded-lg bg-hover p-(--density-12) @2xl:grid-cols-2">
             <Field>
-              <FieldTitle id={`${id}-seats`}>Seats</FieldTitle>
+              <FieldLabel id={`${id}-seats-label`} htmlFor={`${id}-seats`}>
+                Seats
+              </FieldLabel>
               <BillingSeatsField
-                labelledBy={`${id}-seats`}
+                id={`${id}-seats`}
+                labelledBy={`${id}-seats-label`}
                 describedBy={`${id}-seats-help`}
                 value={draft.seats}
                 min={account.people}
@@ -156,7 +160,7 @@ export function BillingNextInvoiceCard({
               <FieldTitle id={`${id}-runs`}>
                 At {formatCount(limits.runs)} runs
               </FieldTitle>
-              <BillingExtraRunsTabs
+              <BillingExtraRunsChoice
                 labelledBy={`${id}-runs`}
                 value={draft.extraRuns}
                 onValueChange={(extraRuns) =>

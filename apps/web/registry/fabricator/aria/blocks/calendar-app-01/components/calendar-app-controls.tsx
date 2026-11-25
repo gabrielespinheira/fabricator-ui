@@ -15,20 +15,21 @@ import {
 } from "@/registry/bases/aria/ui/dropdown-menu"
 import { Popover, PopoverTrigger } from "@/registry/bases/aria/ui/popover"
 import { SidebarMenuButton } from "@/registry/bases/aria/ui/sidebar"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/aria/ui/tabs"
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/registry/bases/aria/ui/toggle-group"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // The calendar app's controls whose API differs between Base UI, Radix and
-// React Aria: tabs, menus with their triggers and the date picker. This is
+// React Aria: choices, menus with their triggers and the date picker. This is
 // React Aria; the rest of the block is shared.
-
-const UNSET = "unset"
 
 /**
  * One of a few short values: the view, your answer. `value` is undefined
  * until something is picked.
  */
-export function CalendarAppTabs<TValue extends string>({
+export function CalendarAppChoice<TValue extends string>({
   label,
   options,
   value,
@@ -42,36 +43,28 @@ export function CalendarAppTabs<TValue extends string>({
   className?: string
 }) {
   return (
-    <Tabs
-      // React Aria selects its first tab when none is: an unanswered value is
-      // a tab of its own, hidden until something is picked.
-      selectedKey={value ?? UNSET}
-      keyboardActivation="manual"
-      onSelectionChange={(next) => {
+    <ToggleGroup
+      aria-label={label}
+      size="sm"
+      spacing={0}
+      selectedKeys={value === undefined ? [] : [value]}
+      onSelectionChange={(selected) => {
+        const next = selected.values().next().value
         const option = options.find((item) => item.value === next)
         if (option) onValueChange(option.value)
       }}
-      className={className}
+      className={cn("rounded-lg bg-foreground/[0.05]", className)}
     >
-      <TabsList
-        aria-label={label}
-        className={cn(
-          "w-full",
-          value === undefined && "**:data-[slot=fluid-hover-selection]:hidden"
-        )}
-      >
-        {value === undefined ? (
-          <TabsTrigger id={UNSET} className="sr-only">
-            Not set
-          </TabsTrigger>
-        ) : null}
-        {options.map((option) => (
-          <TabsTrigger key={option.value} id={option.value}>
-            {option.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+      {options.map((option) => (
+        <ToggleGroupItem
+          key={option.value}
+          id={option.value}
+          className="min-w-0 flex-1 font-normal text-foreground"
+        >
+          {option.label}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   )
 }
 

@@ -1,90 +1,121 @@
 "use client"
 
+import * as React from "react"
+
 import { SignInForm } from "@/registry/bases/__base__/blocks/sign-in-01/components/sign-in-form"
+import {
+  SignInFrame,
+  SignInHeading,
+} from "@/registry/bases/__base__/blocks/sign-in-01/components/sign-in-frame"
 import { SignInProviders } from "@/registry/bases/__base__/blocks/sign-in-01/components/sign-in-providers"
 import {
+  type ProviderResult,
+  type SignInMethod,
+  type SignInProvider,
   type SignInResult,
   type SignInValues,
 } from "@/registry/bases/__base__/blocks/sign-in-01/lib/sign-in-form-model"
-import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
+import { Button } from "@/registry/bases/__base__/ui/button"
 
-// Replace with your auth library's email sign-in. It resolves with
-// { ok: false, error: "invalid-credentials" } when the password is wrong.
-async function signIn(values: SignInValues): Promise<SignInResult> {
-  await new Promise((resolve) => setTimeout(resolve, 900))
-  return values.password.length < 8
-    ? { ok: false, error: "invalid-credentials" }
+// Sign in. Someone who works in Acme every day gets back to work: one field is
+// focused, the way they came last time is marked, and nothing moves when an
+// answer is wrong.
+
+// Set a cookie when someone signs in and read it here, so the mark is in the
+// first paint.
+const LAST_USED: SignInMethod = "google"
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+// Replace with your auth library's email sign-in. To see each answer, use
+// unknown@, limited@ or offline@acme.com, or a password under 8 characters.
+async function signInWithEmail({
+  email,
+  password,
+}: SignInValues): Promise<SignInResult> {
+  await wait(900)
+  if (email === "unknown@acme.com") return { ok: false, error: "unknown-email" }
+  if (email === "offline@acme.com") return { ok: false, error: "network" }
+  if (email === "limited@acme.com") {
+    return { ok: false, error: "too-many-attempts" }
+  }
+  return password.length < 8
+    ? { ok: false, error: "wrong-password" }
     : { ok: true }
 }
 
+// Replace with your auth library's social sign-in. Here Apple is the window
+// someone closes.
+async function signInWithProvider(
+  provider: SignInProvider
+): Promise<ProviderResult> {
+  await wait(1600)
+  return provider === "apple" ? { ok: false, error: "cancelled" } : { ok: true }
+}
+
 export default function SignInPage() {
-  return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-surface-0 px-(--density-16) py-(--density-40)">
-      <main className="flex w-full max-w-96 flex-col gap-(--density-24)">
-        <div className="flex flex-col items-center gap-(--density-16) text-center">
-          <a
-            href="/"
-            aria-label="Acme home"
-            className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <IconPlaceholder
-              lucide="GalleryVerticalEndIcon"
-              tabler="IconLayoutRows"
-              hugeicons="LayoutBottomIcon"
-              phosphor="RowsIcon"
-              remixicon="RiGalleryView"
-              className="size-5"
-            />
-          </a>
-          <div className="flex flex-col gap-(--density-4)">
-            <h1 className="text-2xl font-semibold tracking-tight text-balance">
-              Sign in to Acme
-            </h1>
-            <p className="text-[15px] text-pretty text-muted-foreground">
-              Welcome back. Use your work account to continue.
-            </p>
-          </div>
+  const [pending, setPending] = React.useState<SignInMethod>()
+  const [isSignedIn, setSignedIn] = React.useState(false)
+  const resultRef = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    if (isSignedIn) resultRef.current?.focus()
+  }, [isSignedIn])
+
+  // Back from a provider can restore this page as it was left, still waiting.
+  React.useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) setPending(undefined)
+    }
+    window.addEventListener("pageshow", handlePageShow)
+    return () => window.removeEventListener("pageshow", handlePageShow)
+  }, [])
+
+  const run = async <Result extends { ok: boolean }>(
+    method: SignInMethod,
+    signIn: () => Promise<Result>
+  ) => {
+    setPending(method)
+    const result = await signIn()
+    setPending(undefined)
+    // Replace the preview confirmation with your app's post-sign-in route.
+    if (result.ok) setSignedIn(true)
+    return result
+  }
+
+  if (isSignedIn) {
+    return (
+      <SignInFrame>
+        <div ref={resultRef} tabIndex={-1} className="outline-none">
+          <SignInHeading title="Sign-in complete">
+            Your app opens here after successful sign-in.
+          </SignInHeading>
         </div>
-        <SignInProviders onSelect={() => {}} />
-        {/* Space and a caption part the providers from the form; no rule. */}
-        <p className="text-center text-(length:--density-text-12) text-muted-foreground">
-          or continue with email
-        </p>
-        <SignInForm
-          forgotPasswordHref="/forgot-password"
-          onSubmit={signIn}
-          // Send people into the app, e.g. router.push("/dashboard").
-          onSignedIn={() => {}}
-        />
-        <p className="text-center text-(length:--density-text-13) text-muted-foreground">
-          New to Acme?{" "}
-          <a
-            href="/sign-up"
-            className="rounded-sm font-medium text-foreground underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            Create an account
-          </a>
-        </p>
-      </main>
-      <footer className="mt-(--density-40)">
-        <p className="max-w-80 text-center text-(length:--density-text-12) text-balance text-muted-foreground">
-          By continuing, you agree to the{" "}
-          <a
-            href="/terms"
-            className="rounded-sm underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            Terms of Service
-          </a>{" "}
-          and{" "}
-          <a
-            href="/privacy"
-            className="rounded-sm underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            Privacy Policy
-          </a>
-          .
-        </p>
-      </footer>
-    </div>
+        <Button variant="outline" onClick={() => setSignedIn(false)}>
+          Back to sign in
+        </Button>
+      </SignInFrame>
+    )
+  }
+
+  return (
+    <SignInFrame>
+      <SignInHeading title="Sign in to Acme">
+        Welcome back. Use your work account.
+      </SignInHeading>
+      <SignInForm
+        pending={pending}
+        forgotPasswordHref="/forgot-password"
+        signUpHref="/sign-up"
+        onSubmit={(values) => run("email", () => signInWithEmail(values))}
+      />
+      <SignInProviders
+        pending={pending}
+        lastUsed={LAST_USED}
+        onSelect={(provider) =>
+          run(provider, () => signInWithProvider(provider))
+        }
+      />
+    </SignInFrame>
   )
 }

@@ -132,7 +132,7 @@
   }
 
   .cn-app-shell-breadcrumb-current {
-    @apply flex min-w-0 cursor-pointer items-center gap-(--density-4) rounded-md ring-ring focus-visible:ring-1 [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+    @apply flex min-h-(--density-24) min-w-0 cursor-pointer items-center gap-(--density-4) rounded-md ring-ring focus-visible:ring-1 pointer-coarse:min-h-(--density-48) [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
   }
 
   .cn-app-shell-breadcrumb-title {

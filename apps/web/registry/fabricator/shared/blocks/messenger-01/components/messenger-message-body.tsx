@@ -268,7 +268,7 @@ export function MessengerMessageBody({
             src={body.src}
             peaks={body.peaks}
             title={`Voice message from ${senderName}, ${formatDuration(body.duration)}`}
-            className="bg-transparent shadow-none data-[variant=compact]:rounded-none"
+            className="bg-transparent shadow-none data-[variant=compact]:rounded-none [&_[data-layer=hover]_[data-slot=audio-player-waveform-bar]]:bg-foreground/70 [&_[data-layer=track]_[data-slot=audio-player-waveform-bar]]:bg-foreground/55"
           />
         </BubbleContent>
       )}

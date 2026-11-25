@@ -17,6 +17,7 @@ import {
   TabsTrigger,
 } from "@/styles/base-fabricator/ui/tabs"
 
+import { type GalleryBlock } from "../_lib/block-previews"
 import {
   ALL_BLOCKS,
   BLOCK_FILTERS,
@@ -39,7 +40,7 @@ const THEMES = [
  * The gallery, with its filter in the URL. The server can't know the filter of
  * a static page, so it sends every block (the page's Suspense fallback).
  */
-export function BlocksGallery({ blocks }: { blocks: BlockSummary[] }) {
+export function BlocksGallery({ blocks }: { blocks: GalleryBlock[] }) {
   const [filter, setFilter] = useQueryState("category", filterParser)
   useHashRedirect(blocks)
 
@@ -74,7 +75,7 @@ export function BlocksGalleryView({
   filter,
   onFilterChange,
 }: {
-  blocks: BlockSummary[]
+  blocks: GalleryBlock[]
   filter: BlockFilter
   onFilterChange?: (filter: BlockFilter) => void
 }) {
@@ -119,7 +120,7 @@ export function BlocksGalleryView({
   )
 }
 
-function BlockCard({ block }: { block: BlockSummary }) {
+function BlockCard({ block }: { block: GalleryBlock }) {
   return (
     <Link
       href={`/blocks/${block.name}`}
@@ -132,7 +133,7 @@ function BlockCard({ block }: { block: BlockSummary }) {
         {THEMES.map(({ theme, className }) => (
           <Image
             key={theme}
-            src={`/blocks/${block.name}-${theme}.webp`}
+            src={block.previews[theme]}
             alt=""
             width={1280}
             height={720}

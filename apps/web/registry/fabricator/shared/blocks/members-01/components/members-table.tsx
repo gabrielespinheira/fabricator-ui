@@ -277,7 +277,7 @@ function InvitationAction({
     <MembersButton
       variant="outline"
       size="sm"
-      aria-label={`Fix the address of ${getRowName(invitation)}`}
+      aria-label={`Fix address for ${getRowName(invitation)}`}
       onClick={() => onFixAddress(invitation)}
     >
       Fix address

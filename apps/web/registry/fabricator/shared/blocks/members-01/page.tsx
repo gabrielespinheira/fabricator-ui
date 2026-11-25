@@ -5,6 +5,8 @@ import * as React from "react"
 import {
   MembersButton,
   MembersMenuItems,
+  MembersViewPanel,
+  MembersViewTabs,
   notifyMembers,
   type MembersMenuItem,
 } from "@/registry/bases/__base__/blocks/members-01/components/members-controls"
@@ -440,7 +442,22 @@ function MembersScreen() {
                 {getTeamSummary(rows, members.seats)}
               </p>
             </div>
-            <div className="flex flex-col gap-(--density-12)">
+            <MembersViewTabs
+              value={filter.view}
+              onValueChange={(view) => setFilter({ ...filter, view })}
+            >
+              <div hidden={selected.length > 0}>
+                <MembersToolbar
+                  filter={filter}
+                  count={visible.length}
+                  total={rows.length}
+                  hasRows={status === "ready" && visible.length > 0}
+                  onFilterChange={setFilter}
+                  onClear={() =>
+                    setFilter({ ...EMPTY_FILTER, view: filter.view })
+                  }
+                />
+              </div>
               {selected.length > 0 ? (
                 <MembersSelectionBar
                   count={selected.length}
@@ -458,67 +475,58 @@ function MembersScreen() {
                   }
                   onClear={clearSelection}
                 />
-              ) : (
-                <MembersToolbar
-                  filter={filter}
-                  count={visible.length}
-                  total={rows.length}
-                  hasRows={status === "ready" && visible.length > 0}
-                  onFilterChange={setFilter}
-                  onClear={() =>
-                    setFilter({ ...EMPTY_FILTER, view: filter.view })
-                  }
-                />
-              )}
-              {status === "loading" ? (
-                <MembersSkeleton />
-              ) : status === "error" ? (
-                <Alert variant="error">
-                  <IconPlaceholder
-                    lucide="CircleAlertIcon"
-                    tabler="IconExclamationCircle"
-                    hugeicons="AlertCircleIcon"
-                    phosphor="WarningCircleIcon"
-                    remixicon="RiErrorWarningLine"
+              ) : null}
+              <MembersViewPanel value={filter.view}>
+                {status === "loading" ? (
+                  <MembersSkeleton />
+                ) : status === "error" ? (
+                  <Alert variant="error">
+                    <IconPlaceholder
+                      lucide="CircleAlertIcon"
+                      tabler="IconExclamationCircle"
+                      hugeicons="AlertCircleIcon"
+                      phosphor="WarningCircleIcon"
+                      remixicon="RiErrorWarningLine"
+                    />
+                    <AlertTitle>Members didn&apos;t load</AlertTitle>
+                    <AlertDescription>
+                      The server took too long to answer. Your filters are kept.
+                    </AlertDescription>
+                    <AlertAction>
+                      <MembersButton
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setRetried(true)}
+                      >
+                        Retry
+                      </MembersButton>
+                    </AlertAction>
+                  </Alert>
+                ) : visible.length === 0 ? (
+                  <MembersEmpty
+                    filter={filter}
+                    isFiltered={isFiltered}
+                    onClear={() => setFilter(EMPTY_FILTER)}
+                    onInvite={() => setDialog({ kind: "invite" })}
                   />
-                  <AlertTitle>Members didn&apos;t load</AlertTitle>
-                  <AlertDescription>
-                    The server took too long to answer. Your filters are kept.
-                  </AlertDescription>
-                  <AlertAction>
-                    <MembersButton
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setRetried(true)}
-                    >
-                      Retry
-                    </MembersButton>
-                  </AlertAction>
-                </Alert>
-              ) : visible.length === 0 ? (
-                <MembersEmpty
-                  filter={filter}
-                  isFiltered={isFiltered}
-                  onClear={() => setFilter(EMPTY_FILTER)}
-                  onInvite={() => setDialog({ kind: "invite" })}
-                />
-              ) : (
-                <MembersTable
-                  rows={visible}
-                  now={SAMPLE_NOW}
-                  meId={ME_ID}
-                  selectedIds={new Set(selected.map(({ id }) => id))}
-                  openId={panel.open ? openId : null}
-                  getRoleNote={getRoleNote}
-                  getMenu={getMenu}
-                  onSelect={select}
-                  onOpen={open}
-                  onRoleChange={changeRole}
-                  onResend={resend}
-                  onFixAddress={resend}
-                />
-              )}
-            </div>
+                ) : (
+                  <MembersTable
+                    rows={visible}
+                    now={SAMPLE_NOW}
+                    meId={ME_ID}
+                    selectedIds={new Set(selected.map(({ id }) => id))}
+                    openId={panel.open ? openId : null}
+                    getRoleNote={getRoleNote}
+                    getMenu={getMenu}
+                    onSelect={select}
+                    onOpen={open}
+                    onRoleChange={changeRole}
+                    onResend={resend}
+                    onFixAddress={resend}
+                  />
+                )}
+              </MembersViewPanel>
+            </MembersViewTabs>
           </div>
         </AppShellContent>
       </AppShellMain>

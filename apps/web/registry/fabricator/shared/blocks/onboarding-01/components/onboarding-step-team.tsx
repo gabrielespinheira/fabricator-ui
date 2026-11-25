@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import {
-  OnboardingLayoutTabs,
+  OnboardingLayoutChoice,
   OnboardingSizeSlider,
 } from "@/registry/bases/__base__/blocks/onboarding-01/components/onboarding-controls"
 import {
@@ -57,7 +57,7 @@ export function OnboardingStepTeam({
       </Field>
       <Field className="gap-(--density-12)">
         <FieldTitle id={`${id}-layout`}>Show work as</FieldTitle>
-        <OnboardingLayoutTabs
+        <OnboardingLayoutChoice
           labelledBy={`${id}-layout`}
           value={answers.layout}
           options={layouts}

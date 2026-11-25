@@ -3,6 +3,7 @@ import { type Metadata } from "next"
 
 import { BlocksGallery, BlocksGalleryView } from "./_components/blocks-gallery"
 import { BLOCKS } from "./_lib/block-list"
+import { blockPreviews, type GalleryBlock } from "./_lib/block-previews"
 import { ALL_BLOCKS } from "./_lib/blocks"
 
 const title = "Blocks"
@@ -10,6 +11,15 @@ const description =
   "Ready-made screens built from Fabricator UI: dashboards, chat, email, a calendar, settings, onboarding and sign in. Add one with the CLI or copy its code."
 
 const ogImage = `/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`
+
+const galleryBlocks: GalleryBlock[] = BLOCKS.map((block) => {
+  const previews = blockPreviews[block.name]
+  if (!previews) throw new Error(`Missing gallery previews for ${block.name}`)
+  return {
+    ...block,
+    previews: { light: previews.light.src, dark: previews.dark.src },
+  }
+})
 
 export const dynamic = "force-static"
 export const revalidate = false
@@ -37,9 +47,11 @@ export default function BlocksPage() {
       <div className="mx-auto w-full max-w-6xl px-4 pb-24 sm:px-6">
         {/* The gallery reads its filter from the URL. */}
         <React.Suspense
-          fallback={<BlocksGalleryView blocks={BLOCKS} filter={ALL_BLOCKS} />}
+          fallback={
+            <BlocksGalleryView blocks={galleryBlocks} filter={ALL_BLOCKS} />
+          }
         >
-          <BlocksGallery blocks={BLOCKS} />
+          <BlocksGallery blocks={galleryBlocks} />
         </React.Suspense>
       </div>
     </div>

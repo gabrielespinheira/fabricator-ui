@@ -91,7 +91,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/registry/bases/radix/ui/table"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/radix/ui/tabs"
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/registry/bases/radix/ui/toggle-group"
 import {
   Tooltip,
   TooltipContent,
@@ -132,7 +135,7 @@ export function BillingIconButton({
   )
 }
 
-export function BillingIntervalTabs({
+export function BillingIntervalChoice({
   value,
   onValueChange,
 }: {
@@ -140,25 +143,32 @@ export function BillingIntervalTabs({
   onValueChange: (interval: BillingInterval) => void
 }) {
   return (
-    <Tabs
+    <ToggleGroup
+      aria-label="Billed"
+      size="sm"
+      spacing={0}
+      className="bg-foreground/[0.05]"
+      type="single"
       value={value}
       onValueChange={(next) => {
         if (isBillingInterval(next)) onValueChange(next)
       }}
     >
-      <TabsList aria-label="Billed">
-        {BILLING_INTERVALS.map((interval) => (
-          <TabsTrigger key={interval.value} value={interval.value}>
-            {interval.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+      {BILLING_INTERVALS.map((interval) => (
+        <ToggleGroupItem
+          className="flex-1 font-normal text-foreground"
+          key={interval.value}
+          value={interval.value}
+        >
+          {interval.label}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   )
 }
 
 /** What happens to automations at the limit. */
-export function BillingExtraRunsTabs({
+export function BillingExtraRunsChoice({
   labelledBy,
   value,
   onValueChange,
@@ -168,21 +178,35 @@ export function BillingExtraRunsTabs({
   onValueChange: (extraRuns: BillingExtraRuns) => void
 }) {
   return (
-    <Tabs
+    <ToggleGroup
+      aria-labelledby={labelledBy}
+      size="sm"
+      spacing={0}
+      className="w-full bg-foreground/[0.05]"
+      type="single"
       value={value}
       onValueChange={(next) => {
         if (isBillingExtraRuns(next)) onValueChange(next)
       }}
     >
-      <TabsList aria-labelledby={labelledBy} className="w-full">
-        <TabsTrigger value="continue">Keep running</TabsTrigger>
-        <TabsTrigger value="pause">Pause</TabsTrigger>
-      </TabsList>
-    </Tabs>
+      <ToggleGroupItem
+        className="flex-1 font-normal text-foreground"
+        value="continue"
+      >
+        Keep running
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        className="flex-1 font-normal text-foreground"
+        value="pause"
+      >
+        Pause
+      </ToggleGroupItem>
+    </ToggleGroup>
   )
 }
 
 export function BillingSeatsField({
+  id,
   labelledBy,
   describedBy,
   value,
@@ -190,6 +214,7 @@ export function BillingSeatsField({
   max,
   onValueChange,
 }: {
+  id: string
   labelledBy: string
   describedBy?: string
   value: number
@@ -199,6 +224,7 @@ export function BillingSeatsField({
 }) {
   return (
     <NumberField
+      id={id}
       value={value}
       min={min}
       max={max}
@@ -273,8 +299,14 @@ export function BillingChoiceCards({
       {options.map((option) => (
         <FieldLabel key={option.value} htmlFor={`${id}-${option.value}`}>
           <Field orientation="horizontal" className="h-full">
-            <FieldContent>{option.content}</FieldContent>
-            <RadioGroupItem value={option.value} id={`${id}-${option.value}`} />
+            <FieldContent id={`${id}-${option.value}-label`}>
+              {option.content}
+            </FieldContent>
+            <RadioGroupItem
+              value={option.value}
+              id={`${id}-${option.value}`}
+              aria-labelledby={`${id}-${option.value}-label`}
+            />
           </Field>
         </FieldLabel>
       ))}

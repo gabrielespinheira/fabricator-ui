@@ -1,5 +1,6 @@
 "use client"
 
+import { TooltipTrigger } from "react-aria-components"
 import { toast } from "sonner"
 
 import {
@@ -21,7 +22,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/registry/bases/aria/ui/tabs"
-import { Tooltip, TooltipTrigger } from "@/registry/bases/aria/ui/tooltip"
+import { Tooltip } from "@/registry/bases/aria/ui/tooltip"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // The finance overview's controls whose API differs by base: this is React
@@ -78,6 +79,7 @@ export function FinanceRefreshButton({
   isRefreshing: boolean
   onRefresh: () => void
 }) {
+  // Button handles the React Aria trigger itself, including inside Tabs.
   return (
     <TooltipTrigger>
       <Button

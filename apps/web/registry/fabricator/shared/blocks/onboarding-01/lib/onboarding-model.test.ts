@@ -135,6 +135,8 @@ describe("getReadableColor", () => {
     expect(getReadableColor("#2563eb")).toBe("#ffffff")
     expect(getReadableColor("#fde047")).toBe("#000000")
     expect(getReadableColor("#334155")).toBe("#ffffff")
+    expect(getReadableColor("#767676")).toBe("#000000")
+    expect(getReadableColor("#999999")).toBe("#000000")
     expect(getReadableColor("nonsense")).toBe("#ffffff")
   })
 })

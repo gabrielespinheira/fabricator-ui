@@ -4329,6 +4329,77 @@
     @apply my-2;
   }
 
+/* MARK: Kanban */
+
+/* The neutral track groups cards; color identifies a status. */
+.cn-kanban {
+  @apply gap-(--density-12);
+}
+.cn-kanban-toolbar,
+.cn-kanban-feedback,
+.cn-kanban-selection-bar,
+.cn-kanban-card-actions,
+.cn-kanban-lane {
+  @apply gap-(--density-8);
+}
+.cn-kanban-search {
+  @apply w-56 max-w-full;
+}
+.cn-kanban-board {
+  @apply pb-(--density-8);
+}
+.cn-kanban-track {
+  @apply gap-(--density-12);
+}
+.cn-kanban-lane-title {
+  @apply text-muted-foreground;
+}
+.cn-kanban-column {
+  @apply min-h-32 gap-(--density-4) rounded-xl bg-surface-2 p-(--density-8);
+}
+.cn-kanban-column-header {
+  @apply gap-(--density-6);
+}
+.cn-kanban-column-color {
+  @apply size-2.5 rounded-full bg-muted-foreground;
+}
+.cn-kanban-column-title {
+  @apply font-semibold;
+}
+.cn-kanban-column-count {
+  @apply text-muted-foreground;
+}
+.cn-kanban-column-body {
+  @apply h-96;
+}
+.cn-kanban-card {
+  @apply mb-(--density-6) rounded-lg bg-card p-(--density-8) shadow-surface-1 data-[selected=true]:bg-active data-[pending=true]:opacity-60;
+}
+.cn-kanban-handle {
+  @apply h-(--density-44) w-(--density-28);
+}
+.cn-kanban-card-title {
+  @apply font-medium;
+}
+.cn-kanban-card-properties {
+  @apply gap-(--density-4);
+}
+.cn-kanban-pill {
+  @apply rounded-md bg-muted px-(--density-6) text-(length:--density-text-12) text-foreground;
+}
+.cn-kanban-column-message {
+  @apply p-(--density-12) text-center text-muted-foreground;
+}
+.cn-kanban-loading {
+  @apply gap-(--density-6);
+}
+.cn-kanban-drag-overlay {
+  @apply max-w-60 rounded-lg bg-card p-(--density-12) shadow-surface-3;
+}
+.cn-kanban-drag-overlay-text {
+  @apply font-medium;
+}
+
 /* MARK: Kbd */
 
   /* A quiet 20pt keycap: hover fill, 11pt muted text. */
@@ -5431,6 +5502,28 @@
     @apply text-muted-foreground ml-auto text-(length:--density-text-13) tabular-nums;
   }
 
+/* MARK: Properties */
+
+/* Align labels and controls in record forms. */
+.cn-properties,
+.cn-properties-row,
+.cn-properties-options,
+.cn-properties-manager,
+.cn-properties-management-row {
+  @apply gap-(--density-10);
+}
+.cn-properties-label,
+.cn-properties-description,
+.cn-properties-kind {
+  @apply text-muted-foreground;
+}
+.cn-properties-value {
+  @apply text-foreground;
+}
+.cn-properties-error {
+  @apply text-destructive-text;
+}
+
 /* MARK: Questionnaire */
 
   /* registry/native/ui/questionnaire.tsx follows the website's Fabricator
@@ -5757,6 +5850,31 @@
   .cn-rating-star-fill {
     @apply overflow-hidden;
   }
+
+/* MARK: Record View */
+
+/* The phone drawer holds the editor. Page mode fills the viewport. */
+.cn-record-view {
+  @apply h-[82%];
+}
+.cn-record-view-layout {
+  @apply flex-col data-[mode=page]:h-full;
+}
+.cn-record-view-header {
+  @apply gap-(--density-8) p-(--density-12);
+}
+.cn-record-view-actions,
+.cn-record-view-section,
+.cn-record-view-state {
+  @apply gap-(--density-8);
+}
+.cn-record-view-position {
+  @apply text-muted-foreground;
+}
+.cn-record-view-body,
+.cn-record-view-footer {
+  @apply px-(--density-12) pb-(--density-12);
+}
 
 /* MARK: Resizable */
 

@@ -4,14 +4,13 @@ import * as React from "react"
 
 import {
   MailCheckbox,
-  MailFilterTabs,
+  MailFilterList,
   MailIconButton,
   MailMenuButton,
   type MailMenuGroup,
 } from "@/registry/bases/__base__/blocks/mail-01/components/mail-controls"
 import { mailIcons } from "@/registry/bases/__base__/blocks/mail-01/components/mail-icons"
 import {
-  type MailFilter,
   type MailThreadMove,
   type SnoozeOption,
 } from "@/registry/bases/__base__/blocks/mail-01/lib/mail-model"
@@ -147,15 +146,11 @@ export function MailListToolbar({
   searchRef,
   query,
   onQueryChange,
-  filter,
-  onFilterChange,
   selection,
 }: {
   searchRef: React.Ref<HTMLInputElement>
   query: string
   onQueryChange: (query: string) => void
-  filter: MailFilter
-  onFilterChange: (filter: MailFilter) => void
   /** While nothing is selected, null. */
   selection: React.ComponentProps<typeof SelectionBar> | null
 }) {
@@ -192,11 +187,10 @@ export function MailListToolbar({
         )}
       </form>
       <div className="flex h-(--density-36) items-center gap-(--density-10)">
-        {selection ? (
-          <SelectionBar {...selection} />
-        ) : (
-          <MailFilterTabs value={filter} onValueChange={onFilterChange} />
-        )}
+        <div hidden={selection !== null}>
+          <MailFilterList />
+        </div>
+        {selection ? <SelectionBar {...selection} /> : null}
       </div>
     </div>
   )

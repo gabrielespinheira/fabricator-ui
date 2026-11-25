@@ -140,7 +140,7 @@ function Assistant() {
       <AppShellMain>
         <AssistantHeader
           title={chat?.title ?? null}
-          hasArtifact={Boolean(artifact)}
+          artifactTitle={artifact?.title}
           menu={{
             isPinned: chat?.isPinned ?? false,
             onRename: () => chat && openDialog("rename", chat.id),

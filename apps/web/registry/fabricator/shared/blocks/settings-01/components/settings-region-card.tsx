@@ -3,9 +3,9 @@
 import * as React from "react"
 
 import {
+  SettingsChoice,
   SettingsCombobox,
   SettingsSelect,
-  SettingsTabs,
 } from "@/registry/bases/__base__/blocks/settings-01/components/settings-controls"
 import {
   SettingsRow,
@@ -129,7 +129,7 @@ export function SettingsRegionCard({
         description="In calendars and weekly reports."
         status={statuses.weekStart}
       >
-        <SettingsTabs
+        <SettingsChoice
           label="Week starts on"
           value={weekStart}
           options={WEEK_STARTS}

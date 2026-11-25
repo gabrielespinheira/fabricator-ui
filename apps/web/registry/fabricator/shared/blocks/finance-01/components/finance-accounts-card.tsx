@@ -12,6 +12,7 @@ import {
   CardAction,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/registry/bases/__base__/ui/card"
@@ -19,7 +20,6 @@ import {
   Item,
   ItemContent,
   ItemDescription,
-  ItemFooter,
   ItemGroup,
   ItemMedia,
   ItemTitle,
@@ -73,14 +73,12 @@ function FinanceAccountRow({
   detail,
   amount,
   scope,
-  children,
 }: {
   id: FinanceAccountId
   name: string
   detail: string
   amount: number
   scope: string
-  children?: React.ReactNode
 }) {
   return (
     <Item role="listitem" size="sm">
@@ -95,11 +93,6 @@ function FinanceAccountRow({
         <ItemTitle>{formatMoney(amount)}</ItemTitle>
         <ItemDescription>{scope}</ItemDescription>
       </ItemContent>
-      {children && (
-        <ItemFooter className="ps-[calc(var(--density-icon-16)+var(--density-10))]">
-          {children}
-        </ItemFooter>
-      )}
     </Item>
   )
 }
@@ -129,7 +122,7 @@ export function FinanceAccountsCard({
         </CardAction>
       </CardHeader>
       <CardContent className="flex-1 px-[calc(var(--card-spacing)-var(--density-12))]">
-        <ItemGroup className="h-full justify-between">
+        <ItemGroup>
           {accounts.map((account) => (
             <FinanceAccountRow
               key={account.id}
@@ -140,21 +133,17 @@ export function FinanceAccountsCard({
               scope={`${shares[account.id]}%`}
             />
           ))}
-          <FinanceAccountRow
-            id={card.id}
-            name={card.name}
-            detail={card.detail}
-            amount={cardSpent}
-            scope={`${used}% of ${formatMoneyCompact(card.limit)}`}
-          >
-            <Progress
-              value={used}
-              aria-label={`${card.name} limit used`}
-              className="w-full"
-            />
-          </FinanceAccountRow>
         </ItemGroup>
       </CardContent>
+      <CardFooter className="flex-col items-stretch gap-(--density-8)">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-(--density-8)">
+          <span className="font-medium">{card.name} utilization</span>
+          <span className="text-muted-foreground tabular-nums">
+            {formatMoney(cardSpent)} of {formatMoneyCompact(card.limit)}
+          </span>
+        </div>
+        <Progress value={used} aria-label={`${card.name} limit used`} />
+      </CardFooter>
     </Card>
   )
 }

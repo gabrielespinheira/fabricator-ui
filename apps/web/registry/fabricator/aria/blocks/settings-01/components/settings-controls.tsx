@@ -51,7 +51,10 @@ import {
 import { Slider } from "@/registry/bases/aria/ui/slider"
 import { Spinner } from "@/registry/bases/aria/ui/spinner"
 import { Switch } from "@/registry/bases/aria/ui/switch"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/aria/ui/tabs"
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/registry/bases/aria/ui/toggle-group"
 
 // The settings page's controls whose API differs between Base UI, Radix and
 // React Aria. This is React Aria's; the rest of the block is shared.
@@ -141,7 +144,7 @@ export function SettingsSwitch({
 }
 
 /** One of two to four short choices, every label in view. */
-export function SettingsTabs<Value extends string>({
+export function SettingsChoice<Value extends string>({
   label,
   value,
   options,
@@ -153,21 +156,28 @@ export function SettingsTabs<Value extends string>({
   onValueChange: (value: Value) => void
 }) {
   return (
-    <Tabs
-      selectedKey={value}
-      onSelectionChange={(next) => {
+    <ToggleGroup
+      aria-label={label}
+      size="sm"
+      spacing={0}
+      className="w-full bg-foreground/[0.05]"
+      selectedKeys={[value]}
+      onSelectionChange={(selection) => {
+        const next = selection.values().next().value
         const option = options.find((candidate) => candidate.value === next)
         if (option && option.value !== value) onValueChange(option.value)
       }}
     >
-      <TabsList aria-label={label} className="w-full">
-        {options.map((option) => (
-          <TabsTrigger key={option.value} id={option.value}>
-            {option.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+      {options.map((option) => (
+        <ToggleGroupItem
+          className="flex-1 font-normal text-foreground"
+          key={option.value}
+          id={option.value}
+        >
+          {option.label}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   )
 }
 
@@ -328,7 +338,7 @@ export function SettingsDomains({
         inputValue={draft}
         onInputChange={onDraftChange}
       >
-        <MultiSelectTrigger className="[&_[data-slot=multi-select-icon]]:hidden">
+        <MultiSelectTrigger className="[&_[data-slot=multi-select-chip-remove]]:min-h-6 [&_[data-slot=multi-select-chip-remove]]:min-w-6 [&_[data-slot=multi-select-icon]]:hidden">
           <MultiSelectValue />
           <MultiSelectInput
             id={id}

@@ -363,7 +363,7 @@
   }
 
   .cn-app-shell-breadcrumb-current {
-    @apply flex min-w-0 cursor-pointer items-center gap-(--density-4) rounded-md ring-ring focus-visible:ring-1 [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+    @apply flex min-h-(--density-24) min-w-0 cursor-pointer items-center gap-(--density-4) rounded-md ring-ring focus-visible:ring-1 pointer-coarse:min-h-(--density-48) [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
   }
 
   .cn-app-shell-breadcrumb-title {
@@ -2878,11 +2878,11 @@
   /* Panel: surface 3 whose shadow ring is the edge (no border); the edge
      that meets the screen is square, the free edge rounded-xl. */
   .cn-drawer-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex h-auto flex-col text-(length:--density-text-13) data-[vaul-drawer-direction=bottom]:rounded-t-xl data-[vaul-drawer-direction=left]:rounded-r-xl data-[vaul-drawer-direction=right]:rounded-l-xl data-[vaul-drawer-direction=top]:rounded-b-xl;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex h-auto flex-col text-(length:--density-text-13) data-[vaul-drawer-direction=bottom]:rounded-t-xl data-[vaul-drawer-direction=left]:rounded-r-xl data-[vaul-drawer-direction=right]:rounded-l-xl data-[vaul-drawer-direction=top]:rounded-b-xl md:data-[vaul-drawer-direction=bottom]:mx-auto md:data-[vaul-drawer-direction=bottom]:max-w-xl md:data-[vaul-drawer-direction=top]:mx-auto md:data-[vaul-drawer-direction=top]:max-w-xl;
   }
 
   .cn-drawer-popup {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground text-(length:--density-text-13) data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl duration-sheet! ease-drawer! data-ending-style:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-swiping:duration-0! data-nested-drawer-swiping:duration-0! data-ending-style:data-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-ending-style:data-nested-drawer-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]!;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground text-(length:--density-text-13) data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl duration-sheet! ease-drawer! data-ending-style:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-swiping:duration-0! data-nested-drawer-swiping:duration-0! data-ending-style:data-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-ending-style:data-nested-drawer-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! md:data-[swipe-axis=y]:inset-x-(--drawer-inset,0px) md:data-[swipe-axis=y]:mx-auto md:data-[swipe-axis=y]:max-w-xl;
   }
 
   /* The panel's content fades while a nested drawer covers it, on the
@@ -4424,6 +4424,104 @@
     @apply my-2;
   }
 
+/* MARK: Kanban */
+
+/* Keep the work in the cards and give the lanes a quiet track. */
+.cn-kanban {
+  @apply gap-(--density-16) text-(length:--density-text-13);
+}
+.cn-kanban-toolbar {
+  @apply gap-(--density-8);
+}
+.cn-kanban-search {
+  @apply w-64 max-w-full ps-(--density-32);
+}
+.cn-kanban-search-icon {
+  @apply start-(--density-10) top-1/2 size-4 -translate-y-1/2 text-muted-foreground;
+}
+.cn-kanban-board {
+  @apply gap-(--density-20) pb-(--density-12);
+}
+.cn-kanban-lane {
+  @apply gap-(--density-8);
+}
+.cn-kanban-lane-title {
+  @apply px-(--density-8) font-medium text-muted-foreground;
+}
+.cn-kanban-track {
+  @apply gap-(--density-12);
+}
+.cn-kanban-column {
+  @apply min-h-32 w-[min(17rem,82vw)] gap-(--density-4) rounded-xl bg-surface-2 p-(--density-6) data-[drop-target=true]:ring-2 data-[drop-target=true]:ring-ring data-[tinted=true]:bg-[color-mix(in_oklch,var(--kanban-column-color)_9%,var(--surface-2))];
+}
+.cn-kanban-column-header {
+  @apply gap-(--density-6) px-(--density-4) py-(--density-4);
+}
+.cn-kanban-column-color {
+  @apply size-2.5 rounded-full bg-(--kanban-column-color);
+}
+.cn-kanban-column-title {
+  @apply font-semibold;
+}
+.cn-kanban-column-count {
+  @apply text-muted-foreground data-[over-limit=true]:text-destructive-text;
+}
+.cn-kanban-column-body {
+  @apply max-h-[min(65dvh,44rem)] min-h-20 overscroll-y-contain px-(--density-4) pb-(--density-6);
+}
+.cn-kanban-card-list {
+  @apply flex list-none flex-col;
+}
+.cn-kanban-card {
+  @apply mb-(--density-6) rounded-lg bg-card px-(--density-8) py-(--density-10) shadow-surface-1 data-[virtual=true]:mb-0 data-[dragging=true]:opacity-35 data-[pending=true]:opacity-65 data-[selected=true]:ring-2 data-[selected=true]:ring-ring data-[drop-target=true]:before:absolute data-[drop-target=true]:before:inset-x-0 data-[drop-target=true]:before:-top-1 data-[drop-target=true]:before:h-0.5 data-[drop-target=true]:before:rounded-full data-[drop-target=true]:before:bg-primary;
+}
+.cn-kanban-handle {
+  @apply cursor-grab text-muted-foreground active:cursor-grabbing;
+}
+.cn-kanban-card-title {
+  @apply wrap-break-word rounded-sm text-(length:--density-text-13) leading-snug font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring;
+}
+.cn-kanban-card-properties {
+  @apply gap-(--density-4) pt-(--density-6) empty:hidden;
+}
+.cn-kanban-pill {
+  @apply max-w-full rounded-md bg-muted px-(--density-6) py-0.5 text-(length:--density-text-11) text-foreground;
+}
+.cn-kanban-card-actions,
+.cn-kanban-selection-bar,
+.cn-kanban-feedback {
+  @apply gap-(--density-6);
+}
+.cn-kanban-card-actions {
+  @apply pt-(--density-8);
+}
+.cn-kanban-move-select {
+  @apply rounded-md border border-input bg-background px-(--density-6) focus-visible:ring-2 focus-visible:ring-ring;
+}
+.cn-kanban-column-message {
+  @apply flex flex-col items-center gap-(--density-8) p-(--density-12) text-center text-muted-foreground;
+}
+.cn-kanban-loading {
+  @apply gap-(--density-6);
+}
+.cn-kanban-drop-marker {
+  @apply h-0.5 rounded-full bg-primary;
+}
+.cn-kanban-drag-overlay {
+  @apply pointer-events-none rounded-lg bg-card p-(--density-12) text-(length:--density-text-13) font-medium shadow-surface-3;
+}
+
+/* View controls sit above the board and keep the existing card positions. */
+.cn-kanban-settings {
+  @apply gap-(--density-12) rounded-xl bg-surface-2 p-(--density-12);
+}
+.cn-kanban-settings-row {
+  @apply gap-(--density-8);
+}
+.cn-kanban-settings-select {
+  @apply rounded-md border border-input bg-background px-(--density-6) focus-visible:ring-2 focus-visible:ring-ring;
+}
+
 /* MARK: Kbd */
 
   /* A quiet 20px keycap: hover fill, 11px muted text. Inside the inverted
@@ -5223,6 +5321,48 @@
     @apply text-muted-foreground ml-auto text-(length:--density-text-13) tabular-nums;
   }
 
+/* MARK: Properties */
+
+/* Field labels align in a narrow column so values are easy to scan. */
+.cn-properties {
+  @apply gap-(--density-10);
+}
+.cn-properties-row {
+  @apply grid-cols-[minmax(5.5rem,0.4fr)_minmax(0,1fr)] items-baseline gap-(--density-12);
+}
+.cn-properties-label {
+  @apply wrap-break-word text-(length:--density-text-13) text-muted-foreground;
+}
+.cn-properties-description,
+.cn-properties-kind {
+  @apply text-(length:--density-text-11) text-muted-foreground;
+}
+.cn-properties-value {
+  @apply wrap-break-word text-(length:--density-text-13);
+}
+.cn-properties-link {
+  @apply underline decoration-muted-foreground underline-offset-2;
+}
+.cn-properties-select {
+  @apply min-h-(--density-28) min-w-0 rounded-md border border-input bg-background px-(--density-6) text-(length:--density-text-13) focus-visible:ring-2 focus-visible:ring-ring;
+}
+.cn-properties-error {
+  @apply text-(length:--density-text-12) text-destructive-text;
+}
+.cn-properties-options,
+.cn-properties-manager,
+.cn-properties-management-row {
+  @apply gap-(--density-8);
+}
+.cn-properties-management-row {
+  @apply [&>[data-slot=input]]:w-32;
+}
+
+/* Existing option IDs remain on records when an option is archived. */
+.cn-properties-option-manager {
+  @apply w-full;
+}
+
 /* MARK: Questionnaire */
 
   /* The Fabricator questionnaire (registry/fabricator/shared/ui/questionnaire.tsx)
@@ -5502,6 +5642,38 @@
     @apply transition-[scale] motion-bounce group-data-[state=empty]/rating-star:scale-50 motion-reduce:transition-none;
   }
 
+/* MARK: Record View */
+
+/* A single dialog host preserves the editor and scroll while its layout changes. */
+.cn-record-view {
+  @apply inset-0 m-auto h-fit w-full max-h-[calc(100dvh-2rem)] max-w-[min(44rem,calc(100vw-2rem))] overflow-hidden rounded-xl bg-surface-5 p-0 text-popover-foreground shadow-surface-5 motion-dialog has-[[data-mode=side]]:inset-auto! has-[[data-mode=side]]:end-3! has-[[data-mode=side]]:top-3! has-[[data-mode=side]]:bottom-3! has-[[data-mode=side]]:m-0! has-[[data-mode=side]]:h-auto! has-[[data-mode=side]]:w-[min(32rem,calc(100vw-1.5rem))] has-[[data-mode=side]]:max-h-none has-[[data-mode=side]]:max-w-none has-[[data-mode=side]]:translate-x-0 has-[[data-mode=side]]:translate-y-0 has-[[data-mode=page]]:inset-0! has-[[data-mode=page]]:m-0! has-[[data-mode=page]]:h-dvh! has-[[data-mode=page]]:w-full has-[[data-mode=page]]:max-h-none has-[[data-mode=page]]:max-w-none has-[[data-mode=page]]:translate-x-0 has-[[data-mode=page]]:translate-y-0 has-[[data-mode=page]]:rounded-none;
+}
+.cn-record-view-layout {
+  @apply max-h-[calc(100dvh-2rem)] data-[mode=side]:h-[calc(100dvh-1.5rem)] data-[mode=side]:max-h-none data-[mode=page]:mx-auto data-[mode=page]:h-dvh data-[mode=page]:w-full data-[mode=page]:max-h-none data-[mode=page]:max-w-3xl;
+}
+.cn-record-view-header {
+  @apply shrink-0 gap-(--density-12) p-(--density-20);
+}
+.cn-record-view-actions {
+  @apply gap-(--density-6);
+}
+.cn-record-view-position {
+  @apply text-(length:--density-text-12) text-muted-foreground;
+}
+.cn-record-view-mode {
+  @apply rounded-md border border-input bg-background px-(--density-6) text-(length:--density-text-12) focus-visible:ring-2 focus-visible:ring-ring;
+}
+.cn-record-view-body {
+  @apply flex-1 px-(--density-20) pb-(--density-20);
+}
+.cn-record-view-section,
+.cn-record-view-state {
+  @apply gap-(--density-12);
+}
+.cn-record-view-footer {
+  @apply shrink-0 gap-(--density-8) p-(--density-20);
+}
+
 /* MARK: Resizable */
 
   .cn-resizable-handle-icon {
@@ -5738,7 +5910,7 @@
   /* Panel: surface 3 whose shadow ring is the edge (no border). Slides
      and fades on the sheet motion (the drawer curve); closes quicker. */
   .cn-sheet-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground fixed z-50 flex flex-col gap-(--density-16) text-(length:--density-text-13) transition motion-sheet data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground fixed z-50 flex flex-col gap-(--density-16) text-(length:--density-text-13) transition motion-sheet data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm md:data-[side=bottom]:mx-auto md:data-[side=bottom]:max-w-xl md:data-[side=top]:mx-auto md:data-[side=top]:max-w-xl;
   }
 
   .cn-sheet-close {

@@ -9,6 +9,7 @@ import {
 } from "@/registry/bases/__base__/blocks/calendar-app-01/components/calendar-app-event-chip"
 import {
   CALENDAR_APP_EVENT_PANEL,
+  CalendarAppConflictAlert,
   CalendarAppEventPanel,
   type CalendarAppConflict,
 } from "@/registry/bases/__base__/blocks/calendar-app-01/components/calendar-app-event-panel"
@@ -46,7 +47,10 @@ import {
   setEventTimes,
   type EventCalendarView,
 } from "@/registry/bases/__base__/lib/event-calendar-model"
-import { expandEvents } from "@/registry/bases/__base__/lib/event-calendar-recurrence"
+import {
+  expandEvents,
+  isOccurrence,
+} from "@/registry/bases/__base__/lib/event-calendar-recurrence"
 import {
   AppShell,
   AppShellContent,
@@ -212,7 +216,7 @@ function CalendarApp() {
     if (now && isEventOver(event, now, timeZone)) return undefined
     const [first, ...others] = getConflicts(event)
     if (!first) return undefined
-    const canMove = event !== draft && calendar.canEdit(event)
+    const canMove = !draft && calendar.canEdit(event)
     const free = canMove
       ? getNextFreeStart({
           event,
@@ -222,6 +226,7 @@ function CalendarApp() {
         })
       : undefined
     const { start, end } = getEventTimes(event, timeZone)
+    const asksScope = isOccurrence(event)
     return {
       title:
         others.length > 0
@@ -229,7 +234,8 @@ function CalendarApp() {
           : first.title,
       time: formatEventTimeRange(getEventTimes(first, timeZone), formats),
       move: free && {
-        label: `Move to ${formatEventTime(free, formats)}`,
+        label: `Move to ${formatEventTime(free, formats)}${asksScope ? "…" : ""}`,
+        asksScope,
         onMove: () =>
           calendar.updateEvent(
             event,
@@ -268,7 +274,6 @@ function CalendarApp() {
     )
   }
 
-  const draftConflict = draft ? getConflicts(draft)[0]?.title : undefined
   const selectedId = panel.open ? selected?.id : undefined
   const isBars = isPhone && calendar.view === "month"
   const isStrip = isPhone && calendar.view === "day"
@@ -345,7 +350,6 @@ function CalendarApp() {
           <CalendarAppChipProvider
             selectedId={selectedId}
             responses={responses}
-            draftConflict={draftConflict}
             isBars={isBars}
             firstDay={calendar.isContinuous ? calendar.range.start : undefined}
             buffer={getContinuityBuffer(calendar.columns)}
@@ -356,6 +360,12 @@ function CalendarApp() {
               calendar={calendar}
               variant="flat"
               renderEvent={renderCalendarAppEvent}
+              renderDraftNotice={(event) => {
+                const conflict = getConflict(event)
+                return (
+                  conflict && <CalendarAppConflictAlert conflict={conflict} />
+                )
+              }}
               fullCalendar={grid}
               className="h-full min-h-0 flex-1"
             >
@@ -385,7 +395,7 @@ function CalendarApp() {
           now !== undefined &&
           isEventOver(shown, now, timeZone)
         }
-        conflict={shown && getConflict(shown)}
+        conflict={!draft && shown ? getConflict(shown) : undefined}
         response={shown && getYourResponse(shown, responses)}
         onResponseChange={(response) => {
           if (!shownKey) return

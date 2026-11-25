@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { SettingsTabs } from "@/registry/bases/__base__/blocks/settings-01/components/settings-controls"
+import { SettingsChoice } from "@/registry/bases/__base__/blocks/settings-01/components/settings-controls"
 import { SettingsLogo } from "@/registry/bases/__base__/blocks/settings-01/components/settings-logo"
 import {
   SettingsRow,
@@ -103,7 +103,7 @@ export function SettingsLookCard({
               Density
               <SettingsSaveMark status={statuses.density} />
             </FieldTitle>
-            <SettingsTabs
+            <SettingsChoice
               label="Density"
               value={density}
               options={DENSITIES}

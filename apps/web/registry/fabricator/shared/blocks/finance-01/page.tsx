@@ -76,6 +76,16 @@ const ACCOUNT_NAMES: Record<FinanceAccountId, string> = {
 
 const noop = () => {}
 
+const sendIcon = (
+  <IconPlaceholder
+    lucide="SendIcon"
+    tabler="IconSend"
+    hugeicons="SentIcon"
+    phosphor="PaperPlaneTiltIcon"
+    remixicon="RiSendPlaneLine"
+  />
+)
+
 export default function FinanceDashboardPage() {
   const [period, setPeriod] = React.useState<FinancePeriod>("30d")
   const [isComparing, setComparing] = React.useState(true)
@@ -162,21 +172,15 @@ export default function FinanceDashboardPage() {
           <AppShellBreadcrumb
             items={[{ label: "Acme Inc", href: "/" }, { label: "Overview" }]}
           />
+          <Button
+            size="sm"
+            onClick={noop}
+            className="ms-auto shrink-0 @max-[48rem]/app-shell:min-h-11"
+          >
+            {sendIcon}
+            Send money
+          </Button>
           <AppShellHeaderActions
-            primaryAction={{
-              id: "send",
-              label: "Send money",
-              onSelect: noop,
-              icon: (
-                <IconPlaceholder
-                  lucide="SendIcon"
-                  tabler="IconSend"
-                  hugeicons="SentIcon"
-                  phosphor="PaperPlaneTiltIcon"
-                  remixicon="RiSendPlaneLine"
-                />
-              ),
-            }}
             menuLabel="Overview options"
             menu={
               <FinancePageMenu
@@ -191,7 +195,7 @@ export default function FinanceDashboardPage() {
           <div
             ref={bodyRef}
             tabIndex={-1}
-            className="@container flex flex-col gap-(--density-24) outline-none in-data-[size=phone]:pb-20"
+            className="@container flex flex-col gap-(--density-24) outline-none"
           >
             <div className="flex flex-col gap-(--density-4)">
               <AppShellPageTitle>Overview</AppShellPageTitle>
@@ -216,9 +220,9 @@ export default function FinanceDashboardPage() {
                 </div>
               }
             >
-              <div className="grid grid-cols-1 gap-(--density-16) @4xl:grid-cols-12">
+              <div className="grid grid-cols-1 gap-(--density-16) @2xl:grid-cols-12">
                 {declined && (
-                  <Alert variant="error" className="@4xl:col-span-12">
+                  <Alert variant="error" className="col-span-full">
                     <IconPlaceholder
                       lucide="CircleAlertIcon"
                       tabler="IconAlertCircle"
@@ -248,36 +252,36 @@ export default function FinanceDashboardPage() {
                   balance={BALANCE}
                   isComparing={isComparing}
                   isLoading={isRefreshing}
-                  className="@4xl:col-span-8"
+                  className="@2xl:col-span-7 @4xl:col-span-8"
                 />
                 <FinanceAccountsCard
                   accounts={FINANCE_ACCOUNTS}
                   card={FINANCE_CARD}
                   cardSpent={getCardSpent(entries, SAMPLE_NOW)}
-                  className="@4xl:col-span-4"
+                  className="@2xl:col-span-5 @4xl:col-span-4"
                 />
                 <FinanceKpiRow
                   metrics={overview.metrics}
                   isComparing={isComparing}
                   isLoading={isRefreshing}
-                  className="@4xl:col-span-12"
+                  className="col-span-full"
                 />
                 <FinanceApprovalsCard
                   approvals={waiting}
                   now={SAMPLE_NOW}
                   onApprove={approve}
-                  className="@4xl:col-span-8"
+                  className="col-span-full @4xl:col-span-8"
                 />
                 <FinanceSpendingCard
                   spending={overview.spending}
                   payroll={overview.payroll}
                   isLoading={isRefreshing}
-                  className="@4xl:col-span-4"
+                  className="col-span-full @4xl:col-span-4"
                 />
                 <FinanceTransactionsCard
                   transactions={recent}
                   accountNames={ACCOUNT_NAMES}
-                  className="@4xl:col-span-12"
+                  className="col-span-full"
                 />
               </div>
             </FinancePeriodTabs>

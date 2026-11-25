@@ -76,7 +76,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/registry/bases/base/ui/table"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/bases/base/ui/tabs"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/bases/base/ui/tabs"
 import { toast } from "@/registry/bases/base/ui/toast"
 
 // The members page's controls whose API differs between Base UI, Radix and
@@ -297,25 +302,51 @@ function toggle(roles: MemberRole[], role: MemberRole, isOn: boolean) {
 export function MembersViewTabs({
   value,
   onValueChange,
+  children,
 }: {
+  children: React.ReactNode
   value: MembersView
   onValueChange: (view: MembersView) => void
 }) {
   return (
     <Tabs
+      className="gap-(--density-12)"
       value={value}
       onValueChange={(next: unknown) => {
         if (isMembersView(next)) onValueChange(next)
       }}
     >
-      <TabsList aria-label="Show">
-        {MEMBERS_VIEWS.map((view) => (
-          <TabsTrigger key={view.value} value={view.value}>
-            {view.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      {children}
     </Tabs>
+  )
+}
+
+export function MembersViewList() {
+  return (
+    <TabsList aria-label="Show">
+      {MEMBERS_VIEWS.map((view) => (
+        <TabsTrigger key={view.value} value={view.value}>
+          {view.label}
+        </TabsTrigger>
+      ))}
+    </TabsList>
+  )
+}
+
+export function MembersViewPanel({
+  value,
+  children,
+}: {
+  value: MembersView
+  children: React.ReactNode
+}) {
+  return (
+    <TabsContent
+      value={value}
+      className="focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset"
+    >
+      {children}
+    </TabsContent>
   )
 }
 

@@ -7,6 +7,8 @@ import {
   type MailComposeValue,
 } from "@/registry/bases/__base__/blocks/mail-01/components/mail-compose"
 import {
+  MailFilterPanel,
+  MailFilterTabs,
   MailIconButton,
   MailMenuButton,
   notifyMail,
@@ -705,108 +707,111 @@ function Mail() {
               conversation is the way out. */}
           {list.isFloating && !isPhone && <AppShellPanelClose />}
         </AppShellPanelHeader>
-        <MailListToolbar
-          searchRef={searchRef}
-          query={query}
-          onQueryChange={setQuery}
-          filter={filter}
-          onFilterChange={setFilter}
-          selection={
-            hasSelection
-              ? {
-                  selectedCount: selectedIds.length,
-                  isAllSelected: selectedIds.length === visible.length,
-                  areSelectedRead,
-                  moves: selectedMoves,
-                  snoozeOptions: SNOOZE_OPTIONS,
-                  onSelectAll: (isSelected) =>
-                    dispatch(
-                      isSelected
-                        ? { type: "selectAll", ids: visibleIds }
-                        : { type: "clearSelection" }
-                    ),
-                  onClearSelection: () => dispatch({ type: "clearSelection" }),
-                  onBulkAction,
-                  onSnooze: (until) => snooze(selectedIds, until),
-                }
-              : null
-          }
-        />
-        {checkState === "failed" && (
-          <div className="shrink-0 px-(--density-16) pb-(--density-12)">
-            <Alert variant="error">
-              {mailIcons.alert}
-              <AlertTitle>Couldn&apos;t check for mail</AlertTitle>
-              <AlertDescription>
-                You&apos;re offline. This is your mail from{" "}
-                {formatMailTime(checkedAt, NOW, TIME_FORMAT)}.
-              </AlertDescription>
-              <AlertAction>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => void checkMail()}
-                >
-                  Retry
-                </Button>
-              </AlertAction>
-            </Alert>
-          </div>
-        )}
-        <AppShellPanelContent
-          aria-busy={isLoading || undefined}
-          className="flex scroll-fade flex-col px-(--density-6) pb-(--density-16) in-data-[size=phone]:pb-20"
-        >
-          {isLoading ? (
-            <MailThreadListSkeleton />
-          ) : visible.length > 0 ? (
-            <MailThreadList
-              threads={visible}
-              contacts={contacts}
-              replyDrafts={state.replyDrafts}
-              openId={isPhone ? null : state.openId}
-              selectedIds={selectedIds}
-              now={NOW}
-              timeFormat={TIME_FORMAT}
-              listRef={listRef}
-              onSelect={(id) => dispatch({ type: "open", id })}
-              onOpen={(id) =>
-                // While rows are being picked by touch, a tap picks.
-                isPhone && hasSelection
-                  ? dispatch({ type: "toggleSelected", id })
-                  : open(id)
-              }
-              onToggleSelected={(id) =>
-                dispatch({ type: "toggleSelected", id })
-              }
-              onClearSelection={() => dispatch({ type: "clearSelection" })}
-              onStar={(id, isStarred) =>
-                dispatch({ type: "star", id, isStarred })
-              }
-              onAction={onRowAction}
-            />
-          ) : isCaughtUp ? (
-            isPhone ? (
-              caughtUp
-            ) : (
-              <p className="px-(--density-10) py-(--density-8) text-(length:--density-text-13) text-muted-foreground">
-                Nothing left to read.
-              </p>
-            )
-          ) : (
-            <MailListEmpty
-              view={view}
-              label={label}
-              filter={filter}
-              query={query}
-              onClearQuery={() => {
-                setQuery("")
-                searchRef.current?.focus()
-              }}
-              onShowAll={() => setFilter("all")}
-            />
+        <MailFilterTabs value={filter} onValueChange={setFilter}>
+          <MailListToolbar
+            searchRef={searchRef}
+            query={query}
+            onQueryChange={setQuery}
+            selection={
+              hasSelection
+                ? {
+                    selectedCount: selectedIds.length,
+                    isAllSelected: selectedIds.length === visible.length,
+                    areSelectedRead,
+                    moves: selectedMoves,
+                    snoozeOptions: SNOOZE_OPTIONS,
+                    onSelectAll: (isSelected) =>
+                      dispatch(
+                        isSelected
+                          ? { type: "selectAll", ids: visibleIds }
+                          : { type: "clearSelection" }
+                      ),
+                    onClearSelection: () =>
+                      dispatch({ type: "clearSelection" }),
+                    onBulkAction,
+                    onSnooze: (until) => snooze(selectedIds, until),
+                  }
+                : null
+            }
+          />
+          {checkState === "failed" && (
+            <div className="shrink-0 px-(--density-16) pb-(--density-12)">
+              <Alert variant="error">
+                {mailIcons.alert}
+                <AlertTitle>Couldn&apos;t check for mail</AlertTitle>
+                <AlertDescription>
+                  You&apos;re offline. This is your mail from{" "}
+                  {formatMailTime(checkedAt, NOW, TIME_FORMAT)}.
+                </AlertDescription>
+                <AlertAction>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => void checkMail()}
+                  >
+                    Retry
+                  </Button>
+                </AlertAction>
+              </Alert>
+            </div>
           )}
-        </AppShellPanelContent>
+          <MailFilterPanel value={filter}>
+            <AppShellPanelContent
+              aria-busy={isLoading || undefined}
+              className="flex scroll-fade flex-col px-(--density-6) pb-(--density-16) in-data-[size=phone]:pb-20"
+            >
+              {isLoading ? (
+                <MailThreadListSkeleton />
+              ) : visible.length > 0 ? (
+                <MailThreadList
+                  threads={visible}
+                  contacts={contacts}
+                  replyDrafts={state.replyDrafts}
+                  openId={isPhone ? null : state.openId}
+                  selectedIds={selectedIds}
+                  now={NOW}
+                  timeFormat={TIME_FORMAT}
+                  listRef={listRef}
+                  onSelect={(id) => dispatch({ type: "open", id })}
+                  onOpen={(id) =>
+                    // While rows are being picked by touch, a tap picks.
+                    isPhone && hasSelection
+                      ? dispatch({ type: "toggleSelected", id })
+                      : open(id)
+                  }
+                  onToggleSelected={(id) =>
+                    dispatch({ type: "toggleSelected", id })
+                  }
+                  onClearSelection={() => dispatch({ type: "clearSelection" })}
+                  onStar={(id, isStarred) =>
+                    dispatch({ type: "star", id, isStarred })
+                  }
+                  onAction={onRowAction}
+                />
+              ) : isCaughtUp ? (
+                isPhone ? (
+                  caughtUp
+                ) : (
+                  <p className="px-(--density-10) py-(--density-8) text-(length:--density-text-13) text-muted-foreground">
+                    Nothing left to read.
+                  </p>
+                )
+              ) : (
+                <MailListEmpty
+                  view={view}
+                  label={label}
+                  filter={filter}
+                  query={query}
+                  onClearQuery={() => {
+                    setQuery("")
+                    searchRef.current?.focus()
+                  }}
+                  onShowAll={() => setFilter("all")}
+                />
+              )}
+            </AppShellPanelContent>
+          </MailFilterPanel>
+        </MailFilterTabs>
         {isPhone && (
           <Button
             size="icon-lg"
@@ -825,27 +830,29 @@ function Mail() {
           trigger={canShowList && !isPhone ? "auto" : "never"}
           className="px-[calc(var(--density-24)-var(--density-6))] in-data-[size=phone]:px-(--density-6)"
         >
-          {canShowList && (
-            <MailIconButton
-              label={`Back to ${label}`}
-              onClick={() => list.setOpen(true)}
-            >
-              {mailIcons.back}
-            </MailIconButton>
-          )}
-          {openThread && (
-            <MailThreadHeader
-              thread={openThread}
-              position={getListPosition(visibleIds, openThread.id)}
-              isPhone={isPhone}
-              snoozeOptions={SNOOZE_OPTIONS}
-              onAction={onThreadAction}
-              onSnooze={(until) => snooze([openThread.id], until)}
-              onReplyAll={() => startReply("replyAll")}
-              onForward={forward}
-              onMove={moveTo}
-            />
-          )}
+          <div className="mx-auto flex w-full max-w-[calc(45rem+2*var(--density-6))] min-w-0 items-center">
+            {canShowList && (
+              <MailIconButton
+                label={`Back to ${label}`}
+                onClick={() => list.setOpen(true)}
+              >
+                {mailIcons.back}
+              </MailIconButton>
+            )}
+            {openThread && (
+              <MailThreadHeader
+                thread={openThread}
+                position={getListPosition(visibleIds, openThread.id)}
+                isPhone={isPhone}
+                snoozeOptions={SNOOZE_OPTIONS}
+                onAction={onThreadAction}
+                onSnooze={(until) => snooze([openThread.id], until)}
+                onReplyAll={() => startReply("replyAll")}
+                onForward={forward}
+                onMove={moveTo}
+              />
+            )}
+          </div>
         </AppShellHeader>
         <AppShellContent
           key={openThread?.id ?? "none"}

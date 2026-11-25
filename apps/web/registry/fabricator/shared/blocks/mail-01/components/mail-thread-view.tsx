@@ -187,8 +187,7 @@ export function MailThreadView({
           )
         })}
       </div>
-      {/* At the thread's end, and in reach while a long one scrolls. */}
-      <div className="sticky bottom-0 z-10 bg-background pb-[max(var(--density-16),env(safe-area-inset-bottom))]">
+      <div className="pb-[max(var(--density-16),env(safe-area-inset-bottom))]">
         {isDraft ? (
           <Button
             onClick={onEditDraft}

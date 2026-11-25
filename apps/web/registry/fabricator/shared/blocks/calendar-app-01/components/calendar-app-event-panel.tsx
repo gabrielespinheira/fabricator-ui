@@ -4,8 +4,8 @@ import * as React from "react"
 import { cn } from "cn"
 
 import {
+  CalendarAppChoice,
   CalendarAppMenu,
-  CalendarAppTabs,
   CalendarAppValueMenu,
 } from "@/registry/bases/__base__/blocks/calendar-app-01/components/calendar-app-controls"
 import { CalendarAppDot } from "@/registry/bases/__base__/blocks/calendar-app-01/components/calendar-app-sidebar"
@@ -70,7 +70,37 @@ const RESPONSES = [
 export type CalendarAppConflict = {
   title: string
   time: string
-  move?: { label: string; onMove: () => void }
+  move?: { label: string; asksScope: boolean; onMove: () => void }
+}
+
+export function CalendarAppConflictAlert({
+  conflict,
+}: {
+  conflict: CalendarAppConflict
+}) {
+  return (
+    <Alert variant="warning">
+      <IconPlaceholder
+        lucide="TriangleAlertIcon"
+        tabler="IconAlertTriangle"
+        hugeicons="Alert02Icon"
+        phosphor="WarningIcon"
+        remixicon="RiAlertLine"
+      />
+      <AlertTitle>Overlaps {conflict.title}</AlertTitle>
+      <AlertDescription className="flex flex-col items-start gap-(--density-8)">
+        <span className="tabular-nums">{conflict.time}</span>
+        {conflict.move?.asksScope && (
+          <span>Choose which occurrences to move.</span>
+        )}
+        {conflict.move && (
+          <Button variant="outline" size="sm" onClick={conflict.move.onMove}>
+            {conflict.move.label}
+          </Button>
+        )}
+      </AlertDescription>
+    </Alert>
+  )
 }
 
 type EventPanelProps = {
@@ -93,7 +123,6 @@ type EventPanelProps = {
 export function CalendarAppEventPanel(props: EventPanelProps) {
   const { calendar, event, isDraft, startsIn, response, onResponseChange } =
     props
-  const rsvpLabelId = React.useId()
   const you = event?.data?.guests?.find((guest) => guest.isYou)
   const isInvited = you !== undefined && !you.isOrganizer
   const canEdit = event !== undefined && !isDraft && calendar.canEdit(event)
@@ -199,14 +228,11 @@ export function CalendarAppEventPanel(props: EventPanelProps) {
       </AppShellPanelContent>
       {event && isInvited ? (
         <div className="flex shrink-0 items-center justify-between gap-(--density-12) px-(--density-16) pt-(--density-12) pb-[calc(var(--density-16)+env(safe-area-inset-bottom))]">
-          <span
-            id={rsvpLabelId}
-            className="text-(length:--density-text-13) font-medium"
-          >
+          <span className="text-(length:--density-text-13) font-medium">
             Going?
           </span>
-          <CalendarAppTabs
-            label="Your answer"
+          <CalendarAppChoice
+            label="Going?"
             options={RESPONSES}
             value={response}
             onValueChange={onResponseChange}
@@ -262,30 +288,7 @@ function CalendarAppEventDetails({
         {repeat ? <p className="text-muted-foreground">{repeat}</p> : null}
       </div>
 
-      {conflict ? (
-        <Alert variant="warning">
-          <IconPlaceholder
-            lucide="TriangleAlertIcon"
-            tabler="IconAlertTriangle"
-            hugeicons="Alert02Icon"
-            phosphor="WarningIcon"
-            remixicon="RiAlertLine"
-          />
-          <AlertTitle>Overlaps {conflict.title}</AlertTitle>
-          <AlertDescription className="flex flex-col items-start gap-(--density-8)">
-            <span className="tabular-nums">{conflict.time}</span>
-            {conflict.move ? (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={conflict.move.onMove}
-              >
-                {conflict.move.label}
-              </Button>
-            ) : null}
-          </AlertDescription>
-        </Alert>
-      ) : null}
+      {conflict && <CalendarAppConflictAlert conflict={conflict} />}
 
       {conference ? (
         <a
@@ -392,7 +395,9 @@ function GuestRow({ guest }: { guest: CalendarAppGuest }) {
     <li className="flex min-h-(--density-36) items-center gap-(--density-10)">
       <Avatar size="sm">
         {guest.avatar ? <AvatarImage src={guest.avatar} alt="" /> : null}
-        <AvatarFallback>{guest.initials}</AvatarFallback>
+        <AvatarFallback className="text-foreground">
+          {guest.initials}
+        </AvatarFallback>
       </Avatar>
       <span className="min-w-0 flex-1 truncate">
         {guest.name}

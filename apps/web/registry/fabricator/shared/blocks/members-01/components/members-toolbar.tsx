@@ -6,7 +6,7 @@ import {
   MembersButton,
   MembersRoleFilter,
   MembersRolePicker,
-  MembersViewTabs,
+  MembersViewList,
 } from "@/registry/bases/__base__/blocks/members-01/components/members-controls"
 import {
   type MemberRole,
@@ -36,10 +36,7 @@ export function MembersToolbar({
 
   return (
     <div className="flex min-h-(--density-36) flex-wrap items-center gap-(--density-8)">
-      <MembersViewTabs
-        value={filter.view}
-        onValueChange={(view) => onFilterChange({ ...filter, view })}
-      />
+      <MembersViewList />
       <Search
         collapsible={false}
         width="13rem"
