@@ -3134,6 +3134,22 @@ export const Components: Record<string, any> = {
       ) || "item-variant"
     return { default: mod.default || mod[exportName] }
   }),
+  "kanban-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/kanban-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "kanban-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "kanban-loader": React.lazy(async () => {
+    const mod = await import("@/examples/radix/kanban-loader")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "kanban-loader"
+    return { default: mod.default || mod[exportName] }
+  }),
   "kbd-button": React.lazy(async () => {
     const mod = await import("@/examples/radix/kbd-button")
     const exportName =
@@ -4842,6 +4858,14 @@ export const Components: Record<string, any> = {
       ) || "slider-vertical"
     return { default: mod.default || mod[exportName] }
   }),
+  "sonner-action": React.lazy(async () => {
+    const mod = await import("@/examples/radix/sonner-action")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sonner-action"
+    return { default: mod.default || mod[exportName] }
+  }),
   "sonner-demo": React.lazy(async () => {
     const mod = await import("@/examples/radix/sonner-demo")
     const exportName =
@@ -4858,12 +4882,36 @@ export const Components: Record<string, any> = {
       ) || "sonner-description"
     return { default: mod.default || mod[exportName] }
   }),
+  "sonner-icon": React.lazy(async () => {
+    const mod = await import("@/examples/radix/sonner-icon")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sonner-icon"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sonner-long": React.lazy(async () => {
+    const mod = await import("@/examples/radix/sonner-long")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sonner-long"
+    return { default: mod.default || mod[exportName] }
+  }),
   "sonner-position": React.lazy(async () => {
     const mod = await import("@/examples/radix/sonner-position")
     const exportName =
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "sonner-position"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sonner-promise": React.lazy(async () => {
+    const mod = await import("@/examples/radix/sonner-promise")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sonner-promise"
     return { default: mod.default || mod[exportName] }
   }),
   "sonner-types": React.lazy(async () => {

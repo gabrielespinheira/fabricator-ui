@@ -30,6 +30,7 @@ export const fabricatorItems = [
       { path: "ui/theme-toggle.tsx", type: "registry:ui" },
       { path: "lib/theme-toggle-model.ts", type: "registry:lib" },
       { path: "lib/theme-transition.ts", type: "registry:lib" },
+      { path: "hooks/use-theme-preference.ts", type: "registry:hook" },
     ],
     categories: ["basics"],
     meta: { fabricator: true },
@@ -455,6 +456,68 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "record-properties-model",
+    type: "registry:lib",
+    title: "Record Properties Model",
+    description: "Shared field formatting, filtering and comparison.",
+
+    files: [
+      { path: "lib/data-table-model.ts", type: "registry:lib" },
+      { path: "lib/property-model.ts", type: "registry:lib" },
+    ],
+  },
+  {
+    name: "properties",
+    type: "registry:ui",
+    title: "Properties",
+    description: "Typed fields, value editors and property definitions.",
+
+    registryDependencies: ["record-properties-model", "button", "input"],
+    files: [{ path: "ui/properties.tsx", type: "registry:ui" }],
+    meta: { fabricator: true },
+  },
+  {
+    name: "record-view",
+    type: "registry:ui",
+    title: "Record View",
+    description:
+      "One record in a side panel, center dialog or full-page surface.",
+
+    registryDependencies: ["button", "density", "dialog", "skeleton"],
+    files: [
+      { path: "ui/record-view.tsx", type: "registry:ui" },
+      { path: "components/record-view-parts.tsx", type: "registry:component" },
+      { path: "lib/record-view-model.ts", type: "registry:lib" },
+    ],
+    meta: { fabricator: true },
+  },
+  {
+    name: "kanban",
+    type: "registry:ui",
+    title: "Kanban",
+    description:
+      "Composable board with card drag and drop, lanes, typed properties, search and cursor pagination.",
+    dependencies: ["@tanstack/react-virtual@3.14.26"],
+    registryDependencies: [
+      "record-properties-model",
+      "sortable",
+      "button",
+      "input",
+      "skeleton",
+    ],
+    files: [
+      { path: "ui/kanban.tsx", type: "registry:ui" },
+      { path: "components/kanban-card.tsx", type: "registry:component" },
+      { path: "components/kanban-column.tsx", type: "registry:component" },
+      { path: "components/kanban-drag.tsx", type: "registry:component" },
+      { path: "components/kanban-settings.tsx", type: "registry:component" },
+      { path: "hooks/use-kanban.ts", type: "registry:hook" },
+      { path: "hooks/use-kanban-pages.ts", type: "registry:hook" },
+      { path: "lib/kanban-model.ts", type: "registry:lib" },
+    ],
+    meta: { fabricator: true },
+  },
+  {
     name: "event-calendar",
     type: "registry:ui",
     title: "Event Calendar",
@@ -500,6 +563,7 @@ export const fabricatorItems = [
       { path: "lib/event-calendar-model.ts", type: "registry:lib" },
       { path: "lib/event-calendar-recurrence.ts", type: "registry:lib" },
       { path: "lib/event-calendar-loader.ts", type: "registry:lib" },
+      { path: "lib/palette-model.ts", type: "registry:lib" },
     ],
     categories: ["data", "calendar"],
     meta: {
@@ -959,6 +1023,8 @@ export const fabricatorItems = [
     registryDependencies: ["markdown", "syntax-highlight", "toggle"],
     files: [
       { path: "ui/editor.tsx", type: "registry:ui" },
+      { path: "hooks/use-editor-floating.ts", type: "registry:hook" },
+      { path: "hooks/use-editor-toolbar.ts", type: "registry:hook" },
       { path: "lib/editor-commands.ts", type: "registry:lib" },
       { path: "lib/editor-dom.ts", type: "registry:lib" },
       { path: "lib/editor-input.ts", type: "registry:lib" },
@@ -1044,6 +1110,17 @@ export const fabricatorItems = [
     files: [
       { path: "lib/accordion-model.ts", type: "registry:lib" },
       { path: "hooks/use-accordion-shape.ts", type: "registry:hook" },
+    ],
+  },
+  {
+    name: "toast-stack",
+    type: "registry:lib",
+    title: "Toast Stack",
+    description:
+      "Sizes toasts to their text and stacks them, for Toast and Sonner.",
+    files: [
+      { path: "lib/toast-stack-model.ts", type: "registry:lib" },
+      { path: "hooks/use-toast-stack.ts", type: "registry:hook" },
     ],
   },
   {
@@ -1189,8 +1266,13 @@ export const fabricatorItems = [
     type: "registry:component",
     title: "User Menu",
     description:
-      "The signed-in person's menu, as a sidebar row or an avatar mark.",
-    registryDependencies: ["sidebar", "avatar", "dropdown-menu"],
+      "The signed-in person's menu, as a sidebar row or an avatar mark, with tabs for the theme.",
+    registryDependencies: [
+      "sidebar",
+      "avatar",
+      "dropdown-menu",
+      "theme-toggle",
+    ],
     files: [{ path: "ui/user-menu.tsx", type: "registry:ui" }],
     categories: ["navigation"],
     meta: {
@@ -1307,6 +1389,8 @@ export const fabricatorOverrides: Record<
   questionnaire: { registryDependencies: ["fluid-hover"] },
   slider: { registryDependencies: ["slider-model"] },
   "radio-group": { registryDependencies: ["radio-glide"] },
+  toast: { registryDependencies: ["toast-stack", "fluid-hover"] },
+  sonner: { dependencies: ["cn"], registryDependencies: ["toast-stack"] },
   // The month and year dropdowns are the library's Select.
   calendar: { registryDependencies: ["select"] },
 }

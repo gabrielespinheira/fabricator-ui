@@ -41,10 +41,11 @@ npx fabricator-ui@latest add editor
 </Step>
 
 <Step>
-  Copy the editor's files into your project: `components/ui/editor.tsx` and, in
+  Copy the editor's files into your project: `components/ui/editor.tsx`; in
+  `hooks/`, `use-editor-floating.ts` and `use-editor-toolbar.ts`; and, in
   `lib/`, `editor-commands.ts`, `editor-dom.ts`, `editor-input.ts`,
   `editor-kit.ts`, `editor-store.ts`, `editor-surface-model.ts`,
-  `editor-transaction.ts` and `markdown-serialize.ts`.
+  `editor-table.ts`, `editor-transaction.ts` and `markdown-serialize.ts`.
 </Step>
 
 <ComponentSource
@@ -92,7 +93,7 @@ With no children it renders just the document.
 
 ```text
 Editor                    the document, its history and commands
-├── EditorToolbar         the commands as toggles, in groups
+├── EditorToolbar         the commands as toggles, in groups, with a More menu
 │   ├── EditorToolbarGroup
 │   │   └── EditorToolbarButton   one command: command="bold"
 │   └── EditorToolbarSeparator
@@ -157,6 +158,16 @@ Each shortcut is its own undo step: Backspace or Mod+Z right after it gives back
 
 Mod is ⌘ on Apple platforms and Ctrl elsewhere. Pasted Markdown arrives formatted; Mod+Shift+V pastes plain text.
 
+## The toolbar
+
+`EditorToolbar` keeps to one row at any width. Commands without room move to a More menu at its end, with their labels and shortcuts. When the editor is too narrow for the headings beside the marks and lists, the default row folds its six heading buttons into Turn into first. Pass children to choose its controls: an `EditorToolbarButton` can move to More, and any other control always stays in the row.
+
+In a document as long as its page, make the toolbar stick to the top while the text scrolls under it:
+
+```tsx
+<EditorToolbar className="sticky top-0 z-10 bg-card" />
+```
+
 ## The selection bar
 
 Selecting text with a mouse or trackpad brings up `EditorBubbleMenu`: Turn into, which changes the block to text, a heading from 1 to 6, a list, a quote or a code block, then bold, italic, strikethrough, inline code and link, and any kit command with the `bubble` surface. Pass children to choose its controls:
@@ -171,6 +182,10 @@ Selecting text with a mouse or trackpad brings up `EditorBubbleMenu`: Turn into,
 ```
 
 Turn into is a menu button: ArrowDown or a click opens it on the current type, arrow keys move, Enter picks, Escape closes. `EditorBlockTypeMenu` works in `EditorToolbar` too.
+
+## Inside other containers
+
+The selection bar, the link field, the keyboard bar and the menus open in the browser's top layer, so a card, dialog, drawer or scrolling panel around the editor never crops them, whatever its overflow or transform. The bar appears once the pointer lets go. It stays within the editor's width when it fits, on screen always, and clear of the toolbar, and it hides while the selected text is scrolled out of view. Menus flip or shrink to the side with more room. They stay inside `Editor` in the DOM, so a dialog's focus trap and outside press count them in, and they take the editor's theme and density.
 
 ## Code
 

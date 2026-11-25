@@ -79,6 +79,28 @@ describe("Editor", () => {
     expect(html).toMatch(/role="toolbar"[^>]*tabindex="0"/)
   })
 
+  it("folds what doesn't fit into a menu and the headings into Turn into", () => {
+    const html = render(
+      <Editor defaultValue="Hi">
+        <EditorToolbar />
+      </Editor>
+    )
+    expect(html).toContain('data-slot="editor-toolbar-list"')
+    expect(html).toMatch(
+      /aria-haspopup="menu"[^>]*aria-label="More formatting"/
+    )
+    expect(html).toMatch(/aria-label="Turn into, now Text"[^>]*disabled=""/)
+  })
+
+  it("writes a shortcut's punctuation as its key", () => {
+    const html = render(
+      <Editor defaultValue="Hi">
+        <EditorToolbarButton command="quote" />
+      </Editor>
+    )
+    expect(html).toMatch(/title="Quote \((⌘⇧|Ctrl\+Shift\+)\.\)"/)
+  })
+
   it("skips a toolbar button for a command no kit defines", () => {
     const html = render(
       <Editor>

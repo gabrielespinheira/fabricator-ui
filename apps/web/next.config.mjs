@@ -408,10 +408,6 @@ const nextConfig = {
         source: "/r/fabricator/native/:name",
         destination: "/r/native/:name",
       },
-      {
-        source: "/r/fabricator/:renderer(swiftui|compose)/:name",
-        destination: "/r/:renderer/:name",
-      },
       // Registry. Serves the Fabricator style compiled for
       // the base in the project's style id (e.g. base-nova -> base-fabricator).
       // Fabricator's icons, the default: `/init` writes this param into the

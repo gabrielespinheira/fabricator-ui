@@ -1,8 +1,9 @@
 /* MARK: Toast */
 
   /* Surface 5 with its shadow ring (no border), rounded-xl, 13pt. Applies to the
-     toast root of both `toast` and `sonner`. As on the website, it moves and fades
-     on the toast timing and changes height on the feedback timing (ui/toast). */
+     toast root of both `toast` and `sonner`. As on the website, every toast
+     has the same width, and its place, size and opacity follow the toast
+     timing (ui/toast). */
   .cn-toast {
     @apply bg-surface-5 shadow-surface-5 rounded-xl;
   }
@@ -11,16 +12,56 @@
     @apply text-popover-foreground text-(length:--density-text-13);
   }
 
+  .cn-toast-clip {
+    @apply rounded-xl;
+  }
+
+  /* The website's 10px above a line of text, in two steps: the text keeps the
+     second (cn-toast-message), so a line is as tall as the action beside it. */
+  .cn-toast-content {
+    @apply gap-(--density-8) px-(--density-12) py-(--density-6);
+  }
+
+  .cn-toast-body {
+    @apply gap-x-(--density-12);
+  }
+
+  .cn-toast-message {
+    @apply min-h-(--density-28) justify-center py-(--density-4);
+  }
+
+  /* Two lines, and all of it once the stack is open. */
   .cn-toast-title {
-    @apply text-(length:--density-text-13) font-medium;
+    @apply text-(length:--density-text-13) leading-(--density-20) font-medium;
   }
 
+  /* Three lines, and all of it once open. On its own it is the message, so it
+     takes the foreground. */
   .cn-toast-description {
-    @apply text-muted-foreground text-(length:--density-text-13);
+    @apply text-muted-foreground text-(length:--density-text-13) leading-(--density-20) data-[alone=true]:text-popover-foreground;
   }
 
-  /* Status toasts colour only their icon, with the role's fill (error is the
-     destructive role), on the neutral surface. */
+  /* A quiet fill rather than a second edge. */
+  .cn-toast-action {
+    @apply bg-foreground/8 my-(--density-4) h-(--density-28) rounded-md px-(--density-10);
+  }
+
+  /* On the corner, as on the website, where touch always shows it. */
+  .cn-toast-close-corner {
+    @apply -top-1.5 -left-1.5;
+  }
+
+  .cn-toast-close {
+    @apply bg-surface-5 shadow-surface-3 size-(--density-20) rounded-full;
+  }
+
+  /* As tall as a line of text, at the first line. Status toasts colour only
+     their icon, with the role's fill (error is the destructive role), on the
+     neutral surface. */
+  .cn-toast-icon {
+    @apply min-h-(--density-28) justify-center self-start;
+  }
+
   .cn-toast-icon-info {
     @apply text-info;
   }

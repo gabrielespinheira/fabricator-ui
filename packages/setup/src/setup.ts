@@ -136,6 +136,12 @@ export const ASSISTANTS = [
 export const PROJECT_KINDS = ["new", "monorepo", "existing"] as const
 export type ProjectKind = (typeof PROJECT_KINDS)[number]
 
+export const MOBILE_RUNTIME_VALUES = ["expo", "tauri"] as const
+export const MOBILE_RUNTIMES = [
+  { value: "expo", label: "React Native" },
+  { value: "tauri", label: "Tauri" },
+] as const
+
 export const DESKTOP_RUNTIME_VALUES = ["none", "electron", "tauri"] as const
 export type DesktopRuntime = (typeof DESKTOP_RUNTIME_VALUES)[number]
 
@@ -212,6 +218,7 @@ export const projectSetupSchema = z.object({
   /** A website. Without one, a desktop app's web app is only its window's UI. */
   web: z.boolean(),
   mobile: z.boolean(),
+  mobileRuntime: z.enum(MOBILE_RUNTIME_VALUES).default("expo"),
   desktop: z.enum(DESKTOP_RUNTIME_VALUES),
   appShell: z.boolean(),
   /** The App Shell's options that differ from the defaults, as URL params. */
@@ -241,6 +248,7 @@ export const DEFAULT_PROJECT_SETUP: ProjectSetup = {
   base: "base",
   web: true,
   mobile: false,
+  mobileRuntime: "expo",
   desktop: "none",
   appShell: true,
   shell: {},
@@ -292,7 +300,28 @@ function normalizeShell(
 export type AppChoices = Pick<
   ProjectSetup,
   "project" | "framework" | "web" | "mobile" | "desktop"
->
+> &
+  Partial<Pick<ProjectSetup, "mobileRuntime">>
+
+export function hasTauriMobile(
+  apps: Pick<AppChoices, "mobile" | "mobileRuntime">
+) {
+  return apps.mobile && apps.mobileRuntime === "tauri"
+}
+
+export function hasExpoApp(
+  apps: Pick<AppChoices, "framework" | "mobile" | "mobileRuntime">
+) {
+  return apps.framework === "expo" || (apps.mobile && !hasTauriMobile(apps))
+}
+
+export function getTauriMobileSetupError(apps: AppChoices) {
+  if (apps.project === "existing" || !hasTauriMobile(apps)) return null
+  if (apps.project !== "monorepo" || apps.framework !== "vite") {
+    return "Tauri mobile requires a Vite monorepo. Use -t vite --monorepo --mobile-runtime tauri."
+  }
+  return null
+}
 
 const EXPO_ONLY: AppChoices = {
   project: "new",
@@ -311,6 +340,7 @@ export function resolveApps(choices: AppChoices): AppChoices {
   if (choices.project === "existing") {
     return { ...choices, web: true, mobile: false, desktop: "none" }
   }
+  if (hasTauriMobile(choices)) return choices
   const isExpo = choices.framework === "expo"
   const web = choices.web && !isExpo
   const mobile = choices.mobile || isExpo
@@ -341,9 +371,10 @@ export function resolveApps(choices: AppChoices): AppChoices {
   }
 }
 
-/** Whether the resolved apps include a web app: a website or a window's UI. */
+/** Whether the resolved apps include a web renderer. */
 export function hasWebApp(apps: AppChoices) {
-  if (apps.project === "monorepo") return apps.web || apps.desktop !== "none"
+  if (apps.project === "monorepo")
+    return apps.web || apps.desktop !== "none" || hasTauriMobile(apps)
   return isWebFramework(apps.framework)
 }
 
@@ -353,6 +384,7 @@ export function normalizeProjectSetup(setup: ProjectSetup): ProjectSetup {
   return {
     ...setup,
     ...apps,
+    mobileRuntime: hasTauriMobile(apps) ? "tauri" : "expo",
     base: hasWebApp(apps) ? setup.base : DEFAULT_PROJECT_SETUP.base,
     tooling:
       apps.project === "monorepo"

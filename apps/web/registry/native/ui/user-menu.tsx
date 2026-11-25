@@ -2,10 +2,23 @@
 // name and email; `mark` is the avatar alone, for a header row. The items are yours:
 // pass DropdownMenu groups as children. On a phone they open in a sheet.
 import * as React from "react"
-import { ChevronsUpDownIcon } from "@fabricator-ui/icons-react-native"
+import {
+  ChevronsUpDownIcon,
+  MonitorIcon,
+  MoonIcon,
+  PaletteIcon,
+  SunIcon,
+} from "@fabricator-ui/icons-react-native"
 import { cn } from "cn"
 import { Pressable, View } from "react-native"
 
+import {
+  getThemePreference,
+  THEME_PREFERENCES,
+  type ThemePreference,
+  type ThemeToggleStart,
+  type ThemeToggleVariant,
+} from "@/registry/fabricator/shared/lib/theme-toggle-model"
 import { MenuSheet } from "@/registry/native/lib/menu-sheet"
 import {
   Avatar,
@@ -26,6 +39,7 @@ import {
   useSidebar,
   useSidebarCollapse,
 } from "@/registry/native/ui/sidebar"
+import { Tabs, TabsList, TabsTrigger } from "@/registry/native/ui/tabs"
 import { Text, TextStyle } from "@/registry/native/ui/text"
 
 type UserMenuUser = {
@@ -63,7 +77,11 @@ function UserDetails({ user }: { user: UserMenuUser }) {
         {user.name}
       </Text>
       {user.email ? (
-        <Text numberOfLines={1} className="cn-user-menu-email">
+        <Text
+          data-slot="user-menu-email"
+          numberOfLines={1}
+          className="cn-user-menu-email"
+        >
           {user.email}
         </Text>
       ) : null}
@@ -85,7 +103,7 @@ function UserMenu({
   side?: "top" | "right" | "bottom" | "left"
   align?: "start" | "center" | "end"
   className?: string
-  /** DropdownMenu groups: profile, settings, theme, sign out… */
+  /** DropdownMenu groups and UserMenuTheme: profile, theme, sign out… */
   children?: React.ReactNode
 }) {
   const { isMobile } = useSidebar()
@@ -184,4 +202,82 @@ function UserMenu({
   )
 }
 
-export { UserMenu, type UserMenuUser }
+const THEME_ICONS: Record<ThemePreference, typeof SunIcon> = {
+  light: SunIcon,
+  dark: MoonIcon,
+  system: MonitorIcon,
+}
+
+const THEME_LABELS = {
+  theme: "Theme",
+  light: "Light",
+  dark: "Dark",
+  system: "System",
+}
+
+type UserMenuThemeProps = {
+  /** The app's theme: light, dark or system. Any other value picks no tab. */
+  theme: string | undefined
+  onThemeChange: (theme: ThemePreference) => void
+  /** Accepted for parity: the app's theme changes at once, without a reveal. */
+  variant?: ThemeToggleVariant
+  start?: ThemeToggleStart
+  /** Translates the row's label and the tabs' names. */
+  labels?: Partial<typeof THEME_LABELS>
+  className?: string
+}
+
+// The theme row: a label, and light, dark and system as small tabs. Picking one
+// keeps the menu open.
+function UserMenuTheme({
+  theme,
+  onThemeChange,
+  labels,
+  className,
+}: UserMenuThemeProps) {
+  const names = { ...THEME_LABELS, ...labels }
+  const value = theme === undefined ? undefined : getThemePreference(theme)
+  return (
+    <View
+      data-slot="user-menu-theme"
+      data-value={value}
+      className={cn("cn-user-menu-theme flex-row items-center", className)}
+    >
+      <TextStyle className="cn-user-menu-theme-label-text">
+        <View
+          data-slot="user-menu-theme-label"
+          className="cn-user-menu-theme-label min-w-0 flex-1 flex-row items-center"
+        >
+          <PaletteIcon strokeWidth={1.5} />
+          <Text numberOfLines={1}>{names.theme}</Text>
+        </View>
+      </TextStyle>
+      <Tabs
+        value={value ?? ""}
+        onValueChange={(next) => {
+          const preference = getThemePreference(next)
+          if (preference && preference !== value) onThemeChange(preference)
+        }}
+      >
+        <TabsList aria-label={names.theme}>
+          {THEME_PREFERENCES.map((preference) => {
+            const Icon = THEME_ICONS[preference]
+            return (
+              <TabsTrigger
+                key={preference}
+                data-slot="user-menu-theme-item"
+                value={preference}
+                accessibilityLabel={names[preference]}
+                className="cn-user-menu-theme-item"
+              >
+                <Icon />
+              </TabsTrigger>
+            )
+          })}
+        </TabsList>
+      </Tabs>
+    </View>
+  )
+}
+
+export { UserMenu, UserMenuTheme, type UserMenuThemeProps, type UserMenuUser }

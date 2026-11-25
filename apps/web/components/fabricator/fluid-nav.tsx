@@ -25,7 +25,7 @@ export function FluidNav({
   children,
   ref,
   ...props
-}: React.ComponentProps<"nav"> & { axis?: "x" | "y" }) {
+}: React.ComponentProps<"nav"> & { axis?: "x" | "y" | "xy" }) {
   const fluid = useFluidHover<HTMLElement>({
     items: ITEM,
     selected: `${ITEM}[data-active="true"]`,
@@ -38,7 +38,8 @@ export function FluidNav({
       ref={mergedRef}
       className={cn(
         "relative isolate flex",
-        axis === "y" ? "flex-col" : "items-center",
+        axis === "y" && "flex-col",
+        axis === "x" && "items-center",
         className
       )}
       {...fluid.props}

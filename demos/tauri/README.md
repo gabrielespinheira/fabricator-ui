@@ -37,15 +37,22 @@ The React demo's `react:check:browser` covers the pages both share.
 bun run demo tauri:ios
 bun run demo tauri:ipad
 bun run demo tauri:android
-bun run demo tauri:build:ios
+bun run demo tauri:build:ios --target aarch64-sim
 bun run demo tauri:build:android
 ```
 
 The launcher checks prerequisites and fails with the missing requirement. It
 does not install toolchains or initialize native projects. Install the Tauri
 [native prerequisites](https://v2.tauri.app/start/prerequisites/) deliberately
-before invoking the initializer yourself. `tauri ios init` may run Homebrew even
-with `--skip-targets-install`; that option skips Rust targets only.
+before running `bun run --cwd demos/tauri tauri ios init` or
+`bun run --cwd demos/tauri tauri android init`. The iOS initializer may run
+Homebrew even with `--skip-targets-install`.
+
+Launch the iPhone or iPad simulator before running the matching demo command.
+If more than one simulator of that family is available, pass its full name,
+for example `bun run demo tauri:ipad "Fabricator UI iPad"`. Apple Silicon
+simulator builds use `aarch64-sim`, and Intel builds use `x86_64`.
+Use the Tauri CLI directly for signed physical-device development.
 
 iOS/iPadOS use iOS 16.4 or later, matching
 [Tailwind 4’s Safari baseline](https://tailwindcss.com/docs/compatibility).
@@ -69,7 +76,6 @@ and local example media; no production URL points to localhost. Fourteen remote
 sample-image URLs remain in upstream demos. They need a network connection for
 their photographs or avatars; component code and local media still run offline.
 
-`packages/cli/templates/mobile-tauri` holds a Vite host overlay with the same
-native entry point, security policy and local asset configuration. It requires a
-Vite frontend and installed Fabricator web components; it is not yet a completed
-CLI `create` flow.
+The CLI’s [Tauri mobile template](../../packages/cli/templates/mobile-tauri)
+creates a separate host for a Vite app. The explorer keeps its storage and
+media examples in this demo.

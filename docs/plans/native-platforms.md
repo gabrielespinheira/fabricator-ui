@@ -1,8 +1,6 @@
 # Native platforms: SwiftUI, Kotlin Compose and Tauri mobile
 
-Status: implementation in progress, 2026-11-15. The checklist below remains the
-qualification bar. Source ownership and a browsable catalog do not establish
-complete behavior or performance parity.
+**Historical plan.** SwiftUI and Kotlin Compose have been retired from the active registry. The preview implementation and tooling are available in the `fabricator-ui@0.9.0` release. See [the retirement plan](retire-native-renderer-previews.md) and [current Tauri guidance](../PLATFORMS.md#tauri-mobile).
 
 Implementation evidence so far:
 

@@ -86,20 +86,6 @@ If the directory already has a `components.json`, you are asked whether to:
 
 In an Expo or React Native project, `init` sets up the React Native components instead: Uniwind, the theme and a `@fabricator` registry for native. `--platform web|native` overrides the detection.
 
-SwiftUI and Kotlin Compose adapters are unreleased previews in this checkout.
-Run the development site, then use the local CLI:
-
-```bash
-FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli init button field --platform swiftui -c /path/to/swift-package
-FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli init --all --platform compose -c /path/to/gradle-module
-```
-
-Native projects use `fabricator.json` and copy Swift/Kotlin source, licensed fonts
-and resources without creating a React project. `add`, `view`, `diff`, `info` and
-`doctor` use that configuration automatically. Changed consumer files require
-explicit `--overwrite`. See [native platform verification](../../docs/PLATFORMS.md#swiftui-kotlin-compose-and-tauri-mobile)
-for toolchains and incomplete parity checks.
-
 ### `add`
 
 ```bash

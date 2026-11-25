@@ -1,5 +1,6 @@
 import {
   ME,
+  type MailAccountId,
   type MailContact,
   type MailLabelId,
   type MailThread,
@@ -11,7 +12,7 @@ import {
 // the same as the browser's; a real app passes the person's locale and time
 // zone.
 
-export const SAMPLE_NOW = Date.UTC(2026, 10, 17, 15, 20)
+export const SAMPLE_NOW = Date.UTC(2026, 10, 24, 15, 20)
 
 export const SAMPLE_TIME_FORMAT: TimeFormat = {
   locale: "en-US",
@@ -23,13 +24,22 @@ const HOUR = 60 * MINUTE
 const DAY = 24 * HOUR
 
 function at(daysAgo: number, hour: number, minute: number) {
-  const today = Date.UTC(2026, 10, 17)
+  const today = Date.UTC(2026, 10, 24)
   return today - daysAgo * DAY + hour * HOUR + minute * MINUTE
 }
 
 function photo(id: string) {
   return `https://images.unsplash.com/photo-${id}?w=160&h=160&fit=crop&auto=format&q=80`
 }
+
+export const MAIL_ACCOUNTS: {
+  id: MailAccountId
+  name: string
+  email: string
+}[] = [
+  { id: "work", name: "Acme Inc", email: "ada@acme.com" },
+  { id: "personal", name: "Personal", email: "ada@lovelace.dev" },
+]
 
 export const MAIL_LABELS: {
   id: MailLabelId
@@ -77,7 +87,7 @@ export const MAIL_CONTACTS: MailContact[] = [
   {
     id: "emma",
     name: "Emma Lindqvist",
-    email: "emma.lindqvist@example.com",
+    email: "emma@acme.com",
     avatar: photo("1438761681033-6461ffad8d80"),
   },
   {
@@ -93,7 +103,18 @@ export const MAIL_CONTACTS: MailContact[] = [
     avatar: photo("1544005313-94ddf0286df2"),
   },
   { id: "priya", name: "Priya Raman", email: "priya@acme.com" },
+  {
+    id: "aleksandra",
+    name: "Aleksandra Wojciechowska-Nowak",
+    email: "aleksandra.wojciechowska-nowak@northwind.io",
+  },
   { id: "jonas", name: "Jonas Weber", email: "jonas.weber@example.com" },
+  {
+    id: "library",
+    name: "City Library",
+    email: "loans@city-library.org",
+    isCompany: true,
+  },
   {
     id: "stripe",
     name: "Stripe",
@@ -126,35 +147,42 @@ export const MAIL_CONTACTS: MailContact[] = [
     email: "noreply@booking.com",
     brand: "booking",
   },
-  { id: "prizes", name: "Prize Desk", email: "winner@prize-desk.biz" },
+  {
+    id: "prizes",
+    name: "Prize Desk",
+    email: "winner@prize-desk.biz",
+    isCompany: true,
+  },
 ]
 
 /** The people Compose suggests, everyone with a person's address. */
 export const MAIL_RECIPIENTS = MAIL_CONTACTS.filter(
-  ({ id, brand }) => id !== ME && !brand && id !== "prizes"
+  ({ id, brand, isCompany }) => id !== ME && !brand && !isCompany
 )
 
 type ThreadSeed = Omit<
   MailThread,
-  "box" | "isUnread" | "isStarred" | "labels"
+  "account" | "box" | "isUnread" | "isStarred" | "labels"
 > &
-  Partial<Pick<MailThread, "box" | "isUnread" | "isStarred" | "labels">>
+  Partial<
+    Pick<MailThread, "account" | "box" | "isUnread" | "isStarred" | "labels">
+  >
 
 function thread({
+  account = "work",
   box = "inbox",
   isUnread = false,
   isStarred = false,
   labels = [],
   ...seed
 }: ThreadSeed): MailThread {
-  return { box, isUnread, isStarred, labels, ...seed }
+  return { account, box, isUnread, isStarred, labels, ...seed }
 }
 
 export const MAIL_THREADS: MailThread[] = [
   thread({
     id: "q4-plan",
     subject: "Q4 planning: draft for Thursday",
-    isUnread: true,
     isStarred: true,
     labels: ["work"],
     messages: [
@@ -180,8 +208,11 @@ export const MAIL_THREADS: MailThread[] = [
         toIds: [ME],
         ccIds: ["lucas"],
         sentAt: at(0, 14, 52),
-        body: "Good call. I set it to 40% of new workspaces finishing setup in their first week, which is where we were in March.\n\nThe updated draft is attached. If it reads well to you, I'll send it to the leads tomorrow morning.\n\nMaya",
-        attachments: [{ name: "q4-plan-draft-v3.pdf", size: "1.8 MB" }],
+        body: "Good call. I set it to 40% of new workspaces finishing setup in their first week, which is where we were in March.\n\nThe updated draft is attached. If it reads well to you, I'll send it to the leads tomorrow morning.\n\nMaya\n\nOn Mon, Nov 23, Ada Lovelace wrote:\n> Looks focused. The second bet needs a number we can measure by December, otherwise it reads as a theme rather than a goal.",
+        attachments: [
+          { name: "q4-plan-draft-v3.pdf", size: "1.8 MB" },
+          { name: "setup-funnel.xlsx", size: "212 KB" },
+        ],
       },
     ],
   }),
@@ -196,7 +227,7 @@ export const MAIL_THREADS: MailThread[] = [
         fromId: "stripe",
         toIds: [ME],
         sentAt: at(0, 13, 5),
-        body: "A payout of $18,240.00 to your account ending in 4821 is on its way. It should arrive by Thursday, November 19.\n\nPayout ID: po_1QZ8eK2Lb7\nCovering charges from November 10 to November 16.",
+        body: "A payout of $18,240.00 to your account ending in 4821 is on its way. It should arrive by Thursday, November 26.\n\nPayout ID: po_1QZ8eK2Lb7\nCovering charges from November 17 to November 23.",
       },
     ],
   }),
@@ -219,7 +250,6 @@ export const MAIL_THREADS: MailThread[] = [
   thread({
     id: "linear-482",
     subject: "ACME-482 was assigned to you: CSV export times out",
-    labels: ["work"],
     messages: [
       {
         id: "linear-482-1",
@@ -264,7 +294,6 @@ export const MAIL_THREADS: MailThread[] = [
   thread({
     id: "release",
     subject: "[acme/web] Release v2.8.0 is ready for review",
-    labels: ["work"],
     messages: [
       {
         id: "release-1",
@@ -285,7 +314,7 @@ export const MAIL_THREADS: MailThread[] = [
         fromId: "emma",
         toIds: [ME],
         sentAt: at(2, 20, 15),
-        body: "We're cooking on Saturday, around 8. Bring Jonas if he's back from Berlin!",
+        body: "We're cooking on Saturday, around 8. Bring Jonas if he's back from Berlin.",
       },
       {
         id: "dinner-2",
@@ -299,14 +328,13 @@ export const MAIL_THREADS: MailThread[] = [
   thread({
     id: "bandwidth",
     subject: "Usage alert: 80% of this month's bandwidth used",
-    labels: ["work"],
     messages: [
       {
         id: "bandwidth-1",
         fromId: "vercel",
         toIds: [ME],
         sentAt: at(3, 9, 30),
-        body: "Your team acme has used 80% of its included bandwidth for November. At the current rate you'll reach the limit on November 26.",
+        body: "Your team acme has used 80% of its included bandwidth for November. At the current rate you'll reach the limit on November 28.",
       },
     ],
   }),
@@ -368,9 +396,38 @@ export const MAIL_THREADS: MailThread[] = [
     ],
   }),
   thread({
+    id: "security",
+    subject:
+      "Security questionnaire for the renewal: 42 questions, and the three your trust page doesn't answer yet",
+    labels: ["work"],
+    messages: [
+      {
+        id: "security-1",
+        fromId: "sofia",
+        toIds: ["aleksandra"],
+        ccIds: [ME],
+        sentAt: at(10, 9, 40),
+        body: "Aleksandra, Ada's team can fill this in. Looping her in so you two can work on it directly.\n\nSofia",
+      },
+      {
+        id: "security-2",
+        fromId: "aleksandra",
+        toIds: [ME],
+        ccIds: ["sofia"],
+        sentAt: at(9, 15, 5),
+        body: "Hello Ada,\n\nI answered 39 of the 42 from your trust page. The three left:\n\n- Where are backups kept, and for how long?\n- Who can read a workspace's data in production?\n- When was the last penetration test?\n\nShort answers are fine.\n\nAleksandra",
+        attachments: [
+          {
+            name: "northwind-vendor-security-questionnaire-2027-final.docx",
+            size: "94 KB",
+          },
+        ],
+      },
+    ],
+  }),
+  thread({
     id: "interviews",
     subject: "Interview loop for the design engineer role",
-    labels: ["work"],
     messages: [
       {
         id: "interviews-1",
@@ -383,7 +440,7 @@ export const MAIL_THREADS: MailThread[] = [
   }),
   thread({
     id: "flight",
-    subject: "Flight confirmed: Lisbon to Berlin, December 4",
+    subject: "Flight confirmed: Lisbon to Berlin, December 6",
     labels: ["travel"],
     messages: [
       {
@@ -391,7 +448,7 @@ export const MAIL_THREADS: MailThread[] = [
         fromId: "booking",
         toIds: [ME],
         sentAt: at(12, 18, 40),
-        body: "Your flight is confirmed. Departure Friday, December 4 at 7:05 AM from Lisbon (LIS), arriving 11:20 AM in Berlin (BER). Booking reference: 7QZ4KD.",
+        body: "Your flight is confirmed. Departure Sunday, December 6 at 7:05 PM from Lisbon (LIS), arriving 11:20 PM in Berlin (BER). Booking reference: 7QZ4KD.",
       },
     ],
   }),
@@ -512,4 +569,83 @@ export const MAIL_THREADS: MailThread[] = [
       },
     ],
   }),
+  thread({
+    id: "library-loan",
+    account: "personal",
+    subject: "Two loans are due on Friday",
+    isUnread: true,
+    labels: ["personal"],
+    messages: [
+      {
+        id: "library-loan-1",
+        fromId: "library",
+        toIds: [ME],
+        sentAt: at(0, 8, 5),
+        body: "Due Friday, November 27:\n\n- The Design of Everyday Things\n- Thinking in Systems\n\nBoth can be renewed once.",
+      },
+    ],
+  }),
+  thread({
+    id: "berlin-weekend",
+    account: "personal",
+    subject: "The weekend in Berlin",
+    isStarred: true,
+    labels: ["travel"],
+    messages: [
+      {
+        id: "berlin-weekend-1",
+        fromId: "jonas",
+        toIds: [ME],
+        sentAt: at(2, 18, 30),
+        body: "I have the sofa ready for you on the 6th. Do you land at Brandenburg? I can pick you up.",
+      },
+      {
+        id: "berlin-weekend-2",
+        fromId: ME,
+        toIds: ["jonas"],
+        sentAt: at(2, 19, 10),
+        body: "Yes, at 11:20 PM. A train is fine if that's too late for you.",
+      },
+      {
+        id: "berlin-weekend-3",
+        fromId: "jonas",
+        toIds: [ME],
+        sentAt: at(1, 9, 45),
+        body: "Not late at all. See you at arrivals.",
+      },
+    ],
+  }),
+  thread({
+    id: "lisbon-city-tax",
+    account: "personal",
+    subject: "City tax for your stay in Lisbon",
+    labels: ["travel", "receipts"],
+    messages: [
+      {
+        id: "lisbon-city-tax-1",
+        fromId: "booking",
+        toIds: [ME],
+        sentAt: at(6, 12, 0),
+        body: "The city tax of €24.00 is paid at the property, in cash or by card.",
+      },
+    ],
+  }),
 ]
+
+/** What the first "Check for mail" brings. */
+export const INCOMING_THREAD: MailThread = thread({
+  id: "interview-slots",
+  subject: "Friday's interview moved to Thursday at 2 PM",
+  isUnread: true,
+  labels: ["work"],
+  messages: [
+    {
+      id: "interview-slots-1",
+      fromId: "nora",
+      toIds: [ME],
+      ccIds: ["lucas"],
+      sentAt: SAMPLE_NOW,
+      body: "The candidate asked to move. I swapped it with your Thursday focus block and kept the same room. Tell me if that doesn't work.",
+    },
+  ],
+})

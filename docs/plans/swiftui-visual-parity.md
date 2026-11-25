@@ -1,5 +1,7 @@
 # SwiftUI visual parity
 
+**Historical plan.** See [the preview retirement plan](retire-native-renderer-previews.md).
+
 Goal: make the SwiftUI library match the React Fabricator design across the
 catalog, with native code and interaction quality verified separately from source
 coverage. Compare actual web and iOS captures, fix differences, then recapture.

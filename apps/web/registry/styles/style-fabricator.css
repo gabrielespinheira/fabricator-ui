@@ -363,7 +363,7 @@
   }
 
   .cn-app-shell-breadcrumb-current {
-    @apply flex min-w-0 cursor-pointer items-center gap-(--density-4) rounded-md ring-ring focus-visible:ring-1 [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+    @apply flex min-h-(--density-24) min-w-0 cursor-pointer items-center gap-(--density-4) rounded-md ring-ring focus-visible:ring-1 pointer-coarse:min-h-(--density-48) [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
   }
 
   .cn-app-shell-breadcrumb-title {
@@ -419,7 +419,7 @@
      (shadow-surface-3); otherwise a hairline parts them. On phones, `swap`
      makes the panel the screen. */
   .cn-app-shell-panel {
-    @apply mb-(--app-shell-status-bar-height) border-border bg-(--app-shell-panel) [--background:var(--app-shell-panel)] transition-[width,margin,border-width,box-shadow] duration-move ease-move data-closed:duration-move-exit data-closed:ease-exit data-[placement=inline]:data-open:data-[side=left]:border-e data-[placement=inline]:data-open:data-[side=right]:border-s data-[placement=swap]:border-0 data-[placement=swap]:bg-(--app-shell-frame) data-[placement=swap]:[--background:var(--app-shell-frame)] motion-reduce:transition-none group-has-data-[variant=inset]/sidebar-wrapper:my-(--density-8) group-has-data-[variant=inset]/sidebar-wrapper:mb-[max(var(--density-8),var(--app-shell-status-bar-height))] group-has-data-[variant=inset]/sidebar-wrapper:rounded-xl group-has-data-[variant=inset]/sidebar-wrapper:border-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[placement=inline]:data-open:data-[side=left]:border-e-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[placement=inline]:data-open:data-[side=right]:border-s-0 group-has-data-[variant=inset]/sidebar-wrapper:shadow-(--app-shell-card-shadow) group-has-data-[variant=inset]/sidebar-wrapper:data-open:me-(--density-8) group-has-data-[variant=inset]/sidebar-wrapper:data-closed:shadow-none;
+    @apply mb-(--app-shell-status-bar-height) border-border bg-(--app-shell-panel) [--background:var(--app-shell-panel)] transition-[width,margin,border-width,box-shadow] duration-move ease-move data-closed:duration-move-exit data-closed:ease-exit data-[placement=inline]:data-open:data-[side=left]:border-e data-[placement=inline]:data-open:data-[side=right]:border-s data-[placement=swap]:border-0 motion-reduce:transition-none group-has-data-[variant=inset]/sidebar-wrapper:my-(--density-8) group-has-data-[variant=inset]/sidebar-wrapper:mb-[max(var(--density-8),var(--app-shell-status-bar-height))] group-has-data-[variant=inset]/sidebar-wrapper:rounded-xl group-has-data-[variant=inset]/sidebar-wrapper:border-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[placement=inline]:data-open:data-[side=left]:border-e-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[placement=inline]:data-open:data-[side=right]:border-s-0 group-has-data-[variant=inset]/sidebar-wrapper:shadow-(--app-shell-card-shadow) group-has-data-[variant=inset]/sidebar-wrapper:data-open:me-(--density-8) group-has-data-[variant=inset]/sidebar-wrapper:data-closed:shadow-none;
   }
 
   .cn-app-shell-panel-inner {
@@ -460,13 +460,13 @@
     @apply justify-start;
   }
 
-  /* Below a 360px panel the view tabs show their icons only. */
+  /* Below a 360px panel the view tabs with an icon show it alone. */
   .cn-app-shell-panel-tab {
-    @apply @max-[22.5rem]/app-shell-panel:px-(--density-8);
+    @apply @max-[22.5rem]/app-shell-panel:data-icon:px-(--density-8);
   }
 
   .cn-app-shell-panel-tab-label {
-    @apply @max-[22.5rem]/app-shell-panel:sr-only;
+    @apply @max-[22.5rem]/app-shell-panel:in-data-icon:sr-only;
   }
 
   .cn-app-shell-panel-view {
@@ -990,7 +990,7 @@
   /* Soft chat bubble: 8px corners, 14px text. Interactive bubbles (button,
      link) change colour on the feedback timing and focus with the 1px blue ring. */
   .cn-bubble-content {
-    @apply rounded-lg border border-transparent px-(--density-14) py-(--density-8) text-(length:--density-text-14) leading-normal text-pretty [button,a]:duration-feedback [button,a]:ease-feedback [button,a]:outline-none [button,a]:focus-visible:ring-1 [button,a]:focus-visible:ring-ring group-data-[align=end]/bubble:self-end;
+    @apply rounded-lg border border-transparent px-(--density-14) py-(--density-8) text-(length:--density-text-14) leading-normal [button,a]:duration-feedback [button,a]:ease-feedback [button,a]:outline-none [button,a]:focus-visible:ring-1 [button,a]:focus-visible:ring-ring group-data-[align=end]/bubble:self-end;
   }
 
   /* Neutral ladder: secondary is the accent fill, default (the user bubble)
@@ -2878,11 +2878,11 @@
   /* Panel: surface 3 whose shadow ring is the edge (no border); the edge
      that meets the screen is square, the free edge rounded-xl. */
   .cn-drawer-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex h-auto flex-col text-(length:--density-text-13) data-[vaul-drawer-direction=bottom]:rounded-t-xl data-[vaul-drawer-direction=left]:rounded-r-xl data-[vaul-drawer-direction=right]:rounded-l-xl data-[vaul-drawer-direction=top]:rounded-b-xl;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex h-auto flex-col text-(length:--density-text-13) data-[vaul-drawer-direction=bottom]:rounded-t-xl data-[vaul-drawer-direction=left]:rounded-r-xl data-[vaul-drawer-direction=right]:rounded-l-xl data-[vaul-drawer-direction=top]:rounded-b-xl md:data-[vaul-drawer-direction=bottom]:mx-auto md:data-[vaul-drawer-direction=bottom]:max-w-xl md:data-[vaul-drawer-direction=top]:mx-auto md:data-[vaul-drawer-direction=top]:max-w-xl;
   }
 
   .cn-drawer-popup {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground text-(length:--density-text-13) data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl duration-sheet! ease-drawer! data-ending-style:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-swiping:duration-0! data-nested-drawer-swiping:duration-0! data-ending-style:data-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-ending-style:data-nested-drawer-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]!;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground text-(length:--density-text-13) data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl duration-sheet! ease-drawer! data-ending-style:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-swiping:duration-0! data-nested-drawer-swiping:duration-0! data-ending-style:data-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-ending-style:data-nested-drawer-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! md:data-[swipe-axis=y]:inset-x-(--drawer-inset,0px) md:data-[swipe-axis=y]:mx-auto md:data-[swipe-axis=y]:max-w-xl;
   }
 
   /* The panel's content fades while a nested drawer covers it, on the
@@ -2993,10 +2993,11 @@
 /* MARK: Editor */
 
   /* A card-like frame (surface 1 with a hairline ring, rounded-xl) that
-     lifts its ring while the document has focus, like a text field. Pass a
-     className to drop the frame for a full-page document. */
+     lifts its ring while the document has focus, like a text field. It clips
+     its corners without becoming a scroller, so a toolbar made sticky follows
+     the page. Pass a className to drop the frame for a full-page document. */
   .cn-editor {
-    @apply bg-card ring-border/70 has-data-focused:ring-foreground/25 overflow-hidden rounded-xl ring-1 transition-shadow duration-feedback ease-feedback;
+    @apply bg-card ring-border/70 has-data-focused:ring-foreground/25 overflow-clip rounded-xl ring-1 transition-shadow duration-feedback ease-feedback;
   }
 
   /* The document itself uses Markdown's typography (cn-markdown), so what
@@ -3052,14 +3053,17 @@
     @apply bg-surface-5 shadow-surface-5 text-foreground end-(--density-6) top-(--density-6) gap-(--density-6) px-(--density-8) pointer-events-none opacity-0 focus-visible:pointer-events-auto focus-visible:opacity-100;
   }
 
-  /* Editing in place: a row of actions over the same framed grid, each cell
-     an input with the cell's own padding, the focused one outlined. */
+  /* Editing in place: the actions over the same framed grid, each cell an
+     input with the cell's own padding, the focused one outlined. The actions
+     wrap in a narrow editor, so Done is never out of reach, and stick to the
+     top of a document that scrolls past a tall table; a focused cell scrolls
+     clear of them. */
   .cn-editor-table-editor {
     @apply gap-(--density-6);
   }
 
   .cn-editor-table-toolbar {
-    @apply bg-surface-5 shadow-surface-5 gap-0.5 self-start rounded-lg p-(--density-4) max-w-full overflow-x-auto [scrollbar-width:none];
+    @apply bg-surface-5 shadow-surface-5 sticky top-(--density-6) z-10 max-w-full flex-wrap gap-0.5 self-start rounded-lg p-(--density-4);
   }
 
   .cn-editor-table-action {
@@ -3070,12 +3074,13 @@
     @apply text-foreground shrink-0 px-(--density-10) font-semibold;
   }
 
+  /* Important, over the padding of Markdown's cell it's drawn as. */
   .cn-editor-table-cell {
-    @apply p-0 focus-within:ring-ring focus-within:ring-1 focus-within:ring-inset;
+    @apply p-0! focus-within:ring-ring focus-within:ring-1 focus-within:ring-inset;
   }
 
   .cn-editor-table-input {
-    @apply text-inherit px-[0.875em] py-[0.5em] font-[inherit] placeholder:text-muted-foreground;
+    @apply text-inherit px-[0.875em] py-[0.5em] font-[inherit] placeholder:text-muted-foreground scroll-mt-[calc(var(--density-36)*4)];
   }
 
   .cn-editor-task-checkbox {
@@ -3088,10 +3093,23 @@
     @apply cursor-pointer outline-none hover:border-foreground/45 data-checked:hover:border-primary active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-default disabled:hover:border-foreground/25;
   }
 
-  /* The toolbar: ghost toggles in groups split by hairlines, scrolling
-     sideways when the editor is narrow. */
+  /* The toolbar: ghost toggles in groups split by hairlines, in one row.
+     Commands without room move to the More menu at its end, so nothing is
+     cropped; a row of other controls wider than the editor scrolls. */
   .cn-editor-toolbar {
-    @apply border-border/60 gap-(--density-4) border-b p-(--density-4) scroll-fade-x [scrollbar-width:none];
+    @apply border-border/60 border-b;
+  }
+
+  .cn-editor-toolbar-list {
+    @apply gap-(--density-4) p-(--density-4) scroll-fade-x [scrollbar-width:none];
+  }
+
+  .cn-editor-toolbar-more {
+    @apply pe-(--density-4);
+  }
+
+  .cn-editor-toolbar-more-trigger {
+    @apply aria-expanded:bg-active aria-expanded:text-foreground;
   }
 
   .cn-editor-toolbar-group {
@@ -3111,15 +3129,17 @@
 
   /* Over a selection: a tight row of toggles. The editor's frame is a card
      (surface 3), so the bar and the link popover step two levels above it,
-     as Chat Input's menus do, or in dark they'd melt into the document. */
+     as Chat Input's menus do, or in dark they'd melt into the document. The
+     top layer starts from the system's text colour, so it's set again. */
   .cn-editor-bubble-menu {
-    @apply bg-surface-5 shadow-surface-5 gap-0.5 rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+    @apply bg-surface-5 text-foreground shadow-surface-5 gap-0.5 rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
   }
 
   /* Turn into: the block type as a labelled toggle with a chevron, and its
-     menu under it on the bar's surface. Rows follow the library's menu
-     rows: muted until lit, the current type foreground, its Markdown
-     shortcut in mono at the end. */
+     menu beside it on the bar's surface, as the language picker's and the
+     toolbar's More. Rows follow the library's menu rows: muted until lit,
+     the current type foreground, its Markdown or shortcut in mono at the
+     end. */
   .cn-editor-block-type {
     @apply shrink-0;
   }
@@ -3129,23 +3149,29 @@
   }
 
   .cn-editor-block-type-menu {
-    @apply bg-surface-5 shadow-surface-5 mt-(--density-6) max-h-[min(24rem,60vh)] min-w-52 overflow-y-auto rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+    @apply bg-surface-5 shadow-surface-5 text-foreground max-h-[min(24rem,60vh)] min-w-52 overflow-y-auto rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
   }
 
   .cn-editor-block-type-item {
-    @apply text-muted-foreground h-(--density-32) gap-(--density-8) rounded-md px-(--density-8) text-(length:--density-text-13) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-checked:text-foreground aria-checked:font-medium [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply text-muted-foreground h-(--density-32) gap-(--density-8) rounded-md px-(--density-8) text-(length:--density-text-13) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-checked:text-foreground aria-checked:font-medium disabled:pointer-events-none disabled:opacity-40 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+  .cn-editor-menu-separator {
+    @apply bg-border/60 mx-(--density-8) my-(--density-4) h-px;
   }
 
   .cn-editor-block-type-icon {
     @apply shrink-0;
   }
 
+  /* Its row's colour, so it reads on a lit row too. */
   .cn-editor-block-type-shortcut {
-    @apply text-muted-foreground text-(length:--density-text-11);
+    @apply text-(length:--density-text-11) font-normal text-inherit;
   }
 
+  /* As wide as the editor up to a comfortable address. */
   .cn-editor-link {
-    @apply bg-surface-5 shadow-surface-5 gap-(--density-4) w-[min(22rem,calc(100vw-2rem))] rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+    @apply bg-surface-5 shadow-surface-5 text-foreground gap-(--density-4) w-[min(22rem,max(16rem,var(--editor-room,22rem)))] rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
   }
 
   .cn-editor-link-input {
@@ -4398,6 +4424,104 @@
     @apply my-2;
   }
 
+/* MARK: Kanban */
+
+/* Keep the work in the cards and give the lanes a quiet track. */
+.cn-kanban {
+  @apply gap-(--density-16) text-(length:--density-text-13);
+}
+.cn-kanban-toolbar {
+  @apply gap-(--density-8);
+}
+.cn-kanban-search {
+  @apply w-64 max-w-full ps-(--density-32);
+}
+.cn-kanban-search-icon {
+  @apply start-(--density-10) top-1/2 size-4 -translate-y-1/2 text-muted-foreground;
+}
+.cn-kanban-board {
+  @apply gap-(--density-20) pb-(--density-12);
+}
+.cn-kanban-lane {
+  @apply gap-(--density-8);
+}
+.cn-kanban-lane-title {
+  @apply px-(--density-8) font-medium text-muted-foreground;
+}
+.cn-kanban-track {
+  @apply gap-(--density-12);
+}
+.cn-kanban-column {
+  @apply min-h-32 w-[min(17rem,82vw)] gap-(--density-4) rounded-xl bg-surface-2 p-(--density-6) data-[drop-target=true]:ring-2 data-[drop-target=true]:ring-ring data-[tinted=true]:bg-[color-mix(in_oklch,var(--kanban-column-color)_9%,var(--surface-2))];
+}
+.cn-kanban-column-header {
+  @apply gap-(--density-6) px-(--density-4) py-(--density-4);
+}
+.cn-kanban-column-color {
+  @apply size-2.5 rounded-full bg-(--kanban-column-color);
+}
+.cn-kanban-column-title {
+  @apply font-semibold;
+}
+.cn-kanban-column-count {
+  @apply text-muted-foreground data-[over-limit=true]:text-destructive-text;
+}
+.cn-kanban-column-body {
+  @apply max-h-[min(65dvh,44rem)] min-h-20 overscroll-y-contain px-(--density-4) pb-(--density-6);
+}
+.cn-kanban-card-list {
+  @apply flex list-none flex-col;
+}
+.cn-kanban-card {
+  @apply mb-(--density-6) rounded-lg bg-card px-(--density-8) py-(--density-10) shadow-surface-1 data-[virtual=true]:mb-0 data-[dragging=true]:opacity-35 data-[pending=true]:opacity-65 data-[selected=true]:ring-2 data-[selected=true]:ring-ring data-[drop-target=true]:before:absolute data-[drop-target=true]:before:inset-x-0 data-[drop-target=true]:before:-top-1 data-[drop-target=true]:before:h-0.5 data-[drop-target=true]:before:rounded-full data-[drop-target=true]:before:bg-primary;
+}
+.cn-kanban-handle {
+  @apply cursor-grab text-muted-foreground active:cursor-grabbing;
+}
+.cn-kanban-card-title {
+  @apply wrap-break-word rounded-sm text-(length:--density-text-13) leading-snug font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring;
+}
+.cn-kanban-card-properties {
+  @apply gap-(--density-4) pt-(--density-6) empty:hidden;
+}
+.cn-kanban-pill {
+  @apply max-w-full rounded-md bg-muted px-(--density-6) py-0.5 text-(length:--density-text-11) text-foreground;
+}
+.cn-kanban-card-actions,
+.cn-kanban-selection-bar,
+.cn-kanban-feedback {
+  @apply gap-(--density-6);
+}
+.cn-kanban-card-actions {
+  @apply pt-(--density-8);
+}
+.cn-kanban-move-select {
+  @apply rounded-md border border-input bg-background px-(--density-6) focus-visible:ring-2 focus-visible:ring-ring;
+}
+.cn-kanban-column-message {
+  @apply flex flex-col items-center gap-(--density-8) p-(--density-12) text-center text-muted-foreground;
+}
+.cn-kanban-loading {
+  @apply gap-(--density-6);
+}
+.cn-kanban-drop-marker {
+  @apply h-0.5 rounded-full bg-primary;
+}
+.cn-kanban-drag-overlay {
+  @apply pointer-events-none rounded-lg bg-card p-(--density-12) text-(length:--density-text-13) font-medium shadow-surface-3;
+}
+
+/* View controls sit above the board and keep the existing card positions. */
+.cn-kanban-settings {
+  @apply gap-(--density-12) rounded-xl bg-surface-2 p-(--density-12);
+}
+.cn-kanban-settings-row {
+  @apply gap-(--density-8);
+}
+.cn-kanban-settings-select {
+  @apply rounded-md border border-input bg-background px-(--density-6) focus-visible:ring-2 focus-visible:ring-ring;
+}
+
 /* MARK: Kbd */
 
   /* A quiet 20px keycap: hover fill, 11px muted text. Inside the inverted
@@ -5197,6 +5321,48 @@
     @apply text-muted-foreground ml-auto text-(length:--density-text-13) tabular-nums;
   }
 
+/* MARK: Properties */
+
+/* Field labels align in a narrow column so values are easy to scan. */
+.cn-properties {
+  @apply gap-(--density-10);
+}
+.cn-properties-row {
+  @apply grid-cols-[minmax(5.5rem,0.4fr)_minmax(0,1fr)] items-baseline gap-(--density-12);
+}
+.cn-properties-label {
+  @apply wrap-break-word text-(length:--density-text-13) text-muted-foreground;
+}
+.cn-properties-description,
+.cn-properties-kind {
+  @apply text-(length:--density-text-11) text-muted-foreground;
+}
+.cn-properties-value {
+  @apply wrap-break-word text-(length:--density-text-13);
+}
+.cn-properties-link {
+  @apply underline decoration-muted-foreground underline-offset-2;
+}
+.cn-properties-select {
+  @apply min-h-(--density-28) min-w-0 rounded-md border border-input bg-background px-(--density-6) text-(length:--density-text-13) focus-visible:ring-2 focus-visible:ring-ring;
+}
+.cn-properties-error {
+  @apply text-(length:--density-text-12) text-destructive-text;
+}
+.cn-properties-options,
+.cn-properties-manager,
+.cn-properties-management-row {
+  @apply gap-(--density-8);
+}
+.cn-properties-management-row {
+  @apply [&>[data-slot=input]]:w-32;
+}
+
+/* Existing option IDs remain on records when an option is archived. */
+.cn-properties-option-manager {
+  @apply w-full;
+}
+
 /* MARK: Questionnaire */
 
   /* The Fabricator questionnaire (registry/fabricator/shared/ui/questionnaire.tsx)
@@ -5476,6 +5642,38 @@
     @apply transition-[scale] motion-bounce group-data-[state=empty]/rating-star:scale-50 motion-reduce:transition-none;
   }
 
+/* MARK: Record View */
+
+/* A single dialog host preserves the editor and scroll while its layout changes. */
+.cn-record-view {
+  @apply inset-0 m-auto h-fit w-full max-h-[calc(100dvh-2rem)] max-w-[min(44rem,calc(100vw-2rem))] overflow-hidden rounded-xl bg-surface-5 p-0 text-popover-foreground shadow-surface-5 motion-dialog has-[[data-mode=side]]:inset-auto! has-[[data-mode=side]]:end-3! has-[[data-mode=side]]:top-3! has-[[data-mode=side]]:bottom-3! has-[[data-mode=side]]:m-0! has-[[data-mode=side]]:h-auto! has-[[data-mode=side]]:w-[min(32rem,calc(100vw-1.5rem))] has-[[data-mode=side]]:max-h-none has-[[data-mode=side]]:max-w-none has-[[data-mode=side]]:translate-x-0 has-[[data-mode=side]]:translate-y-0 has-[[data-mode=page]]:inset-0! has-[[data-mode=page]]:m-0! has-[[data-mode=page]]:h-dvh! has-[[data-mode=page]]:w-full has-[[data-mode=page]]:max-h-none has-[[data-mode=page]]:max-w-none has-[[data-mode=page]]:translate-x-0 has-[[data-mode=page]]:translate-y-0 has-[[data-mode=page]]:rounded-none;
+}
+.cn-record-view-layout {
+  @apply max-h-[calc(100dvh-2rem)] data-[mode=side]:h-[calc(100dvh-1.5rem)] data-[mode=side]:max-h-none data-[mode=page]:mx-auto data-[mode=page]:h-dvh data-[mode=page]:w-full data-[mode=page]:max-h-none data-[mode=page]:max-w-3xl;
+}
+.cn-record-view-header {
+  @apply shrink-0 gap-(--density-12) p-(--density-20);
+}
+.cn-record-view-actions {
+  @apply gap-(--density-6);
+}
+.cn-record-view-position {
+  @apply text-(length:--density-text-12) text-muted-foreground;
+}
+.cn-record-view-mode {
+  @apply rounded-md border border-input bg-background px-(--density-6) text-(length:--density-text-12) focus-visible:ring-2 focus-visible:ring-ring;
+}
+.cn-record-view-body {
+  @apply flex-1 px-(--density-20) pb-(--density-20);
+}
+.cn-record-view-section,
+.cn-record-view-state {
+  @apply gap-(--density-12);
+}
+.cn-record-view-footer {
+  @apply shrink-0 gap-(--density-8) p-(--density-20);
+}
+
 /* MARK: Resizable */
 
   .cn-resizable-handle-icon {
@@ -5712,7 +5910,7 @@
   /* Panel: surface 3 whose shadow ring is the edge (no border). Slides
      and fades on the sheet motion (the drawer curve); closes quicker. */
   .cn-sheet-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground fixed z-50 flex flex-col gap-(--density-16) text-(length:--density-text-13) transition motion-sheet data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground fixed z-50 flex flex-col gap-(--density-16) text-(length:--density-text-13) transition motion-sheet data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm md:data-[side=bottom]:mx-auto md:data-[side=bottom]:max-w-xl md:data-[side=top]:mx-auto md:data-[side=top]:max-w-xl;
   }
 
   .cn-sheet-close {
@@ -6582,23 +6780,125 @@
 
 /* MARK: Toast */
 
-  /* Surface 5 with its shadow ring (no border), rounded-xl, 13px. Applies
-     to the Base UI toast root and to each Sonner toast. The surface classes
-     are important: Sonner's own stylesheet (attribute selectors) and the
-     Base UI toast's inline border/bg-popover/shadow-lg would otherwise win. */
-  /* Status toasts (info, success, warning, error) colour only their icon,
-     with the role's fill (error is the destructive role), on the neutral
-     surface: FF's low-contrast banner. Base UI marks the root with data-type and the icon with
-     data-slot=toast-icon; Sonner uses data-type and [data-icon]. */
+  /* Surface 5 with its shadow ring (no border), rounded-xl, 13px. Every toast
+     is 26 times the text size wide (338px), about 45 characters a line, so a
+     stack keeps one edge; only the height follows the content. The surface
+     classes are
+     important because the source paints its own.
+
+     Motion: places and sizes follow the toast timing on the entrance curve, so
+     a new toast, the ones it pushes back and one that changes size all move as
+     one. Leaving is quicker, on the exit curve. `useToastStack` sets the box;
+     reduced motion keeps only the fades. */
   .cn-toast {
-    @apply bg-surface-5! shadow-surface-5! text-popover-foreground rounded-xl! border-0! text-(length:--density-text-13) [&[data-type=info]_[data-slot=toast-icon]_svg]:text-info! [&[data-type=info]_[data-icon]_svg]:text-info! [&[data-type=success]_[data-slot=toast-icon]_svg]:text-success! [&[data-type=success]_[data-icon]_svg]:text-success! [&[data-type=warning]_[data-slot=toast-icon]_svg]:text-warning! [&[data-type=warning]_[data-icon]_svg]:text-warning! [&[data-type=error]_[data-slot=toast-icon]_svg]:text-destructive! [&[data-type=error]_[data-icon]_svg]:text-destructive! [transition:transform_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),opacity_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),height_calc(var(--motion-feedback)*var(--motion-scale,1))_var(--motion-ease-feedback)]!;
+    @apply bg-surface-5! shadow-surface-5! text-popover-foreground rounded-xl! border-0! text-(length:--density-text-13) [--toast-width:min(calc(var(--density-text-13)*26),calc(100vw-2rem))] transition-[transform,opacity,width,height] duration-toast ease-enter data-ending-style:duration-toast-exit data-ending-style:ease-exit motion-reduce:transition-[opacity] focus-visible:ring-1 focus-visible:ring-ring;
   }
 
-  /* Sonner (Radix, React Aria): the same surface and status icons, applied
-     from the toaster, because the build compiles placeholders in className
-     only and Sonner takes its toast classes through toastOptions. */
+  /* 40px tall with one line of text. An action beside the text ends 8px from
+     the edge in every toast, so a stack's actions line up. The content keeps its final width and is
+     cut to the box on the box's timing (a little past the top and the start,
+     where the close button sticks out), and fades out fast when another toast
+     covers it. */
+  .cn-toast-content {
+    @apply gap-(--density-8) px-(--density-12) py-(--density-10) [clip-path:inset(-12px_calc(100%-var(--toast-box-width))_calc(100%-var(--toast-box-height))_-12px)] transition-[clip-path,opacity] duration-toast ease-enter group-data-behind-front/toast:duration-feedback motion-reduce:transition-[opacity] has-data-[slot=toast-action]:pe-(--density-8) group-data-stacked/toast:pe-(--density-12)!;
+  }
+
+  /* As tall as a line of text, at the first line. An avatar centres on the
+     text instead. Status toasts (info, success, warning, error) colour only
+     their icon, with the role's fill (error is the destructive role), on the
+     neutral surface: FF's low-contrast banner. */
+  .cn-toast-icon {
+    @apply flex min-h-(--density-20) items-center self-start has-data-[slot=avatar]:self-center has-data-[slot=avatar]:me-0.5 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16) group-data-[type=info]/toast:text-info group-data-[type=success]/toast:text-success group-data-[type=warning]/toast:text-warning group-data-[type=error]/toast:text-destructive group-data-[type=loading]/toast:text-muted-foreground group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0 group-data-settled/toast:zoom-in-75 group-data-settled/toast:duration-move group-data-settled/toast:ease-enter;
+  }
+
+  /* The action sits beside text that leaves it room, and under text that
+     doesn't. */
+  .cn-toast-body {
+    @apply gap-x-(--density-12) gap-y-(--density-8);
+  }
+
+  /* A toast that changes type fades its new text in as it changes size. */
+  .cn-toast-message {
+    @apply group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0 group-data-settled/toast:duration-move group-data-settled/toast:ease-enter;
+  }
+
+  /* Two lines, and all of it once the stack is open under the pointer, focus
+     or a tap. A word that can't wrap breaks instead of leaving the toast. */
+  .cn-toast-title {
+    @apply line-clamp-2 leading-(--density-20) font-medium text-pretty wrap-anywhere group-data-expanded/toast:line-clamp-none;
+  }
+
+  /* Three lines, and all of it once open. On its own it is the message, so it
+     takes the foreground. */
+  .cn-toast-description {
+    @apply text-muted-foreground line-clamp-3 leading-(--density-20) text-pretty wrap-anywhere only:text-popover-foreground group-data-expanded/toast:line-clamp-none;
+  }
+
+  /* The soft neutral fill, rather than a second edge. It takes its height out of the
+     line's, so a toast with an action is as tall as one without. Its margins
+     change at once: the toast is measured with them. */
+  .cn-toast-action {
+    @apply bg-foreground/8 hover:bg-foreground/12 active:bg-foreground/16 text-foreground transition-[background-color,color,scale] -my-[calc((var(--density-28)-var(--density-20))/2)] h-(--density-28) rounded-md px-(--density-10) text-(length:--density-text-12) group-data-stacked/toast:my-0;
+  }
+
+  /* Out of the way at rest: a toast is only its message. It sits on the corner
+     and shows on hover and focus, or always where there is no hover. */
+  .cn-toast-close {
+    @apply bg-surface-5 text-muted-foreground shadow-surface-3 hover:bg-surface-5 hover:text-foreground size-(--density-20) -top-1.5 -left-1.5 scale-75 rounded-full opacity-0 transition-[opacity,scale,color] duration-feedback ease-enter group-hover/toast:scale-100 group-hover/toast:opacity-100 group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100 focus-visible:scale-100 focus-visible:opacity-100 pointer-coarse:scale-100 pointer-coarse:opacity-100 group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0 [&_svg]:size-3!;
+  }
+
+  /* Sonner: the same toast on Sonner's element. Everything is important because
+     Sonner's own stylesheet is unlayered. Its parts sit in the toast itself, so
+     they take the columns of a grid, with the actions on a second row when they
+     are under the text. Toasts with their own markup keep it, and only stack.
+
+     Sonner takes a toast away 200ms after it closes, whatever the speed, by
+     when the exit curve has all but finished.
+
+     `--y` is the place Sonner's swipes and exits start from. It grows from the
+     edge its position names: `--toast-lift` is 1 from the top, -1 from the
+     bottom. */
   .cn-sonner {
-    @apply [&_[data-sonner-toast]]:bg-surface-5! [&_[data-sonner-toast]]:shadow-surface-5! [&_[data-sonner-toast]]:text-popover-foreground! [&_[data-sonner-toast]]:rounded-xl! [&_[data-sonner-toast]]:border-0! [&_[data-sonner-toast]]:text-(length:--density-text-13)! [&_[data-sonner-toast][data-type=info]_[data-icon]_svg]:text-info! [&_[data-sonner-toast][data-type=success]_[data-icon]_svg]:text-success! [&_[data-sonner-toast][data-type=warning]_[data-icon]_svg]:text-warning! [&_[data-sonner-toast][data-type=error]_[data-icon]_svg]:text-destructive! [&_[data-sonner-toast]]:[transition-duration:calc(var(--motion-toast)*var(--motion-scale,1))]! [&_[data-sonner-toast]]:[transition-timing-function:var(--motion-ease-enter)]!;
+    @apply [font-family:inherit]!;
+  }
+
+  .cn-sonner-toast {
+    @apply [--toast-width:min(calc(var(--density-text-13)*26),calc(100vw-2rem))] h-(--toast-box-height)! w-(--toast-box-width)! max-w-(--toast-width) data-measuring:h-auto! data-measuring:w-max! data-[styled=true]:data-[measuring=box]:min-w-(--toast-width) data-[measuring=row]:max-w-none transition-[transform,opacity,width,height]! duration-toast! ease-enter! data-[removed=true]:duration-toast-exit! data-[removed=true]:ease-exit! data-[swiping=true]:transition-none! motion-reduce:transition-[opacity]! [--toast-lift:-1] data-[y-position=bottom]:origin-bottom data-[y-position=top]:origin-top data-[y-position=top]:[--toast-lift:1] [--toast-x:-50%] left-[calc(50%-var(--mobile-offset-left))]! right-auto! data-[x-position=center]:min-[601px]:left-1/2! data-[x-position=left]:min-[601px]:left-0! data-[x-position=left]:min-[601px]:[--toast-x:var(--toast-inset,0px)] data-[x-position=right]:min-[601px]:right-0! data-[x-position=right]:min-[601px]:left-auto! data-[x-position=right]:min-[601px]:[--toast-x:calc(var(--toast-inset,0px)*-1)] [--toast-y:calc(var(--toast-lift)*var(--toast-offset,0px))] [--y:translate(var(--toast-x),var(--toast-y))]! motion-safe:data-[mounted=false]:[--y:translate(var(--toast-x),calc(var(--toast-lift)*-100%))_scale(var(--motion-popup-scale))]! motion-safe:data-[removed=true]:data-[swipe-out=false]:[--y:translate(var(--toast-x),calc(var(--toast-y)-var(--toast-lift)*50%))_scale(var(--motion-popup-scale))]! motion-safe:data-[removed=true]:data-[swipe-out=false]:data-[expanded=true]:[--y:translate(var(--toast-x),var(--toast-y))_scale(var(--motion-popup-scale))]! data-[styled=true]:bg-surface-5! data-[styled=true]:shadow-surface-5! data-[styled=true]:text-popover-foreground! data-[styled=true]:rounded-xl! data-[styled=true]:border-0! data-[styled=true]:text-(length:--density-text-13)! data-[styled=true]:grid! data-[styled=true]:content-start data-[styled=true]:items-center data-[styled=true]:justify-start data-[styled=true]:grid-cols-[auto_auto_auto_auto] data-[styled=true]:gap-0! data-[styled=true]:px-(--density-12)! data-[styled=true]:py-(--density-10)! data-[styled=true]:not-data-stacked:has-[[data-button]]:pe-(--density-8)! data-measuring:grid-cols-[auto_minmax(0,1fr)_auto_auto]! data-stacked:grid-cols-[auto_auto_auto_1fr]! data-[styled=true]:not-data-stacked:[&>[data-content]~*]:ms-(--density-12)! data-[styled=true]:[&>[data-content]~*]:me-0! data-[styled=true]:[&>[data-content]~*]:whitespace-nowrap data-[styled=true]:not-data-stacked:[&>[data-content]~*~*]:ms-(--density-4)! data-stacked:[&>[data-content]~*]:row-start-2 data-stacked:[&>[data-content]~*]:mt-(--density-8)! data-stacked:[&>[data-content]~*]:mb-0! data-stacked:[&>[data-content]+*]:col-start-2 data-stacked:[&>[data-content]~*~*]:col-start-3 data-stacked:[&>[data-content]~*~*]:ms-(--density-6)! focus-visible:ring-1! focus-visible:ring-ring!;
+  }
+
+  /* See Toast's icon. */
+  .cn-sonner-icon {
+    @apply col-start-1 me-(--density-8)! ms-0! h-auto! min-h-(--density-20) w-auto! min-w-(--density-icon-16) items-center self-start has-data-[slot=avatar]:self-center has-data-[slot=avatar]:me-2.5! [&_svg]:m-0! [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_.sonner-loader]:static [&_.sonner-loader]:translate-none [&_.sonner-loader]:transform-none group-data-[type=info]/toast:text-info group-data-[type=success]/toast:text-success group-data-[type=warning]/toast:text-warning group-data-[type=error]/toast:text-destructive group-data-[type=loading]/toast:text-muted-foreground group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0 group-data-settled/toast:zoom-in-75 group-data-settled/toast:duration-move group-data-settled/toast:ease-enter;
+  }
+
+  /* Keeps the width it is going to have, cut to the toast around it on the
+     toast's timing. */
+  .cn-sonner-content {
+    @apply col-start-2 w-(--toast-text-width) flex-none! gap-0! [clip-path:polygon(-2px_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_calc(var(--toast-box-height)-var(--toast-part-y)),-2px_calc(var(--toast-box-height)-var(--toast-part-y)))] transition-[clip-path,opacity]! duration-toast! ease-enter! motion-reduce:transition-[opacity]! group-data-measuring/toast:w-auto group-data-stacked/toast:col-end-[-1] group-data-behind-front/toast:duration-feedback! group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0;
+  }
+
+  /* See Toast's title. */
+  .cn-sonner-title {
+    @apply group-data-[styled=true]/toast:line-clamp-2 group-data-[styled=true]/toast:leading-(--density-20)! group-data-[styled=true]/toast:font-medium! text-pretty wrap-anywhere group-data-[expanded=true]/toast:line-clamp-none!;
+  }
+
+  /* See Toast's description. */
+  .cn-sonner-description {
+    @apply group-data-[styled=true]/toast:text-muted-foreground! group-data-[styled=true]/toast:line-clamp-3 group-data-[styled=true]/toast:leading-(--density-20)! text-pretty wrap-anywhere group-data-[expanded=true]/toast:line-clamp-none!;
+  }
+
+  /* See Toast's action. Cancel is the quieter of the two. */
+  .cn-sonner-action {
+    @apply bg-foreground/8! hover:bg-foreground/12! active:bg-foreground/16! text-foreground! -my-[calc((var(--density-28)-var(--density-20))/2)]! h-(--density-28)! rounded-md! px-(--density-10)! text-(length:--density-text-12)! whitespace-nowrap motion-press [clip-path:polygon(-2px_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_calc(var(--toast-box-height)-var(--toast-part-y)),-2px_calc(var(--toast-box-height)-var(--toast-part-y)))] [transition:clip-path_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),background-color_calc(var(--motion-feedback)*var(--motion-scale,1)),color_calc(var(--motion-feedback)*var(--motion-scale,1)),opacity_calc(var(--motion-feedback)*var(--motion-scale,1)),scale_calc(var(--motion-feedback)*var(--motion-scale,1))]! motion-reduce:transition-[background-color,color,opacity]! focus-visible:ring-1! focus-visible:ring-ring!;
+  }
+
+  .cn-sonner-cancel {
+    @apply text-muted-foreground! hover:bg-hover! hover:text-foreground! -my-[calc((var(--density-28)-var(--density-20))/2)]! h-(--density-28)! rounded-md! bg-transparent! px-(--density-10)! text-(length:--density-text-12)! whitespace-nowrap motion-press [clip-path:polygon(-2px_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_-2px,calc(var(--toast-box-width)-var(--toast-part-x))_calc(var(--toast-box-height)-var(--toast-part-y)),-2px_calc(var(--toast-box-height)-var(--toast-part-y)))] [transition:clip-path_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),background-color_calc(var(--motion-feedback)*var(--motion-scale,1)),color_calc(var(--motion-feedback)*var(--motion-scale,1)),opacity_calc(var(--motion-feedback)*var(--motion-scale,1)),scale_calc(var(--motion-feedback)*var(--motion-scale,1))]! motion-reduce:transition-[background-color,color,opacity]! focus-visible:ring-1! focus-visible:ring-ring!;
+  }
+
+  /* See Toast's close button. */
+  .cn-sonner-close {
+    @apply bg-surface-5! text-muted-foreground! shadow-surface-3! hover:text-foreground! -top-1.5! right-auto! -left-1.5! size-(--density-20)! transform-none! scale-75 rounded-full border-0! opacity-0! transition-[opacity,scale,color]! duration-feedback! ease-enter! after:absolute after:-inset-2 after:content-[''] focus-visible:ring-1! focus-visible:ring-ring! group-hover/toast:scale-100 group-hover/toast:opacity-100! group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100! focus-visible:scale-100 focus-visible:opacity-100! pointer-coarse:scale-100 pointer-coarse:opacity-100! group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0! [&_svg]:size-3! motion-press;
   }
 
 /* MARK: Toggle Group */
@@ -6736,9 +7036,10 @@
 /* MARK: User Menu */
 
   /* The mark (data-user-menu="mark") is the avatar alone, as a round
-     button. */
+     button. A lit or open row darkens its email: muted text misses 4.5:1 on
+     the wash in light mode. */
   .cn-user-menu-trigger {
-    @apply data-popup-open:bg-hover data-popup-open:text-foreground data-open:bg-hover data-open:text-foreground data-[user-menu=mark]:flex data-[user-menu=mark]:shrink-0 data-[user-menu=mark]:cursor-pointer data-[user-menu=mark]:items-center data-[user-menu=mark]:justify-center data-[user-menu=mark]:rounded-full data-[user-menu=mark]:ring-ring data-[user-menu=mark]:outline-none data-[user-menu=mark]:focus-visible:ring-1 data-[user-menu=mark]:focus-visible:ring-offset-1 data-[user-menu=mark]:focus-visible:ring-offset-background;
+    @apply data-popup-open:bg-hover data-popup-open:text-foreground data-popup-open:**:data-[slot=user-menu-email]:text-foreground/75 data-open:**:data-[slot=user-menu-email]:text-foreground/75 data-fluid-hover-active:**:data-[slot=user-menu-email]:text-foreground/75 data-open:bg-hover data-open:text-foreground data-[user-menu=mark]:flex data-[user-menu=mark]:shrink-0 data-[user-menu=mark]:cursor-pointer data-[user-menu=mark]:items-center data-[user-menu=mark]:justify-center data-[user-menu=mark]:rounded-full data-[user-menu=mark]:ring-ring data-[user-menu=mark]:outline-none data-[user-menu=mark]:focus-visible:ring-1 data-[user-menu=mark]:focus-visible:ring-offset-1 data-[user-menu=mark]:focus-visible:ring-offset-background;
   }
 
   /* Initials in full foreground: the avatar's muted fallback text misses
@@ -6765,11 +7066,33 @@
   }
 
   .cn-user-menu-content {
-    @apply min-w-56;
+    @apply min-w-60;
   }
 
   .cn-user-menu-label {
     @apply gap-(--density-8) px-(--density-8) py-(--density-6) font-normal text-foreground;
+  }
+
+  /* The theme row, as tall as the rows around it. Its track (before) holds the
+     three tabs, the same gap from the row's top, bottom and end, so it nests in
+     the menu's corner. The pill (after) is the tabs' raised selection, inset
+     2px, and moves one tab's width per choice. Both are the row's own, so the
+     three bases draw one picture. */
+  .cn-user-menu-theme {
+    @apply h-(--density-36) ps-(--density-8) pe-[calc((var(--density-36)-var(--density-28))/2)] before:absolute before:inset-y-[calc((var(--density-36)-var(--density-28))/2)] before:end-[calc((var(--density-36)-var(--density-28))/2)] before:-z-10 before:w-[calc(var(--density-32)*3)] before:rounded-lg before:bg-foreground/[0.05] after:pointer-events-none after:absolute after:end-[calc((var(--density-36)-var(--density-28))/2+var(--density-32)*2+2px)] after:top-[calc((var(--density-36)-var(--density-28))/2+2px)] after:-z-10 after:h-[calc(var(--density-28)-4px)] after:w-[calc(var(--density-32)-4px)] after:rounded-md after:bg-surface-4 after:shadow-surface-4 dark:after:bg-foreground/14 not-data-value:after:opacity-0 data-[value=dark]:after:translate-x-(--density-32) data-[value=system]:after:translate-x-[calc(var(--density-32)*2)];
+  }
+
+  /* Reads as a row that isn't pressed: its icon and text keep the rows' resting
+     colour and edge. */
+  .cn-user-menu-theme-label {
+    @apply gap-(--density-8) pe-(--density-8) text-(length:--density-text-13) text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  /* A tab: the whole cell takes the press. Muted at rest; lit and picked turn
+     foreground with a heavier icon, as Tabs do. The icons are a step under the
+     rows': at 16px they fill the pill and outweigh the menu's own icons. */
+  .cn-user-menu-theme-item {
+    @apply h-(--density-28) w-(--density-32) cursor-pointer rounded-lg text-muted-foreground transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset [&_svg:not([class*='size-'])]:size-(--density-icon-14) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-checked:text-foreground data-checked:[&_svg]:stroke-2 data-selected:text-foreground data-selected:[&_svg]:stroke-2;
   }
 
 /* MARK: Video Player */

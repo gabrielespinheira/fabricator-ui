@@ -1,10 +1,9 @@
 import { Command } from "commander"
 
 import { toFabricatorAddress } from "../utils/names"
-import { readNativeLanguageConfig } from "../utils/native-files"
+import { assertSupportedRenderer } from "../utils/retired-renderers"
 import { exitLike } from "../utils/shadcn"
 import { runWithFabricatorRegistry } from "./add"
-import { addNativeLanguage } from "./native-language"
 import { fail, resolveCwd } from "./shared"
 
 export interface DiffOptions {
@@ -16,9 +15,7 @@ export async function diff(
   rawOptions: DiffOptions
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
-  const languageConfig = await readNativeLanguageConfig(cwd)
-  if (languageConfig)
-    return addNativeLanguage([item], languageConfig, { cwd, diff: true })
+  await assertSupportedRenderer(cwd)
   const args = ["add", toFabricatorAddress(item), "--diff", "--cwd", cwd]
   exitLike(await runWithFabricatorRegistry(cwd, args, { readOnly: true }))
 }

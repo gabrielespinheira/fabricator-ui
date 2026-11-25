@@ -9,8 +9,21 @@
 // Button for the mark); `side` and `align` become the menu's placement.
 import * as React from "react"
 import { cn } from "cn"
-import { Button as ButtonPrimitive } from "react-aria-components"
+import {
+  Button as ButtonPrimitive,
+  Header as HeaderPrimitive,
+  MenuItem as MenuItemPrimitive,
+  MenuSection as MenuSectionPrimitive,
+} from "react-aria-components"
 
+import {
+  useThemePreference,
+  type ThemePreferenceOptions,
+} from "@/registry/bases/aria/hooks/use-theme-preference"
+import {
+  THEME_PREFERENCES,
+  type ThemePreference,
+} from "@/registry/bases/aria/lib/theme-toggle-model"
 import {
   Avatar,
   AvatarFallback,
@@ -35,6 +48,61 @@ type UserMenuUser = {
   name: string
   email?: string
   avatarUrl?: string
+}
+
+const THEME_ICONS: Record<ThemePreference, React.ReactNode> = {
+  light: (
+    <IconPlaceholder
+      lucide="SunIcon"
+      tabler="IconSun"
+      hugeicons="Sun03Icon"
+      phosphor="SunIcon"
+      remixicon="RiSunLine"
+    />
+  ),
+  dark: (
+    <IconPlaceholder
+      lucide="MoonIcon"
+      tabler="IconMoon"
+      hugeicons="Moon02Icon"
+      phosphor="MoonIcon"
+      remixicon="RiMoonLine"
+    />
+  ),
+  system: (
+    <IconPlaceholder
+      lucide="MonitorIcon"
+      tabler="IconDeviceDesktop"
+      hugeicons="ComputerIcon"
+      phosphor="MonitorIcon"
+      remixicon="RiComputerLine"
+    />
+  ),
+}
+
+const THEME_LABELS = {
+  theme: "Theme",
+  light: "Light",
+  dark: "Dark",
+  system: "System",
+}
+
+type UserMenuThemeProps = ThemePreferenceOptions & {
+  /** Translates the row's label and the tabs' names. */
+  labels?: Partial<typeof THEME_LABELS>
+  className?: string
+}
+
+function ThemeLabelIcon() {
+  return (
+    <IconPlaceholder
+      lucide="PaletteIcon"
+      tabler="IconPalette"
+      hugeicons="PaintBoardIcon"
+      phosphor="PaletteIcon"
+      remixicon="RiPaletteLine"
+    />
+  )
 }
 
 type Side = "top" | "right" | "bottom" | "left"
@@ -72,7 +140,12 @@ function UserDetails({ user }: { user: UserMenuUser }) {
     <span className="cn-user-menu-details grid min-w-0 flex-1 text-start">
       <span className="cn-user-menu-name truncate">{user.name}</span>
       {user.email && (
-        <span className="cn-user-menu-email truncate">{user.email}</span>
+        <span
+          data-slot="user-menu-email"
+          className="cn-user-menu-email truncate"
+        >
+          {user.email}
+        </span>
       )}
     </span>
   )
@@ -92,7 +165,7 @@ function UserMenu({
   side?: Side
   align?: Align
   className?: string
-  /** DropdownMenu groups: profile, settings, theme, sign out… */
+  /** DropdownMenu groups and UserMenuTheme: profile, theme, sign out… */
   children?: React.ReactNode
 }) {
   const { isMobile } = useSidebar()
@@ -159,4 +232,64 @@ function UserMenu({
   )
 }
 
-export { UserMenu, type UserMenuUser }
+// The theme row: a label, and light, dark and system as small tabs. Picking one
+// keeps the menu open and reveals the page from that tab, as Theme Toggle does.
+// data-fluid-hover keeps the menu's gliding highlight out of the row.
+function UserMenuTheme({
+  theme,
+  onThemeChange,
+  variant = "circle-blur",
+  start = "trigger",
+  labels,
+  className,
+}: UserMenuThemeProps) {
+  const names = { ...THEME_LABELS, ...labels }
+  const { attach, select, value } = useThemePreference({
+    theme,
+    onThemeChange,
+    variant,
+    start,
+  })
+  return (
+    <MenuSectionPrimitive
+      ref={attach}
+      data-slot="user-menu-theme"
+      data-fluid-hover=""
+      data-value={value}
+      selectionMode="single"
+      disallowEmptySelection
+      shouldCloseOnSelect={false}
+      selectedKeys={value ? [value] : []}
+      onSelectionChange={(keys) => {
+        for (const key of keys) select(String(key))
+      }}
+      className={cn(
+        "cn-user-menu-theme relative isolate flex items-center",
+        className
+      )}
+    >
+      <HeaderPrimitive
+        data-slot="user-menu-theme-label"
+        className="cn-user-menu-theme-label flex min-w-0 flex-1 items-center [&_svg]:shrink-0"
+      >
+        <ThemeLabelIcon />
+        <span className="truncate">{names.theme}</span>
+      </HeaderPrimitive>
+      {THEME_PREFERENCES.map((preference) => (
+        <MenuItemPrimitive
+          key={preference}
+          id={preference}
+          data-slot="user-menu-theme-item"
+          data-theme-preference={preference}
+          aria-label={names[preference]}
+          textValue={names[preference]}
+          className="cn-user-menu-theme-item flex shrink-0 items-center justify-center outline-hidden select-none [&_svg]:pointer-events-none [&_svg]:shrink-0"
+        >
+          {THEME_ICONS[preference]}
+        </MenuItemPrimitive>
+      ))}
+    </MenuSectionPrimitive>
+  )
+}
+
+export { UserMenu, UserMenuTheme, type UserMenuThemeProps, type UserMenuUser }

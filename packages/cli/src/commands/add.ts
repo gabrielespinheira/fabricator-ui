@@ -1,7 +1,14 @@
-import { REACT_PACKAGE, REACT_PACKAGE_COMPONENTS } from "@fabricator-ui/setup"
+import {
+  REACT_NATIVE_PACKAGE,
+  REACT_NATIVE_PACKAGE_COMPONENTS,
+  REACT_PACKAGE_COMPONENTS,
+} from "@fabricator-ui/setup"
 import { Command } from "commander"
 
-import { getPackageOnlyDirectory } from "../setup/package-install"
+import {
+  getComponentPackage,
+  getPackageOnlyDirectory,
+} from "../setup/package-install"
 import {
   ensureRegistry,
   getCatalogStyle,
@@ -16,12 +23,12 @@ import {
   readPackageJson,
   registryTemplateFor,
 } from "../utils/native"
-import { readNativeLanguageConfig } from "../utils/native-files"
 import {
   buildInstallArgs,
   detectPackageManager,
 } from "../utils/package-manager"
 import { runLogged } from "../utils/process"
+import { assertSupportedRenderer } from "../utils/retired-renderers"
 import { exitLike, runShadcn, type ShadcnResult } from "../utils/shadcn"
 import { getBaseUrl, isUrl } from "../utils/urls"
 import {
@@ -31,7 +38,6 @@ import {
   syncWorkspaceAfterAdd,
 } from "../utils/workspace"
 import { alignExpoDependencies } from "./init-native"
-import { addNativeLanguage } from "./native-language"
 import {
   fail,
   fetchCatalog,
@@ -122,7 +128,7 @@ export async function runWithFabricatorRegistry(
 
 /** The apps a run at a monorepo's root applies to. */
 async function resolveApps(cwd: string, app: string | undefined) {
-  const apps = listWorkspaceApps(cwd)
+  const apps = listWorkspaceApps(cwd, { includePackages: true })
   if (apps.length === 0) return undefined
   if (apps.length === 1 && !app) return apps
   if (app === "all") return apps
@@ -168,21 +174,26 @@ export async function add(
   rawOptions: AddOptions
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
-  const languageConfig = await readNativeLanguageConfig(cwd)
-  if (languageConfig && !rawOptions.upstream)
-    return addNativeLanguage(components, languageConfig, { ...rawOptions, cwd })
-  if (!rawOptions.upstream && getPackageOnlyDirectory(cwd)) {
-    const available: ReadonlySet<string> = new Set(REACT_PACKAGE_COMPONENTS)
+  if (!rawOptions.upstream) await assertSupportedRenderer(cwd)
+  const packageApp =
+    !rawOptions.upstream && !rawOptions.app && getPackageOnlyDirectory(cwd)
+  if (packageApp) {
+    const packageName = getComponentPackage(packageApp)
+    const catalog =
+      packageName === REACT_NATIVE_PACKAGE
+        ? REACT_NATIVE_PACKAGE_COMPONENTS
+        : REACT_PACKAGE_COMPONENTS
+    const available: ReadonlySet<string> = new Set(catalog)
     const names =
       components.length && !rawOptions.all
         ? components.map((name) => name.replace(/^@fabricator\//, ""))
-        : REACT_PACKAGE_COMPONENTS
+        : catalog
     const unsupported = names.filter((name) => !available.has(name))
     if (unsupported.length)
       throw new Error(
         `These components need editable source: ${unsupported.join(", ")}. Run init --distribution source to set up local copies.`
       )
-    for (const name of names) logger.log(`Import from ${REACT_PACKAGE}/${name}`)
+    for (const name of names) logger.log(`Import from ${packageName}/${name}`)
     return
   }
   if (

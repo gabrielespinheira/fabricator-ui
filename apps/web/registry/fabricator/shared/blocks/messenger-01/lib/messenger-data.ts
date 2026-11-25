@@ -1,4 +1,5 @@
 import {
+  createMessengerState,
   ME,
   type ChatMessage,
   type Conversation,
@@ -10,7 +11,7 @@ import {
 // conversations with their latest messages, and a live feed for new ones.
 
 /** The moment the sample data was written around: Tuesday, 9:41 AM. */
-export const SAMPLE_NOW = Date.UTC(2026, 10, 17, 9, 41)
+export const SAMPLE_NOW = Date.UTC(2026, 10, 24, 9, 41)
 
 /** Fixed so the server and the browser print the same times. */
 export const SAMPLE_TIME_FORMAT: TimeFormat = {
@@ -23,75 +24,108 @@ const HOUR = 60 * MINUTE
 const DAY = 24 * HOUR
 
 function at(daysAgo: number, hour: number, minute: number) {
-  const today = Date.UTC(2026, 10, 17)
+  const today = Date.UTC(2026, 10, 24)
   return today - daysAgo * DAY + hour * HOUR + minute * MINUTE
 }
 
-function photo(id: string, size: number) {
-  return `https://images.unsplash.com/photo-${id}?w=${size}&h=${size}&fit=crop&auto=format&q=80`
+function portrait(id: string) {
+  return `https://images.unsplash.com/photo-${id}?w=160&h=160&fit=crop&auto=format&q=80`
 }
 
+function picture(id: string) {
+  return `https://images.unsplash.com/photo-${id}?w=1280&h=960&fit=crop&auto=format&q=80`
+}
+
+export const WORKSPACES = [
+  { id: "acme", name: "Acme Inc", description: "48 people" },
+  { id: "northwind", name: "Northwind", description: "Guest" },
+]
+
 export const ME_PERSON = {
-  name: "Gabs Fabricator",
-  email: "gabs@fabricator.dev",
+  name: "Ada Lovelace",
+  email: "ada@acme.com",
+  avatarUrl: portrait("1580489944761-15a19d654956"),
 }
 
 export const PEOPLE: Person[] = [
   {
     id: "maya",
     name: "Maya Chen",
-    avatar: photo("1534528741775-53994a69daeb", 160),
+    avatar: portrait("1534528741775-53994a69daeb"),
     presence: { kind: "online" },
-    phone: "+351 912 345 678",
-    email: "maya.chen@example.com",
+    role: "Product designer",
+    timeZone: "America/New_York",
+    phone: "+1 917 555 0142",
+    email: "maya@acme.com",
   },
   {
     id: "lucas",
     name: "Lucas Ferreira",
-    avatar: photo("1500648767791-00dcc994a43e", 160),
+    avatar: portrait("1500648767791-00dcc994a43e"),
     presence: { kind: "offline", lastSeenAt: SAMPLE_NOW - 2 * HOUR },
+    role: "Engineering manager",
+    timeZone: "Europe/Lisbon",
     phone: "+351 913 220 145",
-    email: "lucas@example.com",
-  },
-  {
-    id: "sofia",
-    name: "Sofia Marques",
-    avatar: photo("1494790108377-be9c29b29330", 160),
-    presence: { kind: "online" },
-    phone: "+351 916 870 332",
-    email: "sofia.marques@example.com",
+    email: "lucas@acme.com",
   },
   {
     id: "daniel",
     name: "Daniel Okafor",
-    avatar: photo("1507003211169-0a1dd7228f2d", 160),
-    presence: { kind: "offline", lastSeenAt: SAMPLE_NOW - 26 * HOUR },
+    avatar: portrait("1507003211169-0a1dd7228f2d"),
+    presence: { kind: "online" },
+    role: "Customer success",
+    timeZone: "Europe/London",
     phone: "+44 7700 900 412",
-    email: "daniel.okafor@example.com",
+    email: "daniel@acme.com",
   },
   {
     id: "emma",
     name: "Emma Lindqvist",
-    avatar: photo("1438761681033-6461ffad8d80", 160),
-    presence: { kind: "offline", lastSeenAt: SAMPLE_NOW - 40 * MINUTE },
+    avatar: portrait("1438761681033-6461ffad8d80"),
+    presence: { kind: "online" },
+    role: "Head of operations",
+    timeZone: "Europe/Stockholm",
     phone: "+46 70 123 45 67",
-    email: "emma@example.com",
+    email: "emma@acme.com",
   },
   {
     id: "tom",
     name: "Tom Becker",
-    avatar: photo("1472099645785-5658abf4ff4e", 160),
+    avatar: portrait("1472099645785-5658abf4ff4e"),
     presence: { kind: "offline", lastSeenAt: SAMPLE_NOW - 6 * DAY },
+    role: "Sales",
+    timeZone: "Europe/Berlin",
     phone: "+49 151 2345 6789",
-    email: "tom.becker@example.com",
+    email: "tom@acme.com",
   },
   {
     id: "nora",
     name: "Nora Ahmed",
-    avatar: photo("1544005313-94ddf0286df2", 160),
+    avatar: portrait("1544005313-94ddf0286df2"),
     presence: { kind: "online" },
+    role: "Brand designer",
+    timeZone: "Europe/Lisbon",
     phone: "+351 917 554 210",
-    email: "nora.ahmed@example.com",
+    email: "nora@acme.com",
+  },
+  {
+    id: "priya",
+    name: "Priya Raman",
+    presence: { kind: "offline", lastSeenAt: SAMPLE_NOW - 35 * MINUTE },
+    role: "Data analyst",
+    timeZone: "Asia/Kolkata",
+    phone: "+91 98450 01234",
+    email: "priya@acme.com",
+  },
+  {
+    id: "sofia",
+    name: "Sofia Marques",
+    avatar: portrait("1494790108377-be9c29b29330"),
+    presence: { kind: "online" },
+    role: "Head of product, Northwind",
+    timeZone: "Europe/Lisbon",
+    phone: "+351 916 870 332",
+    email: "sofia@northwind.io",
   },
 ]
 
@@ -105,17 +139,150 @@ const VOICE_PEAKS = [
 
 const VOICE_SRC = "https://fabricator-ui.vercel.app/media/sintel-trailer.m4a"
 
+type Extra = Omit<Partial<ChatMessage>, "id" | "senderId" | "sentAt" | "body">
+
 function text(
   id: string,
   senderId: string,
   sentAt: number,
   value: string,
-  extra: Partial<ChatMessage> = {}
+  extra: Extra = {}
 ): ChatMessage {
   return { id, senderId, sentAt, body: { kind: "text", text: value }, ...extra }
 }
 
-export const CONVERSATIONS: Conversation[] = [
+function image(
+  id: string,
+  senderId: string,
+  sentAt: number,
+  photo: { id: string; alt: string; caption?: string },
+  extra: Extra = {}
+): ChatMessage {
+  return {
+    id,
+    senderId,
+    sentAt,
+    body: {
+      kind: "image",
+      src: picture(photo.id),
+      alt: photo.alt,
+      caption: photo.caption,
+    },
+    ...extra,
+  }
+}
+
+function file(
+  id: string,
+  senderId: string,
+  sentAt: number,
+  name: string,
+  size: string
+): ChatMessage {
+  return { id, senderId, sentAt, body: { kind: "file", name, size } }
+}
+
+function voice(
+  id: string,
+  senderId: string,
+  sentAt: number,
+  duration: number
+): ChatMessage {
+  return {
+    id,
+    senderId,
+    sentAt,
+    body: { kind: "voice", src: VOICE_SRC, duration, peaks: VOICE_PEAKS },
+  }
+}
+
+const CONVERSATIONS: Conversation[] = [
+  {
+    id: "offsite",
+    kind: "group",
+    title: "Lisbon offsite",
+    avatar: portrait("1585208798174-6cedd86e019a"),
+    memberIds: ["emma", "maya", "lucas", "daniel"],
+    unreadCount: 4,
+    isPinned: true,
+    isMuted: false,
+    messages: [
+      text(
+        "o1",
+        "emma",
+        at(5, 15, 2),
+        "The house is booked for March. Three days, 14 of us, and everything is a walk away."
+      ),
+      file("o2", "emma", at(5, 15, 3), "lisbon-offsite-agenda.pdf", "1.2 MB"),
+      file("o3", "emma", at(5, 15, 3), "rooms-and-flights.xlsx", "48 KB"),
+      image("o4", "lucas", at(5, 15, 20), {
+        id: "1585208798174-6cedd86e019a",
+        alt: "A yellow tram climbing a street between old buildings",
+        caption: "Tram 28 stops outside",
+      }),
+      image("o5", "lucas", at(5, 15, 21), {
+        id: "1548707309-dcebeab9ea9b",
+        alt: "A wide square with a triumphal arch under a blue sky",
+        caption: "And this is five minutes on foot",
+      }),
+      text("o6", ME, at(5, 15, 40), "Sold. Where do we work?", {
+        readBy: ["maya", "lucas", "daniel", "emma"],
+      }),
+      image("o7", "daniel", at(1, 10, 5), {
+        id: "1555396273-367ea4eb4db5",
+        alt: "A bright café with tall windows and long wooden tables",
+        caption: "The whole ground floor until 6 PM",
+      }),
+      image("o8", "daniel", at(1, 10, 6), {
+        id: "1414235077428-338989a2e8c0",
+        alt: "A plated dinner with wine glasses on a dark table",
+      }),
+      image(
+        "o9",
+        "maya",
+        at(1, 10, 31),
+        {
+          id: "1517457373958-b7bdd4587205",
+          alt: "People at an evening party under string lights",
+          caption: "Wednesday, if the weather holds",
+        },
+        { reactions: [{ emoji: "👏", personIds: ["emma", ME] }] }
+      ),
+      image(
+        "o10",
+        "maya",
+        at(0, 8, 49),
+        {
+          id: "1580323956656-26bbb1206e34",
+          alt: "Red rooftops running down to the river",
+          caption: "Breakfast, every morning",
+        },
+        { reactions: [{ emoji: "❤️", personIds: ["lucas", "emma", ME] }] }
+      ),
+      text("o11", ME, at(0, 8, 58), "That settles the early flight question"),
+      text("o12", ME, at(0, 8, 58), "Is the long table ours on Thursday?", {
+        readBy: ["maya", "lucas", "daniel", "emma"],
+      }),
+      voice("o13", "lucas", at(0, 9, 12), 52),
+      text(
+        "o14",
+        "lucas",
+        at(0, 9, 13),
+        "Short version: we land at 11 and the vans leave at noon."
+      ),
+      text(
+        "o15",
+        "daniel",
+        at(0, 9, 31),
+        "Yes, from 8 PM. I asked for the side with the view.",
+        {
+          replyToId: "o12",
+          reactions: [{ emoji: "👍", personIds: ["maya", "lucas"] }],
+        }
+      ),
+      text("o16", "daniel", at(0, 9, 32), "Anyone vegetarian?"),
+    ],
+  },
   {
     id: "maya",
     kind: "direct",
@@ -125,87 +292,42 @@ export const CONVERSATIONS: Conversation[] = [
     isPinned: true,
     isMuted: false,
     messages: [
-      text("m1", "maya", at(1, 18, 2), "Found the place for Saturday."),
-      {
-        id: "m2",
-        senderId: "maya",
-        sentAt: at(1, 18, 3),
-        body: {
-          kind: "image",
-          src: photo("1501785888041-af3ef285b470", 960),
-          alt: "A turquoise lake under pale mountains, with a wooden rowing boat",
-          caption: "Lago di Braies at 7am, before the crowds",
-        },
-        reactions: [{ emoji: "😍", count: 1, label: "Loved by you" }],
-      },
-      text("m3", ME, at(1, 18, 10), "That water can't be real"),
-      text("m4", ME, at(1, 18, 11), "I'm in. Can you send me the plan?"),
-      {
-        id: "m5",
-        senderId: "maya",
-        sentAt: at(1, 18, 40),
-        body: {
-          kind: "file",
-          name: "dolomites-weekend.pdf",
-          size: "1.2 MB",
-        },
-      },
-      {
-        id: "m6",
-        senderId: "maya",
-        sentAt: at(0, 8, 52),
-        body: {
-          kind: "voice",
-          src: VOICE_SRC,
-          duration: 52,
-          peaks: VOICE_PEAKS,
-        },
-      },
-      text(
-        "m7",
-        "maya",
-        at(0, 8, 53),
-        "Short version: we leave Friday at 6 and I drive the first half."
-      ),
+      text("m1", "maya", at(1, 14, 2), "First pass at the new checkout."),
+      image("m2", "maya", at(1, 14, 3), {
+        id: "1581291518857-4e27b48ff24e",
+        alt: "A hand sketching wireframes on paper",
+        caption: "Paper first, so nobody argues about colours",
+      }),
+      image("m3", "maya", at(1, 14, 5), {
+        id: "1586717791821-3f44a563fa4c",
+        alt: "Wireframes drawn on a tablet beside a keyboard",
+      }),
+      text("m4", ME, at(1, 14, 10), "The second one is much calmer"),
+      text("m5", ME, at(1, 14, 11), "Can you send me the spec?", {
+        readAt: at(1, 14, 12),
+      }),
+      file("m6", "maya", at(1, 14, 40), "checkout-spec.pdf", "840 KB"),
+      image("m7", "maya", at(0, 8, 50), {
+        id: "1561070791-2526d30994b5",
+        alt: "Printed colour swatches beside a phone",
+        caption: "Now we can argue about colours",
+      }),
       text(
         "m8",
         ME,
         at(0, 9, 5),
-        "Perfect. I'll bring the camera and the good coffee.",
+        "I like the warm set. Can we test it on the pricing page first?",
         {
           readAt: at(0, 9, 6),
-          reactions: [{ emoji: "☕", count: 1, label: "Coffee from Maya" }],
+          reactions: [{ emoji: "👍", personIds: ["maya"] }],
         }
       ),
       text(
         "m9",
         "maya",
-        at(0, 9, 38),
-        "Could you book the 9:10 ferry on Saturday? It sells out by Thursday."
+        at(0, 9, 24),
+        "Deal. I'll have it on staging after lunch."
       ),
-    ],
-  },
-  {
-    id: "dolomites",
-    kind: "group",
-    title: "Dolomites weekend",
-    avatar: photo("1529156069898-49953e39b3ac", 160),
-    memberIds: ["maya", "lucas", "sofia"],
-    unreadCount: 3,
-    isPinned: true,
-    isMuted: false,
-    messages: [
-      text("d1", "maya", at(1, 20, 4), "Group's here. Plan's in the PDF."),
-      text("d2", ME, at(1, 20, 6), "Thanks for organising this"),
-      text(
-        "d3",
-        "lucas",
-        at(0, 9, 12),
-        "Car's booked. Seven seats, so bring whatever you want."
-      ),
-      text("d4", "sofia", at(0, 9, 20), "I'll do the groceries on Friday"),
-      text("d5", "sofia", at(0, 9, 20), "Anyone vegetarian?"),
-      text("d6", "lucas", at(0, 9, 31), "Me, mostly. Cheese counts though."),
     ],
   },
   {
@@ -213,67 +335,49 @@ export const CONVERSATIONS: Conversation[] = [
     kind: "direct",
     title: "Sofia Marques",
     memberIds: ["sofia"],
-    unreadCount: 1,
+    unreadCount: 2,
     isPinned: false,
     isMuted: false,
     messages: [
-      text("s1", ME, at(1, 16, 20), "Prototype's up on the staging link."),
+      text("s1", ME, at(1, 16, 20), "The prototype is on your staging link.", {
+        readAt: at(1, 16, 31),
+      }),
       text(
         "s2",
         "sofia",
-        at(0, 8, 15),
+        at(0, 9, 14),
         "Just tried it on my phone. The new checkout is so much faster."
+      ),
+      text(
+        "s3",
+        "sofia",
+        at(0, 9, 15),
+        "Can we show it to the board Thursday?"
       ),
     ],
   },
   {
     id: "design",
     kind: "group",
-    title: "Design team",
-    memberIds: ["nora", "sofia", "daniel"],
-    unreadCount: 12,
+    title: "Design crit",
+    memberIds: ["nora", "maya", "priya"],
+    unreadCount: 5,
     isPinned: false,
     isMuted: true,
     messages: [
-      text("t1", "daniel", at(0, 7, 40), "Pushed the new icon set to Figma"),
-      text("t2", "nora", at(0, 7, 58), "Moved the review to 3pm, same room"),
-    ],
-  },
-  {
-    id: "lucas",
-    kind: "direct",
-    title: "Lucas Ferreira",
-    memberIds: ["lucas"],
-    unreadCount: 0,
-    isPinned: false,
-    isMuted: false,
-    messages: [
-      text("l1", "lucas", at(1, 19, 2), "Sending the invoice tonight"),
-      text("l2", ME, at(1, 19, 15), "Thanks, got it", {
-        readAt: at(1, 19, 16),
+      text("t1", ME, at(1, 11, 2), "Bring one thing you're unsure about", {
+        readBy: ["nora", "maya"],
       }),
-    ],
-  },
-  {
-    id: "emma",
-    kind: "direct",
-    title: "Emma Lindqvist",
-    memberIds: ["emma"],
-    unreadCount: 0,
-    isPinned: false,
-    isMuted: false,
-    messages: [
-      {
-        id: "e1",
-        senderId: "emma",
-        sentAt: at(5, 17, 30),
-        body: {
-          kind: "voice",
-          src: VOICE_SRC,
-          duration: 21,
-          peaks: VOICE_PEAKS,
-        },
-      },
+      text("t2", "nora", at(0, 7, 40), "I pushed the new icon set"),
+      text("t3", "nora", at(0, 7, 41), "The 16px ones are redrawn, not scaled"),
+      text(
+        "t4",
+        "priya",
+        at(0, 8, 2),
+        "Clicks on the old set by size, as asked"
+      ),
+      file("t5", "priya", at(0, 8, 2), "icon-clicks-november.csv", "212 KB"),
+      text("t6", "nora", at(0, 8, 20), "Moved the review to 3 PM, same room"),
     ],
   },
   {
@@ -285,16 +389,57 @@ export const CONVERSATIONS: Conversation[] = [
     isPinned: false,
     isMuted: false,
     messages: [
-      {
-        id: "o1",
-        senderId: "daniel",
-        sentAt: at(3, 12, 8),
-        body: {
-          kind: "image",
-          src: photo("1506905925346-21bda4d32df4", 960),
-          alt: "Mountain ridges above a sea of clouds",
-        },
-      },
+      text(
+        "d1",
+        "daniel",
+        at(0, 7, 52),
+        "Northwind wants two more seats before the renewal."
+      ),
+      text("d2", "daniel", at(0, 7, 52), "Can I offer them the old price?"),
+      text("d3", ME, at(0, 8, 4), "Yes, until Friday. Copy Sofia on it.", {
+        status: "failed",
+      }),
+    ],
+  },
+  {
+    id: "lucas",
+    kind: "direct",
+    title: "Lucas Ferreira",
+    memberIds: ["lucas"],
+    unreadCount: 0,
+    isPinned: false,
+    isMuted: false,
+    messages: [
+      text("l1", "lucas", at(1, 17, 2), "The deploy is out. No errors so far."),
+      text("l2", ME, at(1, 17, 15), "Thanks for staying on it"),
+    ],
+  },
+  {
+    id: "emma",
+    kind: "direct",
+    title: "Emma Lindqvist",
+    memberIds: ["emma"],
+    unreadCount: 0,
+    isPinned: false,
+    isMuted: false,
+    messages: [voice("e1", "emma", at(4, 15, 30), 21)],
+  },
+  {
+    id: "onboarding",
+    kind: "group",
+    title: "Northwind onboarding, phase two",
+    memberIds: ["sofia", "daniel", "tom", "priya"],
+    unreadCount: 0,
+    isPinned: false,
+    isMuted: false,
+    messages: [
+      text(
+        "w1",
+        "tom",
+        at(6, 13, 8),
+        "Contract is signed. Over to you, Daniel."
+      ),
+      text("w2", "daniel", at(6, 13, 30), "Kickoff is on Monday at 10"),
     ],
   },
   {
@@ -306,16 +451,7 @@ export const CONVERSATIONS: Conversation[] = [
     isPinned: false,
     isMuted: false,
     messages: [
-      {
-        id: "n1",
-        senderId: "nora",
-        sentAt: at(7, 10, 2),
-        body: {
-          kind: "file",
-          name: "brand-guidelines-v3.pdf",
-          size: "8.4 MB",
-        },
-      },
+      file("n1", "nora", at(8, 10, 2), "brand-guidelines-v3.pdf", "8.4 MB"),
     ],
   },
   {
@@ -327,31 +463,45 @@ export const CONVERSATIONS: Conversation[] = [
     isPinned: false,
     isMuted: true,
     messages: [
-      text("b1", ME, at(20, 18, 45), "See you at the climbing gym", {
+      text("b1", ME, at(20, 18, 45), "Enjoy the time off", {
         readAt: at(20, 19, 2),
       }),
     ],
   },
 ]
 
+export const INITIAL_STATE = {
+  ...createMessengerState(CONVERSATIONS, "offsite"),
+  typing: { offsite: "emma" },
+}
+
+/** What the person typing as the screen opens sends next. */
+export const SAMPLE_ARRIVAL = {
+  id: "offsite",
+  senderId: "emma",
+  text: "Me. And Nora, if she joins.",
+}
+
 /** What each conversation answers with after you send, in turn. */
 export const SAMPLE_REPLIES: Record<
   string,
   { senderId: string; text: string }[]
 > = {
-  maya: [
-    { senderId: "maya", text: "You're the best. See you Friday at 6!" },
-    { senderId: "maya", text: "Ha, noted." },
-  ],
-  dolomites: [
-    { senderId: "sofia", text: "Adding it to the list" },
+  offsite: [
+    { senderId: "maya", text: "Adding it to the list" },
     { senderId: "lucas", text: "Works for me" },
   ],
-  sofia: [{ senderId: "sofia", text: "Let's ship it Thursday then" }],
-  design: [{ senderId: "nora", text: "Thanks, see you at 3" }],
+  maya: [
+    { senderId: "maya", text: "On it" },
+    { senderId: "maya", text: "Staging in ten minutes" },
+  ],
+  sofia: [{ senderId: "sofia", text: "Thursday at 2 then" }],
+  design: [{ senderId: "nora", text: "See you at 3" }],
+  daniel: [{ senderId: "daniel", text: "Sent. Thank you" }],
   lucas: [{ senderId: "lucas", text: "Anytime" }],
   emma: [{ senderId: "emma", text: "Call you after lunch?" }],
-  daniel: [{ senderId: "daniel", text: "Next time you're coming with us" }],
-  nora: [{ senderId: "nora", text: "Shout if anything's unclear" }],
-  tom: [{ senderId: "tom", text: "Thursday works" }],
+  onboarding: [{ senderId: "sofia", text: "We're ready on our side" }],
+  nora: [{ senderId: "nora", text: "Shout if anything is unclear" }],
+  tom: [{ senderId: "tom", text: "Back on Thursday" }],
+  priya: [{ senderId: "priya", text: "Hi Ada" }],
 }

@@ -8,7 +8,7 @@
 
 **One design system for your apps.**
 
-Open-code components for web, mobile and desktop, with built-in motion and one set of colours, type and icons on every platform. React and React Native today, SwiftUI and Kotlin Compose in preview, and fully compatible with shadcn/ui.
+Open-code components for web, mobile and desktop, with built-in motion and one set of colours, type and icons on every platform. React and React Native components, fully compatible with shadcn/ui.
 
 **[fabricator-ui.vercel.app](https://fabricator-ui.vercel.app)**
 
@@ -33,7 +33,7 @@ Open-code components for web, mobile and desktop, with built-in motion and one s
 ## Why Fabricator UI
 
 - **You own the code.** The CLI copies each component into your project as source. Change anything, and upgrade when you choose to.
-- **One design, every platform.** The same components, names, variants and look on the web, in Electron and Tauri desktop apps, and on iOS, iPadOS and Android with React Native. SwiftUI and Kotlin Compose renderers are in preview.
+- **One design, every platform.** The same components, names, variants and look on the web, in Electron and Tauri desktop apps, and on iOS, iPadOS and Android with React Native.
 - **A design language of its own.** Fluid hover, sliding selection, layered surfaces, optional sounds and haptics. Colour, motion speed, density and corner shape are tokens you switch at runtime. See the [design guide](DESIGN.md).
 - **Built for real apps.** 100+ components and 40 blocks: forms, overlays, navigation, data tables, charts, an event calendar, chat and AI, a Markdown editor, video, code, file trees and an App Shell that handles phones, panels, shortcuts and desktop windows.
 - **Whole screens to start from.** Sign-in, sign-up, password reset, finance dashboard, AI assistant, messenger, mail and calendar screens install as working blocks. Preview them at desktop, tablet and phone widths in the [Blocks gallery](https://fabricator-ui.vercel.app/blocks).
@@ -75,23 +75,12 @@ export function Example() {
 
 Works the same with `pnpm dlx`, `yarn dlx` and `bunx --bun`. Guides per framework are in the [installation docs](https://fabricator-ui.vercel.app/docs/installation).
 
-### SwiftUI and Kotlin Compose (preview)
-
-Native projects install the same components as idiomatic SwiftUI (iOS, iPadOS, macOS) or Kotlin Compose (Android, desktop JVM) source, with Fabricator's tokens, icons and fonts. No JavaScript runtime is needed in the app:
-
-```bash
-npx fabricator-ui@latest init --platform swiftui   # or compose
-npx fabricator-ui@latest add button dialog
-```
-
-The renderers are still being qualified: advanced behaviour and some hosts have known gaps, listed in each renderer's `parity-exceptions.json`. See [Platforms](docs/PLATFORMS.md).
-
 ## CLI
 
 | Command              | What it does                                                                     |
 | -------------------- | -------------------------------------------------------------------------------- |
 | `create [name]`      | Create a project or a monorepo with web, mobile and desktop apps, in one command |
-| `init`               | Set up an existing project: web, React Native, SwiftUI or Compose                |
+| `init`               | Set up an existing project: web or React Native                                  |
 | `add <items…>`       | Add components, blocks or hooks (`--all` for every component)                    |
 | `upgrade [items…]`   | Reinstall your Fabricator components at their latest versions                    |
 | `apply [preset]`     | Apply a Fabricator look to an existing project (`--only theme,font`)             |
@@ -146,8 +135,6 @@ This monorepo holds the component registry, the CLI, Fabricator Icons, the websi
 | [`demos/electron`](demos/electron)                 | The web components in an Electron window                                                    |
 | [`demos/tauri`](demos/tauri)                       | The web components in Tauri desktop and mobile apps                                         |
 | [`demos/react-native`](demos/react-native)         | React Native with Expo                                                                      |
-| [`demos/swiftui`](demos/swiftui)                   | SwiftUI explorer for iOS, iPadOS and macOS                                                  |
-| [`demos/compose`](demos/compose)                   | Kotlin Compose explorer for Android and desktop                                             |
 | [`packages/cli`](packages/cli)                     | The [`fabricator-ui`](https://www.npmjs.com/package/fabricator-ui) CLI                      |
 | [`packages/setup`](packages/setup)                 | Project setup shared by the CLI and the website: commands, plans, agent prompts             |
 | [`packages/icons`](packages/icons)                 | Fabricator Icons for React; `icons-core`, `icons-react-native` and `icons-static` beside it |

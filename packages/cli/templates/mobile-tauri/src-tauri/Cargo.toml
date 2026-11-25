@@ -1,12 +1,12 @@
 [package]
-name = "app"
+name = "__CRATE_NAME__"
 version = "0.1.0"
 description = "A Fabricator UI app for Tauri mobile"
 edition = "2021"
 publish = false
 
 [lib]
-name = "app_lib"
+name = "__LIB_NAME__"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
@@ -14,5 +14,3 @@ tauri-build = { version = "=2.7.6", features = [] }
 
 [dependencies]
 tauri = { version = "=2.12.7", features = [] }
-serde = { version = "=1.0.229", features = ["derive"] }
-serde_json = "=1.0.154"

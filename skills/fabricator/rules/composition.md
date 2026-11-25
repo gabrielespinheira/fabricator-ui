@@ -230,6 +230,8 @@ Always include `AvatarFallback` for when the image fails to load:
 
 ## AppNav and other links
 
+The rest of the frame is in [app-shell.md](../app-shell.md).
+
 Pass `renderLink` to `AppNav`, `AppNavBottomBar` and `AppShellBreadcrumb`, returning the router's link without children. It gives client navigation, and `AppNav` rows keep their icon and badge.
 
 ```tsx

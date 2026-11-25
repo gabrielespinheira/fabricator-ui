@@ -2,13 +2,16 @@
 
 import * as React from "react"
 
+import { mailIcons } from "@/registry/bases/__base__/blocks/mail-01/components/mail-icons"
 import {
+  MAIL_ACCOUNTS,
   MAIL_CONTACTS,
   MAIL_LABELS,
 } from "@/registry/bases/__base__/blocks/mail-01/lib/mail-data"
 import {
   findContact,
   ME,
+  type MailAccountId,
   type MailFolder,
   type MailView,
 } from "@/registry/bases/__base__/blocks/mail-01/lib/mail-model"
@@ -24,154 +27,49 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  SidebarTrigger,
 } from "@/registry/bases/__base__/ui/sidebar"
 import { UserMenu } from "@/registry/bases/__base__/ui/user-menu"
 import { WorkspaceSwitcher } from "@/registry/bases/__base__/ui/workspace-switcher"
-import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-const account = findContact(MAIL_CONTACTS, ME)
-const me = {
-  name: account?.name ?? "",
-  email: account?.email,
-  avatarUrl: account?.avatar,
+const FOLDERS: { id: MailFolder; label: string; icon: React.ReactElement }[] = [
+  { id: "inbox", label: "Inbox", icon: mailIcons.inbox },
+  { id: "starred", label: "Starred", icon: mailIcons.star },
+  { id: "snoozed", label: "Snoozed", icon: mailIcons.snooze },
+  { id: "sent", label: "Sent", icon: mailIcons.sent },
+  { id: "drafts", label: "Drafts", icon: mailIcons.draft },
+  { id: "archive", label: "Archive", icon: mailIcons.archive },
+  { id: "spam", label: "Spam", icon: mailIcons.spam },
+  { id: "trash", label: "Trash", icon: mailIcons.trash },
+]
+
+/** The name of what the list shows: a folder's or a label's. */
+export function getMailViewLabel(view: MailView) {
+  return view.kind === "folder"
+    ? (FOLDERS.find(({ id }) => id === view.folder)?.label ?? "Mail")
+    : (MAIL_LABELS.find(({ id }) => id === view.label)?.name ?? "Mail")
 }
 
-const accounts = [
-  { id: "work", name: "ada@acme.com", description: "Acme Inc" },
-  { id: "personal", name: "ada@lovelace.dev", description: "Personal" },
-]
-
-export const MAIL_FOLDERS: {
-  id: MailFolder
-  label: string
-  icon: React.ReactElement
-}[] = [
-  {
-    id: "inbox",
-    label: "Inbox",
-    icon: (
-      <IconPlaceholder
-        lucide="InboxIcon"
-        tabler="IconInbox"
-        hugeicons="InboxIcon"
-        phosphor="TrayIcon"
-        remixicon="RiInboxLine"
-      />
-    ),
-  },
-  {
-    id: "starred",
-    label: "Starred",
-    icon: (
-      <IconPlaceholder
-        lucide="StarIcon"
-        tabler="IconStar"
-        hugeicons="StarIcon"
-        phosphor="StarIcon"
-        remixicon="RiStarLine"
-      />
-    ),
-  },
-  {
-    id: "snoozed",
-    label: "Snoozed",
-    icon: (
-      <IconPlaceholder
-        lucide="AlarmClockIcon"
-        tabler="IconAlarm"
-        hugeicons="AlarmClockIcon"
-        phosphor="AlarmIcon"
-        remixicon="RiAlarmLine"
-      />
-    ),
-  },
-  {
-    id: "sent",
-    label: "Sent",
-    icon: (
-      <IconPlaceholder
-        lucide="SendIcon"
-        tabler="IconSend"
-        hugeicons="SentIcon"
-        phosphor="PaperPlaneTiltIcon"
-        remixicon="RiSendPlaneLine"
-      />
-    ),
-  },
-  {
-    id: "drafts",
-    label: "Drafts",
-    icon: (
-      <IconPlaceholder
-        lucide="FilePenIcon"
-        tabler="IconFilePencil"
-        hugeicons="FileEditIcon"
-        phosphor="NotePencilIcon"
-        remixicon="RiDraftLine"
-      />
-    ),
-  },
-  {
-    id: "archive",
-    label: "Archive",
-    icon: (
-      <IconPlaceholder
-        lucide="ArchiveIcon"
-        tabler="IconArchive"
-        hugeicons="Archive02Icon"
-        phosphor="ArchiveIcon"
-        remixicon="RiArchiveLine"
-      />
-    ),
-  },
-  {
-    id: "spam",
-    label: "Spam",
-    icon: (
-      <IconPlaceholder
-        lucide="OctagonAlertIcon"
-        tabler="IconAlertOctagon"
-        hugeicons="Alert02Icon"
-        phosphor="WarningOctagonIcon"
-        remixicon="RiSpam2Line"
-      />
-    ),
-  },
-  {
-    id: "trash",
-    label: "Trash",
-    icon: (
-      <IconPlaceholder
-        lucide="Trash2Icon"
-        tabler="IconTrash"
-        hugeicons="Delete02Icon"
-        phosphor="TrashIcon"
-        remixicon="RiDeleteBinLine"
-      />
-    ),
-  },
-]
-
 /** The id AppNav knows a view by: the folder's id, or "label:<id>". */
-export function getMailViewId(view: MailView) {
+function getViewId(view: MailView) {
   return view.kind === "folder" ? view.folder : `label:${view.label}`
 }
 
-function getGroups(counts: {
-  inbox: number
-  drafts: number
-  spam: number
-}): AppNavGroup[] {
+type MailCounts = { inbox: number; drafts: number; spam: number }
+
+function getGroups(counts: MailCounts): AppNavGroup[] {
   const badges: Partial<Record<MailFolder, number>> = counts
   return [
     {
       id: "folders",
       // No hrefs: the folders switch the list in place. Give each one an
       // href (/mail/[folder]) to route instead.
-      items: MAIL_FOLDERS.map(({ id, label, icon }) => {
-        const badge = badges[id]
-        return { id, label, icon, badge: badge || undefined }
-      }),
+      items: FOLDERS.map(({ id, label, icon }) => ({
+        id,
+        label,
+        icon,
+        badge: badges[id] || undefined,
+      })),
     },
     {
       id: "labels",
@@ -195,34 +93,48 @@ function getGroups(counts: {
 
 /** Accounts, folders with their counts, labels and the person's menu. */
 export function MailSidebar({
+  accountId,
   view,
   counts,
+  onAccountChange,
   onViewChange,
 }: {
+  accountId: MailAccountId
   view: MailView
-  counts: { inbox: number; drafts: number; spam: number }
+  counts: MailCounts
+  onAccountChange: (id: MailAccountId) => void
   onViewChange: (view: MailView) => void
 }) {
-  const [account, setAccount] = React.useState("work")
   const groups = React.useMemo(() => getGroups(counts), [counts])
+  const me = findContact(MAIL_CONTACTS, ME)
 
   return (
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
-        <WorkspaceSwitcher
-          label="Accounts"
-          createLabel="Add account"
-          workspaces={accounts}
-          activeId={account}
-          onSelect={setAccount}
-          onCreate={() => {}}
-        />
+        <div className="flex items-center gap-(--density-4)">
+          <WorkspaceSwitcher
+            label="Accounts"
+            createLabel="Add account"
+            workspaces={MAIL_ACCOUNTS.map(({ id, name, email }) => ({
+              id,
+              name,
+              description: email,
+            }))}
+            activeId={accountId}
+            onSelect={(id) => {
+              const account = MAIL_ACCOUNTS.find((entry) => entry.id === id)
+              if (account) onAccountChange(account.id)
+            }}
+            onCreate={() => {}}
+          />
+          <SidebarTrigger className="ms-auto shrink-0 group-data-[collapsible=icon]:hidden" />
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <AppNav
           aria-label="Mail"
           groups={groups}
-          activeId={getMailViewId(view)}
+          activeId={getViewId(view)}
           onNavigate={(item) => {
             const label = MAIL_LABELS.find(
               ({ id }) => `label:${id}` === item.id
@@ -231,20 +143,32 @@ export function MailSidebar({
               onViewChange({ kind: "label", label: label.id })
               return
             }
-            const folder = MAIL_FOLDERS.find(({ id }) => id === item.id)
+            const folder = FOLDERS.find(({ id }) => id === item.id)
             if (folder) onViewChange({ kind: "folder", folder: folder.id })
           }}
         />
       </SidebarContent>
       <SidebarFooter>
-        <UserMenu user={me}>
+        <UserMenu
+          // The address is the account's, at the top.
+          user={{ name: me?.name ?? "", avatarUrl: me?.avatar }}
+        >
           <DropdownMenuGroup>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Mail settings</DropdownMenuItem>
+            <DropdownMenuItem>
+              {mailIcons.profile}
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              {mailIcons.settings}
+              Mail settings
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>Sign out</DropdownMenuItem>
+            <DropdownMenuItem>
+              {mailIcons.signOut}
+              Sign out
+            </DropdownMenuItem>
           </DropdownMenuGroup>
         </UserMenu>
       </SidebarFooter>

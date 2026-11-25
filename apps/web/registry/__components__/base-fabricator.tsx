@@ -608,4 +608,38 @@ export const Components: Record<string, any> = {
       ) || "calendar-app-01"
     return { default: mod.default || mod[exportName] }
   }),
+  "settings-01": React.lazy(async () => {
+    const mod = await import("@/styles/base-fabricator/blocks/settings-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "settings-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "members-01": React.lazy(async () => {
+    const mod = await import("@/styles/base-fabricator/blocks/members-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "members-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "billing-01": React.lazy(async () => {
+    const mod = await import("@/styles/base-fabricator/blocks/billing-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "billing-01"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "onboarding-01": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/onboarding-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "onboarding-01"
+    return { default: mod.default || mod[exportName] }
+  }),
 }

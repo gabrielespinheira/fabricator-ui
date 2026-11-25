@@ -5,6 +5,7 @@ import {
   ASSISTANT_VALUES,
   DEFAULT_PROJECT_SETUP,
   getPackageSetupError,
+  getTauriMobileSetupError,
   parseKeyValues,
   projectSetupSchema,
   SPINNER_VALUES,
@@ -19,6 +20,7 @@ export type SetupFlags = {
   monorepo?: boolean
   web?: boolean
   mobile?: boolean
+  mobileRuntime?: string
   desktop?: string
   tooling?: string
   runner?: string
@@ -102,9 +104,17 @@ function validatePackageFlags(setup: ProjectSetup, flags: SetupFlags) {
 }
 
 /** A monorepo, unless told otherwise or the template can't be one. */
-function getCreateProject({ monorepo, template, mobile, desktop }: SetupFlags) {
+function getCreateProject({
+  monorepo,
+  template,
+  mobile,
+  mobileRuntime,
+  desktop,
+}: SetupFlags) {
   if (monorepo !== undefined) return monorepo ? "monorepo" : "new"
-  return template === "laravel" && !mobile && !desktop ? "new" : "monorepo"
+  return template === "laravel" && !mobile && !mobileRuntime && !desktop
+    ? "new"
+    : "monorepo"
 }
 
 /** Everything is on unless a flag says otherwise. */
@@ -117,15 +127,22 @@ export function setupFromCreateFlags(
     ...commonFields(flags),
     project: getCreateProject(flags),
     name: name ?? "",
-    framework: flags.template ?? DEFAULT_PROJECT_SETUP.framework,
+    framework:
+      flags.template ??
+      (flags.mobileRuntime === "tauri"
+        ? "vite"
+        : DEFAULT_PROJECT_SETUP.framework),
     web: flags.web ?? true,
-    mobile: flags.mobile ?? false,
+    mobile: Boolean(flags.mobile || flags.mobileRuntime !== undefined),
+    mobileRuntime: flags.mobileRuntime,
     desktop: flags.desktop ?? "none",
     tooling: flags.tooling ?? DEFAULT_PROJECT_SETUP.tooling,
     runner: flags.runner ?? DEFAULT_PROJECT_SETUP.runner,
     appShell: flags.shell !== false && flags.distribution !== "package",
     sound: flags.sounds ?? flags.distribution !== "package",
   })
+  const issue = getTauriMobileSetupError(setup)
+  if (issue) throw new Error(issue)
   return validatePackageFlags(setup, flags)
 }
 

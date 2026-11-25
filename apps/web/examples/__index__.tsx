@@ -1661,6 +1661,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-variant",
       filePath: "examples/base/item-variant.tsx",
     },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/base/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/base/kanban-loader.tsx",
+    },
     "kbd-button": {
       name: "kbd-button",
       filePath: "examples/base/kbd-button.tsx",
@@ -2041,6 +2049,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "progress-rtl",
       filePath: "examples/base/progress-rtl.tsx",
     },
+    "properties-example": {
+      name: "properties-example",
+      filePath: "examples/base/properties-example.tsx",
+    },
     "questionnaire-animated": {
       name: "questionnaire-animated",
       filePath: "examples/base/questionnaire-animated.tsx",
@@ -2180,6 +2192,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "rating-variants": {
       name: "rating-variants",
       filePath: "examples/base/rating-variants.tsx",
+    },
+    "record-view-example": {
+      name: "record-view-example",
+      filePath: "examples/base/record-view-example.tsx",
     },
     "resizable-demo": {
       name: "resizable-demo",
@@ -2745,9 +2761,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "time-input-seconds",
       filePath: "examples/base/time-input-seconds.tsx",
     },
+    "toast-action": {
+      name: "toast-action",
+      filePath: "examples/base/toast-action.tsx",
+    },
     "toast-demo": {
       name: "toast-demo",
       filePath: "examples/base/toast-demo.tsx",
+    },
+    "toast-icon": {
+      name: "toast-icon",
+      filePath: "examples/base/toast-icon.tsx",
+    },
+    "toast-long": {
+      name: "toast-long",
+      filePath: "examples/base/toast-long.tsx",
     },
     "toast-promise": {
       name: "toast-promise",
@@ -4499,6 +4527,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-variant",
       filePath: "examples/aria/item-variant.tsx",
     },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/aria/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/aria/kanban-loader.tsx",
+    },
     "kbd-button": {
       name: "kbd-button",
       filePath: "examples/aria/kbd-button.tsx",
@@ -5323,6 +5359,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-vertical",
       filePath: "examples/aria/slider-vertical.tsx",
     },
+    "sonner-action": {
+      name: "sonner-action",
+      filePath: "examples/aria/sonner-action.tsx",
+    },
     "sonner-demo": {
       name: "sonner-demo",
       filePath: "examples/aria/sonner-demo.tsx",
@@ -5331,9 +5371,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sonner-description",
       filePath: "examples/aria/sonner-description.tsx",
     },
+    "sonner-icon": {
+      name: "sonner-icon",
+      filePath: "examples/aria/sonner-icon.tsx",
+    },
+    "sonner-long": {
+      name: "sonner-long",
+      filePath: "examples/aria/sonner-long.tsx",
+    },
     "sonner-position": {
       name: "sonner-position",
       filePath: "examples/aria/sonner-position.tsx",
+    },
+    "sonner-promise": {
+      name: "sonner-promise",
+      filePath: "examples/aria/sonner-promise.tsx",
     },
     "sonner-types": {
       name: "sonner-types",
@@ -7305,6 +7357,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-variant",
       filePath: "examples/radix/item-variant.tsx",
     },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/radix/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/radix/kanban-loader.tsx",
+    },
     "kbd-button": {
       name: "kbd-button",
       filePath: "examples/radix/kbd-button.tsx",
@@ -8157,6 +8217,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-vertical",
       filePath: "examples/radix/slider-vertical.tsx",
     },
+    "sonner-action": {
+      name: "sonner-action",
+      filePath: "examples/radix/sonner-action.tsx",
+    },
     "sonner-demo": {
       name: "sonner-demo",
       filePath: "examples/radix/sonner-demo.tsx",
@@ -8165,9 +8229,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sonner-description",
       filePath: "examples/radix/sonner-description.tsx",
     },
+    "sonner-icon": {
+      name: "sonner-icon",
+      filePath: "examples/radix/sonner-icon.tsx",
+    },
+    "sonner-long": {
+      name: "sonner-long",
+      filePath: "examples/radix/sonner-long.tsx",
+    },
     "sonner-position": {
       name: "sonner-position",
       filePath: "examples/radix/sonner-position.tsx",
+    },
+    "sonner-promise": {
+      name: "sonner-promise",
+      filePath: "examples/radix/sonner-promise.tsx",
     },
     "sonner-types": {
       name: "sonner-types",
@@ -10146,6 +10222,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-variant",
       filePath: "examples/__styles__/base-fabricator/item-variant.tsx",
     },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/__styles__/base-fabricator/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/__styles__/base-fabricator/kanban-loader.tsx",
+    },
     "kbd-button": {
       name: "kbd-button",
       filePath: "examples/__styles__/base-fabricator/kbd-button.tsx",
@@ -10494,6 +10578,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "progress-label",
       filePath: "examples/__styles__/base-fabricator/progress-label.tsx",
     },
+    "properties-example": {
+      name: "properties-example",
+      filePath: "examples/__styles__/base-fabricator/properties-example.tsx",
+    },
     "questionnaire-animated": {
       name: "questionnaire-animated",
       filePath:
@@ -10640,6 +10728,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "rating-variants": {
       name: "rating-variants",
       filePath: "examples/__styles__/base-fabricator/rating-variants.tsx",
+    },
+    "record-view-example": {
+      name: "record-view-example",
+      filePath: "examples/__styles__/base-fabricator/record-view-example.tsx",
     },
     "resizable-demo": {
       name: "resizable-demo",
@@ -11156,9 +11248,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "time-input-seconds",
       filePath: "examples/__styles__/base-fabricator/time-input-seconds.tsx",
     },
+    "toast-action": {
+      name: "toast-action",
+      filePath: "examples/__styles__/base-fabricator/toast-action.tsx",
+    },
     "toast-demo": {
       name: "toast-demo",
       filePath: "examples/__styles__/base-fabricator/toast-demo.tsx",
+    },
+    "toast-icon": {
+      name: "toast-icon",
+      filePath: "examples/__styles__/base-fabricator/toast-icon.tsx",
+    },
+    "toast-long": {
+      name: "toast-long",
+      filePath: "examples/__styles__/base-fabricator/toast-long.tsx",
     },
     "toast-promise": {
       name: "toast-promise",
@@ -12793,6 +12897,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-variant",
       filePath: "examples/__styles__/aria-fabricator/item-variant.tsx",
     },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/__styles__/aria-fabricator/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/__styles__/aria-fabricator/kanban-loader.tsx",
+    },
     "kbd-button": {
       name: "kbd-button",
       filePath: "examples/__styles__/aria-fabricator/kbd-button.tsx",
@@ -13564,6 +13676,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-vertical",
       filePath: "examples/__styles__/aria-fabricator/slider-vertical.tsx",
     },
+    "sonner-action": {
+      name: "sonner-action",
+      filePath: "examples/__styles__/aria-fabricator/sonner-action.tsx",
+    },
     "sonner-demo": {
       name: "sonner-demo",
       filePath: "examples/__styles__/aria-fabricator/sonner-demo.tsx",
@@ -13572,9 +13688,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sonner-description",
       filePath: "examples/__styles__/aria-fabricator/sonner-description.tsx",
     },
+    "sonner-icon": {
+      name: "sonner-icon",
+      filePath: "examples/__styles__/aria-fabricator/sonner-icon.tsx",
+    },
+    "sonner-long": {
+      name: "sonner-long",
+      filePath: "examples/__styles__/aria-fabricator/sonner-long.tsx",
+    },
     "sonner-position": {
       name: "sonner-position",
       filePath: "examples/__styles__/aria-fabricator/sonner-position.tsx",
+    },
+    "sonner-promise": {
+      name: "sonner-promise",
+      filePath: "examples/__styles__/aria-fabricator/sonner-promise.tsx",
     },
     "sonner-types": {
       name: "sonner-types",
@@ -15433,6 +15561,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-variant",
       filePath: "examples/__styles__/radix-fabricator/item-variant.tsx",
     },
+    "kanban-demo": {
+      name: "kanban-demo",
+      filePath: "examples/__styles__/radix-fabricator/kanban-demo.tsx",
+    },
+    "kanban-loader": {
+      name: "kanban-loader",
+      filePath: "examples/__styles__/radix-fabricator/kanban-loader.tsx",
+    },
     "kbd-button": {
       name: "kbd-button",
       filePath: "examples/__styles__/radix-fabricator/kbd-button.tsx",
@@ -16230,6 +16366,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-vertical",
       filePath: "examples/__styles__/radix-fabricator/slider-vertical.tsx",
     },
+    "sonner-action": {
+      name: "sonner-action",
+      filePath: "examples/__styles__/radix-fabricator/sonner-action.tsx",
+    },
     "sonner-demo": {
       name: "sonner-demo",
       filePath: "examples/__styles__/radix-fabricator/sonner-demo.tsx",
@@ -16238,9 +16378,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sonner-description",
       filePath: "examples/__styles__/radix-fabricator/sonner-description.tsx",
     },
+    "sonner-icon": {
+      name: "sonner-icon",
+      filePath: "examples/__styles__/radix-fabricator/sonner-icon.tsx",
+    },
+    "sonner-long": {
+      name: "sonner-long",
+      filePath: "examples/__styles__/radix-fabricator/sonner-long.tsx",
+    },
     "sonner-position": {
       name: "sonner-position",
       filePath: "examples/__styles__/radix-fabricator/sonner-position.tsx",
+    },
+    "sonner-promise": {
+      name: "sonner-promise",
+      filePath: "examples/__styles__/radix-fabricator/sonner-promise.tsx",
     },
     "sonner-types": {
       name: "sonner-types",

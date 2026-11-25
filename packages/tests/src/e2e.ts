@@ -603,6 +603,95 @@ function assertInstalledTypes(appDir: string) {
 type Scenario = { name: string; run: (dir: string) => void }
 
 const scenarios: Scenario[] = [
+  ...(["mobile", "mixed"] as const).map((target) => ({
+    name: `package-${target}`,
+    run(dir: string) {
+      cli(
+        [
+          "create",
+          "package-app",
+          "--mobile",
+          "--distribution",
+          "package",
+          ...(target === "mobile" ? ["--no-web"] : ["--desktop", "electron"]),
+          "--yes",
+        ],
+        dir
+      )
+      const root = path.join(dir, "package-app")
+      const mobile = path.join(root, "apps/mobile")
+      const manifest = path.join(mobile, "package.json")
+      assert(
+        readJson(manifest).dependencies["@fabricator-ui/react-native"],
+        "missing native package"
+      )
+      for (const filename of [
+        "components.json",
+        "src/components/ui",
+        "src/lib/utils.ts",
+      ]) {
+        assert(
+          !fs.existsSync(path.join(mobile, filename)),
+          `copied registry file ${filename}`
+        )
+      }
+      assert(
+        fs
+          .readFileSync(path.join(mobile, "src/app/_layout.tsx"), "utf8")
+          .includes("@fabricator-ui/react-native/fabricator-root"),
+        "missing packaged root"
+      )
+      assert(
+        fs
+          .readFileSync(path.join(mobile, "src/app/index.tsx"), "utf8")
+          .includes("@fabricator-ui/react-native/button"),
+        "missing package import"
+      )
+      const stylesheet = createRequire(manifest).resolve(
+        "@fabricator-ui/react-native/styles.css"
+      )
+      assert(
+        fs.readFileSync(stylesheet, "utf8").includes('@source "./"'),
+        "missing package style discovery"
+      )
+      run("bun", ["run", "tsc", "--noEmit"], mobile)
+      for (const platform of ["ios", "android"]) {
+        run(
+          "bun",
+          [
+            "run",
+            "expo",
+            "export",
+            "--platform",
+            platform,
+            "--output-dir",
+            `dist-${platform}`,
+          ],
+          mobile
+        )
+      }
+      assert(
+        cli(["add", "button", "--cwd", mobile], root).includes(
+          "@fabricator-ui/react-native/button"
+        ),
+        "incorrect mobile import hint"
+      )
+      if (target === "mixed") {
+        const web = path.join(root, "apps/web")
+        assert(
+          readJson(path.join(web, "package.json")).dependencies[
+            "@fabricator-ui/react"
+          ],
+          "missing web package"
+        )
+        run("bun", ["run", "build:static"], web)
+        assert(
+          fs.existsSync(path.join(web, "out/index.html")),
+          "desktop renderer did not export"
+        )
+      }
+    },
+  })),
   ...(["next", "vite"] as const).map((framework) => ({
     name: `package-${framework}`,
     run(dir: string) {
@@ -1305,6 +1394,11 @@ const packedPackages = [
   "packages/editor-native",
   ...(selected.some(({ name }) => name.startsWith("package-"))
     ? ["packages/react"]
+    : []),
+  ...(selected.some(
+    ({ name }) => name === "package-mobile" || name === "package-mixed"
+  )
+    ? ["packages/react-native"]
     : []),
 ].flatMap((packagePath) => {
   const packDir = fs.mkdtempSync(path.join(os.tmpdir(), "fabricator-e2e-npm-"))

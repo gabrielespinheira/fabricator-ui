@@ -2,11 +2,16 @@
 
 import * as React from "react"
 
-import { MessengerAvatar } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-avatar"
+import { MessengerConversationAvatar } from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-avatar"
+import {
+  SearchIcon,
+  WarningIcon,
+} from "@/registry/bases/__base__/blocks/messenger-01/components/messenger-icons"
 import {
   formatListTime,
   getAdjacentId,
   getMessagePreview,
+  getVisibleUnread,
   type Conversation,
   type Person,
   type TimeFormat,
@@ -40,6 +45,8 @@ type ListProps = {
   conversations: Conversation[]
   people: Person[]
   openId: string
+  /** The open conversation isn't on screen: a phone is showing the list. */
+  isAway: boolean
   /** Who is typing in each conversation. */
   typing: Record<string, string | undefined>
   query: string
@@ -59,6 +66,7 @@ function findPerson(people: Person[], id: string) {
 function ConversationRow({
   conversation,
   people,
+  unreadCount,
   isSelected,
   isTabStop,
   typingName,
@@ -68,6 +76,7 @@ function ConversationRow({
 }: {
   conversation: Conversation
   people: Person[]
+  unreadCount: number
   isSelected: boolean
   isTabStop: boolean
   typingName: string | undefined
@@ -76,11 +85,12 @@ function ConversationRow({
   onOpen: (id: string) => void
 }) {
   const last = conversation.messages.at(-1)
-  const contact =
-    conversation.kind === "direct"
-      ? findPerson(people, conversation.memberIds[0])
-      : undefined
-  const hasUnread = conversation.unreadCount > 0
+  const members = conversation.memberIds.flatMap(
+    (id) => findPerson(people, id) ?? []
+  )
+  const contact = conversation.kind === "direct" ? members[0] : undefined
+  const hasUnread = unreadCount > 0
+  const isFailed = last?.status === "failed"
   const preview = last
     ? getMessagePreview(last, {
         isGroup: conversation.kind === "group",
@@ -105,16 +115,19 @@ function ConversationRow({
     >
       {/* The row reads as its name, time and preview; the picture is decoration. */}
       <ItemMedia aria-hidden>
-        <MessengerAvatar
-          name={conversation.title}
-          src={conversation.avatar ?? contact?.avatar}
-          isOnline={contact?.presence.kind === "online"}
+        <MessengerConversationAvatar
+          conversation={conversation}
+          members={members}
           size="lg"
+          showsPresence
         />
       </ItemMedia>
       <ItemContent className="min-w-0 gap-0">
         <div className="flex min-w-0 items-center gap-(--density-6)">
-          <ItemTitle className="min-w-0 truncate">
+          <ItemTitle
+            data-unread={hasUnread ? "" : undefined}
+            className="block min-w-0 truncate font-normal data-unread:font-medium"
+          >
             {conversation.title}
             {contact?.presence.kind === "online" && (
               <span className="sr-only">, online</span>
@@ -149,17 +162,23 @@ function ConversationRow({
           >
             {typingName ? (
               <span className="shimmer">{typingName} is typing…</span>
+            ) : isFailed ? (
+              <span className="inline-flex items-center gap-(--density-4) text-destructive-text [&_svg]:size-(--density-icon-14)">
+                <WarningIcon />
+                Not delivered
+              </span>
             ) : (
               preview
             )}
           </ItemDescription>
           {hasUnread && (
             <Badge
-              variant={conversation.isMuted ? "secondary" : "default"}
-              aria-label={`${conversation.unreadCount} unread`}
-              className="h-(--density-20) min-w-(--density-20) shrink-0 rounded-full px-(--density-6) tabular-nums"
+              variant="secondary"
+              data-muted={conversation.isMuted ? "" : undefined}
+              className="h-(--density-20) min-w-(--density-20) shrink-0 rounded-full px-(--density-6) tabular-nums not-data-muted:bg-primary not-data-muted:text-primary-foreground"
             >
-              {conversation.unreadCount}
+              {unreadCount}
+              <span className="sr-only"> unread</span>
             </Badge>
           )}
         </div>
@@ -177,6 +196,7 @@ export function MessengerConversationList({
   conversations,
   people,
   openId,
+  isAway,
   typing,
   query,
   now,
@@ -194,35 +214,33 @@ export function MessengerConversationList({
   const mergedRef = useMergedRef(fluid.attach, listRef)
   const ids = conversations.map(({ id }) => id)
   const tabStopId = ids.includes(openId) ? openId : ids[0]
-  const groups = [
-    {
-      id: "pinned",
-      label: "Pinned",
-      items: conversations.filter(({ isPinned }) => isPinned),
-    },
-    {
-      id: "all",
-      label: query ? "Results" : "All messages",
-      items: conversations.filter(({ isPinned }) => !isPinned),
-    },
-  ].filter((group) => group.items.length > 0)
+  const groups = (
+    query.trim()
+      ? [{ id: "results", label: "Results", items: conversations }]
+      : [
+          {
+            id: "pinned",
+            label: "Pinned",
+            items: conversations.filter(({ isPinned }) => isPinned),
+          },
+          {
+            id: "all",
+            label: "All messages",
+            items: conversations.filter(({ isPinned }) => !isPinned),
+          },
+        ]
+  ).filter((group) => group.items.length > 0)
 
   if (conversations.length === 0) {
     return (
       <Empty className="p-(--density-24)">
         <EmptyHeader>
           <EmptyMedia variant="icon">
-            <IconPlaceholder
-              lucide="SearchIcon"
-              tabler="IconSearch"
-              hugeicons="Search01Icon"
-              phosphor="MagnifyingGlassIcon"
-              remixicon="RiSearchLine"
-            />
+            <SearchIcon />
           </EmptyMedia>
-          <EmptyTitle>No conversations match</EmptyTitle>
+          <EmptyTitle>No conversations found</EmptyTitle>
           <EmptyDescription>
-            Nothing found for “{query.trim()}”. Try a name or a word from a
+            Nothing matches “{query.trim()}”. Try a name or a word from the last
             message.
           </EmptyDescription>
         </EmptyHeader>
@@ -288,7 +306,11 @@ export function MessengerConversationList({
                 key={conversation.id}
                 conversation={conversation}
                 people={people}
-                isSelected={conversation.id === openId}
+                unreadCount={getVisibleUnread(
+                  conversation,
+                  isAway ? null : openId
+                )}
+                isSelected={conversation.id === openId && !isAway}
                 isTabStop={conversation.id === tabStopId}
                 typingName={
                   typingId

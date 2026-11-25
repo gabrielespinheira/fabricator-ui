@@ -7,8 +7,10 @@ import {
   DEFAULT_PROJECT_NAME,
   DESKTOP_RUNTIMES,
   FRAMEWORKS,
+  hasTauriMobile,
   hasWebApp,
   isWebFramework,
+  MOBILE_RUNTIMES,
   MONOREPO_FRAMEWORKS,
   resolveApps,
   RUNNERS,
@@ -41,6 +43,7 @@ function namesTheProject(flags: SetupFlags) {
     flags.monorepo !== undefined ||
     flags.web === false ||
     flags.mobile ||
+    flags.mobileRuntime ||
     flags.desktop ||
     flags.template === "expo" ||
     flags.template === "laravel"
@@ -51,6 +54,7 @@ function namesTheApps(flags: SetupFlags) {
   return (
     flags.web === false ||
     flags.mobile ||
+    flags.mobileRuntime ||
     flags.desktop ||
     flags.template === "expo"
   )
@@ -70,7 +74,11 @@ async function askForApps(next: ProjectSetup) {
     "Which apps? (space selects, enter confirms)",
     [
       { title: "Web", value: "web", description: "in the browser" },
-      { title: "Mobile", value: "mobile", description: "React Native, Expo" },
+      {
+        title: "Mobile",
+        value: "mobile",
+        description: "React Native or Tauri",
+      },
       { title: "Desktop", value: "desktop", description: "a native window" },
     ],
     { required: true, initial: ["web"] }
@@ -115,12 +123,25 @@ export async function askForSetup(
     )
   }
 
-  if (!namesTheApps(flags)) await askForApps(next)
+  if (!namesTheApps(flags)) {
+    await askForApps(next)
+    if (
+      next.mobile &&
+      next.project === "monorepo" &&
+      (!flags.template || flags.template === "vite")
+    ) {
+      next.mobileRuntime = await promptSelect(
+        "Mobile runtime",
+        toChoices(MOBILE_RUNTIMES)
+      )
+      if (hasTauriMobile(next)) next.framework = "vite"
+    }
+  }
 
   const apps = resolveApps(next)
   const { project } = apps
   if (hasWebApp(apps)) {
-    if (!flags.template) {
+    if (!flags.template && !hasTauriMobile(next)) {
       next.framework = await promptSelect(
         "Framework",
         toChoices(

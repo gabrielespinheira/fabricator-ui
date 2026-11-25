@@ -7,8 +7,9 @@ import { FinanceApprovalsCard } from "@/registry/bases/__base__/blocks/finance-0
 import { FinanceCashCard } from "@/registry/bases/__base__/blocks/finance-01/components/finance-cash-card"
 import {
   FinancePageMenu,
-  FinancePeriodToggle,
+  FinancePeriodTabs,
   FinanceRefreshButton,
+  notifyFinance,
 } from "@/registry/bases/__base__/blocks/finance-01/components/finance-controls"
 import { FinanceKpiRow } from "@/registry/bases/__base__/blocks/finance-01/components/finance-kpi-row"
 import { FinanceSidebar } from "@/registry/bases/__base__/blocks/finance-01/components/finance-sidebar"
@@ -19,18 +20,27 @@ import {
   FINANCE_APPROVALS,
   FINANCE_CARD,
   FINANCE_TRANSACTIONS,
-  type FinanceTransaction,
+  getFinanceEntries,
+  SAMPLE_NOW,
 } from "@/registry/bases/__base__/blocks/finance-01/lib/finance-data"
 import {
   formatMoney,
+  getApprovalsLead,
+  getCardSpent,
   getComparisonLabel,
   getFinanceOverview,
+  getRecentTransactions,
+  getTotalCash,
+  getWaitingApprovals,
+  toPayment,
+  type FinanceAccountId,
+  type FinanceApproval,
   type FinancePeriod,
+  type FinanceTransaction,
 } from "@/registry/bases/__base__/blocks/finance-01/lib/finance-model"
 import {
   Alert,
   AlertAction,
-  AlertDescription,
   AlertTitle,
 } from "@/registry/bases/__base__/ui/alert"
 import {
@@ -45,23 +55,75 @@ import {
 import { Button } from "@/registry/bases/__base__/ui/button"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-// A business banking home. A finance lead checks cash and runway, approves
-// what is waiting and sees where money went. Keep the period in the URL
-// (with your router or nuqs) so a shared link opens the same view.
+// A finance lead checks cash and runway, then clears the payments that wait
+// for them. The signature is the cash line beside the accounts that add up to
+// it, so it comes first. Every number is worked out from the accounts and the
+// ledger (lib/finance-model). Keep the period in the URL (with your router or
+// nuqs) so a shared link opens the same view, and mount your Toaster in the
+// root layout: approving reports itself there, with Undo.
 
 const REFRESH_TIME = 900
+const RECENT_COUNT = 8
+
+const BALANCE = getTotalCash(FINANCE_ACCOUNTS)
+
+const ACCOUNT_NAMES: Record<FinanceAccountId, string> = {
+  checking: "Checking",
+  treasury: "Treasury",
+  savings: "Savings",
+  card: `Card ${FINANCE_CARD.number}`,
+}
 
 const noop = () => {}
+
+const sendIcon = (
+  <IconPlaceholder
+    lucide="SendIcon"
+    tabler="IconSend"
+    hugeicons="SentIcon"
+    phosphor="PaperPlaneTiltIcon"
+    remixicon="RiSendPlaneLine"
+  />
+)
 
 export default function FinanceDashboardPage() {
   const [period, setPeriod] = React.useState<FinancePeriod>("30d")
   const [isComparing, setComparing] = React.useState(true)
   const [isRefreshing, setRefreshing] = React.useState(false)
   const [updatedLabel, setUpdatedLabel] = React.useState("Updated 2 min ago")
-  const [approvals, setApprovals] = React.useState(FINANCE_APPROVALS)
+  const [approvedIds, setApprovedIds] = React.useState<readonly string[]>([])
   const [transactions, setTransactions] = React.useState(FINANCE_TRANSACTIONS)
   const refreshTimer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
-  const overview = React.useMemo(() => getFinanceOverview(period), [period])
+  const bodyRef = React.useRef<HTMLDivElement>(null)
+
+  const entries = React.useMemo(
+    () => getFinanceEntries(transactions),
+    [transactions]
+  )
+  const overview = React.useMemo(
+    () =>
+      getFinanceOverview({
+        period,
+        entries,
+        balance: BALANCE,
+        now: SAMPLE_NOW,
+      }),
+    [period, entries]
+  )
+  const waiting = React.useMemo(
+    () => getWaitingApprovals(FINANCE_APPROVALS, approvedIds),
+    [approvedIds]
+  )
+  const recent = React.useMemo(() => {
+    const payments = FINANCE_APPROVALS.filter(({ id }) =>
+      approvedIds.includes(id)
+    ).map((approval) => toPayment(approval, SAMPLE_NOW))
+    return getRecentTransactions({
+      transactions,
+      payments,
+      count: RECENT_COUNT,
+    })
+  }, [transactions, approvedIds])
   const declined = transactions.find(({ status }) => status === "declined")
 
   React.useEffect(() => () => clearTimeout(refreshTimer.current), [])
@@ -75,7 +137,18 @@ export default function FinanceDashboardPage() {
     }, REFRESH_TIME)
   }
 
-  const retryPayment = (id: string) =>
+  const approve = ({ id, payee, amount }: FinanceApproval) => {
+    setApprovedIds((current) => [...current, id])
+    notifyFinance(
+      `Approved ${formatMoney(amount, { cents: true })} to ${payee.name}`,
+      () =>
+        setApprovedIds((current) =>
+          current.filter((approvedId) => approvedId !== id)
+        )
+    )
+  }
+
+  const retryPayment = ({ id, payee, amount }: FinanceTransaction) => {
     setTransactions((current) =>
       current.map(
         (transaction): FinanceTransaction =>
@@ -84,61 +157,31 @@ export default function FinanceDashboardPage() {
             : transaction
       )
     )
+    // The alert leaves with its button, so focus goes to what it was about.
+    bodyRef.current?.focus({ preventScroll: true })
+    notifyFinance(
+      `Retrying ${formatMoney(-amount, { cents: true })} to ${payee.name}`
+    )
+  }
 
   return (
     <AppShell storageKey="finance-01">
-      <FinanceSidebar waitingCount={approvals.length} />
+      <FinanceSidebar />
       <AppShellMain>
         <AppShellHeader>
           <AppShellBreadcrumb
-            items={[{ label: "Acme Inc", href: "/" }, { label: "Home" }]}
+            items={[{ label: "Acme Inc", href: "/" }, { label: "Overview" }]}
           />
+          <Button
+            size="sm"
+            onClick={noop}
+            className="ms-auto shrink-0 @max-[48rem]/app-shell:min-h-11"
+          >
+            {sendIcon}
+            Send money
+          </Button>
           <AppShellHeaderActions
-            actions={[
-              {
-                id: "transfer",
-                label: "Transfer between accounts",
-                onSelect: noop,
-                icon: (
-                  <IconPlaceholder
-                    lucide="ArrowLeftRightIcon"
-                    tabler="IconArrowsLeftRight"
-                    hugeicons="ArrowDataTransferHorizontalIcon"
-                    phosphor="ArrowsLeftRightIcon"
-                    remixicon="RiArrowLeftRightLine"
-                  />
-                ),
-              },
-              {
-                id: "request",
-                label: "Request payment",
-                onSelect: noop,
-                icon: (
-                  <IconPlaceholder
-                    lucide="ReceiptTextIcon"
-                    tabler="IconReceipt"
-                    hugeicons="Invoice01Icon"
-                    phosphor="ReceiptIcon"
-                    remixicon="RiBillLine"
-                  />
-                ),
-              },
-            ]}
-            primaryAction={{
-              id: "send",
-              label: "Send money",
-              onSelect: noop,
-              icon: (
-                <IconPlaceholder
-                  lucide="SendIcon"
-                  tabler="IconSend"
-                  hugeicons="SentIcon"
-                  phosphor="PaperPlaneTiltIcon"
-                  remixicon="RiSendPlaneLine"
-                />
-              ),
-            }}
-            menuLabel="Home options"
+            menuLabel="Overview options"
             menu={
               <FinancePageMenu
                 isComparing={isComparing}
@@ -149,93 +192,99 @@ export default function FinanceDashboardPage() {
           />
         </AppShellHeader>
         <AppShellContent size="lg">
-          <div className="@container flex flex-col gap-(--density-24)">
+          <div
+            ref={bodyRef}
+            tabIndex={-1}
+            className="@container flex flex-col gap-(--density-24) outline-none"
+          >
             <div className="flex flex-col gap-(--density-4)">
-              <AppShellPageTitle>Home</AppShellPageTitle>
+              <AppShellPageTitle>Overview</AppShellPageTitle>
               <p className="text-[15px] text-pretty text-muted-foreground">
-                Cash, runway and what needs you today.
+                {getApprovalsLead(waiting)}
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-(--density-8)">
-              <FinancePeriodToggle value={period} onValueChange={setPeriod} />
-              <span className="text-(length:--density-text-12) text-muted-foreground">
-                {getComparisonLabel(period)}
-              </span>
-              <div className="ms-auto flex items-center gap-(--density-4) text-(length:--density-text-12) text-muted-foreground">
-                <span aria-live="polite">
-                  {isRefreshing ? "Updating…" : updatedLabel}
-                </span>
-                <FinanceRefreshButton
-                  isRefreshing={isRefreshing}
-                  onRefresh={refresh}
+            <FinancePeriodTabs
+              value={period}
+              onValueChange={setPeriod}
+              toolbar={
+                // Wraps under the tabs as one row.
+                <div className="flex flex-1 basis-72 items-center gap-(--density-4) text-(length:--density-text-12) text-muted-foreground">
+                  {isComparing && <span>{getComparisonLabel(period)}</span>}
+                  <span aria-live="polite" className="ms-auto">
+                    {isRefreshing ? "Updating…" : updatedLabel}
+                  </span>
+                  <FinanceRefreshButton
+                    isRefreshing={isRefreshing}
+                    onRefresh={refresh}
+                  />
+                </div>
+              }
+            >
+              <div className="grid grid-cols-1 gap-(--density-16) @2xl:grid-cols-12">
+                {declined && (
+                  <Alert variant="error" className="col-span-full">
+                    <IconPlaceholder
+                      lucide="CircleAlertIcon"
+                      tabler="IconAlertCircle"
+                      hugeicons="AlertCircleIcon"
+                      phosphor="WarningCircleIcon"
+                      remixicon="RiErrorWarningLine"
+                    />
+                    <AlertTitle className="text-balance">
+                      {declined.payee.name} declined{" "}
+                      {formatMoney(-declined.amount, { cents: true })} on card{" "}
+                      {FINANCE_CARD.number}
+                    </AlertTitle>
+                    <AlertAction>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        aria-label={`Retry ${declined.payee.name}`}
+                        onClick={() => retryPayment(declined)}
+                      >
+                        Retry
+                      </Button>
+                    </AlertAction>
+                  </Alert>
+                )}
+                <FinanceCashCard
+                  overview={overview}
+                  balance={BALANCE}
+                  isComparing={isComparing}
+                  isLoading={isRefreshing}
+                  className="@2xl:col-span-7 @4xl:col-span-8"
+                />
+                <FinanceAccountsCard
+                  accounts={FINANCE_ACCOUNTS}
+                  card={FINANCE_CARD}
+                  cardSpent={getCardSpent(entries, SAMPLE_NOW)}
+                  className="@2xl:col-span-5 @4xl:col-span-4"
+                />
+                <FinanceKpiRow
+                  metrics={overview.metrics}
+                  isComparing={isComparing}
+                  isLoading={isRefreshing}
+                  className="col-span-full"
+                />
+                <FinanceApprovalsCard
+                  approvals={waiting}
+                  now={SAMPLE_NOW}
+                  onApprove={approve}
+                  className="col-span-full @4xl:col-span-8"
+                />
+                <FinanceSpendingCard
+                  spending={overview.spending}
+                  payroll={overview.payroll}
+                  isLoading={isRefreshing}
+                  className="col-span-full @4xl:col-span-4"
+                />
+                <FinanceTransactionsCard
+                  transactions={recent}
+                  accountNames={ACCOUNT_NAMES}
+                  className="col-span-full"
                 />
               </div>
-            </div>
-            <div className="grid grid-cols-1 gap-(--density-16) @4xl:grid-cols-12">
-              {declined && (
-                <Alert variant="error" className="@4xl:col-span-12">
-                  <IconPlaceholder
-                    lucide="CircleAlertIcon"
-                    tabler="IconAlertCircle"
-                    hugeicons="AlertCircleIcon"
-                    phosphor="WarningCircleIcon"
-                    remixicon="RiErrorWarningLine"
-                  />
-                  <AlertTitle>A card payment was declined</AlertTitle>
-                  <AlertDescription>
-                    {declined.payee.name} declined{" "}
-                    {formatMoney(Math.abs(declined.amount), { cents: true })} on
-                    the corporate card. Retry it, or update the card&apos;s
-                    billing address.
-                  </AlertDescription>
-                  <AlertAction>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => retryPayment(declined.id)}
-                    >
-                      Retry
-                    </Button>
-                  </AlertAction>
-                </Alert>
-              )}
-              <FinanceKpiRow
-                metrics={overview.metrics}
-                className="@4xl:col-span-12"
-              />
-              <FinanceCashCard
-                cash={overview.cash}
-                balance={overview.balance}
-                change={overview.cashChange}
-                grain={overview.grain}
-                isComparing={isComparing}
-                isLoading={isRefreshing}
-                className="@4xl:col-span-12"
-              />
-              <FinanceApprovalsCard
-                approvals={approvals}
-                onApprove={(id) =>
-                  setApprovals((current) =>
-                    current.filter((approval) => approval.id !== id)
-                  )
-                }
-                className="@4xl:col-span-6"
-              />
-              <FinanceAccountsCard
-                accounts={FINANCE_ACCOUNTS}
-                card={FINANCE_CARD}
-                className="@4xl:col-span-6"
-              />
-              <FinanceSpendingCard
-                spending={overview.spending}
-                isLoading={isRefreshing}
-                className="@4xl:col-span-6"
-              />
-              <FinanceTransactionsCard
-                transactions={transactions}
-                className="@4xl:col-span-6"
-              />
-            </div>
+            </FinancePeriodTabs>
           </div>
         </AppShellContent>
       </AppShellMain>

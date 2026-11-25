@@ -1,13 +1,19 @@
 // What a setup does, step by step: the page lists these and the CLI runs them.
 
 import { forPackageManager } from "./cli-args"
-import { REACT_PACKAGE, REACT_PACKAGE_STYLES } from "./react-package"
+import {
+  REACT_NATIVE_PACKAGE,
+  REACT_PACKAGE,
+  REACT_PACKAGE_STYLES,
+} from "./react-package"
 import {
   DEFAULT_PROJECT_SETUP,
   EXPO_SDK,
   getAssistantLabel,
   getBaseLabel,
   getFrameworkLabel,
+  hasExpoApp,
+  hasTauriMobile,
   hasWebApp,
   isWebFramework,
   normalizeProjectSetup,
@@ -27,8 +33,10 @@ export type StepId =
   | "configure-monorepo"
   | "add-web-items"
   | "scaffold-mobile"
+  | "scaffold-tauri-mobile"
   | "scaffold-desktop"
   | "configure-workspace"
+  | "configure-package-mobile"
   | "configure-tooling"
   | "install"
   | "setup-mobile"
@@ -58,7 +66,7 @@ function describeWebItems(setup: ProjectSetup) {
 function needsMount(setup: ProjectSetup) {
   return (
     !isWebFramework(setup.framework) ||
-    setup.mobile ||
+    hasExpoApp(setup) ||
     setup.appShell ||
     setup.sound
   )
@@ -129,7 +137,7 @@ function eslintAdditions(setup: ProjectSetup) {
     ...(hasWebApp(setup) && setup.framework === "react-router"
       ? ["ESLint for the web app and packages/ui"]
       : []),
-    ...(setup.mobile ? ["Expo's ESLint config in apps/mobile"] : []),
+    ...(hasExpoApp(setup) ? ["Expo's ESLint config in apps/mobile"] : []),
   ]
 }
 
@@ -187,6 +195,17 @@ const SCAFFOLD_MOBILE: PlanStep = {
   detail: `Expo SDK ${EXPO_SDK} with Expo Router, in apps/mobile.`,
 }
 
+const SCAFFOLD_TAURI_MOBILE: PlanStep = {
+  id: "scaffold-tauri-mobile",
+  title: "Add the Tauri mobile app",
+  detail: "An iOS, iPadOS and Android host for apps/web, in apps/mobile.",
+}
+
+function mobileScaffoldSteps(setup: ProjectSetup) {
+  if (hasTauriMobile(setup)) return [SCAFFOLD_TAURI_MOBILE]
+  return setup.mobile ? [SCAFFOLD_MOBILE] : []
+}
+
 function setupMobileStep(setup: ProjectSetup): PlanStep {
   return {
     id: "setup-mobile",
@@ -233,7 +252,7 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
       title: "Create the monorepo",
       detail: setup.web
         ? `${framework} in apps/web, and the components in packages/ui.`
-        : `${framework} in apps/web as the window's UI, and the components in packages/ui.`,
+        : `${framework} in apps/web as ${hasTauriMobile(setup) ? "the shared app renderer" : "the window's UI"}, and the components in packages/ui.`,
     },
     {
       id: "configure-monorepo",
@@ -245,7 +264,7 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
       title: setup.web ? "Add the web app's components" : "Add the components",
       detail: `Installs ${describeWebItems(setup)}.`,
     },
-    ...(setup.mobile ? [SCAFFOLD_MOBILE] : []),
+    ...mobileScaffoldSteps(setup),
     ...(setup.desktop === "none"
       ? []
       : [
@@ -266,7 +285,7 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
       title: "Install dependencies",
       detail: "Once, at the root.",
     },
-    ...(setup.mobile ? [setupMobileStep(setup)] : []),
+    ...(hasExpoApp(setup) ? [setupMobileStep(setup)] : []),
     ...mountStep(setup),
     ...agentSteps(setup),
     WRITE_PROJECT_DOCS,
@@ -330,21 +349,52 @@ export function planSetup(rawSetup: ProjectSetup): PlanStep[] {
     const detail = `Adds ${REACT_PACKAGE} and its stylesheet${Object.keys(setup.look).length ? ", with your theme overrides" : ""}.`
     if (setup.project === "existing") {
       return [
-        { id: "setup-package", title: "Install the React package", detail },
+        {
+          id: "setup-package",
+          title: "Install the component package",
+          detail:
+            "Adds the package and styles for the selected React or Expo app.",
+        },
         ...agentSteps(setup),
       ]
     }
+    const hasWeb = hasWebApp(setup)
     return [
-      {
-        id: "scaffold-package-web",
-        title: "Create the web monorepo",
-        detail: `${getFrameworkLabel(setup.framework)} in apps/web. ${detail}`,
-      },
+      hasWeb
+        ? {
+            id: "scaffold-package-web",
+            title: "Create the web monorepo",
+            detail: `${getFrameworkLabel(setup.framework)} in apps/web. ${detail}`,
+          }
+        : {
+            id: "scaffold-monorepo",
+            title: "Create the monorepo",
+            detail: "A workspace for the Expo app.",
+          },
+      ...mobileScaffoldSteps(setup),
+      ...(setup.desktop === "none"
+        ? []
+        : [
+            {
+              id: "scaffold-desktop" as const,
+              title: "Add the desktop window",
+              detail: `The ${setup.desktop === "electron" ? "Electron" : "Tauri"} window loads apps/web.`,
+            },
+          ]),
       {
         id: "configure-workspace",
         title: "Configure the workspace",
-        detail: "Run web app tasks from the root.",
+        detail: "Run the selected apps from the root.",
       },
+      ...(hasExpoApp(setup)
+        ? [
+            {
+              id: "configure-package-mobile" as const,
+              title: "Configure the Expo package",
+              detail: `Adds ${REACT_NATIVE_PACKAGE}, its theme, and the Expo root provider.`,
+            },
+          ]
+        : []),
       ...toolingSteps(setup),
       {
         id: "install",
@@ -387,12 +437,16 @@ export function getNextSteps(
   if (setup.project === "existing" && setup.distribution === "package") {
     return [
       {
-        label: "Load the package styles once",
+        label: "React web stylesheet",
         code: `import "${REACT_PACKAGE_STYLES}"`,
       },
       {
-        label: "Import a component",
+        label: "Web and desktop component",
         code: `import { Button } from "${REACT_PACKAGE}/button"`,
+      },
+      {
+        label: "Expo component",
+        code: `import { Button } from "${REACT_NATIVE_PACKAGE}/button"`,
       },
     ]
   }
@@ -406,9 +460,26 @@ export function getNextSteps(
       ...(setup.web
         ? [{ label: "Start the web app", code: run("npm run dev") }]
         : []),
-      ...(setup.mobile
-        ? [{ label: "Start the mobile app", code: run("npm run dev:mobile") }]
-        : []),
+      ...(hasTauriMobile(setup)
+        ? [
+            {
+              label: "Initialize the Apple host",
+              code: run("npm run init:mobile:ios"),
+            },
+            { label: "Start on iPhone", code: run("npm run dev:mobile:ios") },
+            { label: "Start on iPad", code: run("npm run dev:mobile:ipad") },
+            {
+              label: "Initialize the Android host",
+              code: run("npm run init:mobile:android"),
+            },
+            {
+              label: "Start on Android",
+              code: run("npm run dev:mobile:android"),
+            },
+          ]
+        : setup.mobile
+          ? [{ label: "Start the mobile app", code: run("npm run dev:mobile") }]
+          : []),
       ...(setup.desktop === "none"
         ? []
         : [
@@ -472,7 +543,7 @@ export function getPrerequisites(rawSetup: ProjectSetup): Prerequisite[] {
           },
         ]
       : []),
-    ...(setup.desktop === "tauri"
+    ...(setup.desktop === "tauri" || hasTauriMobile(setup)
       ? [
           {
             id: "rust" as const,
@@ -489,7 +560,9 @@ export function getPrerequisites(rawSetup: ProjectSetup): Prerequisite[] {
             id: "native-build" as const,
             title: "Xcode or Android Studio",
             detail: "To build the app for a simulator or a device.",
-            href: "https://docs.expo.dev/get-started/set-up-your-environment/",
+            href: hasTauriMobile(setup)
+              ? "https://v2.tauri.app/start/prerequisites/"
+              : "https://docs.expo.dev/get-started/set-up-your-environment/",
           },
         ]
       : []),

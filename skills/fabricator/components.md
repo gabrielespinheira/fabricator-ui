@@ -10,6 +10,8 @@ Pick in this order: an installed component, a registry component, a block, a com
 
 ## Frame and navigation
 
+How these fit together, and what breaks them: [app-shell.md](app-shell.md).
+
 | Component | Reach for it when | Worth knowing |
 | --- | --- | --- |
 | `app-shell` | Any app around its pages | `AppShellMain` > `AppShellHeader` + `AppShellContent size="sm\|md\|lg"`; `AppShellPanel` (`mobile="drawer\|swap\|none"`), `AppShellStatusBar`, `AppShellTitlebar`, `window` for desktop. Adapts to its own width, remembers itself, owns shortcuts (`useShellShortcut`) |
@@ -17,7 +19,7 @@ Pick in this order: an installed component, a registry component, a block, a com
 | `app-nav` | Sidebar rows from data | `groups` with `icon`, `badge`, `status`, `children`, `actions`, `mobile: "tab"`; `AppNavBottomBar` on phones; `customizable`. Always pass `renderLink={(item) => <Link href={item.href ?? "/"} />}`: it gives client navigation and keeps the row's icon and badge |
 | `sidebar` | The container `app-nav` sits in, or a custom sidebar | `variant="inset\|floating\|sidebar"`, `collapsible="offcanvas\|icon\|none"`, drags to resize, peeks |
 | `workspace-switcher` | Several organizations | `variant="menu"` for a few, `"command"` for many; `switchingTo` covers the wait; ⌘O |
-| `user-menu` | The signed-in person | `variant="row\|mark"`; the items are yours |
+| `user-menu` | The signed-in person | `variant="row\|mark"`; the items are yours. `UserMenuTheme theme onThemeChange` for light, dark and system |
 | `tab-strip` | Open documents: files, sessions, records | Pin, preview, dirty, loading and error states, reorder, reopen. `Tabs` is for views of one thing |
 | `breadcrumb` | A path outside the shell | Inside it, `AppShellBreadcrumb items` |
 | `navigation-menu` | A website's header | Not in React Aria |

@@ -9,11 +9,17 @@ import {
 } from "@fabricator-ui/icons-react-native"
 import { Portal } from "@rn-primitives/portal"
 import { cn } from "cn"
-import { AccessibilityInfo, Pressable, View } from "react-native"
+import {
+  AccessibilityInfo,
+  Pressable,
+  useWindowDimensions,
+  View,
+} from "react-native"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
 import Animated, {
   cancelAnimation,
   Easing,
+  FadeIn,
   ReduceMotion,
   runOnJS,
   useAnimatedStyle,
@@ -21,14 +27,25 @@ import Animated, {
   withRepeat,
   withTiming,
 } from "react-native-reanimated"
+import { useCSSVariable } from "uniwind"
 
+import {
+  getToastStack,
+  TOAST_GAP,
+  TOAST_INSET,
+  TOAST_PEEK,
+  type ToastPlacement,
+} from "@/registry/fabricator/shared/lib/toast-stack-model"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
+import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
-import { getToastFeedback } from "@/registry/native/lib/toast-model"
+import {
+  getStackSizes,
+  getToastFeedback,
+} from "@/registry/native/lib/toast-model"
 import {
   createToastStore,
-  getToastStack,
   type ToastObject,
   type ToastStore,
 } from "@/registry/native/lib/toast-store"
@@ -125,37 +142,47 @@ function ToastPortal({
   )
 }
 
-type StackEntry = ReturnType<typeof getToastStack>[number] & { zIndex: number }
-
-const FRONT: StackEntry = {
-  translateY: 0,
-  scale: 1,
-  opacity: 1,
-  isBehind: false,
-  height: undefined,
-  zIndex: 0,
+type StackEntry = {
+  /** Nothing until the stack's first toast is laid out. */
+  placement: ToastPlacement | undefined
+  isVisible: boolean
+  zIndex: number
 }
+
+const ALONE: StackEntry = { placement: undefined, isVisible: true, zIndex: 0 }
 
 const ToastStackContext = React.createContext<{
   entries: ReadonlyMap<string, StackEntry>
   canExpand: boolean
   isExpanded: boolean
-  /** Opened by a press, which pauses the timers until it closes again. */
-  isOpened: boolean
+  /** Opens the stack, which pauses the timers until it closes again. */
   toggleExpanded: () => void
+  /** Restarts the timers a touch paused, unless the stack it opened holds them. */
+  releaseTimers: () => void
+  width: number
+  isCentered: boolean
 }>({
   entries: new Map(),
   canExpand: false,
   isExpanded: false,
-  isOpened: false,
+  width: 0,
+  isCentered: true,
   toggleExpanded: () => {},
+  releaseTimers: () => {},
 })
+
+// How wide every toast is, in text sizes, and the space it leaves beside it, as
+// on the website.
+const WIDTH_IN_TEXT = 26
+const SCREEN_MARGIN = 32
+// Where a toast moves from the middle of the screen to its end (`sm`).
+const END_ALIGNED_MIN_WIDTH = 640
 
 function ToastViewport({
   className,
   expanded = false,
-  gap = 12,
-  peek = 12,
+  gap = TOAST_GAP,
+  peek = TOAST_PEEK,
   children,
   ...props
 }: React.ComponentProps<typeof View> & {
@@ -168,12 +195,23 @@ function ToastViewport({
 }) {
   const manager = useToastStore()
   const { toasts } = useToastManager()
+  const { width: windowWidth } = useWindowDimensions()
+  const textSize = parseNumber(useCSSVariable("--density-text-13"), 13)
   const [isOpened, setIsOpened] = React.useState(false)
+  // A press opens the stack before its touch lets go of the timers.
+  const isOpenedRef = React.useRef(false)
+  const setOpened = React.useCallback((next: boolean) => {
+    isOpenedRef.current = next
+    setIsOpened(next)
+  }, [])
+  const releaseTimers = React.useCallback(() => {
+    if (!isOpenedRef.current) manager.resume()
+  }, [manager])
   const canExpand = toasts.length > 1 && !expanded
 
   React.useEffect(() => {
-    if (!canExpand) setIsOpened(false)
-  }, [canExpand])
+    if (!canExpand) setOpened(false)
+  }, [canExpand, setOpened])
 
   // An open stack is being read: nothing should close under the reader.
   React.useEffect(() => {
@@ -184,25 +222,44 @@ function ToastViewport({
 
   const isExpanded = expanded || isOpened
   const stack = React.useMemo(() => {
-    const entries = getToastStack(toasts, {
-      expanded: isExpanded,
+    const placements = getToastStack(getStackSizes(toasts), {
+      isExpanded,
       gap,
       peek,
-      limit: manager.getLimit(),
+      inset: TOAST_INSET,
     })
+    const limit = manager.getLimit()
     return {
       entries: new Map(
         toasts.map((item, index) => [
           item.id,
-          { ...(entries[index] ?? FRONT), zIndex: toasts.length - index },
+          {
+            placement: placements[index],
+            isVisible: index < limit,
+            zIndex: toasts.length - index,
+          },
         ])
       ),
       canExpand,
       isExpanded,
-      isOpened,
-      toggleExpanded: () => setIsOpened((current) => !current),
+      toggleExpanded: () => setOpened(!isOpened),
+      releaseTimers,
+      width: Math.min(textSize * WIDTH_IN_TEXT, windowWidth - SCREEN_MARGIN),
+      isCentered: windowWidth < END_ALIGNED_MIN_WIDTH,
     }
-  }, [canExpand, gap, isExpanded, isOpened, manager, peek, toasts])
+  }, [
+    canExpand,
+    gap,
+    isExpanded,
+    isOpened,
+    manager,
+    peek,
+    releaseTimers,
+    setOpened,
+    textSize,
+    toasts,
+    windowWidth,
+  ])
 
   return (
     <ToastStackContext value={stack}>
@@ -225,15 +282,17 @@ function ToastViewport({
 const ToastContext = React.createContext<{
   item: ToastItem
   isBehind: boolean
+  /** Its text ran into its line limit, so a press shows the rest. */
+  noteClamped: () => void
+  isClamped: boolean
 } | null>(null)
 
 // Past either of these a swipe dismisses, in points and points per second.
 const SWIPE_DISTANCE = 40
 const SWIPE_VELOCITY = 600
 const OFF_SCREEN = 600
-// Where a toast comes from: past the top edge, as it has no height yet to measure
-// the website's 150% by. It slides in solid.
-const ENTER_TRAVEL = -120
+// Where a toast comes from: just past the top edge. It fades and grows in.
+const ENTER_TRAVEL = -64
 
 const DEFAULT_SWIPE: readonly SwipeDirection[] = ["up", "left", "right"]
 
@@ -250,24 +309,26 @@ function Toast({
   swipeDirection?: readonly SwipeDirection[]
 }) {
   const manager = useToastStore()
-  const { entries, canExpand, toggleExpanded, isOpened } =
-    React.use(ToastStackContext)
-  const entry = entries.get(item.id) ?? FRONT
+  const { entries, isCentered, releaseTimers } = React.use(ToastStackContext)
+  const { placement, isVisible, zIndex } = entries.get(item.id) ?? ALONE
+  // Until it's laid out, its size is the one it covers: it waits for its own.
+  const width = item.size && placement?.width
+  const height = item.size && placement?.height
   const motion = useMotion("toast")
-  const resize = useMotion("feedback")
+  const enterScale = parseNumber(useCSSVariable("--motion-popup-scale"), 1)
   const { entering, exiting } = useSurfaceAnimation("toast", {
-    scale: 1,
+    scale: enterScale,
     translateY: ENTER_TRAVEL,
-    hasFade: false,
   })
   const feedback = useFeedback()
+  const [isClamped, setIsClamped] = React.useState(false)
+  const noteClamped = React.useCallback(() => setIsClamped(true), [])
 
-  // Behind, it's cut to the height of the one in front; otherwise it has its own.
-  const height = entry.height ?? item.height
-  const stackHeight = useSharedValue(height)
-  const stackY = useSharedValue(entry.translateY)
-  const stackScale = useSharedValue(entry.scale)
-  const stackOpacity = useSharedValue(entry.opacity)
+  const boxWidth = useSharedValue(width)
+  const boxHeight = useSharedValue(height)
+  const stackX = useSharedValue(0)
+  const stackY = useSharedValue(placement?.offset ?? 0)
+  const stackOpacity = useSharedValue(isVisible ? 1 : 0)
   const swipeX = useSharedValue(0)
   const swipeY = useSharedValue(0)
   const swipeAxis = useSharedValue<"x" | "y" | null>(null)
@@ -279,64 +340,58 @@ function Toast({
     if (sound) feedback(sound)
   }, [feedback, item.type])
 
-  // As on the website: position and opacity on the toast's timing.
+  // As on the website: place, size and opacity on the toast's timing. Its first
+  // size is the one it already has on screen, so that takes no animation.
+  const isBehind = placement?.isBehind ?? false
+  const translateX = isCentered ? 0 : -(placement?.inset ?? 0)
+  const translateY = placement?.offset ?? 0
   React.useEffect(() => {
     const timing = {
       duration: motion.enterMs,
       easing: motion.enterEasing,
       reduceMotion: ReduceMotion.Never,
     }
-    stackOpacity.value = withTiming(entry.opacity, timing)
-    if (motion.isReduced) {
-      stackY.value = entry.translateY
-      stackScale.value = entry.scale
+    stackOpacity.value = withTiming(isVisible ? 1 : 0, timing)
+    const isFirstSize = boxWidth.value === undefined
+    if (motion.isReduced || isFirstSize) {
+      stackX.value = translateX
+      stackY.value = translateY
+      boxWidth.value = width
+      boxHeight.value = height
       return
     }
-    stackY.value = withTiming(entry.translateY, timing)
-    stackScale.value = withTiming(entry.scale, timing)
+    stackX.value = withTiming(translateX, timing)
+    stackY.value = withTiming(translateY, timing)
+    if (width === undefined || height === undefined) return
+    boxWidth.value = withTiming(width, timing)
+    boxHeight.value = withTiming(height, timing)
   }, [
-    entry.opacity,
-    entry.scale,
-    entry.translateY,
+    boxHeight,
+    boxWidth,
+    height,
+    isVisible,
     motion.enterEasing,
     motion.enterMs,
     motion.isReduced,
     stackOpacity,
-    stackScale,
+    stackX,
     stackY,
-  ])
-
-  // And height on the feedback timing. Its first height is the one it already
-  // has on screen, so that takes no animation.
-  React.useEffect(() => {
-    if (height === undefined) return
-    if (stackHeight.value === undefined || resize.isReduced) {
-      stackHeight.value = height
-      return
-    }
-    stackHeight.value = withTiming(height, {
-      duration: resize.enterMs,
-      easing: resize.feedbackEasing,
-    })
-  }, [
-    height,
-    resize.enterMs,
-    resize.feedbackEasing,
-    resize.isReduced,
-    stackHeight,
+    translateX,
+    translateY,
+    width,
   ])
 
   const stackStyle = useAnimatedStyle(() => ({
-    ...(stackHeight.value === undefined ? {} : { height: stackHeight.value }),
-    opacity: stackOpacity.value,
+    width: boxWidth.value ?? 0,
+    height: boxHeight.value ?? 0,
+    opacity: boxWidth.value === undefined ? 0 : stackOpacity.value,
     transform: [
-      { translateX: swipeX.value },
+      { translateX: stackX.value + swipeX.value },
       { translateY: stackY.value + swipeY.value },
-      { scale: stackScale.value },
     ],
   }))
 
-  const { close, pause, resume, setHeight } = manager
+  const { close, pause } = manager
   const pan = React.useMemo(() => {
     const exit = {
       duration: motion.exitMs,
@@ -411,17 +466,16 @@ function Toast({
         }
       })
       .onFinalize(() => {
-        if (!isOpened) runOnJS(resume)()
+        runOnJS(releaseTimers)()
       })
   }, [
     close,
-    isOpened,
     item.id,
     motion.exitEasing,
     motion.exitMs,
     motion.isReduced,
     pause,
-    resume,
+    releaseTimers,
     stackOpacity,
     swipeDirection,
     swipeX,
@@ -438,8 +492,8 @@ function Toast({
   }, [description, title, updateKey])
 
   const context = React.useMemo(
-    () => ({ item, isBehind: entry.isBehind }),
-    [entry.isBehind, item]
+    () => ({ item, isBehind, isClamped, noteClamped }),
+    [isBehind, isClamped, item, noteClamped]
   )
 
   return (
@@ -448,35 +502,25 @@ function Toast({
         entering={entering}
         exiting={exiting}
         pointerEvents="box-none"
-        className="absolute inset-x-0 top-0"
-        style={{ zIndex: entry.zIndex }}
+        className="absolute inset-x-0 top-0 items-center sm:items-end"
+        style={{ zIndex }}
       >
         <GestureDetector gesture={pan}>
           <Animated.View
             data-slot="toast"
             data-type={item.type}
-            data-behind={entry.isBehind}
+            data-behind={isBehind}
             data-limited={Boolean(item.limited)}
             role="alert"
             aria-live={item.priority === "high" ? "assertive" : "polite"}
-            aria-hidden={entry.isBehind}
+            aria-hidden={isBehind}
             pointerEvents={item.limited ? "none" : "auto"}
-            className={cn("cn-toast w-full overflow-hidden", className)}
+            className={cn("cn-toast", className)}
             style={[stackStyle, style]}
             {...props}
           >
             <TextStyle className="cn-toast-text">
-              <Pressable
-                accessible={false}
-                disabled={!canExpand}
-                onPress={toggleExpanded}
-                // Its content's own height, however far the toast is cut.
-                onLayout={(event) =>
-                  setHeight(item.id, event.nativeEvent.layout.height)
-                }
-              >
-                {renderTextChildren(children)}
-              </Pressable>
+              {renderTextChildren(children)}
             </TextStyle>
           </Animated.View>
         </GestureDetector>
@@ -485,36 +529,83 @@ function Toast({
   )
 }
 
+/** Fades what a covered toast hides. */
+function useBehindFade() {
+  const isBehind = React.use(ToastContext)?.isBehind ?? false
+  const motion = useMotion("feedback")
+  const fade = useSharedValue(isBehind ? 0 : 1)
+  React.useEffect(() => {
+    fade.value = withTiming(isBehind ? 0 : 1, {
+      duration: motion.enterMs,
+      easing: motion.feedbackEasing,
+    })
+  }, [fade, isBehind, motion.enterMs, motion.feedbackEasing])
+  const style = useAnimatedStyle(() => ({ opacity: fade.value }))
+  return { isBehind, style }
+}
+
+// Laid out at the toast's full size, whatever the toast around it is cut to:
+// that's the size it grows to, and its text never wraps again on the way.
 function ToastContent({
   className,
   children,
   style,
   ...props
 }: React.ComponentProps<typeof View>) {
-  const isBehind = React.use(ToastContext)?.isBehind ?? false
-  // The website fades a toast's content over 250ms, which is the move timing.
-  const motion = useMotion("move")
-  const fade = useSharedValue(isBehind ? 0 : 1)
-  React.useEffect(() => {
-    fade.value = withTiming(isBehind ? 0 : 1, {
-      duration: motion.enterMs,
-      easing: motion.enterEasing,
-    })
-  }, [fade, isBehind, motion.enterEasing, motion.enterMs])
-  const fadeStyle = useAnimatedStyle(() => ({ opacity: fade.value }))
+  const manager = useToastStore()
+  const toastContext = React.use(ToastContext)
+  const { canExpand, toggleExpanded, width } = React.use(ToastStackContext)
+  const { isBehind, style: fadeStyle } = useBehindFade()
+  const id = toastContext?.item.id
   return (
-    <Animated.View
-      data-slot="toast-content"
-      data-behind={isBehind}
-      className={cn(
-        "flex-row items-center gap-3 overflow-hidden p-4",
-        className
-      )}
-      style={[fadeStyle, style]}
-      {...props}
+    <View
+      pointerEvents="box-none"
+      className="cn-toast-clip absolute inset-0 overflow-hidden"
     >
-      {renderTextChildren(children)}
-    </Animated.View>
+      <View
+        pointerEvents="box-none"
+        className="absolute top-0 left-0"
+        style={{ width }}
+      >
+        <Pressable
+          accessible={false}
+          disabled={!canExpand && !toastContext?.isClamped}
+          onPress={toggleExpanded}
+          onLayout={({ nativeEvent: { layout } }) => {
+            if (id === undefined) return
+            manager.setSize(id, { width: layout.width, height: layout.height })
+          }}
+        >
+          <Animated.View
+            data-slot="toast-content"
+            data-behind={isBehind}
+            className={cn("cn-toast-content flex-row items-center", className)}
+            style={[fadeStyle, style]}
+            {...props}
+          >
+            {renderTextChildren(children)}
+          </Animated.View>
+        </Pressable>
+      </View>
+    </View>
+  )
+}
+
+/** Text cut to a number of lines until the stack is open. */
+function ClampedText({
+  lines,
+  ...props
+}: React.ComponentProps<typeof Text> & { lines: number }) {
+  const toastContext = React.use(ToastContext)
+  const { isExpanded } = React.use(ToastStackContext)
+  return (
+    <Text
+      numberOfLines={isExpanded ? undefined : lines}
+      onTextLayout={({ nativeEvent }) => {
+        if (nativeEvent.lines.length >= lines) toastContext?.noteClamped()
+      }}
+      {...props}
+    />
   )
 }
 
@@ -526,13 +617,14 @@ function ToastTitle({
   const content = children ?? React.use(ToastContext)?.item.title
   if (content === undefined || content === null) return null
   return (
-    <Text
+    <ClampedText
+      lines={2}
       data-slot="toast-title"
       className={cn("cn-toast-title", className)}
       {...props}
     >
       {content}
-    </Text>
+    </ClampedText>
   )
 }
 
@@ -541,22 +633,26 @@ function ToastDescription({
   children,
   ...props
 }: React.ComponentProps<typeof Text>) {
-  const content = children ?? React.use(ToastContext)?.item.description
+  const item = React.use(ToastContext)?.item
+  const content = children ?? item?.description
   if (content === undefined || content === null) return null
   return (
-    <Text
+    <ClampedText
+      lines={3}
       data-slot="toast-description"
+      // On its own it is the message, so it takes the foreground.
+      data-alone={item?.title === undefined || item.title === null}
       className={cn("cn-toast-description", className)}
       {...props}
     >
       {content}
-    </Text>
+    </ClampedText>
   )
 }
 
 function ToastAction({
   className,
-  render = <Button variant="outline" size="sm" />,
+  render = <Button variant="secondary" size="sm" />,
   children,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children"> &
@@ -569,7 +665,7 @@ function ToastAction({
     {
       "data-slot": "toast-action",
       ...action,
-      className: cn("shrink-0", action?.className, className),
+      className: cn("cn-toast-action shrink-0", action?.className, className),
       ...props,
     },
     content
@@ -579,26 +675,35 @@ function ToastAction({
 function ToastClose({
   className,
   children,
-  render = <Button variant="ghost" size="icon-sm" />,
+  render = <Button variant="ghost" size="icon-xs" />,
   onPress,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children"> &
   Pick<RenderProps, "render"> & { children?: React.ReactNode }) {
   const manager = useToastStore()
   const id = React.use(ToastContext)?.item.id
-  return renderSlot(
-    { render },
-    {
-      "data-slot": "toast-close",
-      accessibilityLabel: "Close toast",
-      className: cn("shrink-0", className),
-      onPress: (event: Parameters<NonNullable<typeof onPress>>[0]) => {
-        manager.close(id)
-        onPress?.(event)
-      },
-      ...props,
-    },
-    children ?? <XIcon aria-hidden />
+  const { isBehind, style } = useBehindFade()
+  return (
+    <Animated.View
+      pointerEvents={isBehind ? "none" : "box-none"}
+      className="cn-toast-close-corner absolute"
+      style={style}
+    >
+      {renderSlot(
+        { render },
+        {
+          "data-slot": "toast-close",
+          accessibilityLabel: "Close toast",
+          className: cn("cn-toast-close shrink-0", className),
+          onPress: (event: Parameters<NonNullable<typeof onPress>>[0]) => {
+            manager.close(id)
+            onPress?.(event)
+          },
+          ...props,
+        },
+        children ?? <XIcon aria-hidden />
+      )}
+    </Animated.View>
   )
 }
 
@@ -629,11 +734,9 @@ function ToastSpinner() {
   )
 }
 
-function ToastIcon({ type }: { type: string | undefined }) {
-  let icon: React.ReactNode = null
-
+function getTypeIcon(type: string | undefined): React.ReactNode {
   if (type === "success") {
-    icon = (
+    return (
       <TextStyle className="cn-toast-icon-success">
         <CircleCheckIcon aria-hidden />
       </TextStyle>
@@ -641,7 +744,7 @@ function ToastIcon({ type }: { type: string | undefined }) {
   }
 
   if (type === "info") {
-    icon = (
+    return (
       <TextStyle className="cn-toast-icon-info">
         <InfoIcon aria-hidden />
       </TextStyle>
@@ -649,7 +752,7 @@ function ToastIcon({ type }: { type: string | undefined }) {
   }
 
   if (type === "warning") {
-    icon = (
+    return (
       <TextStyle className="cn-toast-icon-warning">
         <TriangleAlertIcon aria-hidden />
       </TextStyle>
@@ -657,25 +760,92 @@ function ToastIcon({ type }: { type: string | undefined }) {
   }
 
   if (type === "error") {
-    icon = (
+    return (
       <TextStyle className="cn-toast-icon-error">
         <OctagonXIcon aria-hidden />
       </TextStyle>
     )
   }
 
-  if (type === "loading") {
-    icon = <ToastSpinner />
-  }
+  if (type === "loading") return <ToastSpinner />
 
+  return null
+}
+
+/** Fades its content in when the toast changes type, as it changes size. */
+function ToastSwap({
+  className,
+  ...props
+}: React.ComponentProps<typeof Animated.View>) {
+  const item = React.use(ToastContext)?.item
+  const motion = useMotion("move")
+  const isSettled = item !== undefined && item.updateKey > 0 && !motion.isOff
+  return (
+    <Animated.View
+      key={item?.type}
+      entering={
+        isSettled
+          ? FadeIn.duration(motion.enterMs).reduceMotion(ReduceMotion.Never)
+          : undefined
+      }
+      className={className}
+      {...props}
+    />
+  )
+}
+
+function ToastIcon({
+  type,
+  icon = getTypeIcon(type),
+}: {
+  type: string | undefined
+  /** Shown instead of the type's icon. `null` shows none. */
+  icon?: React.ReactNode
+}) {
   if (!icon) {
     return null
   }
 
   return (
-    <View data-slot="toast-icon" className="shrink-0">
+    <ToastSwap data-slot="toast-icon" className="cn-toast-icon shrink-0">
       {icon}
-    </View>
+    </ToastSwap>
+  )
+}
+
+type ToastData = {
+  /** Shown instead of the type's icon. `null` shows none. */
+  icon?: React.ReactNode
+}
+
+function isToastData(data: unknown): data is ToastData {
+  return typeof data === "object" && data !== null
+}
+
+/** The text, and its actions beside it, or under it when they don't fit. */
+function ToastBody({ className, ...props }: React.ComponentProps<typeof View>) {
+  return (
+    <View
+      data-slot="toast-body"
+      className={cn(
+        "cn-toast-body shrink grow flex-row flex-wrap items-center justify-between",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function ToastMessage({
+  className,
+  ...props
+}: React.ComponentProps<typeof Animated.View>) {
+  return (
+    <ToastSwap
+      data-slot="toast-message"
+      className={cn("cn-toast-message shrink flex-col", className)}
+      {...props}
+    />
   )
 }
 
@@ -685,14 +855,19 @@ function ToastList() {
   return toasts.map((toastItem) => (
     <Toast key={toastItem.id} toast={toastItem}>
       <ToastContent>
-        <ToastIcon type={toastItem.type} />
-        <View className="min-w-0 flex-1 flex-col gap-1">
-          <ToastTitle />
-          <ToastDescription />
-        </View>
-        <ToastAction />
-        <ToastClose />
+        <ToastIcon
+          type={toastItem.type}
+          icon={isToastData(toastItem.data) ? toastItem.data.icon : undefined}
+        />
+        <ToastBody>
+          <ToastMessage>
+            <ToastTitle />
+            <ToastDescription />
+          </ToastMessage>
+          <ToastAction />
+        </ToastBody>
       </ToastContent>
+      <ToastClose />
     </Toast>
   ))
 }
@@ -728,10 +903,12 @@ export {
   Toaster,
   Toast,
   ToastAction,
+  ToastBody,
   ToastClose,
   ToastContent,
   ToastDescription,
   ToastIcon,
+  ToastMessage,
   ToastPortal,
   ToastProvider,
   ToastTitle,

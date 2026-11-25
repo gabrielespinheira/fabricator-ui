@@ -114,9 +114,15 @@ The `success`, `info`, `warning` and `error` types colour their icon with the st
 
 <ComponentPreview styleName="base-nova" name="toast-types" />
 
+## Size
+
+Every toast has the same width, 26 times its text size (338px at the default density), or the screen's less a margin on a narrow phone. Only its height follows the content. Change the width with `--toast-width` on `Toast`.
+
 ## Action
 
-Pass button props with `actionProps` to render an action.
+Pass button props with `actionProps` to render an action. It sits beside text that leaves it room, and moves under text that doesn't.
+
+<ComponentPreview styleName="base-nova" name="toast-action" />
 
 ```tsx
 const id = toast.add({
@@ -130,12 +136,29 @@ const id = toast.add({
 })
 ```
 
+## Icon
+
+A `type` brings its own icon. Pass `data.icon` to show another, such as an icon or a small `Avatar`, or `null` to show none.
+
+<ComponentPreview styleName="base-nova" name="toast-icon" />
+
+## Long content
+
+The title shows two lines and the description three, and a word that can't wrap breaks. Hovering or focusing a toast, or tapping it on touch, opens it to its full text and pauses its timer.
+
+<ComponentPreview styleName="base-nova" name="toast-long" />
+
 ## Promise
 
 Use `toast.promise` to update one toast as an asynchronous task moves through
-loading, success, and error states.
+loading, success, and error states. The toast changes height in place and fades its
+new content in.
 
 <ComponentPreview styleName="base-nova" name="toast-promise" />
+
+## Stack
+
+A new toast pushes the others back, each a step narrower than the one in front. Hover or focus the stack to open it. The close button sits on the corner of the toast under the pointer or focus, and always shows on touch.
 
 ## API Reference
 

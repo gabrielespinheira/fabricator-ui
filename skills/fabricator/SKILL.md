@@ -91,16 +91,18 @@ These hold on every screen. Each replaces a habit that makes generated UI look g
 - **Every number** has a unit, tabular figures and, where it changed, a signed delta coloured by whether the change is good.
 - **Every action is a verb and its object** ("Invite people"), and the verb follows the action through its dialog and toast.
 - **Icons name actions; they don't decorate titles.** No icon tiles, gradients, glows, glass, coloured bands, greeting banners or illustrations.
+- **The frame is the App Shell's primitives,** direct children in their order, one shell per app. Adapt it through data, props and composition ([app-shell.md](app-shell.md)); a wrapper in the wrong place breaks it without an error.
 - **Page actions live in the header,** row actions in the row, selection actions replace the toolbar, rare page settings sit behind the header's ellipsis.
 - **`className` is for layout.** Appearance comes from variants and tokens.
 
 ## Read when
 
-Design references (the first five carry most of the quality):
+Design references (the first six carry most of the quality):
 
 | Doing | Read |
 | --- | --- |
 | Any screen: which page, regions, layout, or a SaaS feature blueprint | [patterns.md](patterns.md) |
+| The app's frame: sidebar, navigation, header, panels, tabs, status bar, layouts and routes | [app-shell.md](app-shell.md) |
 | Anything that collects values: forms, setup, create, filters | [asking.md](asking.md) |
 | Picking a component for a need | [components.md](components.md) |
 | Errors, warnings, empty, loading, limits, permissions, undo | [states.md](states.md) |
@@ -113,6 +115,7 @@ Recipes are working code, checked in a running app at phone and desktop widths i
 
 | Building | Start from |
 | --- | --- |
+| The app's frame, its navigation, or a page's place in it | [recipes/app-shell.md](recipes/app-shell.md) |
 | A dashboard, overview or page of cards | [recipes/dashboard.md](recipes/dashboard.md) |
 | A list of records with filters, selection, detail | [recipes/list.md](recipes/list.md) |
 | Something with many settings before it goes live | [recipes/setup.md](recipes/setup.md) |
@@ -131,7 +134,7 @@ API rules settle how code is written. Installed source and base-specific docs (`
 | Icons | [rules/icons.md](rules/icons.md) |
 | Skeletons, refreshes, pending actions | [rules/loading.md](rules/loading.md) |
 | Conversations | [rules/chat.md](rules/chat.md) |
-| Expo and React Native; SwiftUI or Kotlin Compose | [rules/react-native.md](rules/react-native.md), [rules/native-languages.md](rules/native-languages.md) |
+| Expo and React Native | [rules/react-native.md](rules/react-native.md) |
 
 Setup is a separate concern, read only for that work:
 

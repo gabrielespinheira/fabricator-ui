@@ -47,6 +47,7 @@ export function ShellControls({
   isIncluded,
   onIncludedChange,
   project,
+  hasTauriMobile,
   onBack,
   onNext,
 }: {
@@ -55,6 +56,7 @@ export function ShellControls({
   isIncluded: boolean
   onIncludedChange: (isIncluded: boolean) => void
   project: ShellProject
+  hasTauriMobile: boolean
   onBack: () => void
   onNext: () => void
 }) {
@@ -76,7 +78,10 @@ export function ShellControls({
     <div className="flex flex-col gap-4">
       <p className="text-[13px] leading-relaxed text-muted-foreground">
         The wrapper around your pages: sidebar, header, tabs, right panel and
-        status bar. {describeTargets(project)}
+        status bar.{" "}
+        {hasTauriMobile
+          ? "Tauri mobile uses the same App Shell from apps/web."
+          : describeTargets(project)}
       </p>
       <div className={`${CARD_CLASS} py-1`}>
         <OptionSwitch

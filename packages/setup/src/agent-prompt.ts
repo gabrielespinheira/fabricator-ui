@@ -8,9 +8,17 @@ import {
   toCliArgs,
 } from "./cli-args"
 import { getDarkModeGuide, getNextSteps, getPrerequisites } from "./plan"
-import { REACT_PACKAGE, REACT_PACKAGE_STYLES } from "./react-package"
+import {
+  REACT_NATIVE_PACKAGE,
+  REACT_NATIVE_PACKAGE_STYLES,
+  REACT_PACKAGE,
+  REACT_PACKAGE_STYLES,
+} from "./react-package"
 import {
   ASSISTANT_VALUES,
+  hasExpoApp,
+  hasTauriMobile,
+  hasWebApp,
   isWebFramework,
   normalizeProjectSetup,
   projectName,
@@ -34,7 +42,7 @@ function commandStep(setup: ProjectSetup, packageManager: PackageManager) {
   const opening =
     setup.project === "existing"
       ? setup.distribution === "package"
-        ? "From the React web app's folder, run:"
+        ? "From the React or Expo app's folder, run:"
         : "If this project has uncommitted work, ask me what to do with it first. From this project's root, run:"
       : "From the folder I keep my projects in, run:"
   return `${opening}\n\n${formatCommand(toCliArgs(setup), packageManager)}\n\nIf a step fails, read the log it names, fix the cause and run the same command again. It picks up where it stopped.`
@@ -82,7 +90,22 @@ function themeStep(setup: ProjectSetup) {
 function buildStep(setup: ProjectSetup, cli: (args: string) => string) {
   if (setup.distribution === "package") {
     return [
-      `Use components from \`${REACT_PACKAGE}/<component>\`. Load \`${REACT_PACKAGE_STYLES}\` at the app entry if the CLI printed that step. Update component versions through the package manager.`,
+      ...(setup.project === "existing" || hasWebApp(setup)
+        ? [
+            `In the React renderer, use \`${REACT_PACKAGE}/<component>\` and load \`${REACT_PACKAGE_STYLES}\` once.`,
+          ]
+        : []),
+      ...(setup.project === "existing" || hasExpoApp(setup)
+        ? [
+            `For Expo, use \`${REACT_NATIVE_PACKAGE}/<component>\`, load \`${REACT_NATIVE_PACKAGE_STYLES}\` in the Uniwind stylesheet, and mount the package's FabricatorRoot once.`,
+          ]
+        : []),
+      ...(hasTauriMobile(setup)
+        ? [
+            "The Tauri mobile host loads the Vite app from apps/web. Install UI components in apps/web.",
+          ]
+        : []),
+      "Update component versions through the package manager.",
     ]
   }
   const addComponents = `Add components with \`${cli("add <name>")}\`.`
@@ -96,7 +119,14 @@ function buildStep(setup: ProjectSetup, cli: (args: string) => string) {
   const work = setup.appShell
     ? "replace the App Shell's sample navigation with real pages"
     : "build its first page"
-  return [`Ask me what the app is for, then ${work}. ${addComponents}`]
+  return [
+    `Ask me what the app is for, then ${work}. ${addComponents}`,
+    ...(hasTauriMobile(setup)
+      ? [
+          "The Tauri mobile host loads the Vite app from apps/web. Install UI components in apps/web.",
+        ]
+      : []),
+  ]
 }
 
 function finishStep(setup: ProjectSetup, packageManager: PackageManager) {

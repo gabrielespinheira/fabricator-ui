@@ -16,13 +16,17 @@ npx fabricator-ui@latest add toast
 ## Usage
 
 ```tsx
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { createToastManager, toast, Toaster } from "@/components/ui/toast"
 ```
 
 ```tsx
 <Button variant="outline" onPress={showEvent}>
-  Show Toast
+  Beside the text
+</Button>
+<Button variant="outline" onPress={showFailure}>
+  Under the text
 </Button>
 ```
 
@@ -30,12 +34,14 @@ import { createToastManager, toast, Toaster } from "@/components/ui/toast"
 
 - `Toast`
 - `ToastAction`
+- `ToastBody`
 - `ToastClose`
 - `ToastContent`
 - `ToastDescription`
 - `ToastIcon`
 - `ToastItem`
 - `ToastManager`
+- `ToastMessage`
 - `ToastPortal`
 - `ToastProvider`
 - `ToastTitle`
@@ -46,7 +52,9 @@ import { createToastManager, toast, Toaster } from "@/components/ui/toast"
 
 ```tsx showLineNumbers title="toast-example.tsx"
 import * as React from "react"
+import { DownloadIcon } from "@fabricator-ui/icons-react-native"
 
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { createToastManager, toast, Toaster } from "@/components/ui/toast"
 
@@ -63,15 +71,30 @@ function showEvent() {
   })
 }
 
+function showFailure() {
+  const id = toast.add({
+    type: "error",
+    priority: "high",
+    title: "Changes weren't saved",
+    description:
+      "The server didn't answer. Your edits are still here, so you can try again in a moment.",
+    actionProps: { children: "Try again", onPress: () => toast.close(id) },
+  })
+}
+
 function showPromise() {
   toast.promise(
     new Promise<{ name: string }>((resolve) => {
-      setTimeout(() => resolve({ name: "Event" }), 2000)
+      setTimeout(() => resolve({ name: "Team offsite" }), 2000)
     }),
     {
-      loading: "Creating event…",
-      success: (data) => `${data.name} created.`,
-      error: "Could not create event.",
+      loading: { title: "Creating event…" },
+      success: (data) => ({
+        title: `${data.name} created`,
+        description: "Friday, December 4 at 9:00 AM",
+        actionProps: { children: "View" },
+      }),
+      error: { title: "The event couldn't be created" },
     }
   )
 }
@@ -81,9 +104,65 @@ function ToastExample() {
   return (
     <ExampleWrapper>
       <Toaster limit={3} />
-      <Example title="With an action">
+      <Example title="With an action" className="flex-row flex-wrap">
         <Button variant="outline" onPress={showEvent}>
-          Show Toast
+          Beside the text
+        </Button>
+        <Button variant="outline" onPress={showFailure}>
+          Under the text
+        </Button>
+      </Example>
+      <Example title="Icons" className="flex-row flex-wrap">
+        <Button
+          variant="outline"
+          onPress={() => toast.add({ title: "Link copied" })}
+        >
+          None
+        </Button>
+        <Button
+          variant="outline"
+          onPress={() =>
+            toast.add({
+              title: "Export ready",
+              description: "invoices-november.csv, 2.4 MB",
+              data: { icon: <DownloadIcon aria-hidden /> },
+            })
+          }
+        >
+          Custom
+        </Button>
+        <Button
+          variant="outline"
+          onPress={() =>
+            toast.add({
+              title: "Olivia Martin commented",
+              description: "Can we move the launch to Thursday?",
+              data: {
+                icon: (
+                  <Avatar size="sm">
+                    <AvatarFallback>OM</AvatarFallback>
+                  </Avatar>
+                ),
+              },
+            })
+          }
+        >
+          Avatar
+        </Button>
+      </Example>
+      <Example title="Long text, all of it on a press">
+        <Button
+          variant="outline"
+          onPress={() =>
+            toast.add({
+              type: "warning",
+              title: "Three members couldn't be invited",
+              description:
+                "Their addresses belong to another workspace on your plan. Ask its owner to release them, or invite each person with a different address. Invitations already sent to the other nine people are on their way and expire in seven days.",
+            })
+          }
+        >
+          Show
         </Button>
       </Example>
       <Example title="Types" className="flex-row flex-wrap">
@@ -197,7 +276,7 @@ export { ToastExample }
 
 
 
-Props it adds to what it wraps: `expanded`, `gap`, `limit`, `peek`, `swipeDirection`, `timeout`, `toast`, `toastManager`, `type`.
+Props it adds to what it wraps: `expanded`, `gap`, `icon`, `limit`, `peek`, `swipeDirection`, `timeout`, `toast`, `toastManager`, `type`.
 
 ## Differences from web
 

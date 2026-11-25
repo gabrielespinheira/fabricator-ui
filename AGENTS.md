@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Fabricator UI is an open-source component library for React web, React Native and desktop, with SwiftUI and Kotlin Compose renderers under development. People install copy-in source through the CLI; React items stay fully compatible with shadcn/ui. This repo holds the registry, the `fabricator-ui` CLI, Fabricator Icons and the website (fabricator-ui.vercel.app) that documents and serves the registry. These rules bind every agent and contributor. `CLAUDE.md` imports this file. When a convention changes, update the doc that owns it in the same change.
+Fabricator UI is an open-source component library for React web, React Native and desktop. People install copy-in source through the CLI; React items stay fully compatible with shadcn/ui. This repo holds the registry, the `fabricator-ui` CLI, Fabricator Icons and the website (fabricator-ui.vercel.app) that documents and serves the registry. These rules bind every agent and contributor. `CLAUDE.md` imports this file. When a convention changes, update the doc that owns it in the same change.
 
 ## Read before you work
 
@@ -10,7 +10,7 @@ Fabricator UI is an open-source component library for React web, React Native an
 | Write or change a component, example or block                  | [`COMPONENTS.md`](COMPONENTS.md)                       |
 | Add a component, or place one in the docs sidebar and gallery  | [`docs/COMPONENT-GROUPS.md`](docs/COMPONENT-GROUPS.md) |
 | Change a look, token, motion, density or colour                | [`docs/STYLES.md`](docs/STYLES.md)                     |
-| Touch React Native, SwiftUI, Compose, Tauri, desktop or icons  | [`docs/PLATFORMS.md`](docs/PLATFORMS.md)               |
+| Touch React Native, Tauri, desktop or icons                    | [`docs/PLATFORMS.md`](docs/PLATFORMS.md)               |
 | Declare an item, run the registry build, touch generated files | [`docs/REGISTRY.md`](docs/REGISTRY.md)                 |
 | Touch the CLI, `/init`, `/create` or project setup             | [`docs/CLI.md`](docs/CLI.md)                           |
 | Work on the website outside the registry                       | [`docs/WEBSITE.md`](docs/WEBSITE.md)                   |
@@ -32,8 +32,6 @@ Scripts live in the root `package.json`; the demos' live in `demos/package.json`
 | `demos/electron`         | Electron window around the site's `/desktop` route                                    |
 | `demos/tauri`            | Tauri: the React explorer bundled for mobile, and the `/desktop` route in `desktop/`  |
 | `demos/react-native`     | Private Expo app; its own install, outside the bun workspace                          |
-| `demos/swiftui`          | iOS/iPadOS/macOS component explorer; XcodeGen project and Bun launchers               |
-| `demos/compose`          | Compose Android/JVM explorer; Gradle hosts and Bun launchers                          |
 | `packages/cli`           | The `fabricator-ui` CLI                                                               |
 | `packages/setup`         | Private, pure: one project setup, its command, plan and agent prompt                  |
 | `packages/icons*`        | Fabricator Icons: `icons-core` sources, `icons`, `icons-react-native`, `icons-static` |
@@ -50,7 +48,6 @@ Scripts live in the root `package.json`; the demos' live in `demos/package.json`
 - **Placeholder:** a `cn-*` class in source (`cn-button-variant-outline`) that the build replaces with the Tailwind classes in a **style map** (`registry/styles/…`).
 - **Superset:** a replacement keeps every upstream name, prop, variant, export and `data-slot`, and only adds.
 - **Native tree:** `apps/web/registry/native/`, the React Native version of every item under the same names. Not a base.
-- **Native-language trees:** `registry/swiftui/` and `registry/compose/` under `apps/web`; idiomatic source APIs backed by the shared platform contract. Their qualification gaps are recorded separately.
 - **Parity:** across bases (same behaviour and look), with upstream (byte-identical output in upstream styles), across platforms (native matches web's API).
 
 ## The contract
@@ -66,7 +63,6 @@ A change that breaks one of these is a bug, even if everything builds. Code comm
 7. **Bun is the toolchain.** `bun install`, `bun run`, `bunx --bun`, one `bun.lock`. Only `scripts/publish.sh` uses `npm publish`.
 8. **Attribution.** Upstream-derived files stay MIT, with shadcn's copyright in `LICENSE.md` and `NOTICE.md`.
 9. **Platform parity.** A web change to a component's API, variants or look lands in the native tree in the same change, or adds a dated entry to `registry/native/parity-exceptions.json`. Native registry source never imports from `demos/react-native`.
-10. **Native-language parity.** SwiftUI/Compose keep component names, variant/state meaning, shared token and icon geometry, and behavior intent through idiomatic native APIs. Update the owning renderer or its dated `parity-exceptions.json` in the same change. Source coverage, compilation and behavior verification are separate results. Native library source imports no demo.
 
 ## Brand
 

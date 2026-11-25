@@ -116,6 +116,7 @@ export const dataItems: Registry["items"] = [
       "cn",
       "react-native-gesture-handler",
       "react-native-reanimated",
+      UNIWIND,
     ],
     registryDependencies: [
       "@fabricator/button",
@@ -127,6 +128,7 @@ export const dataItems: Registry["items"] = [
     ],
     files: [
       { path: "ui/toast.tsx", type: "registry:ui" },
+      { path: "lib/toast-stack-model.ts", type: "registry:lib" },
       { path: "lib/toast-store.ts", type: "registry:lib" },
       { path: "lib/toast-model.ts", type: "registry:lib" },
     ],

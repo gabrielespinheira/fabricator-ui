@@ -44,6 +44,10 @@ export const explorerConfig = {
         replacement: `${webDirectory}/styles/base-fabricator/ui/`,
       },
       {
+        find: /^@\/registry\/base-fabricator\/hooks\/use-mobile$/,
+        replacement: path.join(webDirectory, "hooks/use-mobile.ts"),
+      },
+      {
         find: /^@\/registry\/base-fabricator\/(ui|lib|hooks)\//,
         replacement: `${webDirectory}/styles/base-fabricator/$1/`,
       },

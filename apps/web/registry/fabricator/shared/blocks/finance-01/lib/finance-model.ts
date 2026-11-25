@@ -1,7 +1,8 @@
-// The numbers behind the finance home: periods, the cash line, the headline
-// metrics and spending, and how money and changes are written. Pure, so the
-// page only wires them to the components. Replace `PERIOD_FLOWS` and
-// `BALANCE` with your ledger's totals.
+import { type BrandIconComponent } from "@fabricator-ui/icons/brands"
+
+// The numbers behind the overview: every one is worked out from the accounts
+// and the ledger's entries, so they always add up. Pure, so the page only
+// wires them to the components.
 
 export type FinancePeriod = "7d" | "30d" | "90d" | "12m"
 
@@ -12,13 +13,76 @@ export const FINANCE_PERIODS = [
   { value: "12m", label: "12 months" },
 ] as const satisfies ReadonlyArray<{ value: FinancePeriod; label: string }>
 
+export type FinanceCounterparty =
+  | { kind: "brand"; name: string; logo: BrandIconComponent }
+  | { kind: "initials"; name: string; initials: string }
+
+export type FinanceAccountId = "checking" | "treasury" | "savings" | "card"
+
+export type FinanceCategory =
+  | "Revenue"
+  | "Interest"
+  | "Payroll"
+  | "Cloud"
+  | "Software"
+  | "Marketing"
+  | "Contractors"
+  | "Office"
+  | "Other"
+
+export type FinanceStatus = "completed" | "pending" | "declined"
+
+/** One movement of money. Only completed ones have moved the balance. */
+export type FinanceEntry = {
+  /** The day it happened, as YYYY-MM-DD. */
+  date: string
+  /** In is positive, out is negative. */
+  amount: number
+  accountId: FinanceAccountId
+  category: FinanceCategory
+  status: FinanceStatus
+}
+
+export type FinanceTransaction = FinanceEntry & {
+  id: string
+  payee: FinanceCounterparty
+}
+
+export type FinanceApproval = {
+  id: string
+  payee: FinanceCounterparty
+  detail: string
+  /** A reimbursement has no due date. */
+  due: string | null
+  submitted: string
+  amount: number
+  category: FinanceCategory
+}
+
+export type FinanceAccount = {
+  id: Exclude<FinanceAccountId, "card">
+  name: string
+  detail: string
+  balance: number
+}
+
+export type FinanceCard = {
+  id: "card"
+  name: string
+  number: string
+  detail: string
+  limit: number
+}
+
 export type DeltaUnit = "%" | " mo"
 
 export type DeltaTone = "success" | "destructive" | "neutral"
 
 export type FinanceMetric = {
-  id: "cash" | "in" | "out" | "runway"
+  id: "in" | "out" | "runway"
   label: string
+  /** What the number is worked out from, when the period doesn't say. */
+  scope?: string
   value: string
   previous: string
   change: number
@@ -38,29 +102,37 @@ export type SpendingCategory = {
 }
 
 export type FinanceOverview = {
-  /** How often the cash line has a point: "Daily", "Weekly", "Monthly". */
-  grain: string
-  balance: number
+  /** How often the cash line has a point. */
+  grain: "Daily" | "Weekly"
+  /** The balance when the period started. */
+  previousCash: number
   cashChange: number
+  moneyIn: number
+  moneyOut: number
+  /** Part of money out that `spending` leaves out. */
+  payroll: number
   metrics: FinanceMetric[]
   cash: CashPoint[]
   spending: SpendingCategory[]
 }
 
-type Flow = { current: number; previous: number }
+const MINUS = "−"
+const DAY = 86_400_000
+const DAYS_PER_MONTH = 30.44
+/** Whole weeks and three payrolls, so every day of the week weighs the same. */
+const RUNWAY_WEEKS = 13
+const RUNWAY_DAYS = RUNWAY_WEEKS * 7
 
-type PeriodFlows = {
-  days: number
-  points: number
-  step: "day" | "week" | "month"
-  moneyIn: Flow
-  moneyOut: Flow
+const PERIOD_LENGTHS: Record<
+  FinancePeriod,
+  { days: number; step: number; grain: FinanceOverview["grain"] }
+> = {
+  "7d": { days: 7, step: 1, grain: "Daily" },
+  "30d": { days: 30, step: 1, grain: "Daily" },
+  "90d": { days: 90, step: 1, grain: "Daily" },
+  "12m": { days: 365, step: 7, grain: "Weekly" },
 }
 
-const GRAINS = { day: "Daily", week: "Weekly", month: "Monthly" } as const
-
-const MINUS = "−"
-const DAYS_PER_MONTH = 30.44
 const MONTHS = [
   "Jan",
   "Feb",
@@ -76,59 +148,13 @@ const MONTHS = [
   "Dec",
 ]
 
-/** The balance across every account today, and the day the data ends. */
-const BALANCE = 1_284_310
-const TODAY = Date.UTC(2026, 10, 17)
-
-const PERIOD_FLOWS: Record<FinancePeriod, PeriodFlows> = {
-  "7d": {
-    days: 7,
-    points: 7,
-    step: "day",
-    moneyIn: { current: 64_200, previous: 57_900 },
-    moneyOut: { current: 89_400, previous: 93_100 },
-  },
-  "30d": {
-    days: 30,
-    points: 30,
-    step: "day",
-    moneyIn: { current: 268_400, previous: 238_800 },
-    moneyOut: { current: 391_200, previous: 403_700 },
-  },
-  "90d": {
-    days: 90,
-    points: 13,
-    step: "week",
-    moneyIn: { current: 772_600, previous: 671_300 },
-    moneyOut: { current: 1_186_500, previous: 1_152_900 },
-  },
-  "12m": {
-    days: 365,
-    points: 12,
-    step: "month",
-    moneyIn: { current: 2_846_000, previous: 1_912_000 },
-    moneyOut: { current: 4_512_000, previous: 3_388_000 },
-  },
-}
-
-// Shares of money out, smallest last; the long tail is folded into "Other".
-const SPENDING_SHARES = [
-  { category: "Payroll", share: 0.58 },
-  { category: "Cloud", share: 0.11 },
-  { category: "Software", share: 0.09 },
-  { category: "Office", share: 0.07 },
-  { category: "Marketing", share: 0.06 },
-  { category: "Contractors", share: 0.05 },
-  { category: "Other", share: 0.04 },
-]
-
 export function isFinancePeriod(value: unknown): value is FinancePeriod {
   return FINANCE_PERIODS.some((period) => period.value === value)
 }
 
 export function getComparisonLabel(period: FinancePeriod) {
   const label = FINANCE_PERIODS.find(({ value }) => value === period)?.label
-  return `Compared with the previous ${label}`
+  return `vs the previous ${label}`
 }
 
 export function formatMoney(
@@ -160,6 +186,19 @@ export function formatMoneyCompact(value: number) {
   return `${sign}$${trimZeros((size / 1_000_000).toFixed(2))}M`
 }
 
+function formatDay(day: number) {
+  const date = new Date(day * DAY)
+  return `${MONTHS[date.getUTCMonth()]} ${date.getUTCDate()}`
+}
+
+export function formatDate(date: string) {
+  return formatDay(getDay(Date.parse(date)))
+}
+
+function getDay(time: number) {
+  return Math.floor(time / DAY)
+}
+
 function roundToTenth(value: number) {
   return Math.round(value * 10) / 10
 }
@@ -182,140 +221,196 @@ export function getDeltaTone(change: number, isGoodWhenUp: boolean): DeltaTone {
   return change > 0 === isGoodWhenUp ? "success" : "destructive"
 }
 
-/** Months of cash left at the period's average monthly net burn. */
-export function getRunwayMonths(
-  cash: number,
-  moneyIn: number,
-  moneyOut: number,
-  days: number
-) {
-  const monthlyBurn = ((moneyOut - moneyIn) / days) * DAYS_PER_MONTH
-  if (monthlyBurn <= 0) return Infinity
-  return cash / monthlyBurn
-}
-
 /** Short enough for a stat card two across on a phone. */
 export function formatRunway(months: number) {
   if (!Number.isFinite(months)) return "No burn"
   return `${months.toFixed(1)} mo`
 }
 
-function formatDay(time: number) {
-  const date = new Date(time)
-  return `${MONTHS[date.getUTCMonth()]} ${date.getUTCDate()}`
+export function getTotalCash(accounts: ReadonlyArray<{ balance: number }>) {
+  return accounts.reduce((sum, { balance }) => sum + balance, 0)
 }
 
-function getPointLabel(step: PeriodFlows["step"], stepsBack: number) {
-  if (step === "month") {
-    const month = new Date(TODAY).getUTCMonth() - stepsBack
-    return MONTHS[(month + 12 * 2) % 12]
-  }
-  const days = step === "week" ? stepsBack * 7 : stepsBack
-  return formatDay(TODAY - days * 86_400_000)
-}
-
-// A steady wobble that is the same on the server and in the browser, and
-// zero at both ends so the line starts and ends on the real balances.
-function getWobble(index: number, points: number, seed: number) {
-  const t = index / (points - 1)
-  const noise = Math.sin(index * 12.9898 + seed * 78.233) * 43_758.5453
-  const fraction = noise - Math.floor(noise) - 0.5
-  return fraction * Math.sin(Math.PI * t)
-}
-
-function getLine(
-  start: number,
-  end: number,
-  points: number,
-  seed: number
-): number[] {
-  const amplitude = Math.max(Math.abs(end - start), end * 0.04) * 0.35
-  return Array.from({ length: points }, (_, index) => {
-    const t = index / (points - 1)
-    const value = start + (end - start) * t
-    return Math.round(value + getWobble(index, points, seed) * amplitude)
+/**
+ * Each account's whole percent of the cash. The largest remainders round up,
+ * so the percents make exactly 100.
+ */
+export function getAccountShares(
+  accounts: ReadonlyArray<{ id: string; balance: number }>
+): Record<string, number> {
+  const total = getTotalCash(accounts)
+  const shares = accounts.map(({ id, balance }) => {
+    const exact = total > 0 ? (balance / total) * 100 : 0
+    return { id, whole: Math.floor(exact), rest: exact - Math.floor(exact) }
   })
+  const floored = shares.reduce((sum, { whole }) => sum + whole, 0)
+  const missing = total > 0 ? 100 - floored : 0
+  const roundedUp = new Set(
+    [...shares]
+      .sort((a, b) => b.rest - a.rest)
+      .slice(0, missing)
+      .map(({ id }) => id)
+  )
+  return Object.fromEntries(
+    shares.map(({ id, whole }) => [id, roundedUp.has(id) ? whole + 1 : whole])
+  )
 }
 
-function getSpending(moneyOut: number): SpendingCategory[] {
-  const rounded = SPENDING_SHARES.map(({ category, share }) => ({
-    category,
-    amount: Math.round(moneyOut * share),
-  }))
-  // Rounding leaves a few dollars over or under; the largest takes them.
-  const remainder =
-    moneyOut - rounded.reduce((sum, { amount }) => sum + amount, 0)
-  rounded[0].amount += remainder
-  return rounded.sort((a, b) => b.amount - a.amount)
+/** What this month's card payments take of its limit, pending included. */
+export function getCardSpent(entries: readonly FinanceEntry[], now: number) {
+  const month = new Date(now).toISOString().slice(0, 7)
+  return entries
+    .filter(
+      ({ accountId, status, date }) =>
+        accountId === "card" && status !== "declined" && date.startsWith(month)
+    )
+    .reduce((sum, { amount }) => sum - amount, 0)
 }
 
-export function getFinanceOverview(period: FinancePeriod): FinanceOverview {
-  const { days, points, step, moneyIn, moneyOut } = PERIOD_FLOWS[period]
-  const start = BALANCE - moneyIn.current + moneyOut.current
-  const previousStart = start - moneyIn.previous + moneyOut.previous
-  const current = getLine(start, BALANCE, points, 1)
-  const previous = getLine(previousStart, start, points, 2)
-  const cash = current.map((value, index) => ({
-    date: getPointLabel(step, points - 1 - index),
-    current: value,
-    previous: previous[index],
-  }))
+type Flows = { moneyIn: number; moneyOut: number }
+
+function getFlows(entries: readonly FinanceEntry[]): Flows {
+  return entries.reduce(
+    (flows, { amount }) => ({
+      moneyIn: flows.moneyIn + Math.max(0, amount),
+      moneyOut: flows.moneyOut + Math.max(0, -amount),
+    }),
+    { moneyIn: 0, moneyOut: 0 }
+  )
+}
+
+/** Months of cash left at the monthly net burn of those `days`. */
+function getRunwayMonths(cash: number, flows: Flows, days: number) {
+  const monthlyBurn = ((flows.moneyOut - flows.moneyIn) / days) * DAYS_PER_MONTH
+  if (monthlyBurn <= 0) return Infinity
+  return cash / monthlyBurn
+}
+
+/** Largest first, with "Other" last whatever it holds. */
+function getSpending(entries: readonly FinanceEntry[]): SpendingCategory[] {
+  const amounts = new Map<string, number>()
+  for (const { amount, category } of entries) {
+    if (amount >= 0 || category === "Payroll") continue
+    amounts.set(category, (amounts.get(category) ?? 0) - amount)
+  }
+  return [...amounts]
+    .map(([category, amount]) => ({ category, amount }))
+    .sort(
+      (a, b) =>
+        Number(a.category === "Other") - Number(b.category === "Other") ||
+        b.amount - a.amount
+    )
+}
+
+/** Completed entries, with how many days before `now` they happened. */
+function getLedger(entries: readonly FinanceEntry[], now: number) {
+  const today = getDay(now)
+  const dated = entries
+    .filter(({ status }) => status === "completed")
+    .map((entry) => ({ entry, age: today - getDay(Date.parse(entry.date)) }))
+  return {
+    /** The entries of `days` days, the last of them `offset` days ago. */
+    getWindow: (days: number, offset = 0) =>
+      dated
+        .filter(({ age }) => age >= offset && age < offset + days)
+        .map(({ entry }) => entry),
+    /** Closing balances by age: today's first, one per day back to `days`. */
+    getBalances: (balance: number, days: number) => {
+      const nets = new Map<number, number>()
+      for (const { entry, age } of dated) {
+        nets.set(age, (nets.get(age) ?? 0) + entry.amount)
+      }
+      const balances = [balance]
+      for (let age = 0; age < days; age++) {
+        balances.push(balances[age] - (nets.get(age) ?? 0))
+      }
+      return balances
+    },
+  }
+}
+
+export function getFinanceOverview({
+  period,
+  entries,
+  balance,
+  now,
+}: {
+  period: FinancePeriod
+  entries: readonly FinanceEntry[]
+  /** The cash across every account today. */
+  balance: number
+  now: number
+}): FinanceOverview {
+  const { days, step, grain } = PERIOD_LENGTHS[period]
+  const today = getDay(now)
+  const ledger = getLedger(entries, now)
+  const balances = ledger.getBalances(balance, days * 2)
+  const points = Math.floor((days - 1) / step) + 1
+
+  const cash = Array.from({ length: points }, (_, index): CashPoint => {
+    const age = (points - 1 - index) * step
+    return {
+      date: formatDay(today - age),
+      current: balances[age],
+      previous: balances[age + days],
+    }
+  })
+
+  const current = ledger.getWindow(days)
+  const flows = getFlows(current)
+  const previousFlows = getFlows(ledger.getWindow(days, days))
+  const previousCash = balances[days]
+  const payroll = getFlows(
+    current.filter(({ category }) => category === "Payroll")
+  ).moneyOut
 
   const runway = getRunwayMonths(
-    BALANCE,
-    moneyIn.current,
-    moneyOut.current,
-    days
+    balance,
+    getFlows(ledger.getWindow(RUNWAY_DAYS)),
+    RUNWAY_DAYS
   )
   const previousRunway = getRunwayMonths(
-    start,
-    moneyIn.previous,
-    moneyOut.previous,
-    days
+    previousCash,
+    getFlows(ledger.getWindow(RUNWAY_DAYS, days)),
+    RUNWAY_DAYS
   )
   const runwayChange =
     Number.isFinite(runway) && Number.isFinite(previousRunway)
       ? roundToTenth(runway - previousRunway)
       : 0
-  const cashChange = getChange(BALANCE, start)
 
   return {
-    grain: GRAINS[step],
-    balance: BALANCE,
-    cashChange,
+    grain,
     cash,
-    spending: getSpending(moneyOut.current),
+    previousCash,
+    cashChange: getChange(balance, previousCash),
+    moneyIn: flows.moneyIn,
+    moneyOut: flows.moneyOut,
+    payroll,
+    spending: getSpending(current),
     metrics: [
-      {
-        id: "cash",
-        label: "Total cash",
-        value: formatMoneyCompact(BALANCE),
-        previous: formatMoneyCompact(start),
-        change: cashChange,
-        unit: "%",
-        isGoodWhenUp: true,
-      },
       {
         id: "in",
         label: "Money in",
-        value: formatMoneyCompact(moneyIn.current),
-        previous: formatMoneyCompact(moneyIn.previous),
-        change: getChange(moneyIn.current, moneyIn.previous),
+        value: formatMoneyCompact(flows.moneyIn),
+        previous: formatMoneyCompact(previousFlows.moneyIn),
+        change: getChange(flows.moneyIn, previousFlows.moneyIn),
         unit: "%",
         isGoodWhenUp: true,
       },
       {
         id: "out",
         label: "Money out",
-        value: formatMoneyCompact(moneyOut.current),
-        previous: formatMoneyCompact(moneyOut.previous),
-        change: getChange(moneyOut.current, moneyOut.previous),
+        value: formatMoneyCompact(flows.moneyOut),
+        previous: formatMoneyCompact(previousFlows.moneyOut),
+        change: getChange(flows.moneyOut, previousFlows.moneyOut),
         unit: "%",
         isGoodWhenUp: false,
       },
       {
         id: "runway",
         label: "Runway",
+        scope: `at ${RUNWAY_WEEKS}-week burn`,
         value: formatRunway(runway),
         previous: formatRunway(previousRunway),
         change: runwayChange,
@@ -326,10 +421,77 @@ export function getFinanceOverview(period: FinancePeriod): FinanceOverview {
   }
 }
 
-export function getApprovalSummary(
-  approvals: ReadonlyArray<{ amount: number }>
+export function getSpendingScope(payroll: number) {
+  if (payroll === 0) return "No payroll in this period"
+  return `Without ${formatMoneyCompact(payroll)} of payroll`
+}
+
+/** What still waits, due soonest first and undated last. */
+export function getWaitingApprovals(
+  approvals: readonly FinanceApproval[],
+  approvedIds: readonly string[]
 ) {
-  if (approvals.length === 0) return "Nothing waiting"
+  return approvals
+    .filter(({ id }) => !approvedIds.includes(id))
+    .sort((a, b) => {
+      if (a.due === b.due) return a.submitted.localeCompare(b.submitted)
+      if (a.due === null) return 1
+      if (b.due === null) return -1
+      return a.due.localeCompare(b.due)
+    })
+}
+
+export function getApprovalsLead(approvals: ReadonlyArray<{ amount: number }>) {
   const total = approvals.reduce((sum, { amount }) => sum + amount, 0)
-  return `${approvals.length} waiting, ${formatMoney(total, { cents: true })} in total`
+  if (approvals.length === 0) return "No payments wait for you."
+  if (approvals.length === 1) {
+    return `1 payment waits for you, ${formatMoney(total)}.`
+  }
+  return `${approvals.length} payments wait for you, ${formatMoney(total)} in total.`
+}
+
+export function getDueStatus(
+  { due, submitted }: Pick<FinanceApproval, "due" | "submitted">,
+  now: number
+) {
+  if (due === null) {
+    return { label: `Submitted ${formatDate(submitted)}`, isLate: false }
+  }
+  const daysLeft = getDay(Date.parse(due)) - getDay(now)
+  if (daysLeft === 0) return { label: "Due today", isLate: false }
+  const label = `Due ${formatDate(due)}`
+  if (daysLeft > 0) return { label, isLate: false }
+  const late = -daysLeft === 1 ? "1 day" : `${-daysLeft} days`
+  return { label: `${label}, ${late} late`, isLate: true }
+}
+
+/** The payment an approval sends: pending today, until the bank posts it. */
+export function toPayment(
+  approval: FinanceApproval,
+  now: number
+): FinanceTransaction {
+  return {
+    id: `payment-${approval.id}`,
+    payee: approval.payee,
+    date: new Date(now).toISOString().slice(0, 10),
+    amount: -approval.amount,
+    accountId: "checking",
+    category: approval.category,
+    status: "pending",
+  }
+}
+
+/** Newest first; payments just approved come before the rest of their day. */
+export function getRecentTransactions({
+  transactions,
+  payments,
+  count,
+}: {
+  transactions: readonly FinanceTransaction[]
+  payments: readonly FinanceTransaction[]
+  count: number
+}) {
+  return [...payments, ...transactions]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, count)
 }

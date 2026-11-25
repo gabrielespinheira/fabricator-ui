@@ -212,16 +212,20 @@ export const navigationItems: Registry["items"] = [
     type: "registry:ui",
     title: "User Menu",
     description:
-      "The signed-in person's menu, as a sidebar row or an avatar alone.",
+      "The signed-in person's menu, as a sidebar row or an avatar alone, with tabs for the theme.",
     dependencies: ["@fabricator-ui/icons-react-native", "cn"],
     registryDependencies: [
       "@fabricator/avatar",
       "@fabricator/dropdown-menu",
       "@fabricator/menu-sheet",
       "@fabricator/sidebar",
+      "@fabricator/tabs",
       "@fabricator/text",
     ],
-    files: [{ path: "ui/user-menu.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/user-menu.tsx", type: "registry:ui" },
+      { path: "lib/theme-toggle-model.ts", type: "registry:lib" },
+    ],
     meta: docs("user-menu"),
   },
   {

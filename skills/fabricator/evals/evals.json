@@ -337,6 +337,48 @@
         "Stops after at most three rounds and says why it stopped",
         "Reports before and after pictures and what was not looked at"
       ]
+    },
+    {
+      "id": 25,
+      "prompt": "Our app uses the Fabricator App Shell as installed. Adapt it to our support desk: queues with counts, saved views, customers, reports for leads only, a settings area with its own navigation, customer details beside a conversation, and availability always visible. Phone included.",
+      "expected_output": "One App Shell in the layout with a sidebar, navigation as a pure function of role and data, pages that render their own column and panel, swapped groups for settings, a status bar, and an empty shellProblems at desktop and phone widths.",
+      "files": [],
+      "expectations": [
+        "Reads app-shell.md and recipes/app-shell.md before changing the frame",
+        "Keeps one AppShell and one Sidebar mounted across routes, and lets each page render AppShellMain and its panel as direct children of the shell",
+        "Declares navigation once as data from role, counts and records, with permanent unique ids, and feeds the sidebar, the bottom nav and the breadcrumb from it",
+        "Passes renderLink without children everywhere",
+        "Swaps groups for settings instead of nesting a shell or adding a second sidebar, with a way back",
+        "Puts the list in the main column and the open conversation where a phone can reach it, with panel state above the panel",
+        "Uses header actions as data, the panel trigger last, and the status bar for what is true of the whole workspace",
+        "Runs probe.js at 1440 and 390 and ends with no shellProblems",
+        "Checks the sidebar open, collapsed and on a phone, and each role"
+      ]
+    },
+    {
+      "id": 26,
+      "prompt": "Add a plan usage meter and a global search to our Fabricator sidebar, and make it collapse to icons.",
+      "expected_output": "Sidebar parts composed in SidebarHeader and SidebarFooter, collapsible=\"icon\" on Sidebar, rail-safe content, and a registered shortcut.",
+      "files": [],
+      "expectations": [
+        "Composes SidebarMenu, SidebarMenuItem and SidebarMenuButton with icon and tooltip for the search row",
+        "Registers the shortcut with useShellShortcut rather than a keydown listener",
+        "Sets collapsible=\"icon\" on Sidebar and hides what the rail can't hold with group-data-[collapsible=icon]:hidden",
+        "Adds no wrapper around Sidebar or AppShellMain and no second provider",
+        "Looks at the sidebar expanded, as a rail and on a phone, and reports shellProblems"
+      ]
+    },
+    {
+      "id": 27,
+      "prompt": "After a refactor our Fabricator app's main area lost its rounded card and the status bar runs under the sidebar. Nothing is logged. Fix it.",
+      "expected_output": "Finds the element between AppShell and its parts, or the extra provider, by structure and removes it without restyling anything.",
+      "files": [],
+      "expectations": [
+        "Draws the tree against the structure in app-shell.md or runs the probe to name the broken rule",
+        "Restores Sidebar, AppShellMain, panels and the status bar as direct children in order",
+        "Adds no class or style to imitate the lost card",
+        "Verifies at 1440 and 390 with the sidebar open and collapsed"
+      ]
     }
   ]
 }

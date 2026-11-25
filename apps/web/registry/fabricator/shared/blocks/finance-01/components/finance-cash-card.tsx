@@ -5,7 +5,9 @@ import * as React from "react"
 import { FinanceDelta } from "@/registry/bases/__base__/blocks/finance-01/components/finance-delta"
 import {
   formatMoney,
+  formatMoneyCompact,
   type CashPoint,
+  type FinanceOverview,
 } from "@/registry/bases/__base__/blocks/finance-01/lib/finance-model"
 import {
   type ChartActive,
@@ -33,20 +35,16 @@ const WITH_PREVIOUS: ChartConfig = {
 
 const formatValue = (value: number) => formatMoney(value)
 
-/** The cash balance over the period; the headline follows the pointer. */
+/** The cash across every account over the period; its total leads the page. */
 export function FinanceCashCard({
-  cash,
+  overview,
   balance,
-  change,
-  grain,
   isComparing,
   isLoading,
   className,
 }: {
-  cash: CashPoint[]
+  overview: FinanceOverview
   balance: number
-  change: number
-  grain: string
   isComparing: boolean
   isLoading: boolean
   className?: string
@@ -59,23 +57,29 @@ export function FinanceCashCard({
     <Card className={className}>
       <CardHeader>
         <CardTitle>Cash balance</CardTitle>
-        <CardDescription>{grain}, across all accounts</CardDescription>
+        <CardDescription>{overview.grain}, across all accounts</CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-(--density-16)">
-        <div className="flex flex-col gap-(--density-4)">
-          <span className="text-muted-foreground">
-            {active ? active.datum.date : "Today"}
+      <CardContent className="flex flex-1 flex-col gap-(--density-16)">
+        {/* The headline follows the pointer along the line. */}
+        <div className="flex min-h-(--density-32) flex-wrap items-center gap-x-(--density-8) text-(length:--density-text-12) text-muted-foreground">
+          <span className="text-2xl tracking-tight text-foreground tabular-nums weight-semibold">
+            {formatMoney(active ? active.datum.current : balance)}
           </span>
-          <div className="flex flex-wrap items-center gap-(--density-8)">
-            <span className="text-2xl tracking-tight tabular-nums weight-semibold">
-              {formatMoney(active ? active.datum.current : balance)}
-            </span>
-            {!active && <FinanceDelta change={change} isGoodWhenUp unit="%" />}
-          </div>
+          {active && <span>on {active.datum.date}</span>}
+          {!active && isComparing && (
+            <>
+              <FinanceDelta
+                change={overview.cashChange}
+                isGoodWhenUp
+                unit="%"
+              />
+              <span>from {formatMoneyCompact(overview.previousCash)}</span>
+            </>
+          )}
         </div>
         <LineChart
-          className="h-56 @4xl:h-64"
-          data={cash}
+          className="h-60 @4xl:h-auto @4xl:min-h-64 @4xl:flex-1"
+          data={overview.cash}
           index="date"
           config={isComparing ? WITH_PREVIOUS : CURRENT}
           label="Cash balance"

@@ -115,12 +115,21 @@ type AppNavItem = NavItem<AppNavIcon>
 type AppNavGroup = NavGroup<AppNavIcon>
 type AppNavAction = NavAction<AppNavIcon>
 
-/** Returns the link element for an item, without children (a router Link). */
+/** The link element for an item (a router Link). The row fills it. */
 type AppNavRenderLink = (item: AppNavItem) => React.ReactElement
 
 const renderAnchor: AppNavRenderLink = (item) => (
   <a href={item.href}>{item.label}</a>
 )
+
+type LinkProps = { children?: React.ReactNode }
+
+/** The link without its own children, so a row's icon and label go in it. */
+function emptyLink(link: React.ReactElement) {
+  if (!React.isValidElement<LinkProps>(link)) return link
+  const { children: _children, ...props } = link.props
+  return React.createElement(link.type, props)
+}
 
 /** renderLink returns a link without children; asChild needs them in it. */
 function withChildren(element: React.ReactElement, children: React.ReactNode) {
@@ -1217,7 +1226,7 @@ function AppNavBottomBar({
           isActive={containsNavItem(item, activeId)}
           asChild
         >
-          {renderLink(item)}
+          {emptyLink(renderLink(item))}
         </AppShellBottomNavItem>
       ))}
     </AppShellBottomNav>

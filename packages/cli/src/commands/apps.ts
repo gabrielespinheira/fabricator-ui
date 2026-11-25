@@ -3,6 +3,9 @@ import { tmpdir } from "node:os"
 import path from "node:path"
 import {
   DEFAULT_PROJECT_SETUP,
+  formatCommand,
+  getNextSteps,
+  getTauriMobileSetupError,
   parseKeyValues,
   type DesktopRuntime,
   type ProjectSetup,
@@ -10,9 +13,12 @@ import {
 import { Command } from "commander"
 
 import { addDesktopWindowToLayout } from "../setup/layout-window"
+import { getPackageOnlyDirectory } from "../setup/package-install"
 import { STEPS, type SetupContext } from "../setup/steps"
+import { getRegistryUrl, readComponentsJson } from "../utils/config"
 import { detectFramework } from "../utils/frameworks"
 import { highlight, logger } from "../utils/logger"
+import { NAMESPACE } from "../utils/names"
 import { detectPackageManager } from "../utils/package-manager"
 import { runShadcn } from "../utils/shadcn"
 import { getBaseUrl } from "../utils/urls"
@@ -50,11 +56,13 @@ function requireMonorepo(cwd: string) {
 }
 
 function baseSetup(root: string, look: string | undefined): ProjectSetup {
+  const web = path.join(root, "apps/web")
   return {
     ...DEFAULT_PROJECT_SETUP,
     project: "monorepo",
     name: path.basename(root),
-    framework: detectFramework(path.join(root, "apps/web")) ?? "next",
+    framework: detectFramework(web) ?? "next",
+    distribution: getPackageOnlyDirectory(web) ? "package" : "source",
     look: look ? parseKeyValues(look) : {},
   }
 }
@@ -63,6 +71,9 @@ async function addMobile(
   root: string,
   options: { look?: string; shell?: boolean; sounds?: boolean }
 ) {
+  if (existsSync(path.join(root, "apps/mobile/src-tauri"))) {
+    throw new Error("apps/mobile already contains a Tauri host.")
+  }
   const setup: ProjectSetup = {
     ...baseSetup(root, options.look),
     mobile: true,
@@ -70,6 +81,18 @@ async function addMobile(
     sound: options.sounds !== false,
   }
   const context = buildContext(root, setup)
+  if (setup.distribution === "package") {
+    for (const id of [
+      "scaffold-mobile",
+      "configure-workspace",
+      "configure-package-mobile",
+      "install",
+    ] as const) {
+      logger.info(id.replaceAll("-", " "))
+      await STEPS[id](context)
+    }
+    return context.notes
+  }
   for (const id of [
     "scaffold-mobile",
     "configure-workspace",
@@ -88,6 +111,39 @@ async function addMobile(
   return context.notes
 }
 
+async function addTauriMobile(root: string) {
+  const setup: ProjectSetup = {
+    ...baseSetup(root, undefined),
+    mobile: true,
+    mobileRuntime: "tauri",
+  }
+  if (getTauriMobileSetupError(setup)) {
+    throw new Error(
+      "Tauri mobile needs a Fabricator React + Vite app in apps/web."
+    )
+  }
+  const context = buildContext(root, setup)
+  const components = readComponentsJson(context.webDir)
+  if (
+    setup.distribution === "source" &&
+    (!("config" in components) || !getRegistryUrl(components.config, NAMESPACE))
+  ) {
+    throw new Error(
+      "Set up Fabricator UI in apps/web before adding its Tauri mobile host."
+    )
+  }
+  await STEPS["scaffold-tauri-mobile"](context)
+  await STEPS.install(context)
+  logger.success("Added the Tauri host in apps/mobile.")
+  for (const { label, code } of getNextSteps(
+    { ...setup, web: false },
+    context.packageManager
+  ).slice(1)) {
+    logger.log(`  ${label}: ${highlight.info(code)}`)
+  }
+  return context.notes
+}
+
 async function addDesktop(root: string, runtime: DesktopRuntime) {
   const setup: ProjectSetup = {
     ...baseSetup(root, undefined),
@@ -103,6 +159,7 @@ async function addDesktop(root: string, runtime: DesktopRuntime) {
     await STEPS[id](context)
   }
   const webDir = path.join(root, "apps/web")
+  if (setup.distribution === "package") return context.notes
   await runShadcn([
     "add",
     "@fabricator/desktop-window",
@@ -138,9 +195,12 @@ export function createAppsCommand(): Command {
   )
   apps
     .command("add")
-    .description("add an app: mobile, or desktop with electron or tauri")
+    .description("add a mobile or desktop app")
     .argument("<app>", "mobile or desktop")
-    .argument("[runtime]", "for desktop: electron or tauri")
+    .argument(
+      "[runtime]",
+      "mobile: expo (default) or tauri; desktop: electron or tauri"
+    )
     .option("--look <values>", "the look, as key=value pairs, for mobile")
     .option("--no-shell", "skip the App Shell, for mobile")
     .option("--no-sounds", "skip the sounds and haptics, for mobile")
@@ -162,7 +222,24 @@ export function createAppsCommand(): Command {
         try {
           const root = requireMonorepo(resolveCwd(options.cwd))
           let notes: string[]
-          if (app === "mobile") {
+          if (app === "mobile" && runtime === "tauri") {
+            if (
+              options.look ||
+              options.shell === false ||
+              options.sounds === false
+            ) {
+              throw new Error(
+                `Configure UI in apps/web with ${formatCommand(["init", "--help"], detectPackageManager(root))}. The Tauri mobile host shares it.`
+              )
+            }
+            for (const note of await addTauriMobile(root))
+              logger.log(`  ${note}`)
+            return
+          }
+          if (
+            app === "mobile" &&
+            (runtime === undefined || runtime === "expo")
+          ) {
             notes = await addMobile(root, options)
           } else if (
             app === "desktop" &&
@@ -171,7 +248,7 @@ export function createAppsCommand(): Command {
             notes = await addDesktop(root, runtime)
           } else {
             throw new Error(
-              "Use `apps add mobile`, `apps add desktop electron` or `apps add desktop tauri`."
+              "Use `apps add mobile [expo|tauri]` or `apps add desktop <electron|tauri>`."
             )
           }
           logger.success(

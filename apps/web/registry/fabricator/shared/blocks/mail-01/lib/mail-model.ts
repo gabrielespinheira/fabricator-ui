@@ -22,6 +22,8 @@ export type MailFolder =
   | "spam"
   | "trash"
 
+export type MailAccountId = "work" | "personal"
+
 export type MailLabelId = "work" | "travel" | "receipts" | "personal"
 
 export type MailView =
@@ -37,6 +39,8 @@ export type MailContact = {
   avatar?: string
   /** A company's logo, by name; see MailAvatar. */
   brand?: string
+  /** A company without a logo here: it goes by its whole name. */
+  isCompany?: boolean
 }
 
 export type MailAttachment = { name: string; size: string }
@@ -47,13 +51,15 @@ export type MailMessage = {
   toIds: string[]
   ccIds?: string[]
   sentAt: number
-  /** Plain text; a blank line starts a new paragraph. */
+  /** Text with light Markdown; a blank line starts a new paragraph. */
   body: string
   attachments?: MailAttachment[]
 }
 
 export type MailThread = {
   id: string
+  /** The account it arrived in. */
+  account: MailAccountId
   subject: string
   box: MailBox
   isUnread: boolean
@@ -64,14 +70,37 @@ export type MailThread = {
   messages: MailMessage[]
 }
 
+/** A new message while it is being written. */
+export type MailDraft = {
+  toIds: string[]
+  subject: string
+  body: string
+  /** A forwarded message, as quoted lines; it goes out under the body. */
+  quote?: string
+  /** Files that come with it, such as the forwarded message's. */
+  attachments?: MailAttachment[]
+}
+
+export type MailReplyMode = "reply" | "replyAll"
+
+/** A reply while it is being written, kept per thread. */
+export type MailReplyDraft = {
+  body: string
+  mode: MailReplyMode
+  files: readonly File[]
+}
+
 export type MailState = {
   threads: MailThread[]
   openId: string | null
   selectedIds: string[]
+  /** Unsent replies by thread id. */
+  replyDrafts: Record<string, MailReplyDraft>
 }
 
 export type MailAction =
   | { type: "open"; id: string }
+  | { type: "close" }
   | { type: "toggleSelected"; id: string }
   | { type: "selectAll"; ids: string[] }
   | { type: "clearSelection" }
@@ -79,7 +108,17 @@ export type MailAction =
   | { type: "snooze"; ids: string[]; until: number; visibleIds: string[] }
   | { type: "setUnread"; ids: string[]; isUnread: boolean }
   | { type: "star"; id: string; isStarred: boolean }
+  /** null discards the draft. */
+  | { type: "draftReply"; id: string; draft: MailReplyDraft | null }
   | { type: "reply"; id: string; message: MailMessage }
+  /** Undo for a reply: the message comes out and its text goes back. */
+  | {
+      type: "unsendReply"
+      id: string
+      messageId: string
+      draft: MailReplyDraft
+    }
+  /** A sent, saved or received thread; replaces an earlier one with its id. */
   | { type: "send"; thread: MailThread }
   /** Undo: the changed threads as they were, and what was open. */
   | { type: "restore"; threads: MailThread[]; openId: string | null }
@@ -153,18 +192,21 @@ export function getVisibleThreads(
     filter,
     query,
     contacts,
+    keepId,
   }: {
     view: MailView
     filter: MailFilter
     query: string
     contacts: MailContact[]
+    /** The open thread: reading it doesn't take it off an Unread list. */
+    keepId?: string | null
   }
 ) {
   return threads
     .filter(
       (thread) =>
         isInView(thread, view) &&
-        matchesFilter(thread, filter) &&
+        (thread.id === keepId || matchesFilter(thread, filter)) &&
         matchesQuery(thread, query, contacts)
     )
     .toSorted((a, b) => getLatestAt(b) - getLatestAt(a))
@@ -181,6 +223,36 @@ export function getMailCounts(threads: MailThread[]) {
   }
 }
 
+export type MailThreadMove =
+  | "archive"
+  | "moveToInbox"
+  | "delete"
+  | "snooze"
+  | "spam"
+
+const MOVES: Record<MailBox, MailThreadMove[]> = {
+  inbox: ["archive", "delete", "snooze", "spam"],
+  sent: ["archive", "delete", "snooze"],
+  archive: ["moveToInbox", "delete", "snooze", "spam"],
+  spam: ["moveToInbox", "delete"],
+  trash: ["moveToInbox"],
+  drafts: ["delete"],
+}
+
+/** Whether an action makes sense where the thread is. */
+export function canApplyMailAction(thread: MailThread, move: MailThreadMove) {
+  if (move === "moveToInbox" && thread.snoozedUntil !== undefined) return true
+  return MOVES[thread.box].includes(move)
+}
+
+/** The snoozed thread that comes back first. */
+export function findNextSnoozed(threads: MailThread[]) {
+  return threads
+    .filter((thread) => isInFolder(thread, "snoozed"))
+    .toSorted((a, b) => (a.snoozedUntil ?? 0) - (b.snoozedUntil ?? 0))
+    .at(0)
+}
+
 // MARK: Actions
 
 /** The thread to open once `ids` leave the list: the next, else the one before. */
@@ -192,6 +264,12 @@ function getNextOpenId(state: MailState, ids: string[], visibleIds: string[]) {
     visibleIds.slice(index + 1).find(remaining) ??
     visibleIds.slice(0, Math.max(index, 0)).findLast(remaining) ??
     null
+  )
+}
+
+function omitDraft(drafts: Record<string, MailReplyDraft>, id: string) {
+  return Object.fromEntries(
+    Object.entries(drafts).filter(([threadId]) => threadId !== id)
   )
 }
 
@@ -216,6 +294,8 @@ export function mailReducer(state: MailState, action: MailAction): MailState {
           isUnread: false,
         })),
       }
+    case "close":
+      return { ...state, openId: null, selectedIds: [] }
     case "toggleSelected":
       return {
         ...state,
@@ -229,6 +309,7 @@ export function mailReducer(state: MailState, action: MailAction): MailState {
       return { ...state, selectedIds: [] }
     case "move":
       return {
+        ...state,
         threads: updateThreads(state.threads, action.ids, (thread) => ({
           ...thread,
           box: action.box,
@@ -239,6 +320,7 @@ export function mailReducer(state: MailState, action: MailAction): MailState {
       }
     case "snooze":
       return {
+        ...state,
         threads: updateThreads(state.threads, action.ids, (thread) => ({
           ...thread,
           box: "inbox",
@@ -264,6 +346,13 @@ export function mailReducer(state: MailState, action: MailAction): MailState {
           isStarred: action.isStarred,
         })),
       }
+    case "draftReply":
+      return {
+        ...state,
+        replyDrafts: action.draft
+          ? { ...state.replyDrafts, [action.id]: action.draft }
+          : omitDraft(state.replyDrafts, action.id),
+      }
     case "reply":
       return {
         ...state,
@@ -271,11 +360,28 @@ export function mailReducer(state: MailState, action: MailAction): MailState {
           ...thread,
           messages: [...thread.messages, action.message],
         })),
+        replyDrafts: omitDraft(state.replyDrafts, action.id),
+      }
+    case "unsendReply":
+      return {
+        ...state,
+        threads: updateThreads(state.threads, [action.id], (thread) => ({
+          ...thread,
+          messages: thread.messages.filter(({ id }) => id !== action.messageId),
+        })),
+        replyDrafts: { ...state.replyDrafts, [action.id]: action.draft },
       }
     case "send":
-      return { ...state, threads: [action.thread, ...state.threads] }
+      return {
+        ...state,
+        threads: [
+          action.thread,
+          ...state.threads.filter(({ id }) => id !== action.thread.id),
+        ],
+      }
     case "restore":
       return {
+        ...state,
         threads: state.threads.map(
           (thread) =>
             action.threads.find(({ id }) => id === thread.id) ?? thread
@@ -286,6 +392,7 @@ export function mailReducer(state: MailState, action: MailAction): MailState {
     case "remove":
       return {
         ...state,
+        openId: state.openId === action.id ? null : state.openId,
         threads: state.threads.filter(({ id }) => id !== action.id),
       }
   }
@@ -303,11 +410,168 @@ export function getAdjacentId(
   return ids[Math.min(Math.max(next, 0), ids.length - 1)]
 }
 
+/** Where a thread is in the list: 3 of 17. */
+export function getListPosition(ids: string[], id: string | null) {
+  const index = id === null ? -1 : ids.indexOf(id)
+  return index === -1 ? null : { place: index + 1, total: ids.length }
+}
+
+// MARK: Writing
+
+/** Who a reply to `message` goes to. After your own, the same people again. */
+export function getReplyRecipientIds(
+  message: MailMessage,
+  mode: MailReplyMode
+) {
+  const isMine = message.fromId === ME
+  if (mode === "reply") return isMine ? message.toIds : [message.fromId]
+  const everyone = [message.fromId, ...message.toIds, ...(message.ccIds ?? [])]
+  return [...new Set(everyone)].filter((id) => id !== ME)
+}
+
+export type MailComposeErrors = { to?: string; body?: string }
+
+export function getComposeErrors(
+  draft: MailDraft,
+  { fileCount }: { fileCount: number }
+): MailComposeErrors {
+  return {
+    ...(draft.toIds.length === 0 && {
+      to: "Add at least one person to send to.",
+    }),
+    ...(!draft.body.trim() &&
+      !draft.quote &&
+      fileCount === 0 && { body: "Write a message or attach a file." }),
+  }
+}
+
+/** Whether closing it leaves something worth saving. */
+export function hasDraftContent(
+  draft: MailDraft,
+  { fileCount }: { fileCount: number }
+) {
+  return (
+    draft.toIds.length > 0 ||
+    draft.subject.trim() !== "" ||
+    draft.body.trim() !== "" ||
+    fileCount > 0
+  )
+}
+
+/** Whether a draft is still what it was when it was opened. */
+export function isSameDraft(a: MailDraft, b: MailDraft) {
+  return (
+    a.subject === b.subject &&
+    a.body === b.body &&
+    a.toIds.length === b.toIds.length &&
+    a.toIds.every((id, index) => id === b.toIds[index])
+  )
+}
+
+/** What a draft says once sent: the text, then what it quotes. */
+export function getDraftBody({ body, quote = "" }: MailDraft) {
+  return [body.trim(), quote].filter(Boolean).join("\n\n")
+}
+
+/** The other way around, to keep writing a saved draft. */
+export function splitDraftBody(text: string): { body: string; quote?: string } {
+  const lines = text.trimEnd().split("\n")
+  const start = lines.findLastIndex((line) => !line.startsWith(">")) + 1
+  if (start === lines.length) return { body: text }
+  return {
+    body: lines.slice(0, start).join("\n").trimEnd(),
+    quote: lines.slice(start).join("\n"),
+  }
+}
+
+/** The latest message as quoted lines, under who wrote it and when. */
+export function getForwardQuote(
+  thread: MailThread,
+  contacts: MailContact[],
+  timeFormat: TimeFormat
+) {
+  const latest = thread.messages.at(-1)
+  if (!latest) return ""
+  const sender = findContact(contacts, latest.fromId)
+  const lines = [
+    "Forwarded message",
+    `From: ${[sender?.name, sender?.email].filter(Boolean).join(", ")}`,
+    `Date: ${formatMailDateTime(latest.sentAt, timeFormat)}`,
+    `Subject: ${thread.subject}`,
+    "",
+    ...splitQuote(latest.body).text.split("\n"),
+  ]
+  return lines.map((line) => `> ${line}`.trimEnd()).join("\n")
+}
+
 // MARK: Text
+
+/**
+ * What a message says, apart from the earlier message it quotes at its end
+ * ("On Monday, Ada wrote:" and the lines that start with ">").
+ */
+export function splitQuote(body: string): {
+  text: string
+  attribution?: string
+  quote?: string
+} {
+  const lines = body.trimEnd().split("\n")
+  const lastOwn = lines.findLastIndex((line) => !line.startsWith(">"))
+  const quoted = lines.slice(lastOwn + 1)
+  if (quoted.length === 0) return { text: body }
+
+  const quote = quoted.map((line) => line.replace(/^> ?/, "")).join("\n")
+  const attribution = lastOwn === -1 ? "" : lines[lastOwn]
+  if (!attribution.endsWith(":")) {
+    return {
+      text: lines
+        .slice(0, lastOwn + 1)
+        .join("\n")
+        .trimEnd(),
+      quote,
+    }
+  }
+  return {
+    text: lines.slice(0, lastOwn).join("\n").trimEnd(),
+    attribution,
+    quote,
+  }
+}
+
+const LIST_LINE = /^\s*(?:[-*+]|\d+[.)])\s/
+
+/** Markdown joins single line breaks; mail keeps them. */
+export function toMailMarkdown(text: string) {
+  const lines = text.split("\n")
+  const unquoted = lines.map((line) => line.replace(/^> ?/, ""))
+  const isProse = (line: string | undefined) =>
+    line !== undefined && line.trim() !== "" && !LIST_LINE.test(line)
+  return lines
+    .map((line, index) =>
+      isProse(unquoted[index]) &&
+      isProse(unquoted[index + 1]) &&
+      !line.endsWith("  ")
+        ? `${line}  `
+        : line
+    )
+    .join("\n")
+}
+
+/** A message as one line: no quote, no formatting marks. */
+export function getMessageSnippet(message: MailMessage) {
+  const { text, quote = "" } = splitQuote(message.body)
+  return (text.trim() || quote)
+    .replace(/^\s*(?:[-*+>]|\d+[.)]|#{1,6})\s+/gm, "")
+    .replace(/(\*\*|__|~~|`)(.+?)\1/g, "$2")
+    .replace(/(^|\s)[*_](\S(?:.*?\S)?)[*_](?=\s|[.,;:!?]|$)/gm, "$1$2")
+    .replace(/\s+/g, " ")
+    .trim()
+}
 
 /** The latest message as one line. */
 export function getSnippet(thread: MailThread) {
-  return (thread.messages.at(-1)?.body ?? "").replace(/\s+/g, " ").trim()
+  const latest = thread.messages.at(-1)
+  return latest ? getMessageSnippet(latest) : ""
 }
 
 /** Who wrote, in the order they joined, with "me" for you. */
@@ -328,6 +592,13 @@ export function getParticipants(thread: MailThread, contacts: MailContact[]) {
 
 export function findContact(contacts: MailContact[], id: string) {
   return contacts.find((contact) => contact.id === id)
+}
+
+/** What a reply calls someone: a first name, or a company's whole name. */
+export function getShortName(contact: MailContact | undefined) {
+  if (!contact) return ""
+  if (contact.brand || contact.isCompany) return contact.name
+  return contact.name.split(" ")[0]
 }
 
 // MARK: Time

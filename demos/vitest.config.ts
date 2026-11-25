@@ -4,9 +4,6 @@ import { defineConfig } from "vitest/config"
 export default defineConfig({
   resolve: { tsconfigPaths: true },
   test: {
-    include: [
-      "react-native/{src,scripts}/**/*.test.ts",
-      "swiftui/scripts/**/*.test.ts",
-    ],
+    include: ["react-native/{src,scripts}/**/*.test.ts"],
   },
 })

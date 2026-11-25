@@ -5,9 +5,9 @@ import {
   CreditCardIcon,
   HomeIcon,
   LogOutIcon,
-  MoonIcon,
   UserIcon,
 } from "lucide-react"
+import { useTheme } from "next-themes"
 
 import { AppNav, type AppNavGroup } from "@/styles/radix-fabricator/ui/app-nav"
 import {
@@ -27,7 +27,7 @@ import {
   SidebarContent,
   SidebarFooter,
 } from "@/styles/radix-fabricator/ui/sidebar"
-import { UserMenu } from "@/styles/radix-fabricator/ui/user-menu"
+import { UserMenu, UserMenuTheme } from "@/styles/radix-fabricator/ui/user-menu"
 
 const user = {
   name: "Gabs Fabricator",
@@ -43,6 +43,7 @@ const groups: AppNavGroup[] = [
 ]
 
 function Items() {
+  const { theme, setTheme } = useTheme()
   return (
     <>
       <DropdownMenuGroup>
@@ -59,11 +60,8 @@ function Items() {
           <BellIcon />
           Notifications
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <MoonIcon />
-          Dark mode
-        </DropdownMenuItem>
       </DropdownMenuGroup>
+      <UserMenuTheme theme={theme} onThemeChange={setTheme} />
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
         <DropdownMenuItem>

@@ -60,8 +60,8 @@ const KEY_TARGETS: Record<string, (index: number) => number> = {
   End: () => LAST_INDEX,
 }
 
-function getCategories(name: string) {
-  return fabricatorBlocks.find((block) => block.name === name)?.categories ?? []
+function getDeclaration(name: string) {
+  return fabricatorBlocks.find((block) => block.name === name)
 }
 
 export function BlocksShowcase() {
@@ -70,9 +70,7 @@ export function BlocksShowcase() {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const [frameKey, setFrameKey] = React.useState(0)
   const activeBlock = SHOWCASE[activeIndex]
-  const files =
-    fabricatorBlocks.find((block) => block.name === activeBlock.name)?.files ??
-    []
+  const declaration = getDeclaration(activeBlock.name)
 
   function handleTabKeyDown(
     event: React.KeyboardEvent<HTMLButtonElement>,
@@ -92,10 +90,10 @@ export function BlocksShowcase() {
       className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 pb-16 sm:px-6"
     >
       <BrowserWindow
-        path={getBlockPageRoute(files)}
+        path={getBlockPageRoute(declaration?.files ?? [])}
         href={`/view/${SITE_BLOCK_STYLE}/${activeBlock.name}`}
         onReload={() => setFrameKey((key) => key + 1)}
-        className="h-[36rem] w-full sm:h-[44rem]"
+        className="w-full"
         tabs={
           <div
             role="tablist"
@@ -128,13 +126,14 @@ export function BlocksShowcase() {
         }
       >
         {/* Only the open tab mounts its frame, so the homepage loads a single
-            block. Desktop widths render the block at 1280px and scale it to
-            fit; a phone shows the block's own phone layout. */}
+            block. From 640px wide it renders the block at 1280px and scales it
+            to fit, in a 16:9 box: the first fold at 1280 by 720, whole, at
+            every width. A phone shows the block's own phone layout. */}
         <div
           role="tabpanel"
           id={`${id}-panel`}
           aria-labelledby={`${id}-tab-${activeBlock.name}`}
-          className="size-full"
+          className="h-[32rem] w-full @[40rem]/browser-window:aspect-video @[40rem]/browser-window:h-auto"
         >
           <FramePreview
             key={`${activeBlock.name}-${frameKey}`}
@@ -144,17 +143,14 @@ export function BlocksShowcase() {
             scaleFrom={640}
             placeholder={
               <BlockSkeleton
-                layout={getBlockLayout(
-                  activeBlock.name,
-                  getCategories(activeBlock.name)
-                )}
+                layout={getBlockLayout(declaration?.categories ?? [])}
               />
             }
           />
         </div>
       </BrowserWindow>
       <Link
-        href={`/blocks#${activeBlock.name}`}
+        href={`/blocks/${activeBlock.name}`}
         className="flex items-center gap-1.5 self-center rounded-sm text-[13px] text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-3.5"
       >
         Get the {activeBlock.noun} block

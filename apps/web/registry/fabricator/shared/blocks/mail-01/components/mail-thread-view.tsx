@@ -1,529 +1,234 @@
 "use client"
 
 import * as React from "react"
-import { FileTypeIcon } from "@fabricator-ui/icons/files"
+import { cn } from "cn"
 
 import { MailAvatar } from "@/registry/bases/__base__/blocks/mail-01/components/mail-avatar"
+import { MailIconButton } from "@/registry/bases/__base__/blocks/mail-01/components/mail-controls"
+import { mailIcons } from "@/registry/bases/__base__/blocks/mail-01/components/mail-icons"
 import {
-  MailIconButton,
-  MailMenuButton,
-  type MailMenuGroup,
-} from "@/registry/bases/__base__/blocks/mail-01/components/mail-controls"
+  MailCollapsedMessage,
+  MailOpenMessage,
+} from "@/registry/bases/__base__/blocks/mail-01/components/mail-message"
 import { MailReplyBox } from "@/registry/bases/__base__/blocks/mail-01/components/mail-reply-box"
-import { MailLabelBadge } from "@/registry/bases/__base__/blocks/mail-01/components/mail-thread-list"
+import { MAIL_LABELS } from "@/registry/bases/__base__/blocks/mail-01/lib/mail-data"
 import {
   findContact,
-  formatMailDateTime,
   formatSnoozedUntil,
+  getReplyRecipientIds,
+  getShortName,
   ME,
+  type MailAttachment,
   type MailContact,
-  type MailMessage,
+  type MailReplyDraft,
   type MailThread,
-  type SnoozeOption,
   type TimeFormat,
 } from "@/registry/bases/__base__/blocks/mail-01/lib/mail-model"
-import {
-  AppShellPanelClose,
-  AppShellPanelContent,
-  AppShellPanelHeader,
-  AppShellPanelTitle,
-} from "@/registry/bases/__base__/ui/app-shell"
-import {
-  Attachment,
-  AttachmentContent,
-  AttachmentDescription,
-  AttachmentMedia,
-  AttachmentTitle,
-} from "@/registry/bases/__base__/ui/attachment"
+import { AppShellPageTitle } from "@/registry/bases/__base__/ui/app-shell"
 import { Badge } from "@/registry/bases/__base__/ui/badge"
 import { Button } from "@/registry/bases/__base__/ui/button"
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/registry/bases/__base__/ui/empty"
-import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-export type MailThreadAction =
-  | "archive"
-  | "delete"
-  | "toggleUnread"
-  | "spam"
-  | "notSpam"
-  | "moveToInbox"
+const EMPTY_REPLY: MailReplyDraft = { body: "", mode: "reply", files: [] }
 
-type ReplyMode = "reply" | "replyAll"
-
-function nameOf(contacts: MailContact[], id: string) {
-  return id === ME ? "me" : (findContact(contacts, id)?.name ?? "")
-}
-
-function listNames(contacts: MailContact[], ids: string[]) {
-  return ids.map((id) => nameOf(contacts, id)).join(", ")
-}
-
-/** Everyone on the latest message but you: who Reply all writes to. */
-function getReplyAllIds(message: MailMessage) {
-  return [
-    ...new Set([message.fromId, ...message.toIds, ...(message.ccIds ?? [])]),
-  ].filter((id) => id !== ME)
-}
-
-function MessageBody({ body }: { body: string }) {
-  return (
-    <div className="flex flex-col gap-(--density-12) text-[14px] leading-relaxed text-pretty">
-      {body.split(/\n{2,}/).map((paragraph, index) => (
-        <p key={index} className="whitespace-pre-line">
-          {paragraph}
-        </p>
-      ))}
-    </div>
-  )
-}
-
-function ExpandedMessage({
-  message,
-  contacts,
-  timeFormat,
-  onCollapse,
-}: {
-  message: MailMessage
-  contacts: MailContact[]
-  timeFormat: TimeFormat
-  onCollapse?: () => void
-}) {
-  const sender = findContact(contacts, message.fromId)
-  const date = formatMailDateTime(message.sentAt, timeFormat)
-
-  return (
-    <article
-      aria-label={`From ${sender?.name ?? "unknown"}, ${date}`}
-      className="flex flex-col gap-(--density-16)"
-    >
-      <header className="flex items-start gap-(--density-10)">
-        <MailAvatar contact={sender} />
-        <div className="flex min-w-0 flex-1 flex-col text-(length:--density-text-13)">
-          <p className="flex min-w-0 flex-wrap items-baseline gap-x-(--density-6)">
-            <span className="font-medium">{sender?.name}</span>
-            <span className="truncate text-(length:--density-text-12) text-muted-foreground">
-              {sender?.email}
-            </span>
-          </p>
-          <p className="truncate text-(length:--density-text-12) text-muted-foreground">
-            To {listNames(contacts, message.toIds)}
-            {message.ccIds?.length
-              ? `, cc ${listNames(contacts, message.ccIds)}`
-              : ""}
-          </p>
-        </div>
-        {/* The date is also the way to fold an earlier message back. */}
-        {onCollapse ? (
-          <button
-            type="button"
-            onClick={onCollapse}
-            aria-label={`Collapse the message from ${sender?.name ?? "unknown"}`}
-            className="shrink-0 rounded-sm text-(length:--density-text-12) text-muted-foreground tabular-nums outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            {date}
-          </button>
-        ) : (
-          <time
-            dateTime={new Date(message.sentAt).toISOString()}
-            className="shrink-0 text-(length:--density-text-12) text-muted-foreground tabular-nums"
-          >
-            {date}
-          </time>
-        )}
-      </header>
-      <MessageBody body={message.body} />
-      {message.attachments && message.attachments.length > 0 && (
-        <ul
-          aria-label="Attachments"
-          className="flex flex-wrap gap-(--density-8)"
-        >
-          {message.attachments.map((attachment) => (
-            <li key={attachment.name} className="w-64 max-w-full">
-              <Attachment>
-                <AttachmentMedia>
-                  <FileTypeIcon name={attachment.name} className="size-6" />
-                </AttachmentMedia>
-                <AttachmentContent>
-                  <AttachmentTitle>{attachment.name}</AttachmentTitle>
-                  <AttachmentDescription>
-                    {attachment.size}
-                  </AttachmentDescription>
-                </AttachmentContent>
-              </Attachment>
-            </li>
-          ))}
-        </ul>
-      )}
-    </article>
-  )
-}
-
-function CollapsedMessage({
-  message,
-  contacts,
-  timeFormat,
-  onExpand,
-}: {
-  message: MailMessage
-  contacts: MailContact[]
-  timeFormat: TimeFormat
-  onExpand: () => void
-}) {
-  const sender = findContact(contacts, message.fromId)
-  return (
-    <button
-      type="button"
-      onClick={onExpand}
-      // Pulled out by its own padding, so its avatar and date line up with
-      // the open message's.
-      className="-mx-(--density-8) flex items-center gap-(--density-10) rounded-lg px-(--density-8) py-(--density-8) text-start text-(length:--density-text-13) outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-ring"
-    >
-      <MailAvatar contact={sender} />
-      <span className="shrink-0 font-medium">{sender?.name}</span>
-      <span className="min-w-0 flex-1 truncate text-muted-foreground">
-        {message.body.replace(/\s+/g, " ")}
-      </span>
-      <span className="shrink-0 text-(length:--density-text-12) text-muted-foreground tabular-nums">
-        {formatMailDateTime(message.sentAt, timeFormat)}
-      </span>
-    </button>
-  )
-}
-
-function ThreadActions({
-  thread,
-  snoozeOptions,
+/** Why a thread can't be answered where it is, with the way out. */
+function ClosedThreadNote({
+  text,
+  action,
   onAction,
-  onSnooze,
 }: {
-  thread: MailThread
-  snoozeOptions: SnoozeOption[]
-  onAction: (action: MailThreadAction) => void
-  onSnooze: (until: number) => void
+  text: string
+  action: string
+  onAction: () => void
 }) {
-  const more: MailMenuGroup[] = [
-    {
-      id: "move",
-      entries:
-        thread.box === "spam"
-          ? [
-              {
-                id: "not-spam",
-                label: "Not spam",
-                onSelect: () => onAction("notSpam"),
-              },
-            ]
-          : [
-              ...(thread.box === "inbox"
-                ? []
-                : [
-                    {
-                      id: "inbox",
-                      label: "Move to inbox",
-                      onSelect: () => onAction("moveToInbox"),
-                    },
-                  ]),
-              {
-                id: "spam",
-                label: "Report spam",
-                onSelect: () => onAction("spam"),
-              },
-            ],
-    },
-  ]
-
   return (
-    <div className="-ms-(--density-6) flex items-center">
-      {thread.box !== "archive" && (
-        <MailIconButton label="Archive" onClick={() => onAction("archive")}>
-          <IconPlaceholder
-            lucide="ArchiveIcon"
-            tabler="IconArchive"
-            hugeicons="Archive02Icon"
-            phosphor="ArchiveIcon"
-            remixicon="RiArchiveLine"
-          />
-        </MailIconButton>
-      )}
-      <MailIconButton label="Delete" onClick={() => onAction("delete")}>
-        <IconPlaceholder
-          lucide="Trash2Icon"
-          tabler="IconTrash"
-          hugeicons="Delete02Icon"
-          phosphor="TrashIcon"
-          remixicon="RiDeleteBinLine"
-        />
-      </MailIconButton>
-      <MailIconButton
-        label={thread.isUnread ? "Mark as read" : "Mark as unread"}
-        onClick={() => onAction("toggleUnread")}
-      >
-        <IconPlaceholder
-          lucide="MailIcon"
-          tabler="IconMail"
-          hugeicons="Mail01Icon"
-          phosphor="EnvelopeSimpleIcon"
-          remixicon="RiMailLine"
-        />
-      </MailIconButton>
-      <MailMenuButton
-        label="Snooze"
-        icon={
-          <IconPlaceholder
-            lucide="AlarmClockIcon"
-            tabler="IconAlarm"
-            hugeicons="AlarmClockIcon"
-            phosphor="AlarmIcon"
-            remixicon="RiAlarmLine"
-          />
-        }
-        groups={[
-          {
-            id: "snooze",
-            label: "Snooze until",
-            entries: snoozeOptions.map((option) => ({
-              id: option.id,
-              label: option.label,
-              detail: option.detail,
-              onSelect: () => onSnooze(option.until),
-            })),
-          },
-        ]}
-      />
-      <MailMenuButton
-        label="More actions"
-        icon={
-          <IconPlaceholder
-            lucide="EllipsisIcon"
-            tabler="IconDots"
-            hugeicons="MoreHorizontalIcon"
-            phosphor="DotsThreeIcon"
-            remixicon="RiMoreLine"
-          />
-        }
-        groups={more}
-      />
+    <div className="flex flex-wrap items-center justify-between gap-(--density-8) rounded-lg bg-hover py-(--density-8) ps-(--density-16) pe-(--density-8) text-(length:--density-text-13) text-foreground/70 @md/thread:ms-[calc(var(--density-32)+var(--density-10))]">
+      {text}
+      <Button variant="outline" size="sm" onClick={onAction}>
+        {action}
+      </Button>
     </div>
   )
 }
 
 /**
- * The open thread: its subject and labels, earlier messages folded to one
- * line each and the latest open, then Reply, Reply all and Forward.
+ * The open thread at a reading width: its subject, earlier messages folded to
+ * a line each, the latest open, and the answer ready underneath.
  */
 export function MailThreadView({
   thread,
   contacts,
   now,
   timeFormat,
-  snoozeOptions,
-  onAction,
-  onSnooze,
+  replyRef,
+  replyDraft,
+  onReplyDraftChange,
   onReply,
   onForward,
   onEditDraft,
+  onMoveToInbox,
+  onStar,
+  onDownload,
 }: {
-  thread: MailThread | null
+  thread: MailThread
   contacts: MailContact[]
   now: number
   timeFormat: TimeFormat
-  snoozeOptions: SnoozeOption[]
-  onAction: (action: MailThreadAction) => void
-  onSnooze: (until: number) => void
-  onReply: (body: string, recipientIds: string[]) => void
+  replyRef: React.RefObject<HTMLTextAreaElement | null>
+  replyDraft: MailReplyDraft | undefined
+  onReplyDraftChange: (draft: MailReplyDraft | null) => void
+  onReply: (draft: MailReplyDraft) => Promise<string | undefined>
   onForward: () => void
   onEditDraft: () => void
+  onMoveToInbox: () => void
+  onStar: () => void
+  onDownload: (attachment: MailAttachment) => void
 }) {
-  const [expandedIds, setExpandedIds] = React.useState<string[]>([])
-  const [replyMode, setReplyMode] = React.useState<ReplyMode | null>(null)
-
-  if (!thread) {
-    return (
-      <>
-        <AppShellPanelHeader>
-          <AppShellPanelTitle>Conversation</AppShellPanelTitle>
-          <AppShellPanelClose />
-        </AppShellPanelHeader>
-        <AppShellPanelContent className="flex">
-          <Empty className="m-auto">
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <IconPlaceholder
-                  lucide="MailOpenIcon"
-                  tabler="IconMailOpened"
-                  hugeicons="MailOpen01Icon"
-                  phosphor="EnvelopeOpenIcon"
-                  remixicon="RiMailOpenLine"
-                />
-              </EmptyMedia>
-              <EmptyTitle>No conversation open</EmptyTitle>
-              <EmptyDescription>
-                Pick one from the list to read it here. ↑ and ↓ move through the
-                list.
-              </EmptyDescription>
-            </EmptyHeader>
-          </Empty>
-        </AppShellPanelContent>
-      </>
-    )
-  }
+  // Folding is about what was here when the thread opened: the latest message
+  // and anything that arrives or is sent afterwards stay open.
+  const [foldedIds, setFoldedIds] = React.useState(() =>
+    thread.messages.slice(0, -1).map(({ id }) => id)
+  )
+  const columnRef = React.useRef<HTMLDivElement>(null)
+  const messageCount = React.useRef(thread.messages.length)
 
   const latest = thread.messages.at(-1)
+  const latestId = latest?.id
+  React.useEffect(() => {
+    const hasNew = thread.messages.length > messageCount.current
+    messageCount.current = thread.messages.length
+    if (!hasNew) return
+    const message = columnRef.current?.querySelector<HTMLElement>(
+      `[data-message="${latestId}"]`
+    )
+    message?.focus({ preventScroll: true })
+    message?.scrollIntoView({ block: "center" })
+  }, [thread.messages.length, latestId])
+
+  if (!latest) return null
+
+  const draft = replyDraft ?? EMPTY_REPLY
+  const replyIds = getReplyRecipientIds(latest, "reply")
+  const replyAllIds = getReplyRecipientIds(latest, "replyAll")
+  const getNames = (ids: string[]) =>
+    ids.map((id) => findContact(contacts, id)?.name ?? "").join(", ")
+  const [recipientId = ME] = replyIds
+  const recipient = findContact(contacts, recipientId)
+  const labels = MAIL_LABELS.filter(({ id }) => thread.labels.includes(id))
+  const isSnoozed = thread.snoozedUntil !== undefined
   const isDraft = thread.box === "drafts"
-  const replyAllIds = latest ? getReplyAllIds(latest) : []
-  const replyIds = latest
-    ? latest.fromId === ME
-      ? latest.toIds
-      : [latest.fromId]
-    : []
-  const recipientIds = replyMode === "replyAll" ? replyAllIds : replyIds
 
   return (
-    <>
-      {/* The actions lead, as in most mail apps; the close stays at the end. */}
-      <AppShellPanelHeader>
-        <AppShellPanelTitle className="sr-only">
-          {thread.subject}
-        </AppShellPanelTitle>
-        <ThreadActions
-          thread={thread}
-          snoozeOptions={snoozeOptions}
-          onAction={onAction}
-          onSnooze={onSnooze}
-        />
-        <AppShellPanelClose />
-      </AppShellPanelHeader>
-      <AppShellPanelContent className="flex flex-col gap-(--density-24) px-(--density-16) pt-(--density-8) pb-(--density-24)">
-        <div className="flex flex-col gap-(--density-8)">
-          <h2 className="text-[18px] leading-snug font-semibold text-balance">
+    <div
+      ref={columnRef}
+      className="@container/thread mx-auto flex w-full max-w-[calc(45rem+2*var(--density-24))] flex-col gap-(--density-24) px-(--density-16) pt-(--density-12) md:px-(--density-24)"
+    >
+      <div className="flex flex-col gap-(--density-6)">
+        <div className="flex items-start gap-(--density-8)">
+          <AppShellPageTitle className="min-w-0 flex-1 text-balance break-words">
             {thread.subject}
-          </h2>
-          {(thread.labels.length > 0 ||
-            isDraft ||
-            thread.snoozedUntil !== undefined) && (
-            <div className="flex flex-wrap items-center gap-(--density-6)">
-              {isDraft && <Badge variant="warning">Draft</Badge>}
-              {thread.snoozedUntil !== undefined && (
-                <Badge variant="info">
-                  Snoozed until{" "}
-                  {formatSnoozedUntil(thread.snoozedUntil, now, timeFormat)}
-                </Badge>
-              )}
-              {thread.labels.map((labelId) => (
-                <MailLabelBadge key={labelId} labelId={labelId} />
-              ))}
-            </div>
-          )}
-        </div>
-        <div className="flex flex-col gap-(--density-8)">
-          {thread.messages.map((message, index) => {
-            const isLatest = index === thread.messages.length - 1
-            return isLatest || expandedIds.includes(message.id) ? (
-              <div key={message.id} className="not-first:pt-(--density-16)">
-                <ExpandedMessage
-                  message={message}
-                  contacts={contacts}
-                  timeFormat={timeFormat}
-                  onCollapse={
-                    isLatest
-                      ? undefined
-                      : () =>
-                          setExpandedIds((ids) =>
-                            ids.filter((id) => id !== message.id)
-                          )
-                  }
-                />
-              </div>
-            ) : (
-              <CollapsedMessage
-                key={message.id}
-                message={message}
-                contacts={contacts}
-                timeFormat={timeFormat}
-                onExpand={() => setExpandedIds((ids) => [...ids, message.id])}
-              />
-            )
-          })}
-        </div>
-        {isDraft ? (
-          <div>
-            <Button variant="outline" size="sm" onClick={onEditDraft}>
-              <IconPlaceholder
-                lucide="PencilIcon"
-                tabler="IconPencil"
-                hugeicons="PencilEdit01Icon"
-                phosphor="PencilSimpleIcon"
-                remixicon="RiPencilLine"
-                data-icon="inline-start"
-              />
-              Continue writing
-            </Button>
-          </div>
-        ) : replyMode ? (
-          <MailReplyBox
-            key={replyMode}
-            label={replyMode === "replyAll" ? "Reply all" : "Reply"}
-            recipients={listNames(contacts, recipientIds)}
-            onDiscard={() => setReplyMode(null)}
-            onSend={(body) => {
-              onReply(body, recipientIds)
-              setReplyMode(null)
-            }}
-          />
-        ) : (
-          <div className="flex flex-wrap gap-(--density-8)">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setReplyMode("reply")}
-            >
-              <IconPlaceholder
-                lucide="ReplyIcon"
-                tabler="IconArrowBackUp"
-                hugeicons="MailReply01Icon"
-                phosphor="ArrowBendUpLeftIcon"
-                remixicon="RiReplyLine"
-                data-icon="inline-start"
-              />
-              Reply
-            </Button>
-            {replyAllIds.length > 1 && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setReplyMode("replyAll")}
-              >
-                <IconPlaceholder
-                  lucide="ReplyAllIcon"
-                  tabler="IconArrowBackUpDouble"
-                  hugeicons="MailReplyAll01Icon"
-                  phosphor="ArrowBendDoubleUpLeftIcon"
-                  remixicon="RiReplyAllLine"
-                  data-icon="inline-start"
-                />
-                Reply all
-              </Button>
+          </AppShellPageTitle>
+          <MailIconButton
+            label={thread.isStarred ? "Remove star" : "Star"}
+            shortcut="S"
+            isPressed={thread.isStarred}
+            onClick={onStar}
+            className={cn(
+              "-me-(--density-6) mt-0.5 in-data-[size=phone]:-me-(--density-10) in-data-[size=phone]:-mt-1.5",
+              thread.isStarred && "text-foreground [&_svg]:fill-current"
             )}
-            <Button variant="outline" size="sm" onClick={onForward}>
-              <IconPlaceholder
-                lucide="ForwardIcon"
-                tabler="IconArrowForwardUp"
-                hugeicons="MailSend01Icon"
-                phosphor="ArrowBendUpRightIcon"
-                remixicon="RiShareForwardLine"
-                data-icon="inline-start"
-              />
-              Forward
-            </Button>
+          >
+            {mailIcons.star}
+          </MailIconButton>
+        </div>
+        {(labels.length > 0 || isDraft || isSnoozed) && (
+          <div className="flex flex-wrap items-center gap-x-(--density-12) gap-y-(--density-6) text-(length:--density-text-12) text-muted-foreground">
+            {isDraft && <Badge variant="outline">Draft</Badge>}
+            {thread.snoozedUntil !== undefined && (
+              <Badge variant="info">
+                Snoozed until{" "}
+                {formatSnoozedUntil(thread.snoozedUntil, now, timeFormat)}
+              </Badge>
+            )}
+            {labels.map(({ id, name, dot }) => (
+              <span key={id} className="flex items-center gap-(--density-6)">
+                <span aria-hidden className={cn("size-2 rounded-full", dot)} />
+                {name}
+              </span>
+            ))}
           </div>
         )}
-      </AppShellPanelContent>
-    </>
+      </div>
+      <div className="isolate flex flex-col gap-(--density-8)">
+        {thread.messages.map((message) => {
+          const props = { message, contacts, now, timeFormat }
+          if (foldedIds.includes(message.id)) {
+            return (
+              <MailCollapsedMessage
+                key={message.id}
+                {...props}
+                onExpand={() =>
+                  setFoldedIds((ids) => ids.filter((id) => id !== message.id))
+                }
+              />
+            )
+          }
+          return (
+            <div key={message.id} className="not-last:pb-(--density-16)">
+              <MailOpenMessage
+                {...props}
+                onCollapse={
+                  thread.messages.length > 1
+                    ? () => setFoldedIds((ids) => [...ids, message.id])
+                    : undefined
+                }
+                onDownload={onDownload}
+              />
+            </div>
+          )
+        })}
+      </div>
+      <div className="pb-[max(var(--density-16),env(safe-area-inset-bottom))]">
+        {isDraft ? (
+          <Button
+            onClick={onEditDraft}
+            className="@md/thread:ms-[calc(var(--density-32)+var(--density-10))]"
+          >
+            {mailIcons.edit}
+            Continue writing
+          </Button>
+        ) : thread.box === "trash" ? (
+          <ClosedThreadNote
+            text="This conversation is in Trash."
+            action="Move to inbox"
+            onAction={onMoveToInbox}
+          />
+        ) : thread.box === "spam" ? (
+          <ClosedThreadNote
+            text="Reported as spam. Don't open links or files in it."
+            action="Not spam"
+            onAction={onMoveToInbox}
+          />
+        ) : (
+          <div className="flex items-start gap-(--density-10)">
+            <MailAvatar
+              contact={findContact(contacts, ME)}
+              className="mt-[calc((var(--density-44)-var(--density-32))/2)] hidden shrink-0 @md/thread:flex"
+            />
+            <MailReplyBox
+              textareaRef={replyRef}
+              recipient={getShortName(recipient)}
+              replyAllCount={replyAllIds.length}
+              recipients={getNames(
+                draft.mode === "replyAll" ? replyAllIds : replyIds
+              )}
+              draft={draft}
+              onDraftChange={onReplyDraftChange}
+              onSend={onReply}
+              onForward={onForward}
+            />
+          </div>
+        )}
+      </div>
+    </div>
   )
 }

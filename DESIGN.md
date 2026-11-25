@@ -459,7 +459,7 @@ Every text field is a question the person must answer from memory. Replace it wh
 | ---------------------------------------- | -------------------------------------------------------------------- |
 | On or off, applied at once               | `Switch`                                                             |
 | Yes or no, sent with a form              | `Checkbox`                                                           |
-| One of two to four that fit on one line  | `Tabs` with the default `TabsList`                                   |
+| One of two to four values on one line   | Single-select `ToggleGroup` with a shared track                                   |
 | One of a few that need a sentence each   | Choice cards: a `RadioGroup` of horizontal `Field`s                  |
 | Five or more, or labels that do not fit  | `Select`                                                             |
 | One of many, or found by typing          | `Combobox`                                                           |
@@ -477,7 +477,7 @@ Every text field is a question the person must answer from memory. Replace it wh
 | A URL, a price, a handle, a size         | `InputGroup`, the fixed part as an addon: "https://", "$", "@"       |
 | Something only the person can write      | `Input`, `Textarea`, or `Editor` for formatted text                  |
 
-**Short single choices.** Use `<TabsList>` with its default props, including in card headers and settings. Keep every label visible on the shared track. Use `Tabs` even when a choice only changes a setting, filter or view in place. Give the list an accessible name, bind it to the selected value and add `TabsContent` only for actual panels. Use `Select` where the full labels, including translations, would wrap, clip or crowd adjacent controls.
+**Short single choices.** Keep every label visible on a shared track. Use `Tabs` with the default `TabsList` and a `TabsContent` panel for each view. Use a single-select `ToggleGroup` for a setting or other value that changes in place. Give either control an accessible name. Use `Select` where the full labels, including translations, would wrap, clip or crowd adjacent controls.
 
 - **Defaults are answers.** Pre-fill what you can know or guess (the workspace's currency, the person's time zone, the most common plan), so most forms are reviewed, not filled.
 - **Ask less.** Leave out what can be inferred, changed later or set by an admin. Put what most people never change in a closed "Advanced" `Accordion`. A form past about seven fields is a [setup page](#setup), a [multi-step flow](#multi-step-flow) or a settings page.
@@ -496,7 +496,7 @@ Every text field is a question the person must answer from memory. Replace it wh
 
 A stack of setting cards in one column (`size="sm"`), one per subject, in the order people need them.
 
-- **Each card** has a title and a sentence, then one-line fields: name and one-line description at the start, the smallest fitting control at the end. `Field orientation="responsive"` for `Tabs`, a `Select`, a `NumberField` or a `Slider` with its value, which stack on phones; `"horizontal"` for a `Switch` or a `ColorPicker` swatch, which stay beside their label at every width. Rows are parted by space; a text setting sits under its label at full width.
+- **Each card** has a title and a sentence, then one-line fields: name and one-line description at the start, the smallest fitting control at the end. `Field orientation="responsive"` for `ToggleGroup`, a `Select`, a `NumberField` or a `Slider` with its value, which stack on phones; `"horizontal"` for a `Switch` or a `ColorPicker` swatch, which stay beside their label at every width. Rows are parted by space; a text setting sits under its label at full width.
 - **Switches and choices save at once,** with a quiet "Saved" toast and Undo when it matters. A card with text fields has its own Save in its footer, enabled once something changed.
 - **Choice cards** for settings that change how the product behaves, each with its consequence. Many subjects become pages in a sidebar group or vertical `Tabs`.
 - **The danger zone** is the last card, with a destructive button that opens an `AlertDialog` naming what is lost.
@@ -611,9 +611,13 @@ Start from the closest pattern, install its block when there is one, and remove 
 
 The title, its status `Badge`, one primary action and a "More" menu in the header; `Tabs` or `Select` for views of the record (an overview may open with its own KPI row); metadata, people and activity in a panel that closes; a field or two edits in place, more in a `Sheet`.
 
+### Board
+
+A board groups work by status or another field. Put the board’s title and view controls above the scroll area. Use neutral column tracks with a status glyph and count in each header. Cards keep the title first and show only the fields people use to make decisions at a glance. Give cards and column actions separate hit targets. Provide a move action alongside drag and drop. On a phone, let people scroll across columns and keep the next column visible at the edge. Open the record in a side panel or a full-width surface when space is limited.
+
 ### List and detail
 
-The list fills the main column and the open record sits in a side panel (the whole screen on phones); ↑ ↓ move through the queue, and an `Empty` waits until something is open (`app-shell-05`).
+The list fills the main column and the open record sits in a side panel (the whole screen on phones); ↑ ↓ move through the queue, and an `Empty` waits until something is open (`app-shell-05`). When the record is what people read or answer (mail, support, messages), turn it around: the list is a resizable start panel and the record the main column, capped at a reading width (`mail-01`, `messenger-01`).
 
 ### Create and edit
 
@@ -810,7 +814,7 @@ A screen is done when every line holds. Check it in the running app, never from 
 - [ ] No line divides the layout: space, headings and surfaces part every section, row, card and panel.
 - [ ] A page of cards uses one grid rhythm; gutters continue down the page and cards in a row are equal height.
 - [ ] Inside each card, the title, values, list icons and table text start on the card's inset.
-- [ ] Short single choices use default `TabsList` with all labels visible. Five or more options, or labels that do not fit, use `Select`.
+- [ ] Short single choices keep all labels visible. Tabs have named content panels, and settings use a single-select toggle group. Five or more options, or labels that do not fit, use `Select`.
 - [ ] Every number has its unit and period and, where it changed, a signed delta coloured by whether the change is good.
 - [ ] Colour appears only where it means something or where content brings it.
 - [ ] Light and dark both read well; surfaces follow the ladder, with no borders or stray shadows.

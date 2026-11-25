@@ -1,15 +1,16 @@
 "use client"
 
 import * as React from "react"
-import { cn } from "cn"
 
+import { SignUpPasswordField } from "@/registry/bases/__base__/blocks/sign-up-01/components/sign-up-password-field"
 import {
   getEmailError,
   getNameError,
-  getPasswordChecks,
   getSignUpErrors,
-  SIGN_UP_MESSAGES,
+  getSignUpFailure,
   type SignUpErrors,
+  type SignUpFailure,
+  type SignUpMethod,
   type SignUpResult,
   type SignUpValues,
 } from "@/registry/bases/__base__/blocks/sign-up-01/lib/sign-up-form-model"
@@ -22,43 +23,62 @@ import {
   FieldLabel,
 } from "@/registry/bases/__base__/ui/field"
 import { Input } from "@/registry/bases/__base__/ui/input"
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/registry/bases/__base__/ui/input-group"
 import { Spinner } from "@/registry/bases/__base__/ui/spinner"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 const FIELDS = ["name", "email", "password"] as const
 
+const EMPTY: SignUpValues = { name: "", email: "", password: "" }
+
 export function SignUpForm({
+  defaultValues,
+  pending,
+  signInHref,
   onSubmit,
-  onSignedUp,
 }: {
+  /** What was sent, when someone comes back to change the address. */
+  defaultValues?: SignUpValues
+  /** The method under way; the others wait for it. */
+  pending?: SignUpMethod
+  signInHref: string
   onSubmit: (values: SignUpValues) => Promise<SignUpResult>
-  onSignedUp: (email: string) => void
 }) {
-  const [values, setValues] = React.useState<SignUpValues>({
-    name: "",
-    email: "",
-    password: "",
-  })
+  const [values, setValues] = React.useState(defaultValues ?? EMPTY)
   const [errors, setErrors] = React.useState<SignUpErrors>({})
-  const [formError, setFormError] = React.useState<string>()
-  const [isSubmitting, setSubmitting] = React.useState(false)
-  const [isPasswordVisible, setPasswordVisible] = React.useState(false)
+  const [failure, setFailure] = React.useState<SignUpFailure>()
   const nameRef = React.useRef<HTMLInputElement>(null)
   const emailRef = React.useRef<HTMLInputElement>(null)
   const passwordRef = React.useRef<HTMLInputElement>(null)
-  const checks = getPasswordChecks(values.password)
+  const isReturning = defaultValues !== undefined
+
+  // A touch screen would open its keyboard over the page, and a framed page
+  // would take the focus from the one around it. Coming back to change the
+  // address, the keyboard is what they asked for.
+  React.useEffect(() => {
+    if (isReturning) {
+      emailRef.current?.focus()
+      emailRef.current?.select()
+      return
+    }
+    const isTouch = window.matchMedia("(pointer: coarse)").matches
+    if (isTouch || window.self !== window.top) return
+    nameRef.current?.focus({ preventScroll: true })
+  }, [isReturning])
+
+  // Runs once the fields are enabled again, so they can take the focus.
+  React.useEffect(() => {
+    if (!failure) return
+    const ref = failure.place === "email" ? emailRef : passwordRef
+    ref.current?.focus()
+    ref.current?.select()
+  }, [failure])
 
   const update = (field: keyof SignUpValues, value: string) => {
     setValues((current) => ({ ...current, [field]: value }))
     if (errors[field]) {
       setErrors((current) => ({ ...current, [field]: undefined }))
     }
+    if (failure?.place === "email" && field === "email") setFailure(undefined)
   }
 
   // Checks a field once the person leaves it with something typed.
@@ -72,47 +92,30 @@ export function SignUpForm({
     event.preventDefault()
     const nextErrors = getSignUpErrors(values)
     setErrors(nextErrors)
-    setFormError(undefined)
+    setFailure(undefined)
     const firstInvalid = FIELDS.find((field) => nextErrors[field])
     if (firstInvalid) {
       const refs = { name: nameRef, email: emailRef, password: passwordRef }
       refs[firstInvalid].current?.focus()
       return
     }
-
-    setSubmitting(true)
-    const email = values.email.trim()
     const result = await onSubmit({
       ...values,
       name: values.name.trim(),
-      email,
+      email: values.email.trim(),
     })
-    setSubmitting(false)
-    if (result.ok) {
-      onSignedUp(email)
-      return
-    }
-    setFormError(SIGN_UP_MESSAGES[result.error])
-    if (result.error === "email-taken") emailRef.current?.focus()
+    if (!result.ok) setFailure(getSignUpFailure(result.error))
   }
+
+  const isTaken = failure?.place === "email"
+  const isEmailInvalid = isTaken || errors.email !== undefined
 
   return (
     <form noValidate onSubmit={handleSubmit}>
-      {/* A disabled fieldset disables every control while the account is created. */}
-      <fieldset disabled={isSubmitting} className="contents">
-        <FieldGroup>
-          {formError && (
-            <Alert variant="error">
-              <IconPlaceholder
-                lucide="CircleAlertIcon"
-                tabler="IconAlertCircle"
-                hugeicons="AlertCircleIcon"
-                phosphor="WarningCircleIcon"
-                remixicon="RiErrorWarningLine"
-              />
-              <AlertDescription>{formError}</AlertDescription>
-            </Alert>
-          )}
+      {/* A disabled fieldset disables every control while signing up. */}
+      <fieldset disabled={pending !== undefined} className="contents">
+        {/* Each field keeps a line for its message, so nothing moves. */}
+        <FieldGroup className="gap-(--density-8)">
           <Field data-invalid={errors.name ? true : undefined}>
             <FieldLabel htmlFor="sign-up-name">Full name</FieldLabel>
             <Input
@@ -120,6 +123,7 @@ export function SignUpForm({
               id="sign-up-name"
               name="name"
               autoComplete="name"
+              enterKeyHint="next"
               placeholder="Ada Lovelace"
               value={values.name}
               aria-invalid={errors.name ? true : undefined}
@@ -127,9 +131,11 @@ export function SignUpForm({
               onChange={(event) => update("name", event.target.value)}
               onBlur={() => checkOnBlur("name")}
             />
-            <FieldError id="sign-up-name-error">{errors.name}</FieldError>
+            <div className="min-h-lh text-(length:--density-text-12)">
+              <FieldError id="sign-up-name-error">{errors.name}</FieldError>
+            </div>
           </Field>
-          <Field data-invalid={errors.email ? true : undefined}>
+          <Field data-invalid={isEmailInvalid || undefined}>
             <FieldLabel htmlFor="sign-up-email">Work email</FieldLabel>
             <Input
               ref={emailRef}
@@ -137,106 +143,58 @@ export function SignUpForm({
               name="email"
               type="email"
               autoComplete="email"
+              autoCapitalize="none"
+              spellCheck={false}
+              enterKeyHint="next"
               placeholder="ada@acme.com"
               value={values.email}
-              aria-invalid={errors.email ? true : undefined}
+              aria-invalid={isEmailInvalid || undefined}
               aria-describedby={
-                errors.email ? "sign-up-email-error" : undefined
+                isEmailInvalid ? "sign-up-email-error" : undefined
               }
               onChange={(event) => update("email", event.target.value)}
               onBlur={() => checkOnBlur("email")}
             />
-            <FieldError id="sign-up-email-error">{errors.email}</FieldError>
+            <div className="min-h-lh text-(length:--density-text-12)">
+              {isEmailInvalid && (
+                <FieldError id="sign-up-email-error">
+                  {errors.email}
+                  {!errors.email && isTaken && (
+                    <>
+                      {failure.message}{" "}
+                      <a
+                        href={signInHref}
+                        className="rounded-sm underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        Sign in
+                      </a>
+                    </>
+                  )}
+                </FieldError>
+              )}
+            </div>
           </Field>
-          <Field data-invalid={errors.password ? true : undefined}>
-            <FieldLabel htmlFor="sign-up-password">Password</FieldLabel>
-            <InputGroup>
-              <InputGroupInput
-                ref={passwordRef}
-                id="sign-up-password"
-                name="password"
-                type={isPasswordVisible ? "text" : "password"}
-                autoComplete="new-password"
-                value={values.password}
-                aria-invalid={errors.password ? true : undefined}
-                aria-describedby="sign-up-password-rules sign-up-password-error"
-                onChange={(event) => update("password", event.target.value)}
+          <SignUpPasswordField
+            inputRef={passwordRef}
+            value={values.password}
+            error={errors.password}
+            onChange={(value) => update("password", value)}
+          />
+          {failure?.place === "form" && (
+            <Alert variant="error" className="mt-(--density-12)">
+              <IconPlaceholder
+                lucide="CircleAlertIcon"
+                tabler="IconAlertCircle"
+                hugeicons="AlertCircleIcon"
+                phosphor="WarningCircleIcon"
+                remixicon="RiErrorWarningLine"
               />
-              <InputGroupAddon align="inline-end">
-                <InputGroupButton
-                  size="icon-xs"
-                  aria-label={
-                    isPasswordVisible ? "Hide password" : "Show password"
-                  }
-                  onClick={() => setPasswordVisible((visible) => !visible)}
-                >
-                  {isPasswordVisible ? (
-                    <IconPlaceholder
-                      lucide="EyeOffIcon"
-                      tabler="IconEyeOff"
-                      hugeicons="ViewOffIcon"
-                      phosphor="EyeSlashIcon"
-                      remixicon="RiEyeOffLine"
-                    />
-                  ) : (
-                    <IconPlaceholder
-                      lucide="EyeIcon"
-                      tabler="IconEye"
-                      hugeicons="ViewIcon"
-                      phosphor="EyeIcon"
-                      remixicon="RiEyeLine"
-                    />
-                  )}
-                </InputGroupButton>
-              </InputGroupAddon>
-            </InputGroup>
-            {/* The rules update as they type, so the password is right the first time. */}
-            <ul
-              id="sign-up-password-rules"
-              aria-label="Password rules"
-              className="flex flex-wrap gap-x-(--density-16) gap-y-(--density-4)"
-            >
-              {checks.map((check) => (
-                <li
-                  key={check.id}
-                  className={cn(
-                    "flex items-center gap-(--density-6) text-(length:--density-text-12) transition-colors duration-feedback ease-feedback [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0",
-                    check.isMet ? "text-success-text" : "text-muted-foreground"
-                  )}
-                >
-                  {check.isMet ? (
-                    <IconPlaceholder
-                      lucide="CircleCheckIcon"
-                      tabler="IconCircleCheck"
-                      hugeicons="CheckmarkCircle02Icon"
-                      phosphor="CheckCircleIcon"
-                      remixicon="RiCheckboxCircleLine"
-                    />
-                  ) : (
-                    <IconPlaceholder
-                      lucide="CircleIcon"
-                      tabler="IconCircle"
-                      hugeicons="CircleIcon"
-                      phosphor="CircleIcon"
-                      remixicon="RiCheckboxBlankCircleLine"
-                    />
-                  )}
-                  <span>
-                    {check.label}
-                    <span className="sr-only">
-                      {check.isMet ? ", done" : ", not yet"}
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <FieldError id="sign-up-password-error">
-              {errors.password}
-            </FieldError>
-          </Field>
-          <Button type="submit" className="w-full">
-            {isSubmitting && <Spinner data-icon="inline-start" />}
-            {isSubmitting ? "Creating account…" : "Create account"}
+              <AlertDescription>{failure.message}</AlertDescription>
+            </Alert>
+          )}
+          <Button type="submit" className="mt-(--density-16) w-full">
+            {pending === "email" && <Spinner data-icon="inline-start" />}
+            {pending === "email" ? "Creating account…" : "Create account"}
           </Button>
         </FieldGroup>
       </fieldset>

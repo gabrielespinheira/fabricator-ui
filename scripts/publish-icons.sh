@@ -12,7 +12,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-for dir in packages/icons packages/icons-react-native packages/icons-static packages/editor-native packages/react; do
+for dir in packages/icons packages/icons-react-native packages/icons-static packages/editor-native packages/react packages/react-native; do
   name=$(node -p "require('./$dir/package.json').name")
   version=$(node -p "require('./$dir/package.json').version")
 
@@ -30,6 +30,8 @@ for dir in packages/icons packages/icons-react-native packages/icons-static pack
     cd "$dir"
     if [ "$dir" = packages/react ]; then
       bun run --cwd ../.. react:build
+    elif [ "$dir" = packages/react-native ]; then
+      bun run --cwd ../.. react-native:build
     else
       bun run --if-present build
     fi

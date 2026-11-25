@@ -25,7 +25,7 @@ import { Input } from "@/registry/bases/aria/ui/input"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // Renaming and deleting a chat. React Aria opens dialogs with isOpen and
-// closes them from slot="close" buttons; the other bases share a copy.
+// closes them from slot="close" buttons; the other bases have their own.
 
 type DialogProps = {
   open: boolean

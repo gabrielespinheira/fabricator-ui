@@ -297,6 +297,9 @@ type AppShellContextValue = {
   floatingOpen: Record<string, boolean>
   floating: Record<string, boolean>
   setFloating: (id: string, isFloating: boolean) => void
+  /** A phone's `swap` panel is the screen, over the main column. */
+  isMainCovered: boolean
+  setCovering: (id: string, isCovering: boolean) => void
   configs: Record<string, PanelConfig>
   registerPanel: (id: string, config: PanelConfig) => () => void
   updatePanel: (id: string, update: (panel: PanelState) => PanelState) => void
@@ -536,6 +539,17 @@ function AppShell({
       current[id] === isFloating ? current : { ...current, [id]: isFloating }
     )
   }, [])
+  const [covering, setCoveringState] = React.useState<Record<string, boolean>>(
+    {}
+  )
+  const setCovering = React.useCallback((id: string, isCovering: boolean) => {
+    setCoveringState((current) =>
+      (current[id] ?? false) === isCovering
+        ? current
+        : { ...current, [id]: isCovering }
+    )
+  }, [])
+  const isMainCovered = Object.values(covering).some(Boolean)
   const [configs, setConfigs] = React.useState<Record<string, PanelConfig>>({})
 
   // Without a server-read layout, adopt the stored one after mounting.
@@ -637,6 +651,8 @@ function AppShell({
       floatingOpen,
       floating,
       setFloating,
+      isMainCovered,
+      setCovering,
       configs,
       registerPanel,
       updatePanel,
@@ -656,6 +672,8 @@ function AppShell({
       floatingOpen,
       floating,
       setFloating,
+      isMainCovered,
+      setCovering,
       configs,
       registerPanel,
       updatePanel,
@@ -1001,9 +1019,11 @@ function AppShellMain({
   className,
   ...props
 }: React.ComponentProps<typeof SidebarInset>) {
+  const { isMainCovered } = useAppShell()
   return (
     <SidebarInset
       data-app-shell-main=""
+      inert={isMainCovered}
       className={cn(
         "cn-app-shell-main min-h-0 min-w-0 overflow-hidden",
         className
@@ -1777,11 +1797,16 @@ function AppShellPanel({
           breakpoints: shell.breakpoints,
         })
 
-  const { setFloating } = shell
+  const { setFloating, setCovering } = shell
   const isFloating = placement !== "inline"
   React.useLayoutEffect(() => {
     setFloating(id, isFloating)
   }, [setFloating, id, isFloating])
+  const isCovering = placement === "swap" && panel.open
+  React.useLayoutEffect(() => {
+    setCovering(id, isCovering)
+    return () => setCovering(id, false)
+  }, [setCovering, id, isCovering])
 
   const contextValue: PanelContextValue = {
     id,
@@ -2082,7 +2107,7 @@ function AppShellPanelTitle({
   )
 }
 
-/** The panel's views as tabs. Below 360px they show icons only. */
+/** The panel's views as tabs. Below 360px those with an icon show it alone. */
 function AppShellPanelTabs({
   className,
   ...props
@@ -2099,6 +2124,7 @@ function AppShellPanelTabs({
           key={view.value}
           value={view.value}
           aria-label={view.label}
+          data-icon={view.icon ? "" : undefined}
           className="cn-app-shell-panel-tab"
         >
           <IconSlot icon={view.icon} />

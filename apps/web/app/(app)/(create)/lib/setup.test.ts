@@ -143,6 +143,27 @@ describe("the apps in the command", () => {
     )
   })
 
+  it("round-trips a standalone Tauri host without an Expo flag or website", () => {
+    const mobile = setup({
+      framework: "vite",
+      web: false,
+      mobile: true,
+      mobileRuntime: "tauri",
+    })
+    expect(parseSetupParams(setupToParams(mobile))).toMatchObject({
+      framework: "vite",
+      web: false,
+      mobile: true,
+      mobileRuntime: "tauri",
+    })
+    expect(buildSetupCommand(mobile, "npm")).toBe(
+      "npx fabricator-ui@latest create fabricator-ui -t vite --no-web --mobile-runtime tauri --yes"
+    )
+    expect(
+      parseSetupParams(new URLSearchParams("mobile=true")).mobileRuntime
+    ).toBe("expo")
+  })
+
   it("writes a lone desktop app without a website", () => {
     expect(
       buildSetupCommand(setup({ web: false, desktop: "tauri" }), "npm")
@@ -263,6 +284,7 @@ describe("setup params", () => {
       name: "studio-site",
       web: false,
       mobile: true,
+      mobileRuntime: "expo",
       desktop: "tauri",
       tooling: "biome",
       runner: "vite-plus",

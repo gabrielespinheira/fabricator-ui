@@ -6,8 +6,10 @@ import {
   cpSync,
   existsSync,
   mkdirSync,
+  mkdtempSync,
   readdirSync,
   readFileSync,
+  renameSync,
   rmSync,
   statSync,
   writeFileSync,
@@ -16,6 +18,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import {
   EXPO_SDK,
+  hasExpoApp,
   hasWebApp,
   projectName,
   type Framework,
@@ -65,6 +68,7 @@ import {
   getWebItems,
 } from "./items"
 import { setUpReactPackage } from "./package-install"
+import { configureNativePackage } from "./package-native"
 import { scaffoldPackageWeb } from "./package-scaffold"
 import { writeProjectDocs } from "./project-docs"
 import { writeSkill } from "./skill"
@@ -174,7 +178,12 @@ const scaffoldMonorepo: Step = async (context) => {
   const rootPackage = path.join(root, "package.json")
   if (existsSync(rootPackage)) return
   mkdirSync(path.join(root, "apps"), { recursive: true })
-  writeJsonFile(rootPackage, buildWorkspaceRoot(projectName(setup)))
+  writeJsonFile(rootPackage, {
+    ...buildWorkspaceRoot(projectName(setup)),
+    ...(setup.distribution === "package" && {
+      fabricatorDistribution: "package",
+    }),
+  })
   if (packageManager === "pnpm") {
     writeFileSync(path.join(root, "pnpm-workspace.yaml"), PNPM_WORKSPACE_CONFIG)
   }
@@ -313,7 +322,7 @@ function getTemplatesRoot() {
     new URL("../../templates", import.meta.url),
   ].map((url) => fileURLToPath(url))
   const root = candidates.find((dir) => existsSync(dir))
-  if (!root) throw new Error("The CLI is missing its desktop templates.")
+  if (!root) throw new Error("The CLI is missing its application templates.")
   return root
 }
 
@@ -338,6 +347,127 @@ function copyTemplate(
       )
     }
   }
+}
+
+const TAURI_MOBILE_CONFIG = "vite.tauri-mobile.config.mjs"
+const TAURI_MOBILE_SCRIPTS = {
+  "dev:tauri-mobile": `vite --config ${TAURI_MOBILE_CONFIG}`,
+  "build:tauri-mobile": `vite build --config ${TAURI_MOBILE_CONFIG}`,
+}
+
+function addScripts(file: string, scripts: Record<string, string>) {
+  const manifest = readJsonFile(file)
+  const current = z.record(z.string(), z.string()).parse(manifest.scripts ?? {})
+  for (const [name, script] of Object.entries(scripts)) {
+    if (current[name] !== undefined && current[name] !== script) {
+      throw new Error(
+        `Resolve the existing "${name}" script in ${file} before adding Tauri mobile.`
+      )
+    }
+  }
+  if (Object.keys(scripts).every((name) => Object.hasOwn(current, name)))
+    return null
+  return { ...manifest, scripts: { ...current, ...scripts } }
+}
+
+const scaffoldTauriMobile: Step = async (context) => {
+  const { setup, root, mobileDir, webDir, packageManager } = context
+  if (
+    detectFramework(webDir) !== "vite" ||
+    !readPackageJson(webDir)?.dependencies?.react ||
+    !existsSync(path.join(webDir, "index.html"))
+  ) {
+    throw new Error(
+      "Tauri mobile needs a React + Vite renderer with an index.html in apps/web."
+    )
+  }
+  const mobileManifest = path.join(mobileDir, "package.json")
+  const alreadyScaffolded =
+    existsSync(mobileManifest) &&
+    readJsonFile(mobileManifest).fabricatorRuntime === "tauri-mobile" &&
+    existsSync(path.join(mobileDir, "src-tauri/tauri.conf.json"))
+  if (!alreadyScaffolded && existsSync(mobileDir)) {
+    throw new Error(
+      "apps/mobile already exists. Use an available mobile workspace before adding Tauri."
+    )
+  }
+
+  const rootPackage = path.join(root, "package.json")
+  const webPackage = path.join(webDir, "package.json")
+  const rootScripts = Object.fromEntries(
+    [
+      ...["ios", "ipad", "android"].map((platform) => [
+        `dev:mobile:${platform}`,
+        platform,
+      ]),
+      ...["ios", "android"].flatMap((platform) => [
+        [`init:mobile:${platform}`, `init:${platform}`],
+        [`build:mobile:${platform}`, `build:${platform}`],
+      ]),
+    ].map(([name, script]) => [
+      name,
+      `cd apps/mobile && ${packageManager} run ${script}`,
+    ])
+  )
+  const nextRootPackage = addScripts(rootPackage, rootScripts)
+  const nextWebPackage = addScripts(webPackage, TAURI_MOBILE_SCRIPTS)
+  const template = path.join(getTemplatesRoot(), "mobile-tauri")
+  const renderer = path.join(webDir, TAURI_MOBILE_CONFIG)
+  if (
+    existsSync(renderer) &&
+    !readFileSync(renderer, "utf8").startsWith(
+      "// Fabricator UI Tauri mobile renderer"
+    )
+  ) {
+    throw new Error(
+      `Move the custom ${TAURI_MOBILE_CONFIG} aside before adding the Fabricator UI mobile profile.`
+    )
+  }
+
+  if (!alreadyScaffolded) {
+    const stage = mkdtempSync(
+      path.join(path.dirname(mobileDir), ".tauri-mobile-")
+    )
+    try {
+      const appName = projectName(setup)
+      const slug = appName
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")
+        .slice(0, 40)
+        .replace(/-$/, "")
+      const name = /^[a-z]/.test(slug) ? slug : `app-${slug || "project"}`
+      copyTemplate(
+        path.join(template, "src-tauri"),
+        path.join(stage, "src-tauri"),
+        {
+          APP_NAME_JSON: JSON.stringify(appName).slice(1, -1),
+          APP_IDENTIFIER: `app.project${slug.replaceAll("-", "")}.mobile`,
+          CRATE_NAME: `${name}-mobile`,
+          LIB_NAME: `${name.replaceAll("-", "_")}_mobile_lib`,
+          PACKAGE_MANAGER: packageManager,
+        }
+      )
+      cpSync(
+        path.join(template, "package.json"),
+        path.join(stage, "package.json")
+      )
+      cpSync(path.join(template, "gitignore"), path.join(stage, ".gitignore"))
+      writeFileSync(
+        path.join(stage, "README.md"),
+        renderTemplate(readFileSync(path.join(template, "README.md"), "utf8"), {
+          PACKAGE_MANAGER: packageManager,
+        })
+      )
+      renameSync(stage, mobileDir)
+    } finally {
+      rmSync(stage, { recursive: true, force: true })
+    }
+  }
+  if (!existsSync(renderer))
+    cpSync(path.join(template, TAURI_MOBILE_CONFIG), renderer)
+  if (nextRootPackage) writeJsonFile(rootPackage, nextRootPackage)
+  if (nextWebPackage) writeJsonFile(webPackage, nextWebPackage)
 }
 
 function getLightsY(setup: ProjectSetup) {
@@ -417,9 +547,9 @@ function configureStaticBuild(context: SetupContext) {
 }
 
 const configureWorkspace: Step = async (context) => {
-  const { setup, root, packageManager, mobileDir } = context
+  const { setup, root, packageManager, mobileDir, webDir } = context
   const rootPackage = path.join(root, "package.json")
-  const mobileReact = setup.mobile
+  const mobileReact = hasExpoApp(setup)
     ? readPackageJson(mobileDir)?.dependencies?.react
     : undefined
   writeJsonFile(
@@ -432,8 +562,22 @@ const configureWorkspace: Step = async (context) => {
       ...(mobileReact ? { mobileReact } : {}),
     })
   )
-  if (setup.mobile && packageManager === "bun") {
+  if (hasExpoApp(setup) && packageManager === "bun") {
     writeFileSync(path.join(root, "bunfig.toml"), BUN_HOISTED_CONFIG)
+  }
+  if (setup.distribution === "package" && mobileReact && hasWebApp(setup)) {
+    const manifest = path.join(webDir, "package.json")
+    const pkg = readPackageJson(webDir)
+    if (pkg?.dependencies?.react !== mobileReact) {
+      writeJsonFile(manifest, {
+        ...readJsonFile(manifest),
+        dependencies: {
+          ...pkg?.dependencies,
+          react: mobileReact,
+          "react-dom": mobileReact,
+        },
+      })
+    }
   }
   if (setup.desktop !== "none") configureStaticBuild(context)
 }
@@ -510,7 +654,9 @@ function switchToolchain(
   }
   writeFileSync(
     path.join(root, "vite.config.ts"),
-    buildViteConfig({ hasWebApp: hasWebApp(setup) })
+    buildViteConfig({
+      hasWebApp: hasWebApp(setup) && setup.distribution === "source",
+    })
   )
 }
 
@@ -552,7 +698,7 @@ function completeEslintAndPrettier(context: SetupContext) {
       withPackages(pkg, {}, { lint: "turbo lint" })
     )
   }
-  if (setup.mobile) {
+  if (hasExpoApp(setup)) {
     // Expo's template runs `expo lint`, which asks to install ESLint first.
     writeFileSync(path.join(mobileDir, "eslint.config.js"), EXPO_ESLINT_CONFIG)
     updateJsonFile(path.join(mobileDir, "package.json"), (pkg) =>
@@ -782,8 +928,7 @@ const mount: Step = async (context) => {
     }
     return
   }
-  const isExpoOnly = setup.project === "new" && setup.framework === "expo"
-  if (setup.mobile || isExpoOnly) {
+  if (hasExpoApp(setup)) {
     mountNative(context, mobileDir)
     writeNativePages(mobileDir)
   }
@@ -938,8 +1083,11 @@ export const STEPS: Record<StepId, Step> = {
   "configure-monorepo": configureMonorepo,
   "add-web-items": addWebItems,
   "scaffold-mobile": scaffoldMobile,
+  "scaffold-tauri-mobile": scaffoldTauriMobile,
   "scaffold-desktop": scaffoldDesktop,
   "configure-workspace": configureWorkspace,
+  "configure-package-mobile": (context) =>
+    configureNativePackage(context, context.mobileDir, true),
   "configure-tooling": configureTooling,
   install,
   "setup-mobile": setupMobile,

@@ -689,6 +689,10 @@ const shards: Record<
       "messenger-01",
       "mail-01",
       "calendar-app-01",
+      "settings-01",
+      "members-01",
+      "billing-01",
+      "onboarding-01",
     ]),
   },
   "radix-fabricator": {
@@ -766,6 +770,10 @@ const shards: Record<
       "messenger-01",
       "mail-01",
       "calendar-app-01",
+      "settings-01",
+      "members-01",
+      "billing-01",
+      "onboarding-01",
     ]),
   },
   "aria-fabricator": {
@@ -841,6 +849,10 @@ const shards: Record<
       "messenger-01",
       "mail-01",
       "calendar-app-01",
+      "settings-01",
+      "members-01",
+      "billing-01",
+      "onboarding-01",
     ]),
   },
 }

@@ -4,10 +4,12 @@ import { FinanceCardLink } from "@/registry/bases/__base__/blocks/finance-01/com
 import { FinanceCounterpartyMark } from "@/registry/bases/__base__/blocks/finance-01/components/finance-counterparty"
 import { FinanceTransactionTableHeader } from "@/registry/bases/__base__/blocks/finance-01/components/finance-transaction-table-header"
 import {
+  formatDate,
+  formatMoney,
+  type FinanceAccountId,
+  type FinanceStatus,
   type FinanceTransaction,
-  type FinanceTransactionStatus,
-} from "@/registry/bases/__base__/blocks/finance-01/lib/finance-data"
-import { formatMoney } from "@/registry/bases/__base__/blocks/finance-01/lib/finance-model"
+} from "@/registry/bases/__base__/blocks/finance-01/lib/finance-model"
 import { Badge } from "@/registry/bases/__base__/ui/badge"
 import {
   Card,
@@ -24,21 +26,24 @@ import {
   TableRow,
 } from "@/registry/bases/__base__/ui/table"
 
+// Colour only for what isn't over yet: a completed payment needs nobody.
 const STATUSES = {
-  completed: { label: "Completed", variant: "success" },
+  completed: { label: "Completed", variant: "outline" },
   pending: { label: "Pending", variant: "info" },
   declined: { label: "Declined", variant: "destructive" },
 } as const satisfies Record<
-  FinanceTransactionStatus,
-  { label: string; variant: "success" | "info" | "destructive" }
+  FinanceStatus,
+  { label: string; variant: "outline" | "info" | "destructive" }
 >
 
-/** The latest money in and out, edge to edge, with their state. */
+/** The latest money in and out, edge to edge, with its state. */
 export function FinanceTransactionsCard({
   transactions,
+  accountNames,
   className,
 }: {
-  transactions: FinanceTransaction[]
+  transactions: readonly FinanceTransaction[]
+  accountNames: Readonly<Record<FinanceAccountId, string>>
   className?: string
 }) {
   return (
@@ -61,27 +66,38 @@ export function FinanceTransactionsCard({
               const status = STATUSES[transaction.status]
               return (
                 <TableRow key={transaction.id}>
-                  <TableCell className="max-w-0 min-w-28 font-medium text-foreground">
+                  <TableCell className="w-full max-w-0 font-medium text-foreground @3xl/transactions:w-2/5">
                     <div className="flex items-center gap-(--density-10)">
                       <FinanceCounterpartyMark
                         counterparty={transaction.payee}
                       />
                       <div className="flex min-w-0 flex-col items-start gap-(--density-4)">
-                        <span className="max-w-full truncate">
+                        {/* A narrow card wraps the name rather than cut it. */}
+                        <span className="max-w-full whitespace-normal @lg/transactions:truncate">
                           {transaction.payee.name}
                         </span>
-                        {/* Narrow cards move the status under the name. */}
-                        <Badge
-                          variant={status.variant}
-                          className="@sm/transactions:hidden"
-                        >
-                          {status.label}
-                        </Badge>
+                        <span className="flex flex-wrap items-center gap-x-(--density-8) gap-y-(--density-4) font-normal text-muted-foreground @lg/transactions:hidden">
+                          {formatDate(transaction.date)}
+                          {transaction.status !== "completed" && (
+                            <Badge
+                              variant={status.variant}
+                              className="@sm/transactions:hidden"
+                            >
+                              {status.label}
+                            </Badge>
+                          )}
+                        </span>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="hidden tabular-nums @lg/transactions:table-cell">
-                    {transaction.date}
+                  <TableCell className="hidden text-muted-foreground tabular-nums @lg/transactions:table-cell">
+                    {formatDate(transaction.date)}
+                  </TableCell>
+                  <TableCell className="hidden text-muted-foreground @2xl/transactions:table-cell">
+                    {accountNames[transaction.accountId]}
+                  </TableCell>
+                  <TableCell className="hidden text-muted-foreground @3xl/transactions:table-cell">
+                    {transaction.category}
                   </TableCell>
                   <TableCell className="hidden @sm/transactions:table-cell">
                     <Badge variant={status.variant}>{status.label}</Badge>

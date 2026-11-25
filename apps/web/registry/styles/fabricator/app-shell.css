@@ -132,7 +132,7 @@
   }
 
   .cn-app-shell-breadcrumb-current {
-    @apply flex min-w-0 cursor-pointer items-center gap-(--density-4) rounded-md ring-ring focus-visible:ring-1 [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+    @apply flex min-h-(--density-24) min-w-0 cursor-pointer items-center gap-(--density-4) rounded-md ring-ring focus-visible:ring-1 pointer-coarse:min-h-(--density-48) [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
   }
 
   .cn-app-shell-breadcrumb-title {
@@ -188,7 +188,7 @@
      (shadow-surface-3); otherwise a hairline parts them. On phones, `swap`
      makes the panel the screen. */
   .cn-app-shell-panel {
-    @apply mb-(--app-shell-status-bar-height) border-border bg-(--app-shell-panel) [--background:var(--app-shell-panel)] transition-[width,margin,border-width,box-shadow] duration-move ease-move data-closed:duration-move-exit data-closed:ease-exit data-[placement=inline]:data-open:data-[side=left]:border-e data-[placement=inline]:data-open:data-[side=right]:border-s data-[placement=swap]:border-0 data-[placement=swap]:bg-(--app-shell-frame) data-[placement=swap]:[--background:var(--app-shell-frame)] motion-reduce:transition-none group-has-data-[variant=inset]/sidebar-wrapper:my-(--density-8) group-has-data-[variant=inset]/sidebar-wrapper:mb-[max(var(--density-8),var(--app-shell-status-bar-height))] group-has-data-[variant=inset]/sidebar-wrapper:rounded-xl group-has-data-[variant=inset]/sidebar-wrapper:border-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[placement=inline]:data-open:data-[side=left]:border-e-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[placement=inline]:data-open:data-[side=right]:border-s-0 group-has-data-[variant=inset]/sidebar-wrapper:shadow-(--app-shell-card-shadow) group-has-data-[variant=inset]/sidebar-wrapper:data-open:me-(--density-8) group-has-data-[variant=inset]/sidebar-wrapper:data-closed:shadow-none;
+    @apply mb-(--app-shell-status-bar-height) border-border bg-(--app-shell-panel) [--background:var(--app-shell-panel)] transition-[width,margin,border-width,box-shadow] duration-move ease-move data-closed:duration-move-exit data-closed:ease-exit data-[placement=inline]:data-open:data-[side=left]:border-e data-[placement=inline]:data-open:data-[side=right]:border-s data-[placement=swap]:border-0 motion-reduce:transition-none group-has-data-[variant=inset]/sidebar-wrapper:my-(--density-8) group-has-data-[variant=inset]/sidebar-wrapper:mb-[max(var(--density-8),var(--app-shell-status-bar-height))] group-has-data-[variant=inset]/sidebar-wrapper:rounded-xl group-has-data-[variant=inset]/sidebar-wrapper:border-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[placement=inline]:data-open:data-[side=left]:border-e-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[placement=inline]:data-open:data-[side=right]:border-s-0 group-has-data-[variant=inset]/sidebar-wrapper:shadow-(--app-shell-card-shadow) group-has-data-[variant=inset]/sidebar-wrapper:data-open:me-(--density-8) group-has-data-[variant=inset]/sidebar-wrapper:data-closed:shadow-none;
   }
 
   .cn-app-shell-panel-inner {
@@ -229,13 +229,13 @@
     @apply justify-start;
   }
 
-  /* Below a 360px panel the view tabs show their icons only. */
+  /* Below a 360px panel the view tabs with an icon show it alone. */
   .cn-app-shell-panel-tab {
-    @apply @max-[22.5rem]/app-shell-panel:px-(--density-8);
+    @apply @max-[22.5rem]/app-shell-panel:data-icon:px-(--density-8);
   }
 
   .cn-app-shell-panel-tab-label {
-    @apply @max-[22.5rem]/app-shell-panel:sr-only;
+    @apply @max-[22.5rem]/app-shell-panel:in-data-icon:sr-only;
   }
 
   .cn-app-shell-panel-view {

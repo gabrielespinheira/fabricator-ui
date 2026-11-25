@@ -114,10 +114,11 @@ export function buildNativeComponentsJson(
 export type SetupChange = { file: string; action: "created" | "updated" }
 
 /** Writes what `shadcn add` needs before it can run in an Expo project. */
-export function writeNativeSetup(
-  cwd: string,
-  baseUrl: string
-): { cssEntry: string; changes: SetupChange[]; hasCustomMetro: boolean } {
+export function writeNativeEnvironment(cwd: string): {
+  cssEntry: string
+  changes: SetupChange[]
+  hasCustomMetro: boolean
+} {
   const resolve = (relative: string) => path.join(cwd, relative)
   const changes: SetupChange[] = []
   const cssEntry = findCssEntry((relative) => existsSync(resolve(relative)))
@@ -139,13 +140,18 @@ export function writeNativeSetup(
   const hasCustomMetro =
     hasMetro && !readFileSync(metroPath, "utf8").includes("withUniwindConfig")
 
-  const componentsPath = resolve("components.json")
+  return { cssEntry, changes, hasCustomMetro }
+}
+
+export function writeNativeSetup(cwd: string, baseUrl: string) {
+  const result = writeNativeEnvironment(cwd)
+  const componentsPath = path.join(cwd, "components.json")
   if (!existsSync(componentsPath)) {
     writeFileSync(
       componentsPath,
-      `${JSON.stringify(buildNativeComponentsJson(cssEntry, baseUrl), null, 2)}\n`
+      `${JSON.stringify(buildNativeComponentsJson(result.cssEntry, baseUrl), null, 2)}\n`
     )
-    changes.push({ file: "components.json", action: "created" })
+    result.changes.push({ file: "components.json", action: "created" })
   }
-  return { cssEntry, changes, hasCustomMetro }
+  return result
 }

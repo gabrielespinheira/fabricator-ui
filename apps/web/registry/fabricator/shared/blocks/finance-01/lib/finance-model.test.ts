@@ -5,14 +5,54 @@ import {
   formatMoney,
   formatMoneyCompact,
   formatRunway,
-  getApprovalSummary,
+  getAccountShares,
+  getApprovalsLead,
+  getCardSpent,
   getChange,
   getComparisonLabel,
   getDeltaTone,
+  getDueStatus,
   getFinanceOverview,
-  getRunwayMonths,
+  getRecentTransactions,
+  getSpendingScope,
+  getTotalCash,
+  getWaitingApprovals,
   isFinancePeriod,
+  toPayment,
+  type FinanceApproval,
+  type FinanceEntry,
+  type FinanceTransaction,
 } from "@/registry/fabricator/shared/blocks/finance-01/lib/finance-model"
+
+const NOW = Date.UTC(2026, 10, 24, 9, 41)
+
+function entry(
+  date: string,
+  amount: number,
+  fields: Partial<FinanceEntry> = {}
+): FinanceEntry {
+  return {
+    date,
+    amount,
+    accountId: "checking",
+    category: amount > 0 ? "Revenue" : "Cloud",
+    status: "completed",
+    ...fields,
+  }
+}
+
+function transaction(
+  id: string,
+  date: string,
+  fields: Partial<FinanceTransaction> = {}
+): FinanceTransaction {
+  return {
+    ...entry(date, -100),
+    id,
+    payee: { kind: "initials", name: id, initials: "X" },
+    ...fields,
+  }
+}
 
 describe("formatMoney", () => {
   it("writes whole dollars with grouping", () => {
@@ -78,109 +118,271 @@ describe("getDeltaTone", () => {
   })
 })
 
-describe("runway", () => {
-  it("divides cash by the monthly net burn", () => {
-    // $122,800 burned in 30 days is $124,603 a month.
-    expect(getRunwayMonths(1_284_310, 268_400, 391_200, 30)).toBeCloseTo(
-      10.31,
-      2
-    )
-  })
-
-  it("is unlimited when money in covers money out", () => {
-    expect(getRunwayMonths(500_000, 120_000, 90_000, 30)).toBe(Infinity)
-    expect(formatRunway(Infinity)).toBe("No burn")
-    expect(formatRunway(10.31)).toBe("10.3 mo")
-  })
-})
-
-describe("isFinancePeriod", () => {
+describe("periods", () => {
   it("accepts only the presets", () => {
     expect(isFinancePeriod("30d")).toBe(true)
     expect(isFinancePeriod("1y")).toBe(false)
   })
+
+  it("names the previous period", () => {
+    expect(getComparisonLabel("30d")).toBe("vs the previous 30 days")
+    expect(getComparisonLabel("12m")).toBe("vs the previous 12 months")
+  })
 })
 
-describe("getComparisonLabel", () => {
-  it("names the previous period", () => {
-    expect(getComparisonLabel("30d")).toBe("Compared with the previous 30 days")
-    expect(getComparisonLabel("12m")).toBe(
-      "Compared with the previous 12 months"
+describe("accounts", () => {
+  it("add up to the cash balance", () => {
+    expect(getTotalCash([{ balance: 842_190 }, { balance: 62_120 }])).toBe(
+      904_310
     )
+  })
+
+  it("share the balance in whole percents that make 100", () => {
+    expect(
+      getAccountShares([
+        { id: "checking", balance: 842_190 },
+        { id: "treasury", balance: 380_000 },
+        { id: "savings", balance: 62_120 },
+      ])
+    ).toEqual({ checking: 65, treasury: 30, savings: 5 })
+  })
+
+  it("share nothing when there is no cash", () => {
+    expect(getAccountShares([{ id: "checking", balance: 0 }])).toEqual({
+      checking: 0,
+    })
+  })
+})
+
+describe("getCardSpent", () => {
+  it("adds this month's card payments, with what is still pending", () => {
+    const entries = [
+      entry("2026-11-02", -1_000, { accountId: "card" }),
+      entry("2026-11-24", -250.5, { accountId: "card", status: "pending" }),
+    ]
+    expect(getCardSpent(entries, NOW)).toBe(1_250.5)
+  })
+
+  it("leaves out declined payments, other accounts and last month", () => {
+    const entries = [
+      entry("2026-11-23", -412.2, { accountId: "card", status: "declined" }),
+      entry("2026-11-23", -900),
+      entry("2026-10-31", -700, { accountId: "card" }),
+    ]
+    expect(getCardSpent(entries, NOW)).toBe(0)
   })
 })
 
 describe("getFinanceOverview", () => {
-  it("draws one point per day, week or month of the period", () => {
-    expect(getFinanceOverview("7d").cash).toHaveLength(7)
-    expect(getFinanceOverview("30d").cash).toHaveLength(30)
-    expect(getFinanceOverview("90d").cash).toHaveLength(13)
-    expect(getFinanceOverview("12m").cash).toHaveLength(12)
+  // $1,000 today, after $300 in and $80 out this week and $500 of payroll
+  // before that.
+  const entries = [
+    entry("2026-11-24", 300),
+    entry("2026-11-20", -50, { category: "Software" }),
+    entry("2026-11-18", -30, { category: "Cloud" }),
+    entry("2026-11-17", -500, { category: "Payroll" }),
+    entry("2026-11-12", 200),
+    entry("2026-11-11", -60),
+    entry("2026-11-24", -999, { status: "pending" }),
+    entry("2026-11-23", -999, { status: "declined" }),
+  ]
+  const getOverview = (period: "7d" | "30d" | "90d" | "12m") =>
+    getFinanceOverview({ period, entries, balance: 1_000, now: NOW })
+
+  it("draws a point per day, and per week over 12 months", () => {
+    expect(getOverview("7d").cash).toHaveLength(7)
+    expect(getOverview("30d").cash).toHaveLength(30)
+    expect(getOverview("90d").cash).toHaveLength(90)
+    expect(getOverview("12m").cash).toHaveLength(53)
+    expect(getOverview("90d").grain).toBe("Daily")
+    expect(getOverview("12m").grain).toBe("Weekly")
   })
 
-  it("ends the cash line on today's balance, and starts where money flowed from", () => {
-    const { cash } = getFinanceOverview("30d")
-    expect(cash.at(-1)).toMatchObject({ date: "Nov 17", current: 1_284_310 })
-    // The balance before 30 days of $268,400 in and $391,200 out.
-    expect(cash[0].current).toBe(1_407_110)
-    // The previous period ends where this one starts.
-    expect(cash.at(-1)?.previous).toBe(1_407_110)
-  })
-
-  it("names the grain of the cash line", () => {
-    expect(getFinanceOverview("30d").grain).toBe("Daily")
-    expect(getFinanceOverview("90d").grain).toBe("Weekly")
-    expect(getFinanceOverview("12m").grain).toBe("Monthly")
-  })
-
-  it("labels weeks and months by their date", () => {
-    expect(getFinanceOverview("90d").cash.at(-1)?.date).toBe("Nov 17")
-    expect(getFinanceOverview("90d").cash.at(-2)?.date).toBe("Nov 10")
-    expect(getFinanceOverview("12m").cash.map(({ date }) => date)).toEqual([
-      "Dec",
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
+  it("walks the closing balances back from today's", () => {
+    expect(
+      getOverview("7d").cash.map(({ date, current }) => [date, current])
+    ).toEqual([
+      ["Nov 18", 750],
+      ["Nov 19", 750],
+      ["Nov 20", 700],
+      ["Nov 21", 700],
+      ["Nov 22", 700],
+      ["Nov 23", 700],
+      ["Nov 24", 1_000],
     ])
   })
 
-  it("reports the headline numbers with their direction", () => {
-    const metrics = getFinanceOverview("30d").metrics
-    expect(metrics.map(({ id, value, change }) => [id, value, change])).toEqual(
-      [
-        ["cash", "$1.28M", -8.7],
-        ["in", "$268.4K", 12.4],
-        ["out", "$391.2K", -3.1],
-        ["runway", "10.3 mo", 1.9],
-      ]
-    )
-    expect(metrics.find(({ id }) => id === "out")?.isGoodWhenUp).toBe(false)
+  it("ends the previous period where this one starts", () => {
+    const overview = getOverview("7d")
+    expect(overview.cash.at(-1)?.previous).toBe(780)
+    expect(overview.previousCash).toBe(780)
+    expect(overview.cashChange).toBe(28.2)
   })
 
-  it("ranks spending largest first and sums to money out", () => {
-    const { spending } = getFinanceOverview("30d")
-    const amounts = spending.map(({ amount }) => amount)
-    expect(amounts).toEqual([...amounts].sort((a, b) => b - a))
-    expect(amounts.reduce((sum, amount) => sum + amount, 0)).toBe(391_200)
+  it("counts only completed money, against the previous period", () => {
+    const [moneyIn, moneyOut] = getOverview("7d").metrics
+    expect([moneyIn.value, moneyIn.previous, moneyIn.change]).toEqual([
+      "$300",
+      "$200",
+      50,
+    ])
+    expect([moneyOut.value, moneyOut.previous, moneyOut.change]).toEqual([
+      "$80",
+      "$560",
+      -85.7,
+    ])
+    expect(moneyOut.isGoodWhenUp).toBe(false)
+  })
+
+  it("ranks spending without payroll, and the two make money out", () => {
+    const { spending, payroll, moneyOut } = getOverview("30d")
+    expect(spending).toEqual([
+      { category: "Cloud", amount: 90 },
+      { category: "Software", amount: 50 },
+    ])
+    expect(payroll).toBe(500)
+    expect(moneyOut).toBe(640)
+  })
+
+  it("keeps Other last, however much it holds", () => {
+    const { spending } = getFinanceOverview({
+      period: "7d",
+      entries: [
+        entry("2026-11-20", -900, { category: "Other" }),
+        entry("2026-11-20", -10, { category: "Office" }),
+      ],
+      balance: 1_000,
+      now: NOW,
+    })
+    expect(spending.map(({ category }) => category)).toEqual([
+      "Office",
+      "Other",
+    ])
+  })
+
+  it("measures runway on the last 13 weeks in every period", () => {
+    const runways = (["7d", "30d", "90d", "12m"] as const).map(
+      (period) => getOverview(period).metrics[2].value
+    )
+    // $140 burned in 91 days is $46.83 a month.
+    expect(runways).toEqual(["21.4 mo", "21.4 mo", "21.4 mo", "21.4 mo"])
+  })
+
+  it("says when money in covers money out", () => {
+    const overview = getFinanceOverview({
+      period: "30d",
+      entries: [entry("2026-11-20", 400)],
+      balance: 1_000,
+      now: NOW,
+    })
+    expect(overview.metrics[2]).toMatchObject({ value: "No burn", change: 0 })
+    expect(formatRunway(10.31)).toBe("10.3 mo")
   })
 })
 
-describe("getApprovalSummary", () => {
-  it("counts what waits and its total", () => {
-    expect(getApprovalSummary([{ amount: 2_340 }, { amount: 18_900.5 }])).toBe(
-      "2 waiting, $21,240.50 in total"
-    )
+describe("getSpendingScope", () => {
+  it("says how much payroll it leaves out", () => {
+    expect(getSpendingScope(480_000)).toBe("Without $480K of payroll")
   })
 
-  it("says when nothing waits", () => {
-    expect(getApprovalSummary([])).toBe("Nothing waiting")
+  it("says when the period has none", () => {
+    expect(getSpendingScope(0)).toBe("No payroll in this period")
+  })
+})
+
+describe("approvals", () => {
+  const approvals: FinanceApproval[] = [
+    {
+      id: "a",
+      payee: { kind: "initials", name: "Priya Raman", initials: "PR" },
+      detail: "Team offsite travel",
+      due: null,
+      submitted: "2026-11-20",
+      amount: 1_186.4,
+      category: "Other",
+    },
+    {
+      id: "b",
+      payee: { kind: "initials", name: "Figma", initials: "F" },
+      detail: "Annual renewal, 42 seats",
+      due: "2026-11-30",
+      submitted: "2026-11-10",
+      amount: 18_900,
+      category: "Software",
+    },
+    {
+      id: "c",
+      payee: { kind: "initials", name: "Vercel", initials: "V" },
+      detail: "Invoice INV-2291",
+      due: "2026-11-24",
+      submitted: "2026-11-12",
+      amount: 2_340,
+      category: "Cloud",
+    },
+  ]
+
+  it("wait in the order they are due, undated last", () => {
+    const ids = getWaitingApprovals(approvals, []).map(({ id }) => id)
+    expect(ids).toEqual(["c", "b", "a"])
+  })
+
+  it("leave when approved, and return to their place with Undo", () => {
+    const waiting = getWaitingApprovals(approvals, ["b"])
+    expect(waiting.map(({ id }) => id)).toEqual(["c", "a"])
+    expect(getWaitingApprovals(approvals, [])).toHaveLength(3)
+  })
+
+  it("add up to the lead", () => {
+    expect(getApprovalsLead(approvals)).toBe(
+      "3 payments wait for you, $22,426 in total."
+    )
+    expect(getApprovalsLead(approvals.slice(0, 1))).toBe(
+      "1 payment waits for you, $1,186."
+    )
+    expect(getApprovalsLead([])).toBe("No payments wait for you.")
+  })
+
+  it("become a pending payment today, from Checking", () => {
+    expect(toPayment(approvals[1], NOW)).toMatchObject({
+      date: "2026-11-24",
+      amount: -18_900,
+      accountId: "checking",
+      category: "Software",
+      status: "pending",
+    })
+  })
+})
+
+describe("getDueStatus", () => {
+  const due = (date: string | null) =>
+    getDueStatus({ due: date, submitted: "2026-11-20" }, NOW)
+
+  it("says the date, today, or since when it is late", () => {
+    expect(due("2026-11-30")).toEqual({ label: "Due Nov 30", isLate: false })
+    expect(due("2026-11-24")).toEqual({ label: "Due today", isLate: false })
+    expect(due("2026-11-21")).toEqual({
+      label: "Due Nov 21, 3 days late",
+      isLate: true,
+    })
+    expect(due("2026-11-23").label).toBe("Due Nov 23, 1 day late")
+  })
+
+  it("says when an undated one was submitted", () => {
+    expect(due(null)).toEqual({ label: "Submitted Nov 20", isLate: false })
+  })
+})
+
+describe("getRecentTransactions", () => {
+  it("is newest first, with payments just approved on top", () => {
+    const recent = getRecentTransactions({
+      transactions: [
+        transaction("old", "2026-11-18"),
+        transaction("new", "2026-11-24"),
+        transaction("middle", "2026-11-20"),
+      ],
+      payments: [transaction("approved", "2026-11-24")],
+      count: 3,
+    })
+    expect(recent.map(({ id }) => id)).toEqual(["approved", "new", "middle"])
   })
 })

@@ -49,6 +49,16 @@ const CREATE_SETUPS: Partial<ProjectSetup>[] = [
   { project: "new", framework: "laravel" },
   { base: "radix" },
   { mobile: true },
+  { framework: "vite", web: false, mobile: true, mobileRuntime: "tauri" },
+  {
+    framework: "vite",
+    mobile: true,
+    mobileRuntime: "tauri",
+    desktop: "tauri",
+    distribution: "package",
+    appShell: false,
+    sound: false,
+  },
   { desktop: "tauri" },
   { framework: "astro", mobile: true, desktop: "electron" },
   { web: false, mobile: true },
@@ -106,6 +116,31 @@ describe("the command the site writes", () => {
 })
 
 describe("setupFromCreateFlags", () => {
+  it("defaults Tauri mobile to Vite and rejects incompatible options", () => {
+    expect(
+      setupFromCreateFlags("acme", { mobileRuntime: "tauri" })
+    ).toMatchObject({
+      project: "monorepo",
+      framework: "vite",
+      mobile: true,
+      mobileRuntime: "tauri",
+    })
+    for (const flags of [
+      { template: "next" },
+      { template: "expo" },
+      { monorepo: false },
+    ]) {
+      expect(() =>
+        setupFromCreateFlags("acme", { ...flags, mobileRuntime: "tauri" })
+      ).toThrow("Tauri mobile")
+    }
+    const { name, flags } = parse(createCreateCommand(), ["--mobile", "acme"])
+    expect(setupFromCreateFlags(name, flags)).toMatchObject({
+      name: "acme",
+      mobile: true,
+      mobileRuntime: "expo",
+    })
+  })
   it("has everything on by default", () => {
     expect(setupFromCreateFlags("acme", {})).toEqual(setup({ name: "acme" }))
   })

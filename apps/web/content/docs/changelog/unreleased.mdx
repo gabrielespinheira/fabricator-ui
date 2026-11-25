@@ -7,13 +7,17 @@ These changes are merged and ship in the next version.
 
 ## CLI
 
-**React package preview.** `init` and `create` accept `--distribution package` for qualified React web apps. Import supported Base UI components and compiled styles from `@fabricator-ui/react`. Get started offers the same selection in Project when package setup is enabled. Copy-in remains the default.
+**Tauri mobile setup.** Add a Tauri host for iOS, iPadOS and Android to a React + Vite monorepo. Web, mobile and desktop can share the Vite renderer. React Native with Expo remains the default mobile option. [Vite installation](/docs/installation/vite#tauri-mobile).
+
+**Package installation for web, mobile and desktop.** Get started can set up all selected apps with package imports. Electron and Tauri share the web renderer and `@fabricator-ui/react`. Expo uses `@fabricator-ui/react-native`, built from the existing native registry. Copy-in remains the default. [Compare install methods](/docs/installation/install-methods).
 
 **Fabricator Icons in monorepos.** New monorepos using Fabricator Icons remove the unused Lucide dependency added by the scaffold. Projects that select or import Lucide keep it.
 
 **The agent skill designs features.** The fabricator skill is rewritten around product design. It starts from what a screen is for, places every value a feature needs on a ladder from known to typed so features stop turning into long forms, and knows every component by the need it answers. New references cover error, warning, limit and permission flows, what each part of a screen becomes on phones, tablets, desktop windows and React Native, the foundations, and blueprints for common SaaS features. Recipes with working layout code cover dashboards, lists, draft-first setup pages, settings, create overlays and states. The CLI, MCP, registry and theming references move to `setup/`. Run `npx fabricator-ui@latest agents add` or `npx skills update fabricator` to get it.
 
 **The agent skill refines what it builds.** After any visual change, or when you ask it to review a screen, the skill takes screenshots at every width and theme, hands them to a sub-agent that judges them without seeing the code, checks the findings, and shows you a list to choose from before it fixes anything. It then captures the same pictures again and compares. A page probe adds what pictures hide, such as covered controls, cut-off numbers and sideways scroll.
+
+**The agent skill knows the App Shell.** A new reference explains how the App Shell's primitives fit together, how to design the sidebar, header, panels and routes from what a product does, and which changes break the frame without an error. A recipe has navigation as data, a layout that stays mounted, pages that bring their own header and panel, a sidebar that swaps its groups for settings, and a queue with its list and open item side by side. The page probe reports a broken structure as `shellProblems`.
 
 **Setup pages in the design guide.** `DESIGN.md` adds the Setup pattern: a draft that saves itself, one line per decision, and checks beside a live preview, in place of a long form. It also says which settings controls stay beside their label on phones, and that React Native is only missing the Data Table and the time in Date Picker.
 
@@ -27,7 +31,25 @@ These changes are merged and ship in the next version.
 
 **Generated project formatting.** Biome and Vite+ format generated docs before the first commit.
 
+**SwiftUI and Kotlin Compose previews retired.** The CLI and hosted registry no longer install or update SwiftUI and Compose items. Existing apps can continue using the source they copied. The preview source is available in the `fabricator-ui@0.9.0` release.
+
 ## Components
+
+**Drawer and Sheet widths.** Top and bottom panels are centered and capped at 36rem on wider screens. They keep their full width on phones.
+
+**Theme tabs in the User Menu.** `UserMenuTheme` adds a Theme row to the menu with light, dark and system as small tabs. The pill slides to the picked one and the page reveals from it with Theme Toggle's blurred circle, or any other `variant`. It comes with `useThemePreference`, the same behaviour for tabs of your own. React Native has the row without the page reveal.
+
+**Gaps in nested hover lists.** The gap around a list inside another list (the theme row in a menu) no longer lights or presses the outer list's nearest row.
+
+**App Nav icons.** On Base UI, rows and the phone tab bar show their icons again: the default link's own text was replacing them, so an icon rail showed cut-off labels. On Radix, the tab bar no longer prints each label twice. A `renderLink` that returns a link with text now works in every base. If you added App Nav or App Shell after November 18, update `app-nav`.
+
+**App Shell panel tabs.** In a panel under 360px, a view without an icon keeps its name instead of showing an empty tab.
+
+**App Shell swap panels.** On phones, a panel that takes the whole screen sits on the page surface, and the main column behind it leaves the tab order and the accessibility tree.
+
+**Event Calendar overlaps.** Events at the same time stand side by side in the day and week views, so none covers another's title.
+
+**Chat bubbles hug their text.** A wrapped bubble no longer leaves a wide empty strip beside its lines.
 
 **App Shell window dragging.** On macOS, drag the frame above the inset main column to move the window. Tabs and their controls remain clickable.
 
@@ -35,7 +57,7 @@ These changes are merged and ship in the next version.
 
 **Tab Strip rename.** Base UI and Radix focus the inline field after a rename starts. Tab Strip now passes Biome's autofocus rule while keeping keyboard renaming.
 
-**App Shell across platforms.** Tauri’s macOS window controls line up with Electron in the default layout, and the window material follows the light or dark theme. The pinned Details button stays visible in WebKit. On SwiftUI, the Details panel opens in a drawer when the view is too narrow to dock it. On Compose, inset shells put the main content and Details panel on matching cards above the status bar. The Compose macOS example uses its native window controls over the App Shell.
+**App Shell across platforms.** Tauri’s macOS window controls line up with Electron in the default layout, and the window material follows the light or dark theme. The pinned Details button stays visible in WebKit.
 
 **Smoother chart hover.** Charts redraw only the crosshair, highlight and tooltip as the pointer moves, so hovering a large Candlestick or Heat Calendar no longer redraws every candle or day. `onActiveChange` now fires when the inspected mark changes, not on every pointer move or React Native drag event. Status Bar lifts a copy of the inspected pill that glides along the bar, and the other pills dim to 40%, so hovering no longer lays out the whole page on every step.
 
@@ -57,10 +79,30 @@ These changes are merged and ship in the next version.
 
 **Lifted marks grow out of their mark.** Heat Calendar's lifted day and Status Bar's lifted pill grow from the size of their mark as they fade in where the pointer lands, then glide from mark to mark without growing again. With Reduce Motion on, they fade in at full size.
 
-**Pie Chart rests as one disc.** Slices meet edge to edge with square corners instead of keeping a 2px gap, and the slice you point at lifts out of the pie, on the web, React Native, SwiftUI and Compose. Donut Chart keeps its gaps and rounded slices.
+**Tidier toasts.** Toast and Sonner share one width, 338px at the default density, instead of 384px and 356px. One line is 40px tall, with or without an action. The action sits beside text that leaves it room and under text that doesn't, and the status icon stays on the first line. Long titles and descriptions stop at two and three lines, long words break instead of running out of the toast, and hover, focus or a tap opens the full text. The close button moved to the corner, where it shows on hover, focus and touch. Toast takes a custom icon or avatar in `data.icon`, `ToastAction` defaults to the `secondary` button, and Sonner's `closeButton` is on by default and can be turned off. The base `sonner` item takes the same look.
+
+**Rich Text Editor fits its container.** The selection bar, link field, keyboard bar, Turn into and the language picker open in the browser's top layer, so a card, dialog or scrolling panel around the editor no longer crops them. The selection bar stays within the editor and on screen, keeps clear of the toolbar, waits for the pointer to let go, and hides while its text is scrolled out of view. The toolbar keeps to one row at any width: commands without room move to a More menu, and a narrow editor folds the heading buttons into Turn into. The editor also shrinks inside grid and flex parents, where its toolbar, a long line of code or a wide table used to hold it open past the edge. The table's actions wrap instead of hiding Done and stay in view in a tall table, whose cells keep their borders while you edit. A toolbar can be made sticky in a long document, the Quote shortcut reads as a period, and Escape in the link field no longer closes the dialog around the editor.
+
+**Toast motion.** Toasts fade and grow in from their edge and leave faster than they arrive. A stack steps back and narrows to the toast in front, opening and closing as one, and a toast that changes type (loading to success) changes height in place while its new content fades in. With Reduce Motion on, only the fades remain. On React Native, a new toast no longer takes the size of the one it covers, and an open stack no longer times out while it's being read.
+
+**Pie Chart rests as one disc.** Slices meet edge to edge with square corners instead of keeping a 2px gap, and the slice you point at lifts out of the pie, on the web and React Native. Donut Chart keeps its gaps and rounded slices.
 
 **React Native chart motion.** The Pie and Donut slice lift, the Line and Area draw-in and every dim run on the UI thread instead of redrawing the chart each frame, and a scrub on Line, Area, Bar or Composition no longer redraws its marks. The lift glides on the same quick timing as the website, and dimmed marks fade instead of snapping. Scrub ticks are at least 40ms apart: a fast scrub across a dense chart gives distinct ticks instead of a buzz, and the mark you stop on always ticks. In apps that enable React Native's IntersectionObserver, a chart's draw-in waits until a quarter of it is on screen.
+
+## Blocks
+
+**Browse and preview blocks.** The Blocks gallery has category filters and light and dark previews. Each block has a shareable page with an install command, source files, component links and a live preview at desktop, tablet and phone widths. Existing block links still resolve.
+
+**Redesigned application screens.** Finance puts cash and accounts side by side. Mail gives the open thread the main column and keeps the inbox in a resizable panel. Assistant groups its work and opens artifacts beside the transcript. Messenger groups replies and adds conversation details. Calendar gives event details and RSVP their own panel. The authentication screens share the same form layout across steps.
+
+**Settings, Members, Billing and Onboarding.** Add `settings-01`, `members-01`, `billing-01` or `onboarding-01` for workspace settings, invitations and roles, plan and invoice management, or a guided setup with a live workspace preview.
+
+**Assistant upgrades.** If you previously installed `assistant-01`, its old `assistant-tool-call.tsx` can be removed after updating. The revised transcript uses grouped work steps.
 
 ## Docs
 
 **App Shell primitives.** The App Shell row under Components links to the overview and expands to show its installable companions and individual references. Each primitive reference starts with a live preview and its code. The overview shows how to customize sidebar grouping and tab placement.
+
+## Kanban
+
+New Kanban, Properties and Record View registry items for React web and React Native. Use your own record schema and persistence callbacks, including per-column cursor pagination, and compose the board with typed fields and record details.

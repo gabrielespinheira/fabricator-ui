@@ -40,6 +40,9 @@
       "@/registry/bases/*/lib/theme-transition": [
         "./registry/fabricator/shared/lib/theme-transition"
       ],
+      "@/registry/bases/*/hooks/use-theme-preference": [
+        "./registry/fabricator/shared/hooks/use-theme-preference"
+      ],
       "@/registry/bases/*/ui/spinner": [
         "./registry/fabricator/shared/ui/spinner"
       ],

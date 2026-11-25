@@ -305,9 +305,7 @@ export function CommandMenu({
               ...block.categories,
             ]}
             onSelect={() => {
-              runCommand(() =>
-                router.push(`/blocks/${block.categories[0]}#${block.name}`)
-              )
+              runCommand(() => router.push(`/blocks/${block.name}`))
             }}
           >
             <SquareDashedIcon />

@@ -3,6 +3,8 @@
 import * as React from "react"
 import { cn } from "cn"
 
+import { Button } from "@/styles/base-fabricator/ui/button"
+import { Spinner } from "@/styles/base-fabricator/ui/spinner"
 import {
   createShellOptionsMessage,
   getPreviewLayout,
@@ -137,6 +139,8 @@ export function ShellPreviewFrame({
   const query = getShellPreviewQuery(options, desktop, hasNativeTabBar)
   const [src] = React.useState(`${SHELL_PREVIEW_PATH}${query}`)
   const [isReady, setIsReady] = React.useState(false)
+  const [hasTimedOut, setHasTimedOut] = React.useState(false)
+  const [attempt, setAttempt] = React.useState(0)
   const stageSize = useElementSize(stage)
   const layout = getPreviewLayout(size, stageSize)
   const isPhone = size === "phone"
@@ -153,6 +157,12 @@ export function ShellPreviewFrame({
     window.addEventListener("message", onMessage)
     return () => window.removeEventListener("message", onMessage)
   }, [])
+
+  React.useEffect(() => {
+    if (isReady) return
+    const timeout = window.setTimeout(() => setHasTimedOut(true), 15_000)
+    return () => window.clearTimeout(timeout)
+  }, [attempt, isReady])
 
   React.useEffect(() => {
     if (!isReady) return
@@ -209,10 +219,38 @@ export function ShellPreviewFrame({
                 <WindowsCaptionButtons className="h-full" />
               </div>
             ) : null}
+            {!isReady ? (
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 text-[13px]">
+                <p role="status" className="flex items-center gap-2">
+                  {hasTimedOut ? (
+                    "Preview did not load."
+                  ) : (
+                    <>
+                      <Spinner /> Loading preview
+                    </>
+                  )}
+                </p>
+                {hasTimedOut ? (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      setHasTimedOut(false)
+                      setAttempt((current) => current + 1)
+                    }}
+                  >
+                    Retry preview
+                  </Button>
+                ) : null}
+              </div>
+            ) : null}
             <iframe
+              key={attempt}
               ref={frame}
               src={src}
               title="App Shell preview"
+              tabIndex={isReady ? undefined : -1}
+              aria-hidden={!isReady}
               className={cn(
                 "min-h-0 w-full flex-1 border-0 opacity-0 transition-opacity duration-feedback",
                 isReady && "opacity-100"

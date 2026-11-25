@@ -13,6 +13,7 @@ import {
   formatCommand,
   FRAMEWORK_VALUES,
   ICON_LIBRARY_VALUES,
+  MOBILE_RUNTIME_VALUES,
   planSetup,
   resolveApps,
   RUNNER_VALUES,
@@ -100,6 +101,9 @@ export const setupParsers = {
   /** The apps to make. */
   web: parseAsBoolean.withDefault(true),
   mobile: parseAsBoolean.withDefault(false),
+  mobileRuntime: parseAsStringLiteral(MOBILE_RUNTIME_VALUES).withDefault(
+    "expo"
+  ),
   desktop: parseAsStringLiteral(DESKTOP_RUNTIME_VALUES).withDefault("none"),
   /** What lints and formats a new monorepo. */
   tooling: parseAsStringLiteral(TOOLING_VALUES).withDefault("eslint-prettier"),
@@ -179,6 +183,7 @@ export function toProjectSetup(setup: Setup): ProjectSetup {
     base: isPackage ? DEFAULT_PROJECT_SETUP.base : setup.base,
     web: setup.web,
     mobile: setup.mobile,
+    mobileRuntime: setup.mobileRuntime,
     desktop: setup.desktop,
     tooling: setup.tooling,
     runner: setup.runner,

@@ -1,8 +1,7 @@
-import { cp, mkdir, readFile, rename, rm, writeFile } from "node:fs/promises"
+import { cp, mkdir, rename, rm, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { REACT_PACKAGE_COMPONENTS } from "@fabricator-ui/setup"
 import { compile, optimize } from "@tailwindcss/node"
-import { registryItemSchema } from "shadcn/schema"
 import ts from "typescript"
 
 import type { CssObject } from "@/registry/fabricator/css-object"
@@ -12,6 +11,7 @@ import {
 } from "@/registry/fabricator/foundations"
 
 import manifest from "../../../packages/react/package.json" with { type: "json" }
+import { readPackageRegistryFiles } from "./package-registry-files"
 import {
   PACKAGE_CLASS_PREFIX,
   transformPackageSource,
@@ -127,43 +127,6 @@ async function buildStyles(candidates: string[]) {
   return `${CSS_LAYER_ORDER}\n${optimized}`
 }
 
-async function readFiles() {
-  const files = new Map<string, string>()
-  const visited = new Set<string>()
-  const queue = [...REACT_PACKAGE_COMPONENTS, "index"]
-  const prefix = "registry/base-fabricator/"
-  for (const name of queue) {
-    if (visited.has(name)) continue
-    visited.add(name)
-    const item = registryItemSchema.parse(
-      JSON.parse(await readFile(path.join(registry, `${name}.json`), "utf8"))
-    )
-    for (const dependency of item.registryDependencies ?? []) {
-      const dependencyName = /^@fabricator\/([a-z0-9-]+)$/.exec(dependency)?.[1]
-      if (!dependencyName)
-        throw new Error(
-          `Unsupported registry dependency ${dependency} for ${name}`
-        )
-      queue.push(dependencyName)
-    }
-    for (const file of item.files ?? []) {
-      const filename = file.path.slice(prefix.length)
-      if (
-        !file.path.startsWith(prefix) ||
-        !file.content ||
-        !/^(?:[a-z0-9-]+\/)*[a-z0-9-]+\.tsx?$/.test(filename)
-      ) {
-        throw new Error(`Unsupported package file ${file.path} for ${name}`)
-      }
-      const previous = files.get(filename)
-      if (previous !== undefined && previous !== file.content)
-        throw new Error(`Conflicting registry file ${filename}`)
-      files.set(filename, file.content)
-    }
-  }
-  return files
-}
-
 function emitTypeScript(entries: string[]) {
   const program = ts.createProgram(entries, {
     target: ts.ScriptTarget.ES2022,
@@ -191,7 +154,11 @@ function emitTypeScript(entries: string[]) {
 
 await rm(staged, { recursive: true, force: true })
 try {
-  const files = await readFiles()
+  const files = await readPackageRegistryFiles(
+    registry,
+    "registry/base-fabricator/",
+    [...REACT_PACKAGE_COMPONENTS, "index"]
+  )
   const names = new Set(files.keys())
   const candidates = new Set<string>()
   const entries: string[] = []

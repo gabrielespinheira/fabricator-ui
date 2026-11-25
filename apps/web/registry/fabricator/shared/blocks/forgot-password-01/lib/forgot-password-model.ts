@@ -1,8 +1,16 @@
 export type ResetStep = "email" | "code" | "password" | "done"
 
-export type ResetResult =
-  | { ok: true }
-  | { ok: false; error: "invalid-code" | "expired-code" | "network" }
+export type ResetError = "invalid-code" | "expired-code" | "network"
+
+export type ResetResult = { ok: true } | { ok: false; error: ResetError }
+
+/** The step a refusal belongs to, where it is said there, and the way on. */
+export type ResetFailure = {
+  step: ResetStep
+  place: "code" | "form"
+  message: string
+  canResendNow: boolean
+}
 
 export const CODE_LENGTH = 6
 
@@ -13,12 +21,12 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PASSWORD_RULES = [
   {
     id: "length",
-    label: "8 or more characters",
+    label: "8 characters or more",
     test: (password: string) => password.length >= 8,
   },
   {
     id: "number",
-    label: "A number or a symbol",
+    label: "A number or symbol",
     test: (password: string) => /[\d\W_]/.test(password.replace(/\s/g, "")),
   },
 ] as const
@@ -34,6 +42,11 @@ export function getEmailError(email: string) {
   if (!value) return "Enter the email you sign in with."
   if (!EMAIL.test(value)) return "Enter an email address like ada@acme.com."
   return undefined
+}
+
+/** The digits of a pasted code, however the email wrote it. */
+export function normalizeCode(pasted: string) {
+  return pasted.replace(/\D/g, "").slice(0, CODE_LENGTH)
 }
 
 export function getCodeError(code: string) {
@@ -53,19 +66,41 @@ export function getPasswordChecks(password: string) {
 export function getNewPasswordError(password: string) {
   if (!password) return "Choose a new password."
   if (!PASSWORD_RULES.every(({ test }) => test(password))) {
-    return "Use 8 or more characters, with a number or a symbol."
+    return "Use 8 characters or more, with a number or symbol."
   }
   return undefined
+}
+
+export function getResetFailure(
+  step: ResetStep,
+  error: ResetError
+): ResetFailure {
+  switch (error) {
+    case "network":
+      return {
+        step,
+        place: "form",
+        message: "Can't reach the server. Check your connection.",
+        canResendNow: false,
+      }
+    case "invalid-code":
+      return {
+        step: "code",
+        place: "code",
+        message: "That code doesn't match. Check the newest email.",
+        canResendNow: false,
+      }
+    case "expired-code":
+      return {
+        step: "code",
+        place: "code",
+        message: "That code has expired. Resend to get a new one.",
+        canResendNow: true,
+      }
+  }
 }
 
 export function formatCountdown(seconds: number) {
   const minutes = Math.floor(seconds / 60)
   return `${minutes}:${String(seconds % 60).padStart(2, "0")}`
 }
-
-export const RESET_MESSAGES = {
-  "invalid-code":
-    "That code doesn't match. Check the latest email and try again.",
-  "expired-code": "That code has expired. Send a new one and try again.",
-  network: "We couldn't reach the server. Check your connection and try again.",
-} satisfies Record<Extract<ResetResult, { ok: false }>["error"], string>

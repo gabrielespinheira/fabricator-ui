@@ -1,15 +1,15 @@
-import { type FinanceCounterparty } from "@/registry/bases/__base__/blocks/finance-01/lib/finance-data"
+import { type FinanceCounterparty } from "@/registry/bases/__base__/blocks/finance-01/lib/finance-model"
 import { Avatar, AvatarFallback } from "@/registry/bases/__base__/ui/avatar"
 
-/** A company's logo on a quiet tile, or a person's avatar, at one size. */
+/** A company's logo on a quiet tile, or initials, at one size. */
 export function FinanceCounterpartyMark({
   counterparty,
 }: {
   counterparty: FinanceCounterparty
 }) {
-  if (counterparty.kind === "person") {
+  if (counterparty.kind === "initials") {
     return (
-      <Avatar>
+      <Avatar aria-hidden>
         <AvatarFallback>{counterparty.initials}</AvatarFallback>
       </Avatar>
     )
@@ -19,9 +19,9 @@ export function FinanceCounterpartyMark({
   return (
     <span
       aria-hidden
-      className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted"
+      className="flex size-(--density-32) shrink-0 items-center justify-center rounded-full bg-hover"
     >
-      <Logo color="brand" size={16} />
+      <Logo color="brand" className="size-(--density-icon-16)" />
     </span>
   )
 }

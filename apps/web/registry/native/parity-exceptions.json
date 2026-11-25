@@ -574,6 +574,55 @@
     "date": "2026-11-09"
   },
   {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-toolbar-list",
+    "reason": "The website's toolbar keeps to one row and moves the commands without room to a More menu, for people with a mouse who can't scroll a strip sideways. On phones and tablets the toolbar scrolls under a finger and the keyboard bar carries the same commands.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-toolbar-more",
+    "reason": "The website's toolbar keeps to one row and moves the commands without room to a More menu, for people with a mouse who can't scroll a strip sideways. On phones and tablets the toolbar scrolls under a finger and the keyboard bar carries the same commands.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-menu-separator",
+    "reason": "The website's toolbar keeps to one row and moves the commands without room to a More menu, for people with a mouse who can't scroll a strip sideways. On phones and tablets the toolbar scrolls under a finger and the keyboard bar carries the same commands.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-toolbar-list",
+    "reason": "The website's toolbar keeps to one row and moves the commands without room to a More menu, for people with a mouse who can't scroll a strip sideways. On phones and tablets the toolbar scrolls under a finger and the keyboard bar carries the same commands.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-toolbar-more",
+    "reason": "The website's toolbar keeps to one row and moves the commands without room to a More menu, for people with a mouse who can't scroll a strip sideways. On phones and tablets the toolbar scrolls under a finger and the keyboard bar carries the same commands.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-toolbar-more-trigger",
+    "reason": "The website's toolbar keeps to one row and moves the commands without room to a More menu, for people with a mouse who can't scroll a strip sideways. On phones and tablets the toolbar scrolls under a finger and the keyboard bar carries the same commands.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-menu-separator",
+    "reason": "The website's toolbar keeps to one row and moves the commands without room to a More menu, for people with a mouse who can't scroll a strip sideways. On phones and tablets the toolbar scrolls under a finger and the keyboard bar carries the same commands.",
+    "date": "2026-11-24"
+  },
+  {
     "item": "workspace-switcher",
     "kind": "slot",
     "name": "workspace-switcher-hints",
@@ -1230,5 +1279,61 @@
     "name": "cn-chart-slice-mark",
     "reason": "Only fades the 0.5px outline that closes a pie's seams when its slice dims. Native draws no outline on a dimmed slice, so there is nothing to style.",
     "date": "2026-11-23"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-toast",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-icon",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-content",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-title",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-description",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-action",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
+  },
+  {
+    "item": "sonner",
+    "kind": "placeholder",
+    "name": "cn-sonner-close",
+    "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
+    "date": "2026-11-24"
   }
 ]

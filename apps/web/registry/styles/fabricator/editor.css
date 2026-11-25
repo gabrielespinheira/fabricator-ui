@@ -1,10 +1,11 @@
 /* MARK: Editor */
 
   /* A card-like frame (surface 1 with a hairline ring, rounded-xl) that
-     lifts its ring while the document has focus, like a text field. Pass a
-     className to drop the frame for a full-page document. */
+     lifts its ring while the document has focus, like a text field. It clips
+     its corners without becoming a scroller, so a toolbar made sticky follows
+     the page. Pass a className to drop the frame for a full-page document. */
   .cn-editor {
-    @apply bg-card ring-border/70 has-data-focused:ring-foreground/25 overflow-hidden rounded-xl ring-1 transition-shadow duration-feedback ease-feedback;
+    @apply bg-card ring-border/70 has-data-focused:ring-foreground/25 overflow-clip rounded-xl ring-1 transition-shadow duration-feedback ease-feedback;
   }
 
   /* The document itself uses Markdown's typography (cn-markdown), so what
@@ -60,14 +61,17 @@
     @apply bg-surface-5 shadow-surface-5 text-foreground end-(--density-6) top-(--density-6) gap-(--density-6) px-(--density-8) pointer-events-none opacity-0 focus-visible:pointer-events-auto focus-visible:opacity-100;
   }
 
-  /* Editing in place: a row of actions over the same framed grid, each cell
-     an input with the cell's own padding, the focused one outlined. */
+  /* Editing in place: the actions over the same framed grid, each cell an
+     input with the cell's own padding, the focused one outlined. The actions
+     wrap in a narrow editor, so Done is never out of reach, and stick to the
+     top of a document that scrolls past a tall table; a focused cell scrolls
+     clear of them. */
   .cn-editor-table-editor {
     @apply gap-(--density-6);
   }
 
   .cn-editor-table-toolbar {
-    @apply bg-surface-5 shadow-surface-5 gap-0.5 self-start rounded-lg p-(--density-4) max-w-full overflow-x-auto [scrollbar-width:none];
+    @apply bg-surface-5 shadow-surface-5 sticky top-(--density-6) z-10 max-w-full flex-wrap gap-0.5 self-start rounded-lg p-(--density-4);
   }
 
   .cn-editor-table-action {
@@ -78,12 +82,13 @@
     @apply text-foreground shrink-0 px-(--density-10) font-semibold;
   }
 
+  /* Important, over the padding of Markdown's cell it's drawn as. */
   .cn-editor-table-cell {
-    @apply p-0 focus-within:ring-ring focus-within:ring-1 focus-within:ring-inset;
+    @apply p-0! focus-within:ring-ring focus-within:ring-1 focus-within:ring-inset;
   }
 
   .cn-editor-table-input {
-    @apply text-inherit px-[0.875em] py-[0.5em] font-[inherit] placeholder:text-muted-foreground;
+    @apply text-inherit px-[0.875em] py-[0.5em] font-[inherit] placeholder:text-muted-foreground scroll-mt-[calc(var(--density-36)*4)];
   }
 
   .cn-editor-task-checkbox {
@@ -96,10 +101,23 @@
     @apply cursor-pointer outline-none hover:border-foreground/45 data-checked:hover:border-primary active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-default disabled:hover:border-foreground/25;
   }
 
-  /* The toolbar: ghost toggles in groups split by hairlines, scrolling
-     sideways when the editor is narrow. */
+  /* The toolbar: ghost toggles in groups split by hairlines, in one row.
+     Commands without room move to the More menu at its end, so nothing is
+     cropped; a row of other controls wider than the editor scrolls. */
   .cn-editor-toolbar {
-    @apply border-border/60 gap-(--density-4) border-b p-(--density-4) scroll-fade-x [scrollbar-width:none];
+    @apply border-border/60 border-b;
+  }
+
+  .cn-editor-toolbar-list {
+    @apply gap-(--density-4) p-(--density-4) scroll-fade-x [scrollbar-width:none];
+  }
+
+  .cn-editor-toolbar-more {
+    @apply pe-(--density-4);
+  }
+
+  .cn-editor-toolbar-more-trigger {
+    @apply aria-expanded:bg-active aria-expanded:text-foreground;
   }
 
   .cn-editor-toolbar-group {
@@ -119,15 +137,17 @@
 
   /* Over a selection: a tight row of toggles. The editor's frame is a card
      (surface 3), so the bar and the link popover step two levels above it,
-     as Chat Input's menus do, or in dark they'd melt into the document. */
+     as Chat Input's menus do, or in dark they'd melt into the document. The
+     top layer starts from the system's text colour, so it's set again. */
   .cn-editor-bubble-menu {
-    @apply bg-surface-5 shadow-surface-5 gap-0.5 rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+    @apply bg-surface-5 text-foreground shadow-surface-5 gap-0.5 rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
   }
 
   /* Turn into: the block type as a labelled toggle with a chevron, and its
-     menu under it on the bar's surface. Rows follow the library's menu
-     rows: muted until lit, the current type foreground, its Markdown
-     shortcut in mono at the end. */
+     menu beside it on the bar's surface, as the language picker's and the
+     toolbar's More. Rows follow the library's menu rows: muted until lit,
+     the current type foreground, its Markdown or shortcut in mono at the
+     end. */
   .cn-editor-block-type {
     @apply shrink-0;
   }
@@ -137,23 +157,29 @@
   }
 
   .cn-editor-block-type-menu {
-    @apply bg-surface-5 shadow-surface-5 mt-(--density-6) max-h-[min(24rem,60vh)] min-w-52 overflow-y-auto rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+    @apply bg-surface-5 shadow-surface-5 text-foreground max-h-[min(24rem,60vh)] min-w-52 overflow-y-auto rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
   }
 
   .cn-editor-block-type-item {
-    @apply text-muted-foreground h-(--density-32) gap-(--density-8) rounded-md px-(--density-8) text-(length:--density-text-13) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-checked:text-foreground aria-checked:font-medium [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply text-muted-foreground h-(--density-32) gap-(--density-8) rounded-md px-(--density-8) text-(length:--density-text-13) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-checked:text-foreground aria-checked:font-medium disabled:pointer-events-none disabled:opacity-40 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+  .cn-editor-menu-separator {
+    @apply bg-border/60 mx-(--density-8) my-(--density-4) h-px;
   }
 
   .cn-editor-block-type-icon {
     @apply shrink-0;
   }
 
+  /* Its row's colour, so it reads on a lit row too. */
   .cn-editor-block-type-shortcut {
-    @apply text-muted-foreground text-(length:--density-text-11);
+    @apply text-(length:--density-text-11) font-normal text-inherit;
   }
 
+  /* As wide as the editor up to a comfortable address. */
   .cn-editor-link {
-    @apply bg-surface-5 shadow-surface-5 gap-(--density-4) w-[min(22rem,calc(100vw-2rem))] rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+    @apply bg-surface-5 shadow-surface-5 text-foreground gap-(--density-4) w-[min(22rem,max(16rem,var(--editor-room,22rem)))] rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
   }
 
   .cn-editor-link-input {

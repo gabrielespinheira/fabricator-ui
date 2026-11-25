@@ -9,8 +9,10 @@ import {
   getNextSteps,
   getPrerequisites,
   getProjectTree,
+  hasExpoApp,
+  hasTauriMobile,
+  REACT_NATIVE_PACKAGE,
   REACT_PACKAGE,
-  REACT_PACKAGE_STYLES,
 } from "@fabricator-ui/setup"
 import { LinkIcon } from "lucide-react"
 
@@ -276,15 +278,37 @@ export function InstallStep({
         ) : null}
         <ul className="flex list-disc flex-col gap-1.5 ps-5 text-[13px] leading-relaxed text-muted-foreground marker:text-muted-foreground/60">
           {isPackage ? (
-            <li>
-              Import components by name, for example{" "}
-              <code className="font-mono text-foreground">{`${REACT_PACKAGE}/button`}</code>
-              . If the CLI prints a CSS step, load{" "}
-              <code className="font-mono text-foreground">
-                {REACT_PACKAGE_STYLES}
-              </code>{" "}
-              in your app entry.
-            </li>
+            <>
+              {(projectSetup.project === "existing" ||
+                hasWebApp(projectSetup)) && (
+                <li>
+                  The React renderer imports from{" "}
+                  <code className="font-mono text-foreground">
+                    {REACT_PACKAGE}/button
+                  </code>
+                  .
+                </li>
+              )}
+              {(projectSetup.project === "existing" ||
+                hasExpoApp(projectSetup)) && (
+                <li>
+                  Expo imports from{" "}
+                  <code className="font-mono text-foreground">
+                    {REACT_NATIVE_PACKAGE}/button
+                  </code>
+                  .
+                </li>
+              )}
+              <li>
+                <Link
+                  href="/docs/installation/install-methods"
+                  className={LINK_CLASS}
+                >
+                  Compare install methods
+                </Link>
+                .
+              </li>
+            </>
           ) : (
             <li>
               Browse the{" "}
@@ -341,7 +365,9 @@ function getProjectApps(setup: Setup) {
   const { hasWeb, hasMobile, hasDesktop } = getShellProject(setup)
   return [
     ...(hasWeb ? ["Web"] : []),
-    ...(hasMobile ? ["Mobile"] : []),
+    ...(hasMobile
+      ? [`Mobile (${hasTauriMobile(setup) ? "Tauri" : "React Native"})`]
+      : []),
     ...(hasDesktop
       ? [`Desktop (${setup.desktop === "tauri" ? "Tauri" : "Electron"})`]
       : []),

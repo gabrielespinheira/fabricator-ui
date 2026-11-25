@@ -1,5 +1,6 @@
 {
   "pages": [
+    "install-methods",
     "next",
     "vite",
     "laravel",

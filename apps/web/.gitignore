@@ -71,11 +71,9 @@ next-env.d.ts
 # generated Fabricator-style copies of the demos (rebuilt by registry:build)
 /examples/__styles__/
 
-# Native language assets generated from the canonical Fabricator contract.
-/generated/platforms/
+# Catalog generated for the React and Tauri demos.
+/generated/explorer/
+
+# Stale output from the retired preview registries.
 /public/r/swiftui/
 /public/r/compose/
-/registry/swiftui/resources/
-/registry/swiftui/platform/editor-core/
-/registry/swiftui/LICENSE.md
-/registry/swiftui/NOTICE.md

@@ -44,6 +44,8 @@ import {
   Calculator as FabricatorCalculator,
   CalculatorIcon as FabricatorCalculatorIcon,
   Calendar as FabricatorCalendar,
+  CalendarArrowUpIcon as FabricatorCalendarArrowUpIcon,
+  CalendarDaysIcon as FabricatorCalendarDaysIcon,
   CalendarIcon as FabricatorCalendarIcon,
   CalendarPlusIcon as FabricatorCalendarPlusIcon,
   CaptionsIcon as FabricatorCaptionsIcon,
@@ -70,7 +72,10 @@ import {
   CircleDotIcon as FabricatorCircleDotIcon,
   CircleFadingArrowUpIcon as FabricatorCircleFadingArrowUpIcon,
   CircleFadingPlusIcon as FabricatorCircleFadingPlusIcon,
+  CircleHelpIcon as FabricatorCircleHelpIcon,
   CircleIcon as FabricatorCircleIcon,
+  CircleStopIcon as FabricatorCircleStopIcon,
+  CircleUserIcon as FabricatorCircleUserIcon,
   CircleUserRoundIcon as FabricatorCircleUserRoundIcon,
   ClipboardPasteIcon as FabricatorClipboardPasteIcon,
   Clock2Icon as FabricatorClock2Icon,
@@ -254,6 +259,7 @@ import {
   Trash2 as FabricatorTrash2,
   Trash2Icon as FabricatorTrash2Icon,
   TrashIcon as FabricatorTrashIcon,
+  TrendingDownIcon as FabricatorTrendingDownIcon,
   TrendingUpIcon as FabricatorTrendingUpIcon,
   TriangleAlertIcon as FabricatorTriangleAlertIcon,
   TypeIcon as FabricatorTypeIcon,
@@ -569,6 +575,23 @@ export const Calendar = createSiteIcon(FabricatorCalendar, {
   phosphor: "CalendarIcon",
   remixicon: "RiCalendarLine",
 })
+export const CalendarArrowUpIcon = createSiteIcon(
+  FabricatorCalendarArrowUpIcon,
+  {
+    lucide: "CalendarArrowUpIcon",
+    tabler: "IconCalendarUp",
+    hugeicons: "CalendarUpload01Icon",
+    phosphor: "CalendarBlankIcon",
+    remixicon: "RiCalendarTodoLine",
+  }
+)
+export const CalendarDaysIcon = createSiteIcon(FabricatorCalendarDaysIcon, {
+  lucide: "CalendarDaysIcon",
+  tabler: "IconCalendarWeek",
+  hugeicons: "Calendar03Icon",
+  phosphor: "CalendarDotsIcon",
+  remixicon: "RiCalendarView",
+})
 export const CalendarIcon = createSiteIcon(FabricatorCalendarIcon, {
   lucide: "CalendarIcon",
   tabler: "IconCalendar",
@@ -757,12 +780,33 @@ export const CircleFadingPlusIcon = createSiteIcon(
     remixicon: "RiAddCircleLine",
   }
 )
+export const CircleHelpIcon = createSiteIcon(FabricatorCircleHelpIcon, {
+  lucide: "CircleHelpIcon",
+  tabler: "IconHelp",
+  hugeicons: "HelpCircleIcon",
+  phosphor: "QuestionIcon",
+  remixicon: "RiQuestionLine",
+})
 export const CircleIcon = createSiteIcon(FabricatorCircleIcon, {
   lucide: "CircleIcon",
   tabler: "IconCircle",
   hugeicons: "CircleIcon",
   phosphor: "CircleIcon",
   remixicon: "RiCheckboxBlankCircleLine",
+})
+export const CircleStopIcon = createSiteIcon(FabricatorCircleStopIcon, {
+  lucide: "CircleStopIcon",
+  tabler: "IconPlayerStop",
+  hugeicons: "StopCircleIcon",
+  phosphor: "StopCircleIcon",
+  remixicon: "RiStopCircleLine",
+})
+export const CircleUserIcon = createSiteIcon(FabricatorCircleUserIcon, {
+  lucide: "CircleUserIcon",
+  tabler: "IconUserCircle",
+  hugeicons: "UserCircleIcon",
+  phosphor: "UserCircleIcon",
+  remixicon: "RiUserSmileLine",
 })
 export const CircleUserRoundIcon = createSiteIcon(
   FabricatorCircleUserRoundIcon,
@@ -1045,7 +1089,7 @@ export const GripVerticalIcon = createSiteIcon(FabricatorGripVerticalIcon, {
 export const HashIcon = createSiteIcon(FabricatorHashIcon, {
   lucide: "HashIcon",
   tabler: "IconHash",
-  hugeicons: "HashtagIcon",
+  hugeicons: "GridIcon",
   phosphor: "HashIcon",
   remixicon: "RiHashtag",
 })
@@ -1786,6 +1830,10 @@ export const ShieldAlertIcon = createSiteIcon(FabricatorShieldAlertIcon, {
 })
 export const ShieldCheckIcon = createSiteIcon(FabricatorShieldCheckIcon, {
   lucide: "ShieldCheckIcon",
+  tabler: "IconShieldCheck",
+  hugeicons: "SecurityCheckIcon",
+  phosphor: "ShieldCheckIcon",
+  remixicon: "RiShieldCheckLine",
 })
 export const ShieldIcon = createSiteIcon(FabricatorShieldIcon, {
   lucide: "ShieldIcon",
@@ -1796,6 +1844,10 @@ export const ShieldIcon = createSiteIcon(FabricatorShieldIcon, {
 })
 export const ShieldOffIcon = createSiteIcon(FabricatorShieldOffIcon, {
   lucide: "ShieldOffIcon",
+  tabler: "IconShieldOff",
+  hugeicons: "ShieldBanIcon",
+  phosphor: "ShieldSlashIcon",
+  remixicon: "RiShieldLine",
 })
 export const SlashIcon = createSiteIcon(FabricatorSlashIcon, {
   lucide: "SlashIcon",
@@ -1812,6 +1864,10 @@ export const SlidersHorizontalIcon = createSiteIcon(
 )
 export const SmartphoneIcon = createSiteIcon(FabricatorSmartphoneIcon, {
   lucide: "SmartphoneIcon",
+  tabler: "IconDeviceMobile",
+  hugeicons: "SmartPhone01Icon",
+  phosphor: "DeviceMobileIcon",
+  remixicon: "RiSmartphoneLine",
 })
 export const Smile = createSiteIcon(FabricatorSmile, {
   lucide: "Smile",
@@ -1990,6 +2046,13 @@ export const TrashIcon = createSiteIcon(FabricatorTrashIcon, {
   hugeicons: "DeleteIcon",
   phosphor: "TrashIcon",
   remixicon: "RiDeleteBinLine",
+})
+export const TrendingDownIcon = createSiteIcon(FabricatorTrendingDownIcon, {
+  lucide: "TrendingDownIcon",
+  tabler: "IconTrendingDown",
+  hugeicons: "ChartDownIcon",
+  phosphor: "TrendDownIcon",
+  remixicon: "RiArrowDownLine",
 })
 export const TrendingUpIcon = createSiteIcon(FabricatorTrendingUpIcon, {
   lucide: "TrendingUpIcon",

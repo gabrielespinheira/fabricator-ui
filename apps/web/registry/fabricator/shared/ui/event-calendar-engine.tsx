@@ -51,6 +51,7 @@ import {
   resolveEventColor,
   setEventTimes,
   type CalendarEvent,
+  type EventCalendarRange,
   type EventCalendarView,
 } from "@/registry/bases/__base__/lib/event-calendar-model"
 import { useDensity } from "@/registry/bases/__base__/ui/density"
@@ -396,6 +397,7 @@ function renderEventContent(info: EventDisplayInfo) {
 type WeekdayFormats = {
   short: Intl.DateTimeFormat
   narrow: Intl.DateTimeFormat
+  monthAndYear: Intl.DateTimeFormat
 }
 
 // The weekday, short and narrow, with the date beside it; a header narrower
@@ -428,6 +430,11 @@ function renderDayHeader(info: DayHeaderInfo, formats: WeekdayFormats) {
           className="cn-event-calendar-day-header-number"
         >
           {info.dayNumberText}
+        </span>
+      ) : null}
+      {isTimeGrid && info.hasNavLink ? (
+        <span className="sr-only">
+          {formats.monthAndYear.format(info.date)}
         </span>
       ) : null}
     </span>
@@ -513,6 +520,18 @@ function holdColumns(
       "var(--event-calendar-surface)"
     )
   }
+}
+
+/** FullCalendar mounts extra headers so they can slide into view. */
+function setHeaderInert(
+  header: HTMLElement,
+  range: EventCalendarRange,
+  timeZone?: string
+) {
+  const date = header.dataset.date
+  if (!date) return
+  const start = parseEventDate(date, timeZone)
+  header.inert = start < range.start || start >= range.end
 }
 
 // A scroll that stops for this long settles on the nearest day.
@@ -1217,12 +1236,28 @@ function EventCalendarEngine<TData>({
     },
   })
   const handleColumnsMount = continuity.handleColumnsMount
+  const usesCalendarHeader = fullCalendar?.dayHeaderContent === undefined
+  React.useLayoutEffect(() => {
+    if (!isContinuous || !engineRef.current) return
+    for (const header of engineRef.current.querySelectorAll<HTMLElement>(
+      '[data-columns="header"] > [data-date]'
+    )) {
+      setHeaderInert(header, range, timeZone)
+    }
+  }, [isContinuous, range, timeZone])
   const handleDayHeaderMount = React.useCallback(
     (info: MountInfo<DayHeaderInfo>) => {
+      if (usesCalendarHeader && info.view.type !== "month" && info.hasNavLink) {
+        // Use the visible weekday and day number, with the month and year
+        // appended by renderDayHeader. Voice control can match the short label.
+        info.el.querySelector('[role="link"]')?.removeAttribute("aria-label")
+      }
       if (info.view.type !== CONTINUOUS_VIEW || info.inPopover) return
       holdColumns(info.el.parentElement, "header")
+      const { range, timeZone } = latest.current.calendar
+      setHeaderInert(info.el, range, timeZone)
     },
-    []
+    [usesCalendarHeader]
   )
   const handleDayCellMount = React.useCallback(
     (info: MountInfo<DayCellInfo>) => {
@@ -1250,8 +1285,14 @@ function EventCalendarEngine<TData>({
   const events = React.useMemo(() => {
     const toInput = (event: CalendarEvent<TData>, isDraft = false) => {
       const editable = isDraft || canEdit(event)
+      // Buffered days are drawn for swiping, but their events are not in the
+      // visible calendar's tab order.
+      const interactive =
+        !isDraft && (!isContinuous || overlapsRange(event, range, timeZone))
       const cached = eventInputs.get(event)
-      if (cached && cached.editable === editable) return cached
+      if (cached?.editable === editable && cached.interactive === interactive) {
+        return cached
+      }
       const input: EventInput = {
         id: event.id,
         title: event.title,
@@ -1259,6 +1300,7 @@ function EventCalendarEngine<TData>({
         end: event.end,
         allDay: event.allDay ?? event.start.length === 10,
         editable,
+        interactive,
         extendedProps: { event, isDraft } satisfies EventExtras<TData>,
       }
       eventInputs.set(event, input)
@@ -1269,7 +1311,7 @@ function EventCalendarEngine<TData>({
     )
     if (draft) list.push(toInput(draft, true))
     return list
-  }, [canEdit, draft, preview, visibleEvents])
+  }, [canEdit, draft, isContinuous, preview, range, timeZone, visibleEvents])
 
   // A new event's draft, from FullCalendar's selection (the all-day row,
   // month cells, touch) or the engine's own drag in a time grid.
@@ -1411,6 +1453,11 @@ function EventCalendarEngine<TData>({
         weekday: "narrow",
         timeZone: "UTC",
       }),
+      monthAndYear: new Intl.DateTimeFormat(locale, {
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+      }),
     }),
     [locale]
   )
@@ -1449,6 +1496,8 @@ function EventCalendarEngine<TData>({
       eventResizableFromStart: true,
       dayMaxEvents: true,
       eventMaxStack: 4,
+      // Events at one time stand side by side, so none covers another's title.
+      slotEventOverlap: false,
       eventLongPressDelay: 250,
       selectLongPressDelay: 250,
       longPressDelay: 250,
@@ -1477,7 +1526,6 @@ function EventCalendarEngine<TData>({
               endTime: calendar.businessHours.end,
             }
           : false,
-      eventInteractive: true,
       eventColor: "transparent",
       select: handleSelect,
       eventDrop: handleDrop,
