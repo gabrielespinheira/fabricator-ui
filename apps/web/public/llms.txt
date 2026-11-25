@@ -37,6 +37,7 @@ Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name
 ## Installation
 
 - [Installation](https://fabricator-ui.vercel.app/docs/installation.md): How to install dependencies and structure your app.
+- [Package or copy-in](https://fabricator-ui.vercel.app/docs/installation/install-methods.md): Choose how to install components for web, desktop, and React Native.
 - [Next.js](https://fabricator-ui.vercel.app/docs/installation/next.md): Install and configure Fabricator UI for Next.js.
 - [Vite](https://fabricator-ui.vercel.app/docs/installation/vite.md): Install and configure Fabricator UI for Vite.
 - [Laravel](https://fabricator-ui.vercel.app/docs/installation/laravel.md): Install and configure Fabricator UI for Laravel.

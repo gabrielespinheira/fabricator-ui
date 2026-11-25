@@ -201,7 +201,11 @@ const NATIVE_DEMO = /from ['"]@\/components\/app-tabs['"]/
 /** An Expo Router root layout: the template's demo, or `return <Stack />`. */
 export function mountNativeRoot(
   source: string,
-  options: MountOptions & { cssImport: string }
+  options: MountOptions & {
+    cssImport: string
+    rootImport?: string
+    replaceDemo?: boolean
+  }
 ) {
   if (source.includes("<FabricatorRoot")) return source
   const imports = [
@@ -209,9 +213,9 @@ export function mountNativeRoot(
     "",
     ...(options.shell ? [shellImport()] : []),
     ...(options.sounds ? [soundsImport()] : []),
-    ROOT_IMPORT,
+    options.rootImport ?? ROOT_IMPORT,
   ]
-  if (NATIVE_DEMO.test(source)) {
+  if (NATIVE_DEMO.test(source) && options.replaceDemo !== false) {
     return [
       `import "${options.cssImport}"`,
       "",
@@ -234,5 +238,5 @@ export function mountNativeRoot(
   if (index === -1) return null
   const navigator = /<(Stack|Slot|Tabs) \/>/.exec(lines[index] ?? "")?.[0] ?? ""
   lines.splice(index, 1, "  return (", ...nativeTree(navigator, options), "  )")
-  return `${imports[0]}\n${addImports(lines.join("\n"), imports.slice(2))}`
+  return addImports(lines.join("\n"), imports.filter(Boolean))
 }

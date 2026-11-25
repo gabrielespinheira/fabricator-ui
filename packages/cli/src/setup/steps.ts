@@ -65,6 +65,7 @@ import {
   getWebItems,
 } from "./items"
 import { setUpReactPackage } from "./package-install"
+import { configureNativePackage } from "./package-native"
 import { scaffoldPackageWeb } from "./package-scaffold"
 import { writeProjectDocs } from "./project-docs"
 import { writeSkill } from "./skill"
@@ -174,7 +175,12 @@ const scaffoldMonorepo: Step = async (context) => {
   const rootPackage = path.join(root, "package.json")
   if (existsSync(rootPackage)) return
   mkdirSync(path.join(root, "apps"), { recursive: true })
-  writeJsonFile(rootPackage, buildWorkspaceRoot(projectName(setup)))
+  writeJsonFile(rootPackage, {
+    ...buildWorkspaceRoot(projectName(setup)),
+    ...(setup.distribution === "package" && {
+      fabricatorDistribution: "package",
+    }),
+  })
   if (packageManager === "pnpm") {
     writeFileSync(path.join(root, "pnpm-workspace.yaml"), PNPM_WORKSPACE_CONFIG)
   }
@@ -417,7 +423,7 @@ function configureStaticBuild(context: SetupContext) {
 }
 
 const configureWorkspace: Step = async (context) => {
-  const { setup, root, packageManager, mobileDir } = context
+  const { setup, root, packageManager, mobileDir, webDir } = context
   const rootPackage = path.join(root, "package.json")
   const mobileReact = setup.mobile
     ? readPackageJson(mobileDir)?.dependencies?.react
@@ -434,6 +440,20 @@ const configureWorkspace: Step = async (context) => {
   )
   if (setup.mobile && packageManager === "bun") {
     writeFileSync(path.join(root, "bunfig.toml"), BUN_HOISTED_CONFIG)
+  }
+  if (setup.distribution === "package" && mobileReact && hasWebApp(setup)) {
+    const manifest = path.join(webDir, "package.json")
+    const pkg = readPackageJson(webDir)
+    if (pkg?.dependencies?.react !== mobileReact) {
+      writeJsonFile(manifest, {
+        ...readJsonFile(manifest),
+        dependencies: {
+          ...pkg?.dependencies,
+          react: mobileReact,
+          "react-dom": mobileReact,
+        },
+      })
+    }
   }
   if (setup.desktop !== "none") configureStaticBuild(context)
 }
@@ -510,7 +530,9 @@ function switchToolchain(
   }
   writeFileSync(
     path.join(root, "vite.config.ts"),
-    buildViteConfig({ hasWebApp: hasWebApp(setup) })
+    buildViteConfig({
+      hasWebApp: hasWebApp(setup) && setup.distribution === "source",
+    })
   )
 }
 
@@ -940,6 +962,8 @@ export const STEPS: Record<StepId, Step> = {
   "scaffold-mobile": scaffoldMobile,
   "scaffold-desktop": scaffoldDesktop,
   "configure-workspace": configureWorkspace,
+  "configure-package-mobile": (context) =>
+    configureNativePackage(context, context.mobileDir, true),
   "configure-tooling": configureTooling,
   install,
   "setup-mobile": setupMobile,

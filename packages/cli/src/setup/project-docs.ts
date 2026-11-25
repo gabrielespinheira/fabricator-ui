@@ -12,6 +12,8 @@ import {
   mergeAgentInstructions,
   mergeClaudeImport,
   projectName,
+  REACT_NATIVE_PACKAGE,
+  REACT_NATIVE_PACKAGE_STYLES,
   REACT_PACKAGE,
   REACT_PACKAGE_STYLES,
   type PackageManager,
@@ -153,10 +155,20 @@ function renderComponentDocs(
     return [
       "## Fabricator UI",
       "Read [DESIGN.md](DESIGN.md) before changing a screen.",
-      `The web app depends on \`${REACT_PACKAGE}\`. Its global stylesheet loads \`${REACT_PACKAGE_STYLES}\`.`,
-      `\`\`\`tsx\nimport { Button } from "${REACT_PACKAGE}/button"\n\`\`\``,
-      `Update \`${REACT_PACKAGE}\` from \`apps/web\` with ${packageManager}. Set CSS variables in your app to customize the theme.`,
-      `[View the Base UI component docs](${DOCS_URL}/components/base/button).`,
+      ...(hasWebApp(setup)
+        ? [
+            `The web and desktop renderer uses \`${REACT_PACKAGE}\` in \`apps/web\` and loads \`${REACT_PACKAGE_STYLES}\` once.`,
+            `\`\`\`tsx\nimport { Button } from "${REACT_PACKAGE}/button"\n\`\`\``,
+          ]
+        : []),
+      ...(setup.mobile
+        ? [
+            `Expo uses \`${REACT_NATIVE_PACKAGE}\` in \`apps/mobile\`. The Uniwind stylesheet loads \`${REACT_NATIVE_PACKAGE_STYLES}\` and the router mounts the package's FabricatorRoot.`,
+            `\`\`\`tsx\nimport { Button } from "${REACT_NATIVE_PACKAGE}/button"\n\`\`\``,
+          ]
+        : []),
+      `Update each component dependency from its app workspace with ${packageManager}.`,
+      `[Compare install methods](${DOCS_URL}/installation/install-methods).`,
     ]
   }
   const isWorkspace = setup.project === "monorepo"

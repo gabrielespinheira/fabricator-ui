@@ -242,10 +242,20 @@ export async function scaffoldPackageWeb(context: SetupContext) {
     })
   )
   if (isNext) {
+    writeStarterFile(
+      webDir,
+      "next.config.ts",
+      'import type { NextConfig } from "next"\n\nconst nextConfig: NextConfig = {}\n\nexport default nextConfig\n'
+    )
     writeStarterFile(webDir, "app/page.tsx", STARTER)
     writeStarterFile(webDir, "app/globals.css", STYLES)
     writeStarterFile(webDir, "app/layout.tsx", NEXT_LAYOUT)
   } else {
+    writeStarterFile(
+      webDir,
+      "vite.config.ts",
+      'import { defineConfig } from "vite"\n\nexport default defineConfig({ base: process.env.FABRICATOR_DESKTOP === "1" ? "./" : "/" })\n'
+    )
     writeStarterFile(webDir, "index.html", VITE_DOCUMENT)
     writeStarterFile(webDir, "src/app.tsx", STARTER)
     writeStarterFile(webDir, "src/index.css", STYLES)

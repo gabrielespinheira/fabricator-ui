@@ -428,7 +428,7 @@ const ICONS: Record<CheckStatus, string> = {
 }
 
 async function doctorWorkspace(root: string) {
-  const apps = listWorkspaceApps(root)
+  const apps = listWorkspaceApps(root, { includePackages: true })
   logger.log(`${highlight.bold("fabricator-ui doctor")} ${highlight.dim(root)}`)
   logger.break()
   const checks = getWorkspaceChecks({
@@ -464,12 +464,14 @@ export async function doctor(options: { cwd?: string }): Promise<void> {
     const status = getPackageStatus(packageDirectory)
     logger.log(`${status.package} ${status.version ?? "could not be resolved"}`)
     logger.log(
-      `React ${status.react ?? "unresolved"} and React DOM ${status.reactDom ?? "unresolved"}${status.hasCompatibleReact ? "" : " require matching React 19 versions"}.`
+      status.reactNative
+        ? `React ${status.react ?? "unresolved"} and React Native ${status.reactNative}${status.hasCompatibleReact ? "" : " must match the supported Expo SDK"}.`
+        : `React ${status.react ?? "unresolved"} and React DOM ${status.reactDom ?? "unresolved"}${status.hasCompatibleReact ? "" : " require matching React 19 versions"}.`
     )
     logger.log(
       status.hasStyles
         ? "Package stylesheet is imported."
-        : "Check that @fabricator-ui/react/styles.css is loaded at the app entry."
+        : `Check that ${status.package}/styles.css is loaded at the app entry.`
     )
     if (!status.version || !status.hasCompatibleReact) process.exitCode = 1
     if (packageOnly) return
@@ -477,7 +479,7 @@ export async function doctor(options: { cwd?: string }): Promise<void> {
   if (
     findWorkspaceRoot(cwd) === cwd &&
     !existsSync(path.join(cwd, "components.json")) &&
-    listWorkspaceApps(cwd).length > 0
+    listWorkspaceApps(cwd, { includePackages: true }).length > 0
   ) {
     return doctorWorkspace(cwd)
   }

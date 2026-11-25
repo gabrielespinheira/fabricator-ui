@@ -8,21 +8,33 @@ import {
 import { createRequire } from "node:module"
 import path from "node:path"
 import {
+  REACT_NATIVE_PACKAGE,
+  REACT_NATIVE_PACKAGE_STYLES,
   REACT_PACKAGE,
   REACT_PACKAGE_STYLES,
   type PackageManager,
 } from "@fabricator-ui/setup"
 import { z } from "zod"
 
+import nativePackage from "../../../react-native/package.json" with { type: "json" }
 import cliPackage from "../../package.json" with { type: "json" }
 import { detectFramework } from "../utils/frameworks"
-import { isReactNativeProject, readPackageJson } from "../utils/native"
+import {
+  findCssEntry,
+  isExpoProject,
+  isReactNativeProject,
+  readPackageJson,
+} from "../utils/native"
 import {
   buildInstallArgs,
   detectPackageManager,
 } from "../utils/package-manager"
 import { runLogged } from "../utils/process"
-import { findWorkspaceRoot } from "../utils/workspace"
+import { findWorkspaceRoot, listWorkspaceApps } from "../utils/workspace"
+import {
+  configureNativePackage,
+  validateExpoPackageTarget,
+} from "./package-native"
 import type { SetupContext } from "./steps"
 
 const THEME_FILE = "fabricator-theme.css"
@@ -34,7 +46,15 @@ const lookResponse = z.object({ light: cssVars, dark: cssVars })
 const installedManifest = z.object({ version: z.string() })
 
 export function getPackageDeclaration(directory: string) {
-  return readPackageJson(directory)?.dependencies?.[REACT_PACKAGE]
+  return readPackageJson(directory)?.dependencies?.[
+    getComponentPackage(directory)
+  ]
+}
+
+export function getComponentPackage(directory: string) {
+  return isExpoProject(readPackageJson(directory))
+    ? REACT_NATIVE_PACKAGE
+    : REACT_PACKAGE
 }
 
 export function getPackageOnlyDirectory(cwd: string) {
@@ -43,18 +63,23 @@ export function getPackageOnlyDirectory(cwd: string) {
     !existsSync(path.join(cwd, "components.json"))
   )
     return cwd
-  const web = path.join(cwd, "apps/web")
-  if (
-    findWorkspaceRoot(cwd) === cwd &&
-    getPackageDeclaration(web) &&
-    !existsSync(path.join(web, "components.json"))
-  )
-    return web
-  return undefined
+  if (findWorkspaceRoot(cwd) !== cwd) return undefined
+  const targets = listWorkspaceApps(cwd, { includePackages: true })
+  if (targets.length !== 1) return undefined
+  const target = targets[0]?.dir
+  return target &&
+    getPackageDeclaration(target) &&
+    !existsSync(path.join(target, "components.json"))
+    ? target
+    : undefined
 }
 
 export function findPackageTarget(cwd: string) {
   const app = readPackageJson(cwd)
+  if (isExpoProject(app)) {
+    validateExpoPackageTarget(cwd)
+    return "expo"
+  }
   const framework = detectFramework(cwd)
   if (
     (framework === "next" || framework === "vite") &&
@@ -89,21 +114,26 @@ export function findPackageTarget(cwd: string) {
     const apps = path.join(cwd, "apps")
     const candidates = existsSync(apps)
       ? readdirSync(apps).filter((name) => {
-          const target = detectFramework(path.join(apps, name))
-          return target === "next" || target === "vite"
+          const directory = path.join(apps, name)
+          const target = detectFramework(directory)
+          return (
+            target === "next" ||
+            target === "vite" ||
+            isExpoProject(readPackageJson(directory))
+          )
         })
       : []
     if (candidates.length)
       throw new Error(
-        `Choose a React web workspace with --cwd (${candidates.map((name) => `apps/${name}`).join(", ")}).`
+        `Choose a React or Expo workspace with --cwd (${candidates.map((name) => `apps/${name}`).join(", ")}).`
       )
   }
   throw new Error(
-    "Package setup supports Next.js App Router and Vite React projects. Run it in the React app's directory."
+    "Package setup supports Next.js App Router, Vite React and Expo projects. Run it in the app's directory."
   )
 }
 
-type PackageFramework = ReturnType<typeof findPackageTarget>
+type PackageFramework = Exclude<ReturnType<typeof findPackageTarget>, "expo">
 
 function entryText(root: string, framework: PackageFramework) {
   const entries =
@@ -196,9 +226,9 @@ function resolveVersion(directory: string, name: string) {
   let manifest: string
   try {
     manifest =
-      name === REACT_PACKAGE
+      name === REACT_PACKAGE || name === REACT_NATIVE_PACKAGE
         ? path.resolve(
-            path.dirname(require.resolve(REACT_PACKAGE_STYLES)),
+            path.dirname(require.resolve(`${name}/styles.css`)),
             "../package.json"
           )
         : require.resolve(`${name}/package.json`)
@@ -210,6 +240,8 @@ function resolveVersion(directory: string, name: string) {
 }
 
 export function getPackageStatus(directory: string) {
+  const componentPackage = getComponentPackage(directory)
+  const isNative = componentPackage === REACT_NATIVE_PACKAGE
   const framework = detectFramework(directory)
   const entry =
     framework === "next" || framework === "vite"
@@ -220,22 +252,42 @@ export function getPackageStatus(directory: string) {
       ? findPackageStylesheet(directory, framework)
       : undefined
   const react = resolveVersion(directory, "react")
-  const reactDom = resolveVersion(directory, "react-dom")
+  const reactDom = isNative ? undefined : resolveVersion(directory, "react-dom")
+  const reactNative = isNative
+    ? resolveVersion(directory, "react-native")
+    : undefined
+  const nativeStylesheet = isNative
+    ? path.join(
+        directory,
+        findCssEntry((entry) => existsSync(path.join(directory, entry)))
+      )
+    : undefined
   return {
     distribution: "package",
-    package: REACT_PACKAGE,
+    package: componentPackage,
     declaration: getPackageDeclaration(directory),
-    version: resolveVersion(directory, REACT_PACKAGE),
+    version: resolveVersion(directory, componentPackage),
     react,
     reactDom,
-    hasCompatibleReact: Boolean(
-      react?.startsWith("19.") &&
-        reactDom?.startsWith("19.") &&
-        react === reactDom
-    ),
-    hasStyles:
-      hasPackageImport(entry?.source ?? "") ||
-      Boolean(css && hasPackageImport(readFileSync(css, "utf8"))),
+    reactNative,
+    hasCompatibleReact: isNative
+      ? react === nativePackage.peerDependencies.react &&
+        reactNative === nativePackage.peerDependencies["react-native"]
+      : Boolean(
+          react?.startsWith("19.") &&
+            reactDom?.startsWith("19.") &&
+            react === reactDom
+        ),
+    hasStyles: isNative
+      ? Boolean(
+          nativeStylesheet &&
+            existsSync(nativeStylesheet) &&
+            readFileSync(nativeStylesheet, "utf8").includes(
+              REACT_NATIVE_PACKAGE_STYLES
+            )
+        )
+      : hasPackageImport(entry?.source ?? "") ||
+        Boolean(css && hasPackageImport(readFileSync(css, "utf8"))),
     hasRegistry: existsSync(path.join(directory, "components.json")),
   }
 }
@@ -280,9 +332,18 @@ function addPackageArgs(packageManager: PackageManager) {
 export async function setUpReactPackage(context: SetupContext) {
   const { cwd, logFile, stream } = context
   const framework = findPackageTarget(cwd)
-  const look = await fetchPackageLook(context)
   const root = findWorkspaceRoot(cwd) ?? cwd
   const packageManager = detectPackageManager(root)
+  if (framework === "expo") {
+    await configureNativePackage(context, cwd, false)
+    await runLogged(packageManager, buildInstallArgs(packageManager), {
+      cwd: root,
+      logFile,
+      stream,
+    })
+    return
+  }
+  const look = await fetchPackageLook(context)
   const isDeclared = Boolean(getPackageDeclaration(cwd))
   if (!isDeclared || !resolveVersion(cwd, REACT_PACKAGE)) {
     await runLogged(

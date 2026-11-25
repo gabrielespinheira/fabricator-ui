@@ -6,7 +6,8 @@ export const PACKAGE_CLASS_PREFIX = "fab"
 export function transformPackageSource(
   filename: string,
   source: string,
-  files: ReadonlySet<string>
+  files: ReadonlySet<string>,
+  platform: "web" | "native" = "web"
 ) {
   const document = ts.createSourceFile(
     filename,
@@ -60,7 +61,13 @@ export function transformPackageSource(
       if (specifier && ts.isStringLiteral(specifier)) {
         const target = specifier.text
         if (target.startsWith("@/")) {
-          const local = target.replace(/^@\/registry\/base-fabricator\//, "")
+          const prefix =
+            platform === "web"
+              ? "@/registry/base-fabricator/"
+              : "@/registry/native/"
+          const local = target.startsWith(prefix)
+            ? target.slice(prefix.length)
+            : target
           if (
             ![".ts", ".tsx"].some((extension) =>
               files.has(`${local}${extension}`)
@@ -75,7 +82,10 @@ export function transformPackageSource(
             local
           )
           const entry = relative.startsWith(".") ? relative : `./${relative}`
-          replace(specifier, JSON.stringify(`${entry}.js`))
+          replace(
+            specifier,
+            JSON.stringify(platform === "web" ? `${entry}.js` : entry)
+          )
         } else if (!target.startsWith(".")) {
           dependencies.add(
             target
@@ -95,7 +105,11 @@ export function transformPackageSource(
       if (value && ts.isJsxExpression(value) && value.expression)
         visitClassExpression(value.expression)
     }
-    if (ts.isCallExpression(node) && ts.isIdentifier(node.expression)) {
+    if (
+      platform === "web" &&
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression)
+    ) {
       if (node.expression.text === "cn")
         node.arguments.forEach(visitClassExpression)
       if (node.expression.text === "cva") {

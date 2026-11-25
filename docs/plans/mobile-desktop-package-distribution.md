@@ -1,0 +1,75 @@
+# Package installation for mobile and desktop
+
+**Status:** Implemented locally. The public release and fresh-install qualification are pending. Extends the [React package distribution plan](react-package-distribution.md).
+
+## Outcome
+
+One **Install as a package** choice configures every selected app. The generated project runs with package imports in its starter screens. Web and desktop share a single React app and dependency. Expo gets the same component names from a package built from the existing React Native registry. The apps own their routes, configuration, and optional theme overrides.
+
+| Selection in Get started                | Dependency and owner                                                                                         |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Web, desktop, or web and desktop        | `@fabricator-ui/react` in `apps/web`. Electron and Tauri use that renderer even when Web is off.             |
+| Mobile only                             | `@fabricator-ui/react-native` in `apps/mobile`.                                                              |
+| Mobile and any web or desktop selection | The web package in `apps/web` and the native package in `apps/mobile`, resolved by the root package manager. |
+
+```tsx
+// apps/web, including the Electron or Tauri renderer
+
+// apps/mobile
+import { Button } from "@fabricator-ui/react-native/button"
+import { Button } from "@fabricator-ui/react/button"
+```
+
+Once both packages ship, the Next.js + Expo + Electron selection generates this command. Tauri uses the same renderer with `--desktop tauri`.
+
+```sh
+npx fabricator-ui@latest create my-app --mobile --desktop electron --distribution package --yes
+```
+
+Copy into project stays the default for new setups and old share links. The package option covers Next.js App Router and Vite for browser and desktop, plus the Expo SDK pinned by the CLI for iOS and Android. Start with a documented component catalog and expand it from the registry as each family passes package tests. App Shell, sounds, and blocks are copy-in features for this rollout. Guided setup states those limits before generating a command.
+
+## 1. Reuse the web package for desktop
+
+1. Extend package eligibility in `packages/setup` to use `hasWebApp`. A desktop-only project still has a web renderer, so apply the Next.js or Vite check to it. Keep the same project name validation and use the shared result in the wizard and CLI.
+2. Compose the existing package web scaffold, desktop scaffold, workspace configuration, and install steps in `planSetup`. Register the dependency and stylesheet once in `apps/web`. The desktop workspace contains the existing window wrapper and its configuration. Use the app's existing package imports for both the dev server and the packaged window.
+3. Generate a recognized `next.config.ts` in the package scaffold and reuse the desktop static build helper. It should export to `out` with `FABRICATOR_DESKTOP=1` and retain the usual Next.js build for the website. Vite uses its existing desktop `dist` output and asset paths. Run both production wrappers with the dev server stopped to catch broken routes, asset URLs, and stylesheet loading. [Existing desktop build adapter](../../packages/cli/src/setup/desktop.ts) · [Tauri Next.js guide](https://v2.tauri.app/start/frontend/nextjs/)
+4. Use the same desktop configuration path for `apps add desktop` in an existing package monorepo. Detect the renderer's installed distribution, keep its entry and routes, and skip source App Shell mounting in package mode. Surface a manual patch when an existing app's configuration cannot be safely adapted.
+
+## 2. Build the React Native package from the registry
+
+Use `apps/web/registry/native`, its item metadata and native style maps as the authored input. The package build consumes the fresh `apps/web/public/r/native` payloads from the current native compiler. That compiler already resolves native placeholders and maps shared models, hooks and token modules to their installed paths. A change to a native component goes through that same build for both distribution formats. [Native registry compiler](../../apps/web/scripts/build-native-registry.mts) · [Registry contract](../REGISTRY.md)
+
+1. Add a publishable `packages/react-native` workspace for the manifest, README and generated output. Factor the payload reader, dependency traversal, package-relative import rewriting and typed module emission from the existing web builder where the behavior is shared. Keep native style generation and the web class-prefix transform in their respective adapters.
+2. Use one catalog per package to validate or derive its export map, CLI import hints, and documented coverage. Pilot with Button, Input, Card and Dialog, plus `fabricator-root` for setup. This covers a pressable, text input, layout primitive and portaled overlay. Qualify the rest of the web preview catalog on native before advertising matching coverage. Each export pulls its actual dependency closure into the artifact, preserving supported props, variants, and names. Include a helper once per artifact when several components use it.
+3. Publish generated, typed modules at named subpath exports. Expo's Metro build transpiles these modules and applies its worklet transform. Keep class strings available to Uniwind. Validate registry-local imports, file collisions, dependency declarations, supported asset types, package boundaries, and missing style rules. Reject imports into the website or demos and references to DOM-only dependencies. Stage the complete artifact before replacing generated output. Keep emitted files and intermediate sources gitignored. Include the project's attribution and licenses in the tarball.
+4. Keep app runtimes external. React, React Native, Uniwind, and Expo-managed native dependencies in the qualified closure must resolve to the versions selected for that Expo SDK. Use the existing Expo peer alignment and workspace React alignment for the mobile renderer and its web siblings. Pin ordinary implementation dependencies in the package and resolve Fabricator Icons to the matching release. Check the actual tarball's runtime closure before widening peer ranges. Optional families such as Editor must pass their own autolinking and platform checks before joining the catalog. [Expo monorepo guidance](https://docs.expo.dev/guides/monorepos/) · [Expo Autolinking](https://docs.expo.dev/modules/autolinking/)
+5. Generate a native CSS entry from the existing native theme recipe. Wire it into the app's single Uniwind CSS entry with Tailwind and Uniwind loaded once. Prefer a package-relative `@source` that discovers the emitted component classes. Prove this in production with the supported workspace layouts, including symlinked installs. If a supported layout drops classes, emit an explicit candidate list alongside the CSS from the same transformed source and verify that Uniwind compiles it in every layout. Keep theme selection and custom overrides in the app, using the existing Look inputs and native token resolver. Default themes live in the package. [Uniwind monorepo setup](https://docs.uniwind.dev/monorepos) · [Tailwind source detection](https://tailwindcss.com/docs/detecting-classes-in-source-files)
+
+## 3. Wire Expo into the existing setup flows
+
+- **New projects.** For mobile-only and mixed projects, reuse `scaffoldMobile`, workspace assembly, Expo config helpers and the package manager adapter. Split the reusable CSS and Metro wiring from the source install in `writeNativeSetup`. Declare the package and required peers in the mobile workspace, set up Uniwind, and load the package's `FabricatorRoot` at the Expo Router root for gestures, safe areas, density and overlays. Check existing font and initialization requirements against the generated Expo starter. Ship a starter route importing packaged components. Package mode generates no component, hook, or registry helper files and needs no `components.json`.
+- **Existing projects.** Extend `init --distribution package` to recognize a supported Expo workspace alongside Next.js and Vite. Require `--cwd` when the target is ambiguous and list the eligible workspaces. Validate the SDK and configuration before mutations. Preserve existing user code and recognize safe entry and Metro shapes. For unfamiliar configurations, print the exact imports, root wrapper, and CSS entry changes, and report setup as incomplete until verified.
+- **Adding mobile later.** Reuse native package steps in `apps add mobile` when the existing repository uses package setup. Resolve the installed distribution from the existing workspace so a growing monorepo keeps package imports. Exercise this and the desktop add path in the same fixtures as new projects.
+- **Operations and recovery.** Drive `--dry-run`, the apply steps, project tree, generated README and agent prompt from one plan. Show the target, package, version, required config, and any manual step. Validate explicit unsupported flags before writing. Handle unavailable packages, peer conflicts, lockfile errors and interrupted installs with a targeted error and retry. Reruns resume package setup, skip existing imports and providers, and keep the lockfile stable once the install is complete.
+- **Updates and coexistence.** Extend package detection in `doctor`, `info`, `add`, `apply` and `upgrade` to the native package. Report package version, validated peers and setup status. For package-only targets, show the supported import or the explicit source setup command and point upgrades to the package manager. Existing `components.json` keeps its registry workflow. Preserve source files and custom CSS when a user opts in from copy-in. Verify provider- and portal-dependent components before documenting coexistence under a shared root. Component-by-component migration changes imports at the app's call sites.
+
+## 4. Make Get started reflect the selected apps
+
+- Keep the existing install cards and URL state. Show the package choice for mobile-only, desktop-only, and mixed setups when their targets are qualified. Drive enabled states, reasons, preview import samples and the generated command from the same capability rules as the CLI.
+- Show the dependency and import for each renderer in the Install summary and file tree. Desktop is listed with the shared web renderer. Show the generated setup command, the relevant dev commands, and Expo development build requirements where applicable. A mixed command means all selected renderers use their package.
+- When a framework, app, or option change invalidates package mode, keep the selected choice visible with the reason and disable command copying until the user picks a supported configuration or switches to copy-in. Preserve their settings across toggles. Until the native package ships, adding Mobile to a package setup explains that the Expo package is pending.
+- Cover the first visit, existing-project mode, direct links to Install, unsupported saved selections, and the wizard's loading and command-copy feedback. Keep the plan and import summary available before execution. Install progress and failures are shown by the CLI.
+
+## 5. Verify and release
+
+Add behavior tests in `packages/setup` and the CLI before changing eligibility and runner steps. Extend the [local npm fixture](../../packages/tests/README.md) to serve both packed packages to fresh apps outside the checkout. Assert exported entry resolution, package owners, one workspace lockfile, a single runtime per renderer, zero copied component files, one provider and stylesheet entry, and repeatable setup. Simulate a failed install and config wiring failure and verify recovery.
+
+| Gate                   | Evidence                                                                                                                                                                                                                                                                                                                                        |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Desktop                | Fresh Next.js and Vite builds for Electron and Tauri. Cover web on and off, adding desktop later, and installed apps loading the right assets with the dev server stopped. Exercise Button, Input and Dialog with mouse and keyboard in both themes.                                                                                            |
+| Mobile                 | Fresh mobile-only and mixed Expo projects, plus `init --cwd` and `apps add mobile`. Run Expo Doctor, typecheck and production exports for iOS and Android. Open a development build on both platforms. Check press states, input focus, dialog dismissal, safe areas, dark mode, density, custom Look and a style used only inside the package. |
+| Mixed workspace        | Round-trip the generated Next.js + Expo + Electron command and qualify Tauri as well. Exercise Bun and pnpm first, then npm and Yarn before enabling copyable commands for them. Check actual peer resolution, stylesheet discovery, and app scripts for each exposed manager.                                                                  |
+| Package size           | Record tarball size, production CSS size, and production JS delta for Button-only and full preview builds. Confirm Button-only excludes unrelated JS and native modules outside its required root and component closure. Track those baselines when expanding coverage.                                                                         |
+| Wizard and regressions | Check supported and unsupported combinations, share links, keyboard navigation and axe. Capture before and after screenshots on phone and desktop in both themes. Run `bun run check`, `bun run test`, `bun run registry:build`, native parity, and the e2e matrix including copy-in. Run demo checks if demo code changes.                     |
+
+Release desktop first once the existing React package and desktop fixtures pass. Then publish the native package after the matching icon packages and qualify Expo-only and mixed installs. Publish the matching CLI after its dependencies, smoke-test fresh installs against the public registry, and expose only the verified configurations in production Get started through the existing rollout controls. To recover from a rollout issue, disable the affected wizard configuration while keeping versioned npm installs available. Update the owning CLI, platform, registry, and release docs and the unreleased site changelog as each increment lands. [Release process](../MAINTAINING.md#releases)

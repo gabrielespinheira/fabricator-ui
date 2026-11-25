@@ -1,7 +1,11 @@
 // What a setup does, step by step: the page lists these and the CLI runs them.
 
 import { forPackageManager } from "./cli-args"
-import { REACT_PACKAGE, REACT_PACKAGE_STYLES } from "./react-package"
+import {
+  REACT_NATIVE_PACKAGE,
+  REACT_PACKAGE,
+  REACT_PACKAGE_STYLES,
+} from "./react-package"
 import {
   DEFAULT_PROJECT_SETUP,
   EXPO_SDK,
@@ -29,6 +33,7 @@ export type StepId =
   | "scaffold-mobile"
   | "scaffold-desktop"
   | "configure-workspace"
+  | "configure-package-mobile"
   | "configure-tooling"
   | "install"
   | "setup-mobile"
@@ -330,21 +335,52 @@ export function planSetup(rawSetup: ProjectSetup): PlanStep[] {
     const detail = `Adds ${REACT_PACKAGE} and its stylesheet${Object.keys(setup.look).length ? ", with your theme overrides" : ""}.`
     if (setup.project === "existing") {
       return [
-        { id: "setup-package", title: "Install the React package", detail },
+        {
+          id: "setup-package",
+          title: "Install the component package",
+          detail:
+            "Adds the package and styles for the selected React or Expo app.",
+        },
         ...agentSteps(setup),
       ]
     }
+    const hasWeb = hasWebApp(setup)
     return [
-      {
-        id: "scaffold-package-web",
-        title: "Create the web monorepo",
-        detail: `${getFrameworkLabel(setup.framework)} in apps/web. ${detail}`,
-      },
+      hasWeb
+        ? {
+            id: "scaffold-package-web",
+            title: "Create the web monorepo",
+            detail: `${getFrameworkLabel(setup.framework)} in apps/web. ${detail}`,
+          }
+        : {
+            id: "scaffold-monorepo",
+            title: "Create the monorepo",
+            detail: "A workspace for the Expo app.",
+          },
+      ...(setup.mobile ? [SCAFFOLD_MOBILE] : []),
+      ...(setup.desktop === "none"
+        ? []
+        : [
+            {
+              id: "scaffold-desktop" as const,
+              title: "Add the desktop window",
+              detail: `The ${setup.desktop === "electron" ? "Electron" : "Tauri"} window loads apps/web.`,
+            },
+          ]),
       {
         id: "configure-workspace",
         title: "Configure the workspace",
-        detail: "Run web app tasks from the root.",
+        detail: "Run the selected apps from the root.",
       },
+      ...(setup.mobile
+        ? [
+            {
+              id: "configure-package-mobile" as const,
+              title: "Configure the Expo package",
+              detail: `Adds ${REACT_NATIVE_PACKAGE}, its theme, and the Expo root provider.`,
+            },
+          ]
+        : []),
       ...toolingSteps(setup),
       {
         id: "install",
@@ -387,12 +423,16 @@ export function getNextSteps(
   if (setup.project === "existing" && setup.distribution === "package") {
     return [
       {
-        label: "Load the package styles once",
+        label: "React web stylesheet",
         code: `import "${REACT_PACKAGE_STYLES}"`,
       },
       {
-        label: "Import a component",
+        label: "Web and desktop component",
         code: `import { Button } from "${REACT_PACKAGE}/button"`,
+      },
+      {
+        label: "Expo component",
+        code: `import { Button } from "${REACT_NATIVE_PACKAGE}/button"`,
       },
     ]
   }

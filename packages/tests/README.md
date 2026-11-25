@@ -6,13 +6,14 @@ End-to-end install tests. Each scenario scaffolds a real app with the `fabricato
 bun run dev                 # terminal 1: serves the registry on http://localhost:4000
 bun run cli:build           # build packages/cli/dist
 bun run react:build         # build the React package tarball input
+bun run react-native:build  # build the React Native package tarball input
 bun run test:e2e            # terminal 2: every scenario
 bun run test:e2e --only create-next,monorepo-web
 ```
 
 Scenarios install `@fabricator-ui/icons` and `-react-native` from tarballs of the workspace packages (`src/local-npm.ts`), and everything else from npm, so they test the icons this checkout builds. Build the package first: `bun run dev` and `bun run build` both do.
 
-`package-next` and `package-vite` scaffold web monorepos in package mode, build against the checkout's `@fabricator-ui/react` tarball, and test idempotent CSS setup in the web workspace.
+`package-next` and `package-vite` scaffold web monorepos in package mode, build against the checkout's `@fabricator-ui/react` tarball, and test idempotent CSS setup in the web workspace. `package-mobile` and `package-mixed` install the native tarball and export iOS and Android bundles. The mixed scenario also builds the shared desktop renderer.
 
 Set `FABRICATOR_REGISTRY_URL` to test another deployment. Apps are created under the OS temp dir and removed on success (`--keep` keeps them).
 

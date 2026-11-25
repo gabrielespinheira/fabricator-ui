@@ -18,9 +18,9 @@ The `fabricator-ui` CLI (`packages/cli`), the shared setup model (`packages/setu
 
 ## React package setup
 
-`init --distribution package` installs `@fabricator-ui/react` into a Next.js App Router or Vite React app and wires its compiled CSS when the entry is recognizable. In an existing monorepo, pick a web workspace with `--cwd`. `create <name> --distribution package` scaffolds a web-only Next.js or Vite monorepo using the same package. `--look` writes app-owned CSS variables. Package setup uses Base UI and Fabricator Icons.
+`init --distribution package` installs `@fabricator-ui/react` into a Next.js App Router or Vite React app and wires its compiled CSS when the entry is recognizable. In an existing monorepo, pick a web workspace with `--cwd`. `create <name> --distribution package` scaffolds a Next.js or Vite renderer for web and desktop, an Expo app, or both. Electron and Tauri share `@fabricator-ui/react` from `apps/web`. Expo gets `@fabricator-ui/react-native`, a Uniwind stylesheet and the packaged `FabricatorRoot` in `apps/mobile`. Existing supported Expo apps can also opt in with `init --distribution package`. `--look` writes app-owned CSS variables. Package setup uses Base UI and Fabricator Icons.
 
-Use component subpaths such as `@fabricator-ui/react/button` and load `@fabricator-ui/react/styles.css` once. The package manager owns upgrades. Copy-in remains the default, including App Shell, blocks and native projects. A package-only project can set up copy-in explicitly with `init --distribution source`; an existing `components.json` continues to route `add`, `apply` and `upgrade` to the registry.
+Use component subpaths such as `@fabricator-ui/react/button` and load `@fabricator-ui/react/styles.css` once. The package manager owns upgrades. Copy-in remains the default, including App Shell, blocks and the wider registry catalog. A package-only project can set up copy-in explicitly with `init --distribution source`; an existing `components.json` continues to route `add`, `apply` and `upgrade` to the registry.
 
 Get started exposes package setup in development. Enable it for a production build with `FABRICATOR_PACKAGE_SETUP=1` after the matching npm package and CLI pass their fresh-install checks. See the [distribution plan](plans/react-package-distribution.md) for the release checks.
 

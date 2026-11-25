@@ -1,7 +1,7 @@
 // The folders and key files a setup creates, for the page's preview.
 
 import { getSkillDirectories, MCP_CONFIG_PATHS } from "./agent-files"
-import { REACT_PACKAGE } from "./react-package"
+import { REACT_NATIVE_PACKAGE, REACT_PACKAGE } from "./react-package"
 import {
   EXPO_SDK,
   getBaseLabel,
@@ -228,10 +228,27 @@ function mobileApp(setup: ProjectSetup): Draft {
     mark: "expo",
     children: [
       file("app.json"),
-      file("components.json"),
       ...eslintFiles(setup),
-      file("package.json"),
-      ...nativeFiles(setup),
+      ...(setup.distribution === "package"
+        ? [
+            { name: "package.json", note: REACT_NATIVE_PACKAGE },
+            file("metro.config.js"),
+            {
+              name: "src",
+              children: [
+                file("global.css"),
+                {
+                  name: "app",
+                  children: [file("_layout.tsx"), file("index.tsx")],
+                },
+              ],
+            },
+          ]
+        : [
+            file("components.json"),
+            file("package.json"),
+            ...nativeFiles(setup),
+          ]),
     ],
   }
 }

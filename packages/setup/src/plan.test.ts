@@ -38,6 +38,46 @@ describe("planSetup", () => {
     ])
   })
 
+  it("uses one package renderer for Electron and Tauri", () => {
+    for (const desktop of ["electron", "tauri"] as const) {
+      expect(ids({ distribution: "package", desktop, web: false })).toEqual([
+        "scaffold-package-web",
+        "scaffold-desktop",
+        "configure-workspace",
+        "install",
+        "write-project-docs",
+        "first-commit",
+      ])
+    }
+  })
+
+  it("configures the Expo package before installing a mobile-only or mixed workspace", () => {
+    expect(
+      ids({ distribution: "package", web: false, mobile: true }).slice(0, 6)
+    ).toEqual([
+      "scaffold-monorepo",
+      "scaffold-mobile",
+      "configure-workspace",
+      "configure-package-mobile",
+      "configure-tooling",
+      "install",
+    ])
+    expect(
+      ids({ distribution: "package", mobile: true, desktop: "electron" }).slice(
+        0,
+        7
+      )
+    ).toEqual([
+      "scaffold-package-web",
+      "scaffold-mobile",
+      "scaffold-desktop",
+      "configure-workspace",
+      "configure-package-mobile",
+      "configure-tooling",
+      "install",
+    ])
+  })
+
   it("starts from a monorepo by default", () => {
     expect(ids().slice(0, 2)).toEqual(["scaffold-web", "configure-monorepo"])
   })

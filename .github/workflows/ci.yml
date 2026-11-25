@@ -34,8 +34,10 @@ jobs:
         run: bun run rebrand --check
       - name: Build registry
         run: bun run registry:build
-      - name: Build the React package
-        run: bun run --cwd apps/web react:build
+      - name: Build the component packages
+        run: |
+          bun run --cwd apps/web react:build
+          bun run --cwd apps/web react-native:build
       - name: Lint, typecheck, format
         run: bun run check
       - name: Unit tests
@@ -61,8 +63,10 @@ jobs:
       - run: bun install --frozen-lockfile
       - name: Build website and registry
         run: bun run build
-      - name: Build the React package
-        run: bun run --cwd apps/web react:build
+      - name: Build the component packages
+        run: |
+          bun run --cwd apps/web react:build
+          bun run --cwd apps/web react-native:build
       - name: Build CLI
         run: bun run cli:build
       - name: Start website

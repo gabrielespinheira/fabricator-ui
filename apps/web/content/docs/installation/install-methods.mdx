@@ -1,0 +1,54 @@
+---
+title: Package or copy-in
+description: Choose how to install and update Fabricator UI components for web, desktop, and React Native.
+---
+
+[Get started](/create) offers two ways to install components.
+
+- **Install as a package** gives you imports from a dependency. Customize with props, classes, and theme tokens. Your package manager handles upgrades.
+- **Copy into project** puts editable component files in your repo. Use it to change component internals or install from the wider catalog, including supported App Shell starters and blocks. Review updates with the CLI and merge them into your files.
+
+## Install as a package
+
+The package option supports Next.js App Router and Vite as web renderers, including inside Electron and Tauri, and the Expo SDK supported by the CLI. Package installs require a published package and a matching CLI release. Get started offers the option when the release is available.
+
+**Web and desktop** share the React app in `apps/web`. Electron and Tauri load that app, so adding a desktop window uses the same dependency, styles, and imports.
+
+```tsx
+import { Button } from "@fabricator-ui/react/button"
+```
+
+Load `@fabricator-ui/react/styles.css` once in the React app. The CLI wires it into recognized Next.js and Vite projects.
+
+**Mobile** uses React Native in `apps/mobile`. The CLI configures Expo's Uniwind stylesheet and mounts the package's `FabricatorRoot` in the router layout. Import components from the native package.
+
+```tsx
+import { Button } from "@fabricator-ui/react-native/button"
+```
+
+Both packages expose Badge, Button, Card, Checkbox, Dialog, Dropdown Menu, Input, Label, Select, Switch, Tabs and Textarea. The native package also exposes `fabricator-root` for the Expo root layout. Refer to the [React Native differences](/docs/installation/react-native-differences) for renderer-specific props and interactions.
+
+For an existing supported app, run the command in the app workspace. From a monorepo root, add `--cwd apps/web` or `--cwd apps/mobile`.
+
+```bash
+npx fabricator-ui@latest init --distribution package
+```
+
+For a new monorepo, one command can set up all selected apps. Each app receives the dependency for its renderer.
+
+```bash
+npx fabricator-ui@latest create my-app --mobile --desktop electron --distribution package --yes
+```
+
+## Copy into project
+
+Copy-in is the default. Run `init` in the app workspace, then add components by name.
+
+```bash
+npx fabricator-ui@latest init --distribution source
+npx fabricator-ui@latest add button
+```
+
+Import the generated file through the aliases in `components.json`. For example, a standalone app typically imports `@/components/ui/button`. A web monorepo scaffold keeps shared UI in `packages/ui`. An Expo scaffold keeps native source in its own app workspace.
+
+Use `add button --dry-run` or `diff button` to review registry changes before applying an update. If you started with a package and need to change a component's internals, initialize copy-in, add the component, and point your app's imports to the local file.

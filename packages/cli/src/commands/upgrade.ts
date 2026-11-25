@@ -5,7 +5,10 @@ import { confirm, isCancel } from "@clack/prompts"
 import { Command } from "commander"
 import { z } from "zod"
 
-import { getPackageOnlyDirectory } from "../setup/package-install"
+import {
+  getComponentPackage,
+  getPackageOnlyDirectory,
+} from "../setup/package-install"
 import { writeSkill } from "../setup/skill"
 import { highlight, logger } from "../utils/logger"
 import { captureShadcn, exitLike, runShadcn } from "../utils/shadcn"
@@ -56,7 +59,7 @@ async function upgrade(
   const packageDirectory = getPackageOnlyDirectory(cwd)
   if (packageDirectory) {
     logger.log(
-      `Update @fabricator-ui/react with your package manager from ${packageDirectory}.`
+      `Update ${getComponentPackage(packageDirectory)} with your package manager from ${packageDirectory}.`
     )
     return
   }

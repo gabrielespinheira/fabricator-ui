@@ -4,6 +4,7 @@ import * as React from "react"
 import {
   getPackageSetupError,
   projectName,
+  REACT_NATIVE_PACKAGE,
   REACT_PACKAGE,
 } from "@fabricator-ui/setup"
 import { cn } from "cn"
@@ -162,14 +163,12 @@ export function SetupWizard({ enablePackage }: { enablePackage: boolean }) {
     ? getPackageSetupError(choices)
     : "Package setup is currently unavailable."
   const isInvalid = isPackage && Boolean(packageError)
-  const showDistribution =
-    isPackage ||
-    (enablePackage && (choices.project === "existing" || project.hasWeb))
+  const showDistribution = isPackage || enablePackage
   const hasShellPreview = step === "look" || step === "shell"
   const hasProjectPreview = step === "project" || step === "extras"
   const projectSetup = toProjectSetup(setup)
   const buttonImport = isPackage
-    ? `${REACT_PACKAGE}/button`
+    ? `${project.hasMobile && !project.hasWeb && !project.hasDesktop ? REACT_NATIVE_PACKAGE : REACT_PACKAGE}/button`
     : choices.project === "existing"
       ? "@/components/ui/button"
       : "@workspace/ui/components/button"

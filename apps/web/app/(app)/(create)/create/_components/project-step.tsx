@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import {
   BiomeIcon,
   ElectronIcon,
@@ -374,10 +375,16 @@ export function ProjectControls({
         <ChoiceCard
           value="package"
           title="Install as a package"
-          description="Import components from one dependency."
+          description="Import components and update them with your package manager."
           disabled={Boolean(packageError)}
         />
       </RadioGroup>
+      <Link
+        href="/docs/installation/install-methods"
+        className="w-fit text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
+      >
+        Compare install methods
+      </Link>
     </StepSection>
   ) : null
 

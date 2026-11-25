@@ -1,8 +1,10 @@
-import type { ProjectSetup } from "./setup"
+import { hasWebApp, type ProjectSetup } from "./setup"
 
 export const DISTRIBUTIONS = ["source", "package"] as const
 export const REACT_PACKAGE = "@fabricator-ui/react"
 export const REACT_PACKAGE_STYLES = `${REACT_PACKAGE}/styles.css`
+export const REACT_NATIVE_PACKAGE = "@fabricator-ui/react-native"
+export const REACT_NATIVE_PACKAGE_STYLES = `${REACT_NATIVE_PACKAGE}/styles.css`
 export const REACT_PACKAGE_COMPONENTS = [
   "badge",
   "button",
@@ -18,6 +20,11 @@ export const REACT_PACKAGE_COMPONENTS = [
   "textarea",
 ] as const
 
+export const REACT_NATIVE_PACKAGE_COMPONENTS = [
+  ...REACT_PACKAGE_COMPONENTS,
+  "fabricator-root",
+] as const
+
 export function getPackageSetupError(
   setup: Pick<
     ProjectSetup,
@@ -25,15 +32,14 @@ export function getPackageSetupError(
   >
 ) {
   if (setup.project === "existing") return null
-  if (
-    setup.project !== "monorepo" ||
-    !setup.web ||
-    setup.mobile ||
-    setup.desktop !== "none"
-  ) {
-    return "Package setup is available for new web-only monorepos."
+  if (setup.project !== "monorepo") {
+    return "Create a monorepo to set up packages in a new project."
   }
-  if (setup.framework !== "next" && setup.framework !== "vite") {
+  if (
+    hasWebApp(setup) &&
+    setup.framework !== "next" &&
+    setup.framework !== "vite"
+  ) {
     return "Package setup supports Next.js and Vite React apps."
   }
   const name = setup.name.trim()

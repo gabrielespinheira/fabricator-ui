@@ -84,9 +84,13 @@ export function ExtrasControls({
   return (
     <FieldGroup className="gap-8">
       {isPackage ? (
-        <StepSection title="Component primitives">
+        <StepSection title="Components">
           <p className="text-[13px] text-muted-foreground">
-            Base UI is included in the package.
+            {isNativeOnly
+              ? "Components come from the React Native package."
+              : hasMobile
+                ? "Web and desktop use Base UI. Expo uses the React Native package."
+                : "Base UI is included in the package."}
           </p>
         </StepSection>
       ) : (

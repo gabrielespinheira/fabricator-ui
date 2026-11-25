@@ -12,6 +12,7 @@ import {
   writeFileSync,
 } from "node:fs"
 import path from "node:path"
+import { REACT_NATIVE_PACKAGE, REACT_PACKAGE } from "@fabricator-ui/setup"
 import { z } from "zod"
 
 import { readComponentsJson, serialize, type ComponentsJson } from "./config"
@@ -69,7 +70,10 @@ export function findWorkspaceRoot(cwd: string): string | undefined {
 export type WorkspaceApp = { name: string; dir: string; isNative: boolean }
 
 /** The apps in `apps/*` that use the registry, sorted by name. */
-export function listWorkspaceApps(root: string): WorkspaceApp[] {
+export function listWorkspaceApps(
+  root: string,
+  { includePackages = false }: { includePackages?: boolean } = {}
+): WorkspaceApp[] {
   const appsDir = path.join(root, "apps")
   if (!existsSync(appsDir)) return []
   return readdirSync(appsDir)
@@ -78,7 +82,11 @@ export function listWorkspaceApps(root: string): WorkspaceApp[] {
     .filter(
       ({ dir }) =>
         statSync(dir).isDirectory() &&
-        existsSync(path.join(dir, "components.json"))
+        (existsSync(path.join(dir, "components.json")) ||
+          (includePackages &&
+            [REACT_PACKAGE, REACT_NATIVE_PACKAGE].some(
+              (name) => readPackageJson(dir)?.dependencies?.[name]
+            )))
     )
     .map(({ name, dir }) => ({
       name,

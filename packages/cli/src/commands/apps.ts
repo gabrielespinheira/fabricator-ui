@@ -10,6 +10,7 @@ import {
 import { Command } from "commander"
 
 import { addDesktopWindowToLayout } from "../setup/layout-window"
+import { getPackageOnlyDirectory } from "../setup/package-install"
 import { STEPS, type SetupContext } from "../setup/steps"
 import { detectFramework } from "../utils/frameworks"
 import { highlight, logger } from "../utils/logger"
@@ -50,11 +51,13 @@ function requireMonorepo(cwd: string) {
 }
 
 function baseSetup(root: string, look: string | undefined): ProjectSetup {
+  const web = path.join(root, "apps/web")
   return {
     ...DEFAULT_PROJECT_SETUP,
     project: "monorepo",
     name: path.basename(root),
-    framework: detectFramework(path.join(root, "apps/web")) ?? "next",
+    framework: detectFramework(web) ?? "next",
+    distribution: getPackageOnlyDirectory(web) ? "package" : "source",
     look: look ? parseKeyValues(look) : {},
   }
 }
@@ -70,6 +73,18 @@ async function addMobile(
     sound: options.sounds !== false,
   }
   const context = buildContext(root, setup)
+  if (setup.distribution === "package") {
+    for (const id of [
+      "scaffold-mobile",
+      "configure-workspace",
+      "configure-package-mobile",
+      "install",
+    ] as const) {
+      logger.info(id.replaceAll("-", " "))
+      await STEPS[id](context)
+    }
+    return context.notes
+  }
   for (const id of [
     "scaffold-mobile",
     "configure-workspace",
@@ -103,6 +118,7 @@ async function addDesktop(root: string, runtime: DesktopRuntime) {
     await STEPS[id](context)
   }
   const webDir = path.join(root, "apps/web")
+  if (setup.distribution === "package") return context.notes
   await runShadcn([
     "add",
     "@fabricator/desktop-window",
