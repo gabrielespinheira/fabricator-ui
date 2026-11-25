@@ -8,6 +8,8 @@ import {
   getFrameworkLabel,
   getNextSteps,
   getToolingLabel,
+  hasExpoApp,
+  hasTauriMobile,
   hasWebApp,
   mergeAgentInstructions,
   mergeClaudeImport,
@@ -49,9 +51,10 @@ function describeStack(
     )
     if (setup.framework === "laravel") stack.push("Inertia")
   }
-  if (setup.mobile || setup.framework === "expo") {
+  if (hasExpoApp(setup)) {
     stack.push("Expo Router", "React Native", "Uniwind")
   }
+  if (hasTauriMobile(setup) && setup.desktop !== "tauri") stack.push("Tauri")
   if (setup.desktop !== "none") {
     stack.push(setup.desktop === "tauri" ? "Tauri" : "Electron")
   }
@@ -100,15 +103,15 @@ function renderQuickStart(setup: ProjectSetup, packageManager: PackageManager) {
     "## Getting started",
     "Install dependencies from the project root.",
     shellBlock([`${packageManager} install`]),
-    ...(setup.mobile || setup.framework === "expo"
+    ...(hasExpoApp(setup)
       ? [
           `For the first native build, [set up Xcode or Android Studio](${EXPO_ENVIRONMENT}) and run the command for your platform${setup.mobile ? " from `apps/mobile`" : ""}.`,
           `- **iOS** \`${getExpoBuildCommand(packageManager, "ios")}\`\n- **Android** \`${getExpoBuildCommand(packageManager, "android")}\``,
         ]
       : []),
-    ...(setup.desktop === "tauri"
+    ...(setup.desktop === "tauri" || hasTauriMobile(setup)
       ? [
-          "Install the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/) before starting the desktop app.",
+          "Install the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/) before starting a Tauri app.",
         ]
       : []),
     "Start development from the project root.",
@@ -123,7 +126,7 @@ function renderWorkspace(setup: ProjectSetup) {
     [
       ...(hasWebApp(setup)
         ? [
-            `- [\`apps/web\`](apps/web) contains the ${getFrameworkLabel(setup.framework)} ${setup.web ? "app" : "app rendered in the desktop window"}.`,
+            `- [\`apps/web\`](apps/web) contains the ${getFrameworkLabel(setup.framework)} ${setup.web ? "app" : "renderer shared by the selected hosts"}.`,
             ...(setup.distribution === "source"
               ? [
                   "- [`packages/ui`](packages/ui) contains shared web components, styles and utilities.",
@@ -133,7 +136,9 @@ function renderWorkspace(setup: ProjectSetup) {
         : []),
       ...(setup.mobile
         ? [
-            "- [`apps/mobile`](apps/mobile) contains the Expo app and its native components.",
+            hasTauriMobile(setup)
+              ? "- [`apps/mobile`](apps/mobile) contains the Tauri mobile host for apps/web."
+              : "- [`apps/mobile`](apps/mobile) contains the Expo app and its native components.",
           ]
         : []),
       ...(setup.desktop !== "none"
@@ -157,11 +162,11 @@ function renderComponentDocs(
       "Read [DESIGN.md](DESIGN.md) before changing a screen.",
       ...(hasWebApp(setup)
         ? [
-            `The web and desktop renderer uses \`${REACT_PACKAGE}\` in \`apps/web\` and loads \`${REACT_PACKAGE_STYLES}\` once.`,
+            `The React renderer uses \`${REACT_PACKAGE}\` in \`apps/web\` and loads \`${REACT_PACKAGE_STYLES}\` once.`,
             `\`\`\`tsx\nimport { Button } from "${REACT_PACKAGE}/button"\n\`\`\``,
           ]
         : []),
-      ...(setup.mobile
+      ...(hasExpoApp(setup)
         ? [
             `Expo uses \`${REACT_NATIVE_PACKAGE}\` in \`apps/mobile\`. The Uniwind stylesheet loads \`${REACT_NATIVE_PACKAGE_STYLES}\` and the router mounts the package's FabricatorRoot.`,
             `\`\`\`tsx\nimport { Button } from "${REACT_NATIVE_PACKAGE}/button"\n\`\`\``,
@@ -181,7 +186,7 @@ function renderComponentDocs(
           },
         ]
       : []),
-    ...(setup.mobile || setup.framework === "expo"
+    ...(hasExpoApp(setup)
       ? [{ directory: isWorkspace ? "apps/mobile" : "", label: "React Native" }]
       : []),
   ]
@@ -242,7 +247,7 @@ function renderComponentDocs(
             `- [Button for ${getBaseLabel(setup.base)}](${DOCS_URL}/components/${setup.base}/button)`,
           ]
         : []),
-      ...(setup.mobile || setup.framework === "expo"
+      ...(hasExpoApp(setup)
         ? [
             `- [Fabricator UI for React Native](${DOCS_URL}/installation/react-native)`,
             `- [Button for React Native](${DOCS_URL}/components/native/button)`,

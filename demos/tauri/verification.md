@@ -1,5 +1,23 @@
 # Tauri mobile verification
 
+## Shared explorer, 2026-11-25
+
+- The Tauri frontend passed TypeScript, the Vite production build and the local
+  asset check. Relay opened and captured the bundled browser preview.
+- The shared React explorer browser check passed 799 routes with zero runtime
+  failures. The button gallery passed the phone and desktop accessibility and
+  overflow checks in both themes.
+- The release branch declares Registry items with source files absent from the
+  worktree. The verification build used a temporary registry with the incomplete
+  entries omitted and the palette model supplied locally. The temporary source
+  edits were restored after the build.
+- The native check stopped because the local Cargo cache lacks the pinned
+  `tauri 2.12.7` crate. The iPhone launch stopped before compilation because
+  `aarch64-apple-ios-sim` is missing. Apple project initialization, iPhone and
+  iPad screenshots, Android launch and native interaction checks are pending.
+
+## Earlier verification, 2026-11-15
+
 These results predate the frontend's move to `demos/react`.
 
 Verified on 2026-11-15 with the already installed JavaScript dependencies and

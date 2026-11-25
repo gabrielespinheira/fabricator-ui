@@ -1,6 +1,7 @@
 "use client"
 
 import { ModelContextProtocolIcon } from "@fabricator-ui/icons/brands"
+import { hasExpoApp, hasWebApp } from "@fabricator-ui/setup"
 
 import { BookOpenIcon, BoxIcon, SparklesIcon } from "@/lib/site-icons"
 import {
@@ -13,7 +14,7 @@ import { RadioGroup } from "@/styles/base-fabricator/ui/radio-group"
 import { Switch } from "@/styles/base-fabricator/ui/switch"
 import {
   ASSISTANTS,
-  getShellProject,
+  resolveApps,
   SETUP_BASES,
   type SetupChoices,
 } from "@/app/(app)/(create)/lib/setup"
@@ -75,9 +76,10 @@ export function ExtrasControls({
   onBack,
   onNext,
 }: StepProps) {
-  const { hasWeb, hasMobile, hasDesktop } = getShellProject(choices)
-  const isNativeOnly = hasMobile && !hasWeb && !hasDesktop
-  const hasWebApp = hasWeb || hasDesktop
+  const apps = resolveApps(choices)
+  const hasRenderer = hasWebApp(apps)
+  const hasMobile = hasExpoApp(apps)
+  const isNativeOnly = hasMobile && !hasRenderer
   const hasAssistants = choices.assistants.length > 0
   const isPackage = choices.distribution === "package"
 
@@ -120,7 +122,7 @@ export function ExtrasControls({
             </RadioGroup>
           </StepSection>
 
-          {hasWebApp ? (
+          {hasRenderer ? (
             <StepSection
               title="Component primitives"
               description="The library that handles keyboard, focus and screen readers under each web component. Every one looks the same."

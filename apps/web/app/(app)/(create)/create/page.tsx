@@ -36,6 +36,10 @@ export default function CreatePage() {
   return (
     <React.Suspense fallback={null}>
       <SetupWizard
+        enableTauriMobile={
+          process.env.NODE_ENV === "development" ||
+          process.env.FABRICATOR_TAURI_MOBILE_SETUP === "1"
+        }
         enablePackage={
           process.env.NODE_ENV === "development" ||
           process.env.FABRICATOR_PACKAGE_SETUP === "1"

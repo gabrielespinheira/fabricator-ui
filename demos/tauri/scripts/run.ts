@@ -1,7 +1,9 @@
 import { execFileSync, spawn } from "node:child_process"
 import { accessSync, constants, existsSync } from "node:fs"
+import { arch } from "node:os"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { z } from "zod"
 
 const directory = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -53,7 +55,62 @@ async function requireRustTarget(target: string) {
     )
 }
 
-async function checkApple() {
+const appleTargets = {
+  aarch64: "aarch64-apple-ios",
+  "aarch64-sim": "aarch64-apple-ios-sim",
+  x86_64: "x86_64-apple-ios",
+}
+
+function readSimulators() {
+  const list = execFileSync(
+    "xcrun",
+    ["simctl", "list", "devices", "available", "--json"],
+    { encoding: "utf8" }
+  )
+  const simulator = z.object({
+    name: z.string(),
+    udid: z.string(),
+    state: z.string(),
+    deviceTypeIdentifier: z.string(),
+  })
+  return Object.values(
+    z
+      .object({ devices: z.record(z.string(), z.array(simulator)) })
+      .parse(JSON.parse(list)).devices
+  ).flat()
+}
+
+function selectSimulator(name: string | undefined, family: "iPhone" | "iPad") {
+  const simulators = readSimulators()
+  const matches = name
+    ? simulators.filter(
+        (device) => device.name === name || device.udid === name
+      )
+    : simulators.filter((device) =>
+        device.deviceTypeIdentifier.includes(`.${family}-`)
+      )
+  const booted = matches.filter((device) => device.state === "Booted")
+  const device =
+    matches.length === 1
+      ? matches[0]
+      : !name && booted.length === 1
+        ? booted[0]
+        : undefined
+  if (
+    !device ||
+    simulators.filter(({ name }) => name === device.name).length > 1
+  ) {
+    const choices = (matches.length ? matches : simulators)
+      .map(({ name, state }) => `${name} (${state})`)
+      .join(", ")
+    throw new Error(
+      `Select a unique simulator by name. Available devices: ${choices || "none"}.`
+    )
+  }
+  return device.name
+}
+
+async function checkApple(targets: string[]) {
   requireExecutable("xcrun", "Select an installed Xcode toolchain.")
   requireExecutable(
     "xcodegen",
@@ -63,11 +120,7 @@ async function checkApple() {
     "pod",
     "Install CocoaPods explicitly before initializing Tauri. The launcher never installs tools."
   )
-  await requireRustTarget(
-    action === "build:ios" && !extraArguments.includes("--target")
-      ? "aarch64-apple-ios"
-      : "aarch64-apple-ios-sim"
-  )
+  for (const target of targets) await requireRustTarget(target)
   if (!existsSync(path.join(directory, "src-tauri/gen/apple")))
     throw new Error(
       "The Tauri Apple project is not initialized. After installing all prerequisites, run bun run tauri ios init --ci --skip-targets-install yourself. The initializer may install missing native tools."
@@ -97,18 +150,38 @@ try {
       "cargo",
       "check",
       "--offline",
+      "--locked",
       "--manifest-path",
       "src-tauri/Cargo.toml",
     ])
   } else if (action === "ios" || action === "ipad" || action === "build:ios") {
-    await checkApple()
-    await run([
-      tauri,
-      "ios",
-      action === "build:ios" ? "build" : "dev",
-      ...(action === "ipad" && extraArguments.length === 0 ? ["iPad"] : []),
-      ...extraArguments,
-    ])
+    if (action === "build:ios") {
+      const targets = extraArguments.flatMap((argument) => {
+        const value = argument.replace(/^--target=/, "")
+        return Object.entries(appleTargets)
+          .filter(([name]) => value === name)
+          .map(([, target]) => target)
+      })
+      await checkApple(targets.length ? targets : [appleTargets.aarch64])
+      await run([tauri, "ios", "build", ...extraArguments])
+    } else {
+      await checkApple([
+        arch() === "arm64" ? appleTargets["aarch64-sim"] : appleTargets.x86_64,
+      ])
+      const [first] = extraArguments
+      const hasDevice = first !== undefined && !first.startsWith("-")
+      const device = selectSimulator(
+        hasDevice ? first : undefined,
+        action === "ipad" ? "iPad" : "iPhone"
+      )
+      await run([
+        tauri,
+        "ios",
+        "dev",
+        device,
+        ...extraArguments.slice(hasDevice ? 1 : 0),
+      ])
+    }
   } else if (action === "android" || action === "build:android") {
     await checkAndroid()
     await run([

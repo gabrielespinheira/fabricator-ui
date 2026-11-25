@@ -8,6 +8,7 @@ import { spinner } from "@clack/prompts"
 import {
   getNextSteps,
   getPrerequisites,
+  getTauriMobileSetupError,
   normalizeProjectSetup,
   planSetup,
   projectName,
@@ -98,6 +99,8 @@ function printSummary(context: SetupContext) {
 
 /** Runs a setup. Sets a failing exit code instead of throwing. */
 export async function runSetup(rawSetup: ProjectSetup, options: RunOptions) {
+  const issue = getTauriMobileSetupError(rawSetup)
+  if (issue) throw new Error(issue)
   const setup = normalizeProjectSetup(rawSetup)
   const steps = planSetup(setup)
   const { cwd, packageManager, json } = options

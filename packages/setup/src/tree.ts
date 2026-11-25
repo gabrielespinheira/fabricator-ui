@@ -6,6 +6,7 @@ import {
   EXPO_SDK,
   getBaseLabel,
   getFrameworkLabel,
+  hasTauriMobile,
   hasWebApp,
   isWebFramework,
   normalizeProjectSetup,
@@ -203,7 +204,9 @@ function webApp(setup: ProjectSetup, note: string): Draft {
   const isPackage = setup.distribution === "package"
   return {
     name: "web",
-    note: setup.web ? note : `${note}, the window's UI`,
+    note: setup.web
+      ? note
+      : `${note}, ${hasTauriMobile(setup) ? "shared app renderer" : "the window's UI"}`,
     mark: setup.framework,
     children: [
       ...(isPackage
@@ -222,6 +225,20 @@ function webApp(setup: ProjectSetup, note: string): Draft {
 }
 
 function mobileApp(setup: ProjectSetup): Draft {
+  if (hasTauriMobile(setup)) {
+    return {
+      name: "mobile",
+      note: "Tauri host for apps/web",
+      mark: "tauri",
+      children: [
+        file("package.json"),
+        {
+          name: "src-tauri",
+          children: [file("tauri.conf.json"), file("Cargo.toml")],
+        },
+      ],
+    }
+  }
   return {
     name: "mobile",
     note: `Expo SDK ${EXPO_SDK}, React Native`,

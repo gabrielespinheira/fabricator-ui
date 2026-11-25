@@ -3,6 +3,8 @@
 import * as React from "react"
 import {
   getPackageSetupError,
+  getTauriMobileSetupError,
+  hasTauriMobile,
   projectName,
   REACT_NATIVE_PACKAGE,
   REACT_PACKAGE,
@@ -114,7 +116,13 @@ function describePreview({ hasWeb, hasDesktop, hasMobile }: ShellProject) {
   return "Sample content. Your project starts with an empty Home."
 }
 
-export function SetupWizard({ enablePackage }: { enablePackage: boolean }) {
+export function SetupWizard({
+  enablePackage,
+  enableTauriMobile,
+}: {
+  enablePackage: boolean
+  enableTauriMobile: boolean
+}) {
   const [step, setStep] = useQueryState(
     "step",
     parseAsStringLiteral(STEP_NAMES)
@@ -142,12 +150,24 @@ export function SetupWizard({ enablePackage }: { enablePackage: boolean }) {
   }
 
   const project = getShellProject(choices)
-  const size = getPreviewSize(project)
+  const isTauriMobile =
+    hasTauriMobile(choices) && choices.project !== "existing"
+  const [previewDevice, setPreviewDevice] = React.useState<"default" | "phone">(
+    "default"
+  )
+  const targetSize = getPreviewSize(project)
+  const canSwitchPreview = isTauriMobile && targetSize !== "phone"
+  const size =
+    canSwitchPreview && previewDevice === "phone" ? "phone" : targetSize
+  const shellProject = isTauriMobile
+    ? { ...project, hasWeb: true, hasMobile: false }
+    : project
   const previewOptions: PlaygroundOptions = {
     ...shell,
     window: size === "macos" ? size : "web",
   }
-  const desktop = choices.desktop === "none" ? null : choices.desktop
+  const desktop =
+    size === "phone" || choices.desktop === "none" ? null : choices.desktop
 
   const onDesktopRemoved = () => {
     void setShell({
@@ -162,16 +182,26 @@ export function SetupWizard({ enablePackage }: { enablePackage: boolean }) {
   const packageError = enablePackage
     ? getPackageSetupError(choices)
     : "Package setup is currently unavailable."
-  const isInvalid = isPackage && Boolean(packageError)
+  const mobileError =
+    isTauriMobile && !enableTauriMobile
+      ? "Tauri mobile setup is currently unavailable."
+      : getTauriMobileSetupError(choices)
+  const installError = mobileError ?? (isPackage ? packageError : null)
+  const isInvalid = Boolean(installError)
   const showDistribution = isPackage || enablePackage
   const hasShellPreview = step === "look" || step === "shell"
   const hasProjectPreview = step === "project" || step === "extras"
   const projectSetup = toProjectSetup(setup)
   const buttonImport = isPackage
-    ? `${project.hasMobile && !project.hasWeb && !project.hasDesktop ? REACT_NATIVE_PACKAGE : REACT_PACKAGE}/button`
+    ? `${project.hasMobile && !isTauriMobile && !project.hasWeb && !project.hasDesktop ? REACT_NATIVE_PACKAGE : REACT_PACKAGE}/button`
     : choices.project === "existing"
       ? "@/components/ui/button"
-      : "@workspace/ui/components/button"
+      : project.hasMobile &&
+          !isTauriMobile &&
+          !project.hasWeb &&
+          !project.hasDesktop
+        ? "@/components/ui/button"
+        : "@workspace/ui/components/button"
 
   return (
     <Tabs
@@ -206,6 +236,7 @@ export function SetupWizard({ enablePackage }: { enablePackage: boolean }) {
             <ProjectControls
               choices={choices}
               showDistribution={showDistribution}
+              enableTauriMobile={enableTauriMobile}
               packageError={packageError}
               onChange={setChoices}
               onMobileChange={(bottomNav) => void setShell({ bottomNav })}
@@ -245,7 +276,8 @@ export function SetupWizard({ enablePackage }: { enablePackage: boolean }) {
                 onOptionsChange={setShell}
                 isIncluded={choices.appShell}
                 onIncludedChange={(appShell) => setChoices({ appShell })}
-                project={project}
+                project={shellProject}
+                hasTauriMobile={isTauriMobile}
                 onBack={() => setStep("look")}
                 onNext={() => setStep("extras")}
               />
@@ -263,10 +295,12 @@ export function SetupWizard({ enablePackage }: { enablePackage: boolean }) {
             {isInvalid ? (
               <div className="flex flex-col items-start gap-4">
                 <p role="alert" className="text-[13px] text-muted-foreground">
-                  {packageError}
+                  {installError}
                 </p>
                 <Button variant="outline" onClick={() => setStep("project")}>
-                  Change install method
+                  {mobileError
+                    ? "Change app settings"
+                    : "Change install method"}
                 </Button>
               </div>
             ) : (
@@ -288,14 +322,42 @@ export function SetupWizard({ enablePackage }: { enablePackage: boolean }) {
                 !hasShellPreview && "hidden"
               )}
             >
+              {canSwitchPreview ? (
+                <div
+                  role="group"
+                  aria-label="Preview device"
+                  className="flex gap-2"
+                >
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    aria-pressed={size !== "phone"}
+                    onClick={() => setPreviewDevice("default")}
+                  >
+                    {project.hasDesktop ? "Desktop" : "Web"}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    aria-pressed={size === "phone"}
+                    onClick={() => setPreviewDevice("phone")}
+                  >
+                    Mobile
+                  </Button>
+                </div>
+              ) : null}
               <p className="text-[13px] text-muted-foreground">
-                {describePreview(project)}
+                {isTauriMobile && size === "phone"
+                  ? "The Vite App Shell in a phone-sized WebView."
+                  : describePreview(project)}
               </p>
               <ShellPreviewFrame
                 options={previewOptions}
                 size={size}
                 desktop={desktop}
-                hasNativeTabBar={project.hasMobile && size === "phone"}
+                hasNativeTabBar={
+                  project.hasMobile && !isTauriMobile && size === "phone"
+                }
                 windowTitle={projectName(projectSetup)}
               />
             </section>

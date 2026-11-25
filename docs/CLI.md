@@ -16,6 +16,14 @@ The `fabricator-ui` CLI (`packages/cli`), the shared setup model (`packages/setu
 - **Runtime:** Node ≥ 20.18.1, ESM, Node APIs only, so it runs the same under `npx`, `pnpm dlx`, `yarn dlx` and `bunx`.
 - Bumping the pinned `shadcn` is its own change, verified by the e2e matrix.
 
+## Tauri mobile
+
+`create --mobile-runtime tauri` creates a Vite monorepo with the renderer in `apps/web` and a Tauri host in `apps/mobile`. It defaults to Vite, accepts `--no-web` and can run alongside either desktop host. It works with both source and package installs. `--mobile` keeps its Expo behavior.
+
+`apps add mobile tauri` adds the host to an existing Fabricator React + Vite monorepo. It adds a Vite profile on port 1422 and builds into `apps/mobile/dist`. Run `init:mobile:ios` or `init:mobile:android` from the root after setting up the platform toolchain. Then run `dev:mobile:ios`, `dev:mobile:ipad` or `dev:mobile:android`. See [platforms](PLATFORMS.md#tauri-mobile) and the [implementation plan](plans/tauri-mobile.md).
+
+The Get started selector is available in development. Set `FABRICATOR_TAURI_MOBILE_SETUP=1` for production after the matching CLI is published and its fresh-install checks pass.
+
 ## React package setup
 
 `init --distribution package` installs `@fabricator-ui/react` into a Next.js App Router or Vite React app and wires its compiled CSS when the entry is recognizable. In an existing monorepo, pick a web workspace with `--cwd`. `create <name> --distribution package` scaffolds a Next.js or Vite renderer for web and desktop, an Expo app, or both. Electron and Tauri share `@fabricator-ui/react` from `apps/web`. Expo gets `@fabricator-ui/react-native`, a Uniwind stylesheet and the packaged `FabricatorRoot` in `apps/mobile`. Existing supported Expo apps can also opt in with `init --distribution package`. `--look` writes app-owned CSS variables. Package setup uses Base UI and Fabricator Icons.

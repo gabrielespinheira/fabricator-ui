@@ -1,12 +1,13 @@
 {
-  "name": "mobile-tauri",
+  "name": "mobile",
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "fabricatorRuntime": "tauri-mobile",
   "scripts": {
-    "dev": "vite --host 0.0.0.0 --port 1420",
-    "build": "vite build",
     "tauri": "tauri",
+    "init:ios": "tauri ios init",
+    "init:android": "tauri android init",
     "ios": "tauri ios dev",
     "ipad": "tauri ios dev iPad",
     "android": "tauri android dev",

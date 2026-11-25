@@ -17,6 +17,28 @@ const ids = (changes: Partial<ProjectSetup> = {}): StepId[] =>
   planSetup(setup(changes)).map((step) => step.id)
 
 describe("planSetup", () => {
+  it("adds a Vite renderer and the Tauri mobile host without Expo steps", () => {
+    const mobile = {
+      framework: "vite",
+      web: false,
+      mobile: true,
+      mobileRuntime: "tauri",
+    } as const
+    for (const distribution of ["source", "package"] as const) {
+      const steps = ids({ ...mobile, distribution, desktop: "tauri" })
+      expect(steps).toContain(
+        distribution === "package" ? "scaffold-package-web" : "scaffold-web"
+      )
+      expect(steps).toContain("scaffold-tauri-mobile")
+      expect(steps).toContain("scaffold-desktop")
+      expect(steps).not.toContain("scaffold-mobile")
+      expect(steps).not.toContain("configure-package-mobile")
+      expect(steps).not.toContain("setup-mobile")
+    }
+    expect(
+      getNextSteps(setup(mobile), "bun").map(({ code }) => code)
+    ).toContain("bun dev:mobile:ipad")
+  })
   it("installs a package without scheduling registry or App Shell steps", () => {
     expect(ids({ project: "existing", distribution: "package" })).toEqual([
       "setup-package",

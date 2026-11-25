@@ -231,3 +231,15 @@ export default App
 ```
 
 </Steps>
+
+## Tauri mobile
+
+Create a Vite app with a Tauri host for iOS, iPadOS and Android. You can also add `--desktop tauri` to create a desktop host for the same renderer.
+
+```bash
+npx fabricator-ui@latest create my-app --mobile-runtime tauri --no-web --yes
+```
+
+In an existing Fabricator Vite monorepo, run `npx fabricator-ui@latest apps add mobile tauri` at the root. Components and styles live in `apps/web`. Tauri's native project lives in `apps/mobile`.
+
+Install the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/) for your platform. From the workspace root, run `npm run init:mobile:ios` or `npm run init:mobile:android` once. Then use `npm run dev:mobile:ios`, `npm run dev:mobile:ipad` or `npm run dev:mobile:android`.

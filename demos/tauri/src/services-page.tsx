@@ -37,6 +37,8 @@ function ServicesPage() {
   const [note, setNote] = useState("")
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
+  const [loadError, setLoadError] = useState("")
+  const [attempt, setAttempt] = useState(0)
   const [isSaving, setIsSaving] = useState(false)
   const [isReady, setIsReady] = useState(false)
   const isNative = hasNativeHost()
@@ -52,12 +54,12 @@ function ServicesPage() {
         setIsReady(true)
       })
       .catch((failure: unknown) => {
-        if (isCurrent) setError(describeNativeError(failure))
+        if (isCurrent) setLoadError(describeNativeError(failure))
       })
     return () => {
       isCurrent = false
     }
-  }, [isNative])
+  }, [attempt, isNative])
 
   return (
     <div className="flex flex-col gap-6">
@@ -66,17 +68,34 @@ function ServicesPage() {
           {runtime
             ? `${runtime.platform} · ${runtime.architecture}`
             : isNative
-              ? "Connecting to Rust"
+              ? loadError
+                ? "Rust connection failed"
+                : "Connecting to Rust"
               : "Browser preview"}
         </Badge>
         <p className="text-muted-foreground">
           The service results below come from the current host.
         </p>
       </div>
-      {error && (
+      {(loadError || error) && (
         <Alert variant="destructive">
           <AlertTitle>Native request failed</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
+          <AlertDescription>
+            {loadError || error}
+            {loadError ? (
+              <Button
+                size="sm"
+                variant="outline"
+                className="mt-2 w-fit"
+                onClick={() => {
+                  setLoadError("")
+                  setAttempt((current) => current + 1)
+                }}
+              >
+                Retry connection
+              </Button>
+            ) : null}
+          </AlertDescription>
         </Alert>
       )}
       <Card>
@@ -103,10 +122,7 @@ function ServicesPage() {
                     : "Launch the Tauri app to use native storage"
                 }
               />
-              <FieldDescription>
-                Up to 16,384 characters. No network request or browser-storage
-                fallback.
-              </FieldDescription>
+              <FieldDescription>Up to 16,384 UTF-8 bytes.</FieldDescription>
             </Field>
             <Button
               disabled={!isReady || isSaving}

@@ -27,6 +27,12 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null
 }
 
+function isTauriMobile(bridge: unknown) {
+  if (!isRecord(bridge) || !isRecord(bridge.metadata)) return false
+  const window = bridge.metadata.currentWindow
+  return isRecord(window) && window.label === "mobile"
+}
+
 export function getPlatform(userAgent: string): DesktopPlatform {
   if (userAgent.includes("Mac")) return "mac"
   if (userAgent.includes("Windows")) return "windows"
@@ -52,7 +58,10 @@ export function readDesktopRuntime(
       platform: ELECTRON_PLATFORMS[bridge.platform] ?? getPlatform(userAgent),
     }
   }
-  if ("__TAURI_INTERNALS__" in host) {
+  if (
+    "__TAURI_INTERNALS__" in host &&
+    !isTauriMobile(Reflect.get(host, "__TAURI_INTERNALS__"))
+  ) {
     return { runtime: "tauri", platform: getPlatform(userAgent) }
   }
   return { runtime: "browser", platform: getPlatform(userAgent) }
@@ -70,7 +79,11 @@ export function getAppearanceSetter(
     }
   }
   const tauri = Reflect.get(host, "__TAURI_INTERNALS__")
-  if (isRecord(tauri) && typeof tauri.invoke === "function") {
+  if (
+    isRecord(tauri) &&
+    !isTauriMobile(tauri) &&
+    typeof tauri.invoke === "function"
+  ) {
     const { invoke } = tauri
     return (appearance) =>
       Promise.resolve(

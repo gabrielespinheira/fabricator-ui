@@ -384,6 +384,11 @@ async function gather(cwd: string): Promise<DoctorInput> {
 export function getWorkspaceChecks(input: {
   apps: { name: string; isNative: boolean; sdk?: string }[]
   hasDesktopTauri: boolean
+  tauriMobile?: {
+    hasRenderer: boolean
+    hasAppleProject: boolean
+    hasAndroidProject: boolean
+  }
   hasCargo: boolean
   unalignedApps: string[]
 }): Check[] {
@@ -406,7 +411,7 @@ export function getWorkspaceChecks(input: {
       })
     }
   }
-  if (input.hasDesktopTauri) {
+  if (input.hasDesktopTauri || input.tauriMobile) {
     checks.push(
       input.hasCargo
         ? { status: "pass", label: "Rust is installed, for Tauri" }
@@ -414,6 +419,36 @@ export function getWorkspaceChecks(input: {
             status: "warn",
             label: "Rust isn't installed, and Tauri compiles with it",
             fix: "Install it from https://www.rust-lang.org/tools/install.",
+          }
+    )
+  }
+  if (input.tauriMobile) {
+    const { hasRenderer, hasAppleProject, hasAndroidProject } =
+      input.tauriMobile
+    checks.push(
+      hasRenderer
+        ? {
+            status: "pass",
+            label: "Tauri mobile uses the Vite renderer in apps/web",
+          }
+        : {
+            status: "fail",
+            label: "Tauri mobile renderer setup is missing",
+            fix: "Run fabricator-ui apps add mobile tauri from the workspace root.",
+          },
+      hasAppleProject
+        ? { status: "pass", label: "Tauri Apple host is initialized" }
+        : {
+            status: "warn",
+            label: "Tauri Apple host needs initialization",
+            fix: "Run the workspace script init:mobile:ios after installing Apple prerequisites.",
+          },
+      hasAndroidProject
+        ? { status: "pass", label: "Tauri Android host is initialized" }
+        : {
+            status: "warn",
+            label: "Tauri Android host needs initialization",
+            fix: "Run the workspace script init:mobile:android after installing Android prerequisites.",
           }
     )
   }
@@ -428,6 +463,8 @@ const ICONS: Record<CheckStatus, string> = {
 
 async function doctorWorkspace(root: string) {
   const apps = listWorkspaceApps(root, { includePackages: true })
+  const mobile = path.join(root, "apps/mobile/src-tauri")
+  const hasMobile = existsSync(path.join(mobile, "tauri.conf.json"))
   logger.log(`${highlight.bold("fabricator-ui doctor")} ${highlight.dim(root)}`)
   logger.break()
   const checks = getWorkspaceChecks({
@@ -436,6 +473,15 @@ async function doctorWorkspace(root: string) {
       return { name: app.name, isNative: app.isNative, ...(sdk ? { sdk } : {}) }
     }),
     hasDesktopTauri: existsSync(path.join(root, "apps/desktop/src-tauri")),
+    ...(hasMobile && {
+      tauriMobile: {
+        hasRenderer: existsSync(
+          path.join(root, "apps/web/vite.tauri-mobile.config.mjs")
+        ),
+        hasAppleProject: existsSync(path.join(mobile, "gen/apple")),
+        hasAndroidProject: existsSync(path.join(mobile, "gen/android")),
+      },
+    }),
     hasCargo: await hasCommand("cargo"),
     unalignedApps: apps
       .filter((app) => !app.isNative && isWorkspaceAliasStale(app.dir))

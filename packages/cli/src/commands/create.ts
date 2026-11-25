@@ -69,6 +69,10 @@ export function createCreateCommand(): Command {
     .option("--no-monorepo", "a single project: one app in one folder")
     .option("--no-web", "no website: a mobile app alone stays in apps/mobile")
     .option("--mobile", "add apps/mobile: React Native with Expo")
+    .option(
+      "--mobile-runtime <runtime>",
+      "add apps/mobile: expo or tauri (Vite monorepos)"
+    )
     .option("--desktop <runtime>", "add apps/desktop: electron or tauri")
     .option(
       "--tooling <toolchain>",

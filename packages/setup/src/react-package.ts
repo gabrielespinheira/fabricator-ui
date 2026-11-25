@@ -1,4 +1,4 @@
-import { hasWebApp, type ProjectSetup } from "./setup"
+import { hasWebApp, type AppChoices, type ProjectSetup } from "./setup"
 
 export const DISTRIBUTIONS = ["source", "package"] as const
 export const REACT_PACKAGE = "@fabricator-ui/react"
@@ -26,10 +26,7 @@ export const REACT_NATIVE_PACKAGE_COMPONENTS = [
 ] as const
 
 export function getPackageSetupError(
-  setup: Pick<
-    ProjectSetup,
-    "project" | "framework" | "web" | "mobile" | "desktop" | "name"
-  >
+  setup: AppChoices & Pick<ProjectSetup, "name">
 ) {
   if (setup.project === "existing") return null
   if (setup.project !== "monorepo") {

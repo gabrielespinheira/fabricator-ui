@@ -16,6 +16,12 @@ What a platform lacks is recorded, never silent: `registry/native/parity-excepti
 
 ## Tauri mobile
 
+The CLI scaffolds the Tauri mobile host with `create --mobile-runtime tauri`
+or adds it to an existing React + Vite monorepo with `apps add mobile tauri`.
+The host uses the web registry or React package from `apps/web`. It has its
+own app identifier, native configuration and asset build. See the
+[CLI setup and commands](CLI.md#tauri-mobile).
+
 Tauri mobile bundles the React explorer's production frontend and runs it in a
 system WebView. Both demos use the generated explorer catalog from the full
 registry build. The app can open with the Next server stopped. Remote sample

@@ -16,6 +16,8 @@ import {
 } from "./react-package"
 import {
   ASSISTANT_VALUES,
+  hasExpoApp,
+  hasTauriMobile,
   hasWebApp,
   isWebFramework,
   normalizeProjectSetup,
@@ -90,12 +92,17 @@ function buildStep(setup: ProjectSetup, cli: (args: string) => string) {
     return [
       ...(setup.project === "existing" || hasWebApp(setup)
         ? [
-            `For web and desktop, use \`${REACT_PACKAGE}/<component>\` and load \`${REACT_PACKAGE_STYLES}\` once.`,
+            `In the React renderer, use \`${REACT_PACKAGE}/<component>\` and load \`${REACT_PACKAGE_STYLES}\` once.`,
           ]
         : []),
-      ...(setup.project === "existing" || setup.mobile
+      ...(setup.project === "existing" || hasExpoApp(setup)
         ? [
             `For Expo, use \`${REACT_NATIVE_PACKAGE}/<component>\`, load \`${REACT_NATIVE_PACKAGE_STYLES}\` in the Uniwind stylesheet, and mount the package's FabricatorRoot once.`,
+          ]
+        : []),
+      ...(hasTauriMobile(setup)
+        ? [
+            "The Tauri mobile host loads the Vite app from apps/web. Install UI components in apps/web.",
           ]
         : []),
       "Update component versions through the package manager.",
@@ -112,7 +119,14 @@ function buildStep(setup: ProjectSetup, cli: (args: string) => string) {
   const work = setup.appShell
     ? "replace the App Shell's sample navigation with real pages"
     : "build its first page"
-  return [`Ask me what the app is for, then ${work}. ${addComponents}`]
+  return [
+    `Ask me what the app is for, then ${work}. ${addComponents}`,
+    ...(hasTauriMobile(setup)
+      ? [
+          "The Tauri mobile host loads the Vite app from apps/web. Install UI components in apps/web.",
+        ]
+      : []),
+  ]
 }
 
 function finishStep(setup: ProjectSetup, packageManager: PackageManager) {

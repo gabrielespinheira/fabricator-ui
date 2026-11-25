@@ -1,7 +1,8 @@
 {
   "$schema": "../gen/schemas/mobile-schema.json",
-  "identifier": "default",
-  "description": "The mobile explorer may use core APIs on its own bundled main window.",
-  "windows": ["main"],
-  "permissions": ["core:default"]
+  "identifier": "mobile",
+  "description": "Permissions for the local Fabricator UI mobile window.",
+  "windows": ["mobile"],
+  "platforms": ["iOS", "android"],
+  "permissions": []
 }

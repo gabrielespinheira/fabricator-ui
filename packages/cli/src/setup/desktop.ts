@@ -170,7 +170,7 @@ export function renderTemplate(
   tokens: Record<string, string>
 ) {
   return Object.entries(tokens).reduce(
-    (text, [key, value]) => text.replaceAll(`__${key}__`, value),
+    (text, [key, value]) => text.replaceAll(`__${key}__`, () => value),
     content
   )
 }

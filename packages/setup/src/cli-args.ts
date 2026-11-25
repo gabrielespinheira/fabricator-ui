@@ -2,6 +2,7 @@
 
 import {
   DEFAULT_PROJECT_SETUP,
+  hasTauriMobile,
   MONOREPO_FRAMEWORKS,
   normalizeProjectSetup,
   projectName,
@@ -76,7 +77,11 @@ function appFlags(setup: ProjectSetup) {
   }
   return [
     ...(setup.web ? [] : ["--no-web"]),
-    ...(setup.mobile ? ["--mobile"] : []),
+    ...(hasTauriMobile(setup)
+      ? ["--mobile-runtime", "tauri"]
+      : setup.mobile
+        ? ["--mobile"]
+        : []),
     ...(setup.desktop === "none" ? [] : ["--desktop", setup.desktop]),
   ]
 }

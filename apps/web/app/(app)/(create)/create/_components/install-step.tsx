@@ -9,6 +9,8 @@ import {
   getNextSteps,
   getPrerequisites,
   getProjectTree,
+  hasExpoApp,
+  hasTauriMobile,
   REACT_NATIVE_PACKAGE,
   REACT_PACKAGE,
 } from "@fabricator-ui/setup"
@@ -280,14 +282,15 @@ export function InstallStep({
               {(projectSetup.project === "existing" ||
                 hasWebApp(projectSetup)) && (
                 <li>
-                  Web and desktop import from{" "}
+                  The React renderer imports from{" "}
                   <code className="font-mono text-foreground">
                     {REACT_PACKAGE}/button
                   </code>
                   .
                 </li>
               )}
-              {(projectSetup.project === "existing" || projectSetup.mobile) && (
+              {(projectSetup.project === "existing" ||
+                hasExpoApp(projectSetup)) && (
                 <li>
                   Expo imports from{" "}
                   <code className="font-mono text-foreground">
@@ -362,7 +365,9 @@ function getProjectApps(setup: Setup) {
   const { hasWeb, hasMobile, hasDesktop } = getShellProject(setup)
   return [
     ...(hasWeb ? ["Web"] : []),
-    ...(hasMobile ? ["Mobile"] : []),
+    ...(hasMobile
+      ? [`Mobile (${hasTauriMobile(setup) ? "Tauri" : "React Native"})`]
+      : []),
     ...(hasDesktop
       ? [`Desktop (${setup.desktop === "tauri" ? "Tauri" : "Electron"})`]
       : []),

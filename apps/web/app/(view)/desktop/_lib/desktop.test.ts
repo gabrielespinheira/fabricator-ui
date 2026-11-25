@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 
 import {
   getAppearanceSetter,
@@ -78,6 +78,21 @@ describe("getPlatform", () => {
 })
 
 describe("readDesktopRuntime", () => {
+  it("keeps desktop controls and theme IPC out of the Tauri mobile host", () => {
+    const invoke = vi.fn()
+    const host = {
+      __TAURI_INTERNALS__: {
+        metadata: { currentWindow: { label: "mobile" } },
+        invoke,
+      },
+    }
+    expect(
+      readDesktopRuntime(host, "Mozilla/5.0 (Macintosh; Intel Mac OS X)")
+        .runtime
+    ).toBe("browser")
+    expect(getAppearanceSetter(host)).toBeNull()
+    expect(invoke).not.toHaveBeenCalled()
+  })
   const mac = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
 
   it("finds the Electron bridge and its platform", () => {

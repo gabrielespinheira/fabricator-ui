@@ -32,6 +32,7 @@ Creates the app, installs the look and components, adds the App Shell and sounds
 | `--base <base>`                    | `-b`  | `base` (default), `radix` or `aria`                                                                         |
 | `--no-monorepo`                    |       | One app in one folder. The default is a monorepo: `apps/web` and `packages/ui`                              |
 | `--no-web`                         |       | No website. `--mobile` alone is a plain Expo project; `--desktop` alone keeps `apps/web` as the window's UI |
+| `--mobile-runtime <runtime>` | | Enable mobile with `expo` or `tauri`. Tauri uses a Vite monorepo. |
 | `--mobile`                         |       | Add `apps/mobile`: React Native with Expo                                                                   |
 | `--desktop <runtime>`              |       | Add `apps/desktop`: `electron` or `tauri`                                                                   |
 | `--look <values>`                  |       | `key=value` pairs: `primary=260_0.2,shape=pill`                                                             |
@@ -48,6 +49,7 @@ Creates the app, installs the look and components, adds the App Shell and sounds
 
 ```bash
 npx fabricator-ui@latest apps add mobile
+npx fabricator-ui@latest apps add mobile tauri
 npx fabricator-ui@latest apps add desktop electron
 ```
 

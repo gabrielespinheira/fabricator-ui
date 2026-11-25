@@ -10,6 +10,7 @@ import {
   TurborepoIcon,
   ViteIcon,
 } from "@fabricator-ui/icons/brands"
+import { hasTauriMobile, MOBILE_RUNTIMES } from "@fabricator-ui/setup"
 
 import {
   CodeIcon,
@@ -19,6 +20,7 @@ import {
   RocketIcon,
   SmartphoneIcon,
 } from "@/lib/site-icons"
+import { Button } from "@/styles/base-fabricator/ui/button"
 import {
   Field,
   FieldDescription,
@@ -62,6 +64,7 @@ import {
 type StepProps = {
   choices: SetupChoices
   showDistribution: boolean
+  enableTauriMobile: boolean
   packageError: string | null
   onChange: (patch: Partial<SetupChoices>) => void
   /** The phone tab bar follows Mobile: on with it, off without it. */
@@ -89,9 +92,10 @@ const WEB_FRAMEWORKS = FRAMEWORKS.filter(({ value }) =>
 })
 const WEB_FRAMEWORK_VALUES = WEB_FRAMEWORKS.map(({ value }) => value)
 
-const MOBILE_FRAMEWORKS = [
-  { value: "react-native", label: "React Native", icon: <ReactIcon /> },
-] as const
+const MOBILE_FRAMEWORKS = MOBILE_RUNTIMES.map((runtime) => ({
+  ...runtime,
+  icon: runtime.value === "expo" ? <ReactIcon /> : <TauriIcon />,
+}))
 
 const DESKTOP_RUNTIMES = [
   { value: "electron", label: "Electron", icon: <ElectronIcon /> },
@@ -130,7 +134,7 @@ function ProjectTooling({
   onChange,
 }: Pick<StepProps, "choices" | "onChange">) {
   const { hasWeb, hasDesktop } = getShellProject(choices)
-  const hasTasks = hasWeb || hasDesktop
+  const hasTasks = hasWeb || hasDesktop || hasTauriMobile(choices)
 
   return (
     <div className="flex flex-col gap-5">
@@ -272,22 +276,38 @@ function AppRow<T extends string>({
 
 type AppsProps = Pick<
   StepProps,
-  "choices" | "onChange" | "onMobileChange" | "onDesktopRemoved"
+  | "choices"
+  | "onChange"
+  | "onMobileChange"
+  | "onDesktopRemoved"
+  | "enableTauriMobile"
 >
 
 /** Any mix of web, mobile and desktop, as long as there's one. */
 function ProjectApps({
   choices,
+  enableTauriMobile,
   onChange,
   onMobileChange,
   onDesktopRemoved,
 }: AppsProps) {
   const { hasWeb, hasMobile, hasDesktop } = getShellProject(choices)
+  const [wantsTauri, setWantsTauri] = React.useState(false)
+  const isTauri = hasTauriMobile(choices)
   const isOnlyApp = [hasWeb, hasMobile, hasDesktop].filter(Boolean).length === 1
   // Old links can name the Expo template, which the mobile app now stands for.
   const framework = isNativeFramework(choices.framework)
     ? "next"
     : choices.framework
+  const needsVite =
+    enableTauriMobile &&
+    hasMobile &&
+    framework !== "vite" &&
+    (wantsTauri || isTauri)
+  const webOptions =
+    isTauri && framework === "vite"
+      ? WEB_FRAMEWORKS.filter(({ value }) => value === "vite")
+      : WEB_FRAMEWORKS
   const desktop = choices.desktop === "none" ? "electron" : choices.desktop
   const setApps = (patch: Partial<SetupChoices>) =>
     onChange({ web: hasWeb, mobile: hasMobile, framework, ...patch })
@@ -300,11 +320,19 @@ function ProjectApps({
         isOn={hasWeb}
         isLocked={hasWeb && isOnlyApp}
         onToggle={(web) => setApps({ web })}
-        options={WEB_FRAMEWORKS}
+        options={webOptions}
         value={pick(WEB_FRAMEWORK_VALUES, framework) ?? "next"}
         // A desktop window renders the web app, so it needs a framework too.
-        isPickerEnabled={hasWeb || hasDesktop}
-        onValueChange={(next) => setApps({ framework: next })}
+        isPickerEnabled={hasWeb || hasDesktop || isTauri}
+        onValueChange={(next) => {
+          if (wantsTauri && next === "vite") {
+            setWantsTauri(false)
+            onMobileChange(false)
+            setApps({ framework: next, mobileRuntime: "tauri" })
+            return
+          }
+          setApps({ framework: next })
+        }}
       />
       <AppRow
         title="Mobile"
@@ -312,14 +340,57 @@ function ProjectApps({
         isOn={hasMobile}
         isLocked={hasMobile && isOnlyApp}
         onToggle={(mobile) => {
-          onMobileChange(mobile)
+          setWantsTauri(false)
+          onMobileChange(mobile && choices.mobileRuntime === "expo")
           setApps({ mobile })
         }}
-        options={MOBILE_FRAMEWORKS}
-        value="react-native"
+        options={
+          enableTauriMobile || isTauri
+            ? MOBILE_FRAMEWORKS
+            : MOBILE_FRAMEWORKS.filter(({ value }) => value === "expo")
+        }
+        value={choices.mobileRuntime}
         isPickerEnabled={hasMobile}
-        onValueChange={() => undefined}
+        onValueChange={(mobileRuntime) => {
+          if (mobileRuntime === "tauri" && !enableTauriMobile) return
+          if (mobileRuntime === "tauri" && framework !== "vite") {
+            setWantsTauri(true)
+            return
+          }
+          setWantsTauri(false)
+          onMobileChange(mobileRuntime === "expo")
+          setApps({ mobileRuntime })
+        }}
       />
+      {needsVite ? (
+        <div className="flex flex-col items-start gap-2">
+          <FieldDescription role="status">
+            Tauri mobile uses a React + Vite renderer.
+          </FieldDescription>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setWantsTauri(false)
+                onMobileChange(false)
+                setApps({ mobileRuntime: "tauri", framework: "vite" })
+              }}
+            >
+              Switch renderer to Vite
+            </Button>
+            {wantsTauri && !isTauri ? (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => setWantsTauri(false)}
+              >
+                Keep React Native
+              </Button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
       <AppRow
         title="Desktop"
         icon={<MonitorIcon />}
@@ -337,9 +408,13 @@ function ProjectApps({
           if (runtime) onChange({ desktop: runtime })
         }}
       />
-      {!hasWeb && hasDesktop ? (
+      {isTauri ? (
         <FieldDescription>
-          The window renders a web app, so apps/web is still there as its UI.
+          Tauri mobile loads the Vite app in apps/web.
+        </FieldDescription>
+      ) : !hasWeb && hasDesktop ? (
+        <FieldDescription>
+          The desktop window uses apps/web for its UI.
         </FieldDescription>
       ) : null}
     </div>
@@ -348,6 +423,7 @@ function ProjectApps({
 
 export function ProjectControls({
   choices,
+  enableTauriMobile,
   showDistribution,
   packageError,
   onChange,
@@ -432,11 +508,21 @@ export function ProjectControls({
 
       {isExisting ? distribution : null}
       {isExisting ? (
-        <p className="text-[13px] leading-relaxed text-muted-foreground">
-          {choices.distribution === "package"
-            ? "The CLI detects Next.js App Router and Vite React apps. In a monorepo, run it from the web app’s folder."
-            : "The CLI finds your framework on its own, and each app in a monorepo. It works with Next.js, Vite, TanStack Start, React Router, Astro and Laravel apps that use React 19 and Tailwind CSS v4, and with Expo apps."}
-        </p>
+        <div className="flex flex-col gap-2 text-[13px] leading-relaxed text-muted-foreground">
+          <p>
+            {choices.distribution === "package"
+              ? "The CLI detects Next.js App Router and Vite React apps. In a monorepo, run it from the web app’s folder."
+              : "The CLI finds your framework on its own, and each app in a monorepo. It works with Next.js, Vite, TanStack Start, React Router, Astro and Laravel apps that use React 19 and Tailwind CSS v4, and with Expo apps."}
+          </p>
+          {enableTauriMobile ? (
+            <Link
+              href="/docs/installation/vite#tauri-mobile"
+              className="w-fit underline underline-offset-4"
+            >
+              Add a Tauri mobile host to an existing Vite monorepo
+            </Link>
+          ) : null}
+        </div>
       ) : (
         <>
           <Field>
@@ -458,10 +544,11 @@ export function ProjectControls({
 
           <StepSection
             title="Apps"
-            description="Turn on each app and pick what it's built with. Web and desktop share one codebase; mobile has its own React Native components."
+            description="Turn on each app and choose its framework."
           >
             <ProjectApps
               choices={choices}
+              enableTauriMobile={enableTauriMobile}
               onChange={onChange}
               onMobileChange={onMobileChange}
               onDesktopRemoved={onDesktopRemoved}
