@@ -1,7 +1,10 @@
 // Component pages laid out at app width: the docs shell gives them its large
 // column, the prose stays at the usual width, and previews marked `wide`
 // take the rest (app/fabricator-site.css).
-const WIDE_COMPONENTS: ReadonlySet<string> = new Set(["event-calendar"])
+const WIDE_COMPONENTS: ReadonlySet<string> = new Set([
+  "event-calendar",
+  "kanban",
+])
 
 const COMPONENT_PAGE = /^\/docs\/components\/[a-z]+\/([a-z0-9-]+)$/
 

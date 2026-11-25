@@ -51,40 +51,43 @@ Opening a row sets the record in the URL and calls `useShellPanel("customer").se
 View first, then search and filters; the count ends it. Filters are outline menus that show how many are on, and one Clear removes everything.
 
 ```tsx
-<div className="flex flex-wrap items-center gap-(--density-8)">
-  <Tabs value={view} onValueChange={setView}>
+<Tabs value={view} onValueChange={setView}>
+  <div className="flex flex-wrap items-center gap-(--density-8)">
     <TabsList aria-label="View">
       <TabsTrigger value="all">All</TabsTrigger>
       <TabsTrigger value="risk">At risk</TabsTrigger>
       <TabsTrigger value="trial">Trials</TabsTrigger>
     </TabsList>
-  </Tabs>
-  <Search collapsible={false} width="11rem" placeholder="Search customers" value={query} onValueChange={setQuery} />
-  <DropdownMenu>
-    <DropdownMenuTrigger render={<Button variant="outline" />}>
-      <ListFilterIcon data-icon="inline-start" />
-      Status{statuses.size > 0 && <span className="tabular-nums">· {statuses.size}</span>}
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="start">
-      <DropdownMenuGroup>
-        <DropdownMenuLabel>Status</DropdownMenuLabel>
-        {/* DropdownMenuCheckboxItem per status */}
-      </DropdownMenuGroup>
-    </DropdownMenuContent>
-  </DropdownMenu>
-  {isFiltered && (
-    <Button variant="ghost" onClick={clear}>
-      <XIcon data-icon="inline-start" />
-      Clear
-    </Button>
-  )}
-  {/* Only while rows are on screen: over an error or a skeleton the count is false. */}
-  {hasRows && (
-    <span aria-live="polite" className="ms-auto text-(length:--density-text-12) text-muted-foreground tabular-nums">
-      {rows.length} of {total}
-    </span>
-  )}
-</div>
+    <Search collapsible={false} width="11rem" placeholder="Search customers" value={query} onValueChange={setQuery} />
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        <ListFilterIcon data-icon="inline-start" />
+        Status{statuses.size > 0 && <span className="tabular-nums">· {statuses.size}</span>}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Status</DropdownMenuLabel>
+          {/* DropdownMenuCheckboxItem per status */}
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    {isFiltered && (
+      <Button variant="ghost" onClick={clear}>
+        <XIcon data-icon="inline-start" />
+        Clear
+      </Button>
+    )}
+    {/* Only while rows are on screen: over an error or a skeleton the count is false. */}
+    {hasRows && (
+      <span aria-live="polite" className="ms-auto text-(length:--density-text-12) text-muted-foreground tabular-nums">
+        {rows.length} of {total}
+      </span>
+    )}
+  </div>
+  <TabsContent value={view}>
+    <CustomerTable rows={rows} />
+  </TabsContent>
+</Tabs>
 ```
 
 Past three filters, phones get one "Filters" button opening a `Drawer`. The selection bar takes the toolbar's place and height:

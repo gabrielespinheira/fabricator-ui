@@ -133,6 +133,7 @@ type EventCalendarUi<TData> = {
   /** The event the keyboard picked up, where it is now. */
   grabbed?: { event: CalendarEvent<TData>; preview: CalendarEvent<TData> }
   renderEvent?: EventCalendarEngineProps<TData>["renderEvent"]
+  renderDraftNotice?: (event: CalendarEvent<TData>) => React.ReactNode
   fullCalendar?: EventCalendarEngineProps<TData>["fullCalendar"]
   isMounted: boolean
 }
@@ -176,6 +177,8 @@ type EventCalendarOwnProps<TData> = {
   size?: "sm" | "default" | "lg"
   /** Replaces the event chip; `EventCalendarEvent` is there to reuse. */
   renderEvent?: (props: EventCalendarRenderEventProps<TData>) => React.ReactNode
+  /** Optional feedback below the selected slot in quick create. */
+  renderDraftNotice?: (event: CalendarEvent<TData>) => React.ReactNode
   /** Web only: FullCalendar options merged last. */
   fullCalendar?: EventCalendarEngineProps<TData>["fullCalendar"]
   /** Keyboard shortcuts in the calendar (default) or off. */
@@ -264,6 +267,7 @@ function EventCalendarFrame<TData>({
   variant = "card",
   size = "default",
   renderEvent,
+  renderDraftNotice,
   fullCalendar,
   shortcuts = true,
   className,
@@ -320,6 +324,7 @@ function EventCalendarFrame<TData>({
       setHelpOpen,
       grabbed,
       renderEvent,
+      renderDraftNotice,
       fullCalendar,
       isMounted,
     }),
@@ -332,6 +337,7 @@ function EventCalendarFrame<TData>({
       isHelpOpen,
       isMounted,
       renderEvent,
+      renderDraftNotice,
     ]
   )
 
@@ -1514,7 +1520,9 @@ function EventCalendarEventForm<TData>({
   onMoreOptions?: (draft: CalendarEvent<TData>) => void
   className?: string
 }) {
-  const { calendar } = useEventCalendarUi<TData>("EventCalendarEventForm")
+  const { calendar, renderDraftNotice } = useEventCalendarUi<TData>(
+    "EventCalendarEventForm"
+  )
   const { timeZone, locale, settings } = calendar
   const id = React.useId()
   const times = getEventTimes(event, timeZone)
@@ -1619,12 +1627,15 @@ function EventCalendarEventForm<TData>({
           />
         </Field>
         {isQuick ? (
-          <p className="cn-event-calendar-event-form-summary">
-            {`${formatEventDay(startDate, formatOptions)} · ${formatEventTimeRange(
-              { start: startDate, end: endDate, allDay },
-              formatOptions
-            )}`}
-          </p>
+          <>
+            <p className="cn-event-calendar-event-form-summary">
+              {`${formatEventDay(startDate, formatOptions)} · ${formatEventTimeRange(
+                { start: startDate, end: endDate, allDay },
+                formatOptions
+              )}`}
+            </p>
+            {renderDraftNotice?.(event)}
+          </>
         ) : (
           <>
             <Field orientation="horizontal">

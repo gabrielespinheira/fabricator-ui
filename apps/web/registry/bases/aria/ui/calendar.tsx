@@ -144,7 +144,7 @@ function CalendarInner({
 }) {
   return (
     <div className="relative flex flex-col gap-4 md:flex-row">
-      <header className="absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1">
+      <div className="absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1">
         <Button
           variant={buttonVariant}
           slot="previous"
@@ -173,7 +173,7 @@ function CalendarInner({
             className="cn-rtl-flip size-4"
           />
         </Button>
-      </header>
+      </div>
       {Array.from({ length: numberOfMonths }, (_, i) => (
         <div key={i} className="flex w-full flex-col gap-4">
           <div className="flex h-(--cell-size) w-full items-center justify-center gap-1 px-(--cell-size)">

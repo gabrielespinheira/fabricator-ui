@@ -11,13 +11,13 @@ In this order:
 | Group         | Holds                                                                             | For example                                                               |
 | ------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | **Basics**    | The building blocks other components are made of: one control or atom             | `button`, `input`, `checkbox`, `badge`, `avatar`, `separator`, `skeleton` |
-| **Forms**     | Composed inputs and pickers for entering a value                                  | `field`, `input-group`, `select`, `combobox`, `date-picker`, `search`     |
-| **Overlays**  | Surfaces that open above the page from a trigger or a shortcut                    | `dialog`, `sheet`, `popover`, `tooltip`, `dropdown-menu`, `command`       |
+| **Forms**     | Composed inputs and pickers for entering a value                                  | `field`, `properties`, `input-group`, `select`, `combobox`, `date-picker`, `search`     |
+| **Overlays**  | Surfaces that open above the page from a trigger or a shortcut                    | `dialog`, `record-view`, `sheet`, `popover`, `tooltip`, `dropdown-menu`, `command`       |
 | **Structure** | The frame of an app and the arrangement of a page: navigation, layout, containers | `app-shell`, `sidebar`, `tabs`, `breadcrumb`, `accordion`, `card`, `item` |
 | **Content**   | Showing data, media and the result of an action                                   | `table`, `alert`, `toast`, `progress`, `empty`, `markdown`                |
 | **Charts**    | Numbers drawn as marks: lines, bars, areas, arcs, cells and flows                 | `area-chart`, `bar-chart`, `donut-chart`, `treemap`, `heat-calendar`      |
 | **Chat**      | Parts made for a conversation with a person or an assistant                       | `chat-input`, `message`, `bubble`, `model-picker`, `questionnaire`        |
-| **Advanced**  | Large, self-contained components that are a small product of their own            | `data-table`, `event-calendar`, `editor`, `file-tree`, `video-player`     |
+| **Advanced**  | Large, self-contained components that are a small product of their own            | `data-table`, `event-calendar`, `kanban`, `editor`, `file-tree`, `video-player`     |
 
 ## Choosing a group
 

@@ -24,7 +24,7 @@ Past about six cards, split by subject into pages under a sidebar group.
 
 ## A setting
 
-Name and effect at the start, the smallest fitting control at the end. `inline` controls (a `Switch`, a `ColorPickerPopover`, a small button) stay beside their label at every width: a `Switch` in a `responsive` field stretches on phones and collapses on desktop. Controls with a width of their own (`Select`, `Combobox`, `Tabs`, `NumberField`) use `responsive` and stack on phones; cap them with `max-w-*`.
+Name and effect at the start, the smallest fitting control at the end. `inline` controls (a `Switch`, a `ColorPickerPopover`, a small button) stay beside their label at every width: a `Switch` in a `responsive` field stretches on phones and collapses on desktop. Controls with a width of their own (`Select`, `Combobox`, `ToggleGroup`, `NumberField`) use `responsive` and stack on phones; cap them with `max-w-*`.
 
 ```tsx
 function Setting({
@@ -74,12 +74,19 @@ function Setting({
         </Combobox>
       </Setting>
       <Setting title="Week starts on" description="In calendars and weekly reports.">
-        <Tabs value={week} onValueChange={saveWeek}>
-          <TabsList aria-label="Week starts on">
-            <TabsTrigger value="sun">Sunday</TabsTrigger>
-            <TabsTrigger value="mon">Monday</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <ToggleGroup
+          aria-label="Week starts on"
+          value={[week]}
+          onValueChange={([next]) => {
+            if (next === "sun" || next === "mon") saveWeek(next)
+          }}
+          size="sm"
+          spacing={0}
+          className="bg-foreground/[0.05]"
+        >
+          <ToggleGroupItem value="sun">Sunday</ToggleGroupItem>
+          <ToggleGroupItem value="mon">Monday</ToggleGroupItem>
+        </ToggleGroup>
       </Setting>
       <Setting inline title="Weekly digest" description="Sent to admins on Monday at 8:00 AM." htmlFor="digest">
         <Switch id="digest" checked={hasDigest} onCheckedChange={saveDigest} />

@@ -12,14 +12,20 @@ import { FRAME_READY_MESSAGE } from "@/lib/frame-preview-model"
  */
 export function FrameReady() {
   React.useEffect(() => {
-    if (window.parent === window) return
-    const frame = window.requestAnimationFrame(() =>
-      window.parent.postMessage(
-        { type: FRAME_READY_MESSAGE },
-        window.location.origin
-      )
-    )
-    return () => window.cancelAnimationFrame(frame)
+    const frame = window.requestAnimationFrame(() => {
+      const root = document.documentElement
+      root.dataset.previewReady = ""
+      if (window.parent !== window) {
+        window.parent.postMessage(
+          { type: FRAME_READY_MESSAGE },
+          window.location.origin
+        )
+      }
+    })
+    return () => {
+      window.cancelAnimationFrame(frame)
+      delete document.documentElement.dataset.previewReady
+    }
   }, [])
   return null
 }

@@ -30,6 +30,7 @@ const FRAME_EXAMPLE_PREFIXES = [
   "workspace-switcher-",
   "user-menu-",
   "event-calendar-",
+  "kanban-",
 ]
 export const dynamicParams = false
 

@@ -100,13 +100,20 @@ function SetupStep({
   </SetupStep>
   <SetupStep value="timing" label="Timing" state="done" answer="Thu, Nov 26 at 9:00 AM, Lisbon time">
     <FieldGroup>
-      <Tabs value={when} onValueChange={setWhen}>
-        <TabsList aria-label="When to send">
-          <TabsTrigger value="now">Now</TabsTrigger>
-          <TabsTrigger value="later">At a set time</TabsTrigger>
-          <TabsTrigger value="best">Best time</TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <ToggleGroup
+        aria-label="When to send"
+        value={[when]}
+        onValueChange={([next]) => {
+          if (next === "now" || next === "later" || next === "best") setWhen(next)
+        }}
+        size="sm"
+        spacing={0}
+        className="bg-foreground/[0.05]"
+      >
+        <ToggleGroupItem value="now">Now</ToggleGroupItem>
+        <ToggleGroupItem value="later">At a set time</ToggleGroupItem>
+        <ToggleGroupItem value="best">Best time</ToggleGroupItem>
+      </ToggleGroup>
       {when === "later" && (
         <Field>
           <FieldLabel htmlFor="send-at">Date and time</FieldLabel>

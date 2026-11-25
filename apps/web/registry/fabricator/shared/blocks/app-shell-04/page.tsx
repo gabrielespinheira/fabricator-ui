@@ -124,8 +124,10 @@ export default function Page() {
           </TabStrip>
         </AppShellHeader>
         <AppShellContent className="p-6">
-          {tabs.activeId ? pages[tabs.activeId] : "No open pages"}. Drag the tab
-          row or the sidebar&apos;s top to move the window.
+          <h1 className="inline">
+            {tabs.activeId ? pages[tabs.activeId] : "No open pages"}
+          </h1>
+          . Drag the tab row or the sidebar&apos;s top to move the window.
         </AppShellContent>
       </AppShellMain>
     </AppShell>

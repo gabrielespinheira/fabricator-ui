@@ -349,14 +349,15 @@ About 100,000 events over ten years, 28 a day, from a stand-in server that answe
 
 `EventCalendar` also takes:
 
-| Prop           | Type                        | Default     |                                |
-| -------------- | --------------------------- | ----------- | ------------------------------ |
-| `calendar`     | `EventCalendarController`   | -           | From `useEventCalendar`        |
-| `variant`      | `"card" \| "flat"`          | `"card"`    |                                |
-| `size`         | `"sm" \| "default" \| "lg"` | `"default"` | Compact and spacious densities |
-| `renderEvent`  | `(props) => ReactNode`      | -           | Replaces the chip              |
-| `fullCalendar` | `CalendarOptions`           | -           | Web only; merged last          |
-| `shortcuts`    | `boolean`                   | `true`      | The keyboard shortcuts below   |
+| Prop                | Type                        | Default     |                                                  |
+| ------------------- | --------------------------- | ----------- | ------------------------------------------------ |
+| `calendar`          | `EventCalendarController`   | -           | From `useEventCalendar`                          |
+| `variant`           | `"card" \| "flat"`          | `"card"`    |                                                  |
+| `size`              | `"sm" \| "default" \| "lg"` | `"default"` | Compact and spacious densities                   |
+| `renderEvent`       | `(props) => ReactNode`      | -           | Replaces the chip                                |
+| `renderDraftNotice` | `(event) => ReactNode`      | -           | Feedback below the selected time in quick create |
+| `fullCalendar`      | `CalendarOptions`           | -           | Web only; merged last                            |
+| `shortcuts`         | `boolean`                   | `true`      | The keyboard shortcuts below                     |
 
 The controller also drives the calendar from code: `next()`, `previous()`, `today()`, `goTo(date)`, `setStartDate(date)` (start a continuous view on a day, as a scroll does), `setView(view)`, `createEvent(event)`, `updateEvent(event, next)`, `deleteEvent(event)`, `undo()`, `redo()`, `refetch()`, `openEvent(event)` and `startCreate(draft)`.
 

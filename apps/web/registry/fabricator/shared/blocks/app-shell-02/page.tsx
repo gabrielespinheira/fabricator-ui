@@ -151,7 +151,9 @@ export default function Page() {
           </AppShellPanelTrigger>
         </div>
         <AppShellContent id="workbench-content" role="tabpanel" className="p-6">
-          {tabs.activeId ? documents[tabs.activeId] : "No open documents"}
+          <h1>
+            {tabs.activeId ? documents[tabs.activeId] : "No open documents"}
+          </h1>
         </AppShellContent>
       </AppShellMain>
       <AppShellPanel

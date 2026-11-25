@@ -33,7 +33,7 @@ How these fit together, and what breaks them: [app-shell.md](app-shell.md).
 | --- | --- | --- |
 | `button` | Something happens on press | `default` once per region, `secondary`, `outline` (Cancel, filters, in cards), `ghost` (toolbars, rows, icons), `destructive` (soft red), `link`. Sizes follow density; `sm`, `lg`, `icon`, `icon-sm`. A link that looks like one: `buttonVariants` on the router's link |
 | `button-group` | Actions that belong together; a split button | `ButtonGroupSeparator` + a `DropdownMenu` for the other choices ("Send" / "Send later") |
-| `toggle`, `toggle-group` | Formatting and tool states that are on or off | Several at once, or a tool palette. For one of a few values use `Tabs` |
+| `toggle`, `toggle-group` | Short settings, formatting and tool states | Single-select for one value, multi-select for independent choices |
 | `dropdown-menu` | The rest of the actions on one thing | Every action leads with its icon; destructive last, alone; "…" when it opens something; checkbox and radio items for view options |
 | `context-menu` | The same actions on right click | Mirrors the row's "More" menu. A long press on touch |
 | `menubar` | A desktop app's menus | Desktop windows only; not in React Aria |
@@ -45,7 +45,7 @@ Start at [asking.md](asking.md): most values should never reach this table.
 
 | Component | Reach for it when | Worth knowing |
 | --- | --- | --- |
-| `tabs` | One of two to four short values, or views | Default `TabsList`; `variant="subtle"` (icons, active shows its label) in tight toolbars; `orientation="vertical"` for settings sections |
+| `tabs` | Views with content panels | Default `TabsList`; `variant="subtle"` (icons, active shows its label) in tight toolbars; `orientation="vertical"` for settings sections |
 | `radio-group` | One of a few that need explaining | As choice cards: `FieldLabel` > `Field orientation="horizontal"` > `FieldContent` + `RadioGroupItem` |
 | `select` | One of five or more | Pass `items` on Base UI; `SelectGroup` always |
 | `combobox` | One of many, found by typing | Items with avatars, groups; also the person picker |
@@ -64,6 +64,7 @@ Start at [asking.md](asking.md): most values should never reach this table.
 | `input-otp` | A one-time code | Pastes and autofills |
 | `search` | Filtering or searching | `collapsible={false}` in a toolbar; closed it is one round button |
 | `input`, `textarea` | What only the person can write | Last resort; see the ladder |
+| `properties` | Define, show and edit typed fields | Use `PropertyList` for record values and `PropertyManager` for schemas |
 | `input-group` | A fixed part, a unit, a button in a field | `InputGroupInput` first, then `InputGroupAddon align`, `InputGroupButton`, `InputGroupText` |
 | `field` | Around every control | `FieldGroup` > `Field` > `FieldLabel`, control, `FieldDescription`, `FieldError`; `FieldSet` + `FieldLegend` for a group |
 | `label` | A lone label | Inside a form, `FieldLabel` |
@@ -74,6 +75,7 @@ Start at [asking.md](asking.md): most values should never reach this table.
 
 | Component | Reach for it when | Worth knowing |
 | --- | --- | --- |
+| `record-view` | Read or edit the active record | Side panel, center peek or full-page view with record navigation and loading states |
 | `dialog` | A focused task of one to three asks | A drawer on phones is your composition ([recipes/create.md](recipes/create.md)) |
 | `alert-dialog` | Only what can't be undone | Title names the object, action repeats the verb |
 | `sheet` | A task that needs the page beside it | Details someone keeps open belong in an `AppShellPanel` |
@@ -89,6 +91,7 @@ Every dialog, sheet and drawer has a title. Two modal layers at most.
 | Component | Reach for it when | Worth knowing |
 | --- | --- | --- |
 | `table` | A few to a hundred records compared by column | Columns fold into the name cell in narrow containers ([recipes/list.md](recipes/list.md)); row hover is built in |
+| `kanban` | Work grouped by status or another field | Drag cards across columns, compose detail actions, page by cursor and save moves via callbacks |
 | `data-table` | Records people sort, filter, edit, or have by the thousand | Typed columns through `meta` (`status`, `person`, `currency`, `progress`, `tags`, `date`), `editable` cells, `load`, footers, selection bar, views. Web only; needs a height |
 | `item` | Things read one by one: people, files, tasks, apps | `ItemGroup` > `Item size="default\|sm\|xs" variant="default\|outline\|muted"`; `ItemMedia variant="icon\|image"`; a link through `render`/`asChild`; rows carry `role="listitem"` ([rules/composition.md](rules/composition.md)) |
 | `card` | One discrete thing | `CardHeader` (`CardTitle`, `CardDescription`, `CardAction`), `CardContent`, `CardFooter`; `--card-spacing` is its inset |
@@ -183,7 +186,7 @@ How loud each is: [states.md](states.md#how-loud).
 
 | Between | Choose |
 | --- | --- |
-| `Tabs`, `ToggleGroup`, `Select` | One of two to four: Tabs. Several on at once: ToggleGroup. Five or more: Select |
+| `Tabs`, `ToggleGroup`, `Select` | Views with panels use Tabs. Short choices in place use ToggleGroup. Use Select when labels do not fit |
 | `Switch`, `Checkbox` | Takes effect now: Switch. Submitted later, or part of a list: Checkbox |
 | `Table`, `DataTable`, `ItemGroup`| Compared by column: Table. Worked on: DataTable. Read one by one, or under about 480px: ItemGroup |
 | `Card`, `Item` | A thing with content of its own: Card. A row among equals: Item |
@@ -201,7 +204,7 @@ How loud each is: [states.md](states.md#how-loud).
 | Tempted to build | Use |
 | --- | --- |
 | A sidebar, topbar or split layout | `AppShell`, `AppNav`, `AppShellPanel` |
-| A segmented control, pill filter row | `Tabs` |
+| A segmented control or pill filter row | `Tabs` for views with panels, `ToggleGroup` for choices in place |
 | A grid of feature cards with icons | A list, a table, or the product itself |
 | Stat tiles with icon squares | The KPI row ([recipes/dashboard.md](recipes/dashboard.md)) |
 | A stepper with numbered circles | `Progress` and "Step 2 of 4"; `Questionnaire` |

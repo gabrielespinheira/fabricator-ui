@@ -44,6 +44,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   typography: "Basics",
   "aspect-ratio": "Basics",
   "scroll-area": "Basics",
+  properties: "Forms",
   // Forms
   field: "Forms",
   form: "Forms",
@@ -62,6 +63,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   "multi-select": "Forms",
   "time-input": "Forms",
   "time-wheel": "Forms",
+  "record-view": "Overlays",
   // Overlays
   dialog: "Overlays",
   "alert-dialog": "Overlays",
@@ -127,6 +129,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   attachment: "Chat",
   marker: "Chat",
   questionnaire: "Chat",
+  kanban: "Advanced",
   // Advanced
   "data-table": "Advanced",
   "event-calendar": "Advanced",

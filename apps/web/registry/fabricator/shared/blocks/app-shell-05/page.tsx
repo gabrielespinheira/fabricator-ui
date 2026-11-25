@@ -142,6 +142,7 @@ export default function Page() {
           />
         </AppShellHeader>
         <AppShellContent>
+          <h1 className="sr-only">Inbox</h1>
           <MessageList onOpen={setOpenId} />
         </AppShellContent>
         <AppNavBottomBar groups={groups} pathname="/inbox" />

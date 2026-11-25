@@ -145,26 +145,29 @@ function DashboardMenu() {
 Show up to four period presets with the default `TabsList`. Use a `Select` for more presets or where the full labels do not fit beside the other controls. Keep the same URL value for either control. In Next.js, code that reads the URL needs a Suspense boundary.
 
 ```tsx
-<div className="flex flex-wrap items-center gap-(--density-8)">
-  <Tabs value={period} onValueChange={setPeriod}>
+<Tabs value={period} onValueChange={setPeriod}>
+  <div className="flex flex-wrap items-center gap-(--density-8)">
     <TabsList aria-label="Period">
       <TabsTrigger value="7d">7 days</TabsTrigger>
       <TabsTrigger value="30d">30 days</TabsTrigger>
       <TabsTrigger value="90d">90 days</TabsTrigger>
       <TabsTrigger value="12m">12 months</TabsTrigger>
     </TabsList>
-  </Tabs>
-  <span className="text-(length:--density-text-12) text-muted-foreground">
-    Compared with the previous 30 days
-  </span>
-  <div className="ms-auto flex items-center gap-(--density-4) text-(length:--density-text-12) text-muted-foreground">
-    <span>Updated 2 min ago</span>
-    <Button variant="ghost" size="icon-sm" aria-label="Refresh">
-      {/* with a Tooltip */}
-      <RefreshCwIcon />
-    </Button>
+    <span className="text-(length:--density-text-12) text-muted-foreground">
+      Compared with the previous 30 days
+    </span>
+    <div className="ms-auto flex items-center gap-(--density-4) text-(length:--density-text-12) text-muted-foreground">
+      <span>Updated 2 min ago</span>
+      <Button variant="ghost" size="icon-sm" aria-label="Refresh">
+        {/* with a Tooltip */}
+        <RefreshCwIcon />
+      </Button>
+    </div>
   </div>
-</div>
+  <TabsContent value={period}>
+    <DashboardCards period={period} />
+  </TabsContent>
+</Tabs>
 ```
 
 ## Delta

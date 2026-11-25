@@ -16,6 +16,9 @@
       "@/registry/bases/__base__/lib/*": [
         "../../apps/web/registry/fabricator/shared/lib/*"
       ],
+      "@/registry/bases/__base__/hooks/*": [
+        "../../apps/web/registry/fabricator/shared/hooks/*"
+      ],
       "@/registry/native/*": ["../../apps/web/registry/native/*"],
       "@/examples/native/*": ["../../apps/web/examples/native/*"],
       "@/lib/component-groups": ["../../apps/web/lib/component-groups.ts"],

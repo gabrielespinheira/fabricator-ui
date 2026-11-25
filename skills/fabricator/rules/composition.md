@@ -186,7 +186,7 @@ The button keeps the width of its longer label, and the spinner takes the icon's
 
 ## Tabs and short single choices
 
-Place each `TabsTrigger` inside `TabsList`. Use the default list for the shared track and visible labels by omitting the `variant` prop. Use `TabsContent` when each option opens a distinct panel.
+Use `Tabs` to switch between views. Give each `TabsTrigger` a matching `TabsContent`, and use the default `TabsList` to keep every label visible on the shared track. Use a single-select `ToggleGroup` for a setting or other value that changes in place.
 
 ```tsx
 <Tabs defaultValue="account">
