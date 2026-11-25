@@ -29,6 +29,8 @@ These changes are merged and ship in the next version.
 
 **Generated project formatting.** Biome and Vite+ format generated docs before the first commit.
 
+**SwiftUI and Kotlin Compose previews retired.** The CLI and hosted registry no longer install or update SwiftUI and Compose items. Existing apps can continue using the source they copied. The preview source is available in the `fabricator-ui@0.9.0` release.
+
 ## Components
 
 **Theme tabs in the User Menu.** `UserMenuTheme` adds a Theme row to the menu with light, dark and system as small tabs. The pill slides to the picked one and the page reveals from it with Theme Toggle's blurred circle, or any other `variant`. It comes with `useThemePreference`, the same behaviour for tabs of your own. React Native has the row without the page reveal.
@@ -51,7 +53,7 @@ These changes are merged and ship in the next version.
 
 **Tab Strip rename.** Base UI and Radix focus the inline field after a rename starts. Tab Strip now passes Biome's autofocus rule while keeping keyboard renaming.
 
-**App Shell across platforms.** Tauri’s macOS window controls line up with Electron in the default layout, and the window material follows the light or dark theme. The pinned Details button stays visible in WebKit. On SwiftUI, the Details panel opens in a drawer when the view is too narrow to dock it. On Compose, inset shells put the main content and Details panel on matching cards above the status bar. The Compose macOS example uses its native window controls over the App Shell.
+**App Shell across platforms.** Tauri’s macOS window controls line up with Electron in the default layout, and the window material follows the light or dark theme. The pinned Details button stays visible in WebKit.
 
 **Smoother chart hover.** Charts redraw only the crosshair, highlight and tooltip as the pointer moves, so hovering a large Candlestick or Heat Calendar no longer redraws every candle or day. `onActiveChange` now fires when the inspected mark changes, not on every pointer move or React Native drag event. Status Bar lifts a copy of the inspected pill that glides along the bar, and the other pills dim to 40%, so hovering no longer lays out the whole page on every step.
 
@@ -73,13 +75,13 @@ These changes are merged and ship in the next version.
 
 **Lifted marks grow out of their mark.** Heat Calendar's lifted day and Status Bar's lifted pill grow from the size of their mark as they fade in where the pointer lands, then glide from mark to mark without growing again. With Reduce Motion on, they fade in at full size.
 
-**Tidier toasts.** Toast and Sonner share one width, 338px at the default density, instead of 384px and 356px. One line is 40px tall, with or without an action. The action sits beside text that leaves it room and under text that doesn't, and the status icon stays on the first line. Long titles and descriptions stop at two and three lines, long words break instead of running out of the toast, and hover, focus or a tap opens the full text. The close button moved to the corner, where it shows on hover, focus and touch. Toast takes a custom icon or avatar in `data.icon`, `ToastAction` defaults to the `secondary` button, and Sonner's `closeButton` is on by default and can be turned off. The base `sonner` item takes the same look. SwiftUI and Compose toasts gain the same width, status icons, actions, truncation and close button.
+**Tidier toasts.** Toast and Sonner share one width, 338px at the default density, instead of 384px and 356px. One line is 40px tall, with or without an action. The action sits beside text that leaves it room and under text that doesn't, and the status icon stays on the first line. Long titles and descriptions stop at two and three lines, long words break instead of running out of the toast, and hover, focus or a tap opens the full text. The close button moved to the corner, where it shows on hover, focus and touch. Toast takes a custom icon or avatar in `data.icon`, `ToastAction` defaults to the `secondary` button, and Sonner's `closeButton` is on by default and can be turned off. The base `sonner` item takes the same look.
 
 **Rich Text Editor fits its container.** The selection bar, link field, keyboard bar, Turn into and the language picker open in the browser's top layer, so a card, dialog or scrolling panel around the editor no longer crops them. The selection bar stays within the editor and on screen, keeps clear of the toolbar, waits for the pointer to let go, and hides while its text is scrolled out of view. The toolbar keeps to one row at any width: commands without room move to a More menu, and a narrow editor folds the heading buttons into Turn into. The editor also shrinks inside grid and flex parents, where its toolbar, a long line of code or a wide table used to hold it open past the edge. The table's actions wrap instead of hiding Done and stay in view in a tall table, whose cells keep their borders while you edit. A toolbar can be made sticky in a long document, the Quote shortcut reads as a period, and Escape in the link field no longer closes the dialog around the editor.
 
 **Toast motion.** Toasts fade and grow in from their edge and leave faster than they arrive. A stack steps back and narrows to the toast in front, opening and closing as one, and a toast that changes type (loading to success) changes height in place while its new content fades in. With Reduce Motion on, only the fades remain. On React Native, a new toast no longer takes the size of the one it covers, and an open stack no longer times out while it's being read.
 
-**Pie Chart rests as one disc.** Slices meet edge to edge with square corners instead of keeping a 2px gap, and the slice you point at lifts out of the pie, on the web, React Native, SwiftUI and Compose. Donut Chart keeps its gaps and rounded slices.
+**Pie Chart rests as one disc.** Slices meet edge to edge with square corners instead of keeping a 2px gap, and the slice you point at lifts out of the pie, on the web and React Native. Donut Chart keeps its gaps and rounded slices.
 
 **React Native chart motion.** The Pie and Donut slice lift, the Line and Area draw-in and every dim run on the UI thread instead of redrawing the chart each frame, and a scrub on Line, Area, Bar or Composition no longer redraws its marks. The lift glides on the same quick timing as the website, and dimmed marks fade instead of snapping. Scrub ticks are at least 40ms apart: a fast scrub across a dense chart gives distinct ticks instead of a buzz, and the mark you stop on always ticks. In apps that enable React Native's IntersectionObserver, a chart's draw-in waits until a quarter of it is on screen.
 

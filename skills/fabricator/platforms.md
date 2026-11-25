@@ -10,7 +10,6 @@ One feature, several bodies. The nouns, actions, statuses, copy, permissions and
 | `apps/mobile`, `app.json` with `expo`, a `/r/fabricator/native/` registry URL | React Native: [rules/react-native.md](rules/react-native.md) |
 | `apps/desktop`, `electron`, `src-tauri`, `useDesktopWindow`, a `window` prop on `AppShell` | Desktop window running the web components |
 | `src-tauri` with iOS or Android | The web components in a phone WebView |
-| `fabricator.json` | SwiftUI or Compose: [rules/native-languages.md](rules/native-languages.md) |
 
 A monorepo usually has several. Ask which ones the feature ships on only when the code and the request don't say; otherwise cover them all, or name the ones left out.
 

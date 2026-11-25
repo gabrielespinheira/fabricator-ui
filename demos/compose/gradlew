@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-set -eu
-if ! command -v gradle >/dev/null 2>&1; then
-  echo "Gradle 9.5.0 and JDK 17+ are required. This launcher never installs tools automatically." >&2
-  exit 127
-fi
-exec gradle "$@"

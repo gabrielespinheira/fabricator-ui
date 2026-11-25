@@ -4084,6 +4084,14 @@ export const Components: Record<string, any> = {
       ) || "progress-rtl"
     return { default: mod.default || mod[exportName] }
   }),
+  "properties-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/properties-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "properties-example"
+    return { default: mod.default || mod[exportName] }
+  }),
   "questionnaire-animated": React.lazy(async () => {
     const mod = await import("@/examples/base/questionnaire-animated")
     const exportName =
@@ -4362,6 +4370,14 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "rating-variants"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "record-view-example": React.lazy(async () => {
+    const mod = await import("@/examples/base/record-view-example")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "record-view-example"
     return { default: mod.default || mod[exportName] }
   }),
   "resizable-demo": React.lazy(async () => {

@@ -27,10 +27,7 @@ bun run dev              # website + registry on http://localhost:4000
 
 The demos and their commands are in [`demos/`](demos/README.md). CI and the root
 scripts skip them; check one you changed with `bun run demo check`.
-Prerequisites and verification are in
-[`docs/PLATFORMS.md`](docs/PLATFORMS.md#swiftui-kotlin-compose-and-tauri-mobile);
-the native platforms' full qualification checklist is
-[`docs/plans/native-platforms.md`](docs/plans/native-platforms.md).
+Prerequisites and verification are in [`docs/PLATFORMS.md`](docs/PLATFORMS.md).
 
 Each Vitest config puts its filesystem module cache under that package's own
 `node_modules`. Separate Turbo test processes must not clear a shared cache when

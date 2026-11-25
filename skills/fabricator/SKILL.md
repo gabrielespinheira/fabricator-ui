@@ -134,7 +134,7 @@ API rules settle how code is written. Installed source and base-specific docs (`
 | Icons | [rules/icons.md](rules/icons.md) |
 | Skeletons, refreshes, pending actions | [rules/loading.md](rules/loading.md) |
 | Conversations | [rules/chat.md](rules/chat.md) |
-| Expo and React Native; SwiftUI or Kotlin Compose | [rules/react-native.md](rules/react-native.md), [rules/native-languages.md](rules/native-languages.md) |
+| Expo and React Native | [rules/react-native.md](rules/react-native.md) |
 
 Setup is a separate concern, read only for that work:
 

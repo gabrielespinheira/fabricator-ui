@@ -23,21 +23,6 @@
     "react-native:ios": "bun install --cwd react-native && bun run --cwd react-native ios",
     "react-native:ipad": "bun install --cwd react-native && bun run --cwd react-native ipad",
     "react-native:android": "bun install --cwd react-native && bun run --cwd react-native android",
-    "react-native:check": "bun run --cwd react-native check:screens",
-    "swiftui:ios": "bun run --cwd swiftui ios",
-    "swiftui:ipad": "bun run --cwd swiftui ipad",
-    "swiftui:macos": "bun run --cwd swiftui macos",
-    "swiftui:check:ios": "bun run --cwd swiftui check:ios",
-    "swiftui:check:macos": "bun run --cwd swiftui check:macos",
-    "swiftui:check:ui": "bun run --cwd swiftui check:ui",
-    "swiftui:build:ios": "bun run --cwd swiftui build:ios",
-    "swiftui:build:macos": "bun run --cwd swiftui build:macos",
-    "compose:android": "bun run --cwd compose android",
-    "compose:tablet": "bun run --cwd compose tablet",
-    "compose:desktop": "bun run --cwd compose desktop",
-    "compose:check:android": "bun run --cwd compose check:android",
-    "compose:check:desktop": "bun run --cwd compose check:desktop",
-    "compose:build:android": "bun run --cwd compose build:android",
-    "compose:build:desktop": "bun run --cwd compose build:desktop"
+    "react-native:check": "bun run --cwd react-native check:screens"
   }
 }

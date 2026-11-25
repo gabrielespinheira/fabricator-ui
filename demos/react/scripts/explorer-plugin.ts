@@ -13,7 +13,7 @@ const itemSchema = z.object({
   type: z.string(),
 })
 
-const contractSchema = z.object({
+const catalogSchema = z.object({
   schemaVersion: z.literal(1),
   items: z.array(itemSchema),
 })
@@ -70,19 +70,21 @@ function formatTitle(name: string) {
     .join(" ")
 }
 
+function readExplorerCatalog(catalogPath: string) {
+  try {
+    return catalogSchema.parse(JSON.parse(readFileSync(catalogPath, "utf8")))
+  } catch (cause) {
+    throw new Error(
+      "Could not load the explorer catalog. Run bun run registry:build at the repository root.",
+      { cause }
+    )
+  }
+}
+
 /** Uses the built registry payloads unchanged; installation remains the CLI's job. */
 export function createExplorerPlugin(webDirectory: string): Plugin {
-  const contractPath = path.join(
-    webDirectory,
-    "generated/platforms/contract.json"
-  )
-  if (!existsSync(contractPath))
-    throw new Error(
-      "The registry isn't built. Run bun run registry:build at the repository root."
-    )
-  const { items } = contractSchema.parse(
-    JSON.parse(readFileSync(contractPath, "utf8"))
-  )
+  const catalogPath = path.join(webDirectory, "generated/explorer/catalog.json")
+  const { items } = readExplorerCatalog(catalogPath)
   const families = items
     .filter((item) => item.type !== "registry:block")
     .toSorted((first, second) => second.name.length - first.name.length)

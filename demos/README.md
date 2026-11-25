@@ -8,21 +8,17 @@ One runnable demo per framework, each showing the library's components from this
 | [`electron`](electron)         | Electron              | The website's `/desktop` route in a window                          | macOS, Windows, Linux                       |
 | [`tauri`](tauri/README.md)     | Tauri                 | The React demo bundled for mobile; the `/desktop` route in a window | iOS, iPadOS, Android, macOS, Windows, Linux |
 | [`react-native`](react-native) | React Native and Expo | Every React Native component                                        | iOS, iPadOS, Android                        |
-| [`swiftui`](swiftui/README.md) | SwiftUI               | The SwiftUI library                                                 | iOS, iPadOS, macOS                          |
-| [`compose`](compose/README.md) | Kotlin Compose        | The Compose library                                                 | Android, desktop JVM                        |
 
 ## Commands
 
 Run them from the repository root with `bun run demo <command>`, or from this folder with `bun run <command>`. Arguments after the command reach the demo's script, such as `bun run demo react-native:ipad --device "<name>"`. Each command starts with the folder it runs in, and that folder's `package.json` has the rest of its scripts.
 
-| Demo           | Launch                                                          | Check                                                          | Build                                            |
-| -------------- | --------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------ |
-| `react`        | `react`                                                         | `react:check`, `react:check:browser`                           | `react:build`, `react:preview`                   |
-| `electron`     | `electron`                                                      |                                                                |                                                  |
-| `tauri`        | `tauri:desktop`, `tauri:ios`, `tauri:ipad`, `tauri:android`     | `tauri:check`                                                  | `tauri:build:ios`, `tauri:build:android`         |
-| `react-native` | `react-native:ios`, `react-native:ipad`, `react-native:android` | `react-native:check`                                           |                                                  |
-| `swiftui`      | `swiftui:ios`, `swiftui:ipad`, `swiftui:macos`                  | `swiftui:check:ios`, `swiftui:check:macos`, `swiftui:check:ui` | `swiftui:build:ios`, `swiftui:build:macos`       |
-| `compose`      | `compose:android`, `compose:tablet`, `compose:desktop`          | `compose:check:android`, `compose:check:desktop`               | `compose:build:android`, `compose:build:desktop` |
+| Demo           | Launch                                                          | Check                                | Build                                    |
+| -------------- | --------------------------------------------------------------- | ------------------------------------ | ---------------------------------------- |
+| `react`        | `react`                                                         | `react:check`, `react:check:browser` | `react:build`, `react:preview`           |
+| `electron`     | `electron`                                                      |                                      |                                          |
+| `tauri`        | `tauri:desktop`, `tauri:ios`, `tauri:ipad`, `tauri:android`     | `tauri:check`                        | `tauri:build:ios`, `tauri:build:android` |
+| `react-native` | `react-native:ios`, `react-native:ipad`, `react-native:android` | `react-native:check`                 |                                          |
 
 `bun run demo check` typechecks, formats and tests every demo, and checks the React Native sources with React Native's own types. Run it after changing a demo.
 

@@ -1,5 +1,4 @@
-// Where each toast sits and how big it is. The website, React Native, SwiftUI
-// and Compose draw the same stack.
+// Where each toast sits and how big it is on the web and React Native.
 
 /** Space between the toasts of an open stack, in px. */
 export const TOAST_GAP = 10

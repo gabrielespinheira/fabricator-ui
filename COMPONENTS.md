@@ -9,7 +9,6 @@ This file owns the component rules: the foundations every component draws from, 
 | Which component a screen calls for, layout, what a colour means | [`DESIGN.md`](DESIGN.md)                               |
 | How tokens are made (recipes, files, tests), excluded items     | [`docs/STYLES.md`](docs/STYLES.md)                     |
 | React Native porting in detail                                  | [`registry/native/README.md`][native-readme]           |
-| SwiftUI, Compose, desktop, Tauri mobile, icons                  | [`docs/PLATFORMS.md`](docs/PLATFORMS.md)               |
 | Declaring an item, the build, generated files                   | [`docs/REGISTRY.md`](docs/REGISTRY.md)                 |
 | A component's group, sidebar place and catalog card             | [`docs/COMPONENT-GROUPS.md`](docs/COMPONENT-GROUPS.md) |
 | Docs pages, the changelog page                                  | [`docs/WEBSITE.md`](docs/WEBSITE.md)                   |
@@ -24,10 +23,10 @@ A component's look has one written spec: its style map. Each rule opens with a c
 2. **Source holds behaviour; the style map holds the look.** Structure and mechanics are inline classes; anything a style could change is a placeholder resolved by `registry/styles/fabricator/<name>.css`.
 3. **Every value comes from a foundation.** Colour from the roles and neutrals, size from the density, timing from the motion roles, corners from `--radius`, height from the surface ladder. No hex, no pixels for controls, no milliseconds.
 4. **The region decides the size and speed.** A component never fixes its density or motion; it follows `data-density` and `data-motion` from the nearest ancestor, portals included.
-5. **Behaviour is pure and shared.** Logic (positions, parsing, selection, scales) lives in a tested model that web, React Native, SwiftUI and Compose all follow. Rendering code wires it to events.
+5. **Behaviour is pure and shared.** Logic (positions, parsing, selection, scales) lives in a tested model shared by React web and React Native. Rendering code wires it to events.
 6. **Built-in, never per use.** Fluid hover, sliding selection, the press, focus, sounds and haptics come from the component, so the people using it write none of them.
 7. **Every state, every input.** Hover, focus, pressed, open, selected, disabled, invalid, loading, empty, long content; pointer, keyboard, touch and screen reader.
-8. **The same on every base and platform.** Base UI, Radix and React Aria render the same look and behaviour; React Native matches the web API; SwiftUI and Compose keep the names and meanings. A gap is recorded, never silent.
+8. **The same on every base and platform.** Base UI, Radix and React Aria render the same look and behaviour; React Native matches the web API. A gap is recorded, never silent.
 9. **Small API.** Compose parts before adding props; no option without a use; names follow upstream and Base UI (`value`, `onValueChange`, `defaultValue`, `disabled`, `render`).
 
 ## Work in this order
@@ -37,7 +36,7 @@ A component's look has one written spec: its style map. Each rule opens with a c
 3. **Write the model first** when there is logic: `registry/fabricator/shared/lib/<name>-model.ts` with a colocated `<name>-model.test.ts`, written before the code that uses it. No React, DOM or React Native imports.
 4. **Write the web source** in every base tree, then **the style map**.
 5. **Write the examples and the docs page** for each base.
-6. **Port it:** the React Native item (or a dated exception), then SwiftUI and Compose (or their dated exceptions).
+6. **Port it:** the React Native item or a dated exception.
 7. **Check it** against [Done when](#done-when) in the running site and on devices.
 
 ## Where things live
@@ -55,8 +54,7 @@ A component's look has one written spec: its style map. Each rule opens with a c
 | Web examples                                             | `examples/<base>/<name>-example.tsx`, `<name>-<intent>.tsx`                           |
 | Docs pages                                               | `content/docs/components/<base>/<name>.mdx`                                           |
 | React Native item and look                               | `registry/native/ui/<name>.tsx`, `registry/styles/native/<name>.css`                  |
-| SwiftUI and Compose                                      | `registry/swiftui/{ui,models}/`, `registry/compose/{ui,models}/`                      |
-| Platform gaps                                            | `registry/{native,swiftui,compose}/parity-exceptions.json`                            |
+| Platform gaps                                            | `registry/native/parity-exceptions.json`                                              |
 
 `style-fabricator.css`, `app/fabricator.css`, `styles/*` and the registry indexes are generated: rebuild them, never edit them (contract 6).
 
@@ -155,8 +153,6 @@ Behaviour CSS can't express (fluid hover, a sliding selection, density on a port
 Anything that computes (a position, a value from a pointer, a date grid, a parse, a scale, a keyboard step, a selection rule) is a pure function in `registry/fabricator/shared/lib/<name>-model.ts`, tested first with Vitest. The component calls it and renders the result. This is what keeps the platforms equal:
 
 - React web and React Native import the same model, so they can't drift.
-- SwiftUI and Compose port it to `registry/{swiftui,compose}/models/` and test it against the same inputs and outputs. Where the TypeScript itself must run natively (date parsing, Markdown, syntax), the SwiftUI module bundles it behind its one JavaScriptCore adapter.
-- Values a native renderer reads (colours, motion frames, defaults) are exported from the model and registered in `platform-contracts.ts`.
 
 One adapter per SDK or service (file pickers, clipboard, audio, haptics, windows, drag and drop, the calendar engine): the component consumes typed results, never the SDK. Models to copy from: `rating-model`, `spinner-model`, `data-table-model`, `file-tree-model`, and `event-calendar-model` with FullCalendar kept inside `ui/event-calendar-engine.tsx`.
 
@@ -340,14 +336,12 @@ Design the phone first and widen it. A component adapts to the room it is given,
 
 ## Platforms
 
-Each web component has a React Native item under the same name and a SwiftUI and Compose family. What a platform lacks is recorded, never silent.
+Each web component has a React Native item under the same name. What a platform lacks is recorded, never silent.
 
 | Platform                     | Source               | Parity                                                 |
 | ---------------------------- | -------------------- | ------------------------------------------------------ |
 | Web, desktop, Tauri mobile   | The three base trees | Base parity (contract 5); desktop and Tauri reuse them |
 | React Native (Expo, Uniwind) | `registry/native/`   | Same API as web (contract 9), `native:parity --strict` |
-| SwiftUI (iOS, iPadOS, macOS) | `registry/swiftui/`  | Same names and meanings, idiomatic API (contract 10)   |
-| Compose (Android, JVM)       | `registry/compose/`  | Same names and meanings, idiomatic API (contract 10)   |
 
 ### React Native
 
@@ -361,15 +355,6 @@ Read [`registry/native/README.md`][native-readme] before writing native source. 
 - **Sizes for the device:** a phone's default is 44pt controls and 15pt text, a tablet's 40pt; `size` goes through `useControlSize`, and small controls reach 44pt through `getTouchSlop`. `md:` (768pt) is the tablet layout.
 - **Overlays** read `useDensity()` before the portal, wrap content in `DensityScope`, and handle Android back and outside press.
 - Icons import from `@fabricator-ui/icons-react-native` by value. Native source never imports from `demos/react-native`.
-
-### SwiftUI and Compose
-
-- **Idiomatic, same meaning.** Map the item to a prefixed symbol (`button` → `FabricatorButton`) and its parts too. Swift uses bindings, view builders and environment; Compose uses values, callbacks, slots and composition locals. Variant and state names keep their web meaning.
-- **Style the platform's control before drawing your own** (`ButtonStyle`, `ToggleStyle`, Compose Foundation), with Fabricator tokens on top; keep system pickers, share sheets and permission prompts under system control.
-- **Tokens are generated:** `bun run platforms:generate` exports colours, radius, density, motion, sounds and icon geometry. Never type a colour, size or curve into Swift or Kotlin.
-- **Ported models, shared fixtures:** the model's logic moves to `models/` and is tested against the TypeScript fixtures.
-- Touch targets prefer 44pt on iOS and 48dp on Android while the artwork keeps the density size; text follows Dynamic Type and font scale; Reduce Motion stops movement.
-- Coverage, compilation and behaviour are separate results. A gap goes in `registry/{swiftui,compose}/parity-exceptions.json` with the date; `registry:platforms` validates catalog coverage.
 
 ## Accessibility
 
@@ -402,7 +387,7 @@ The site renders the Fabricator style, so it shows what `add` installs.
 
 - **CSS loop:** edit `registry/styles/fabricator/<name>.css`, run `bun run registry:build --examples` in `apps/web`, open `/view/base-fabricator/<name>-example`. It hot-reloads.
 - **Compiled loop** (overrides, docs pages): `scripts/build-fabricator.sh [base|radix|aria|all]` in `apps/web` rebuilds `styles/*-fabricator` under a lock, safe with parallel workers.
-- **Native:** `bun run registry:native --check <names>` compiles without writing; `bun run demo react-native:ios` runs the explorer. SwiftUI and Compose launchers are in [PLATFORMS.md](docs/PLATFORMS.md).
+- **Native:** `bun run registry:native --check <names>` compiles without writing; `bun run demo react-native:ios` runs the explorer.
 - If the dev server can't resolve a generated file that exists, stop it, delete `apps/web/.next/dev`, restart. Every style folder the site renders needs an `@source` line in `app/globals.css`.
 - Check light and dark, each density and motion speed the change affects, keyboard only, a phone width and a wide desktop. Recapture visible changes: `bun run registry:capture --force && bun run pages:capture` in `apps/web`, dev server running.
 
@@ -428,7 +413,6 @@ Report each applicable line as passed, or name what wasn't run and why.
 - [ ] Each base has a docs page in `apps/web/content/docs/` with Preview, Installation (CLI + Manual), Usage, Composition, Examples, API reference and Accessibility.
 - [ ] Seen in the running site: light and dark, each affected density and motion speed, keyboard only, phone and desktop widths, the longest and empty content, axe clean.
 - [ ] The native item follows, or a dated `parity-exceptions.json` entry explains why; `bun run native:parity` passes and the demo was checked on the iOS Simulator and Android Emulator ([PLATFORMS.md](docs/PLATFORMS.md#done-when)).
-- [ ] SwiftUI and Compose follow, or their dated exceptions record the gap.
 - [ ] A new component has a group and, unless the homepage leaves its kind out, a catalog card ([COMPONENT-GROUPS.md](docs/COMPONENT-GROUPS.md#adding-a-component)).
 - [ ] A new component or variant appears where [`DESIGN.md`](DESIGN.md) chooses between components, keeping it within one agent read (about 25,000 tokens).
 - [ ] A changed foundation rule is updated in this file; a user-visible change has a section in `apps/web/content/docs/changelog/unreleased.mdx`.

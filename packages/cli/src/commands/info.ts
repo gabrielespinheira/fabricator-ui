@@ -6,7 +6,7 @@ import {
   getPackageStatus,
 } from "../setup/package-install"
 import { logger } from "../utils/logger"
-import { readNativeLanguageConfig } from "../utils/native-files"
+import { assertSupportedRenderer } from "../utils/retired-renderers"
 import { captureShadcn, exitLike, runShadcn } from "../utils/shadcn"
 import { fail, resolveCwd } from "./shared"
 
@@ -21,11 +21,7 @@ export function createInfoCommand(): Command {
     .action(async (options: { json?: boolean; cwd?: string }) => {
       try {
         const cwd = resolveCwd(options.cwd)
-        const config = await readNativeLanguageConfig(cwd)
-        if (config) {
-          logger.log(JSON.stringify(config, null, 2))
-          return
-        }
+        await assertSupportedRenderer(cwd)
         const args = ["info", ...(options.json ? ["--json"] : []), "--cwd", cwd]
         const packageOnly = getPackageOnlyDirectory(cwd)
         if (packageOnly) {

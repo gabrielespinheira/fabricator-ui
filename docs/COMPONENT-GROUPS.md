@@ -34,7 +34,7 @@ Pick the group a reader would look in when building the screen, in this order:
 
 When two groups still fit, follow the closest neighbour already in `GROUP_BY_SLUG`. A native-only component (`text`, `fabricator-root`) takes a group like any other.
 
-SwiftUI, Compose and Tauri mobile consume the same generated group catalog.
+The React explorer and Tauri mobile consume the same generated group catalog.
 Compatibility `form` belongs to Forms; native interface `sounds` belongs to
 Content. Blocks appear in a separate gallery collection, outside the eight
 component groups.

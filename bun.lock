@@ -143,9 +143,6 @@
         "vitest": "5.1.1",
       },
     },
-    "demos/compose": {
-      "name": "@fabricator-ui/demo-compose",
-    },
     "demos/electron": {
       "name": "@fabricator-ui/demo-electron",
       "version": "0.9.0",
@@ -175,10 +172,6 @@
         "vite": "8.3.8",
         "vitest": "5.1.1",
       },
-    },
-    "demos/swiftui": {
-      "name": "@fabricator-ui/demo-swiftui",
-      "version": "0.9.0",
     },
     "demos/tauri": {
       "name": "@fabricator-ui/demo-tauri",
@@ -694,13 +687,9 @@
 
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.7.3", "", { "dependencies": { "@eslint/core": "^1.2.1", "levn": "^0.4.1" } }, "sha512-IkO+/KEUvwbVpiURZg+P7zF74z5Jxe0UgJxVni+RtoHQ6IZieXaO02kmadomap/q+l6bc/jdPGGqTjhuZnuz1Q=="],
 
-    "@fabricator-ui/demo-compose": ["@fabricator-ui/demo-compose@workspace:demos/compose"],
-
     "@fabricator-ui/demo-electron": ["@fabricator-ui/demo-electron@workspace:demos/electron"],
 
     "@fabricator-ui/demo-react": ["@fabricator-ui/demo-react@workspace:demos/react"],
-
-    "@fabricator-ui/demo-swiftui": ["@fabricator-ui/demo-swiftui@workspace:demos/swiftui"],
 
     "@fabricator-ui/demo-tauri": ["@fabricator-ui/demo-tauri@workspace:demos/tauri"],
 

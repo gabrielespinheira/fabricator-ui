@@ -25,14 +25,11 @@ import {
   type ProjectPackageJson,
 } from "../utils/native"
 import {
-  isNativeLanguageRenderer,
-  readNativeLanguageConfig,
-} from "../utils/native-files"
-import {
   buildInstallArgs,
   detectPackageManager,
 } from "../utils/package-manager"
 import { runLogged } from "../utils/process"
+import { assertSupportedRenderer } from "../utils/retired-renderers"
 import { exitLike, formatShadcnCommand, runShadcn } from "../utils/shadcn"
 import {
   buildInitUrl,
@@ -48,7 +45,6 @@ import {
   syncWorkspaceAfterAdd,
 } from "../utils/workspace"
 import { initNative } from "./init-native"
-import { initNativeLanguage } from "./native-language"
 import { fail, promptSelect, resolveCwd } from "./shared"
 
 export interface InitOptions extends SetupFlags {
@@ -275,13 +271,12 @@ export async function init(
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
   const baseUrl = getBaseUrl()
-  const languageConfig = await readNativeLanguageConfig(cwd)
-  const languageRenderer = rawOptions.platform ?? languageConfig?.renderer
+  await assertSupportedRenderer(cwd, rawOptions.platform)
   if (rawOptions.distribution !== undefined) setupFromInitFlags(rawOptions)
   if (rawOptions.distribution === "package") {
     if (rawOptions.template)
       throw new Error("Use create --distribution package to create a project.")
-    if (languageRenderer && languageRenderer !== "web")
+    if (rawOptions.platform && rawOptions.platform !== "web")
       throw new Error("Package setup is available for React web projects.")
     if (components.length)
       throw new Error(
@@ -299,12 +294,6 @@ export async function init(
         "These init options require --distribution source. Use --look to customize the package theme."
       )
     }
-  }
-  if (isNativeLanguageRenderer(languageRenderer)) {
-    return initNativeLanguage(components, languageRenderer, {
-      ...rawOptions,
-      cwd,
-    })
   }
   if (hasSetupFlags(rawOptions) && !rawOptions.template) {
     return runSetup(setupFromInitFlags(rawOptions), {
@@ -479,7 +468,7 @@ export function createInitCommand(): Command {
     )
     .option(
       "--platform <platform>",
-      "web, native (React Native), swiftui or compose (auto-detected from project config)"
+      "web or native (React Native), auto-detected from project config"
     )
     .option("--monorepo", "scaffold a monorepo project")
     .option("--no-monorepo", "skip the monorepo prompt")
