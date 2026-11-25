@@ -83,6 +83,7 @@ import {
   CloudOffIcon as FabricatorCloudOffIcon,
   CodeIcon as FabricatorCodeIcon,
   CogIcon as FabricatorCogIcon,
+  Columns3Icon as FabricatorColumns3Icon,
   Command as FabricatorCommand,
   CopyIcon as FabricatorCopyIcon,
   CornerDownRightIcon as FabricatorCornerDownRightIcon,
@@ -256,6 +257,7 @@ import {
   TextQuoteIcon as FabricatorTextQuoteIcon,
   ThumbsDownIcon as FabricatorThumbsDownIcon,
   ThumbsUpIcon as FabricatorThumbsUpIcon,
+  TimerIcon as FabricatorTimerIcon,
   Trash2 as FabricatorTrash2,
   Trash2Icon as FabricatorTrash2Icon,
   TrashIcon as FabricatorTrashIcon,
@@ -850,6 +852,13 @@ export const CodeIcon = createSiteIcon(FabricatorCodeIcon, {
   remixicon: "RiCodeLine",
 })
 export const CogIcon = createSiteIcon(FabricatorCogIcon, { lucide: "CogIcon" })
+export const Columns3Icon = createSiteIcon(FabricatorColumns3Icon, {
+  lucide: "Columns3Icon",
+  tabler: "IconLayoutColumns",
+  hugeicons: "LeftToRightListBulletIcon",
+  phosphor: "ColumnsIcon",
+  remixicon: "RiLayoutColumnLine",
+})
 export const Command = createSiteIcon(FabricatorCommand, {
   lucide: "Command",
   tabler: "IconInnerShadowTop",
@@ -2025,6 +2034,13 @@ export const ThumbsUpIcon = createSiteIcon(FabricatorThumbsUpIcon, {
   hugeicons: "ThumbsUpIcon",
   phosphor: "ThumbsUpIcon",
   remixicon: "RiThumbUpLine",
+})
+export const TimerIcon = createSiteIcon(FabricatorTimerIcon, {
+  lucide: "TimerIcon",
+  tabler: "IconClock",
+  hugeicons: "Clock03Icon",
+  phosphor: "TimerIcon",
+  remixicon: "RiTimerLine",
 })
 export const Trash2 = createSiteIcon(FabricatorTrash2, {
   lucide: "Trash2",

@@ -1,0 +1,113 @@
+/* MARK: Record View */
+
+  /* The phone drawer holds the record. Page mode fills the screen. */
+  .cn-record-view {
+    @apply h-[82%];
+  }
+
+  .cn-record-view-layout {
+    @apply flex-col data-[mode=page]:h-full;
+  }
+
+  /* One quiet bar: where the record lives at the start, the ways out of it at
+     the end. */
+  .cn-record-view-header {
+    @apply gap-(--density-8) ps-(--density-16) pe-(--density-8) pb-(--density-4);
+  }
+
+  .cn-record-view-context {
+    @apply gap-(--density-6);
+  }
+
+  .cn-record-view-context-text {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-record-view-badge {
+    @apply rounded-md bg-hover px-(--density-6) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-record-view-actions {
+    @apply gap-px;
+  }
+
+  .cn-record-view-body {
+    @apply flex-1;
+  }
+
+  .cn-record-view-cover {
+    @apply mb-(--density-12) h-40 bg-hover;
+  }
+
+  .cn-record-view-cover-actions {
+    @apply end-(--density-8) bottom-(--density-8) gap-(--density-4);
+  }
+
+  .cn-record-view-content {
+    @apply mx-auto w-full max-w-5xl gap-(--density-16) px-(--density-16) pt-(--density-4) pb-(--density-24);
+  }
+
+  /* The focal point, at the start edge of the rows below. */
+  .cn-record-view-title {
+    @apply text-xl font-semibold text-foreground;
+  }
+
+  .cn-record-view-title-field {
+    @apply p-0 font-sans text-xl font-semibold text-foreground;
+  }
+
+  .cn-record-view-columns {
+    @apply gap-(--density-24) data-[columns=true]:gap-(--density-48);
+  }
+
+  .cn-record-view-aside {
+    @apply data-[columns=true]:w-80;
+  }
+
+  .cn-record-view-main {
+    @apply gap-(--density-24);
+  }
+
+  .cn-record-view-section {
+    @apply gap-(--density-8);
+  }
+
+  .cn-record-view-section-title {
+    @apply text-(length:--density-text-13) font-medium text-foreground;
+  }
+
+  .cn-record-view-footer {
+    @apply gap-(--density-8) px-(--density-16) pt-(--density-8) pb-(--density-16);
+  }
+
+  .cn-record-view-state {
+    @apply gap-(--density-12) pt-(--density-4);
+  }
+
+  .cn-record-view-skeleton {
+    @apply gap-(--density-24);
+  }
+
+  .cn-record-view-skeleton-label {
+    @apply h-(--density-12) w-24 rounded-md;
+  }
+
+  .cn-record-view-skeleton-value {
+    @apply h-(--density-12) w-40 rounded-md;
+  }
+
+  .cn-record-view-skeleton-block {
+    @apply mt-(--density-12) h-28 rounded-xl;
+  }
+
+  .cn-record-view-message {
+    @apply gap-(--density-8) py-(--density-48);
+  }
+
+  .cn-record-view-message-title {
+    @apply text-center text-(length:--density-text-14) font-medium text-foreground;
+  }
+
+  .cn-record-view-message-text {
+    @apply text-center text-(length:--density-text-13) text-muted-foreground;
+  }

@@ -1,0 +1,428 @@
+/* MARK: Properties */
+
+  /* Rows touch: each is one hover target as tall as a control, so the list
+     reads as a column of values and the pointer never falls between two. */
+  .cn-properties {
+    @apply gap-px text-(length:--density-text-13);
+  }
+
+  /* Labels share one column, sized so a long name still leaves the value most
+     of the row. */
+  .cn-properties-row {
+    @apply grid-cols-[minmax(6.5rem,0.36fr)_minmax(0,1fr)] items-start gap-(--density-8) rounded-lg data-dragging:bg-surface-6 data-dragging:shadow-surface-6;
+  }
+
+  /* Grey, with the type's icon: the value is what people came to read. */
+  .cn-properties-label {
+    @apply h-(--density-32) gap-(--density-8) text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5];
+  }
+
+  /* A label that opens its settings. It pulls out by its own inset, so its icon
+     stays on the title's edge. */
+  .cn-properties-label-cell {
+    @apply -ms-(--density-8);
+  }
+
+  .cn-properties-label-trigger {
+    @apply h-(--density-32)! justify-start rounded-lg px-(--density-8)! font-normal text-muted-foreground hover:text-foreground aria-expanded:bg-hover aria-expanded:text-foreground;
+  }
+
+  /* A value that can't be pressed keeps a pressable one's height and inset. */
+  .cn-properties-inset {
+    @apply min-h-(--density-32) items-center border border-transparent px-(--density-8);
+  }
+
+  /* The value is the button: no frame at rest, the neutral wash on hover. Its
+     text starts where every other row's does. */
+  .cn-properties-trigger {
+    @apply h-auto! min-h-(--density-32) w-full justify-start rounded-lg px-(--density-8)! py-(--density-4) text-start font-normal text-foreground whitespace-normal aria-expanded:bg-hover;
+  }
+
+  /* Text edits in place, on the same inset and the same wash. */
+  .cn-properties-input {
+    @apply h-(--density-32) bg-transparent px-[calc(var(--density-8)+1px)] ring-transparent hover:bg-hover focus-visible:bg-hover aria-invalid:ring-destructive/50;
+  }
+
+  .cn-properties-textarea {
+    @apply min-h-(--density-32) bg-transparent px-[calc(var(--density-8)+1px)] py-(--density-6) leading-snug ring-transparent hover:bg-hover focus-visible:bg-hover;
+  }
+
+  /* A number field the length of a figure, quiet until it is pointed at: its
+     text starts where every other row's does and its steppers wait at the end.
+     At a limit only the stepper dims, since the number still reads. */
+  .cn-properties-number-field {
+    @apply w-52 max-w-full;
+  }
+
+  .cn-properties-number-group {
+    @apply h-(--density-32) ring-transparent hover:not-focus-within:bg-hover focus-within:bg-hover has-disabled:opacity-100 [&>[data-align=inline-end]]:py-0;
+  }
+
+  /* As long as its digits, so the unit follows them. */
+  .cn-properties-number-input {
+    @apply field-sizing-content w-auto min-w-0 flex-none ps-[calc(var(--density-8)+1px)]! pe-(--density-4)! text-foreground;
+  }
+
+  .cn-properties-number-suffix {
+    @apply min-w-0 flex-1 cursor-text justify-start px-0 font-normal text-foreground/70! *:text-inherit!;
+  }
+
+  /* A drawn number, after its text. */
+  .cn-properties-meter {
+    @apply ms-(--density-4) inline-flex shrink-0 items-center text-muted-foreground [&_svg]:size-(--density-icon-16);
+  }
+
+  .cn-properties-open {
+    @apply inline-flex size-(--density-28) items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-16);
+  }
+
+  /* Empty is a word in the label's grey, so a blank row still says it can be
+     filled. */
+  .cn-properties-value {
+    @apply gap-(--density-8) leading-snug data-empty:text-muted-foreground data-[variant=card]:gap-(--density-4) data-[variant=card]:text-(length:--density-text-12) data-[variant=card]:text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] data-[variant=card]:[&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-properties-option {
+    @apply gap-(--density-6);
+  }
+
+  .cn-properties-chips {
+    @apply gap-(--density-4);
+  }
+
+  /* Neutral chips with the option's colour in its mark: ten labels on a board
+     stay readable, and colour still tells them apart. */
+  .cn-properties-chip {
+    @apply h-(--density-20) gap-(--density-6) rounded-md bg-hover px-(--density-6) text-(length:--density-text-12) text-foreground/80;
+  }
+
+  .cn-properties-mark {
+    @apply data-toned:text-(--palette-light) dark:data-toned:text-(--palette-dark) [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.5];
+  }
+
+  .cn-properties-dot {
+    @apply size-2 rounded-full bg-current;
+  }
+
+  /* The check or cross inside a filled glyph takes the surface's colour. */
+  .cn-properties-glyph-mark {
+    @apply stroke-card;
+  }
+
+  /* Initials on a wash of the person's colour, the same colour everywhere. */
+  .cn-properties-avatar {
+    @apply size-(--density-20) rounded-full bg-[color-mix(in_oklab,var(--palette-light)_22%,var(--card))] text-[9px] leading-none font-medium text-foreground dark:bg-[color-mix(in_oklab,var(--palette-dark)_34%,var(--card))];
+  }
+
+  .cn-properties-people {
+    @apply [&>*+[data-slot=properties-avatar]]:-ms-(--density-6) [&>[data-slot=properties-avatar]]:ring-2 [&>[data-slot=properties-avatar]]:ring-card;
+  }
+
+  .cn-properties-number {
+    @apply gap-(--density-6);
+  }
+
+  .cn-properties-bar {
+    @apply inline-block h-1.5 w-16 shrink-0 rounded-full bg-foreground/10;
+  }
+
+  .cn-properties-bar-fill {
+    @apply rounded-full bg-foreground/70 transition-[width] duration-move ease-move;
+  }
+
+  .cn-properties-swatch {
+    @apply size-(--density-14) rounded-sm ring-1 ring-foreground/15 ring-inset;
+  }
+
+  .cn-properties-date {
+    @apply gap-(--density-6) data-overdue:text-warning-text ;
+  }
+
+  .cn-properties-progress {
+    @apply gap-(--density-6) data-complete:text-success-text;
+  }
+
+  .cn-properties-link {
+    @apply underline decoration-border underline-offset-2 hover:decoration-current;
+  }
+
+  .cn-properties-error {
+    @apply px-(--density-8) pt-(--density-4) text-(length:--density-text-12) text-destructive-text;
+  }
+
+  .cn-properties-kind {
+    @apply text-(length:--density-text-12) font-normal text-muted-foreground;
+  }
+
+  /* MARK: Property files */
+
+  /* Over the row, a drop is taken: the row says so before it lands. */
+  .cn-properties-files-editor {
+    @apply rounded-lg transition-[background-color,box-shadow] duration-feedback ease-feedback data-over:bg-hover data-over:ring-1 data-over:ring-ring data-over:ring-inset;
+  }
+
+  .cn-properties-files {
+    @apply gap-(--density-6) ps-[calc(var(--density-8)+1px)] data-[display=list]:ps-0 data-[display=list]:flex-col data-[display=list]:gap-px;
+  }
+
+  /* A picture is its own thumbnail; any other file is its name beside an icon. */
+  .cn-properties-file {
+    @apply my-(--density-4) h-(--density-48) max-w-full rounded-lg bg-hover in-data-[display=list]:my-0 in-data-[display=list]:h-(--density-32) in-data-[display=list]:bg-transparent;
+  }
+
+  .cn-properties-file-trigger {
+    @apply h-full! max-w-full justify-start overflow-hidden rounded-lg p-0! font-normal text-foreground after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-foreground/10 after:ring-inset in-data-[display=list]:w-full in-data-[display=list]:after:hidden hover:after:bg-hover;
+  }
+
+  .cn-properties-file-image {
+    @apply aspect-[4/3] h-full w-auto;
+  }
+
+  .cn-properties-file-chip {
+    @apply max-w-52 gap-(--density-8) px-(--density-10) in-data-[display=list]:max-w-full in-data-[display=list]:px-(--density-8);
+  }
+
+  .cn-properties-file-mark {
+    @apply size-(--density-20) rounded-sm;
+  }
+
+  .cn-properties-file-icon {
+    @apply text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  .cn-properties-file-size {
+    @apply text-(length:--density-text-12) text-foreground/75;
+  }
+
+  .cn-properties-file-add-item {
+    @apply only:-ms-[calc(var(--density-8)+1px)] only:w-[calc(100%+var(--density-8)+1px)] in-data-[display=list]:ms-0 in-data-[display=list]:w-full;
+  }
+
+  /* After the files, adding is a tile of their height; alone, it is the row. */
+  .cn-properties-file-add {
+    @apply my-(--density-4) size-(--density-48)! min-h-0 justify-center p-0! text-muted-foreground ring-1 ring-border ring-inset in-data-[display=list]:my-0 in-data-[display=list]:size-(--density-32)! in-data-[display=list]:ring-0;
+  }
+
+  .cn-properties-upload {
+    @apply aspect-[4/3] data-failed:ring-1 data-failed:ring-destructive/50 data-failed:ring-inset;
+  }
+
+  .cn-properties-upload-image {
+    @apply opacity-40;
+  }
+
+  .cn-properties-upload-state {
+    @apply text-foreground [&_svg]:size-(--density-icon-16) in-data-failed:text-destructive-text;
+  }
+
+  .cn-properties-upload-error {
+    @apply gap-(--density-4);
+  }
+
+  .cn-properties-upload-button {
+    @apply justify-center;
+  }
+
+  .cn-properties-file-preview {
+    @apply max-h-56 w-full bg-hover;
+  }
+
+  .cn-properties-file-caption {
+    @apply px-(--density-12) pt-(--density-10) pb-(--density-4);
+  }
+
+  .cn-properties-file-actions {
+    @apply gap-px p-(--density-4);
+  }
+
+  /* A row of a panel that does something. */
+  .cn-properties-action {
+    @apply h-(--density-32)! justify-start gap-(--density-8) rounded-lg px-(--density-8)! text-(length:--density-text-13) font-normal text-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-destructive:text-destructive-text data-destructive:hover:text-destructive-text [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground data-destructive:[&_svg]:text-current;
+  }
+
+  /* MARK: Property popups */
+
+  /* Menus as wide as their longest common label, pickers flush with their own
+     search row. On a panel or a dialog both rise above it: at their usual level
+     they would sink into the surface they open from. */
+  .cn-properties-menu {
+    @apply w-auto min-w-48 max-w-72 data-raised:bg-surface-7 data-raised:shadow-surface-7;
+  }
+
+  .cn-properties-popover {
+    @apply w-auto min-w-56 max-w-[calc(100vw-2rem)] data-raised:bg-surface-6 data-raised:shadow-surface-6 data-[layout=calendar]:gap-0 data-[layout=calendar]:p-(--density-8) data-[layout=calendar]:[&_.bg-muted>*:not([data-selected-single=true],[data-range-start=true],[data-range-end=true])]:text-foreground data-[layout=file]:w-64 data-[layout=file]:gap-0 data-[layout=file]:overflow-hidden data-[layout=file]:p-0 data-[layout=form]:w-72 data-[layout=picker]:w-64 data-[layout=picker]:gap-0 data-[layout=picker]:p-0 data-[layout=settings]:w-72 data-[layout=settings]:gap-0 data-[layout=settings]:p-0 data-[layout=view]:w-72 data-[layout=view]:p-0 data-[layout=picker]:[&_[data-slot=command-item]]:h-(--density-32) data-[layout=picker]:[&_[data-slot=command-item]]:font-normal data-[layout=picker]:[&_[data-slot=command-item]]:text-foreground data-[layout=picker]:[&_[data-slot=input-group]]:h-(--density-40)!;
+  }
+
+  .cn-properties-clear {
+    @apply self-start font-normal;
+  }
+
+  /* Days people pick most, under the month. */
+  .cn-properties-presets {
+    @apply gap-px pt-(--density-4);
+  }
+
+  .cn-properties-preset {
+    @apply px-(--density-8)! font-normal;
+  }
+
+  .cn-properties-times {
+    @apply gap-(--density-6) px-(--density-4) pt-(--density-4);
+  }
+
+  .cn-properties-color {
+    @apply gap-(--density-8);
+  }
+
+  /* Pulls out by its own padding, so its text sits on the picker's edge. */
+  .cn-properties-color-clear {
+    @apply -mx-[calc(var(--density-8)+1px)] -mb-(--density-4) self-start px-(--density-8)! font-normal;
+  }
+
+  .cn-properties-form-note {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-properties-empty {
+    @apply py-(--density-24) text-center text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-properties-option-count {
+    @apply tabular-nums;
+  }
+
+  /* MARK: Property manager */
+
+  .cn-properties-manager {
+    @apply gap-(--density-4);
+  }
+
+  .cn-properties-manager-list {
+    @apply gap-px;
+  }
+
+  .cn-properties-manager-row {
+    @apply gap-(--density-4) rounded-lg bg-transparent data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
+  }
+
+  .cn-properties-handle {
+    @apply cursor-grab rounded-md p-1 text-muted-foreground/60 transition-colors duration-feedback ease-feedback hover:text-foreground active:cursor-grabbing [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-properties-manager-trigger {
+    @apply h-(--density-36)! justify-start px-(--density-8)! font-normal text-foreground [&_svg]:text-muted-foreground;
+  }
+
+  .cn-properties-eye {
+    @apply aria-[pressed=true]:text-foreground;
+  }
+
+  /* A row of the list that does something: its icon and text sit under the
+     labels', and it takes a line of its own. */
+  .cn-properties-add {
+    @apply -ms-(--density-8) mt-px flex h-(--density-32)! w-fit justify-start gap-(--density-8)! px-(--density-8)! font-normal in-data-[slot=properties-manager]:-ms-(--density-4) [&_svg]:size-(--density-icon-16)! [dl+&]:mt-(--density-4);
+  }
+
+  .cn-properties-add-name {
+    @apply p-(--density-8) pb-(--density-4);
+  }
+
+  .cn-properties-types {
+    @apply max-h-80 gap-(--density-8) p-(--density-4);
+  }
+
+  .cn-properties-type-heading {
+    @apply px-(--density-8) py-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-properties-type {
+    @apply h-(--density-32)! justify-start px-(--density-8)! font-normal text-foreground [&_svg]:text-muted-foreground;
+  }
+
+  .cn-properties-form {
+    @apply gap-(--density-12);
+  }
+
+  .cn-properties-form-field {
+    @apply gap-(--density-6);
+  }
+
+  .cn-properties-form-label {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-properties-form-row {
+    @apply gap-(--density-6);
+  }
+
+  /* MARK: Property settings */
+
+  .cn-properties-settings {
+    @apply max-h-[min(38rem,var(--available-height,var(--radix-popover-content-available-height,80dvh)))] overflow-y-auto overscroll-contain rounded-xl;
+  }
+
+  .cn-properties-identity {
+    @apply gap-(--density-6) p-(--density-8) pb-(--density-8);
+  }
+
+  .cn-properties-icon-button {
+    @apply text-muted-foreground;
+  }
+
+  .cn-properties-description {
+    @apply h-(--density-28) bg-transparent px-(--density-6) text-(length:--density-text-12) text-muted-foreground ring-transparent hover:bg-hover focus-visible:bg-hover;
+  }
+
+  /* Groups of rows, with a hairline between them. */
+  .cn-properties-setting-list {
+    @apply gap-px border-t border-border/60 p-(--density-4);
+  }
+
+  .cn-properties-setting {
+    @apply h-(--density-32) justify-start gap-(--density-8) rounded-lg border border-transparent px-(--density-8) text-(length:--density-text-13) font-normal text-foreground [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground;
+  }
+
+  .cn-properties-setting-value {
+    @apply text-muted-foreground;
+  }
+
+  .cn-properties-setting-input {
+    @apply h-(--density-28) w-24 px-(--density-8) text-end;
+  }
+
+  .cn-properties-panel-header {
+    @apply sticky top-0 z-10 h-(--density-40) gap-(--density-4) bg-surface-6 px-(--density-6);
+  }
+
+  .cn-properties-panel-title {
+    @apply font-medium;
+  }
+
+  .cn-properties-panel-body {
+    @apply gap-(--density-6) px-(--density-8) pb-(--density-8);
+  }
+
+  .cn-properties-choices {
+    @apply gap-px px-(--density-4) pb-(--density-4) in-data-[slot=properties-type-conversion]:px-0;
+  }
+
+  .cn-properties-icon-grid {
+    @apply grid-cols-7 gap-px px-(--density-6) pb-(--density-8);
+  }
+
+  .cn-properties-icon-choice {
+    @apply text-muted-foreground hover:text-foreground aria-pressed:bg-active aria-pressed:text-foreground;
+  }
+
+  /* What a type change would do, said before it is done. */
+  .cn-properties-preview {
+    @apply gap-(--density-8) rounded-lg bg-hover p-(--density-10) text-(length:--density-text-12) text-muted-foreground in-data-[panel=remove]:mx-(--density-8) in-data-[panel=remove]:mb-(--density-8);
+  }
+
+  .cn-properties-option-list {
+    @apply max-h-56 gap-px;
+  }
+
+  .cn-properties-option-row {
+    @apply gap-(--density-4) rounded-lg data-archived:opacity-55 data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
+  }

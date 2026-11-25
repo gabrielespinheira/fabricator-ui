@@ -66,6 +66,12 @@ const SHARED_LIB_FILES = [
   "markdown-tree",
   "model-picker-model",
   "event-calendar-model",
+  "palette-model",
+  "data-table-model",
+  "kanban-model",
+  "property-model",
+  "property-types",
+  "record-view-model",
   "event-calendar-recurrence",
   "event-calendar-loader",
   "chart-model",
@@ -86,7 +92,14 @@ const SHARED_LIB_FILES = [
 ] as const
 
 // React-only hooks the website and native share, from shared/hooks.
-const SHARED_HOOK_FILES = ["use-event-calendar", "use-bot-face-state"] as const
+const SHARED_HOOK_FILES = [
+  "use-event-calendar",
+  "use-bot-face-state",
+  "use-kanban",
+  "use-kanban-pages",
+  "use-property-types",
+  "use-delayed-save",
+] as const
 
 const SHARED_LIB_NAMES: ReadonlySet<string> = new Set(SHARED_LIB_FILES)
 

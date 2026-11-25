@@ -2053,6 +2053,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "properties-example",
       filePath: "examples/base/properties-example.tsx",
     },
+    "properties-manager": {
+      name: "properties-manager",
+      filePath: "examples/base/properties-manager.tsx",
+    },
+    "properties-types": {
+      name: "properties-types",
+      filePath: "examples/base/properties-types.tsx",
+    },
     "questionnaire-animated": {
       name: "questionnaire-animated",
       filePath: "examples/base/questionnaire-animated.tsx",
@@ -4883,6 +4891,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "progress-rtl",
       filePath: "examples/aria/progress-rtl.tsx",
     },
+    "properties-example": {
+      name: "properties-example",
+      filePath: "examples/aria/properties-example.tsx",
+    },
+    "properties-manager": {
+      name: "properties-manager",
+      filePath: "examples/aria/properties-manager.tsx",
+    },
+    "properties-types": {
+      name: "properties-types",
+      filePath: "examples/aria/properties-types.tsx",
+    },
     "questionnaire-animated": {
       name: "questionnaire-animated",
       filePath: "examples/aria/questionnaire-animated.tsx",
@@ -5022,6 +5042,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "rating-variants": {
       name: "rating-variants",
       filePath: "examples/aria/rating-variants.tsx",
+    },
+    "record-view-example": {
+      name: "record-view-example",
+      filePath: "examples/aria/record-view-example.tsx",
     },
     "resizable-demo": {
       name: "resizable-demo",
@@ -7741,6 +7765,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "progress-rtl",
       filePath: "examples/radix/progress-rtl.tsx",
     },
+    "properties-example": {
+      name: "properties-example",
+      filePath: "examples/radix/properties-example.tsx",
+    },
+    "properties-manager": {
+      name: "properties-manager",
+      filePath: "examples/radix/properties-manager.tsx",
+    },
+    "properties-types": {
+      name: "properties-types",
+      filePath: "examples/radix/properties-types.tsx",
+    },
     "questionnaire-animated": {
       name: "questionnaire-animated",
       filePath: "examples/radix/questionnaire-animated.tsx",
@@ -7880,6 +7916,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "rating-variants": {
       name: "rating-variants",
       filePath: "examples/radix/rating-variants.tsx",
+    },
+    "record-view-example": {
+      name: "record-view-example",
+      filePath: "examples/radix/record-view-example.tsx",
     },
     "resizable-demo": {
       name: "resizable-demo",
@@ -10582,6 +10622,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "properties-example",
       filePath: "examples/__styles__/base-fabricator/properties-example.tsx",
     },
+    "properties-manager": {
+      name: "properties-manager",
+      filePath: "examples/__styles__/base-fabricator/properties-manager.tsx",
+    },
+    "properties-types": {
+      name: "properties-types",
+      filePath: "examples/__styles__/base-fabricator/properties-types.tsx",
+    },
     "questionnaire-animated": {
       name: "questionnaire-animated",
       filePath:
@@ -13229,6 +13277,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "progress-label",
       filePath: "examples/__styles__/aria-fabricator/progress-label.tsx",
     },
+    "properties-example": {
+      name: "properties-example",
+      filePath: "examples/__styles__/aria-fabricator/properties-example.tsx",
+    },
+    "properties-manager": {
+      name: "properties-manager",
+      filePath: "examples/__styles__/aria-fabricator/properties-manager.tsx",
+    },
+    "properties-types": {
+      name: "properties-types",
+      filePath: "examples/__styles__/aria-fabricator/properties-types.tsx",
+    },
     "questionnaire-animated": {
       name: "questionnaire-animated",
       filePath:
@@ -13375,6 +13435,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "rating-variants": {
       name: "rating-variants",
       filePath: "examples/__styles__/aria-fabricator/rating-variants.tsx",
+    },
+    "record-view-example": {
+      name: "record-view-example",
+      filePath: "examples/__styles__/aria-fabricator/record-view-example.tsx",
     },
     "resizable-demo": {
       name: "resizable-demo",
@@ -15918,6 +15982,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "progress-label",
       filePath: "examples/__styles__/radix-fabricator/progress-label.tsx",
     },
+    "properties-example": {
+      name: "properties-example",
+      filePath: "examples/__styles__/radix-fabricator/properties-example.tsx",
+    },
+    "properties-manager": {
+      name: "properties-manager",
+      filePath: "examples/__styles__/radix-fabricator/properties-manager.tsx",
+    },
+    "properties-types": {
+      name: "properties-types",
+      filePath: "examples/__styles__/radix-fabricator/properties-types.tsx",
+    },
     "questionnaire-animated": {
       name: "questionnaire-animated",
       filePath:
@@ -16064,6 +16140,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "rating-variants": {
       name: "rating-variants",
       filePath: "examples/__styles__/radix-fabricator/rating-variants.tsx",
+    },
+    "record-view-example": {
+      name: "record-view-example",
+      filePath: "examples/__styles__/radix-fabricator/record-view-example.tsx",
     },
     "resizable-demo": {
       name: "resizable-demo",

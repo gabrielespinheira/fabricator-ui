@@ -1,0 +1,52 @@
+---
+title: Record View
+description: One record beside, over or instead of the screen it was opened from.
+base: base
+component: true
+---
+
+<ComponentPreview styleName="base-nova" name="record-view-example" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add record-view
+```
+
+## Usage
+
+```tsx
+<RecordView
+  open={open}
+  onOpenChange={setOpen}
+  mode={mode}
+  onModeChange={setMode}
+  context="Accounts"
+  title={account.name}
+  onTitleChange={rename}
+  cover={<RecordViewCover src={account.cover} alt="" />}
+  aside={<PropertyList properties={properties} getValue={getValue} />}
+>
+  <RecordViewSection title="Notes">{notes}</RecordViewSection>
+</RecordView>
+```
+
+## Modes
+
+- **Side:** a panel over a screen that stays live. It isn't modal, so opening another card swaps what is inside.
+- **Center:** a modal dialog.
+- **Page:** the whole window. With room for two columns, the `aside` moves beside the content.
+
+On phones every mode takes the screen. The app owns which record is open and its URL.
+
+## Cover
+
+`cover` takes a `RecordViewCover`, a picture across the top. Its children are controls over the picture, such as a "Change" button. A picture that doesn't load leaves no gap.
+
+## States
+
+`state` takes `ready`, `loading`, `missing` or `error`, with `onRetry` for the last. `isReadOnly` marks the record and stops its title being edited.
+
+## Accessibility
+
+The surface is a dialog named by its title. Opening the side panel from the keyboard moves focus into it; a pointer leaves focus on the card, so arrows keep moving along the board. Escape closes it.

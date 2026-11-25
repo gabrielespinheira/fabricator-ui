@@ -20,10 +20,11 @@ import {
 } from "@dnd-kit/abstract/modifiers"
 import {
   Accessibility,
+  AutoScroller,
   PointerActivationConstraints,
   PointerSensor,
 } from "@dnd-kit/dom"
-import { DragDropProvider } from "@dnd-kit/react"
+import { DragDropProvider, DragOverlay, useDraggable } from "@dnd-kit/react"
 import { isSortable, useSortable } from "@dnd-kit/react/sortable"
 
 export type SortableMove = {
@@ -197,3 +198,66 @@ function useSortableItem({
 }
 
 export { getRowCollisionValue, SortableProvider, useSortableItem }
+
+type BoardPointer = { x: number; y: number }
+
+/**
+ * Dragging across a board. Hit-testing and scrolling belong to the board,
+ * independent of sortable transforms, so this only reports the pointer.
+ */
+function BoardDragProvider({
+  children,
+  renderOverlay,
+  onStart,
+  onMove,
+  onEnd,
+  onLand,
+}: {
+  children: React.ReactNode
+  renderOverlay: (id: string) => React.ReactNode
+  onStart: (id: string, point: BoardPointer, element: Element | null) => void
+  onMove: (point: BoardPointer) => void
+  onEnd: (point: BoardPointer | null) => void
+  /** Moves the overlay to where the card now is, before it is removed. */
+  onLand: (overlay: Element) => Promise<void>
+}) {
+  return (
+    <DragDropProvider
+      sensors={sensors}
+      plugins={(defaults) =>
+        defaults.filter(
+          (plugin) => plugin !== Accessibility && plugin !== AutoScroller
+        )
+      }
+      onDragStart={({ operation }) => {
+        if (operation.source)
+          onStart(
+            String(operation.source.id),
+            operation.position.current,
+            operation.source.element ?? null
+          )
+      }}
+      onDragMove={({ operation, to, by }) => {
+        // The operation still holds the position before this move.
+        const { x, y } = operation.position.current
+        onMove(to ?? { x: x + (by?.x ?? 0), y: y + (by?.y ?? 0) })
+      }}
+      onDragEnd={({ operation, canceled }) =>
+        onEnd(canceled ? null : operation.position.current)
+      }
+    >
+      {children}
+      <DragOverlay
+        dropAnimation={({ feedbackElement }) => onLand(feedbackElement)}
+      >
+        {(source) => renderOverlay(String(source.id))}
+      </DragOverlay>
+    </DragDropProvider>
+  )
+}
+
+function useBoardDragItem(id: string, disabled: boolean) {
+  return useDraggable({ id, disabled })
+}
+
+export { BoardDragProvider, useBoardDragItem, type BoardPointer }

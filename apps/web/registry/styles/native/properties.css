@@ -1,0 +1,280 @@
+/* MARK: Properties */
+
+  /* Rows touch: each is one target as tall as a control, so the list reads as a
+     column of values. */
+  .cn-properties {
+    @apply gap-px;
+  }
+
+  .cn-properties-row {
+    @apply gap-(--density-8);
+  }
+
+  .cn-properties-label {
+    @apply min-h-(--density-36) gap-(--density-8);
+  }
+
+  /* A label that opens its settings. */
+  .cn-properties-label-cell {
+    @apply -ms-(--density-8);
+  }
+
+  .cn-properties-label-trigger {
+    @apply rounded-lg px-(--density-8) active:bg-hover;
+  }
+
+  .cn-properties-label-text {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-properties-inset {
+    @apply min-h-(--density-36) px-(--density-8);
+  }
+
+  /* The value is the button: no frame at rest, the neutral wash while pressed. */
+  .cn-properties-trigger {
+    @apply min-h-(--density-36) rounded-lg px-(--density-8) py-(--density-4) active:bg-hover;
+  }
+
+  .cn-properties-input {
+    @apply min-h-(--density-36) rounded-lg px-(--density-8) py-(--density-8) font-sans text-(length:--density-text-13) text-foreground focus:bg-hover;
+  }
+
+  .cn-properties-option-input {
+    @apply px-(--density-8);
+  }
+
+  /* A phone has no hover to reveal a frame, so a number keeps the field's. */
+  .cn-properties-number-field {
+    @apply max-w-60;
+  }
+
+  .cn-properties-number-group {
+    @apply my-px h-(--density-32);
+  }
+
+  .cn-properties-number-input {
+    @apply min-w-12 ps-(--density-8);
+  }
+
+  .cn-properties-number-suffix {
+    @apply pe-(--density-4);
+  }
+
+  .cn-properties-value {
+    @apply gap-(--density-8) data-[variant=card]:gap-(--density-4);
+  }
+
+  .cn-properties-value-text {
+    @apply text-(length:--density-text-13) text-foreground data-[variant=card]:text-(length:--density-text-12) data-[variant=card]:text-muted-foreground;
+  }
+
+  .cn-properties-empty {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-properties-option {
+    @apply gap-(--density-6);
+  }
+
+  .cn-properties-chips {
+    @apply gap-(--density-4);
+  }
+
+  /* Neutral chips with the option's colour in its mark. */
+  .cn-properties-chip {
+    @apply h-(--density-24) gap-(--density-6) rounded-md bg-hover px-(--density-6);
+  }
+
+  .cn-properties-chip-text {
+    @apply text-(length:--density-text-12) text-foreground;
+  }
+
+  .cn-properties-mark {
+    @apply min-w-2;
+  }
+
+  .cn-properties-dot {
+    @apply size-2 rounded-full;
+  }
+
+  .cn-properties-avatar {
+    @apply size-(--density-24) rounded-full;
+  }
+
+  .cn-properties-avatar-text {
+    @apply text-[10px] font-medium text-foreground;
+  }
+
+  .cn-properties-date-text {
+    @apply text-(length:--density-text-13) text-foreground data-[variant=card]:text-(length:--density-text-12) data-[variant=card]:text-muted-foreground data-[overdue=true]:text-warning-text;
+  }
+
+  .cn-properties-bar {
+    @apply h-1.5 w-14 rounded-full bg-foreground/10;
+  }
+
+  .cn-properties-bar-fill {
+    @apply rounded-full bg-foreground/70;
+  }
+
+  .cn-properties-swatch {
+    @apply size-(--density-16) rounded-sm;
+  }
+
+  .cn-properties-presets {
+    @apply gap-(--density-4);
+  }
+
+  .cn-properties-link {
+    @apply text-(length:--density-text-13) text-foreground underline;
+  }
+
+  .cn-properties-error {
+    @apply px-(--density-8) pt-(--density-4) text-(length:--density-text-12) text-destructive-text;
+  }
+
+  .cn-properties-kind {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  /* MARK: Property files */
+
+  .cn-properties-files-editor {
+    @apply gap-(--density-4);
+  }
+
+  .cn-properties-files {
+    @apply gap-(--density-6) py-(--density-4) ps-(--density-8);
+  }
+
+  .cn-properties-file {
+    @apply h-(--density-48) justify-center rounded-lg bg-hover active:opacity-80;
+  }
+
+  .cn-properties-file-image {
+    @apply aspect-[4/3] h-full;
+  }
+
+  .cn-properties-file-chip {
+    @apply max-w-48 gap-(--density-8) px-(--density-10);
+  }
+
+  .cn-properties-file-mark {
+    @apply size-(--density-20) rounded-sm;
+  }
+
+  .cn-properties-file-add {
+    @apply w-(--density-48);
+  }
+
+  .cn-properties-upload {
+    @apply w-16;
+  }
+
+  .cn-properties-upload-error {
+    @apply gap-(--density-4) ps-(--density-8);
+  }
+
+  .cn-properties-file-preview {
+    @apply aspect-video rounded-lg bg-hover;
+  }
+
+  .cn-properties-file-actions {
+    @apply -mx-(--density-8);
+  }
+
+  /* MARK: Property settings */
+
+  .cn-properties-settings {
+    @apply gap-(--density-8);
+  }
+
+  .cn-properties-setting-scroll {
+    @apply -mx-(--density-8);
+  }
+
+  .cn-properties-setting {
+    @apply min-h-(--density-40) gap-(--density-8) border border-transparent px-(--density-8);
+  }
+
+  .cn-properties-setting-value {
+    @apply text-(length:--density-text-13) font-normal text-muted-foreground;
+  }
+
+  .cn-properties-setting-input {
+    @apply text-right;
+  }
+
+  .cn-properties-panel-header {
+    @apply -ms-(--density-8) gap-(--density-4);
+  }
+
+  .cn-properties-icon-grid {
+    @apply gap-(--density-4);
+  }
+
+  .cn-properties-type-heading {
+    @apply px-(--density-8) py-(--density-6) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-properties-add {
+    @apply -ms-(--density-8) gap-(--density-8) px-(--density-8);
+  }
+
+  /* What a popover holds on the website, in a sheet. */
+  .cn-properties-sheet {
+    @apply gap-(--density-12) p-(--density-16);
+  }
+
+  .cn-properties-sheet-row {
+    @apply px-(--density-8);
+  }
+
+  .cn-properties-sheet-text {
+    @apply text-(length:--density-text-13) font-normal text-foreground;
+  }
+
+  .cn-properties-types {
+    @apply -mx-(--density-8);
+  }
+
+  .cn-properties-calendar {
+    @apply p-0;
+  }
+
+  .cn-properties-manager {
+    @apply gap-px;
+  }
+
+  .cn-properties-manager-row {
+    @apply gap-(--density-4);
+  }
+
+  .cn-properties-manager-trigger {
+    @apply px-(--density-8);
+  }
+
+  .cn-properties-form-field {
+    @apply gap-(--density-6);
+  }
+
+  .cn-properties-form-label {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-properties-form-row {
+    @apply gap-(--density-8);
+  }
+
+  .cn-properties-preview {
+    @apply gap-(--density-8) rounded-lg bg-hover p-(--density-12);
+  }
+
+  .cn-properties-option-list {
+    @apply rounded-lg;
+  }
+
+  .cn-properties-option-row {
+    @apply gap-(--density-8) pb-(--density-6) ps-(--density-4) data-[archived=true]:opacity-60;
+  }

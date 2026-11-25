@@ -4108,6 +4108,22 @@ export const Components: Record<string, any> = {
       ) || "properties-example"
     return { default: mod.default || mod[exportName] }
   }),
+  "properties-manager": React.lazy(async () => {
+    const mod = await import("@/examples/base/properties-manager")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "properties-manager"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "properties-types": React.lazy(async () => {
+    const mod = await import("@/examples/base/properties-types")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "properties-types"
+    return { default: mod.default || mod[exportName] }
+  }),
   "questionnaire-animated": React.lazy(async () => {
     const mod = await import("@/examples/base/questionnaire-animated")
     const exportName =

@@ -1,0 +1,129 @@
+---
+title: Properties
+description: Typed values read and edited as rows, with files, settings behind each label, validation, and types of your own.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="properties-example" />
+
+A value is its own button. Pressing it opens the picker for its type, and text is edited in place. A label is a button too: it opens that property's settings.
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add properties
+```
+
+## Usage
+
+```tsx
+<PropertyList
+  properties={[
+    { id: "owner", name: "Owner", type: "person", options: people },
+    { id: "renewal", name: "Renewal", type: "date" },
+    {
+      id: "seats",
+      name: "Seats",
+      type: "number",
+      settings: { unit: "people" },
+    },
+  ]}
+  getValue={(id) => record.fields[id]}
+  onValueChange={(id, value) => updateField(record.id, id, value)}
+  onPropertiesChange={saveProperties}
+/>
+```
+
+Definitions are plain data with a stable `id`, a `name` and a `type`, so an app can store the ones people create. Leave out `onValueChange`, or set `isReadOnly` on one property, to show values without editors. Leave out `onPropertiesChange` to keep labels as text. `renderValue` and `renderEditor` replace either side of a row.
+
+## Types
+
+<ComponentPreview styleName="radix-nova" name="properties-types" />
+
+| Type                                                                     | Value                                                             | Settings                                                                                |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `text`                                                                   | A string                                                          | `isMultiline`, `maxLength`                                                              |
+| `number`                                                                 | A number                                                          | `numberFormat`, `currency`, `decimals`, `unit`, `display`, `step`, `minimum`, `maximum` |
+| `select`, `multi-select`                                                 | An option's value, or a list of them                              | `canCreateOptions`                                                                      |
+| `status`                                                                 | An option's value; options are grouped                            |                                                                                         |
+| `date`                                                                   | `"2026-11-27"`, `"2026-11-27T14:30"` or a range `{ start, end }`  | `hasRange`, `hasTime`, `dateFormat`, `hourCycle`, `isDue`                               |
+| `checkbox`                                                               | A boolean                                                         | `display`                                                                               |
+| `person`, `relation`                                                     | An option's value, or a list of them                              | `isMultiple`                                                                            |
+| `files`                                                                  | A list of addresses or `{ id, name, url, type, size, thumbnail }` | `accept`, `display`, `maxFiles`, `maxSize`                                              |
+| `url`, `email`, `phone`, `location`                                      | A string, drawn as a link                                         | `display` (`url`)                                                                       |
+| `rating`                                                                 | A number                                                          | `steps`                                                                                 |
+| `duration`                                                               | Minutes, typed as "90", "1h 30m" or "1:30"                        |                                                                                         |
+| `color`                                                                  | A hex color                                                       |                                                                                         |
+| `progress`                                                               | `{ done, total }`, read-only                                      | `display`                                                                               |
+| `formula`                                                                | Whatever the app computes, read-only                              | `result`, the type it reads as                                                          |
+| `title`, `key`, `created-time`, `created-by`, `edited-time`, `edited-by` | The app's own, read-only where computed                           | `dateFormat`                                                                            |
+
+A `color` property opens the [Color Picker](./color-picker) with ten default colors. Its `options` replace them: a hex `value` and a `label` each. Whatever format people type in, the value is saved as hex.
+
+Options take a `color`, an `icon` and, for people, an `image`. A status can name its `group` (`todo`, `inProgress`, `complete`) instead of an icon. `priority-none`, `priority-low`, `priority-medium`, `priority-high` and `priority-urgent` draw priority marks, and `PropertyIconProvider` adds your own names.
+
+`onOptionCreate` lets people type a new option: make it, store it and return its value.
+
+## Your own types
+
+A type is a definition. Once it is in the provider, it is offered when people add a property, its settings get a panel, and boards sort, filter and search by it.
+
+```tsx
+const storyPoints = definePropertyType({
+  type: "story-points",
+  name: "Story points",
+  filterAs: "number",
+  placement: "meta",
+  settings: [
+    { id: "isShort", label: "Short label", kind: "switch", defaultValue: false },
+  ],
+  format: (value) => `${value} points`,
+  parse: (text) => (/^\d+$/.test(text) ? Number(text) : undefined),
+  validate: (value) => (value === 4 ? "Pick a number from the scale." : null),
+  renderEditor: ({ value, onValueChange }) => (
+    <PointsPicker value={value} onChange={onValueChange} />
+  ),
+})
+
+const types = [storyPoints]
+
+<PropertyTypesProvider types={types}>{children}</PropertyTypesProvider>
+```
+
+Only `type` and `name` are required. `settings` take a `choice`, a `switch`, a `number` or a `text`, and `renderValue` draws the value. Naming a built-in type replaces the parts you give, such as its label or its editor.
+
+## Files and pictures
+
+```tsx
+<PropertyList
+  // …
+  onFilesAdd={async (property, files) => upload(files)}
+  // returns [{ id, name, url, type, size, thumbnail }]
+/>
+```
+
+People pick, drop or paste files on the row. Return what you stored, or throw to show the reason with a Try again. Without `onFilesAdd`, files are added by link. Pressing a file shows it larger and lets people open, reorder or remove it, or use it as the cover. `getPropertyCover(property, value)` returns the first picture, which [Kanban](./kanban) draws on its cards.
+
+## Rules
+
+- `required`, and the settings of a type (`minimum`, `maximum`, `maxLength`, `maxFiles`), are checked before a value is saved. Emails, addresses, phone numbers and colors are checked too.
+- `validate={(property, value) => reason}` on the list adds your own rules.
+- Return a promise from `onValueChange` to show a failed save under its row.
+- `defaultValue` is what a new record starts with; `getPropertyDefaults(properties)` collects them.
+- `visibility` is `show`, `hide-empty` or `hide`. Hidden rows stay one press away.
+- `isOnCard` and `onCardChange` add Show on card to the settings, for a board or a list that shows the same properties. [Kanban](./kanban#cards) supplies both.
+
+`validatePropertyValue(property, value)` runs the same checks on a server.
+
+## Managing properties
+
+<ComponentPreview styleName="radix-nova" name="properties-manager" />
+
+`PropertyManager` lists the properties, each opening the same settings as a label. Rows drag, or move with ⌥⇧ and an arrow, in the manager and in the list. `PropertyAdd` is the create button on its own; it suggests a type from the name. Pass `visibleIds` and `onVisibleIdsChange` for an eye per row. `PropertySettings` is the panel by itself.
+
+Pass `conversion` to let people change a type. `getValues` supplies the records, the panel says how many convert before anything happens, and `onConvert` receives the new definition and the values to save together. For a paginated backend, load or validate the whole field first. `isSystem` keeps a property's name and type fixed.
+
+## Accessibility
+
+A value's name is its property and what it holds. An invalid entry keeps what was typed, with the reason under it. In the settings, Escape goes back one panel and then closes, and focus follows.

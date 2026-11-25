@@ -253,10 +253,14 @@ function ColorPicker({
   const [state, setState] = React.useState(() =>
     getInitialColorState(value ?? defaultValue)
   )
+  // The string this panel emitted last coming back is skipped, so re-reading a
+  // rounded string never moves the area or drifts the hue.
   const [previous, setPrevious] = React.useState(value)
+  const [lastEmitted, setLastEmitted] = React.useState<string | null>(null)
   if (value !== previous) {
     setPrevious(value)
-    if (value && parseColor(value)) setState(getInitialColorState(value))
+    if (value && value !== lastEmitted && parseColor(value))
+      setState(getInitialColorState(value))
   }
   const [formatValue, setFormat] = useControllableState<ColorFormat>({
     prop: formatProp,
@@ -269,7 +273,9 @@ function ColorPicker({
   function change(next: ColorState) {
     setState(next)
     const color = buildParsedColor(next.hsva)
-    onValueChange?.(formatColor(color, format), color)
+    const formatted = formatColor(color, format)
+    setLastEmitted(formatted)
+    onValueChange?.(formatted, color)
   }
   function commit() {
     if (draft === null) return

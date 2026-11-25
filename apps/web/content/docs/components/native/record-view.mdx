@@ -1,0 +1,50 @@
+---
+title: Record View
+description: One record beside, over or instead of the screen it was opened from.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add record-view
+```
+
+## Usage
+
+```tsx
+<RecordView
+  open={open}
+  onOpenChange={setOpen}
+  mode={mode}
+  onModeChange={setMode}
+  context="Accounts"
+  title={account.name}
+  onTitleChange={rename}
+  cover={<RecordViewCover src={account.cover} alt="" />}
+  aside={<PropertyList properties={properties} getValue={getValue} />}
+>
+  <RecordViewSection title="Notes">{notes}</RecordViewSection>
+</RecordView>
+```
+
+## Modes
+
+- **Side:** a drawer on a phone, a panel along the edge on a tablet.
+- **Center:** a drawer on a phone, a centred sheet on a tablet.
+- **Page:** the whole screen. On a wide screen the `aside` sits beside the content.
+
+Compose a screen in the app's navigator for a record with its own route.
+
+## Cover
+
+`cover` takes a `RecordViewCover`, a picture across the top. Its children are controls over the picture, such as a "Change" button. A picture that doesn't load leaves no gap.
+
+## States
+
+`state` takes `ready`, `loading`, `missing` or `error`, with `onRetry` for the last. `isReadOnly` marks the record and stops its title being edited.
+
+## Accessibility
+
+The record is named by its title. The header's controls have names, and the title takes focus only when it is pressed.

@@ -586,7 +586,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 The cursor says what a press will do, on the web and in desktop windows. Components set their own; anything you make interactive takes the cursor of its interaction, so first decide what it does.
 
 - **Pointer** on what acts on a click: links, buttons, toggles, triggers, menu and list rows, sortable headers, and a card or table row that opens as a whole (its inner controls keep theirs). What doesn't act keeps the arrow and gets no hover wash.
-- **Text** where people type or edit text. **Grab** on what drags (a handle, a board card, a canvas to pan), **grabbing** while it moves. **Col-resize** or **row-resize** on a resize edge. **Zoom-in** on an image that enlarges.
+- **Text** where people type or edit text. **Grab** on what only drags (a handle, a canvas to pan); a board card opens, so it keeps the pointer, **grabbing** while it moves. **Col-resize** or **row-resize** on a resize edge. **Zoom-in** on an image that enlarges.
 - **Not-allowed** on a disabled control that keeps hover for its tooltip; **progress** on a region that works but stays usable; never **wait**.
 - **During a drag or resize** the whole window holds the cursor, so it doesn't flicker when the pointer outruns the edge. A desktop title bar's drag area keeps the arrow. Touch has no cursor, so nothing depends on hover.
 

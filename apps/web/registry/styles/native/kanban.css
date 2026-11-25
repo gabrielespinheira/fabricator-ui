@@ -1,0 +1,279 @@
+/* MARK: Kanban */
+
+  /* Quiet tracks that group work, raised cards that are the work. */
+  .cn-kanban {
+    @apply gap-(--density-12) data-[fit=fill]:flex-1;
+  }
+
+  .cn-kanban-toolbar-rows {
+    @apply gap-(--density-8);
+  }
+
+  .cn-kanban-toolbar {
+    @apply gap-(--density-8);
+  }
+
+  .cn-kanban-toolbar-end {
+    @apply gap-px;
+  }
+
+  .cn-kanban-search-field {
+    @apply min-w-24;
+  }
+
+  .cn-kanban-search {
+    @apply ps-[38px];
+  }
+
+  .cn-kanban-search-icon {
+    @apply w-[38px];
+  }
+
+  .cn-kanban-control {
+    @apply px-0;
+  }
+
+  .cn-kanban-chips {
+    @apply gap-(--density-8);
+  }
+
+  /* One filter: what it is on, and the way to drop it. */
+  .cn-kanban-chip {
+    @apply rounded-lg bg-hover pe-(--density-4);
+  }
+
+  .cn-kanban-chip-trigger {
+    @apply px-(--density-10);
+  }
+
+  .cn-kanban-chip-name {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-kanban-chip-text {
+    @apply max-w-40 text-(length:--density-text-13) text-foreground;
+  }
+
+  .cn-kanban-chip-remove {
+    @apply px-0;
+  }
+
+  .cn-kanban-clear {
+    @apply px-(--density-10);
+  }
+
+  .cn-kanban-view-groups {
+    @apply gap-(--density-12) p-(--density-16);
+  }
+
+  .cn-kanban-view-group {
+    @apply pb-(--density-12);
+  }
+
+  .cn-kanban-view-label {
+    @apply pb-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-kanban-view-option {
+    @apply min-h-(--density-40) gap-(--density-8);
+  }
+
+  .cn-kanban-view-choice {
+    @apply px-(--density-8);
+  }
+
+  .cn-kanban-view-text {
+    @apply text-(length:--density-text-13) text-foreground;
+  }
+
+  /* MARK: Kanban board */
+
+  .cn-kanban-board {
+    @apply data-[fit=fill]:flex-1;
+  }
+
+  .cn-kanban-lanes {
+    @apply min-h-full gap-(--density-16);
+  }
+
+  .cn-kanban-lane {
+    @apply gap-(--density-8);
+  }
+
+  .cn-kanban-lane-title {
+    @apply min-h-(--density-36) gap-(--density-6) rounded-lg px-(--density-8) active:bg-hover;
+  }
+
+  .cn-kanban-lane-text {
+    @apply text-(length:--density-text-13) font-medium text-foreground;
+  }
+
+  .cn-kanban-track {
+    @apply min-h-0;
+  }
+
+  /* A track is a wash, not a surface: cards are the only raised thing on the
+     board. Over a column it deepens a step. A coloured
+     column is tinted whole. */
+  .cn-kanban-column {
+    @apply rounded-xl bg-foreground/3 data-[drop-target=true]:bg-foreground/5;
+  }
+
+  /* The header's text starts on the cards' text. */
+  .cn-kanban-column-header {
+    @apply mb-(--density-6) h-(--density-40) gap-(--density-8) ps-(--density-20) pe-(--density-8);
+  }
+
+  .cn-kanban-column-title {
+    @apply text-(length:--density-text-13) font-medium text-foreground;
+  }
+
+  .cn-kanban-header-field {
+    @apply h-full min-w-0 flex-1 p-0 font-sans text-(length:--density-text-13) font-medium text-foreground;
+  }
+
+  .cn-kanban-column-count {
+    @apply text-(length:--density-text-13) text-muted-foreground data-[limit=at]:text-foreground data-[limit=over]:text-warning-text;
+  }
+
+  .cn-kanban-column-actions {
+    @apply gap-px;
+  }
+
+  .cn-kanban-column-body {
+    @apply h-[28rem] px-(--density-8) data-[fit=fill]:h-auto data-[fit=fill]:flex-1;
+  }
+
+  /* MARK: Kanban card */
+
+  .cn-kanban-card-slot {
+    @apply pb-(--density-8);
+  }
+
+  .cn-kanban-card {
+    @apply rounded-lg bg-card shadow-surface-2 data-[dragging=true]:opacity-30 data-[open=true]:bg-surface-4 data-[pending=true]:opacity-70 data-[selected=true]:bg-surface-5;
+  }
+
+  .cn-kanban-card-press {
+    @apply active:bg-hover;
+  }
+
+  .cn-kanban-card-lifted {
+    @apply overflow-visible rounded-lg border border-foreground/20 bg-surface-4/75 shadow-surface-5;
+  }
+
+  .cn-kanban-card-cover {
+    @apply aspect-video bg-hover;
+  }
+
+  .cn-kanban-card-content {
+    @apply gap-(--density-6) p-(--density-12);
+  }
+
+  .cn-kanban-card-head {
+    @apply min-h-(--density-24) gap-(--density-6);
+  }
+
+  .cn-kanban-card-key {
+    @apply gap-(--density-6);
+  }
+
+  .cn-kanban-card-title {
+    @apply text-(length:--density-text-14) font-medium leading-snug text-foreground;
+  }
+
+  .cn-kanban-card-more {
+    @apply px-0;
+  }
+
+  .cn-kanban-card-properties {
+    @apply gap-x-(--density-8) gap-y-(--density-6) pt-(--density-4);
+  }
+
+  .cn-kanban-card-meta {
+    @apply gap-(--density-10);
+  }
+
+  .cn-kanban-card-skeleton {
+    @apply mb-(--density-8) gap-(--density-8) rounded-lg bg-card p-(--density-12);
+  }
+
+  .cn-kanban-skeleton-line {
+    @apply h-(--density-12) rounded-md;
+  }
+
+  .cn-kanban-add {
+    @apply px-(--density-12);
+  }
+
+  .cn-kanban-composer {
+    @apply pb-(--density-8);
+  }
+
+  .cn-kanban-column-message {
+    @apply px-(--density-12) py-(--density-16) text-center text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-kanban-column-error {
+    @apply pb-(--density-12);
+  }
+
+  /* MARK: Kanban drag */
+
+  /* Where the card will land. */
+  .cn-kanban-drop-slot {
+    @apply mb-(--density-8) h-(--density-48) rounded-lg border border-foreground/10 bg-foreground/4;
+  }
+
+  .cn-kanban-drag-overlay {
+    @apply z-50;
+  }
+
+  .cn-kanban-drag-count {
+    @apply -end-2 -top-2 h-(--density-24) min-w-(--density-24) rounded-full bg-primary px-(--density-6);
+  }
+
+  .cn-kanban-drag-count-text {
+    @apply text-(length:--density-text-12) font-medium text-primary-foreground;
+  }
+
+  .cn-kanban-hidden {
+    @apply w-52 px-(--density-4);
+  }
+
+  .cn-kanban-hidden-label {
+    @apply h-(--density-40) px-(--density-8) pt-(--density-10) text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-kanban-hidden-item {
+    @apply px-(--density-8);
+  }
+
+  /* Floats over the foot of the board, so cards never move to make room. */
+  .cn-kanban-floats {
+    @apply gap-(--density-8) p-(--density-12);
+  }
+
+  .cn-kanban-float {
+    @apply max-w-full gap-px rounded-xl bg-surface-5 p-(--density-4) shadow-surface-5;
+  }
+
+  .cn-kanban-selection-count {
+    @apply px-(--density-10) text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-kanban-notice {
+    @apply max-w-full gap-(--density-8) rounded-xl bg-surface-5 py-(--density-6) ps-(--density-12) pe-(--density-6) shadow-surface-5;
+  }
+
+  .cn-kanban-notice-text {
+    @apply text-(length:--density-text-13) text-popover-foreground;
+  }
+
+  .cn-kanban-column-create {
+    @apply w-52 py-0.5;
+  }
+
+  .cn-kanban-column-add {
+    @apply px-(--density-8);
+  }

@@ -1,0 +1,333 @@
+/* MARK: Kanban */
+
+  /* Fabricator's board: quiet tracks that group work, raised cards that are the
+     work. Everything else stays grey until it is pointed at. `fill` gives the
+     columns the height of the frame; otherwise they cap at most of a screen. */
+  .cn-kanban {
+    @apply gap-(--density-12) text-(length:--density-text-13) data-[fit=fill]:h-full data-[fit=fill]:min-h-0;
+  }
+
+  .cn-kanban-toolbar {
+    @apply gap-(--density-8);
+  }
+
+  .cn-kanban-toolbar-end {
+    @apply gap-px;
+  }
+
+  .cn-kanban-saving {
+    @apply px-(--density-8) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-kanban-search-field {
+    @apply w-56 max-w-full @max-md/kanban-toolbar:w-auto @max-md/kanban-toolbar:min-w-0 @max-md/kanban-toolbar:flex-1;
+  }
+
+  .cn-kanban-search {
+    @apply w-full ps-[calc(var(--density-10)+var(--density-icon-16)+var(--density-8))] pe-(--density-32);
+  }
+
+  .cn-kanban-search-icon {
+    @apply start-(--density-10) top-1/2 -translate-y-1/2 text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  .cn-kanban-search-key {
+    @apply end-(--density-8) top-1/2 -translate-y-1/2 pointer-coarse:hidden;
+  }
+
+  .cn-kanban-filter {
+    @apply font-normal;
+  }
+
+  /* Reads as its current choice, so the toolbar also says how the board is
+     arranged. */
+  .cn-kanban-control {
+    @apply px-(--density-10)! font-normal;
+  }
+
+  /* One filter: what it is on, and the way to drop it. */
+  .cn-kanban-chip {
+    @apply h-(--density-36) rounded-lg bg-hover;
+  }
+
+  .cn-kanban-chip-trigger {
+    @apply h-full! max-w-60 gap-(--density-6) rounded-e-none px-(--density-10)! font-normal text-foreground hover:bg-transparent [&_svg]:text-muted-foreground;
+  }
+
+  .cn-kanban-chip-name {
+    @apply text-muted-foreground;
+  }
+
+  .cn-kanban-chip-remove {
+    @apply me-(--density-4);
+  }
+
+  .cn-kanban-clear {
+    @apply px-(--density-10)! font-normal;
+  }
+
+  .cn-kanban-view-groups {
+    @apply max-h-[min(30rem,70dvh)] gap-(--density-12) p-(--density-12);
+  }
+
+  .cn-kanban-view-group {
+    @apply gap-px;
+  }
+
+  .cn-kanban-view-label {
+    @apply pb-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-kanban-view-option {
+    @apply min-h-(--density-32) gap-(--density-8) [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground;
+  }
+
+  .cn-kanban-view-choice {
+    @apply max-w-36 gap-(--density-4) px-(--density-6)! font-normal;
+  }
+
+  /* MARK: Kanban board */
+
+  /* The block padding is room for the tracks' focus rings and the cards'
+     shadows, which a scroller would crop. */
+  .cn-kanban-board {
+    @apply gap-(--density-20) overscroll-x-contain pb-(--density-8) data-dragging:cursor-grabbing;
+  }
+
+  .cn-kanban-lane {
+    @apply gap-(--density-8);
+  }
+
+  .cn-kanban-lane-title {
+    @apply h-(--density-32) cursor-pointer gap-(--density-6) rounded-lg px-(--density-8) font-medium outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-14) [&_svg]:text-muted-foreground [&_svg]:transition-[rotate] [&_svg]:duration-move [&_svg]:ease-move aria-[expanded=false]:[&_svg]:-rotate-90;
+  }
+
+  .cn-kanban-track {
+    @apply gap-(--density-12);
+  }
+
+  /* A track is a wash, not a surface: cards are the only raised thing on the
+     board. Over a column its edge draws in, and the wash barely moves, so the
+     cards keep standing out; a column that won't take the card turns towards
+     warning and says why in its header. Grey text is a step darker here,
+     because the wash takes the muted grey below 4.5:1. A coloured column is
+     tinted whole. In dark its colour is darkened first, so the track gains hue
+     without rising to the cards' lightness. */
+  .cn-kanban-column {
+    @apply [--muted-foreground:color-mix(in_oklab,var(--foreground)_64%,var(--background))] w-[min(calc(var(--density-36)*8),84vw)] rounded-xl bg-[color-mix(in_oklab,var(--foreground)_3%,transparent)] ring-1 ring-transparent transition-[background-color,box-shadow] duration-feedback ease-feedback ring-inset data-collapsed:w-(--density-48) data-drop-target:bg-[color-mix(in_oklab,var(--foreground)_4.5%,transparent)] data-drop-target:ring-foreground/12 data-tinted:bg-[color-mix(in_oklab,var(--palette-light)_14%,transparent)] data-tinted:data-drop-target:bg-[color-mix(in_oklab,var(--palette-light)_19%,transparent)] dark:data-tinted:bg-[color-mix(in_oklab,color-mix(in_oklab,var(--palette-dark)_45%,black)_42%,transparent)] dark:data-tinted:data-drop-target:bg-[color-mix(in_oklab,color-mix(in_oklab,var(--palette-dark)_50%,black)_48%,transparent)] data-blocked:cursor-not-allowed data-blocked:bg-warning/8! data-blocked:ring-warning/25;
+  }
+
+  /* The header's text starts on the cards' text, not on the track's edge. */
+  .cn-kanban-column-header {
+    @apply h-(--density-40) gap-(--density-8) ps-[calc(var(--density-8)+var(--density-12))] pe-(--density-8);
+  }
+
+  .cn-kanban-column-title {
+    @apply font-medium text-foreground data-editable:select-none;
+  }
+
+  .cn-kanban-column-count {
+    @apply gap-(--density-4) text-muted-foreground data-[limit=at]:text-foreground data-[limit=over]:text-warning-text [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-kanban-column-lock {
+    @apply text-muted-foreground [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-kanban-column-hint {
+    @apply text-(length:--density-text-12) text-muted-foreground data-blocked:text-warning-text;
+  }
+
+  .cn-kanban-column-actions {
+    @apply gap-px;
+  }
+
+  /* Shown when the column is pointed at or the control is focused, and always on
+     touch. Out of the way while a card is held. */
+  .cn-kanban-column-more {
+    @apply opacity-0 transition-opacity duration-feedback ease-feedback group-hover/kanban-column:opacity-100 focus-visible:opacity-100 aria-expanded:opacity-100 in-data-dragging:invisible pointer-coarse:opacity-100;
+  }
+
+  /* Pulls out by its own padding, so the name doesn't move when it becomes a
+     field. */
+  .cn-kanban-header-field {
+    @apply -ms-(--density-6) h-(--density-28) min-w-0 flex-1 px-(--density-6) font-medium data-[numeric=true]:ms-0 data-[numeric=true]:w-20 data-[numeric=true]:flex-none data-[numeric=true]:font-normal;
+  }
+
+  /* A collapsed column is a rail with its name turned, still a drop target. */
+  .cn-kanban-rail {
+    @apply min-h-40 cursor-pointer gap-(--density-8) rounded-xl py-(--density-16) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  .cn-kanban-rail-name {
+    @apply max-h-48 font-medium [writing-mode:vertical-rl];
+  }
+
+  .cn-kanban-column-body {
+    @apply max-h-[min(70dvh,46rem)] min-h-24 overscroll-y-contain px-(--density-8) pt-0.5 pb-(--density-8) scroll-fade-5 in-data-[fit=fill]:max-h-none;
+  }
+
+  .cn-kanban-card-list {
+    @apply gap-(--density-8) data-sliding:transition-[margin-bottom] data-sliding:duration-move data-sliding:ease-move;
+  }
+
+  /* MARK: Kanban card */
+
+  /* The raised card: level 2 in the track. Hover adds the neutral wash, open and
+     selected hold it with a hairline, and focus is the blue ring around the
+     whole card because its title fills it. Neighbours slide on the move timing
+     only while a card is held, so nothing plays on the drop. */
+  .cn-kanban-card {
+    @apply overflow-hidden rounded-lg bg-card bg-[image:linear-gradient(var(--kanban-card-wash,transparent),var(--kanban-card-wash,transparent))] shadow-surface-2 outline-none hover:[--kanban-card-wash:var(--hover)] data-open:[--kanban-card-wash:var(--active)] data-open:ring-1 data-open:ring-foreground/25 data-selected:[--kanban-card-wash:var(--hover)] data-selected:ring-1 data-selected:ring-foreground/40 data-pending:opacity-70 data-dragging:opacity-0 in-data-sliding:transition-transform in-data-sliding:duration-move in-data-sliding:ease-move in-data-sliding:hover:[--kanban-card-wash:transparent];
+  }
+
+  .cn-kanban-card-lifted {
+    @apply bg-surface-4/65 shadow-surface-5 ring-1 ring-foreground/20 backdrop-blur-[3px] transition-[background-color] duration-move ease-move in-data-landing:bg-card starting:bg-card;
+  }
+
+  .cn-kanban-card-cover {
+    @apply aspect-[16/9] border-b border-border/60 bg-hover object-cover data-[fit=fit]:object-contain;
+  }
+
+  .cn-kanban-card-content {
+    @apply gap-(--density-6) p-(--density-12);
+  }
+
+  .cn-kanban-card-head {
+    @apply min-h-(--density-20) gap-(--density-4);
+  }
+
+  .cn-kanban-card-key {
+    @apply gap-(--density-6);
+  }
+
+  /* The title opens the card from anywhere on it: its hit area is the card. */
+  .cn-kanban-card-title {
+    @apply line-clamp-3 cursor-pointer text-(length:--density-text-13) leading-snug font-medium wrap-break-word text-foreground outline-none after:absolute after:inset-0 after:rounded-lg focus-visible:after:ring-1 focus-visible:after:ring-ring focus-visible:after:ring-inset in-data-[slot=kanban-drag-overlay]:after:hidden;
+  }
+
+  .cn-kanban-card-hit {
+    @apply cursor-pointer rounded-lg outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
+  }
+
+  .cn-kanban-card-actions {
+    @apply end-(--density-8) top-(--density-8);
+  }
+
+  /* Comes forward with the card, and stays on touch, where nothing hovers. */
+  .cn-kanban-card-more {
+    @apply z-10 -my-0.5 size-(--density-24) cursor-pointer rounded-md text-muted-foreground opacity-0 outline-none transition-[opacity,background-color,color] duration-feedback ease-feedback group-hover/kanban-card:opacity-100 hover:bg-active hover:text-foreground focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring in-data-open:opacity-100 pointer-coarse:opacity-100 [&_svg]:size-(--density-icon-16);
+  }
+
+  .cn-kanban-card-properties {
+    @apply gap-x-(--density-6) gap-y-(--density-4) pt-(--density-4);
+  }
+
+  .cn-kanban-card-meta {
+    @apply gap-(--density-10);
+  }
+
+  .cn-kanban-card-skeleton {
+    @apply gap-(--density-8) p-(--density-12) shadow-none;
+  }
+
+  .cn-kanban-skeleton-line {
+    @apply h-(--density-12) rounded-md;
+  }
+
+  .cn-kanban-loading {
+    @apply gap-(--density-8) pt-(--density-8) first:pt-0;
+  }
+
+  /* Adding under the cards: a row the width of the track, its text on the
+     cards' inset. */
+  .cn-kanban-add {
+    @apply mt-(--density-8) h-(--density-32)! justify-start px-(--density-12)! font-normal;
+  }
+
+  /* Waits for the column to be pointed at, keeping its place so nothing jumps. */
+  .cn-kanban-add-card {
+    @apply opacity-0 transition-[opacity,background-color,color] group-hover/kanban-column:opacity-100 focus-visible:opacity-100 in-data-dragging:invisible pointer-coarse:opacity-100;
+  }
+
+  .cn-kanban-composer {
+    @apply my-(--density-8) flex flex-col gap-(--density-4) rounded-lg bg-card p-(--density-12) shadow-surface-2 first:mt-0;
+  }
+
+  .cn-kanban-composer-field {
+    @apply min-h-0 rounded-none bg-transparent p-0 leading-snug font-medium ring-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0;
+  }
+
+  .cn-kanban-composer-hint {
+    @apply text-(length:--density-text-11) text-muted-foreground;
+  }
+
+  .cn-kanban-column-message {
+    @apply gap-(--density-8) px-(--density-12) py-(--density-16) text-center text-muted-foreground [&>svg]:size-(--density-icon-16) [&>svg]:text-destructive;
+  }
+
+  /* MARK: Kanban drag */
+
+  /* Where the card will land: a well the card's own size. */
+  .cn-kanban-drop-slot {
+    @apply rounded-lg bg-[color-mix(in_oklab,var(--foreground)_5%,transparent)] ring-1 ring-foreground/12 ring-inset;
+  }
+
+  /* The held card lifts a little and its surface lets the board through, so the
+     slot under it stays in view; its own text stays solid, and what is behind
+     softens so the two don't mix. The landing takes both back. Several cards lift as a
+     stack; the second edge is the ones underneath. */
+  .cn-kanban-drag-overlay {
+    @apply scale-[1.02] cursor-grabbing text-(length:--density-text-13) transition-[scale] duration-move ease-move starting:scale-100 motion-reduce:scale-100 data-stacked:before:absolute data-stacked:before:inset-x-2 data-stacked:before:top-full data-stacked:before:h-1.5 data-stacked:before:rounded-b-lg data-stacked:before:bg-surface-3 data-stacked:before:shadow-surface-3;
+  }
+
+  .cn-kanban-drag-count {
+    @apply -end-2 -top-2 inline-flex h-(--density-20) min-w-(--density-20) items-center justify-center rounded-full bg-primary px-(--density-6) text-(length:--density-text-11) font-medium text-primary-foreground;
+  }
+
+  /* MARK: Kanban ends */
+
+  .cn-kanban-hidden {
+    @apply w-48 gap-px;
+  }
+
+  .cn-kanban-hidden-label {
+    @apply flex h-(--density-40) items-center px-(--density-8) text-muted-foreground;
+  }
+
+  .cn-kanban-hidden-item {
+    @apply h-(--density-32)! gap-(--density-8) px-(--density-8)! font-normal;
+  }
+
+  .cn-kanban-column-create {
+    @apply flex w-48 items-start py-0.5;
+  }
+
+  .cn-kanban-column-add {
+    @apply justify-start px-(--density-8)! font-normal;
+  }
+
+  /* Floats over the foot of the board, so cards never move to make room. */
+  .cn-kanban-floats {
+    @apply gap-(--density-8) p-(--density-16);
+  }
+
+  .cn-kanban-float {
+    @apply pointer-events-auto rounded-xl bg-surface-5 text-(length:--density-text-13) text-popover-foreground shadow-surface-5 motion-popup animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:slide-in-from-bottom-0;
+  }
+
+  .cn-kanban-selection-bar {
+    @apply gap-px p-(--density-4);
+  }
+
+  .cn-kanban-selection-count {
+    @apply px-(--density-10) whitespace-nowrap text-muted-foreground;
+  }
+
+  .cn-kanban-selection-delete {
+    @apply text-destructive-text hover:text-destructive-text;
+  }
+
+  .cn-kanban-notice {
+    @apply gap-(--density-8) py-(--density-4) ps-(--density-12) pe-(--density-4) [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0 data-[tone=error]:[&>svg]:text-destructive data-[tone=warning]:[&>svg]:text-warning;
+  }

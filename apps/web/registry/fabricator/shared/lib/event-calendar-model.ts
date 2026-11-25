@@ -21,6 +21,14 @@ import {
   startOfWeek,
 } from "date-fns"
 
+import {
+  getPaletteLiteral,
+  PALETTE_COLORS,
+  PALETTE_ROLES,
+  type PaletteHue,
+  type PaletteRole,
+} from "./palette-model"
+
 // --- Types -------------------------------------------------------------------
 
 const EVENT_CALENDAR_VIEWS = ["day", "days", "week", "month", "agenda"] as const
@@ -36,35 +44,15 @@ function toEventCalendarWeekday(value: number): EventCalendarWeekday {
   return WEEKDAYS[((Math.trunc(value) % 7) + 7) % 7]
 }
 
-const EVENT_CALENDAR_ROLES = [
-  "primary",
-  "secondary",
-  "info",
-  "success",
-  "warning",
-  "destructive",
-] as const
+const EVENT_CALENDAR_ROLES = PALETTE_ROLES
 
-type EventCalendarRole = (typeof EVENT_CALENDAR_ROLES)[number]
+type EventCalendarRole = PaletteRole
 
 /** A hue and chroma drawn through the colour role recipe. */
-type EventCalendarHue = { hue: number; chroma: number }
+type EventCalendarHue = PaletteHue
 
-// A palette in the spirit of Google Calendar's, each colour inside the role
-// recipe's sRGB gamut (the model test checks it against roleMaxChroma).
-const EVENT_CALENDAR_COLORS = {
-  red: { hue: 27, chroma: 0.17 },
-  orange: { hue: 50, chroma: 0.125 },
-  yellow: { hue: 85, chroma: 0.095 },
-  green: { hue: 150, chroma: 0.12 },
-  teal: { hue: 185, chroma: 0.08 },
-  cyan: { hue: 225, chroma: 0.09 },
-  blue: { hue: 260, chroma: 0.16 },
-  indigo: { hue: 280, chroma: 0.14 },
-  purple: { hue: 310, chroma: 0.14 },
-  pink: { hue: 350, chroma: 0.14 },
-  gray: { hue: 0, chroma: 0 },
-} as const satisfies Record<string, EventCalendarHue>
+/** The shared palette (palette-model.ts) under the calendar's own name. */
+const EVENT_CALENDAR_COLORS = PALETTE_COLORS
 
 type EventCalendarColorName = keyof typeof EVENT_CALENDAR_COLORS
 
@@ -1079,44 +1067,6 @@ function resolveEventColor(
   return calendar?.color ?? DEFAULT_EVENT_COLOR
 }
 
-// The role recipe's fill, text and foreground slots (color-roles.ts), for a
-// colour that isn't a role. Past RAMP_CHROMA the lightness is fixed; below it
-// a slot moves from the neutral towards the colour.
-const RAMP_CHROMA = 0.06
-
-type Slot = { l: readonly [number, number]; share: number; cap?: number }
-
-const SLOTS = {
-  fill: {
-    light: { l: [0.205, 0.48], share: 1 },
-    dark: { l: [0.97, 0.74], share: 1, cap: 0.13 },
-  },
-  text: {
-    light: { l: [0.205, 0.45], share: 0.85 },
-    dark: { l: [0.97, 0.85], share: 1, cap: 0.07 },
-  },
-  foreground: {
-    light: { l: [0.985, 0.985], share: 0 },
-    dark: { l: [0.205, 0.205], share: 0 },
-  },
-} as const satisfies Record<string, Record<"light" | "dark", Slot>>
-
-const round = (value: number, digits: number) => {
-  const factor = 10 ** digits
-  return Math.round(value * factor) / factor
-}
-
-function slotLiteral(slot: Slot, { hue, chroma }: EventCalendarHue) {
-  const ramp = Math.min(1, chroma / RAMP_CHROMA)
-  const ramps = slot.l[0] !== slot.l[1]
-  const l = round(slot.l[0] + (slot.l[1] - slot.l[0]) * ramp, 4)
-  const c = round(
-    Math.min(chroma * slot.share, slot.cap ?? Infinity) * (ramps ? ramp : 1),
-    4
-  )
-  return c === 0 ? `oklch(${l} 0 0)` : `oklch(${l} ${c} ${round(hue, 1)})`
-}
-
 /**
  * How much of its fill an event chip shows behind its text, by mode and
  * state: the style map's --event-calendar-wash, and React Native's chip.
@@ -1150,15 +1100,20 @@ function getEventColorVariables(
   }
   const hue = typeof color === "string" ? EVENT_CALENDAR_COLORS[color] : color
   return {
-    "--event-calendar-fill-light": slotLiteral(SLOTS.fill.light, hue),
-    "--event-calendar-fill-dark": slotLiteral(SLOTS.fill.dark, hue),
-    "--event-calendar-text-light": slotLiteral(SLOTS.text.light, hue),
-    "--event-calendar-text-dark": slotLiteral(SLOTS.text.dark, hue),
-    "--event-calendar-foreground-light": slotLiteral(
-      SLOTS.foreground.light,
+    "--event-calendar-fill-light": getPaletteLiteral("fill", "light", hue),
+    "--event-calendar-fill-dark": getPaletteLiteral("fill", "dark", hue),
+    "--event-calendar-text-light": getPaletteLiteral("text", "light", hue),
+    "--event-calendar-text-dark": getPaletteLiteral("text", "dark", hue),
+    "--event-calendar-foreground-light": getPaletteLiteral(
+      "foreground",
+      "light",
       hue
     ),
-    "--event-calendar-foreground-dark": slotLiteral(SLOTS.foreground.dark, hue),
+    "--event-calendar-foreground-dark": getPaletteLiteral(
+      "foreground",
+      "dark",
+      hue
+    ),
   }
 }
 

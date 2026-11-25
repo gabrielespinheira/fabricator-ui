@@ -2097,22 +2097,44 @@ async function copyUIToStyles(targetStyleNames?: Set<string>) {
       })
 
       if (isFabricatorStyleName(styleName)) {
-        for (const filePath of FABRICATOR_SITE_FILES) {
+        const blockRoot = path.join(
+          getTemporaryRegistryRoot(styleName),
+          "blocks"
+        )
+        for (const { name } of FABRICATOR_BLOCKS) {
+          await syncDirectory({
+            fromDir: path.join(blockRoot, name),
+            toDir: path.join(styleRoot, "blocks", name),
+            transformContent: (content, _, targetPath) =>
+              formatGeneratedSource(
+                rewriteRegistryImportsToStyle(content, styleName),
+                targetPath
+              ),
+          })
+        }
+
+        for (const filePath of FABRICATOR_SITE_FILES.filter(
+          (file) => !file.startsWith("blocks/")
+        )) {
           const source = path.join(
             getTemporaryRegistryRoot(styleName),
             filePath
           )
           const target = path.join(styleRoot, filePath)
           await fs.mkdir(path.dirname(target), { recursive: true })
+          let content = rewriteRegistryImportsToStyle(
+            await fs.readFile(source, "utf8"),
+            styleName
+          )
+          // Parts outside ui/ draw icons too, in the pack the site is set to.
+          if (filePath.endsWith(".tsx")) {
+            content = rewriteLucideToSiteIcons(
+              await applyIconTransform(content, path.basename(filePath))
+            )
+          }
           await writeIfChanged(
             target,
-            await formatGeneratedSource(
-              rewriteRegistryImportsToStyle(
-                await fs.readFile(source, "utf8"),
-                styleName
-              ),
-              target
-            )
+            await formatGeneratedSource(content, target)
           )
         }
       }

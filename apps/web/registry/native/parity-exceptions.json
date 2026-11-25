@@ -834,6 +834,13 @@
   },
   {
     "item": "event-calendar",
+    "kind": "prop",
+    "name": "renderDraftNotice",
+    "reason": "React web supports custom feedback in the quick-create form. React Native uses its own event editor sheet.",
+    "date": "2026-11-25"
+  },
+  {
+    "item": "event-calendar",
     "kind": "slot",
     "name": "event-calendar-shortcuts",
     "reason": "React Native views get no key events, so the calendar has no keyboard shortcuts on native yet, nor their help dialog.",
@@ -1253,6 +1260,34 @@
     "date": "2026-11-17"
   },
   {
+    "item": "settings-01",
+    "kind": "component",
+    "name": "settings-01",
+    "reason": "Web settings block. A React Native port needs phone navigation for sections and a native image picker for the workspace mark.",
+    "date": "2026-11-25"
+  },
+  {
+    "item": "members-01",
+    "kind": "component",
+    "name": "members-01",
+    "reason": "Web members block. A React Native port needs the team list, role controls and invitation flow composed for touch.",
+    "date": "2026-11-25"
+  },
+  {
+    "item": "billing-01",
+    "kind": "component",
+    "name": "billing-01",
+    "reason": "Web billing block. A React Native port needs a phone layout for plan comparisons and native invoice downloads.",
+    "date": "2026-11-25"
+  },
+  {
+    "item": "onboarding-01",
+    "kind": "component",
+    "name": "onboarding-01",
+    "reason": "Web onboarding block. A React Native port needs native navigation and storage to resume a draft.",
+    "date": "2026-11-25"
+  },
+  {
     "item": "status-bar",
     "kind": "placeholder",
     "name": "cn-status-bar-lift-mark",
@@ -1335,5 +1370,19 @@
     "name": "cn-sonner-close",
     "reason": "Restyles the sonner package's own element, which needs a DOM. The native Sonner renders Toast's parts, so it takes their placeholders.",
     "date": "2026-11-24"
+  },
+  {
+    "item": "kanban",
+    "kind": "slot",
+    "name": "kanban-announcer",
+    "reason": "Moves are announced through AccessibilityInfo, which needs no live region in the tree.",
+    "date": "2026-11-25"
+  },
+  {
+    "item": "record-view",
+    "kind": "placeholder",
+    "name": "cn-record-view-menu",
+    "reason": "The mode menu is a sheet, which takes the screen's width.",
+    "date": "2026-11-25"
   }
 ]

@@ -4426,101 +4426,337 @@
 
 /* MARK: Kanban */
 
-/* Keep the work in the cards and give the lanes a quiet track. */
-.cn-kanban {
-  @apply gap-(--density-16) text-(length:--density-text-13);
-}
-.cn-kanban-toolbar {
-  @apply gap-(--density-8);
-}
-.cn-kanban-search {
-  @apply w-64 max-w-full ps-(--density-32);
-}
-.cn-kanban-search-icon {
-  @apply start-(--density-10) top-1/2 size-4 -translate-y-1/2 text-muted-foreground;
-}
-.cn-kanban-board {
-  @apply gap-(--density-20) pb-(--density-12);
-}
-.cn-kanban-lane {
-  @apply gap-(--density-8);
-}
-.cn-kanban-lane-title {
-  @apply px-(--density-8) font-medium text-muted-foreground;
-}
-.cn-kanban-track {
-  @apply gap-(--density-12);
-}
-.cn-kanban-column {
-  @apply min-h-32 w-[min(17rem,82vw)] gap-(--density-4) rounded-xl bg-surface-2 p-(--density-6) data-[drop-target=true]:ring-2 data-[drop-target=true]:ring-ring data-[tinted=true]:bg-[color-mix(in_oklch,var(--kanban-column-color)_9%,var(--surface-2))];
-}
-.cn-kanban-column-header {
-  @apply gap-(--density-6) px-(--density-4) py-(--density-4);
-}
-.cn-kanban-column-color {
-  @apply size-2.5 rounded-full bg-(--kanban-column-color);
-}
-.cn-kanban-column-title {
-  @apply font-semibold;
-}
-.cn-kanban-column-count {
-  @apply text-muted-foreground data-[over-limit=true]:text-destructive-text;
-}
-.cn-kanban-column-body {
-  @apply max-h-[min(65dvh,44rem)] min-h-20 overscroll-y-contain px-(--density-4) pb-(--density-6);
-}
-.cn-kanban-card-list {
-  @apply flex list-none flex-col;
-}
-.cn-kanban-card {
-  @apply mb-(--density-6) rounded-lg bg-card px-(--density-8) py-(--density-10) shadow-surface-1 data-[virtual=true]:mb-0 data-[dragging=true]:opacity-35 data-[pending=true]:opacity-65 data-[selected=true]:ring-2 data-[selected=true]:ring-ring data-[drop-target=true]:before:absolute data-[drop-target=true]:before:inset-x-0 data-[drop-target=true]:before:-top-1 data-[drop-target=true]:before:h-0.5 data-[drop-target=true]:before:rounded-full data-[drop-target=true]:before:bg-primary;
-}
-.cn-kanban-handle {
-  @apply cursor-grab text-muted-foreground active:cursor-grabbing;
-}
-.cn-kanban-card-title {
-  @apply wrap-break-word rounded-sm text-(length:--density-text-13) leading-snug font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring;
-}
-.cn-kanban-card-properties {
-  @apply gap-(--density-4) pt-(--density-6) empty:hidden;
-}
-.cn-kanban-pill {
-  @apply max-w-full rounded-md bg-muted px-(--density-6) py-0.5 text-(length:--density-text-11) text-foreground;
-}
-.cn-kanban-card-actions,
-.cn-kanban-selection-bar,
-.cn-kanban-feedback {
-  @apply gap-(--density-6);
-}
-.cn-kanban-card-actions {
-  @apply pt-(--density-8);
-}
-.cn-kanban-move-select {
-  @apply rounded-md border border-input bg-background px-(--density-6) focus-visible:ring-2 focus-visible:ring-ring;
-}
-.cn-kanban-column-message {
-  @apply flex flex-col items-center gap-(--density-8) p-(--density-12) text-center text-muted-foreground;
-}
-.cn-kanban-loading {
-  @apply gap-(--density-6);
-}
-.cn-kanban-drop-marker {
-  @apply h-0.5 rounded-full bg-primary;
-}
-.cn-kanban-drag-overlay {
-  @apply pointer-events-none rounded-lg bg-card p-(--density-12) text-(length:--density-text-13) font-medium shadow-surface-3;
-}
+  /* Fabricator's board: quiet tracks that group work, raised cards that are the
+     work. Everything else stays grey until it is pointed at. `fill` gives the
+     columns the height of the frame; otherwise they cap at most of a screen. */
+  .cn-kanban {
+    @apply gap-(--density-12) text-(length:--density-text-13) data-[fit=fill]:h-full data-[fit=fill]:min-h-0;
+  }
 
-/* View controls sit above the board and keep the existing card positions. */
-.cn-kanban-settings {
-  @apply gap-(--density-12) rounded-xl bg-surface-2 p-(--density-12);
-}
-.cn-kanban-settings-row {
-  @apply gap-(--density-8);
-}
-.cn-kanban-settings-select {
-  @apply rounded-md border border-input bg-background px-(--density-6) focus-visible:ring-2 focus-visible:ring-ring;
-}
+  .cn-kanban-toolbar {
+    @apply gap-(--density-8);
+  }
+
+  .cn-kanban-toolbar-end {
+    @apply gap-px;
+  }
+
+  .cn-kanban-saving {
+    @apply px-(--density-8) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-kanban-search-field {
+    @apply w-56 max-w-full @max-md/kanban-toolbar:w-auto @max-md/kanban-toolbar:min-w-0 @max-md/kanban-toolbar:flex-1;
+  }
+
+  .cn-kanban-search {
+    @apply w-full ps-[calc(var(--density-10)+var(--density-icon-16)+var(--density-8))] pe-(--density-32);
+  }
+
+  .cn-kanban-search-icon {
+    @apply start-(--density-10) top-1/2 -translate-y-1/2 text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  .cn-kanban-search-key {
+    @apply end-(--density-8) top-1/2 -translate-y-1/2 pointer-coarse:hidden;
+  }
+
+  .cn-kanban-filter {
+    @apply font-normal;
+  }
+
+  /* Reads as its current choice, so the toolbar also says how the board is
+     arranged. */
+  .cn-kanban-control {
+    @apply px-(--density-10)! font-normal;
+  }
+
+  /* One filter: what it is on, and the way to drop it. */
+  .cn-kanban-chip {
+    @apply h-(--density-36) rounded-lg bg-hover;
+  }
+
+  .cn-kanban-chip-trigger {
+    @apply h-full! max-w-60 gap-(--density-6) rounded-e-none px-(--density-10)! font-normal text-foreground hover:bg-transparent [&_svg]:text-muted-foreground;
+  }
+
+  .cn-kanban-chip-name {
+    @apply text-muted-foreground;
+  }
+
+  .cn-kanban-chip-remove {
+    @apply me-(--density-4);
+  }
+
+  .cn-kanban-clear {
+    @apply px-(--density-10)! font-normal;
+  }
+
+  .cn-kanban-view-groups {
+    @apply max-h-[min(30rem,70dvh)] gap-(--density-12) p-(--density-12);
+  }
+
+  .cn-kanban-view-group {
+    @apply gap-px;
+  }
+
+  .cn-kanban-view-label {
+    @apply pb-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-kanban-view-option {
+    @apply min-h-(--density-32) gap-(--density-8) [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground;
+  }
+
+  .cn-kanban-view-choice {
+    @apply max-w-36 gap-(--density-4) px-(--density-6)! font-normal;
+  }
+
+  /* MARK: Kanban board */
+
+  /* The block padding is room for the tracks' focus rings and the cards'
+     shadows, which a scroller would crop. */
+  .cn-kanban-board {
+    @apply gap-(--density-20) overscroll-x-contain pb-(--density-8) data-dragging:cursor-grabbing;
+  }
+
+  .cn-kanban-lane {
+    @apply gap-(--density-8);
+  }
+
+  .cn-kanban-lane-title {
+    @apply h-(--density-32) cursor-pointer gap-(--density-6) rounded-lg px-(--density-8) font-medium outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-14) [&_svg]:text-muted-foreground [&_svg]:transition-[rotate] [&_svg]:duration-move [&_svg]:ease-move aria-[expanded=false]:[&_svg]:-rotate-90;
+  }
+
+  .cn-kanban-track {
+    @apply gap-(--density-12);
+  }
+
+  /* A track is a wash, not a surface: cards are the only raised thing on the
+     board. Over a column its edge draws in, and the wash barely moves, so the
+     cards keep standing out; a column that won't take the card turns towards
+     warning and says why in its header. Grey text is a step darker here,
+     because the wash takes the muted grey below 4.5:1. A coloured column is
+     tinted whole. In dark its colour is darkened first, so the track gains hue
+     without rising to the cards' lightness. */
+  .cn-kanban-column {
+    @apply [--muted-foreground:color-mix(in_oklab,var(--foreground)_64%,var(--background))] w-[min(calc(var(--density-36)*8),84vw)] rounded-xl bg-[color-mix(in_oklab,var(--foreground)_3%,transparent)] ring-1 ring-transparent transition-[background-color,box-shadow] duration-feedback ease-feedback ring-inset data-collapsed:w-(--density-48) data-drop-target:bg-[color-mix(in_oklab,var(--foreground)_4.5%,transparent)] data-drop-target:ring-foreground/12 data-tinted:bg-[color-mix(in_oklab,var(--palette-light)_14%,transparent)] data-tinted:data-drop-target:bg-[color-mix(in_oklab,var(--palette-light)_19%,transparent)] dark:data-tinted:bg-[color-mix(in_oklab,color-mix(in_oklab,var(--palette-dark)_45%,black)_42%,transparent)] dark:data-tinted:data-drop-target:bg-[color-mix(in_oklab,color-mix(in_oklab,var(--palette-dark)_50%,black)_48%,transparent)] data-blocked:cursor-not-allowed data-blocked:bg-warning/8! data-blocked:ring-warning/25;
+  }
+
+  /* The header's text starts on the cards' text, not on the track's edge. */
+  .cn-kanban-column-header {
+    @apply h-(--density-40) gap-(--density-8) ps-[calc(var(--density-8)+var(--density-12))] pe-(--density-8);
+  }
+
+  .cn-kanban-column-title {
+    @apply font-medium text-foreground data-editable:select-none;
+  }
+
+  .cn-kanban-column-count {
+    @apply gap-(--density-4) text-muted-foreground data-[limit=at]:text-foreground data-[limit=over]:text-warning-text [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-kanban-column-lock {
+    @apply text-muted-foreground [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-kanban-column-hint {
+    @apply text-(length:--density-text-12) text-muted-foreground data-blocked:text-warning-text;
+  }
+
+  .cn-kanban-column-actions {
+    @apply gap-px;
+  }
+
+  /* Shown when the column is pointed at or the control is focused, and always on
+     touch. Out of the way while a card is held. */
+  .cn-kanban-column-more {
+    @apply opacity-0 transition-opacity duration-feedback ease-feedback group-hover/kanban-column:opacity-100 focus-visible:opacity-100 aria-expanded:opacity-100 in-data-dragging:invisible pointer-coarse:opacity-100;
+  }
+
+  /* Pulls out by its own padding, so the name doesn't move when it becomes a
+     field. */
+  .cn-kanban-header-field {
+    @apply -ms-(--density-6) h-(--density-28) min-w-0 flex-1 px-(--density-6) font-medium data-[numeric=true]:ms-0 data-[numeric=true]:w-20 data-[numeric=true]:flex-none data-[numeric=true]:font-normal;
+  }
+
+  /* A collapsed column is a rail with its name turned, still a drop target. */
+  .cn-kanban-rail {
+    @apply min-h-40 cursor-pointer gap-(--density-8) rounded-xl py-(--density-16) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  .cn-kanban-rail-name {
+    @apply max-h-48 font-medium [writing-mode:vertical-rl];
+  }
+
+  .cn-kanban-column-body {
+    @apply max-h-[min(70dvh,46rem)] min-h-24 overscroll-y-contain px-(--density-8) pt-0.5 pb-(--density-8) scroll-fade-5 in-data-[fit=fill]:max-h-none;
+  }
+
+  .cn-kanban-card-list {
+    @apply gap-(--density-8) data-sliding:transition-[margin-bottom] data-sliding:duration-move data-sliding:ease-move;
+  }
+
+  /* MARK: Kanban card */
+
+  /* The raised card: level 2 in the track. Hover adds the neutral wash, open and
+     selected hold it with a hairline, and focus is the blue ring around the
+     whole card because its title fills it. Neighbours slide on the move timing
+     only while a card is held, so nothing plays on the drop. */
+  .cn-kanban-card {
+    @apply overflow-hidden rounded-lg bg-card bg-[image:linear-gradient(var(--kanban-card-wash,transparent),var(--kanban-card-wash,transparent))] shadow-surface-2 outline-none hover:[--kanban-card-wash:var(--hover)] data-open:[--kanban-card-wash:var(--active)] data-open:ring-1 data-open:ring-foreground/25 data-selected:[--kanban-card-wash:var(--hover)] data-selected:ring-1 data-selected:ring-foreground/40 data-pending:opacity-70 data-dragging:opacity-0 in-data-sliding:transition-transform in-data-sliding:duration-move in-data-sliding:ease-move in-data-sliding:hover:[--kanban-card-wash:transparent];
+  }
+
+  .cn-kanban-card-lifted {
+    @apply bg-surface-4/65 shadow-surface-5 ring-1 ring-foreground/20 backdrop-blur-[3px] transition-[background-color] duration-move ease-move in-data-landing:bg-card starting:bg-card;
+  }
+
+  .cn-kanban-card-cover {
+    @apply aspect-[16/9] border-b border-border/60 bg-hover object-cover data-[fit=fit]:object-contain;
+  }
+
+  .cn-kanban-card-content {
+    @apply gap-(--density-6) p-(--density-12);
+  }
+
+  .cn-kanban-card-head {
+    @apply min-h-(--density-20) gap-(--density-4);
+  }
+
+  .cn-kanban-card-key {
+    @apply gap-(--density-6);
+  }
+
+  /* The title opens the card from anywhere on it: its hit area is the card. */
+  .cn-kanban-card-title {
+    @apply line-clamp-3 cursor-pointer text-(length:--density-text-13) leading-snug font-medium wrap-break-word text-foreground outline-none after:absolute after:inset-0 after:rounded-lg focus-visible:after:ring-1 focus-visible:after:ring-ring focus-visible:after:ring-inset in-data-[slot=kanban-drag-overlay]:after:hidden;
+  }
+
+  .cn-kanban-card-hit {
+    @apply cursor-pointer rounded-lg outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
+  }
+
+  .cn-kanban-card-actions {
+    @apply end-(--density-8) top-(--density-8);
+  }
+
+  /* Comes forward with the card, and stays on touch, where nothing hovers. */
+  .cn-kanban-card-more {
+    @apply z-10 -my-0.5 size-(--density-24) cursor-pointer rounded-md text-muted-foreground opacity-0 outline-none transition-[opacity,background-color,color] duration-feedback ease-feedback group-hover/kanban-card:opacity-100 hover:bg-active hover:text-foreground focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring in-data-open:opacity-100 pointer-coarse:opacity-100 [&_svg]:size-(--density-icon-16);
+  }
+
+  .cn-kanban-card-properties {
+    @apply gap-x-(--density-6) gap-y-(--density-4) pt-(--density-4);
+  }
+
+  .cn-kanban-card-meta {
+    @apply gap-(--density-10);
+  }
+
+  .cn-kanban-card-skeleton {
+    @apply gap-(--density-8) p-(--density-12) shadow-none;
+  }
+
+  .cn-kanban-skeleton-line {
+    @apply h-(--density-12) rounded-md;
+  }
+
+  .cn-kanban-loading {
+    @apply gap-(--density-8) pt-(--density-8) first:pt-0;
+  }
+
+  /* Adding under the cards: a row the width of the track, its text on the
+     cards' inset. */
+  .cn-kanban-add {
+    @apply mt-(--density-8) h-(--density-32)! justify-start px-(--density-12)! font-normal;
+  }
+
+  /* Waits for the column to be pointed at, keeping its place so nothing jumps. */
+  .cn-kanban-add-card {
+    @apply opacity-0 transition-[opacity,background-color,color] group-hover/kanban-column:opacity-100 focus-visible:opacity-100 in-data-dragging:invisible pointer-coarse:opacity-100;
+  }
+
+  .cn-kanban-composer {
+    @apply my-(--density-8) flex flex-col gap-(--density-4) rounded-lg bg-card p-(--density-12) shadow-surface-2 first:mt-0;
+  }
+
+  .cn-kanban-composer-field {
+    @apply min-h-0 rounded-none bg-transparent p-0 leading-snug font-medium ring-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0;
+  }
+
+  .cn-kanban-composer-hint {
+    @apply text-(length:--density-text-11) text-muted-foreground;
+  }
+
+  .cn-kanban-column-message {
+    @apply gap-(--density-8) px-(--density-12) py-(--density-16) text-center text-muted-foreground [&>svg]:size-(--density-icon-16) [&>svg]:text-destructive;
+  }
+
+  /* MARK: Kanban drag */
+
+  /* Where the card will land: a well the card's own size. */
+  .cn-kanban-drop-slot {
+    @apply rounded-lg bg-[color-mix(in_oklab,var(--foreground)_5%,transparent)] ring-1 ring-foreground/12 ring-inset;
+  }
+
+  /* The held card lifts a little and its surface lets the board through, so the
+     slot under it stays in view; its own text stays solid, and what is behind
+     softens so the two don't mix. The landing takes both back. Several cards lift as a
+     stack; the second edge is the ones underneath. */
+  .cn-kanban-drag-overlay {
+    @apply scale-[1.02] cursor-grabbing text-(length:--density-text-13) transition-[scale] duration-move ease-move starting:scale-100 motion-reduce:scale-100 data-stacked:before:absolute data-stacked:before:inset-x-2 data-stacked:before:top-full data-stacked:before:h-1.5 data-stacked:before:rounded-b-lg data-stacked:before:bg-surface-3 data-stacked:before:shadow-surface-3;
+  }
+
+  .cn-kanban-drag-count {
+    @apply -end-2 -top-2 inline-flex h-(--density-20) min-w-(--density-20) items-center justify-center rounded-full bg-primary px-(--density-6) text-(length:--density-text-11) font-medium text-primary-foreground;
+  }
+
+  /* MARK: Kanban ends */
+
+  .cn-kanban-hidden {
+    @apply w-48 gap-px;
+  }
+
+  .cn-kanban-hidden-label {
+    @apply flex h-(--density-40) items-center px-(--density-8) text-muted-foreground;
+  }
+
+  .cn-kanban-hidden-item {
+    @apply h-(--density-32)! gap-(--density-8) px-(--density-8)! font-normal;
+  }
+
+  .cn-kanban-column-create {
+    @apply flex w-48 items-start py-0.5;
+  }
+
+  .cn-kanban-column-add {
+    @apply justify-start px-(--density-8)! font-normal;
+  }
+
+  /* Floats over the foot of the board, so cards never move to make room. */
+  .cn-kanban-floats {
+    @apply gap-(--density-8) p-(--density-16);
+  }
+
+  .cn-kanban-float {
+    @apply pointer-events-auto rounded-xl bg-surface-5 text-(length:--density-text-13) text-popover-foreground shadow-surface-5 motion-popup animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:slide-in-from-bottom-0;
+  }
+
+  .cn-kanban-selection-bar {
+    @apply gap-px p-(--density-4);
+  }
+
+  .cn-kanban-selection-count {
+    @apply px-(--density-10) whitespace-nowrap text-muted-foreground;
+  }
+
+  .cn-kanban-selection-delete {
+    @apply text-destructive-text hover:text-destructive-text;
+  }
+
+  .cn-kanban-notice {
+    @apply gap-(--density-8) py-(--density-4) ps-(--density-12) pe-(--density-4) [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0 data-[tone=error]:[&>svg]:text-destructive data-[tone=warning]:[&>svg]:text-warning;
+  }
 
 /* MARK: Kbd */
 
@@ -5323,45 +5559,432 @@
 
 /* MARK: Properties */
 
-/* Field labels align in a narrow column so values are easy to scan. */
-.cn-properties {
-  @apply gap-(--density-10);
-}
-.cn-properties-row {
-  @apply grid-cols-[minmax(5.5rem,0.4fr)_minmax(0,1fr)] items-baseline gap-(--density-12);
-}
-.cn-properties-label {
-  @apply wrap-break-word text-(length:--density-text-13) text-muted-foreground;
-}
-.cn-properties-description,
-.cn-properties-kind {
-  @apply text-(length:--density-text-11) text-muted-foreground;
-}
-.cn-properties-value {
-  @apply wrap-break-word text-(length:--density-text-13);
-}
-.cn-properties-link {
-  @apply underline decoration-muted-foreground underline-offset-2;
-}
-.cn-properties-select {
-  @apply min-h-(--density-28) min-w-0 rounded-md border border-input bg-background px-(--density-6) text-(length:--density-text-13) focus-visible:ring-2 focus-visible:ring-ring;
-}
-.cn-properties-error {
-  @apply text-(length:--density-text-12) text-destructive-text;
-}
-.cn-properties-options,
-.cn-properties-manager,
-.cn-properties-management-row {
-  @apply gap-(--density-8);
-}
-.cn-properties-management-row {
-  @apply [&>[data-slot=input]]:w-32;
-}
+  /* Rows touch: each is one hover target as tall as a control, so the list
+     reads as a column of values and the pointer never falls between two. */
+  .cn-properties {
+    @apply gap-px text-(length:--density-text-13);
+  }
 
-/* Existing option IDs remain on records when an option is archived. */
-.cn-properties-option-manager {
-  @apply w-full;
-}
+  /* Labels share one column, sized so a long name still leaves the value most
+     of the row. */
+  .cn-properties-row {
+    @apply grid-cols-[minmax(6.5rem,0.36fr)_minmax(0,1fr)] items-start gap-(--density-8) rounded-lg data-dragging:bg-surface-6 data-dragging:shadow-surface-6;
+  }
+
+  /* Grey, with the type's icon: the value is what people came to read. */
+  .cn-properties-label {
+    @apply h-(--density-32) gap-(--density-8) text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5];
+  }
+
+  /* A label that opens its settings. It pulls out by its own inset, so its icon
+     stays on the title's edge. */
+  .cn-properties-label-cell {
+    @apply -ms-(--density-8);
+  }
+
+  .cn-properties-label-trigger {
+    @apply h-(--density-32)! justify-start rounded-lg px-(--density-8)! font-normal text-muted-foreground hover:text-foreground aria-expanded:bg-hover aria-expanded:text-foreground;
+  }
+
+  /* A value that can't be pressed keeps a pressable one's height and inset. */
+  .cn-properties-inset {
+    @apply min-h-(--density-32) items-center border border-transparent px-(--density-8);
+  }
+
+  /* The value is the button: no frame at rest, the neutral wash on hover. Its
+     text starts where every other row's does. */
+  .cn-properties-trigger {
+    @apply h-auto! min-h-(--density-32) w-full justify-start rounded-lg px-(--density-8)! py-(--density-4) text-start font-normal text-foreground whitespace-normal aria-expanded:bg-hover;
+  }
+
+  /* Text edits in place, on the same inset and the same wash. */
+  .cn-properties-input {
+    @apply h-(--density-32) bg-transparent px-[calc(var(--density-8)+1px)] ring-transparent hover:bg-hover focus-visible:bg-hover aria-invalid:ring-destructive/50;
+  }
+
+  .cn-properties-textarea {
+    @apply min-h-(--density-32) bg-transparent px-[calc(var(--density-8)+1px)] py-(--density-6) leading-snug ring-transparent hover:bg-hover focus-visible:bg-hover;
+  }
+
+  /* A number field the length of a figure, quiet until it is pointed at: its
+     text starts where every other row's does and its steppers wait at the end.
+     At a limit only the stepper dims, since the number still reads. */
+  .cn-properties-number-field {
+    @apply w-52 max-w-full;
+  }
+
+  .cn-properties-number-group {
+    @apply h-(--density-32) ring-transparent hover:not-focus-within:bg-hover focus-within:bg-hover has-disabled:opacity-100 [&>[data-align=inline-end]]:py-0;
+  }
+
+  /* As long as its digits, so the unit follows them. */
+  .cn-properties-number-input {
+    @apply field-sizing-content w-auto min-w-0 flex-none ps-[calc(var(--density-8)+1px)]! pe-(--density-4)! text-foreground;
+  }
+
+  .cn-properties-number-suffix {
+    @apply min-w-0 flex-1 cursor-text justify-start px-0 font-normal text-foreground/70! *:text-inherit!;
+  }
+
+  /* A drawn number, after its text. */
+  .cn-properties-meter {
+    @apply ms-(--density-4) inline-flex shrink-0 items-center text-muted-foreground [&_svg]:size-(--density-icon-16);
+  }
+
+  .cn-properties-open {
+    @apply inline-flex size-(--density-28) items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-16);
+  }
+
+  /* Empty is a word in the label's grey, so a blank row still says it can be
+     filled. */
+  .cn-properties-value {
+    @apply gap-(--density-8) leading-snug data-empty:text-muted-foreground data-[variant=card]:gap-(--density-4) data-[variant=card]:text-(length:--density-text-12) data-[variant=card]:text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] data-[variant=card]:[&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-properties-option {
+    @apply gap-(--density-6);
+  }
+
+  .cn-properties-chips {
+    @apply gap-(--density-4);
+  }
+
+  /* Neutral chips with the option's colour in its mark: ten labels on a board
+     stay readable, and colour still tells them apart. */
+  .cn-properties-chip {
+    @apply h-(--density-20) gap-(--density-6) rounded-md bg-hover px-(--density-6) text-(length:--density-text-12) text-foreground/80;
+  }
+
+  .cn-properties-mark {
+    @apply data-toned:text-(--palette-light) dark:data-toned:text-(--palette-dark) [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.5];
+  }
+
+  .cn-properties-dot {
+    @apply size-2 rounded-full bg-current;
+  }
+
+  /* The check or cross inside a filled glyph takes the surface's colour. */
+  .cn-properties-glyph-mark {
+    @apply stroke-card;
+  }
+
+  /* Initials on a wash of the person's colour, the same colour everywhere. */
+  .cn-properties-avatar {
+    @apply size-(--density-20) rounded-full bg-[color-mix(in_oklab,var(--palette-light)_22%,var(--card))] text-[9px] leading-none font-medium text-foreground dark:bg-[color-mix(in_oklab,var(--palette-dark)_34%,var(--card))];
+  }
+
+  .cn-properties-people {
+    @apply [&>*+[data-slot=properties-avatar]]:-ms-(--density-6) [&>[data-slot=properties-avatar]]:ring-2 [&>[data-slot=properties-avatar]]:ring-card;
+  }
+
+  .cn-properties-number {
+    @apply gap-(--density-6);
+  }
+
+  .cn-properties-bar {
+    @apply inline-block h-1.5 w-16 shrink-0 rounded-full bg-foreground/10;
+  }
+
+  .cn-properties-bar-fill {
+    @apply rounded-full bg-foreground/70 transition-[width] duration-move ease-move;
+  }
+
+  .cn-properties-swatch {
+    @apply size-(--density-14) rounded-sm ring-1 ring-foreground/15 ring-inset;
+  }
+
+  .cn-properties-date {
+    @apply gap-(--density-6) data-overdue:text-warning-text ;
+  }
+
+  .cn-properties-progress {
+    @apply gap-(--density-6) data-complete:text-success-text;
+  }
+
+  .cn-properties-link {
+    @apply underline decoration-border underline-offset-2 hover:decoration-current;
+  }
+
+  .cn-properties-error {
+    @apply px-(--density-8) pt-(--density-4) text-(length:--density-text-12) text-destructive-text;
+  }
+
+  .cn-properties-kind {
+    @apply text-(length:--density-text-12) font-normal text-muted-foreground;
+  }
+
+  /* MARK: Property files */
+
+  /* Over the row, a drop is taken: the row says so before it lands. */
+  .cn-properties-files-editor {
+    @apply rounded-lg transition-[background-color,box-shadow] duration-feedback ease-feedback data-over:bg-hover data-over:ring-1 data-over:ring-ring data-over:ring-inset;
+  }
+
+  .cn-properties-files {
+    @apply gap-(--density-6) ps-[calc(var(--density-8)+1px)] data-[display=list]:ps-0 data-[display=list]:flex-col data-[display=list]:gap-px;
+  }
+
+  /* A picture is its own thumbnail; any other file is its name beside an icon. */
+  .cn-properties-file {
+    @apply my-(--density-4) h-(--density-48) max-w-full rounded-lg bg-hover in-data-[display=list]:my-0 in-data-[display=list]:h-(--density-32) in-data-[display=list]:bg-transparent;
+  }
+
+  .cn-properties-file-trigger {
+    @apply h-full! max-w-full justify-start overflow-hidden rounded-lg p-0! font-normal text-foreground after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-foreground/10 after:ring-inset in-data-[display=list]:w-full in-data-[display=list]:after:hidden hover:after:bg-hover;
+  }
+
+  .cn-properties-file-image {
+    @apply aspect-[4/3] h-full w-auto;
+  }
+
+  .cn-properties-file-chip {
+    @apply max-w-52 gap-(--density-8) px-(--density-10) in-data-[display=list]:max-w-full in-data-[display=list]:px-(--density-8);
+  }
+
+  .cn-properties-file-mark {
+    @apply size-(--density-20) rounded-sm;
+  }
+
+  .cn-properties-file-icon {
+    @apply text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  .cn-properties-file-size {
+    @apply text-(length:--density-text-12) text-foreground/75;
+  }
+
+  .cn-properties-file-add-item {
+    @apply only:-ms-[calc(var(--density-8)+1px)] only:w-[calc(100%+var(--density-8)+1px)] in-data-[display=list]:ms-0 in-data-[display=list]:w-full;
+  }
+
+  /* After the files, adding is a tile of their height; alone, it is the row. */
+  .cn-properties-file-add {
+    @apply my-(--density-4) size-(--density-48)! min-h-0 justify-center p-0! text-muted-foreground ring-1 ring-border ring-inset in-data-[display=list]:my-0 in-data-[display=list]:size-(--density-32)! in-data-[display=list]:ring-0;
+  }
+
+  .cn-properties-upload {
+    @apply aspect-[4/3] data-failed:ring-1 data-failed:ring-destructive/50 data-failed:ring-inset;
+  }
+
+  .cn-properties-upload-image {
+    @apply opacity-40;
+  }
+
+  .cn-properties-upload-state {
+    @apply text-foreground [&_svg]:size-(--density-icon-16) in-data-failed:text-destructive-text;
+  }
+
+  .cn-properties-upload-error {
+    @apply gap-(--density-4);
+  }
+
+  .cn-properties-upload-button {
+    @apply justify-center;
+  }
+
+  .cn-properties-file-preview {
+    @apply max-h-56 w-full bg-hover;
+  }
+
+  .cn-properties-file-caption {
+    @apply px-(--density-12) pt-(--density-10) pb-(--density-4);
+  }
+
+  .cn-properties-file-actions {
+    @apply gap-px p-(--density-4);
+  }
+
+  /* A row of a panel that does something. */
+  .cn-properties-action {
+    @apply h-(--density-32)! justify-start gap-(--density-8) rounded-lg px-(--density-8)! text-(length:--density-text-13) font-normal text-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-destructive:text-destructive-text data-destructive:hover:text-destructive-text [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground data-destructive:[&_svg]:text-current;
+  }
+
+  /* MARK: Property popups */
+
+  /* Menus as wide as their longest common label, pickers flush with their own
+     search row. On a panel or a dialog both rise above it: at their usual level
+     they would sink into the surface they open from. */
+  .cn-properties-menu {
+    @apply w-auto min-w-48 max-w-72 data-raised:bg-surface-7 data-raised:shadow-surface-7;
+  }
+
+  .cn-properties-popover {
+    @apply w-auto min-w-56 max-w-[calc(100vw-2rem)] data-raised:bg-surface-6 data-raised:shadow-surface-6 data-[layout=calendar]:gap-0 data-[layout=calendar]:p-(--density-8) data-[layout=calendar]:[&_.bg-muted>*:not([data-selected-single=true],[data-range-start=true],[data-range-end=true])]:text-foreground data-[layout=file]:w-64 data-[layout=file]:gap-0 data-[layout=file]:overflow-hidden data-[layout=file]:p-0 data-[layout=form]:w-72 data-[layout=picker]:w-64 data-[layout=picker]:gap-0 data-[layout=picker]:p-0 data-[layout=settings]:w-72 data-[layout=settings]:gap-0 data-[layout=settings]:p-0 data-[layout=view]:w-72 data-[layout=view]:p-0 data-[layout=picker]:[&_[data-slot=command-item]]:h-(--density-32) data-[layout=picker]:[&_[data-slot=command-item]]:font-normal data-[layout=picker]:[&_[data-slot=command-item]]:text-foreground data-[layout=picker]:[&_[data-slot=input-group]]:h-(--density-40)!;
+  }
+
+  .cn-properties-clear {
+    @apply self-start font-normal;
+  }
+
+  /* Days people pick most, under the month. */
+  .cn-properties-presets {
+    @apply gap-px pt-(--density-4);
+  }
+
+  .cn-properties-preset {
+    @apply px-(--density-8)! font-normal;
+  }
+
+  .cn-properties-times {
+    @apply gap-(--density-6) px-(--density-4) pt-(--density-4);
+  }
+
+  .cn-properties-color {
+    @apply gap-(--density-8);
+  }
+
+  /* Pulls out by its own padding, so its text sits on the picker's edge. */
+  .cn-properties-color-clear {
+    @apply -mx-[calc(var(--density-8)+1px)] -mb-(--density-4) self-start px-(--density-8)! font-normal;
+  }
+
+  .cn-properties-form-note {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-properties-empty {
+    @apply py-(--density-24) text-center text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-properties-option-count {
+    @apply tabular-nums;
+  }
+
+  /* MARK: Property manager */
+
+  .cn-properties-manager {
+    @apply gap-(--density-4);
+  }
+
+  .cn-properties-manager-list {
+    @apply gap-px;
+  }
+
+  .cn-properties-manager-row {
+    @apply gap-(--density-4) rounded-lg bg-transparent data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
+  }
+
+  .cn-properties-handle {
+    @apply cursor-grab rounded-md p-1 text-muted-foreground/60 transition-colors duration-feedback ease-feedback hover:text-foreground active:cursor-grabbing [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-properties-manager-trigger {
+    @apply h-(--density-36)! justify-start px-(--density-8)! font-normal text-foreground [&_svg]:text-muted-foreground;
+  }
+
+  .cn-properties-eye {
+    @apply aria-[pressed=true]:text-foreground;
+  }
+
+  /* A row of the list that does something: its icon and text sit under the
+     labels', and it takes a line of its own. */
+  .cn-properties-add {
+    @apply -ms-(--density-8) mt-px flex h-(--density-32)! w-fit justify-start gap-(--density-8)! px-(--density-8)! font-normal in-data-[slot=properties-manager]:-ms-(--density-4) [&_svg]:size-(--density-icon-16)! [dl+&]:mt-(--density-4);
+  }
+
+  .cn-properties-add-name {
+    @apply p-(--density-8) pb-(--density-4);
+  }
+
+  .cn-properties-types {
+    @apply max-h-80 gap-(--density-8) p-(--density-4);
+  }
+
+  .cn-properties-type-heading {
+    @apply px-(--density-8) py-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-properties-type {
+    @apply h-(--density-32)! justify-start px-(--density-8)! font-normal text-foreground [&_svg]:text-muted-foreground;
+  }
+
+  .cn-properties-form {
+    @apply gap-(--density-12);
+  }
+
+  .cn-properties-form-field {
+    @apply gap-(--density-6);
+  }
+
+  .cn-properties-form-label {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-properties-form-row {
+    @apply gap-(--density-6);
+  }
+
+  /* MARK: Property settings */
+
+  .cn-properties-settings {
+    @apply max-h-[min(38rem,var(--available-height,var(--radix-popover-content-available-height,80dvh)))] overflow-y-auto overscroll-contain rounded-xl;
+  }
+
+  .cn-properties-identity {
+    @apply gap-(--density-6) p-(--density-8) pb-(--density-8);
+  }
+
+  .cn-properties-icon-button {
+    @apply text-muted-foreground;
+  }
+
+  .cn-properties-description {
+    @apply h-(--density-28) bg-transparent px-(--density-6) text-(length:--density-text-12) text-muted-foreground ring-transparent hover:bg-hover focus-visible:bg-hover;
+  }
+
+  /* Groups of rows, with a hairline between them. */
+  .cn-properties-setting-list {
+    @apply gap-px border-t border-border/60 p-(--density-4);
+  }
+
+  .cn-properties-setting {
+    @apply h-(--density-32) justify-start gap-(--density-8) rounded-lg border border-transparent px-(--density-8) text-(length:--density-text-13) font-normal text-foreground [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground;
+  }
+
+  .cn-properties-setting-value {
+    @apply text-muted-foreground;
+  }
+
+  .cn-properties-setting-input {
+    @apply h-(--density-28) w-24 px-(--density-8) text-end;
+  }
+
+  .cn-properties-panel-header {
+    @apply sticky top-0 z-10 h-(--density-40) gap-(--density-4) bg-surface-6 px-(--density-6);
+  }
+
+  .cn-properties-panel-title {
+    @apply font-medium;
+  }
+
+  .cn-properties-panel-body {
+    @apply gap-(--density-6) px-(--density-8) pb-(--density-8);
+  }
+
+  .cn-properties-choices {
+    @apply gap-px px-(--density-4) pb-(--density-4) in-data-[slot=properties-type-conversion]:px-0;
+  }
+
+  .cn-properties-icon-grid {
+    @apply grid-cols-7 gap-px px-(--density-6) pb-(--density-8);
+  }
+
+  .cn-properties-icon-choice {
+    @apply text-muted-foreground hover:text-foreground aria-pressed:bg-active aria-pressed:text-foreground;
+  }
+
+  /* What a type change would do, said before it is done. */
+  .cn-properties-preview {
+    @apply gap-(--density-8) rounded-lg bg-hover p-(--density-10) text-(length:--density-text-12) text-muted-foreground in-data-[panel=remove]:mx-(--density-8) in-data-[panel=remove]:mb-(--density-8);
+  }
+
+  .cn-properties-option-list {
+    @apply max-h-56 gap-px;
+  }
+
+  .cn-properties-option-row {
+    @apply gap-(--density-4) rounded-lg data-archived:opacity-55 data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
+  }
 
 /* MARK: Questionnaire */
 
@@ -5644,35 +6267,120 @@
 
 /* MARK: Record View */
 
-/* A single dialog host preserves the editor and scroll while its layout changes. */
-.cn-record-view {
-  @apply inset-0 m-auto h-fit w-full max-h-[calc(100dvh-2rem)] max-w-[min(44rem,calc(100vw-2rem))] overflow-hidden rounded-xl bg-surface-5 p-0 text-popover-foreground shadow-surface-5 motion-dialog has-[[data-mode=side]]:inset-auto! has-[[data-mode=side]]:end-3! has-[[data-mode=side]]:top-3! has-[[data-mode=side]]:bottom-3! has-[[data-mode=side]]:m-0! has-[[data-mode=side]]:h-auto! has-[[data-mode=side]]:w-[min(32rem,calc(100vw-1.5rem))] has-[[data-mode=side]]:max-h-none has-[[data-mode=side]]:max-w-none has-[[data-mode=side]]:translate-x-0 has-[[data-mode=side]]:translate-y-0 has-[[data-mode=page]]:inset-0! has-[[data-mode=page]]:m-0! has-[[data-mode=page]]:h-dvh! has-[[data-mode=page]]:w-full has-[[data-mode=page]]:max-h-none has-[[data-mode=page]]:max-w-none has-[[data-mode=page]]:translate-x-0 has-[[data-mode=page]]:translate-y-0 has-[[data-mode=page]]:rounded-none;
-}
-.cn-record-view-layout {
-  @apply max-h-[calc(100dvh-2rem)] data-[mode=side]:h-[calc(100dvh-1.5rem)] data-[mode=side]:max-h-none data-[mode=page]:mx-auto data-[mode=page]:h-dvh data-[mode=page]:w-full data-[mode=page]:max-h-none data-[mode=page]:max-w-3xl;
-}
-.cn-record-view-header {
-  @apply shrink-0 gap-(--density-12) p-(--density-20);
-}
-.cn-record-view-actions {
-  @apply gap-(--density-6);
-}
-.cn-record-view-position {
-  @apply text-(length:--density-text-12) text-muted-foreground;
-}
-.cn-record-view-mode {
-  @apply rounded-md border border-input bg-background px-(--density-6) text-(length:--density-text-12) focus-visible:ring-2 focus-visible:ring-ring;
-}
-.cn-record-view-body {
-  @apply flex-1 px-(--density-20) pb-(--density-20);
-}
-.cn-record-view-section,
-.cn-record-view-state {
-  @apply gap-(--density-12);
-}
-.cn-record-view-footer {
-  @apply shrink-0 gap-(--density-8) p-(--density-20);
-}
+  /* Beside: a raised panel inset from the window's end edge, as tall as the
+     window, over a board that stays live. Centre and page are the same surface
+     grown. On phones every mode is the whole screen. */
+  .cn-record-view {
+    @apply inset-0 m-auto bg-surface-5 text-popover-foreground text-(length:--density-text-13) motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 data-[mode=side]:bg-surface-4 data-[mode=side]:motion-sheet sm:rounded-xl sm:shadow-surface-5 sm:data-[mode=center]:h-[min(46rem,calc(100dvh-4rem))] sm:data-[mode=center]:w-[min(48rem,calc(100vw-4rem))] sm:data-[mode=side]:inset-y-(--density-12) sm:data-[mode=side]:start-auto sm:data-[mode=side]:end-(--density-12) sm:data-[mode=side]:m-0 sm:data-[mode=side]:w-[min(28rem,calc(100vw-1.5rem))] sm:data-[mode=side]:shadow-surface-4 sm:data-[mode=side]:data-open:slide-in-from-right-8 sm:data-[mode=side]:data-closed:slide-out-to-right-8 sm:data-[mode=side]:data-entering:slide-in-from-right-8 data-[mode=page]:rounded-none data-[mode=page]:bg-background data-[mode=page]:shadow-none;
+  }
+
+  /* A page covers everything, so it needs no scrim behind it. */
+  .cn-record-view-overlay {
+    @apply data-[mode=page]:bg-transparent;
+  }
+
+  .cn-record-view-menu {
+    @apply w-auto min-w-44 bg-surface-6 shadow-surface-6;
+  }
+
+  .cn-record-view-layout {
+    @apply h-full;
+  }
+
+  /* One quiet bar: where the record lives at the start, the ways out of it at
+     the end. */
+  .cn-record-view-header {
+    @apply h-(--density-48) gap-(--density-8) ps-(--density-20) pe-(--density-8);
+  }
+
+  .cn-record-view-context {
+    @apply gap-(--density-6) whitespace-nowrap text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0;
+  }
+
+  .cn-record-view-badge {
+    @apply inline-flex h-(--density-20) items-center rounded-md bg-hover px-(--density-6) text-(length:--density-text-12);
+  }
+
+  .cn-record-view-actions {
+    @apply gap-px;
+  }
+
+  .cn-record-view-body {
+    @apply overscroll-y-contain;
+  }
+
+  /* Across the top, edge to edge; taller where there is room for it. */
+  .cn-record-view-cover {
+    @apply h-36 bg-hover @3xl/record-view:h-52;
+  }
+
+  .cn-record-view-cover-actions {
+    @apply end-(--density-8) bottom-(--density-8) gap-(--density-4) opacity-0 transition-opacity duration-feedback ease-feedback group-focus-within/record-view-cover:opacity-100 group-hover/record-view-cover:opacity-100 pointer-coarse:opacity-100;
+  }
+
+  /* A page keeps a readable measure; beside and centre use what they have. */
+  .cn-record-view-content {
+    @apply mx-auto flex w-full max-w-5xl flex-col gap-(--density-16) px-(--density-20) pt-(--density-8) pb-(--density-24) @3xl/record-view:px-(--density-48) @3xl/record-view:pt-(--density-24);
+  }
+
+  /* The focal point. Pulled out by its own padding, so its text sits on the
+     same edge as the rows below. */
+  .cn-record-view-title {
+    @apply -mx-(--density-8) block rounded-lg px-(--density-8) py-(--density-4) text-lg leading-snug font-semibold text-balance text-foreground transition-colors duration-feedback ease-feedback hover:[&:is(textarea)]:bg-hover focus-visible:bg-hover focus-visible:ring-1 focus-visible:ring-foreground/25 @3xl/record-view:text-2xl;
+  }
+
+  /* Properties under the title; with room for two columns, beside the work. */
+  .cn-record-view-columns {
+    @apply flex flex-col gap-(--density-24) @4xl/record-view:grid @4xl/record-view:grid-cols-[minmax(0,1fr)_18rem] @4xl/record-view:gap-(--density-48);
+  }
+
+  .cn-record-view-aside {
+    @apply min-w-0 @4xl/record-view:order-last;
+  }
+
+  .cn-record-view-main {
+    @apply gap-(--density-24);
+  }
+
+  .cn-record-view-section {
+    @apply gap-(--density-8);
+  }
+
+  .cn-record-view-section-title {
+    @apply text-(length:--density-text-13) font-medium text-foreground;
+  }
+
+  .cn-record-view-footer {
+    @apply gap-(--density-8) px-(--density-16) pt-(--density-8) pb-(--density-16);
+  }
+
+  .cn-record-view-state {
+    @apply gap-(--density-12) pt-(--density-4);
+  }
+
+  .cn-record-view-skeleton {
+    @apply gap-(--density-24);
+  }
+
+  .cn-record-view-skeleton-label {
+    @apply h-(--density-12) w-24 rounded-md;
+  }
+
+  .cn-record-view-skeleton-value {
+    @apply h-(--density-12) w-40 rounded-md;
+  }
+
+  .cn-record-view-skeleton-block {
+    @apply mt-(--density-12) h-28 rounded-xl;
+  }
+
+  .cn-record-view-message {
+    @apply gap-(--density-8) py-(--density-48) text-center text-muted-foreground;
+  }
+
+  .cn-record-view-message-title {
+    @apply text-(length:--density-text-14) font-medium text-foreground;
+  }
 
 /* MARK: Resizable */
 

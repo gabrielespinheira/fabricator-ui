@@ -19,6 +19,7 @@ function MenuSheet({
   open,
   onOpenChange,
   label,
+  contentKey,
   className,
   children,
   ...props
@@ -30,6 +31,8 @@ function MenuSheet({
   onOpenChange: (open: boolean) => void
   /** Names the sheet for screen readers. */
   label?: string
+  /** Changes when the rows are replaced, so the highlight starts over. */
+  contentKey?: string
 }) {
   return (
     <SheetSurface
@@ -51,7 +54,10 @@ function MenuSheet({
           <View className="cn-menu-sheet-handle items-center">
             <View className="cn-menu-sheet-handle-bar" />
           </View>
-          <FluidHoverScrollList ScrollComponent={SheetSurfaceScrollView}>
+          <FluidHoverScrollList
+            key={contentKey}
+            ScrollComponent={SheetSurfaceScrollView}
+          >
             {renderTextChildren(children)}
           </FluidHoverScrollList>
         </TextStyle>

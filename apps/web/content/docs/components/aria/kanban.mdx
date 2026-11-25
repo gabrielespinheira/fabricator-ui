@@ -1,0 +1,164 @@
+---
+title: Kanban
+description: A board of columns and cards with drag and drop, keyboard moves, typed properties, filters, grouping, selection and pagination.
+base: aria
+component: true
+---
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="kanban-demo"
+  type="frame"
+  fit
+  previewClassName="p-5"
+  wide
+/>
+
+Kanban owns everything between a gesture and a saved change. Your app owns the records, the rules and the storage.
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add kanban
+```
+
+## Usage
+
+```tsx
+const [items, setItems] = React.useState([
+  { id: "ISS-1", title: "Document saved views", status: "todo" },
+])
+
+<Kanban
+  fit="fill"
+  className="h-[40rem]"
+  items={items}
+  groupBy="status"
+  properties={[
+    {
+      id: "status",
+      name: "Status",
+      type: "status",
+      options: [
+        { value: "todo", label: "To do", group: "todo", color: "gray" },
+        { value: "done", label: "Done", group: "complete", color: "green" },
+      ],
+    },
+  ]}
+  createItem={({ title, value }) => ({
+    id: crypto.randomUUID(),
+    title,
+    status: value,
+  })}
+  onCardsChange={(change) => setItems(change.apply)}
+  onOpenCard={(item) => setOpenId(item.id)}
+/>
+```
+
+The board takes any record shape. `getId`, `getTitle` and `getValue` read it, and `setValue` writes one property. Leave out `onCardsChange` for a read-only board.
+
+## Columns
+
+Columns come from the options of the property in `groupBy`, or from `columns`:
+
+```tsx
+columns={[
+  { id: "todo", name: "To do", icon: "status-todo", color: "gray" },
+  {
+    id: "review",
+    name: "In review",
+    icon: "status-review",
+    color: "blue",
+    limit: 3,
+    limitMode: "block",
+  },
+]}
+```
+
+- `color` is a palette name (`red`, `orange`, `yellow`, `green`, `teal`, `cyan`, `blue`, `indigo`, `purple`, `pink`, `gray`), a role, or any CSS colour.
+- `icon` is a built-in glyph: `status-backlog`, `status-todo`, `status-started`, `status-progress`, `status-review`, `status-done` or `status-canceled`.
+- `limit` shows the count as "2/3". `limitMode="block"` refuses a drop over it and says why.
+- `onColumnsChange` lets people add, rename, recolour, limit, move and delete columns. A double click on a column's name renames it in place.
+- `view.colorColumns` tints each column with its colour.
+
+With two or more single-choice properties, the toolbar offers to group by another one.
+
+## Cards
+
+A card places each property by its type: the ID and people on top, then the title, then tags, with dates, progress and counts at the end. `view.visibleProperties` chooses which show; people change it under View, or with Show on card in a property's settings. `getHref` makes the title a link, and `renderCard` replaces the content.
+
+A card is covered by the first picture of a `files` property. `view.cover` names the property, or is `null` for none, and `view.coverFit` is `fill` or `fit`; people change both under View. A property that is off the cards doesn't cover them. `getCover` overrides it per card.
+
+`getCardActions` and `getColumnActions` add your items to the menus:
+
+```tsx
+getCardActions={(item) => [
+  { id: "link", label: "Copy link", onSelect: () => copyLink(item) },
+]}
+```
+
+To offer Show on card from a record, pass the controller's `isOnCard` and `setOnCard` to its [Properties](./properties):
+
+```tsx
+<PropertyList
+  // …
+  isOnCard={board.isOnCard}
+  onCardChange={board.setOnCard}
+/>
+```
+
+Pass `openId` to mark the card shown in a [Record View](./record-view), and wrap the board in `PropertyIconProvider` to give properties and options your own icons.
+
+## Saving
+
+`onCardsChange` receives one change at a time, with a `reason`, the card IDs and `apply`, which returns the new list. Return a promise to save to a server: the board shows the change at once, keeps later edits to the same card in order, and drops the change with a Retry if the promise rejects.
+
+A move names its neighbours (`afterId`, `beforeId`) instead of an index, so it holds on a filtered or half-loaded column. `canMove` enforces a rule and can return the reason. `moveTo` writes a move when a column is more than a property's value.
+
+## Paginated sources
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="kanban-loader"
+  type="frame"
+  fit
+  previewClassName="p-5"
+  wide
+/>
+
+Supply `load({ columnId, cursor, limit, signal })` and return `{ items, nextCursor, total }`. Use `null` for the final cursor. Memoize the loader and change `queryKey` when the server-side query changes. Each column keeps its own cursor, loads the next page as it nears the end, and retries on its own. `paging="button"` waits for a press.
+
+Reactive sources can pass a `ReadonlyMap<string, KanbanPage<Item>>` as `pages` and handle `onLoadMore` and `onRetry`. Publish updated items from the save callback before it resolves.
+
+## Composition
+
+```tsx
+<Kanban {...options}>
+  {(board) => (
+    <>
+      <KanbanToolbar board={board} />
+      <KanbanBoard board={board} onOpenCard={openCard} />
+    </>
+  )}
+</Kanban>
+```
+
+`KanbanSearch`, `KanbanFilter`, `KanbanFilterChips`, `KanbanGroup`, `KanbanSort` and `KanbanViewOptions` are the toolbar's parts. Each takes the controller, so you can lay them out yourself. `useKanban` returns the same controller with no interface.
+
+## Accessibility
+
+Every drag has a path through the card's menu, and moves are announced with the card, its column and its position. These keys work while a card has focus:
+
+| Key               | Action                  |
+| ----------------- | ----------------------- |
+| Arrows, Home, End | Move between cards      |
+| Enter             | Open the card           |
+| ⌥⇧ and an arrow   | Move the card           |
+| C                 | New card in this column |
+| X                 | Select                  |
+| ⌘A                | Select the column       |
+| Delete            | Delete, with Undo       |
+| ⌘Z                | Undo                    |
+| /                 | Search                  |
+
+⌘ or Ctrl click adds a card to the selection and Shift click extends it. Dragging a selected card moves the selection.

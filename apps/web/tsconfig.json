@@ -112,6 +112,15 @@
       "@/registry/bases/*/ui/multi-select": [
         "./registry/fabricator/*/ui/multi-select"
       ],
+      "@/registry/bases/*/lib/kanban-model": [
+        "./registry/fabricator/shared/lib/kanban-model"
+      ],
+      "@/registry/bases/*/lib/property-model": [
+        "./registry/fabricator/shared/lib/property-model"
+      ],
+      "@/registry/bases/*/hooks/use-kanban-pages": [
+        "./registry/fabricator/shared/hooks/use-kanban-pages"
+      ],
       "@/registry/bases/*/lib/data-table-model": [
         "./registry/fabricator/shared/lib/data-table-model"
       ],
@@ -148,11 +157,74 @@
       "@/registry/bases/*/ui/event-calendar-agenda": [
         "./registry/fabricator/shared/ui/event-calendar-agenda"
       ],
+      "@/registry/bases/*/lib/palette-model": [
+        "./registry/fabricator/shared/lib/palette-model"
+      ],
+      "@/registry/bases/*/lib/record-view-model": [
+        "./registry/fabricator/shared/lib/record-view-model"
+      ],
+      "@/registry/bases/*/hooks/use-kanban": [
+        "./registry/fabricator/shared/hooks/use-kanban"
+      ],
+      "@/registry/bases/*/hooks/use-kanban-keys": [
+        "./registry/fabricator/shared/hooks/use-kanban-keys"
+      ],
+      "@/registry/bases/*/components/kanban-actions": [
+        "./registry/fabricator/shared/components/kanban-actions"
+      ],
+      "@/registry/bases/*/components/kanban-card": [
+        "./registry/fabricator/shared/components/kanban-card"
+      ],
+      "@/registry/bases/*/components/kanban-column": [
+        "./registry/fabricator/shared/components/kanban-column"
+      ],
+      "@/registry/bases/*/components/kanban-composer": [
+        "./registry/fabricator/shared/components/kanban-composer"
+      ],
+      "@/registry/bases/*/components/kanban-drag": [
+        "./registry/fabricator/shared/components/kanban-drag"
+      ],
+      "@/registry/bases/*/components/kanban-toolbar": [
+        "./registry/fabricator/shared/components/kanban-toolbar"
+      ],
+      "@/registry/bases/*/components/property-editor": [
+        "./registry/fabricator/shared/components/property-editor"
+      ],
+      "@/registry/bases/*/components/property-icons": [
+        "./registry/fabricator/shared/components/property-icons"
+      ],
+      "@/registry/bases/*/components/property-manager": [
+        "./registry/fabricator/shared/components/property-manager"
+      ],
+      "@/registry/bases/*/components/property-value": [
+        "./registry/fabricator/shared/components/property-value"
+      ],
+      "@/registry/bases/*/components/property-controls": [
+        "./registry/fabricator/*/components/property-controls"
+      ],
+      "@/registry/bases/*/ui/rating": [
+        "./registry/fabricator/shared/ui/rating"
+      ],
+      "@/registry/bases/*/ui/kanban": [
+        "./registry/fabricator/shared/ui/kanban"
+      ],
+      "@/registry/bases/*/ui/properties": [
+        "./registry/fabricator/shared/ui/properties"
+      ],
+      "@/registry/bases/*/ui/record-view": [
+        "./registry/fabricator/*/ui/record-view"
+      ],
+      "@/registry/bases/*/components/record-view-parts": [
+        "./registry/fabricator/shared/components/record-view-parts"
+      ],
       "@/registry/bases/*/ui/event-calendar": [
         "./registry/fabricator/*/ui/event-calendar"
       ],
       // The Data Table's shared cells draw status tones with the Badge
       // override's status variants.
+      "@/registry/bases/__base__/components/property-controls": [
+        "./registry/fabricator/base/components/property-controls"
+      ],
       "@/registry/bases/__base__/ui/badge": [
         "./registry/fabricator/base/ui/badge"
       ],
