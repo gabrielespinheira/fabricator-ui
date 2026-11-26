@@ -1597,6 +1597,9 @@ function KanbanColumn<Item>({
     ? items.length
     : (board.totals.get(column.id) ?? items.length)
   const isFiltered = !!(board.view.search?.trim() || board.view.filters)
+  // Until the first page lands, the column can't know how many it holds.
+  const isCounting =
+    !!isLoading && items.length === 0 && page?.total === undefined
   const limit = getKanbanLimitState(column, count)
   const target =
     drag?.target?.columnId === column.id && drag.target.laneId === laneId
@@ -1668,16 +1671,20 @@ function KanbanColumn<Item>({
             {column.name}
           </KanbanColumnTitle>
         )}
-        <Text
-          data-slot="kanban-column-count"
-          data-limit={limit ?? "under"}
-          numberOfLines={1}
-          className="cn-kanban-column-count"
-        >
-          {isFiltered
-            ? `${countFormat.format(items.length)} of ${countFormat.format(count)}`
-            : `${countFormat.format(count)}${column.limit === undefined ? "" : `/${column.limit}`}`}
-        </Text>
+        {isCounting ? (
+          <Skeleton className="cn-kanban-count-skeleton" />
+        ) : (
+          <Text
+            data-slot="kanban-column-count"
+            data-limit={limit ?? "under"}
+            numberOfLines={1}
+            className="cn-kanban-column-count"
+          >
+            {isFiltered
+              ? `${countFormat.format(items.length)} of ${countFormat.format(count)}`
+              : `${countFormat.format(count)}${column.limit === undefined ? "" : `/${column.limit}`}`}
+          </Text>
+        )}
         <View
           className={cn(
             "cn-kanban-column-actions flex-row justify-end",
@@ -1938,9 +1945,21 @@ function KanbanColumnNameField({
 function KanbanCardSkeleton() {
   return (
     <View data-slot="kanban-card-skeleton" className="cn-kanban-card-skeleton">
-      <Skeleton className="cn-kanban-skeleton-line w-1/4" />
-      <Skeleton className="cn-kanban-skeleton-line w-full" />
-      <Skeleton className="cn-kanban-skeleton-line w-2/5" />
+      <View className="cn-kanban-card-content">
+        <View className="cn-kanban-card-head flex-row items-center">
+          <Skeleton className="cn-kanban-skeleton-line w-1/4" />
+        </View>
+        <View className="flex-row items-center">
+          <Skeleton className="cn-kanban-skeleton-line flex-1" />
+          <Text aria-hidden className="cn-kanban-skeleton-title w-0">
+            {" "}
+          </Text>
+        </View>
+        <View className="cn-kanban-card-properties flex-row items-center">
+          <Skeleton className="cn-kanban-skeleton-chip w-14" />
+          <Skeleton className="cn-kanban-skeleton-chip w-20" />
+        </View>
+      </View>
     </View>
   )
 }

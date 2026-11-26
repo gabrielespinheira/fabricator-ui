@@ -4498,7 +4498,7 @@
   /* The header spans the cards: its glyph starts on their edge and the menu's
      dots end on the other. */
   .cn-kanban-column-header {
-    @apply mb-(--density-6) h-(--density-40) gap-(--density-8) px-(--density-8);
+    @apply mb-(--density-6) h-(--density-40) gap-(--density-8) px-(--density-10);
   }
 
   .cn-kanban-column-title {
@@ -4519,7 +4519,7 @@
   }
 
   .cn-kanban-column-body {
-    @apply h-[28rem] px-(--density-8) data-[fit=fill]:h-auto data-[fit=fill]:flex-1;
+    @apply h-[28rem] px-(--density-10) data-[fit=fill]:h-auto data-[fit=fill]:flex-1;
   }
 
   /* MARK: Kanban card */
@@ -4572,12 +4572,28 @@
     @apply gap-(--density-10);
   }
 
+  /* A card at rest: its rows are the card's own, so the cards take its place
+     without moving anything. The hidden text makes the title row one line of
+     title text. */
   .cn-kanban-card-skeleton {
-    @apply mb-(--density-8) gap-(--density-8) rounded-lg bg-card p-(--density-12);
+    @apply mb-(--density-8) rounded-lg bg-card;
+  }
+
+  .cn-kanban-skeleton-title {
+    @apply text-(length:--density-text-14) leading-snug opacity-0;
   }
 
   .cn-kanban-skeleton-line {
     @apply h-(--density-12) rounded-md;
+  }
+
+  /* Holds the count's place until the total is known. */
+  .cn-kanban-count-skeleton {
+    @apply h-(--density-12) w-(--density-24) rounded-md;
+  }
+
+  .cn-kanban-skeleton-chip {
+    @apply h-(--density-24) rounded-md;
   }
 
   .cn-kanban-add {

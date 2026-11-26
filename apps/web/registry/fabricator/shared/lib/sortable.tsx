@@ -1,7 +1,8 @@
 "use client"
 
-// The one drag-and-drop adapter. Tab Strip and App Nav import this file, never
-// the library, so changing the library touches only this file.
+// The one drag-and-drop adapter. Tab Strip, App Nav, Kanban and the Data
+// Table import this file, never the library, so changing the library touches
+// only this file.
 //
 // It wraps @dnd-kit/react for pointer sorting: neighbours slide aside, the
 // list auto-scrolls, a cancelled drag snaps back. Keyboard reordering is the
@@ -21,6 +22,7 @@ import {
 import {
   Accessibility,
   AutoScroller,
+  defaultPreset,
   PointerActivationConstraints,
   PointerSensor,
 } from "@dnd-kit/dom"
@@ -52,6 +54,25 @@ const sensors = [
       event.target.closest("[data-sortable-ignore]") !== null,
   }),
 ]
+
+// Plugins and modifiers are made once, so the provider's comparison on each
+// render is a reference check: a provider around a virtual list (the Data
+// Table) redraws with every scroll.
+const sortablePlugins = defaultPreset.plugins.filter(
+  (plugin) => plugin !== Accessibility
+)
+const boardPlugins = defaultPreset.plugins.filter(
+  (plugin) => plugin !== Accessibility && plugin !== AutoScroller
+)
+const axisModifiers = {
+  x: [RestrictToHorizontalAxis],
+  y: [RestrictToVerticalAxis],
+  none: [],
+}
+
+function getAxisModifiers(axis: "x" | "y" | undefined) {
+  return axisModifiers[axis ?? "none"]
+}
 
 /**
  * How strongly a row is a drop target, or `null` when it isn't one: its own
@@ -123,16 +144,8 @@ function SortableProvider({
   return (
     <DragDropProvider
       sensors={sensors}
-      plugins={(defaults) =>
-        defaults.filter((plugin) => plugin !== Accessibility)
-      }
-      modifiers={
-        axis === "x"
-          ? [RestrictToHorizontalAxis]
-          : axis === "y"
-            ? [RestrictToVerticalAxis]
-            : []
-      }
+      plugins={sortablePlugins}
+      modifiers={getAxisModifiers(axis)}
       onDragStart={() => onDraggingChange?.(true)}
       onDragEnd={(event) => {
         onDraggingChange?.(false)
@@ -202,10 +215,12 @@ export { getRowCollisionValue, SortableProvider, useSortableItem }
 type BoardPointer = { x: number; y: number }
 
 /**
- * Dragging across a board. Hit-testing and scrolling belong to the board,
- * independent of sortable transforms, so this only reports the pointer.
+ * Dragging across a board, or a table's columns by their heads. Hit-testing
+ * and scrolling belong to the component, independent of sortable transforms,
+ * so this only reports the pointer.
  */
 function BoardDragProvider({
+  axis,
   children,
   renderOverlay,
   onStart,
@@ -213,6 +228,8 @@ function BoardDragProvider({
   onEnd,
   onLand,
 }: {
+  /** Lock the overlay's movement to one axis. */
+  axis?: "x" | "y"
   children: React.ReactNode
   renderOverlay: (id: string) => React.ReactNode
   onStart: (id: string, point: BoardPointer, element: Element | null) => void
@@ -224,11 +241,8 @@ function BoardDragProvider({
   return (
     <DragDropProvider
       sensors={sensors}
-      plugins={(defaults) =>
-        defaults.filter(
-          (plugin) => plugin !== Accessibility && plugin !== AutoScroller
-        )
-      }
+      plugins={boardPlugins}
+      modifiers={getAxisModifiers(axis)}
       onDragStart={({ operation }) => {
         if (operation.source)
           onStart(

@@ -181,7 +181,7 @@
   /* The header spans the cards: its glyph starts on their edge, less the air
      the glyph keeps in its box, and the menu's dots end on the other. */
   .cn-kanban-column-header {
-    @apply h-(--density-40) gap-(--density-8) ps-[calc(var(--density-8)-1px)] pe-(--density-8);
+    @apply h-(--density-40) gap-(--density-8) ps-[calc(var(--density-10)-1px)] pe-(--density-10);
   }
 
   .cn-kanban-column-title {
@@ -190,6 +190,11 @@
 
   .cn-kanban-column-count {
     @apply gap-(--density-4) text-muted-foreground data-[limit=at]:text-foreground data-[limit=over]:text-warning-text [&_svg]:size-(--density-icon-14);
+  }
+
+  /* Holds the count's place, a line of its text tall, until the total is known. */
+  .cn-kanban-count-skeleton {
+    @apply h-(--density-12) w-(--density-24) rounded-md;
   }
 
   .cn-kanban-column-lock {
@@ -227,7 +232,7 @@
   }
 
   .cn-kanban-column-body {
-    @apply max-h-[min(70dvh,46rem)] min-h-24 overscroll-y-contain px-(--density-8) pt-0.5 pb-(--density-8) scroll-fade-5 in-data-[fit=fill]:max-h-none;
+    @apply max-h-[min(70dvh,46rem)] min-h-24 overscroll-y-contain px-(--density-10) pt-0.5 pb-(--density-8) scroll-fade-5 in-data-[fit=fill]:max-h-none;
   }
 
   .cn-kanban-card-list {
@@ -290,16 +295,28 @@
     @apply gap-(--density-10);
   }
 
+  /* A card at rest: its rows are the card's own, so the cards take its place
+     without moving anything. Its title row is one line of title text. */
   .cn-kanban-card-skeleton {
-    @apply gap-(--density-8) p-(--density-12) shadow-none;
+    @apply shadow-none;
+  }
+
+  .cn-kanban-skeleton-title {
+    @apply h-lh text-(length:--density-text-13) leading-snug;
   }
 
   .cn-kanban-skeleton-line {
     @apply h-(--density-12) rounded-md;
   }
 
+  .cn-kanban-skeleton-chip {
+    @apply h-(--density-20) rounded-md;
+  }
+
+  /* Under cards it keeps the list's gap; in an empty column it starts where the
+     first card would. */
   .cn-kanban-loading {
-    @apply gap-(--density-8) pt-(--density-8) first:pt-0;
+    @apply gap-(--density-8) pt-(--density-8) data-empty:pt-0;
   }
 
   /* Adding under the cards: a row the width of the track, its text on the

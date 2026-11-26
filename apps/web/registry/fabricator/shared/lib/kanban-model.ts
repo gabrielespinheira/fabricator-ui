@@ -379,9 +379,52 @@ function getKanbanScrollSpeed(pointer: number, start: number, end: number) {
   return 0
 }
 
+/**
+ * Remembers measured card heights, so a virtual list places a card it hasn't
+ * drawn yet at its likely height and nothing moves once it is measured: its
+ * own last height, or else the height most cards have.
+ */
+function createKanbanSizes(fallback: number) {
+  const sizes = new Map<string, number>()
+  const counts = new Map<number, number>()
+  let common: number | null = null
+
+  function count(size: number, change: number) {
+    const next = (counts.get(size) ?? 0) + change
+    if (next > 0) counts.set(size, next)
+    else counts.delete(size)
+    common = null
+  }
+
+  function getCommon() {
+    if (common !== null) return common
+    let best = 0
+    for (const [size, total] of counts)
+      if (total > best) {
+        best = total
+        common = size
+      }
+    return common ?? fallback
+  }
+
+  return {
+    record(key: string, size: number) {
+      const previous = sizes.get(key)
+      if (previous === size) return
+      if (previous !== undefined) count(previous, -1)
+      sizes.set(key, size)
+      count(size, 1)
+    },
+    estimate(key: string) {
+      return sizes.get(key) ?? getCommon()
+    },
+  }
+}
+
 export {
   applyKanbanMove,
   applyKanbanPageChange,
+  createKanbanSizes,
   getKanbanCardShift,
   getKanbanCover,
   getKanbanDropIndex,

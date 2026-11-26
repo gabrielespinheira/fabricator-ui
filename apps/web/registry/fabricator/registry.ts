@@ -436,6 +436,7 @@ export const fabricatorItems = [
       "select",
       "separator",
       "skeleton",
+      "sortable",
       "switch",
       "toggle-group",
     ],
@@ -1195,7 +1196,7 @@ export const fabricatorItems = [
     type: "registry:lib",
     title: "Sortable",
     description:
-      "The one drag-and-drop adapter: pointer sorting in lists and between groups, used by Tab Strip and App Nav.",
+      "The one drag-and-drop adapter: pointer sorting in lists and between groups, used by Tab Strip, App Nav, Kanban and the Data Table.",
     // Pinned exactly: @dnd-kit/react is pre-1.0 and changes its API between
     // minors. This file is the only one that imports it.
     dependencies: [

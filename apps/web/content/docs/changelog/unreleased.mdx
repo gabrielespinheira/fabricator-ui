@@ -35,6 +35,10 @@ These changes are merged and ship in the next version.
 
 ## Components
 
+**Data Table columns move.** Drag a column by its head to a new place: a copy of the head follows the pointer, the column dims and a line marks where it lands, and the table scrolls when you near its edge. The settings list the columns in the table's order with a grip on each, and a column's options add Move left and Move right, with Alt+Shift+Up and Down in the settings for the keyboard. Pinned columns reorder among themselves. The order is TanStack's `columnOrder`, and Reset columns clears it. [Column order](/docs/components/base/data-table#column-order).
+
+**Data Table polish.** Heads are taller (40px at the default density) and their labels lighter. A cell of tags no longer scrolls on its own: tags that don't fit fade out at the end and the cell names them all on hover, so scrolling sideways over the table always moves the table.
+
 **Faster updates in Advanced components.** File Tree reuses selection and expansion lookups, Syntax Highlight reuses unchanged code lines, Audio Player keeps waveform bars stable during playback and scrubbing, and Editor reuses its word count when the caret moves. These improvements cover web and React Native.
 
 **Drawer and Sheet widths.** Top and bottom panels are centered and capped at 36rem on wider screens. They keep their full width on phones.

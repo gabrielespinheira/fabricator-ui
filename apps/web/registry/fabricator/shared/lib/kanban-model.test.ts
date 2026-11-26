@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 import {
   applyKanbanMove,
   applyKanbanPageChange,
+  createKanbanSizes,
   getKanbanCardShift,
   getKanbanCover,
   getKanbanDropSlot,
@@ -320,5 +321,44 @@ describe("Kanban card fields", () => {
         visibleProperties: ["labels"],
       })
     ).toBeUndefined()
+  })
+})
+
+describe("createKanbanSizes", () => {
+  it("falls back to the given size before anything is measured", () => {
+    const sizes = createKanbanSizes(112)
+
+    expect(sizes.estimate("a")).toBe(112)
+  })
+
+  it("estimates a measured card at its own size", () => {
+    const sizes = createKanbanSizes(112)
+    sizes.record("a", 92)
+    sizes.record("b", 98)
+    sizes.record("c", 98)
+
+    expect(sizes.estimate("a")).toBe(92)
+  })
+
+  it("estimates an unmeasured card at the most common size", () => {
+    const sizes = createKanbanSizes(112)
+    sizes.record("a", 98)
+    sizes.record("b", 92)
+    sizes.record("c", 98)
+
+    expect(sizes.estimate("d")).toBe(98)
+  })
+
+  it("forgets a card's old size when it is measured again", () => {
+    const sizes = createKanbanSizes(112)
+    sizes.record("a", 98)
+    sizes.record("b", 92)
+    sizes.record("c", 92)
+    sizes.record("b", 98)
+    sizes.record("c", 98)
+    sizes.record("a", 92)
+
+    expect(sizes.estimate("d")).toBe(98)
+    expect(sizes.estimate("a")).toBe(92)
   })
 })

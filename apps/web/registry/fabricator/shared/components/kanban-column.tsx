@@ -4,7 +4,11 @@
 // scrolls on its own, draws only the cards in view once there are many, and
 // answers for its own loading, error and empty states.
 import * as React from "react"
-import { defaultRangeExtractor, useVirtualizer } from "@tanstack/react-virtual"
+import {
+  defaultRangeExtractor,
+  measureElement as measureVirtualElement,
+  useVirtualizer,
+} from "@tanstack/react-virtual"
 import { cn } from "cn"
 
 import { KanbanComposer } from "@/registry/bases/__base__/components/kanban-composer"
@@ -16,6 +20,7 @@ import {
 import { PropertyMark } from "@/registry/bases/__base__/components/property-icons"
 import type { KanbanController } from "@/registry/bases/__base__/hooks/use-kanban"
 import {
+  createKanbanSizes,
   getKanbanCardShift,
   getKanbanLimitState,
   renameKanbanColumn,
@@ -108,6 +113,9 @@ function KanbanColumn<Item>({
   const isSource = drag?.columnId === column.id && drag.laneId === laneId
   const isSorted = !!board.view.sort?.length
   const isFiltered = !!(board.view.search?.trim() || board.view.filters)
+  // Until the first page lands, the column can't know how many it holds.
+  const isCounting =
+    !!isLoading && items.length === 0 && page?.total === undefined
   const canAdd =
     !column.isLocked && (onAddCard ? true : board.canCreate) && !isLoading
   function add(end: "start" | "end") {
@@ -156,7 +164,11 @@ function KanbanColumn<Item>({
           onClick={() => setCollapsed(false)}
         >
           <PropertyMark mark={column} />
-          <span className="cn-kanban-column-count tabular-nums">{count}</span>
+          {isCounting ? (
+            <Skeleton className="cn-kanban-count-skeleton" />
+          ) : (
+            <span className="cn-kanban-column-count tabular-nums">{count}</span>
+          )}
           <span id={heading} className="cn-kanban-rail-name truncate">
             {column.name}
           </span>
@@ -179,6 +191,7 @@ function KanbanColumn<Item>({
         board={board}
         column={column}
         count={count}
+        isCounting={isCounting}
         shown={isFiltered ? items.length : null}
         isPartial={
           page !== undefined &&
@@ -230,6 +243,7 @@ function KanbanColumnHeader<Item>({
   board,
   column,
   count,
+  isCounting,
   shown,
   isPartial,
   hint,
@@ -243,6 +257,7 @@ function KanbanColumnHeader<Item>({
   board: KanbanController<Item>
   column: KanbanColumnDefinition
   count: number
+  isCounting: boolean
   /** How many pass the filters, when any are on. */
   shown: number | null
   isPartial: boolean
@@ -426,9 +441,13 @@ function KanbanColumnHeader<Item>({
               remixicon="RiErrorWarningLine"
             />
           )}
-          {shown === null
-            ? `${countFormat.format(count)}${isPartial ? "+" : ""}${column.limit === undefined ? "" : `/${column.limit}`}`
-            : `${countFormat.format(shown)} of ${countFormat.format(count)}`}
+          {isCounting ? (
+            <Skeleton className="cn-kanban-count-skeleton" />
+          ) : shown === null ? (
+            `${countFormat.format(count)}${isPartial ? "+" : ""}${column.limit === undefined ? "" : `/${column.limit}`}`
+          ) : (
+            `${countFormat.format(shown)} of ${countFormat.format(count)}`
+          )}
           <span className="sr-only">
             {column.limit === undefined
               ? " cards"
@@ -693,11 +712,30 @@ function KanbanColumnBody<Item>({
     (index: number) => getId(items[index]),
     [items, getId]
   )
+  // Cards are placed at their measured or most common height before they are
+  // drawn, so a new page or a fast scroll doesn't open gaps that then close.
+  const [sizes] = React.useState(() => createKanbanSizes(ESTIMATED_HEIGHT))
+  React.useLayoutEffect(() => {
+    if (isVirtual || !list.current) return
+    for (const node of list.current.querySelectorAll<HTMLElement>(
+      ":scope > [data-index]"
+    )) {
+      const item = items[Number(node.dataset.index)]
+      if (item !== undefined)
+        sizes.record(getId(item), Math.round(node.offsetHeight))
+    }
+  }, [items, isVirtual, getId, sizes])
   const virtual = useVirtualizer({
     count: items.length,
     enabled: isVirtual,
     getScrollElement: () => viewport.current,
-    estimateSize: () => ESTIMATED_HEIGHT,
+    estimateSize: (index) => sizes.estimate(getId(items[index])),
+    measureElement: (element, entry, instance) => {
+      const size = measureVirtualElement(element, entry, instance)
+      const item = items[instance.indexFromElement(element)]
+      if (item !== undefined) sizes.record(getId(item), size)
+      return size
+    },
     getItemKey,
     overscan: 5,
     gap,
@@ -709,6 +747,30 @@ function KanbanColumnBody<Item>({
         ]),
       ].sort((left, right) => left - right),
   })
+  // While the list scrolls, the virtualizer waits a frame to measure a card it
+  // just drew, so the card shows at its estimate and then the cards below jump.
+  // A card at or below the scroll position is measured before paint instead:
+  // nothing above it moves, so the scroll needs no correction.
+  const measureCard = React.useCallback(
+    (node: HTMLElement | null) => {
+      virtual.measureElement(node)
+      if (!node || !virtual.isScrolling) return
+      const index = virtual.indexFromElement(node)
+      const entry = virtual
+        .getVirtualItems()
+        .find((candidate) => candidate.index === index)
+      if (
+        !entry ||
+        virtual.itemSizeCache.has(entry.key) ||
+        entry.start < (virtual.scrollOffset ?? 0)
+      )
+        return
+      const size = Math.round(node.getBoundingClientRect().height)
+      sizes.record(getId(items[index]), size)
+      virtual.resizeItem(index, size)
+    },
+    [virtual, sizes, getId, items]
+  )
   const isDragging = drag?.phase === "dragging"
   // Cards slide only while one is held. On a drop the list already has the
   // card in place, so the slide ends in the same frame, with nothing to play.
@@ -745,7 +807,7 @@ function KanbanColumnBody<Item>({
             ? undefined
             : { position: "absolute", insetInline: 0, top: position }
         }
-        ref={position === undefined ? undefined : virtual.measureElement}
+        ref={position === undefined ? undefined : measureCard}
       />
     )
   }
@@ -887,14 +949,23 @@ function KanbanCardSkeleton({ isShort = false }: { isShort?: boolean }) {
   return (
     <div
       data-slot="kanban-card-skeleton"
-      className="cn-kanban-card cn-kanban-card-skeleton flex flex-col"
+      className="cn-kanban-card cn-kanban-card-skeleton"
     >
-      <Skeleton className="cn-kanban-skeleton-line w-1/4" />
-      <Skeleton
-        className="cn-kanban-skeleton-line data-[short=true]:w-3/5"
-        data-short={isShort}
-      />
-      <Skeleton className="cn-kanban-skeleton-line w-2/5" />
+      <div className="cn-kanban-card-content flex flex-col">
+        <div className="cn-kanban-card-head flex items-center">
+          <Skeleton className="cn-kanban-skeleton-line w-1/4" />
+        </div>
+        <div className="cn-kanban-skeleton-title flex items-center">
+          <Skeleton
+            className="cn-kanban-skeleton-line w-full data-[short=true]:w-3/5"
+            data-short={isShort}
+          />
+        </div>
+        <div className="cn-kanban-card-properties flex items-center">
+          <Skeleton className="cn-kanban-skeleton-chip w-14" />
+          <Skeleton className="cn-kanban-skeleton-chip w-20" />
+        </div>
+      </div>
     </div>
   )
 }
@@ -919,6 +990,7 @@ function KanbanColumnState<Item>({
       <div
         role="status"
         data-slot="kanban-column-loading"
+        data-empty={isEmpty || undefined}
         className="cn-kanban-loading flex flex-col"
       >
         <span className="sr-only">
