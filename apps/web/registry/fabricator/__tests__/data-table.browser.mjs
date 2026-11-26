@@ -217,6 +217,76 @@ try {
     (element) => element.closest("th").getBoundingClientRect().width
   )
   assert.ok(endWidth > startWidth + 40, `the column widened (${endWidth})`)
+  assert.equal(
+    await page.$('[data-slot="data-table-drag-overlay"]'),
+    null,
+    "a resize never drags the column"
+  )
+
+  // Moving columns: a head dragged past its neighbour lands after it, with
+  // a copy of the head and a line at the gap while it moves.
+  const order = () =>
+    page.$$eval('th[data-slot="data-table-head"][data-movable]', (heads) =>
+      heads.map((head) => head.dataset.columnId)
+    )
+  const before = await order()
+  const headBox = (id) =>
+    page.$(`th[data-column-id="${id}"]`).then((head) => head.boundingBox())
+  const from = await headBox(before[1])
+  const past = await headBox(before[2])
+  await page.mouse.move(from.x + 24, from.y + from.height / 2)
+  await page.mouse.down()
+  await page.mouse.move(from.x + 40, from.y + from.height / 2, { steps: 4 })
+  await page.mouse.move(past.x + past.width - 8, from.y + 40, { steps: 10 })
+  await settle(page)
+  const moving = await page.evaluate(() => ({
+    overlay: Boolean(
+      document.querySelector('[data-slot="data-table-drag-overlay"]')
+    ),
+    marker: !document.querySelector('[data-slot="data-table-drop-marker"]')
+      ?.hidden,
+  }))
+  await page.mouse.up()
+  await settle(page)
+  assert.deepEqual(moving, { overlay: true, marker: true })
+  const moved = await order()
+  assert.equal(moved[2], before[1], "the column landed after its neighbour")
+  assert.equal(moved[1], before[2])
+
+  // A sideways wheel over a cell of tags scrolls the table, not the tags.
+  const tags = await page.$('[data-slot="data-table-tags"]')
+  const tagsBox = await tags.boundingBox()
+  await page.mouse.move(tagsBox.x + 8, tagsBox.y + tagsBox.height / 2)
+  await page.mouse.wheel({ deltaX: 160 })
+  await page.waitForFunction(
+    (viewport) => document.querySelector(viewport).scrollLeft > 100,
+    {},
+    VIEWPORT
+  )
+  await page.$eval(VIEWPORT, (viewport) => (viewport.scrollLeft = 0))
+
+  // The settings list the columns in the table's order; the column's own
+  // options move it back.
+  await page.click('[data-slot="data-table-settings-trigger"]')
+  await page.waitForSelector('[data-slot="data-table-column-item"]')
+  const listed = await page.$$eval(
+    '[data-slot="data-table-column-item"]',
+    (items) => items.length
+  )
+  assert.ok(listed >= moved.length, `every column is listed (${listed})`)
+  await page.keyboard.press("Escape")
+  await page.click(
+    `th[data-column-id="${before[1]}"] [data-slot="data-table-column-trigger"]`
+  )
+  const moveLeft = await page.waitForFunction(() =>
+    [...document.querySelectorAll("button")].find(
+      (button) => button.textContent?.trim() === "Move left"
+    )
+  )
+  await moveLeft.asElement().click()
+  await settle(page)
+  assert.deepEqual(await order(), before, "Move left puts it back")
+  await page.keyboard.press("Escape")
 
   // The table's own scrollbars: the vertical track starts under the header
   // and ends above the footer; dragging its thumb and a wheel over it scroll

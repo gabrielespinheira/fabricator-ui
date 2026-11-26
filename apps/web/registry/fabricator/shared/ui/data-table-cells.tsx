@@ -88,8 +88,6 @@ function DataTableStatus({ option }: { option: DataTableOption }) {
   )
 }
 
-// Every tag stays in the cell: a narrow column scrolls them sideways, with
-// the edges fading out where more are hidden.
 /**
  * The Checkbox's look and marks on a plain button, for the checkboxes a
  * table draws in every row (picking rows, editing a checkbox column). The
@@ -159,12 +157,6 @@ function DataTableCheckbox({
   )
 }
 
-/**
- * Set by a control that draws values inside it (an editable cell, a picker
- * option), so nothing inside takes focus of its own.
- */
-const DataTableInsideControl = React.createContext(false)
-
 function DataTableTags({
   meta,
   values,
@@ -172,18 +164,18 @@ function DataTableTags({
   meta?: DataTableColumnMeta
   values: unknown[]
 }) {
-  const insideControl = React.use(DataTableInsideControl)
   if (values.length === 0) return <DataTableEmptyValue />
-  // Tags scroll sideways; a read-only strip takes focus so keys scroll it,
-  // and an editable cell's button scrolls instead.
+  const options = values.map((value) => getOption(meta, value))
+  // Tags that don't fit are clipped behind a fade, never scrolled: a
+  // scroller inside a cell would catch the wheel and stop the table moving
+  // sideways. The title names them all; an editable cell's picker too.
   return (
     <span
       data-slot="data-table-tags"
-      tabIndex={insideControl ? undefined : 0}
+      title={options.map((option) => option.label).join(", ")}
       className="cn-data-table-tags"
     >
-      {values.map((value) => {
-        const option = getOption(meta, value)
+      {options.map((option) => {
         return (
           <Badge
             key={option.value}
@@ -523,10 +515,4 @@ function DataTableTypeIcon({ type }: { type?: DataTableColumnType }) {
   }
 }
 
-export {
-  DataTableCell,
-  DataTableCheckbox,
-  DataTableInsideControl,
-  DataTableTypeIcon,
-  DataTableValue,
-}
+export { DataTableCell, DataTableCheckbox, DataTableTypeIcon, DataTableValue }

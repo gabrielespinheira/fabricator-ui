@@ -4,6 +4,7 @@ import * as React from "react"
 import {
   columnFacetingFeature,
   columnFilteringFeature,
+  columnOrderingFeature,
   columnPinningFeature,
   columnResizingFeature,
   columnSizingFeature,
@@ -174,6 +175,7 @@ export type DataTableMeta = {
 export const dataTableFeatures = tableFeatures({
   columnFacetingFeature,
   columnFilteringFeature,
+  columnOrderingFeature,
   columnPinningFeature,
   columnResizingFeature,
   columnSizingFeature,

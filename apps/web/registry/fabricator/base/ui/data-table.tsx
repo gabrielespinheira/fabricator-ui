@@ -37,10 +37,13 @@ import {
   formatDataTableValue,
   getAggregateOptions,
   getAggregateValue,
+  getColumnDropSlot,
   getColumnTypeDefaults,
   getDefaultOperator,
+  getEdgeScrollSpeed,
   getEditText,
   getFilterKind,
+  getMovedColumnLayout,
   getOperators,
   getPageRange,
   getPageRowRange,
@@ -57,13 +60,20 @@ import {
   type DataTableFilterKind,
   type DataTableOperator,
 } from "@/registry/bases/base/lib/data-table-model"
+import {
+  BoardDragProvider,
+  SortableProvider,
+  useBoardDragItem,
+  useSortableItem,
+  type BoardPointer,
+  type SortableMove,
+} from "@/registry/bases/base/lib/sortable"
 import { Button } from "@/registry/bases/base/ui/button"
 import { Calendar } from "@/registry/bases/base/ui/calendar"
 import { Checkbox } from "@/registry/bases/base/ui/checkbox"
 import {
   DataTableCell,
   DataTableCheckbox,
-  DataTableInsideControl,
   DataTableTypeIcon,
   DataTableValue,
 } from "@/registry/bases/base/ui/data-table-cells"
@@ -322,6 +332,48 @@ function clearFilters<TData extends RowData>(table: DataTableTable<TData>) {
 
 // Row positions by the rows array they belong to, so numbered rows read
 // their place in the current sort without searching 10,000 rows per cell.
+/** Columns that move: every one but the checkbox and settings columns. */
+function canMoveColumn<TData extends RowData>(column: DataTableColumn<TData>) {
+  return !column.columnDef.meta?.kind
+}
+
+/** The columns a column trades places with: on its pinned side, in order. */
+function getSideColumns<TData extends RowData>(
+  table: DataTableTable<TData>,
+  side: "start" | "end" | false,
+  visibleOnly = true
+) {
+  const columns =
+    side === "start"
+      ? visibleOnly
+        ? table.getStartVisibleLeafColumns()
+        : table.getStartLeafColumns()
+      : side === "end"
+        ? visibleOnly
+          ? table.getEndVisibleLeafColumns()
+          : table.getEndLeafColumns()
+        : visibleOnly
+          ? table.getCenterVisibleLeafColumns()
+          : table.getCenterLeafColumns()
+  return columns.filter(canMoveColumn)
+}
+
+/** Moves column `id` to `targetId`'s place, inside its pinned side. */
+function moveColumn<TData extends RowData>(
+  table: DataTableTable<TData>,
+  id: string,
+  targetId: string
+) {
+  const layout = getMovedColumnLayout({
+    order: table.getAllLeafColumns().map((column) => column.id),
+    pinning: table.state.columnPinning,
+    id,
+    targetId,
+  })
+  if (layout?.columnOrder) table.setColumnOrder(layout.columnOrder)
+  if (layout?.columnPinning) table.setColumnPinning(layout.columnPinning)
+}
+
 const rowPositions = new WeakMap<object, Map<string, number>>()
 
 function getRowPosition<TData extends RowData>(
@@ -497,14 +549,12 @@ function DataTableOptionList<TData extends RowData>({
               onCheckedChange={(checked) => onToggle(option.value, checked)}
             />
             <span className="flex min-w-0 flex-1">
-              <DataTableInsideControl value={true}>
-                <DataTableValue
-                  type={meta?.type}
-                  value={meta?.type === "tags" ? [option.value] : option.value}
-                  meta={meta}
-                  locale={table.options.meta?.locale}
-                />
-              </DataTableInsideControl>
+              <DataTableValue
+                type={meta?.type}
+                value={meta?.type === "tags" ? [option.value] : option.value}
+                meta={meta}
+                locale={table.options.meta?.locale}
+              />
             </span>
             {!manual && (
               <span className="cn-data-table-option-count">
@@ -829,6 +879,7 @@ function DataTableColumnMenu<TData extends RowData>({
         render={<Button variant="ghost" size="icon-xs" />}
         aria-label={`${label} options`}
         data-slot="data-table-column-trigger"
+        data-sortable-ignore=""
         data-filtered={filtered ? "" : undefined}
         className="cn-data-table-column-trigger"
       >
@@ -905,6 +956,9 @@ function DataTableColumnMenu<TData extends RowData>({
         )}
         <Separator />
         <div className="cn-data-table-panel-actions grid grid-cols-2">
+          {canMoveColumn(column) && (
+            <DataTableMoveActions column={column} table={table} />
+          )}
           {column.getCanPin() &&
             (pinned ? (
               <Button
@@ -982,6 +1036,70 @@ function DataTableColumnMenu<TData extends RowData>({
   )
 }
 
+/**
+ * "Move left" and "Move right" in a column's options: the keyboard's way to
+ * reorder columns, one place at a time inside the column's pinned side.
+ */
+function DataTableMoveActions<TData extends RowData>({
+  column,
+  table,
+}: {
+  column: DataTableColumn<TData>
+  table: DataTableTable<TData>
+}) {
+  // Left and right follow the table's direction, read once as the panel opens.
+  // At an edge the action stays focusable (aria-disabled): disabling the
+  // button it was pressed on would drop focus out of the panel.
+  const ref = React.useRef<HTMLButtonElement>(null)
+  const [rtl, setRtl] = React.useState(false)
+  React.useLayoutEffect(() => {
+    if (ref.current) setRtl(getComputedStyle(ref.current).direction === "rtl")
+  }, [])
+  const columns = getSideColumns(table, column.getIsPinned())
+  const place = columns.findIndex((current) => current.id === column.id)
+  const previous = columns[place - 1]
+  const next = columns[place + 1]
+  const left = rtl ? next : previous
+  const right = rtl ? previous : next
+  return (
+    <>
+      <Button
+        ref={ref}
+        variant="ghost"
+        size="sm"
+        aria-disabled={left ? undefined : true}
+        onClick={() => left && moveColumn(table, column.id, left.id)}
+        className="cn-data-table-panel-item"
+      >
+        <IconPlaceholder
+          lucide="ArrowLeftIcon"
+          tabler="IconArrowLeft"
+          hugeicons="ArrowLeft01Icon"
+          phosphor="ArrowLeftIcon"
+          remixicon="RiArrowLeftLine"
+        />
+        Move left
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        aria-disabled={right ? undefined : true}
+        onClick={() => right && moveColumn(table, column.id, right.id)}
+        className="cn-data-table-panel-item"
+      >
+        <IconPlaceholder
+          lucide="ArrowRightIcon"
+          tabler="IconArrowRight"
+          hugeicons="ArrowRight01Icon"
+          phosphor="ArrowRightIcon"
+          remixicon="RiArrowRightLine"
+        />
+        Move right
+      </Button>
+    </>
+  )
+}
+
 /** The table's settings: density, lines, footer, row numbers and columns. */
 function DataTableSettings<TData extends RowData>({
   table,
@@ -990,8 +1108,9 @@ function DataTableSettings<TData extends RowData>({
 }) {
   const { view, setView } = useDataTableContext("DataTableContent")
   const columns = table.getAllLeafColumns()
-  const hideable = columns.filter((column) => column.getCanHide())
-  const shown = hideable.filter((column) => column.getIsVisible()).length
+  const listed = columns.filter(canMoveColumn)
+  const hideable = listed.filter((column) => column.getCanHide())
+  const shown = listed.filter((column) => column.getIsVisible()).length
   const numberable = columns.some(
     (column) => column.columnDef.meta?.kind === "select"
   )
@@ -1074,9 +1193,9 @@ function DataTableSettings<TData extends RowData>({
         <div className="cn-data-table-section flex flex-col">
           <div className="flex items-center">
             <span className="cn-data-table-section-label flex-1">
-              Columns · {shown} of {hideable.length}
+              Columns · {shown} of {listed.length}
             </span>
-            {shown < hideable.length && (
+            {hideable.some((column) => !column.getIsVisible()) && (
               <Button
                 variant="ghost"
                 size="xs"
@@ -1086,44 +1205,7 @@ function DataTableSettings<TData extends RowData>({
               </Button>
             )}
           </div>
-          <div className="cn-data-table-column-list flex flex-col overflow-y-auto">
-            {hideable.map((column) => {
-              const visible = column.getIsVisible()
-              return (
-                <Button
-                  key={column.id}
-                  variant="ghost"
-                  size="sm"
-                  aria-pressed={visible}
-                  data-hidden={visible ? undefined : ""}
-                  onClick={() => column.toggleVisibility(!visible)}
-                  className="cn-data-table-column-item"
-                >
-                  <DataTableTypeIcon type={column.columnDef.meta?.type} />
-                  <span className="flex-1 truncate text-start">
-                    {getColumnLabel(column)}
-                  </span>
-                  {visible ? (
-                    <IconPlaceholder
-                      lucide="EyeIcon"
-                      tabler="IconEye"
-                      hugeicons="EyeIcon"
-                      phosphor="EyeIcon"
-                      remixicon="RiEyeLine"
-                    />
-                  ) : (
-                    <IconPlaceholder
-                      lucide="EyeOffIcon"
-                      tabler="IconEyeClosed"
-                      hugeicons="ViewOffIcon"
-                      phosphor="EyeSlashIcon"
-                      remixicon="RiEyeOffLine"
-                    />
-                  )}
-                </Button>
-              )
-            })}
-          </div>
+          <DataTableColumnList table={table} />
         </div>
         <Separator />
         <div className="cn-data-table-panel-actions grid grid-cols-2">
@@ -1168,6 +1250,7 @@ function DataTableSettings<TData extends RowData>({
               table.resetColumnVisibility()
               table.resetColumnSizing(true)
               table.resetColumnPinning()
+              table.resetColumnOrder()
             }}
             className="cn-data-table-panel-item"
           >
@@ -1183,6 +1266,156 @@ function DataTableSettings<TData extends RowData>({
         </div>
       </PopoverContent>
     </Popover>
+  )
+}
+
+/**
+ * The settings' columns in the table's order, each with a grip to drag it to
+ * a new place and an eye to show or hide it. Columns move inside their pinned
+ * side; ⌥⇧↑ and ⌥⇧↓ move the focused one.
+ */
+function DataTableColumnList<TData extends RowData>({
+  table,
+}: {
+  table: DataTableTable<TData>
+}) {
+  const sides = (["start", false, "end"] as const).map((side) => ({
+    side,
+    columns: getSideColumns(table, side, false),
+  }))
+  const onMove = (move: SortableMove) => {
+    const group = sides.find(
+      ({ side }) => String(side) === move.toGroup
+    )?.columns
+    const target = group?.[move.toIndex]
+    if (target) moveColumn(table, move.id, target.id)
+  }
+  return (
+    <SortableProvider axis="y" onMove={onMove}>
+      <ul
+        aria-label="Columns"
+        className="cn-data-table-column-list flex flex-col overflow-y-auto"
+      >
+        {sides.map(({ side, columns }) =>
+          columns.map((column, index) => (
+            <DataTableColumnItem
+              key={column.id}
+              column={column}
+              group={String(side)}
+              index={index}
+              previous={columns[index - 1]?.id}
+              next={columns[index + 1]?.id}
+              table={table}
+            />
+          ))
+        )}
+      </ul>
+    </SortableProvider>
+  )
+}
+
+function DataTableColumnItem<TData extends RowData>({
+  column,
+  group,
+  index,
+  previous,
+  next,
+  table,
+}: {
+  column: DataTableColumn<TData>
+  group: string
+  index: number
+  /** The columns above and below it on its side, for the keyboard. */
+  previous: string | undefined
+  next: string | undefined
+  table: DataTableTable<TData>
+}) {
+  const { attach, attachHandle, isDragging } = useSortableItem({
+    id: column.id,
+    index,
+    group,
+  })
+  const visible = column.getIsVisible()
+  const canHide = column.getCanHide()
+  const label = getColumnLabel(column)
+  return (
+    <li
+      ref={attach}
+      data-slot="data-table-column-item"
+      data-dragging={isDragging ? "" : undefined}
+      data-pinned={column.getIsPinned() || undefined}
+      className="cn-data-table-column-row flex min-w-0 items-center"
+    >
+      <span
+        ref={attachHandle}
+        aria-hidden="true"
+        data-slot="data-table-column-handle"
+        className="cn-data-table-column-handle inline-flex shrink-0 touch-none"
+      >
+        <IconPlaceholder
+          lucide="GripVerticalIcon"
+          tabler="IconGripVertical"
+          hugeicons="DragDropVerticalIcon"
+          phosphor="DotsSixVerticalIcon"
+          remixicon="RiDraggable"
+        />
+      </span>
+      <Button
+        variant="ghost"
+        size="sm"
+        aria-pressed={visible}
+        aria-label={`Show ${label}`}
+        aria-keyshortcuts="Alt+Shift+ArrowUp Alt+Shift+ArrowDown"
+        aria-disabled={canHide ? undefined : true}
+        data-hidden={visible ? undefined : ""}
+        onClick={() => {
+          if (canHide) column.toggleVisibility(!visible)
+        }}
+        onKeyDown={(event) => {
+          if (!event.altKey || !event.shiftKey) return
+          const target =
+            event.key === "ArrowUp"
+              ? previous
+              : event.key === "ArrowDown"
+                ? next
+                : undefined
+          if (!target) return
+          event.preventDefault()
+          moveColumn(table, column.id, target)
+        }}
+        className="cn-data-table-column-item min-w-0 flex-1"
+      >
+        <DataTableTypeIcon type={column.columnDef.meta?.type} />
+        <span className="flex-1 truncate text-start">{label}</span>
+        {column.getIsPinned() && (
+          <IconPlaceholder
+            lucide="PinIcon"
+            tabler="IconPin"
+            hugeicons="PinIcon"
+            phosphor="PushPinIcon"
+            remixicon="RiPushpinLine"
+            data-slot="data-table-column-pin"
+          />
+        )}
+        {visible ? (
+          <IconPlaceholder
+            lucide="EyeIcon"
+            tabler="IconEye"
+            hugeicons="EyeIcon"
+            phosphor="EyeIcon"
+            remixicon="RiEyeLine"
+          />
+        ) : (
+          <IconPlaceholder
+            lucide="EyeOffIcon"
+            tabler="IconEyeClosed"
+            hugeicons="ViewOffIcon"
+            phosphor="EyeSlashIcon"
+            remixicon="RiEyeOffLine"
+          />
+        )}
+      </Button>
+    </li>
   )
 }
 
@@ -1243,6 +1476,215 @@ function DataTableColumnHeader<TData extends RowData>({
       )}
       <DataTableColumnMenu column={column} table={table} />
     </div>
+  )
+}
+
+/**
+ * A column's head: sticky, sorting from its label, and the handle that
+ * drags the column to a new place (a column of checkboxes or settings
+ * stays where it is).
+ */
+function DataTableHead<TData extends RowData>({
+  header,
+  table,
+}: {
+  header: Header<DataTableFeatures, TData, unknown>
+  table: DataTableTable<TData>
+}) {
+  const column = header.column
+  const movable = canMoveColumn(column)
+  const { ref, isDragging } = useBoardDragItem(column.id, !movable)
+  const sorted = column.getIsSorted()
+  return (
+    <th
+      ref={ref}
+      scope="col"
+      data-slot="data-table-head"
+      data-column-id={column.id}
+      data-movable={movable ? "" : undefined}
+      data-dragging={isDragging ? "" : undefined}
+      data-pinned={column.getIsPinned() || undefined}
+      data-kind={column.columnDef.meta?.kind}
+      aria-sort={
+        column.getCanSort()
+          ? sorted === "asc"
+            ? "ascending"
+            : sorted === "desc"
+              ? "descending"
+              : "none"
+          : undefined
+      }
+      data-pin-column={getPinColumn(column)}
+      className="cn-data-table-head"
+    >
+      <DataTableColumnHeader header={header} table={table} />
+      <DataTableResizeHandle header={header} table={table} />
+    </th>
+  )
+}
+
+const HEAD_SELECTOR = 'th[data-slot="data-table-head"][data-movable]'
+
+/** The column dragged by its head, and its pinned side. */
+type DataTableColumnDragState = {
+  id: string
+  side: "start" | "end" | false
+}
+
+/**
+ * Dragging columns by their heads. The head stays put and a copy of it
+ * follows the pointer along the header; the column dims, and a line shows
+ * the gap it lands in. Unpinned columns scroll into reach near the edges.
+ * Columns move inside their pinned side; the keyboard moves them from the
+ * column's options.
+ */
+function DataTableColumnDrag<TData extends RowData>({
+  table,
+  viewportRef,
+  children,
+}: {
+  table: DataTableTable<TData>
+  viewportRef: React.RefObject<HTMLDivElement | null>
+  children: React.ReactNode
+}) {
+  const [drag, setDrag] = React.useState<DataTableColumnDragState | null>(null)
+  const pointer = React.useRef<BoardPointer | null>(null)
+  const slot = React.useRef<{ targetId: string; edge: number } | null>(null)
+  const dragged = React.useRef<string | null>(null)
+  const markerRef = React.useRef<HTMLDivElement>(null)
+  const shadeRef = React.useRef<HTMLDivElement>(null)
+  const startWidth = table.getStartTotalSize()
+  const endWidth = table.getEndTotalSize()
+
+  // One frame loop while dragging: scroll near the edges, find the gap,
+  // and place the line and the dim straight on the DOM, so nothing redraws.
+  React.useEffect(() => {
+    const viewport = viewportRef.current
+    // The content frame, which the line and the dim are placed in.
+    const root = viewport?.parentElement
+    const marker = markerRef.current
+    const shade = shadeRef.current
+    if (!drag || !viewport || !root || !marker || !shade) return
+    const rtl = getComputedStyle(viewport).direction === "rtl"
+    const side = drag.side || ""
+    let frame = 0
+    let held = 0
+    let placed = ""
+    const step = () => {
+      frame = requestAnimationFrame(step)
+      const point = pointer.current
+      if (!point) return
+      const view = viewport.getBoundingClientRect()
+      // The part of the viewport the dragged column's side shows.
+      const from = side === "end" ? view.right - endWidth : view.left
+      const to = side === "start" ? view.left + startWidth : view.right
+      const lower = side ? from : view.left + (rtl ? endWidth : startWidth)
+      const upper = side ? to : view.right - (rtl ? startWidth : endWidth)
+      if (!side) {
+        const speed = getEdgeScrollSpeed(point.x, lower, upper)
+        // Eases in, so brushing an edge on the way past doesn't throw it.
+        held = speed ? Math.min(1, held + 0.05) : 0
+        if (speed) viewport.scrollLeft += speed * held
+      }
+      const box = root.getBoundingClientRect()
+      const axis = (x: number) => (rtl ? -x : x)
+      const heads = [
+        ...viewport.querySelectorAll<HTMLElement>(HEAD_SELECTOR),
+      ].filter((head) => (head.dataset.pinned ?? "") === side)
+      const rects = heads.map((head) => ({
+        id: head.dataset.columnId ?? "",
+        rect: head.getBoundingClientRect(),
+      }))
+      const next = getColumnDropSlot({
+        boxes: rects.map(({ id, rect }) => ({
+          id,
+          start: axis(rtl ? rect.right : rect.left),
+          end: axis(rtl ? rect.left : rect.right),
+        })),
+        sourceId: drag.id,
+        position: axis(point.x),
+      })
+      slot.current = next
+      const clamp = (x: number) => Math.min(Math.max(x, lower), upper)
+      const edge = next ? clamp(axis(next.edge)) - box.left : null
+      const source = rects.find(({ id }) => id === drag.id)?.rect
+      const left = source ? clamp(source.left) - box.left : 0
+      const width = source ? clamp(source.right) - clamp(source.left) : 0
+      const key = `${edge}:${left}:${width}`
+      if (key === placed) return
+      placed = key
+      marker.hidden = edge === null
+      if (edge !== null) marker.style.transform = `translateX(${edge}px)`
+      shade.style.transform = `translateX(${left}px)`
+      shade.style.width = `${width}px`
+    }
+    frame = requestAnimationFrame(step)
+    toggleData(root, "columnDragging", true)
+    return () => {
+      cancelAnimationFrame(frame)
+      toggleData(root, "columnDragging", false)
+    }
+  }, [drag, viewportRef, startWidth, endWidth])
+
+  return (
+    <BoardDragProvider
+      axis="x"
+      renderOverlay={(id) => {
+        const column = table.getColumn(id)
+        if (!column) return null
+        return (
+          <div
+            data-slot="data-table-drag-overlay"
+            className="cn-data-table-drag-overlay flex size-full items-center"
+          >
+            <span className="cn-data-table-sort-icon grid shrink-0 place-items-center">
+              <DataTableTypeIcon type={column.columnDef.meta?.type} />
+            </span>
+            <span className="truncate">{getColumnLabel(column)}</span>
+          </div>
+        )
+      }}
+      onStart={(id, point) => {
+        const column = table.getColumn(id)
+        if (!column) return
+        pointer.current = point
+        slot.current = null
+        dragged.current = id
+        setDrag({ id, side: column.getIsPinned() })
+      }}
+      onMove={(point) => {
+        pointer.current = point
+      }}
+      onEnd={(point) => {
+        const target = slot.current
+        const id = dragged.current
+        pointer.current = null
+        slot.current = null
+        dragged.current = null
+        setDrag(null)
+        if (point && target && id) moveColumn(table, id, target.targetId)
+      }}
+      onLand={() => Promise.resolve()}
+    >
+      {children}
+      {drag && (
+        <>
+          <div
+            ref={shadeRef}
+            aria-hidden
+            data-slot="data-table-drag-shade"
+            className="cn-data-table-drag-shade pointer-events-none absolute inset-y-0 left-0 z-20"
+          />
+          <div
+            ref={markerRef}
+            aria-hidden
+            hidden
+            data-slot="data-table-drop-marker"
+            className="cn-data-table-drop-marker pointer-events-none absolute inset-y-0 left-0 z-30"
+          />
+        </>
+      )}
+    </BoardDragProvider>
   )
 }
 
@@ -1345,6 +1787,7 @@ function DataTableResizeHandle<TData extends RowData>({
           aria-valuemin={minSize}
           tabIndex={0}
           data-slot="data-table-resize"
+          data-sortable-ignore=""
           data-resizing={column.getIsResizing() ? "" : undefined}
           onMouseDown={handler}
           onTouchStart={handler}
@@ -1700,8 +2143,7 @@ function DataTableEditorPopover({
   open,
   onOpenChange,
   label,
-  value: valueProp,
-  scroll = false,
+  value,
   children,
 }: {
   open: boolean
@@ -1709,14 +2151,9 @@ function DataTableEditorPopover({
   label: string
   /** The cell as it reads, inside the button. */
   value: React.ReactNode
-  /** The button scrolls its value sideways, as tags do. */
-  scroll?: boolean
   children: React.ReactNode
 }) {
   const [mounted, setMounted] = React.useState(false)
-  const value = (
-    <DataTableInsideControl value={true}>{valueProp}</DataTableInsideControl>
-  )
   if (!mounted) {
     return (
       <button
@@ -1724,7 +2161,6 @@ function DataTableEditorPopover({
         aria-haspopup="dialog"
         aria-expanded={false}
         data-slot="data-table-edit-trigger"
-        data-scroll={scroll ? "" : undefined}
         onKeyDown={handleCellKeys}
         onClick={() => {
           setMounted(true)
@@ -1741,7 +2177,6 @@ function DataTableEditorPopover({
       <PopoverTrigger
         render={<button type="button" />}
         data-slot="data-table-edit-trigger"
-        data-scroll={scroll ? "" : undefined}
         onKeyDown={handleCellKeys}
         className="cn-data-table-edit-trigger"
       >
@@ -1790,7 +2225,6 @@ function DataTableOptionEditor<TData extends RowData>({
       }}
       label={label}
       value={<table.FlexRender cell={cell} />}
-      scroll={multiple}
     >
       {options.length > SEARCHABLE_OPTIONS && (
         <Input
@@ -1829,14 +2263,12 @@ function DataTableOptionEditor<TData extends RowData>({
               className="cn-data-table-picker-option flex items-center"
             >
               <span className="flex min-w-0 flex-1">
-                <DataTableInsideControl value={true}>
-                  <DataTableValue
-                    type={meta?.type}
-                    value={multiple ? [option.value] : option.value}
-                    meta={meta}
-                    locale={table.options.meta?.locale}
-                  />
-                </DataTableInsideControl>
+                <DataTableValue
+                  type={meta?.type}
+                  value={multiple ? [option.value] : option.value}
+                  meta={meta}
+                  locale={table.options.meta?.locale}
+                />
               </span>
               {selected && (
                 <IconPlaceholder
@@ -2764,165 +3196,141 @@ function DataTableContent<TData extends RowData>({
       )}
       {...props}
     >
-      <style>{pinRules}</style>
-      <div
-        ref={viewportRef}
-        data-slot="data-table-viewport"
-        data-empty={showEmpty || error ? "" : undefined}
-        className="cn-data-table-viewport relative min-h-0 flex-1 overflow-auto overscroll-none"
-      >
-        <table
-          data-slot="data-table-table"
-          aria-rowcount={rowCount + 1}
-          aria-busy={loading || loadingMore}
-          data-pin-scope={pinScope}
-          style={{ minWidth: table.getTotalSize() }}
-          className="cn-data-table-table w-full table-fixed border-separate border-spacing-0"
+      <DataTableColumnDrag table={table} viewportRef={viewportRef}>
+        <style>{pinRules}</style>
+        <div
+          ref={viewportRef}
+          data-slot="data-table-viewport"
+          data-empty={showEmpty || error ? "" : undefined}
+          className="cn-data-table-viewport relative min-h-0 flex-1 overflow-auto overscroll-none"
         >
-          <colgroup>
-            {columns.map((column, index) => (
-              <React.Fragment key={column.id}>
-                {index === fillerIndex && <col />}
-                <col style={{ width: column.getSize() }} />
-              </React.Fragment>
-            ))}
-            {fillerIndex >= columns.length && <col />}
-          </colgroup>
-          <thead data-slot="data-table-header" className="cn-data-table-header">
-            <DataTableMemo
-              deps={[
-                columns,
-                rows,
-                state.sorting,
-                state.columnFilters,
-                state.globalFilter,
-                state.columnVisibility,
-                state.pagination,
-              ]}
+          <table
+            data-slot="data-table-table"
+            aria-rowcount={rowCount + 1}
+            aria-busy={loading || loadingMore}
+            data-pin-scope={pinScope}
+            style={{ minWidth: table.getTotalSize() }}
+            className="cn-data-table-table w-full table-fixed border-separate border-spacing-0"
+          >
+            <colgroup>
+              {columns.map((column, index) => (
+                <React.Fragment key={column.id}>
+                  {index === fillerIndex && <col />}
+                  <col style={{ width: column.getSize() }} />
+                </React.Fragment>
+              ))}
+              {fillerIndex >= columns.length && <col />}
+            </colgroup>
+            <thead
+              data-slot="data-table-header"
+              className="cn-data-table-header"
             >
-              {() => (
-                <tr aria-rowindex={1}>
-                  {headers.map((header, index) => {
-                    const column = header.column
-                    const sorted = column.getIsSorted()
-                    return (
+              <DataTableMemo
+                deps={[
+                  columns,
+                  rows,
+                  state.sorting,
+                  state.columnFilters,
+                  state.globalFilter,
+                  state.columnVisibility,
+                  state.pagination,
+                ]}
+              >
+                {() => (
+                  <tr aria-rowindex={1}>
+                    {headers.map((header, index) => (
                       <React.Fragment key={header.id}>
                         {index === fillerIndex && (
                           <th aria-hidden className="cn-data-table-filler" />
                         )}
-                        <th
-                          scope="col"
-                          data-slot="data-table-head"
-                          data-pinned={column.getIsPinned() || undefined}
-                          data-kind={column.columnDef.meta?.kind}
-                          aria-sort={
-                            column.getCanSort()
-                              ? sorted === "asc"
-                                ? "ascending"
-                                : sorted === "desc"
-                                  ? "descending"
-                                  : "none"
-                              : undefined
-                          }
-                          data-pin-column={getPinColumn(column)}
-                          className="cn-data-table-head"
-                        >
-                          <DataTableColumnHeader
-                            header={header}
-                            table={table}
-                          />
-                          <DataTableResizeHandle
-                            header={header}
-                            table={table}
-                          />
-                        </th>
-                      </React.Fragment>
-                    )
-                  })}
-                  {fillerIndex >= columns.length && (
-                    <th aria-hidden className="cn-data-table-filler" />
-                  )}
-                </tr>
-              )}
-            </DataTableMemo>
-          </thead>
-          <tbody
-            data-slot="data-table-body"
-            data-refetching={refetching ? "" : undefined}
-            className="cn-data-table-body"
-          >
-            {body}
-          </tbody>
-          {view.footer && (
-            <tfoot
-              data-slot="data-table-footer"
-              className="cn-data-table-footer"
-            >
-              <DataTableMemo deps={[columns, aggregates, aggregateValues]}>
-                {() => (
-                  <tr>
-                    {columns.map((column, index) => (
-                      <React.Fragment key={column.id}>
-                        {index === fillerIndex && filler}
-                        <td
-                          data-slot="data-table-footer-cell"
-                          data-pinned={column.getIsPinned() || undefined}
-                          data-kind={column.columnDef.meta?.kind}
-                          data-align={getColumnAlign(column)}
-                          data-pin-column={getPinColumn(column)}
-                          className="cn-data-table-footer-cell"
-                        >
-                          <DataTableAggregateCell
-                            column={column}
-                            aggregate={aggregates[column.id]}
-                            value={aggregateValues[column.id]}
-                            onAggregateChange={(aggregate) =>
-                              setAggregates((current) => ({
-                                ...current,
-                                [column.id]: aggregate,
-                              }))
-                            }
-                          />
-                        </td>
+                        <DataTableHead header={header} table={table} />
                       </React.Fragment>
                     ))}
-                    {fillerIndex >= columns.length && filler}
+                    {fillerIndex >= columns.length && (
+                      <th aria-hidden className="cn-data-table-filler" />
+                    )}
                   </tr>
                 )}
               </DataTableMemo>
-            </tfoot>
-          )}
-        </table>
-      </div>
-      <DataTableScrollLayer
-        viewportRef={viewportRef}
-        startWidth={table.getStartTotalSize()}
-        endWidth={table.getEndTotalSize()}
-      />
-      {refetching && (
-        <div
-          aria-hidden
-          data-slot="data-table-loading-bar"
-          className="cn-data-table-loading-bar pointer-events-none absolute inset-x-0 z-30"
-        />
-      )}
-      {resizeGuide.guide !== null && (
-        <div
-          aria-hidden
-          data-slot="data-table-resize-guide"
-          style={{ left: resizeGuide.guide }}
-          className="cn-data-table-resize-guide pointer-events-none absolute inset-y-0 z-30"
-        />
-      )}
-      {(showEmpty || error) && (
-        <div
-          data-slot="data-table-empty"
-          className="cn-data-table-empty absolute inset-x-0 bottom-0 z-10 flex items-center justify-center"
-        >
-          {error ?? empty ?? <DataTableEmptyState table={table} />}
+            </thead>
+            <tbody
+              data-slot="data-table-body"
+              data-refetching={refetching ? "" : undefined}
+              className="cn-data-table-body"
+            >
+              {body}
+            </tbody>
+            {view.footer && (
+              <tfoot
+                data-slot="data-table-footer"
+                className="cn-data-table-footer"
+              >
+                <DataTableMemo deps={[columns, aggregates, aggregateValues]}>
+                  {() => (
+                    <tr>
+                      {columns.map((column, index) => (
+                        <React.Fragment key={column.id}>
+                          {index === fillerIndex && filler}
+                          <td
+                            data-slot="data-table-footer-cell"
+                            data-pinned={column.getIsPinned() || undefined}
+                            data-kind={column.columnDef.meta?.kind}
+                            data-align={getColumnAlign(column)}
+                            data-pin-column={getPinColumn(column)}
+                            className="cn-data-table-footer-cell"
+                          >
+                            <DataTableAggregateCell
+                              column={column}
+                              aggregate={aggregates[column.id]}
+                              value={aggregateValues[column.id]}
+                              onAggregateChange={(aggregate) =>
+                                setAggregates((current) => ({
+                                  ...current,
+                                  [column.id]: aggregate,
+                                }))
+                              }
+                            />
+                          </td>
+                        </React.Fragment>
+                      ))}
+                      {fillerIndex >= columns.length && filler}
+                    </tr>
+                  )}
+                </DataTableMemo>
+              </tfoot>
+            )}
+          </table>
         </div>
-      )}
-      {children}
+        <DataTableScrollLayer
+          viewportRef={viewportRef}
+          startWidth={table.getStartTotalSize()}
+          endWidth={table.getEndTotalSize()}
+        />
+        {refetching && (
+          <div
+            aria-hidden
+            data-slot="data-table-loading-bar"
+            className="cn-data-table-loading-bar pointer-events-none absolute inset-x-0 z-30"
+          />
+        )}
+        {resizeGuide.guide !== null && (
+          <div
+            aria-hidden
+            data-slot="data-table-resize-guide"
+            style={{ left: resizeGuide.guide }}
+            className="cn-data-table-resize-guide pointer-events-none absolute inset-y-0 z-30"
+          />
+        )}
+        {(showEmpty || error) && (
+          <div
+            data-slot="data-table-empty"
+            className="cn-data-table-empty absolute inset-x-0 bottom-0 z-10 flex items-center justify-center"
+          >
+            {error ?? empty ?? <DataTableEmptyState table={table} />}
+          </div>
+        )}
+        {children}
+      </DataTableColumnDrag>
     </div>
   )
 }

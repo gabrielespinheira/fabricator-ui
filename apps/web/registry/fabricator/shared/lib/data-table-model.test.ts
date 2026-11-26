@@ -7,11 +7,14 @@ import {
   formatDataTableValue,
   getAggregateOptions,
   getAggregateValue,
+  getColumnDropSlot,
   getColumnTypeDefaults,
   getDatePresetRange,
   getDefaultOperator,
+  getEdgeScrollSpeed,
   getEditText,
   getFilterKind,
+  getMovedColumnLayout,
   getOperators,
   getPageRange,
   getPageRowRange,
@@ -22,6 +25,7 @@ import {
   isFilterActive,
   matchesFilter,
   matchesSearch,
+  moveColumnId,
   needsFilterValue,
   parseEditText,
   queryRows,
@@ -689,5 +693,122 @@ describe("windowed rows", () => {
 
   it("drops requests the scroll has left behind, keeping a window either side", () => {
     expect(getWindowsToCancel(new Set([0, 3, 5, 9]), 4, 5)).toEqual([0, 9])
+  })
+})
+
+describe("moveColumnId", () => {
+  it("lands after the target when moving forward", () => {
+    expect(moveColumnId(["a", "b", "c", "d"], "a", "c")).toEqual([
+      "b",
+      "c",
+      "a",
+      "d",
+    ])
+  })
+
+  it("lands before the target when moving back", () => {
+    expect(moveColumnId(["a", "b", "c", "d"], "d", "b")).toEqual([
+      "a",
+      "d",
+      "b",
+      "c",
+    ])
+  })
+
+  it("keeps the order when either id is missing or they are the same", () => {
+    const ids = ["a", "b"]
+    expect(moveColumnId(ids, "a", "a")).toBe(ids)
+    expect(moveColumnId(ids, "x", "a")).toBe(ids)
+    expect(moveColumnId(ids, "a", "x")).toBe(ids)
+  })
+})
+
+describe("getMovedColumnLayout", () => {
+  const layout = {
+    order: ["select", "name", "stage", "owner", "pipeline", "actions"],
+    pinning: { start: ["select", "name"], end: ["actions"] },
+  }
+
+  it("reorders the unpinned columns through the column order", () => {
+    expect(
+      getMovedColumnLayout({ ...layout, id: "pipeline", targetId: "stage" })
+    ).toEqual({
+      columnOrder: ["select", "name", "pipeline", "stage", "owner", "actions"],
+    })
+  })
+
+  it("reorders pinned columns inside their side", () => {
+    expect(
+      getMovedColumnLayout({ ...layout, id: "name", targetId: "select" })
+    ).toEqual({
+      columnPinning: { start: ["name", "select"], end: ["actions"] },
+    })
+  })
+
+  it("never moves a column across a pinned edge", () => {
+    expect(
+      getMovedColumnLayout({ ...layout, id: "stage", targetId: "name" })
+    ).toBeNull()
+    expect(
+      getMovedColumnLayout({ ...layout, id: "name", targetId: "actions" })
+    ).toBeNull()
+  })
+})
+
+describe("getColumnDropSlot", () => {
+  // Four columns, 100 wide, from 0 to 400; dragging the second.
+  const boxes = [
+    { id: "a", start: 0, end: 100 },
+    { id: "b", start: 100, end: 200 },
+    { id: "c", start: 200, end: 300 },
+    { id: "d", start: 300, end: 400 },
+  ]
+
+  it("takes the gap nearest the pointer", () => {
+    expect(getColumnDropSlot({ boxes, sourceId: "b", position: 290 })).toEqual({
+      targetId: "c",
+      edge: 300,
+    })
+    expect(getColumnDropSlot({ boxes, sourceId: "b", position: 20 })).toEqual({
+      targetId: "a",
+      edge: 0,
+    })
+  })
+
+  it("reaches either end past the columns", () => {
+    expect(getColumnDropSlot({ boxes, sourceId: "b", position: 900 })).toEqual({
+      targetId: "d",
+      edge: 400,
+    })
+    expect(getColumnDropSlot({ boxes, sourceId: "b", position: -50 })).toEqual({
+      targetId: "a",
+      edge: 0,
+    })
+  })
+
+  it("has no slot on either side of the column itself", () => {
+    expect(
+      getColumnDropSlot({ boxes, sourceId: "b", position: 110 })
+    ).toBeNull()
+    expect(
+      getColumnDropSlot({ boxes, sourceId: "b", position: 190 })
+    ).toBeNull()
+  })
+
+  it("has no slot without the source", () => {
+    expect(
+      getColumnDropSlot({ boxes, sourceId: "x", position: 290 })
+    ).toBeNull()
+  })
+})
+
+describe("getEdgeScrollSpeed", () => {
+  it("scrolls faster the deeper the pointer is in an edge", () => {
+    expect(getEdgeScrollSpeed(500, 0, 1000)).toBe(0)
+    expect(getEdgeScrollSpeed(0, 0, 1000)).toBeLessThan(0)
+    expect(getEdgeScrollSpeed(1000, 0, 1000)).toBeGreaterThan(0)
+    expect(Math.abs(getEdgeScrollSpeed(-40, 0, 1000))).toBeGreaterThan(
+      Math.abs(getEdgeScrollSpeed(20, 0, 1000))
+    )
   })
 })

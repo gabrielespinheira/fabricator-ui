@@ -914,6 +914,126 @@ export function getRangeSelection(
   return ids.slice(Math.min(from, to), Math.max(from, to) + 1)
 }
 
+// MARK: Column order
+
+/**
+ * `ids` with `id` moved to where `targetId` is: after it when moving
+ * forward, before it when moving back. The same array when nothing moves.
+ */
+export function moveColumnId(
+  ids: readonly string[],
+  id: string,
+  targetId: string
+): readonly string[] {
+  const from = ids.indexOf(id)
+  const to = ids.indexOf(targetId)
+  if (from === -1 || to === -1 || from === to) return ids
+  const next = ids.filter((current) => current !== id)
+  next.splice(to, 0, id)
+  return next
+}
+
+export type DataTableColumnPinning = {
+  start?: string[]
+  end?: string[]
+}
+
+/**
+ * The state that moves column `id` to `targetId`'s place. Pinned columns
+ * reorder inside their side through the pinning; the others through the
+ * column order, which lists every column in its place. A move across a
+ * pinned edge is a pin, not a move: null.
+ */
+export function getMovedColumnLayout({
+  order,
+  pinning,
+  id,
+  targetId,
+}: {
+  order: readonly string[]
+  pinning: DataTableColumnPinning
+  id: string
+  targetId: string
+}):
+  | { columnOrder: string[]; columnPinning?: never }
+  | { columnPinning: Required<DataTableColumnPinning>; columnOrder?: never }
+  | null {
+  const start = pinning.start ?? []
+  const end = pinning.end ?? []
+  const sideOf = (column: string) =>
+    start.includes(column) ? "start" : end.includes(column) ? "end" : "center"
+  const side = sideOf(id)
+  if (side !== sideOf(targetId)) return null
+  if (side === "center") {
+    return { columnOrder: [...moveColumnId(order, id, targetId)] }
+  }
+  const moved = [...moveColumnId(side === "start" ? start : end, id, targetId)]
+  return {
+    columnPinning:
+      side === "start"
+        ? { start: moved, end: [...end] }
+        : { start: [...start], end: moved },
+  }
+}
+
+/** A column's extent on the inline axis: left to right, or right to left. */
+export type DataTableColumnBox = { id: string; start: number; end: number }
+
+/**
+ * Where a column dragged by its head lands: the gap between columns
+ * nearest the pointer, as the column it moves to (`targetId`) and the gap's
+ * position (`edge`). Null in the gaps on either side of the column itself,
+ * where nothing would move. Boxes are in order, on one inline axis.
+ */
+export function getColumnDropSlot({
+  boxes,
+  sourceId,
+  position,
+}: {
+  boxes: readonly DataTableColumnBox[]
+  sourceId: string
+  position: number
+}): { targetId: string; edge: number } | null {
+  const source = boxes.findIndex((box) => box.id === sourceId)
+  const last = boxes.at(-1)
+  if (source === -1 || !last) return null
+  // Gap g opens before column g; the last gap after the last column.
+  const gaps = [...boxes.map((box) => box.start), last.end]
+  let gap = 0
+  for (let index = 1; index < gaps.length; index++) {
+    if (Math.abs(gaps[index] - position) < Math.abs(gaps[gap] - position)) {
+      gap = index
+    }
+  }
+  if (gap === source || gap === source + 1) return null
+  const target = gap > source ? boxes[gap - 1] : boxes[gap]
+  return { targetId: target.id, edge: gaps[gap] }
+}
+
+/** How close to an edge, in pixels, a drag starts scrolling. */
+const EDGE_SCROLL_ZONE = 48
+/** Pixels a frame at the very edge and beyond. */
+const EDGE_SCROLL_MAX = 18
+
+/**
+ * Pixels a frame to scroll while a drag holds the pointer near the start
+ * (negative) or end (positive) of a scrolling area: faster the deeper in.
+ */
+export function getEdgeScrollSpeed(
+  pointer: number,
+  start: number,
+  end: number
+) {
+  const depth =
+    pointer < start + EDGE_SCROLL_ZONE
+      ? -(start + EDGE_SCROLL_ZONE - pointer)
+      : pointer > end - EDGE_SCROLL_ZONE
+        ? pointer - (end - EDGE_SCROLL_ZONE)
+        : 0
+  const share = Math.min(Math.abs(depth) / EDGE_SCROLL_ZONE, 1.5)
+  return Math.sign(depth) * Math.round(share * share * EDGE_SCROLL_MAX)
+}
+
 // MARK: Editing
 
 /** The text an editor starts from: percentages as whole percents. */
