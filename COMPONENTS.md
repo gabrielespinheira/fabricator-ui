@@ -275,7 +275,7 @@ By role, never milliseconds. Every animation belongs to a role whose tokens the 
 | disclosure                           | Collapsible panels                                          | `motion-disclosure`                |
 | bounce                               | Layout that should feel physical (accordion items)          | `motion-bounce`, `ease-bounce`     |
 | settle                               | Layout that follows the pointer without a wobble            | `duration-settle ease-settle`      |
-| reveal                               | Charts drawing in, once                                     | read from `--motion-reveal`        |
+| reveal                               | Charts and Text Motion playing in, once                     | read from `--motion-reveal`        |
 
 - Speeds `smooth`, `default`, `snappy`, `instant` via `data-motion` on any element; `off` stops motion; `--motion-scale` multiplies every duration. A JavaScript tween reads the tokens from its element so a scoped speed retimes it.
 - Ease-out for what enters or leaves, ease-in-out for what moves, plain `ease` for colour. Exits are about 30% quicker (`duration-<role>-exit`). Popups grow from their trigger (`origin-(--transform-origin)`), dialogs from the centre, nothing from below 0.9.

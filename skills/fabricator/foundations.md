@@ -118,6 +118,24 @@ It ships with the components: hover fades, presses, one highlight that glides be
 
 App content appears in place. Something you animate uses a role: `duration-feedback ease-feedback` for colour, `duration-move ease-move` for things that travel, `motion-popup`, `motion-disclosure`. Reduced motion is handled.
 
+### Text that plays in
+
+`TextMotion` plays words in once, on the reveal role: the region's speed retimes it, `instant` and `off` show the text at once, reduced motion keeps only the fade, and screen readers hear the text whole. It is a website's **moment**: one per view, where the words are the point.
+
+| Moment | Write |
+| --- | --- |
+| Hero headline and lead | `TextMotionGroup trigger="mount"` around `<h1><TextMotion by="word">` and `<p><TextMotion effect={["fade", "rise"]}>`; they play in order |
+| A section heading arriving on scroll | `<h2><TextMotion effect={["fade", "mask"]}>`; plays once in view |
+| One headline word that cycles (who it's for, where it runs) | `<TextMotionRotate texts={[…]} />` beside a `TextMotion` in the headline: two to four texts close in length (the box holds the widest). In a group it plays in its turn, then cycles |
+| A command being entered | `effect="type"` in `font-mono` |
+| An ID, hash or code that resolves | `effect="scramble"` in `font-mono` or `tabular-nums` |
+
+- **Pieces:** `by="character"` for a headline of a few words, `word` (the default) for a sentence, `line` for short lines split with `\n`. Longer text plays by word or line.
+- **Effects** are layers in a list. The default `fade`, `blur`, `rise` suits most moments; `mask` reads editorial; `fade` alone suits a lead. Keep `flip`, `scale` and `loop="wave"` for one playful moment per site.
+- **Placement:** `TextMotion` goes inside the heading or paragraph, which keeps its type role, colour and semantics. A new `key` replays it.
+- **App content stays in place:** page titles, labels, buttons, table text, metrics and anything read twice. A status that only waits is the `shimmer` utility ([rules/loading.md](rules/loading.md)).
+- **Web only for now.** React Native shows the text at rest ([platforms.md](platforms.md)).
+
 ## Craft
 
 Small decisions that separate finished from generated:

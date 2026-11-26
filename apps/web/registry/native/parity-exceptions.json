@@ -1391,5 +1391,12 @@
     "name": "cn-record-view-menu",
     "reason": "The mode menu is a sheet, which takes the screen's width.",
     "date": "2026-11-25"
+  },
+  {
+    "item": "text-motion",
+    "kind": "component",
+    "name": "text-motion",
+    "reason": "New web component on CSS keyframes. Nested Text on React Native cannot be moved, scaled or blurred piece by piece, so the port draws each piece as its own Reanimated view in a wrapping row, on the same text-motion-model; it follows in its own change.",
+    "date": "2026-11-26"
   }
 ]

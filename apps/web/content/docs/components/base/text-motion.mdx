@@ -1,0 +1,220 @@
+---
+title: Text Motion
+description: Text that plays in by character, word or line, with effects you combine, loops, sequences and rotating words, timed by the motion roles.
+base: base
+component: true
+---
+
+<ComponentPreview styleName="base-nova" name="text-motion-demo" />
+
+Text Motion splits a string into pieces and plays each one in after the last. Effects are layers: `fade`, `blur`, `rise`, `mask` and the rest each change one thing, so any set of them combines. A group plays several texts in order, and Rotate cycles a word in place.
+
+Every time comes from the reveal motion role, so the project's speed and a `data-motion` region retime it, `off` and `instant` show the text at once, and Reduce Motion keeps only the fades.
+
+Text Motion is part of the Fabricator style. It's built on HTML and CSS keyframes, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add text-motion
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/text-motion-model.ts"
+  title="lib/text-motion-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/text-motion.tsx"
+  title="components/ui/text-motion.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  TextMotion,
+  TextMotionGroup,
+  TextMotionRotate,
+} from "@/components/ui/text-motion"
+```
+
+Put it inside the element that holds the text. It renders a `span`, so it takes the heading's size, weight and colour, and the heading stays the page's real heading.
+
+```tsx
+<h1>
+  <TextMotion effect={["fade", "blur", "rise"]}>
+    Ship the interface, not the boilerplate
+  </TextMotion>
+</h1>
+```
+
+## Composition
+
+```text
+TextMotionGroup                 data-slot="text-motion-group" data-state="idle | playing"
+└── TextMotion                  data-slot="text-motion"
+    ├── span.sr-only            the text, for screen readers
+    └── span                    data-slot="text-motion-pieces" data-state="idle | playing | done | exit"
+        ├── span (characters)   data-slot="text-motion-word"
+        └── span (per piece)    data-slot="text-motion-piece" data-step
+
+TextMotionRotate                data-slot="text-motion-rotate"
+└── span                        data-slot="text-motion-rotate-items"
+    ├── span (per text)         data-slot="text-motion-rotate-size", keeps the widest width
+    └── TextMotion              the leaving and the entering text
+```
+
+## Examples
+
+### Effects
+
+Each effect on its own. `scramble` swaps glyphs until each piece settles, and reads best in a monospaced or tabular face, where the width holds. `type` shows one piece at a time behind a caret and plays alone.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="text-motion-effects"
+  previewClassName="h-auto"
+/>
+
+### Combining effects
+
+Pass a list and the layers play together. Each one changes its own property: `fade` the opacity, `blur` the filter, `scale` the size, `flip` the turn, and `rise`, `fall` and `slide` the position, so `rise` with `slide` comes in on a diagonal.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="text-motion-combine"
+  previewClassName="h-auto"
+/>
+
+### Pieces
+
+`by` sets what plays as one piece: `character` for a short headline, `word` (the default) for a sentence, `line` for a few lines split at `\n`, `text` for the whole string at once. Words never break between characters.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="text-motion-units"
+  previewClassName="h-auto"
+/>
+
+### Order
+
+`from` sets where the stagger starts: `start`, `end`, `center`, `edges` or `random`. Random order is seeded by the text, so the server and the browser agree.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="text-motion-order"
+  previewClassName="h-auto"
+/>
+
+### Sequence
+
+`TextMotionGroup` plays the Text Motions inside it in the order they appear, each starting as the one before it lands, on one trigger. A heading and its paragraph read as one gesture.
+
+<ComponentPreview styleName="base-nova" name="text-motion-sequence" />
+
+### Rotate
+
+`TextMotionRotate` cycles `texts` in place: the leaving text plays the effects out while the next plays in. It keeps the width of the widest text, so the sentence never jumps, and holds still while the pointer is on it. `interval` is how long each text stays, 2500ms by default.
+
+<ComponentPreview styleName="base-nova" name="text-motion-rotate" />
+
+### Typing
+
+<ComponentPreview styleName="base-nova" name="text-motion-type" />
+
+### Scramble
+
+<ComponentPreview styleName="base-nova" name="text-motion-scramble" />
+
+### Loops
+
+`loop` keeps the text moving once it has landed. `shimmer` passes a band of the foreground colour through the pieces, made for a status on muted text, such as an assistant reading files; put it in an element with `role="status"`. `wave` lifts the pieces in turn. Loops stop under Reduce Motion.
+
+<ComponentPreview styleName="base-nova" name="text-motion-loops" />
+
+## Motion
+
+Each piece plays on the reveal role (700ms at the default speed, 1000ms smooth, 480ms snappy) with the entrance curve, and Rotate's leaving text on the reveal exit timing with the exit curve. The stagger is a share of the same duration: 5% between characters, 12% between words and 30% between lines, so a speed retimes the whole sequence. `instant` and `off` show the text at once, and `--motion-scale` stretches it.
+
+Reduce Motion keeps `fade` and `type` and drops every move, blur, mask, scramble and loop. Without JavaScript the text shows as it is.
+
+Distances are in em, so a headline travels further than a caption. To tune the look, set the variables on the component or any element around it:
+
+| Variable                    | Default             | What                                 |
+| --------------------------- | ------------------- | ------------------------------------ |
+| `--text-motion-distance`    | `0.35em`            | How far `rise`, `fall`, `slide` move |
+| `--text-motion-blur`        | `0.12em`            | The blur `blur` starts from          |
+| `--text-motion-scale`       | `0.8`               | The size `scale` starts from         |
+| `--text-motion-perspective` | `10em`              | The depth `flip` turns in            |
+| `--text-motion-highlight`   | `var(--foreground)` | The light of `shimmer`               |
+| `--text-motion-caret`       | `var(--foreground)` | The caret of `type`                  |
+
+## API Reference
+
+### TextMotion
+
+| Prop         | Type                                                                                                                        | Default                             |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `children`   | `string`                                                                                                                    | (required)                          |
+| `effect`     | `"fade" \| "blur" \| "rise" \| "fall" \| "slide" \| "scale" \| "flip" \| "mask" \| "scramble"`, a list of them, or `"type"` | `["fade", "blur", "rise"]`          |
+| `loop`       | `"shimmer" \| "wave"` or both                                                                                               | (none)                              |
+| `by`         | `"character" \| "word" \| "line" \| "text"`                                                                                 | `"word"`, `"character"` with `type` |
+| `from`       | `"start" \| "end" \| "center" \| "edges" \| "random"`                                                                       | `"start"`                           |
+| `trigger`    | `"view" \| "mount"`                                                                                                         | `"view"`                            |
+| `onComplete` | `() => void`                                                                                                                | (none)                              |
+
+The root is a `span` and takes its props and `ref`. `view` plays once the text is well inside the screen; `mount` plays as soon as the page shows it, from CSS, before the page's script loads. To play it again, give it a new `key`. Inside a `TextMotionGroup`, the group's trigger applies.
+
+### TextMotionGroup
+
+| Prop      | Type                | Default  |
+| --------- | ------------------- | -------- |
+| `trigger` | `"view" \| "mount"` | `"view"` |
+
+The root is a `div` and takes its props and `ref`.
+
+### TextMotionRotate
+
+| Prop       | Type                | Default                    |
+| ---------- | ------------------- | -------------------------- |
+| `texts`    | `string[]`          | (required)                 |
+| `interval` | `number` (ms)       | `2500`                     |
+| `effect`   | As `TextMotion`     | `["fade", "blur", "rise"]` |
+| `by`       | As `TextMotion`     | `"character"`              |
+| `from`     | As `TextMotion`     | `"start"`                  |
+| `trigger`  | `"view" \| "mount"` | `"view"`                   |
+
+The root is a `span` and takes its props.
+
+## Accessibility
+
+Screen readers read the text once, whole, from a visually hidden copy; the moving pieces are hidden from them. Rotate reads its texts once as a list, such as "Made for designers, engineers, founders", so nobody hears a word change mid-sentence, and it holds still under the pointer for anyone reading slowly.
+
+Keep motion for moments that earn it: a hero, a section title, a status. Product screens show their content in place ([Motion](/docs/foundations/motion)).

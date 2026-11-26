@@ -42,7 +42,6 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   spinner: "Basics",
   skeleton: "Basics",
   typography: "Basics",
-  "text-motion": "Basics",
   "aspect-ratio": "Basics",
   "scroll-area": "Basics",
   properties: "Forms",
@@ -141,6 +140,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   "image-compare": "Advanced",
   "video-player": "Advanced",
   "audio-player": "Advanced",
+  "text-motion": "Advanced",
 }
 
 export class UngroupedComponentError extends Error {

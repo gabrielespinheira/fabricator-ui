@@ -379,6 +379,32 @@
         "Adds no class or style to imitate the lost card",
         "Verifies at 1440 and 390 with the sidebar open and collapsed"
       ]
+    },
+    {
+      "id": 28,
+      "prompt": "I'm building the marketing site for our product with Fabricator UI (base-nova style, Next.js). Make the landing page hero feel alive: the headline should animate in, and I want the word after \"Made for\" to cycle through designers, engineers and product teams. Add a section heading further down that animates when it scrolls into view.",
+      "expected_output": "A hero whose h1 and lead sit in one TextMotionGroup, a TextMotionRotate inside the headline, and a section h2 wrapping TextMotion that plays in view. No hand-written keyframes or split spans.",
+      "files": [],
+      "expectations": [
+        "Wraps the headline and lead in one TextMotionGroup so they play in order",
+        "Places TextMotion inside the h1 and p elements, keeping the heading as the real heading",
+        "Uses TextMotionRotate with two to four texts for the cycling word",
+        "Uses TextMotion on the section h2 with its default view trigger",
+        "Chooses effects from the layer list (fade, blur, rise, mask…) rather than writing @keyframes, animation-delay or per-character spans",
+        "Writes no millisecond durations; timing comes from the motion roles",
+        "Keeps body copy, buttons and the product screenshot appearing in place"
+      ]
+    },
+    {
+      "id": 29,
+      "prompt": "Build the overview page of our B2B analytics app with Fabricator UI (base-nova style): page title, a KPI row of four stats and a revenue chart. Make it feel polished and lively.",
+      "expected_output": "An App Shell page whose title, KPI values and labels appear in place; liveliness comes from the components' own motion (chart draw-in, hover), with no TextMotion on app content.",
+      "files": [],
+      "expectations": [
+        "Leaves the page title, KPI labels and values without TextMotion or custom text animation",
+        "Relies on the chart's own draw-in and the components' built-in motion for liveliness",
+        "Writes no custom keyframes or millisecond durations"
+      ]
     }
   ]
 }

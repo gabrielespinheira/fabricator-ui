@@ -146,7 +146,7 @@ One headline number is type (`Metric` role) with a delta `Badge`, not a chart.
 | `video-player` | Video with captions and chapters; compact in cards |
 | `aspect-ratio` | Holding the space of media before it loads |
 | `typography` | Long-form HTML outside Markdown |
-| `text-motion` | A hero, section title or status that should play in: effects are layers (`fade`, `blur`, `rise`, `mask`, `scramble`, `type`…); `TextMotionGroup` sequences lines, `TextMotionRotate` cycles a word, `loop="shimmer"` for a working status. Websites and moments, never app content |
+| `text-motion` | A website's moment: a hero headline and lead (`TextMotionGroup`), a section heading arriving, one headline word that cycles (`TextMotionRotate`), a command typed, an ID resolving. Effects are layers; see [foundations.md](foundations.md#text-that-plays-in). Web only |
 
 ## Feedback and waiting
 

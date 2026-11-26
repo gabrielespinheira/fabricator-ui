@@ -74,6 +74,15 @@ Roles, never milliseconds, so one speed setting retimes everything:
 
 `duration-feedback ease-feedback` (colour), `duration-move ease-move` (travel), `motion-tooltip`, `motion-popup`, `motion-dialog`, `motion-sheet`, `motion-disclosure`, `motion-toast`, `motion-press`. The speed is `data-motion` on `<html>`.
 
+Text that animates is `TextMotion` around the string, inside its element, with effects as layers; it already splits, staggers, times and labels the text ([foundations.md](../foundations.md#text-that-plays-in)).
+
+```tsx
+// Wrong: hand-split spans with their own delays
+{words.map((word, i) => <span style={{ animationDelay: `${i * 80}ms` }}>{word} </span>)}
+// Right
+<h2><TextMotion effect={["fade", "mask"]}>Every release, on time</TextMotion></h2>
+```
+
 ## Hover and cursors
 
 Components bring their hover and cursor. Prefer a `Button`, a link or an `Item` rendered as one; markup you make interactive takes the cursor of what a press does:

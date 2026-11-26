@@ -41,8 +41,9 @@ export const MOTION_ROLES = [
   "settle",
   "toast",
   // A chart drawing its marks the first time it shows: lines sweeping in,
-  // bars growing from the baseline. Slower than anything else that moves,
-  // since the eye follows the data being laid out; none when instant.
+  // bars growing from the baseline; Text Motion's pieces playing in. Slower
+  // than anything else that moves, since the eye follows the data or the
+  // words being laid out; none when instant.
   "reveal",
 ] as const
 

@@ -512,7 +512,7 @@ A stack of setting cards in one column (`size="sm"`), one per subject, in the or
 
 ## Motion
 
-Every animation has a role and comes with the components (see [Built into Fabricator](#built-into-fabricator)). Pick the speed per region: smooth for websites, default for most products, snappy for apps used all day, instant for dense dashboards. Exits are quicker than entrances, and things come from somewhere: a popup from its trigger, a sheet from its edge. App content (pages, lists, cards, stats) appears in place; charts draw in once because the motion explains the data. Waiting text shimmers. Reduced motion keeps the fades and drops the rest. Websites may let content fade and rise a few pixels into view, once. Text Motion plays a hero, a section title or a status in, by character, word or line; app content never waits on it.
+Every animation has a role and comes with the components (see [Built into Fabricator](#built-into-fabricator)). Pick the speed per region: smooth for websites, default for most products, snappy for apps used all day, instant for dense dashboards. Exits are quicker than entrances, and things come from somewhere: a popup from its trigger, a sheet from its edge. App content (pages, lists, cards, stats) appears in place; charts draw in once because the motion explains the data. Waiting text shimmers. Reduced motion keeps the fades and drops the rest. Websites may let content fade and rise a few pixels into view, once, and give their words one moment per view with `TextMotion`: the hero headline and lead in sequence, a section heading as it arrives, one headline word that cycles. Text in apps (titles, labels, buttons, numbers) appears in place.
 
 ## Iconography
 
@@ -543,6 +543,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 - **Charts:** [Choosing a widget](#choosing-a-widget), plus `PieChart`, `RadarChart`, `Treemap`, `CandlestickChart`, `BumpChart`, `SankeyChart`.
 - **Feedback and structure:** `Alert`, toasts, `Progress`, `Spinner`, `Skeleton`, `Empty`, `Accordion`, `Collapsible`, `Resizable`, `ScrollArea`.
 - **Media and chat:** `AudioPlayer`, `VideoPlayer`, `ImageCompare`, `AspectRatio`, `Carousel`; `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`, `ModelPicker`, `Questionnaire`, `BotFace`.
+- **Words in motion:** `TextMotion` for a website headline that plays in, `TextMotionGroup` for a headline and lead in sequence, `TextMotionRotate` for a word that cycles.
 
 ### Buttons
 
@@ -593,7 +594,7 @@ The cursor says what a press will do, on the web and in desktop windows. Compone
 
 ### Platforms
 
-- Base UI, Radix and React Aria look and behave the same; read the docs for the project's base (React Aria has no `Menubar` or `NavigationMenu`). React Native shares the components and rules; not there yet: `DataTable`, and the time in `DatePicker`. Touch turns hover and right-click into a long press.
+- Base UI, Radix and React Aria look and behave the same; read the docs for the project's base (React Aria has no `Menubar` or `NavigationMenu`). React Native shares the components and rules; not there yet: `DataTable`, `TextMotion` (its text shows at rest), and the time in `DatePicker`. Touch turns hover and right-click into a long press.
 
 ## Patterns
 
@@ -652,7 +653,7 @@ Start from the `sign-in-01`, `sign-up-01` or `forgot-password-01` block: one cen
 
 - **Spacious density and smooth motion.** One hero headline per page; display type for section headings, prices and proof numbers; a lead under each heading.
 - **Header,** about 64px: the logo, the navigation, a ghost "Sign in" and the filled call to action at the end.
-- **Hero:** what the product does, a lead, a filled and an outline button, then the product itself on a raised surface.
+- **Hero:** what the product does, a lead, a filled and an outline button, then the product itself on a raised surface. The headline and lead may play in once as one `TextMotionGroup`.
 - **Sections** up to 1152px wide, one idea each, neighbours in different layouts; only the hero and the closing call to action are centred.
 - **Order:** hero, proof, what it does, how it works, pricing (monthly and yearly `Tabs` above one `Card` per plan), questions in an `Accordion`, a closing call to action, a footer.
 

@@ -153,7 +153,7 @@ A page is dull when every card is the same shape and every value grey text. Use 
 
 Spacious density, smooth motion, a site header and content up to 1152px. The story follows the product and its evidence, in this order: hero, proof, what it does, how it works, pricing, questions, close, footer.
 
-- **Hero:** what the product does in one line, a lead, a filled and an outline button, then the product itself on `bg-surface-3 shadow-surface-3`. Real screens, no illustrations.
+- **Hero:** what the product does in one line, a lead, a filled and an outline button, then the product itself on `bg-surface-3 shadow-surface-3`. Real screens, no illustrations. The headline and lead may play in once as a `TextMotionGroup`, and section headings as they arrive ([foundations.md](foundations.md#text-that-plays-in)).
 - **Sections** carry one idea each, and neighbours have different layouts. A grid of icon cards is never the story.
 - **Pricing:** monthly and yearly `Tabs` over one `Card` per plan, the recommended one filled. Questions in an `Accordion`.
 - Centre only the hero and the close. The call to action uses the same words everywhere.

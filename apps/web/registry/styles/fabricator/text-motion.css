@@ -1,0 +1,22 @@
+/* MARK: Text Motion */
+
+  /* Text Motion takes the type of the element around it, so it sits inside a
+     heading or a paragraph as plain text would. Its distances are in em, so a
+     headline travels further than a caption and the motion keeps its
+     proportions at any size. Pieces travel 0.35em and blur from 0.12em: about
+     the popup's few pixels of travel at body size, enough to read as arriving.
+     Scale starts at 0.8, lower than a surface's 0.95, since a letter is small
+     enough that 0.95 would not show. Flip turns pieces over a drum 10em away,
+     a gentle perspective. The shimmer's light is the foreground, so it reads
+     on muted text in both themes; the typing caret is the foreground too, as
+     thin as a text field's. */
+  .cn-text-motion {
+    @apply [--text-motion-blur:0.12em] [--text-motion-caret-width:max(1px,0.06em)] [--text-motion-caret:var(--foreground)] [--text-motion-distance:0.35em] [--text-motion-highlight:var(--foreground)] [--text-motion-perspective:10em] [--text-motion-scale:0.8];
+  }
+
+  /* The rotating text holds the widest text's width, so the sentence never
+     jumps as the words change, and keeps a text of a few words on one line,
+     so the box never grows a second line mid-turn. */
+  .cn-text-motion-rotate {
+    @apply whitespace-nowrap;
+  }
