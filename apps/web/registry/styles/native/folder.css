@@ -1,0 +1,107 @@
+/* MARK: Folder */
+
+  /* A tile like a desktop icon: the folder over its name and details,
+     centred, as on the website. Its colours are the surfaces tinted with a
+     share of the folder's mark, mixed by lib/folder-colors as the website's
+     style map mixes them, so the tile itself has no fill. */
+  .cn-folder {
+    @apply gap-(--density-8) overflow-hidden rounded-xl px-(--density-8) pt-(--density-20) pb-(--density-12);
+  }
+
+  /* Solid and glass differ in the front panel's fill, which folder-colors
+     mixes; the tile itself stays clear in both. */
+  .cn-folder-variant-default {
+    @apply bg-transparent;
+  }
+
+  .cn-folder-variant-glass {
+    @apply bg-transparent;
+  }
+
+  /* Tiles of 120, 180 and 240pt at their density; w-full fills a cell. */
+  .cn-folder-size-sm {
+    @apply w-[calc(var(--density-40)*3.75)];
+  }
+
+  .cn-folder-size-default {
+    @apply w-[calc(var(--density-40)*4.5)];
+  }
+
+  .cn-folder-size-lg {
+    @apply w-[calc(var(--density-40)*5)];
+  }
+
+  /* Held open (a drop target) or under an iPad pointer, the tile takes the
+     hover wash; pressed, the pressed one. Both ease on the feedback
+     timing. */
+  .cn-folder-wash-open {
+    @apply rounded-xl bg-hover;
+  }
+
+  .cn-folder-wash-pressed {
+    @apply rounded-xl bg-active;
+  }
+
+  /* The drawing, 4:3, sized in shares of its width from folder-model. */
+  .cn-folder-preview {
+    @apply overflow-visible;
+  }
+
+  /* The back, the deepest tint (folder-colors), edged by a faint ring as
+     surfaces are. */
+  .cn-folder-back {
+    @apply overflow-hidden border border-foreground/10;
+  }
+
+  /* Glass's lining, behind the files, in the front's colour
+     (folder-colors). */
+  .cn-folder-lining {
+    @apply overflow-hidden;
+  }
+
+  /* The files stand between the back and the front. */
+  .cn-folder-files {
+    @apply overflow-visible;
+  }
+
+  /* Sheets of paper with a faint edge and a soft shadow, as on the website. */
+  .cn-folder-file {
+    @apply shadow-surface-3;
+  }
+
+  /* A blank sheet: a heading and four lines in the folder's colour. */
+  .cn-folder-file-lines {
+    @apply w-full;
+  }
+
+  /* The front panel, drawn as the website's path. */
+  .cn-folder-front {
+    @apply overflow-visible;
+  }
+
+  /* The front's ring, the faint edge every surface has, read off for the
+     stroke. */
+  .cn-folder-front-edge {
+    @apply text-foreground/12;
+  }
+
+  /* The cover rides on the front, in the same box and tilt. */
+  .cn-folder-cover {
+    @apply overflow-visible;
+  }
+
+  /* The text colour: the tinted front is a light surface in light themes
+     and a lifted one in dark, which the text colour reads on. */
+  .cn-folder-cover-text {
+    @apply text-(length:--density-text-12) font-medium text-foreground;
+  }
+
+  /* The name, one line. */
+  .cn-folder-title {
+    @apply text-(length:--density-text-13) font-medium text-foreground;
+  }
+
+  /* Details under the name: a count, a date. Muted. */
+  .cn-folder-description {
+    @apply -mt-(--density-6) text-(length:--density-text-12) text-muted-foreground tabular-nums;
+  }

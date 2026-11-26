@@ -42,6 +42,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   spinner: "Basics",
   skeleton: "Basics",
   typography: "Basics",
+  "text-motion": "Basics",
   "aspect-ratio": "Basics",
   "scroll-area": "Basics",
   properties: "Forms",
@@ -101,6 +102,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   sonner: "Content",
   progress: "Content",
   empty: "Content",
+  folder: "Content",
   markdown: "Content",
   sounds: "Content",
   // Charts

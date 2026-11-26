@@ -3006,6 +3006,86 @@ export const Components: Record<string, any> = {
       ) || "file-upload-validation"
     return { default: mod.default || mod[exportName] }
   }),
+  "folder-colors": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/folder-colors"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "folder-colors"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "folder-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/folder-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "folder-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "folder-drop-target": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/folder-drop-target"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "folder-drop-target"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "folder-empty": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/folder-empty"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "folder-empty"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "folder-glass": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/folder-glass"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "folder-glass"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "folder-grid": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/folder-grid"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "folder-grid"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "folder-previews": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/folder-previews"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "folder-previews"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "folder-sizes": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/folder-sizes"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "folder-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
   "funnel-chart-demo": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/funnel-chart-demo"
@@ -6024,6 +6104,106 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "tanstack-ai-helper-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "text-motion-combine": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/text-motion-combine"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "text-motion-combine"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "text-motion-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/text-motion-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "text-motion-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "text-motion-effects": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/text-motion-effects"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "text-motion-effects"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "text-motion-loops": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/text-motion-loops"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "text-motion-loops"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "text-motion-order": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/text-motion-order"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "text-motion-order"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "text-motion-rotate": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/text-motion-rotate"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "text-motion-rotate"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "text-motion-scramble": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/text-motion-scramble"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "text-motion-scramble"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "text-motion-sequence": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/text-motion-sequence"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "text-motion-sequence"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "text-motion-type": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/text-motion-type"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "text-motion-type"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "text-motion-units": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/text-motion-units"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "text-motion-units"
     return { default: mod.default || mod[exportName] }
   }),
   "textarea-button": React.lazy(async () => {

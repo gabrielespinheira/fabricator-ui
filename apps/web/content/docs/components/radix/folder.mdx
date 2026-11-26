@@ -1,0 +1,180 @@
+---
+title: Folder
+description: A folder as a tile, the way a drive shows one, with its first files peeking out. Hover lifts them out and tips the front open.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="folder-demo" />
+
+Hover a folder, or tab to its link: the files rise and fan out, and the front panel tips forward. Moving away, they drop back in on a quicker timing. Each folder takes any palette colour, solid or glass, and shows up to three files: blank sheets, thumbnails or anything you draw.
+
+Folder is part of the Fabricator style. It's built on HTML, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add folder
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/palette-model.ts"
+  title="lib/palette-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/folder-model.ts"
+  title="lib/folder-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/folder.tsx"
+  title="components/ui/folder.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  Folder,
+  FolderCover,
+  FolderDescription,
+  FolderFile,
+  FolderFiles,
+  FolderPreview,
+  FolderTitle,
+} from "@/components/ui/folder"
+```
+
+```tsx
+<Folder color="blue">
+  <FolderPreview>
+    <FolderFiles>
+      <FolderFile />
+      <FolderFile>
+        <img src="/cover.jpg" alt="" />
+      </FolderFile>
+    </FolderFiles>
+    <FolderCover>
+      <Badge>v2.1</Badge>
+    </FolderCover>
+  </FolderPreview>
+  <FolderTitle>
+    <a href="/files/design-system">Design system</a>
+  </FolderTitle>
+  <FolderDescription>22 files</FolderDescription>
+</Folder>
+```
+
+## Composition
+
+```text
+Folder                    data-slot="folder" data-variant data-size [data-open]
+├── FolderPreview         data-slot="folder-preview"
+│   ├── span              data-slot="folder-back"
+│   ├── span              data-slot="folder-lining" (behind glass)
+│   ├── FolderFiles       data-slot="folder-files" data-count
+│   │   └── FolderFile    data-slot="folder-file" data-index
+│   │       └── span      data-slot="folder-file-lines" (a blank sheet)
+│   ├── span              data-slot="folder-front"
+│   └── FolderCover       data-slot="folder-cover"
+├── FolderTitle           data-slot="folder-title"
+└── FolderDescription     data-slot="folder-description"
+```
+
+- **FolderFiles** shows its first three children; the first lies on top. Leave it empty, or out, for an empty folder.
+- **FolderFile** is a blank sheet with lines until you give it children: an `img` fills it, and anything else lays out inside it. It's sized in shares of the folder's width, so `cqw` units keep text in step at any size. Colour text on a sheet with `text-(--folder-paper-ink)`: sheets stay light in dark themes.
+- **FolderCover** rides on the front panel: badges, avatars, icons. Badges turn frosted pills of your brightest surface and avatars are ringed in the front's colour.
+- **FolderTitle** holding a link or button makes the whole tile its target: it takes the click, the focus ring and the open pose on focus.
+
+## Examples
+
+### Colors
+
+`color` takes a palette colour (`blue`, `teal`, `orange`, …), a role (`primary`, `success`, …) or any CSS colour. The folder is drawn from your surfaces, tinted with a share of that colour the way a Kanban column or a property chip is, so it sits in the page instead of shouting over it, and follows a surface tint and both themes. Text on the cover takes the colour's text token. Unset, the tint is your muted text colour.
+
+<ComponentPreview styleName="radix-nova" name="folder-colors" />
+
+### Glass
+
+`variant="glass"` frosts the front panel: the files show through it, blurred, clearer at the top and denser towards its foot. Open, the pane tips forward less than a solid front and slides a little down, so the lifted files stay behind clear glass.
+
+<ComponentPreview styleName="radix-nova" name="folder-glass" />
+
+### Previews
+
+Put thumbnails, type or colour in a `FolderFile`, or leave it empty for a blank sheet when there's no preview to show.
+
+<ComponentPreview styleName="radix-nova" name="folder-previews" />
+
+### Empty and file counts
+
+A folder shows up to three files, however many you pass. With none it's an empty folder: hover still tips the front open, onto nothing.
+
+<ComponentPreview styleName="radix-nova" name="folder-empty" />
+
+### Sizes
+
+`sm`, `default` and `lg` tiles are 120, 180 and 240px wide, and pin the compact, default and spacious density for the text below them. Put `w-full` on the tile to fill a grid cell instead.
+
+<ComponentPreview styleName="radix-nova" name="folder-sizes" />
+
+### Grid
+
+A drive's grid: `w-full` tiles in an `auto-fill` grid, each with a link in its title. A long name truncates; pass it as the title's `title` to show it whole on hover.
+
+<ComponentPreview styleName="radix-nova" name="folder-grid" />
+
+### Drop target
+
+`open` holds the open pose without hover: here while a file is dragged over the folder, and for the folder whose contents are on view.
+
+<ComponentPreview styleName="radix-nova" name="folder-drop-target" />
+
+## Motion
+
+Opening, the files rise one after another on the bounce spring, fanned from their foot like a hand of cards, while the front tips forward on the move timing. Closing, everything drops back together on the quicker exit timings, without the bounce. A press gives the tile to 97%. Reduce Motion or motion off keeps the poses and drops the travel.
+
+## API Reference
+
+### Folder
+
+| Prop      | Type                        | Default     |
+| --------- | --------------------------- | ----------- |
+| `color`   | `string`                    | (neutral)   |
+| `variant` | `"default" \| "glass"`      | `"default"` |
+| `size`    | `"sm" \| "default" \| "lg"` | `"default"` |
+| `open`    | `boolean`                   | `false`     |
+
+The root is a `div` and takes its props and `ref`. Every other part is a `div` that takes its props.
+
+## Accessibility
+
+The drawing is decorative: the files are hidden from screen readers, and the folder is named by its title. Put a link or a button in `FolderTitle` and the whole tile becomes that one control, named by the title, reached with Tab and opened with Enter. Anything on the cover stays readable, so give an icon an `aria-label`. The open pose follows focus as it follows hover, so the keyboard sees the same preview, and touch, with no hover, opens on the link.

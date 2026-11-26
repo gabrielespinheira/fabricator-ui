@@ -50,6 +50,7 @@ const SHARED_LIB_FILES = [
   "image-compare-model",
   "preview-rail-model",
   "rating-model",
+  "folder-model",
   "radio-glide-model",
   "accordion-model",
   "toast-stack-model",

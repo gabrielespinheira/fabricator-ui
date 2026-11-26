@@ -1345,6 +1345,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "file-upload-validation",
       filePath: "examples/base/file-upload-validation.tsx",
     },
+    "folder-colors": {
+      name: "folder-colors",
+      filePath: "examples/base/folder-colors.tsx",
+    },
+    "folder-demo": {
+      name: "folder-demo",
+      filePath: "examples/base/folder-demo.tsx",
+    },
+    "folder-drop-target": {
+      name: "folder-drop-target",
+      filePath: "examples/base/folder-drop-target.tsx",
+    },
+    "folder-empty": {
+      name: "folder-empty",
+      filePath: "examples/base/folder-empty.tsx",
+    },
+    "folder-glass": {
+      name: "folder-glass",
+      filePath: "examples/base/folder-glass.tsx",
+    },
+    "folder-grid": {
+      name: "folder-grid",
+      filePath: "examples/base/folder-grid.tsx",
+    },
+    "folder-previews": {
+      name: "folder-previews",
+      filePath: "examples/base/folder-previews.tsx",
+    },
+    "folder-sizes": {
+      name: "folder-sizes",
+      filePath: "examples/base/folder-sizes.tsx",
+    },
     "funnel-chart-demo": {
       name: "funnel-chart-demo",
       filePath: "examples/base/funnel-chart-demo.tsx",
@@ -2696,6 +2728,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tanstack-ai-helper-demo": {
       name: "tanstack-ai-helper-demo",
       filePath: "examples/base/tanstack-ai-helper-demo.tsx",
+    },
+    "text-motion-combine": {
+      name: "text-motion-combine",
+      filePath: "examples/base/text-motion-combine.tsx",
+    },
+    "text-motion-demo": {
+      name: "text-motion-demo",
+      filePath: "examples/base/text-motion-demo.tsx",
+    },
+    "text-motion-effects": {
+      name: "text-motion-effects",
+      filePath: "examples/base/text-motion-effects.tsx",
+    },
+    "text-motion-loops": {
+      name: "text-motion-loops",
+      filePath: "examples/base/text-motion-loops.tsx",
+    },
+    "text-motion-order": {
+      name: "text-motion-order",
+      filePath: "examples/base/text-motion-order.tsx",
+    },
+    "text-motion-rotate": {
+      name: "text-motion-rotate",
+      filePath: "examples/base/text-motion-rotate.tsx",
+    },
+    "text-motion-scramble": {
+      name: "text-motion-scramble",
+      filePath: "examples/base/text-motion-scramble.tsx",
+    },
+    "text-motion-sequence": {
+      name: "text-motion-sequence",
+      filePath: "examples/base/text-motion-sequence.tsx",
+    },
+    "text-motion-type": {
+      name: "text-motion-type",
+      filePath: "examples/base/text-motion-type.tsx",
+    },
+    "text-motion-units": {
+      name: "text-motion-units",
+      filePath: "examples/base/text-motion-units.tsx",
     },
     "textarea-button": {
       name: "textarea-button",
@@ -4223,6 +4295,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "file-upload-validation",
       filePath: "examples/aria/file-upload-validation.tsx",
     },
+    "folder-colors": {
+      name: "folder-colors",
+      filePath: "examples/aria/folder-colors.tsx",
+    },
+    "folder-demo": {
+      name: "folder-demo",
+      filePath: "examples/aria/folder-demo.tsx",
+    },
+    "folder-drop-target": {
+      name: "folder-drop-target",
+      filePath: "examples/aria/folder-drop-target.tsx",
+    },
+    "folder-empty": {
+      name: "folder-empty",
+      filePath: "examples/aria/folder-empty.tsx",
+    },
+    "folder-glass": {
+      name: "folder-glass",
+      filePath: "examples/aria/folder-glass.tsx",
+    },
+    "folder-grid": {
+      name: "folder-grid",
+      filePath: "examples/aria/folder-grid.tsx",
+    },
+    "folder-previews": {
+      name: "folder-previews",
+      filePath: "examples/aria/folder-previews.tsx",
+    },
+    "folder-sizes": {
+      name: "folder-sizes",
+      filePath: "examples/aria/folder-sizes.tsx",
+    },
     "funnel-chart-demo": {
       name: "funnel-chart-demo",
       filePath: "examples/aria/funnel-chart-demo.tsx",
@@ -5566,6 +5670,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-vertical": {
       name: "tabs-vertical",
       filePath: "examples/aria/tabs-vertical.tsx",
+    },
+    "text-motion-combine": {
+      name: "text-motion-combine",
+      filePath: "examples/aria/text-motion-combine.tsx",
+    },
+    "text-motion-demo": {
+      name: "text-motion-demo",
+      filePath: "examples/aria/text-motion-demo.tsx",
+    },
+    "text-motion-effects": {
+      name: "text-motion-effects",
+      filePath: "examples/aria/text-motion-effects.tsx",
+    },
+    "text-motion-loops": {
+      name: "text-motion-loops",
+      filePath: "examples/aria/text-motion-loops.tsx",
+    },
+    "text-motion-order": {
+      name: "text-motion-order",
+      filePath: "examples/aria/text-motion-order.tsx",
+    },
+    "text-motion-rotate": {
+      name: "text-motion-rotate",
+      filePath: "examples/aria/text-motion-rotate.tsx",
+    },
+    "text-motion-scramble": {
+      name: "text-motion-scramble",
+      filePath: "examples/aria/text-motion-scramble.tsx",
+    },
+    "text-motion-sequence": {
+      name: "text-motion-sequence",
+      filePath: "examples/aria/text-motion-sequence.tsx",
+    },
+    "text-motion-type": {
+      name: "text-motion-type",
+      filePath: "examples/aria/text-motion-type.tsx",
+    },
+    "text-motion-units": {
+      name: "text-motion-units",
+      filePath: "examples/aria/text-motion-units.tsx",
     },
     "textarea-button": {
       name: "textarea-button",
@@ -7069,6 +7213,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "file-upload-validation",
       filePath: "examples/radix/file-upload-validation.tsx",
     },
+    "folder-colors": {
+      name: "folder-colors",
+      filePath: "examples/radix/folder-colors.tsx",
+    },
+    "folder-demo": {
+      name: "folder-demo",
+      filePath: "examples/radix/folder-demo.tsx",
+    },
+    "folder-drop-target": {
+      name: "folder-drop-target",
+      filePath: "examples/radix/folder-drop-target.tsx",
+    },
+    "folder-empty": {
+      name: "folder-empty",
+      filePath: "examples/radix/folder-empty.tsx",
+    },
+    "folder-glass": {
+      name: "folder-glass",
+      filePath: "examples/radix/folder-glass.tsx",
+    },
+    "folder-grid": {
+      name: "folder-grid",
+      filePath: "examples/radix/folder-grid.tsx",
+    },
+    "folder-previews": {
+      name: "folder-previews",
+      filePath: "examples/radix/folder-previews.tsx",
+    },
+    "folder-sizes": {
+      name: "folder-sizes",
+      filePath: "examples/radix/folder-sizes.tsx",
+    },
     "funnel-chart-demo": {
       name: "funnel-chart-demo",
       filePath: "examples/radix/funnel-chart-demo.tsx",
@@ -8440,6 +8616,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-vertical": {
       name: "tabs-vertical",
       filePath: "examples/radix/tabs-vertical.tsx",
+    },
+    "text-motion-combine": {
+      name: "text-motion-combine",
+      filePath: "examples/radix/text-motion-combine.tsx",
+    },
+    "text-motion-demo": {
+      name: "text-motion-demo",
+      filePath: "examples/radix/text-motion-demo.tsx",
+    },
+    "text-motion-effects": {
+      name: "text-motion-effects",
+      filePath: "examples/radix/text-motion-effects.tsx",
+    },
+    "text-motion-loops": {
+      name: "text-motion-loops",
+      filePath: "examples/radix/text-motion-loops.tsx",
+    },
+    "text-motion-order": {
+      name: "text-motion-order",
+      filePath: "examples/radix/text-motion-order.tsx",
+    },
+    "text-motion-rotate": {
+      name: "text-motion-rotate",
+      filePath: "examples/radix/text-motion-rotate.tsx",
+    },
+    "text-motion-scramble": {
+      name: "text-motion-scramble",
+      filePath: "examples/radix/text-motion-scramble.tsx",
+    },
+    "text-motion-sequence": {
+      name: "text-motion-sequence",
+      filePath: "examples/radix/text-motion-sequence.tsx",
+    },
+    "text-motion-type": {
+      name: "text-motion-type",
+      filePath: "examples/radix/text-motion-type.tsx",
+    },
+    "text-motion-units": {
+      name: "text-motion-units",
+      filePath: "examples/radix/text-motion-units.tsx",
     },
     "textarea-button": {
       name: "textarea-button",
@@ -9953,6 +10169,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/base-fabricator/file-upload-validation.tsx",
     },
+    "folder-colors": {
+      name: "folder-colors",
+      filePath: "examples/__styles__/base-fabricator/folder-colors.tsx",
+    },
+    "folder-demo": {
+      name: "folder-demo",
+      filePath: "examples/__styles__/base-fabricator/folder-demo.tsx",
+    },
+    "folder-drop-target": {
+      name: "folder-drop-target",
+      filePath: "examples/__styles__/base-fabricator/folder-drop-target.tsx",
+    },
+    "folder-empty": {
+      name: "folder-empty",
+      filePath: "examples/__styles__/base-fabricator/folder-empty.tsx",
+    },
+    "folder-glass": {
+      name: "folder-glass",
+      filePath: "examples/__styles__/base-fabricator/folder-glass.tsx",
+    },
+    "folder-grid": {
+      name: "folder-grid",
+      filePath: "examples/__styles__/base-fabricator/folder-grid.tsx",
+    },
+    "folder-previews": {
+      name: "folder-previews",
+      filePath: "examples/__styles__/base-fabricator/folder-previews.tsx",
+    },
+    "folder-sizes": {
+      name: "folder-sizes",
+      filePath: "examples/__styles__/base-fabricator/folder-sizes.tsx",
+    },
     "funnel-chart-demo": {
       name: "funnel-chart-demo",
       filePath: "examples/__styles__/base-fabricator/funnel-chart-demo.tsx",
@@ -11227,6 +11475,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tanstack-ai-helper-demo",
       filePath:
         "examples/__styles__/base-fabricator/tanstack-ai-helper-demo.tsx",
+    },
+    "text-motion-combine": {
+      name: "text-motion-combine",
+      filePath: "examples/__styles__/base-fabricator/text-motion-combine.tsx",
+    },
+    "text-motion-demo": {
+      name: "text-motion-demo",
+      filePath: "examples/__styles__/base-fabricator/text-motion-demo.tsx",
+    },
+    "text-motion-effects": {
+      name: "text-motion-effects",
+      filePath: "examples/__styles__/base-fabricator/text-motion-effects.tsx",
+    },
+    "text-motion-loops": {
+      name: "text-motion-loops",
+      filePath: "examples/__styles__/base-fabricator/text-motion-loops.tsx",
+    },
+    "text-motion-order": {
+      name: "text-motion-order",
+      filePath: "examples/__styles__/base-fabricator/text-motion-order.tsx",
+    },
+    "text-motion-rotate": {
+      name: "text-motion-rotate",
+      filePath: "examples/__styles__/base-fabricator/text-motion-rotate.tsx",
+    },
+    "text-motion-scramble": {
+      name: "text-motion-scramble",
+      filePath: "examples/__styles__/base-fabricator/text-motion-scramble.tsx",
+    },
+    "text-motion-sequence": {
+      name: "text-motion-sequence",
+      filePath: "examples/__styles__/base-fabricator/text-motion-sequence.tsx",
+    },
+    "text-motion-type": {
+      name: "text-motion-type",
+      filePath: "examples/__styles__/base-fabricator/text-motion-type.tsx",
+    },
+    "text-motion-units": {
+      name: "text-motion-units",
+      filePath: "examples/__styles__/base-fabricator/text-motion-units.tsx",
     },
     "textarea-button": {
       name: "textarea-button",
@@ -12640,6 +12928,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/aria-fabricator/file-upload-validation.tsx",
     },
+    "folder-colors": {
+      name: "folder-colors",
+      filePath: "examples/__styles__/aria-fabricator/folder-colors.tsx",
+    },
+    "folder-demo": {
+      name: "folder-demo",
+      filePath: "examples/__styles__/aria-fabricator/folder-demo.tsx",
+    },
+    "folder-drop-target": {
+      name: "folder-drop-target",
+      filePath: "examples/__styles__/aria-fabricator/folder-drop-target.tsx",
+    },
+    "folder-empty": {
+      name: "folder-empty",
+      filePath: "examples/__styles__/aria-fabricator/folder-empty.tsx",
+    },
+    "folder-glass": {
+      name: "folder-glass",
+      filePath: "examples/__styles__/aria-fabricator/folder-glass.tsx",
+    },
+    "folder-grid": {
+      name: "folder-grid",
+      filePath: "examples/__styles__/aria-fabricator/folder-grid.tsx",
+    },
+    "folder-previews": {
+      name: "folder-previews",
+      filePath: "examples/__styles__/aria-fabricator/folder-previews.tsx",
+    },
+    "folder-sizes": {
+      name: "folder-sizes",
+      filePath: "examples/__styles__/aria-fabricator/folder-sizes.tsx",
+    },
     "funnel-chart-demo": {
       name: "funnel-chart-demo",
       filePath: "examples/__styles__/aria-fabricator/funnel-chart-demo.tsx",
@@ -13913,6 +14233,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-vertical": {
       name: "tabs-vertical",
       filePath: "examples/__styles__/aria-fabricator/tabs-vertical.tsx",
+    },
+    "text-motion-combine": {
+      name: "text-motion-combine",
+      filePath: "examples/__styles__/aria-fabricator/text-motion-combine.tsx",
+    },
+    "text-motion-demo": {
+      name: "text-motion-demo",
+      filePath: "examples/__styles__/aria-fabricator/text-motion-demo.tsx",
+    },
+    "text-motion-effects": {
+      name: "text-motion-effects",
+      filePath: "examples/__styles__/aria-fabricator/text-motion-effects.tsx",
+    },
+    "text-motion-loops": {
+      name: "text-motion-loops",
+      filePath: "examples/__styles__/aria-fabricator/text-motion-loops.tsx",
+    },
+    "text-motion-order": {
+      name: "text-motion-order",
+      filePath: "examples/__styles__/aria-fabricator/text-motion-order.tsx",
+    },
+    "text-motion-rotate": {
+      name: "text-motion-rotate",
+      filePath: "examples/__styles__/aria-fabricator/text-motion-rotate.tsx",
+    },
+    "text-motion-scramble": {
+      name: "text-motion-scramble",
+      filePath: "examples/__styles__/aria-fabricator/text-motion-scramble.tsx",
+    },
+    "text-motion-sequence": {
+      name: "text-motion-sequence",
+      filePath: "examples/__styles__/aria-fabricator/text-motion-sequence.tsx",
+    },
+    "text-motion-type": {
+      name: "text-motion-type",
+      filePath: "examples/__styles__/aria-fabricator/text-motion-type.tsx",
+    },
+    "text-motion-units": {
+      name: "text-motion-units",
+      filePath: "examples/__styles__/aria-fabricator/text-motion-units.tsx",
     },
     "textarea-button": {
       name: "textarea-button",
@@ -15317,6 +15677,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/radix-fabricator/file-upload-validation.tsx",
     },
+    "folder-colors": {
+      name: "folder-colors",
+      filePath: "examples/__styles__/radix-fabricator/folder-colors.tsx",
+    },
+    "folder-demo": {
+      name: "folder-demo",
+      filePath: "examples/__styles__/radix-fabricator/folder-demo.tsx",
+    },
+    "folder-drop-target": {
+      name: "folder-drop-target",
+      filePath: "examples/__styles__/radix-fabricator/folder-drop-target.tsx",
+    },
+    "folder-empty": {
+      name: "folder-empty",
+      filePath: "examples/__styles__/radix-fabricator/folder-empty.tsx",
+    },
+    "folder-glass": {
+      name: "folder-glass",
+      filePath: "examples/__styles__/radix-fabricator/folder-glass.tsx",
+    },
+    "folder-grid": {
+      name: "folder-grid",
+      filePath: "examples/__styles__/radix-fabricator/folder-grid.tsx",
+    },
+    "folder-previews": {
+      name: "folder-previews",
+      filePath: "examples/__styles__/radix-fabricator/folder-previews.tsx",
+    },
+    "folder-sizes": {
+      name: "folder-sizes",
+      filePath: "examples/__styles__/radix-fabricator/folder-sizes.tsx",
+    },
     "funnel-chart-demo": {
       name: "funnel-chart-demo",
       filePath: "examples/__styles__/radix-fabricator/funnel-chart-demo.tsx",
@@ -16622,6 +17014,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-vertical": {
       name: "tabs-vertical",
       filePath: "examples/__styles__/radix-fabricator/tabs-vertical.tsx",
+    },
+    "text-motion-combine": {
+      name: "text-motion-combine",
+      filePath: "examples/__styles__/radix-fabricator/text-motion-combine.tsx",
+    },
+    "text-motion-demo": {
+      name: "text-motion-demo",
+      filePath: "examples/__styles__/radix-fabricator/text-motion-demo.tsx",
+    },
+    "text-motion-effects": {
+      name: "text-motion-effects",
+      filePath: "examples/__styles__/radix-fabricator/text-motion-effects.tsx",
+    },
+    "text-motion-loops": {
+      name: "text-motion-loops",
+      filePath: "examples/__styles__/radix-fabricator/text-motion-loops.tsx",
+    },
+    "text-motion-order": {
+      name: "text-motion-order",
+      filePath: "examples/__styles__/radix-fabricator/text-motion-order.tsx",
+    },
+    "text-motion-rotate": {
+      name: "text-motion-rotate",
+      filePath: "examples/__styles__/radix-fabricator/text-motion-rotate.tsx",
+    },
+    "text-motion-scramble": {
+      name: "text-motion-scramble",
+      filePath: "examples/__styles__/radix-fabricator/text-motion-scramble.tsx",
+    },
+    "text-motion-sequence": {
+      name: "text-motion-sequence",
+      filePath: "examples/__styles__/radix-fabricator/text-motion-sequence.tsx",
+    },
+    "text-motion-type": {
+      name: "text-motion-type",
+      filePath: "examples/__styles__/radix-fabricator/text-motion-type.tsx",
+    },
+    "text-motion-units": {
+      name: "text-motion-units",
+      filePath: "examples/__styles__/radix-fabricator/text-motion-units.tsx",
     },
     "textarea-button": {
       name: "textarea-button",

@@ -295,6 +295,47 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "folder",
+    type: "registry:ui",
+    title: "Folder",
+    description:
+      "A folder as a tile, the way a drive shows one: its first files or thumbnails peeking out, a cover for badges and avatars, its name and details. Hover lifts the files out and tips the front open. Any palette colour, solid or glass.",
+    files: [
+      { path: "ui/folder.tsx", type: "registry:ui" },
+      { path: "lib/folder-model.ts", type: "registry:lib" },
+    ],
+    registryDependencies: ["palette-model"],
+    categories: ["content"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/folder",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/folder#examples",
+      },
+    },
+  },
+  {
+    name: "text-motion",
+    type: "registry:ui",
+    title: "Text Motion",
+    description:
+      "Text that plays in by character, word or line. Effects are layers that combine (fade, blur, rise, mask, flip, scramble, typing), with shimmer and wave loops, a group that plays lines in sequence and a rotating word. Timed by the motion roles.",
+    files: [
+      { path: "ui/text-motion.tsx", type: "registry:ui" },
+      { path: "lib/text-motion-model.ts", type: "registry:lib" },
+    ],
+    categories: ["typography"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/text-motion",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/text-motion#examples",
+      },
+    },
+  },
+  {
     name: "preview-rail",
     type: "registry:ui",
     title: "Preview Rail",

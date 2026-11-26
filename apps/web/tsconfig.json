@@ -202,6 +202,9 @@
       "@/registry/bases/*/components/property-controls": [
         "./registry/fabricator/*/components/property-controls"
       ],
+      "@/registry/bases/*/ui/folder": [
+        "./registry/fabricator/shared/ui/folder"
+      ],
       "@/registry/bases/*/ui/rating": [
         "./registry/fabricator/shared/ui/rating"
       ],

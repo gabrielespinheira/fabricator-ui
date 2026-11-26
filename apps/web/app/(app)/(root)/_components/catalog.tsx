@@ -224,6 +224,12 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/file-upload-demo"),
   },
   {
+    slug: "folder",
+    title: "Folder",
+    height: "md",
+    load: () => import("@/examples/__styles__/base-fabricator/folder-demo"),
+  },
+  {
     slug: "funnel-chart",
     title: "Funnel Chart",
     height: "lg",
@@ -446,6 +452,13 @@ const SOURCES: CatalogSource[] = [
       import(
         "@/examples/__styles__/base-fabricator/syntax-highlight-line-numbers"
       ),
+  },
+  {
+    slug: "text-motion",
+    title: "Text Motion",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/text-motion-demo"),
   },
   {
     slug: "textarea",

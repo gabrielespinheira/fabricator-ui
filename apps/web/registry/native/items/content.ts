@@ -237,6 +237,33 @@ export const contentItems: Registry["items"] = [
     meta: docs("empty"),
   },
   {
+    name: "folder",
+    type: "registry:ui",
+    title: "Folder",
+    description:
+      "A folder as a tile, the way a drive shows one: its first files or thumbnails peeking out, a cover for badges and avatars, its name and details. A press lifts the files out and tips the front open. Any palette colour, solid or glass.",
+    dependencies: [
+      "class-variance-authority",
+      "cn",
+      "react-native-reanimated",
+      "react-native-svg",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: [
+      "@fabricator/feedback",
+      "@fabricator/motion",
+      "@fabricator/palette-model",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/folder.tsx", type: "registry:ui" },
+      { path: "lib/folder-model.ts", type: "registry:lib" },
+      { path: "lib/folder-colors.ts", type: "registry:lib" },
+      { path: "lib/color-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("folder"),
+  },
+  {
     name: "item",
     type: "registry:ui",
     title: "Item",

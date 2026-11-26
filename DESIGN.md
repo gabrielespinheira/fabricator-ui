@@ -246,6 +246,7 @@ Every part of a screen has a component made to hold it. Reach for it before a pl
 | A setting: name and description beside a control | `Field orientation="responsive"`, `"horizontal"` for any `Switch` |
 | A choice that needs a sentence to explain it     | Choice cards: a `FieldLabel` around a horizontal `Field`          |
 | A list of people, files, apps or tasks           | `ItemGroup` of `Item`s: picture, title, description, actions      |
+| Folders browsed as tiles, as a drive shows them  | A grid of `Folder`s, `w-full` in an `auto-fill` grid              |
 | Records compared by column                       | `Table`; `DataTable` when people sort, filter or edit             |
 | Views of one thing                               | `Tabs` with the default `TabsList` or a `Select`                  |
 | Options most people never touch                  | An `Accordion` or `Collapsible` named "Advanced", closed          |
@@ -511,7 +512,7 @@ A stack of setting cards in one column (`size="sm"`), one per subject, in the or
 
 ## Motion
 
-Every animation has a role and comes with the components (see [Built into Fabricator](#built-into-fabricator)). Pick the speed per region: smooth for websites, default for most products, snappy for apps used all day, instant for dense dashboards. Exits are quicker than entrances, and things come from somewhere: a popup from its trigger, a sheet from its edge. App content (pages, lists, cards, stats) appears in place; charts draw in once because the motion explains the data. Waiting text shimmers. Reduced motion keeps the fades and drops the rest. Websites may let content fade and rise a few pixels into view, once.
+Every animation has a role and comes with the components (see [Built into Fabricator](#built-into-fabricator)). Pick the speed per region: smooth for websites, default for most products, snappy for apps used all day, instant for dense dashboards. Exits are quicker than entrances, and things come from somewhere: a popup from its trigger, a sheet from its edge. App content (pages, lists, cards, stats) appears in place; charts draw in once because the motion explains the data. Waiting text shimmers. Reduced motion keeps the fades and drops the rest. Websites may let content fade and rise a few pixels into view, once. Text Motion plays a hero, a section title or a status in, by character, word or line; app content never waits on it.
 
 ## Iconography
 
@@ -538,7 +539,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 - **Actions:** `Button`, `ButtonGroup`, `Toggle`; `DropdownMenu`, `ContextMenu`, `Menubar` in desktop apps; `Command` in a `CommandDialog`; `Search`.
 - **Overlays:** `Dialog`, `AlertDialog`, `Sheet`, `Drawer` on phones, `Popover`, `HoverCard`, `Tooltip`.
 - **Frame:** `AppShell`, `AppNav`, `Sidebar`, `TabStrip`, `WorkspaceSwitcher`, `UserMenu`, `NavigationMenu` on websites, `Breadcrumb`, `Pagination`, `PreviewRail`.
-- **Records:** `Card`, `ItemGroup`, `Table`, `DataTable`, `EventCalendar`, `FileTree`, `Badge`, `Avatar`, `AvatarGroup`, `Kbd`, `SyntaxHighlight`.
+- **Records:** `Card`, `ItemGroup`, `Table`, `DataTable`, `EventCalendar`, `FileTree`, `Folder`, `Badge`, `Avatar`, `AvatarGroup`, `Kbd`, `SyntaxHighlight`.
 - **Charts:** [Choosing a widget](#choosing-a-widget), plus `PieChart`, `RadarChart`, `Treemap`, `CandlestickChart`, `BumpChart`, `SankeyChart`.
 - **Feedback and structure:** `Alert`, toasts, `Progress`, `Spinner`, `Skeleton`, `Empty`, `Accordion`, `Collapsible`, `Resizable`, `ScrollArea`.
 - **Media and chat:** `AudioPlayer`, `VideoPlayer`, `ImageCompare`, `AspectRatio`, `Carousel`; `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`, `ModelPicker`, `Questionnaire`, `BotFace`.

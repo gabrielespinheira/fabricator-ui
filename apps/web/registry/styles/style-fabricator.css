@@ -4087,6 +4087,138 @@
     @apply bg-active rounded-lg transition-opacity duration-glide ease-linear data-animate:transition-[transform,width,height,opacity] data-animate:duration-move data-animate:ease-move motion-reduce:transition-opacity;
   }
 
+/* MARK: Folder */
+
+  /* A tile like a desktop icon: the folder over its name and details,
+     centred. Hover turns the neutral wash, the same as a list row. A link or
+     button in the title stretches over the tile, so the tile takes the hand
+     cursor, shows the focus ring, and gives under a press like a button,
+     with the pressed wash.
+     Hover, focus inside and `open` set --folder-open to 1, which every layer
+     reads to move from its rest pose to its open one. Opening runs on the
+     move and bounce timings; closing on the quicker exit timings without the
+     bounce, and the files rise one after another but drop back together.
+     The colours come from the surfaces, tinted with the folder's mark, as a
+     Kanban column or a property chip is: never the mark at full strength.
+     --folder-mark is the palette or role colour `color` sets, or the muted
+     text colour for a neutral folder; --folder-ink is that colour's text
+     token, AA on the tinted front. The back is the deepest tint, the front
+     a lighter one lit from above, the paper the brightest surface in light
+     and a soft light grey in dark, so the folder sits in the page instead of
+     standing out from it. Sheets stay light in dark themes, so text drawn
+     on one takes --folder-paper-ink, a deep shade of the mark there. */
+  .cn-folder {
+    @apply gap-(--density-8) rounded-xl px-(--density-8) pt-(--density-20) pb-(--density-12) transition-[background-color,scale] duration-feedback ease-feedback hover:bg-hover data-open:bg-hover has-focus-visible:ring-1 has-focus-visible:ring-ring has-[a,button]:cursor-pointer has-[a,button]:motion-press has-[a,button]:active:bg-active [--folder-open:0] [--folder-stagger:0] [--folder-files-duration:var(--motion-move-exit)] [--folder-files-ease:var(--ease-move)] [--folder-front-duration:var(--motion-move-exit)] hover:[--folder-open:1] hover:[--folder-stagger:1] hover:[--folder-files-duration:var(--motion-bounce)] hover:[--folder-files-ease:var(--ease-bounce)] hover:[--folder-front-duration:var(--motion-move)] data-open:[--folder-open:1] data-open:[--folder-stagger:1] data-open:[--folder-files-duration:var(--motion-bounce)] data-open:[--folder-files-ease:var(--ease-bounce)] data-open:[--folder-front-duration:var(--motion-move)] has-focus-visible:[--folder-open:1] has-focus-visible:[--folder-stagger:1] has-focus-visible:[--folder-files-duration:var(--motion-bounce)] has-focus-visible:[--folder-files-ease:var(--ease-bounce)] has-focus-visible:[--folder-front-duration:var(--motion-move)] [--folder-mark:var(--folder-mark-light,var(--muted-foreground))] dark:[--folder-mark:var(--folder-mark-dark,var(--muted-foreground))] [--folder-ink:var(--folder-ink-light,var(--foreground))] dark:[--folder-ink:var(--folder-ink-dark,var(--foreground))] [--folder-back:color-mix(in_oklab,var(--folder-mark)_30%,var(--surface-1))] [--folder-front:color-mix(in_oklab,var(--folder-mark)_20%,var(--surface-3))] [--folder-front-top:color-mix(in_oklab,var(--folder-mark)_12%,var(--surface-3))] dark:[--folder-back:color-mix(in_oklab,var(--folder-mark)_24%,var(--surface-1))] dark:[--folder-front:color-mix(in_oklab,var(--folder-mark)_36%,var(--surface-4))] dark:[--folder-front-top:color-mix(in_oklab,var(--folder-mark)_44%,var(--surface-5))] [--folder-paper:var(--surface-5)] dark:[--folder-paper:color-mix(in_oklab,var(--foreground)_76%,var(--surface-3))] [--folder-paper-ink:var(--folder-ink)] dark:[--folder-paper-ink:color-mix(in_oklab,var(--folder-mark)_45%,black)] [--folder-line:color-mix(in_oklab,var(--folder-mark)_30%,transparent)] [--folder-edge:color-mix(in_oklab,var(--folder-mark)_24%,transparent)] dark:[--folder-edge:color-mix(in_oklab,var(--foreground)_12%,transparent)];
+  }
+
+  /* Solid: the front lit from above, a shade lighter at its top edge. */
+  .cn-folder-variant-default {
+    @apply [&_[data-slot=folder-front]]:bg-[linear-gradient(to_bottom,var(--folder-front-top),var(--folder-front))];
+  }
+
+  /* Glass: a frosted pane the files show through, blurred, clearer at the
+     top and denser towards its foot, where the files end. Dark glass is
+     denser, so light paper behind it glows instead of glaring. The blur
+     scales with the folder so a small one isn't a smear. Behind the pane,
+     the lining (the front's colour) fills what the files
+     don't, and the back fills the front's width, so the glass frosts a lit
+     interior: never the page, and never the dark back as a hole at its
+     sides and tab. Open, the pane tips forward less than a solid front and
+     slides a little down, so the lifted files stay behind clear glass. Its
+     perspective is long, so the tilt barely widens its top edge past the
+     back. */
+  .cn-folder-variant-glass {
+    @apply [--folder-tilt:-14deg] [--folder-drop:4%] [--folder-perspective:1000cqw] [&_[data-slot=folder-lining]]:visible [&_[data-slot=folder-lining]]:bg-(--folder-front) [&_[data-slot=folder-back]]:inset-x-0 [&_[data-slot=folder-back]]:bottom-[1%] [&_[data-slot=folder-front]]:bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--folder-front-top)_45%,transparent),color-mix(in_oklab,var(--folder-front)_92%,transparent)_80%)] dark:[&_[data-slot=folder-front]]:bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--folder-front-top)_64%,transparent),color-mix(in_oklab,var(--folder-front)_94%,transparent)_80%)] [&_[data-slot=folder-front]]:backdrop-blur-[4cqw];
+  }
+
+  /* Tiles of 120, 180 and 240px at their density: small for dense grids,
+     large for a few folders on their own. Put w-full on the tile to fill a
+     grid cell instead. */
+  .cn-folder-size-sm {
+    @apply density-compact w-[calc(var(--density-40)*3.75)];
+  }
+
+  .cn-folder-size-default {
+    @apply w-[calc(var(--density-40)*4.5)];
+  }
+
+  .cn-folder-size-lg {
+    @apply density-spacious w-[calc(var(--density-40)*5)];
+  }
+
+  /* A 4:3 drawing; its parts are sized in shares of its width (cqw), so a
+     folder looks the same at any size. */
+  .cn-folder-preview {
+    @apply aspect-[4/3];
+  }
+
+  /* The back: the deepest tint, inset from its sides so the front
+     overhangs it, edged by a faint ring as surfaces are. */
+  .cn-folder-back {
+    @apply inset-x-[5%] top-[4%] bottom-[8%] rounded-[5cqw] bg-(--folder-back) shadow-[inset_0_0_0_1px_var(--folder-edge)];
+  }
+
+  /* The lining: the front's shape and tilt, behind the files. A solid
+     front hides it. Behind glass it is what the pane frosts where no file
+     stands, so the glass shows a lit interior instead of the dark back,
+     which read as a hole at its sides and tab. */
+  .cn-folder-lining {
+    @apply invisible origin-bottom [transform:perspective(var(--folder-perspective,320cqw))_translateY(calc(var(--folder-open)*var(--folder-drop,0%)))_rotateX(calc(var(--folder-open)*var(--folder-tilt,-24deg)))] transition-transform duration-[calc(var(--folder-front-duration)*var(--motion-scale,1))] ease-move motion-reduce:transition-none;
+  }
+
+  /* The files stand between the back and the front, which lies above them
+     at z-10. */
+  .cn-folder-files {
+    @apply z-0;
+  }
+
+  /* Sheets of paper, 46% of the folder's width and tall enough to reach
+     down behind the front even when lifted, standing in the back. Each
+     reads its pose from folder-model through --folder-file-*: at rest a step
+     lower than the one in front, open lifted and fanned from its foot like a
+     hand of cards. A picture fills its sheet. */
+  .cn-folder-file {
+    @apply top-[10%] left-[27%] aspect-[3/4] w-[46%] origin-bottom rounded-[2.5cqw] bg-(--folder-paper) shadow-[0_0_0_1px_var(--folder-edge),0_0.5cqw_2cqw_color-mix(in_oklab,black_8%,transparent)] [translate:calc((var(--folder-file-x)+var(--folder-file-dx)*var(--folder-open))*100%)_calc((var(--folder-file-y)+var(--folder-file-dy)*var(--folder-open))*100%)] [rotate:calc((var(--folder-file-rotate)+var(--folder-file-drotate)*var(--folder-open))*1deg)] transition-[translate,rotate] duration-[calc(var(--folder-files-duration)*var(--motion-scale,1))] ease-(--folder-files-ease) delay-[calc(var(--folder-file-index)*var(--folder-stagger)*var(--motion-feedback)*0.5*var(--motion-scale,1))] motion-reduce:transition-none [&_img]:size-full [&_img]:object-cover;
+  }
+
+  /* A blank sheet: a heading and four lines of text, in a faint tint of
+     the folder's mark. */
+  .cn-folder-file-lines {
+    @apply gap-[2.5cqw] p-[4.5cqw] *:h-[1.5cqw] *:shrink-0 *:rounded-full *:bg-(--folder-line) *:first:mb-[1cqw] *:first:h-[3cqw] *:first:w-3/4 *:last:w-1/2;
+  }
+
+  /* The front tips forward from its foot as the folder opens, in
+     perspective, on the move timing: 24deg, or the variant's --folder-tilt
+     and --folder-drop. */
+  .cn-folder-front {
+    @apply z-10 origin-bottom [transform:perspective(var(--folder-perspective,320cqw))_translateY(calc(var(--folder-open)*var(--folder-drop,0%)))_rotateX(calc(var(--folder-open)*var(--folder-tilt,-24deg)))] transition-transform duration-[calc(var(--folder-front-duration)*var(--motion-scale,1))] ease-move motion-reduce:transition-none;
+  }
+
+  /* The front's ring, the faint edge every surface has. Half the stroke
+     falls outside the shape and is masked away. */
+  .cn-folder-front-edge {
+    @apply fill-none stroke-(--folder-edge) [stroke-width:2];
+  }
+
+  /* The cover rides on the front, in the same box and the same tilt, in the
+     folder's ink. Badges on it turn frosted pills of the brightest surface,
+     and a group's avatars are ringed in the front's colour instead of the
+     page's. Icons take the density's icon size. */
+  .cn-folder-cover {
+    @apply z-20 gap-[3cqw] p-[5cqw] text-(--folder-ink) [&_[data-slot=badge]]:bg-[color-mix(in_oklab,var(--surface-5)_70%,transparent)] [&_[data-slot=badge]]:text-inherit [&_[data-slot=badge]]:shadow-[0_0_0_1px_var(--folder-edge)] [&_[data-slot=badge]]:backdrop-blur-sm [&_[data-slot=avatar-group]>[data-slot=avatar]]:ring-(--folder-front) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] origin-bottom [transform:perspective(var(--folder-perspective,320cqw))_translateY(calc(var(--folder-open)*var(--folder-drop,0%)))_rotateX(calc(var(--folder-open)*var(--folder-tilt,-24deg)))] transition-transform duration-[calc(var(--folder-front-duration)*var(--motion-scale,1))] ease-move motion-reduce:transition-none;
+  }
+
+  /* The name, one line, truncated. A link or button in it stretches over
+     the whole tile, above the drawing; the tile shows its focus. */
+  .cn-folder-title {
+    @apply truncate text-(length:--density-text-13) font-medium text-foreground [&_:is(a,button)]:outline-none [&_:is(a,button)]:after:absolute [&_:is(a,button)]:after:inset-0 [&_:is(a,button)]:after:z-30 [&_:is(a,button)]:after:rounded-xl;
+  }
+
+  /* Details under the name: a count, a date. Muted, one line. */
+  .cn-folder-description {
+    @apply -mt-(--density-6) truncate text-(length:--density-text-12) text-muted-foreground tabular-nums;
+  }
+
 /* MARK: Funnel Chart */
 
   /* The funnel fills its container's width; 18rem tall until the page
@@ -7519,6 +7651,29 @@
 
   .cn-tabs-content {
     @apply text-(length:--density-text-13);
+  }
+
+/* MARK: Text Motion */
+
+  /* Text Motion takes the type of the element around it, so it sits inside a
+     heading or a paragraph as plain text would. Its distances are in em, so a
+     headline travels further than a caption and the motion keeps its
+     proportions at any size. Pieces travel 0.35em and blur from 0.12em: about
+     the popup's few pixels of travel at body size, enough to read as arriving.
+     Scale starts at 0.8, lower than a surface's 0.95, since a letter is small
+     enough that 0.95 would not show. Flip turns pieces over a drum 10em away,
+     a gentle perspective. The shimmer's light is the foreground, so it reads
+     on muted text in both themes; the typing caret is the foreground too, as
+     thin as a text field's. */
+  .cn-text-motion {
+    @apply [--text-motion-blur:0.12em] [--text-motion-caret-width:max(1px,0.06em)] [--text-motion-caret:var(--foreground)] [--text-motion-distance:0.35em] [--text-motion-highlight:var(--foreground)] [--text-motion-perspective:10em] [--text-motion-scale:0.8];
+  }
+
+  /* The rotating text holds the widest text's width, so the sentence never
+     jumps as the words change, and keeps a text of a few words on one line,
+     so the box never grows a second line mid-turn. */
+  .cn-text-motion-rotate {
+    @apply whitespace-nowrap;
   }
 
 /* MARK: Textarea */

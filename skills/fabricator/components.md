@@ -100,6 +100,7 @@ Every dialog, sheet and drawer has a title. Two modal layers at most.
 | `accordion` | Lines that open in place | Items part into cards; the base of draft-first setup and "Advanced" |
 | `collapsible`| One region that folds | |
 | `file-tree` | Folders and files | Guides, type icons, multiple selection |
+| `folder` | Collections opened from a grid, as a drive shows them | `FolderPreview` > `FolderFiles` (up to three `FolderFile`: blank sheet or a thumbnail) + `FolderCover` (badges, avatars); a link in `FolderTitle` makes the tile the target; `color` takes a palette name or role, `variant="glass"`; `open` for a drop target. `w-full` in an `auto-fill` grid |
 | `carousel` | Media to swipe through | Never for content people must see |
 | Status dot | Something live, beside its word | No component: `<span aria-hidden className="size-2 shrink-0 rounded-full bg-success" />` then the word |
 | Metadata | Pairs of label and value | A `dl` in two columns: grey `dt`, foreground `dd` aligned to the end |
@@ -145,6 +146,7 @@ One headline number is type (`Metric` role) with a delta `Badge`, not a chart.
 | `video-player` | Video with captions and chapters; compact in cards |
 | `aspect-ratio` | Holding the space of media before it loads |
 | `typography` | Long-form HTML outside Markdown |
+| `text-motion` | A hero, section title or status that should play in: effects are layers (`fade`, `blur`, `rise`, `mask`, `scramble`, `type`…); `TextMotionGroup` sequences lines, `TextMotionRotate` cycles a word, `loop="shimmer"` for a working status. Websites and moments, never app content |
 
 ## Feedback and waiting
 
@@ -190,6 +192,7 @@ How loud each is: [states.md](states.md#how-loud).
 | `Switch`, `Checkbox` | Takes effect now: Switch. Submitted later, or part of a list: Checkbox |
 | `Table`, `DataTable`, `ItemGroup`| Compared by column: Table. Worked on: DataTable. Read one by one, or under about 480px: ItemGroup |
 | `Card`, `Item` | A thing with content of its own: Card. A row among equals: Item |
+| `Folder`, `FileTree`, `Item` | Collections browsed as tiles: Folder. A hierarchy opened in place: FileTree. A list of folders read by name and date: Item |
 | `Dialog`, `Sheet`, `AppShellPanel`, page | Finish and go: Dialog. Needs the page: Sheet. Kept open while working: Panel. Has a URL or more than seven asks: page |
 | `Popover`, `DropdownMenu` | Controls: Popover. Actions: DropdownMenu |
 | `Alert`, toast | Still true in a minute: Alert. A result: toast |

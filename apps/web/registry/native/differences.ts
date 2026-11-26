@@ -34,6 +34,10 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "touch",
     note: "Files are URI assets with name, type and size. The host supplies onPick or FileUploadPickerProvider; validation, rejection reasons, controlled values, chips, previews and removal share the web rules. Browser drag/drop, hidden inputs and HTML forms have no native equivalent. The component does not send files to a server.",
   },
+  folder: {
+    tier: "touch",
+    note: "A press, or an iPad pointer resting on it, lifts the files out and tips the front open; `open` holds it, as hover and focus do on the website. `onPress` makes the tile a button. `color` takes a palette name, a role, hex, rgb(), hsl() or oklch(); the website also reads named CSS colours. Glass has no blur behind it, so its front is denser to frost the files. Text on the cover is the text colour rather than the folder colour's text token, and badges on it keep their own look instead of turning frosted pills. `size` sets the tile's width; its text follows the device's density.",
+  },
   "image-compare": {
     tier: "touch",
     note: 'A horizontal drag moves the line and a vertical one scrolls the page; a tap glides it there and a flick sends it to the edge, with a notch every step. One SVG draws both pictures with the same cover crop and clips the "before" one along the curve. Screen readers adjust it by `step` with swipes up and down. There\'s no hover or keyboard, and the labels have no backdrop blur.',
