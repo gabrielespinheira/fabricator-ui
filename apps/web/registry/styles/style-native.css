@@ -4336,61 +4336,106 @@
     @apply gap-(--density-12) data-[fit=fill]:flex-1;
   }
 
-  .cn-kanban-toolbar-rows {
+  /* One compact line: the board is the screen, and this only arranges it. */
+  .cn-kanban-toolbar {
+    @apply min-h-(--density-36) gap-(--density-8);
+  }
+
+  .cn-kanban-toolbar-start {
     @apply gap-(--density-8);
   }
 
-  .cn-kanban-toolbar {
-    @apply gap-(--density-8);
+  .cn-kanban-toolbar-title {
+    @apply text-(length:--density-text-16) font-semibold text-foreground;
   }
 
   .cn-kanban-toolbar-end {
+    @apply gap-(--density-4);
+  }
+
+  .cn-kanban-toolbar-controls {
     @apply gap-px;
   }
 
-  .cn-kanban-search-field {
-    @apply min-w-24;
+  .cn-kanban-toolbar-actions {
+    @apply ms-(--density-4) gap-(--density-8);
   }
 
+  /* Closed it is one of the toolbar's quiet buttons. */
   .cn-kanban-search {
-    @apply ps-[38px];
-  }
-
-  .cn-kanban-search-icon {
-    @apply w-[38px];
+    @apply rounded-lg data-[open=false]:bg-transparent;
   }
 
   .cn-kanban-control {
-    @apply px-0;
+    @apply gap-(--density-6);
   }
 
-  .cn-kanban-chips {
-    @apply gap-(--density-8);
+  /* MARK: Kanban filter */
+
+  /* One object: a quiet button until it filters, then a pill that says what it
+     is on. */
+  .cn-kanban-filter {
+    @apply rounded-lg data-[active=true]:bg-hover;
   }
 
-  /* One filter: what it is on, and the way to drop it. */
-  .cn-kanban-chip {
-    @apply rounded-lg bg-hover pe-(--density-4);
+  .cn-kanban-filter-trigger {
+    @apply gap-(--density-6) px-(--density-8);
   }
 
-  .cn-kanban-chip-trigger {
-    @apply px-(--density-10);
+  .cn-kanban-filter-parts {
+    @apply grow-0;
   }
 
-  .cn-kanban-chip-name {
+  .cn-kanban-filter-part {
+    @apply gap-(--density-6) px-(--density-8);
+  }
+
+  .cn-kanban-filter-name {
     @apply text-(length:--density-text-13) text-muted-foreground;
   }
 
-  .cn-kanban-chip-text {
-    @apply max-w-40 text-(length:--density-text-13) text-foreground;
+  .cn-kanban-filter-value {
+    @apply max-w-40 gap-(--density-6);
   }
 
-  .cn-kanban-chip-remove {
-    @apply px-0;
+  .cn-kanban-filter-marks {
+    @apply gap-(--density-4);
   }
 
-  .cn-kanban-clear {
-    @apply px-(--density-10);
+  .cn-kanban-filter-count {
+    @apply h-5 min-w-5 rounded-full bg-primary px-1;
+  }
+
+  .cn-kanban-filter-count-text {
+    @apply text-[11px] font-medium text-primary-foreground;
+  }
+
+  .cn-kanban-filter-clear {
+    @apply me-(--density-4);
+  }
+
+  .cn-kanban-filter-panel {
+    @apply gap-(--density-4) p-(--density-16) pt-(--density-12);
+  }
+
+  .cn-kanban-filter-header {
+    @apply min-h-(--density-36) gap-(--density-4);
+  }
+
+  .cn-kanban-filter-title {
+    @apply text-(length:--density-text-16);
+  }
+
+  .cn-kanban-filter-reset {
+    @apply px-(--density-8);
+  }
+
+  .cn-kanban-filter-list {
+    @apply -mx-(--density-8);
+  }
+
+  .cn-kanban-filter-row {
+    @apply gap-(--density-8) px-(--density-8);
   }
 
   .cn-kanban-view-groups {
@@ -4450,9 +4495,10 @@
     @apply rounded-xl bg-foreground/3 data-[drop-target=true]:bg-foreground/5;
   }
 
-  /* The header's text starts on the cards' text. */
+  /* The header spans the cards: its glyph starts on their edge and the menu's
+     dots end on the other. */
   .cn-kanban-column-header {
-    @apply mb-(--density-6) h-(--density-40) gap-(--density-8) ps-(--density-20) pe-(--density-8);
+    @apply mb-(--density-6) h-(--density-40) gap-(--density-8) px-(--density-8);
   }
 
   .cn-kanban-column-title {
@@ -4467,8 +4513,9 @@
     @apply text-(length:--density-text-13) text-muted-foreground data-[limit=at]:text-foreground data-[limit=over]:text-warning-text;
   }
 
+  /* Pulls out by the air around its last icon. */
   .cn-kanban-column-actions {
-    @apply gap-px;
+    @apply -me-1.5 gap-px;
   }
 
   .cn-kanban-column-body {
@@ -4568,16 +4615,21 @@
     @apply text-(length:--density-text-12) font-medium text-primary-foreground;
   }
 
+  /* One narrow column after the last. */
+  .cn-kanban-end {
+    @apply w-52 gap-(--density-8);
+  }
+
   .cn-kanban-hidden {
-    @apply w-52 px-(--density-4);
+    @apply gap-px;
   }
 
   .cn-kanban-hidden-label {
-    @apply h-(--density-40) px-(--density-8) pt-(--density-10) text-(length:--density-text-13) text-muted-foreground;
+    @apply px-(--density-8) py-(--density-6) text-(length:--density-text-12) text-muted-foreground;
   }
 
   .cn-kanban-hidden-item {
-    @apply px-(--density-8);
+    @apply gap-(--density-8) px-(--density-8);
   }
 
   /* Floats over the foot of the board, so cards never move to make room. */
@@ -4602,11 +4654,11 @@
   }
 
   .cn-kanban-column-create {
-    @apply w-52 py-0.5;
+    @apply py-0.5;
   }
 
   .cn-kanban-column-add {
-    @apply px-(--density-8);
+    @apply gap-(--density-8) px-(--density-8);
   }
 
 /* MARK: Kbd */

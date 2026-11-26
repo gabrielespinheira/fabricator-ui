@@ -60,6 +60,8 @@ type KanbanColumnProps<Item> = React.ComponentProps<"section"> &
     ) => readonly ControlMenuItem[]
     /** "New card", under the cards and on the header's add button. */
     addLabel?: string
+    /** An add button in the header too, which adds at the top. */
+    hasHeaderAdd?: boolean
     /** Loads the next page on reaching the end, or behind a button. */
     paging?: "scroll" | "button"
   }
@@ -76,6 +78,7 @@ function KanbanColumn<Item>({
   onAddCard,
   getColumnActions,
   addLabel = "New card",
+  hasHeaderAdd = false,
   paging = "scroll",
   onMenu,
   onOpenCard,
@@ -190,7 +193,7 @@ function KanbanColumn<Item>({
         }
         isBlocked={!!target?.blocked}
         addLabel={addLabel}
-        onAdd={canAdd ? () => add("start") : undefined}
+        onAdd={hasHeaderAdd && canAdd ? () => add("start") : undefined}
         onCollapse={() => setCollapsed(true)}
         actions={getColumnActions?.(column) ?? []}
       />
@@ -452,7 +455,7 @@ function KanbanColumnHeader<Item>({
         <span
           data-slot="kanban-column-hint"
           data-blocked={isBlocked || undefined}
-          className="cn-kanban-column-hint min-w-0 flex-1 truncate text-end"
+          className="cn-kanban-column-hint peer/kanban-hint min-w-0 flex-1 truncate text-end"
         >
           {hint}
         </span>

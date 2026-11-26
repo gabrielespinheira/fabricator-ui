@@ -591,10 +591,11 @@ function PropertyFileAdd({
       onOpenChange={setOpen}
       isRaised
       layout="form"
-      className={cn(
-        "cn-properties-trigger",
-        !isEmpty && "cn-properties-file-add"
-      )}
+      className={
+        isEmpty
+          ? cn("cn-properties-trigger")
+          : cn("cn-properties-trigger cn-properties-file-add")
+      }
       trigger={
         isEmpty ? (
           <span

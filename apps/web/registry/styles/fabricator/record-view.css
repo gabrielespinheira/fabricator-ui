@@ -84,7 +84,7 @@
   }
 
   .cn-record-view-footer {
-    @apply gap-(--density-8) px-(--density-16) pt-(--density-8) pb-(--density-16);
+    @apply gap-(--density-8) px-(--density-20) pt-(--density-8) pb-(--density-20);
   }
 
   .cn-record-view-state {

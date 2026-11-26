@@ -122,6 +122,7 @@ type ControlPopoverProps = {
   className?: string
   /** What the popup holds, which decides its width and padding. */
   layout?:
+    | "filter"
     | "color"
     | "picker"
     | "calendar"
@@ -156,6 +157,8 @@ type ControlOptionsProps = {
   onCreate?: (label: string) => void
   placeholder?: string
   emptyText?: string
+  /** Takes the focus as it appears. A drawer leaves it out: the keyboard would cover it. */
+  hasFocus?: boolean
 }
 
 type ControlToggleProps = {
@@ -367,6 +370,7 @@ function ControlOptions({
   onCreate,
   placeholder = "Search…",
   emptyText = "No results.",
+  hasFocus = true,
 }: ControlOptionsProps) {
   const [query, setQuery] = React.useState("")
   const name = query.trim()
@@ -377,7 +381,7 @@ function ControlOptions({
   return (
     <Command label={label}>
       <CommandInput
-        autoFocus
+        autoFocus={hasFocus}
         placeholder={placeholder}
         value={query}
         onValueChange={setQuery}

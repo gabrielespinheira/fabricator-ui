@@ -3,6 +3,8 @@ import assistant01Dark from "@/public/blocks/assistant-01-dark.webp"
 import assistant01Light from "@/public/blocks/assistant-01-light.webp"
 import billing01Dark from "@/public/blocks/billing-01-dark.webp"
 import billing01Light from "@/public/blocks/billing-01-light.webp"
+import board01Dark from "@/public/blocks/board-01-dark.webp"
+import board01Light from "@/public/blocks/board-01-light.webp"
 import calendarApp01Dark from "@/public/blocks/calendar-app-01-dark.webp"
 import calendarApp01Light from "@/public/blocks/calendar-app-01-light.webp"
 import finance01Dark from "@/public/blocks/finance-01-dark.webp"
@@ -36,6 +38,7 @@ export type GalleryBlock = BlockSummary & {
 export const blockPreviews: Partial<Record<string, BlockPreviews>> = {
   "assistant-01": { light: assistant01Light, dark: assistant01Dark },
   "billing-01": { light: billing01Light, dark: billing01Dark },
+  "board-01": { light: board01Light, dark: board01Dark },
   "calendar-app-01": { light: calendarApp01Light, dark: calendarApp01Dark },
   "finance-01": { light: finance01Light, dark: finance01Dark },
   "forgot-password-01": {

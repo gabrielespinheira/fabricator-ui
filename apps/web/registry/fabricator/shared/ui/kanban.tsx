@@ -42,7 +42,7 @@ type KanbanBoardProps<Item> = React.ComponentProps<"div"> &
   KanbanCardRenderers<Item> &
   Pick<
     KanbanColumnProps<Item>,
-    "onAddCard" | "getColumnActions" | "addLabel" | "paging"
+    "onAddCard" | "getColumnActions" | "addLabel" | "hasHeaderAdd" | "paging"
   > & {
     board: KanbanController<Item>
     /** The app's items in a card's menu. */
@@ -72,6 +72,7 @@ function Kanban<Item>({
   getColumnActions,
   getCardActions,
   addLabel,
+  hasHeaderAdd,
   paging,
   onOpenCard,
   getHref,
@@ -103,6 +104,7 @@ function Kanban<Item>({
             getColumnActions={getColumnActions}
             getCardActions={getCardActions}
             addLabel={addLabel}
+            hasHeaderAdd={hasHeaderAdd}
             paging={paging}
             onOpenCard={onOpenCard}
             getHref={getHref}
@@ -135,6 +137,7 @@ function KanbanBoard<Item>({
   getColumnActions,
   getCardActions,
   addLabel,
+  hasHeaderAdd,
   paging,
   onOpenCard,
   getHref,
@@ -286,7 +289,11 @@ function KanbanBoard<Item>({
                   <div
                     key={key}
                     data-slot="kanban-lane"
-                    className="cn-kanban-lane flex min-h-0 flex-1 flex-col"
+                    className={cn(
+                      "cn-kanban-lane flex flex-col",
+                      // Lanes keep their height and the board scrolls.
+                      hasLanes ? "shrink-0" : "min-h-0 flex-1"
+                    )}
                   >
                     {hasLanes && (
                       <button
@@ -346,6 +353,7 @@ function KanbanBoard<Item>({
                             onAddCard={onAddCard}
                             getColumnActions={getColumnActions}
                             addLabel={addLabel}
+                            hasHeaderAdd={hasHeaderAdd}
                             paging={paging}
                             onMenu={(id, point) => setMenu({ id, point })}
                             onOpenCard={onOpenCard}
@@ -355,11 +363,8 @@ function KanbanBoard<Item>({
                             openId={openId}
                           />
                         ))}
-                        {!hasLanes && hidden.length > 0 && (
-                          <KanbanHiddenColumns board={board} hidden={hidden} />
-                        )}
-                        {!hasLanes && board.onColumnsChange && (
-                          <KanbanColumnCreate board={board} />
+                        {!hasLanes && (
+                          <KanbanEnd board={board} hidden={hidden} />
                         )}
                       </div>
                     )}
@@ -392,6 +397,28 @@ function KanbanBoard<Item>({
   )
 }
 
+/** After the columns: a new one, then the hidden ones. */
+function KanbanEnd<Item>({
+  board,
+  hidden,
+}: {
+  board: KanbanController<Item>
+  hidden: KanbanController<Item>["groups"]
+}) {
+  if (!board.onColumnsChange && !hidden.length) return null
+  return (
+    <div
+      data-slot="kanban-end"
+      className="cn-kanban-end flex shrink-0 flex-col"
+    >
+      {board.onColumnsChange && <KanbanColumnCreate board={board} />}
+      {hidden.length > 0 && (
+        <KanbanHiddenColumns board={board} hidden={hidden} />
+      )}
+    </div>
+  )
+}
+
 /** Columns left out of the view, one click from coming back. */
 function KanbanHiddenColumns<Item>({
   board,
@@ -404,14 +431,13 @@ function KanbanHiddenColumns<Item>({
     <section
       aria-label="Hidden columns"
       data-slot="kanban-hidden-columns"
-      className="cn-kanban-hidden flex shrink-0 flex-col"
+      className="cn-kanban-hidden flex flex-col"
     >
       <p className="cn-kanban-hidden-label">Hidden</p>
       {hidden.map(({ column, items }) => (
         <Button
           key={column.id}
           variant="ghost"
-          size="sm"
           className="cn-kanban-hidden-item w-full"
           onClick={() =>
             board.setView({
@@ -452,10 +478,7 @@ function KanbanColumnCreate<Item>({
     ])
   }
   return (
-    <div
-      data-slot="kanban-column-create"
-      className="cn-kanban-column-create shrink-0"
-    >
+    <div data-slot="kanban-column-create" className="cn-kanban-column-create">
       {isOpen ? (
         <Input
           autoFocus
@@ -503,7 +526,6 @@ export {
 } from "@/registry/bases/__base__/components/kanban-column"
 export {
   KanbanFilter,
-  KanbanFilterChips,
   KanbanGroup,
   KanbanNotices,
   KanbanSearch,

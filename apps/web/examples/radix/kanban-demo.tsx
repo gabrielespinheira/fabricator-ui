@@ -456,14 +456,19 @@ function KanbanDemo() {
         >
           {(board) => (
             <>
-              <div className="flex items-center gap-3">
-                <h1 className="min-w-0 flex-1 truncate text-base font-semibold">
-                  Storefront
-                  <span className="ms-2 text-sm font-normal text-muted-foreground">
-                    {issues.length} cards
-                  </span>
-                </h1>
+              <KanbanToolbar
+                board={board}
+                title={
+                  <h1>
+                    Storefront
+                    <span className="ms-2 text-xs font-normal text-muted-foreground @max-2xl/kanban-toolbar:hidden">
+                      {issues.length} cards
+                    </span>
+                  </h1>
+                }
+              >
                 <Button
+                  size="sm"
                   onClick={() =>
                     setOpenId(
                       board.create("Untitled card", "planned", null, "start") ??
@@ -471,11 +476,12 @@ function KanbanDemo() {
                     )
                   }
                 >
-                  <PlusIcon data-icon="inline-start" />
-                  New card
+                  <PlusIcon />
+                  <span className="@max-2xl/kanban-toolbar:sr-only">
+                    New card
+                  </span>
                 </Button>
-              </div>
-              <KanbanToolbar board={board} />
+              </KanbanToolbar>
               <KanbanBoard
                 board={board}
                 openId={openId}

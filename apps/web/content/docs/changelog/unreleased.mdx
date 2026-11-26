@@ -35,6 +35,8 @@ These changes are merged and ship in the next version.
 
 ## Components
 
+**Faster updates in Advanced components.** File Tree reuses selection and expansion lookups, Syntax Highlight reuses unchanged code lines, Audio Player keeps waveform bars stable during playback and scrubbing, and Editor reuses its word count when the caret moves. These improvements cover web and React Native.
+
 **Drawer and Sheet widths.** Top and bottom panels are centered and capped at 36rem on wider screens. They keep their full width on phones.
 
 **Theme tabs in the User Menu.** `UserMenuTheme` adds a Theme row to the menu with light, dark and system as small tabs. The pill slides to the picked one and the page reveals from it with Theme Toggle's blurred circle, or any other `variant`. It comes with `useThemePreference`, the same behaviour for tabs of your own. React Native has the row without the page reveal.
@@ -97,9 +99,13 @@ These changes are merged and ship in the next version.
 
 **Settings, Members, Billing and Onboarding.** Add `settings-01`, `members-01`, `billing-01` or `onboarding-01` for workspace settings, invitations and roles, plan and invoice management, or a guided setup with a live workspace preview.
 
+**Project board.** Add `board-01` for a ticket board that fills the page: projects and saved views in the sidebar, filters, people and rows over tinted columns, a new ticket form on `C`, and each ticket beside the board with its properties, sub-tasks, comments and history.
+
 **Assistant upgrades.** If you previously installed `assistant-01`, its old `assistant-tool-call.tsx` can be removed after updating. The revised transcript uses grouped work steps.
 
 ## Docs
+
+**Advanced component references.** Expand any component under Advanced to find focused examples for its parts, hooks, configuration, and controls.
 
 **App Shell primitives.** The App Shell row under Components links to the overview and expands to show its installable companions and individual references. Each primitive reference starts with a live preview and its code. The overview shows how to customize sidebar grouping and tab placement.
 
@@ -107,6 +113,6 @@ These changes are merged and ship in the next version.
 
 Kanban, Properties and Record View for React web and React Native, over your own records and storage.
 
-- **Kanban:** drag anywhere on a card, with the slot it will land in, a stack for several cards, and columns that refuse a drop and say why. Arrow keys move between cards and ⌥⇧ with an arrow moves one. Columns have status glyphs, limits, colours and menus, rename with a double click, collapse to a rail or hide. The toolbar searches, filters, groups, sorts and sets what cards show. Cards show a cover from a files property, are added inline, selected with ⌘ or Shift click and edited together.
+- **Kanban:** drag anywhere on a card, with the slot it will land in, a stack for several cards, and columns that refuse a drop and say why. Arrow keys move between cards and ⌥⇧ with an arrow moves one. Columns have status glyphs, limits, colours and menus, rename with a double click, collapse to a rail or hide. One compact toolbar line searches, filters, groups, sorts and sets what cards show, and adapts to its width down to a phone. Cards show a cover from a files property, are added inline, selected with ⌘ or Shift click and edited together.
 - **Properties:** 25 types read and edited as rows, with date ranges and times, number formats, files and pictures, durations and colors. Each label opens its property's settings, drags to reorder, can hide when empty, and chooses whether cards show it. Values are validated, and apps add types of their own with settings, editors and rules.
 - **Record View:** a side panel over a live board, a centred dialog or a full page, with a title edited in place, a cover, and loading, missing and error states.

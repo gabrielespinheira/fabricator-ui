@@ -115,6 +115,8 @@ function useKanbanKeys<Item>({
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLElement>) {
+    // The app's own shortcut already answered.
+    if (event.defaultPrevented) return
     const card = getCard(event.target)
     const isCommand = event.metaKey || event.ctrlKey
     const isTyping =

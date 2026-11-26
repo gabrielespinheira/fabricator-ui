@@ -67,6 +67,7 @@ A card is one discrete thing: a metric, a chart, a list of things to do, a plan,
 | Preferences | Settings | Cards of one-line settings that save at once, danger last | `recipes/settings.md` |
 | One small thing to make | Create | Dialog or drawer, three asks | `recipes/create.md` |
 | A first run, a decision tree | Steps | One decision per step, progress on top, review at the end | `Questionnaire` |
+| Work moving through stages | Board | `Kanban` edge to edge under one row, projects and saved views in the sidebar, the open card beside it | `board-01` |
 | Things in time | Calendar | `EventCalendar` filling the column, sources in the sidebar, agenda on phones | `calendar-app-01` |
 | Several open documents | Workbench | `TabStrip`, full-width body, `FileTree`, inspector panels, status bar; compact | `app-shell-02` |
 | One document | Document | Reading-width column, `Editor`, saves itself, comments in a panel | `app-shell-01` |

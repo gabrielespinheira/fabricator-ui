@@ -228,6 +228,34 @@ function getFlatText(document: Pick<EditorDocument, "blocks">) {
   return document.blocks.map(getBlockFlatText).join(BLOCK_SEPARATOR)
 }
 
+function countWords(text: string) {
+  return text
+    .replaceAll(OBJECT_CHARACTER, " ")
+    .split(/\s+/)
+    .filter((word) => /[\p{L}\p{N}]/u.test(word)).length
+}
+
+// Selection keeps the blocks array. Edits replace only the changed blocks.
+const documentWordCounts = new WeakMap<readonly EditorBlock[], number>()
+const blockWordCounts = new WeakMap<EditorBlock, number>()
+
+function getEditorWordCount({ blocks }: Pick<EditorDocument, "blocks">) {
+  const cached = documentWordCounts.get(blocks)
+  if (cached !== undefined) return cached
+
+  let total = 0
+  for (const block of blocks) {
+    let count = blockWordCounts.get(block)
+    if (count === undefined) {
+      count = countWords(getBlockFlatText(block))
+      blockWordCounts.set(block, count)
+    }
+    total += count
+  }
+  documentWordCounts.set(blocks, total)
+  return total
+}
+
 // Transactions replace blocks and their array. Weak keys let selection changes
 // and block subscribers reuse the index without retaining old undo documents.
 const blockIndexes = new WeakMap<readonly EditorBlock[], Map<string, number>>()
@@ -473,6 +501,7 @@ export {
   LINE_BREAK,
   MARK_ORDER,
   OBJECT_CHARACTER,
+  countWords,
   createBlock,
   createBlockId,
   fromFlatOffset,
@@ -482,6 +511,7 @@ export {
   getBlockLength,
   getBlockStarts,
   getBlockText,
+  getEditorWordCount,
   getFlatText,
   getIndentLimit,
   getNextCharacterOffset,

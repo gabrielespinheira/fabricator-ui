@@ -85,7 +85,14 @@ function findPageProblems({ isPhone }: { isPhone: boolean }) {
         return false
       }
       const { width, height } = control.getBoundingClientRect()
-      return width > 2 && height > 2 && Math.min(width, height) < 24
+      // A card's title reaches over the whole card with its ::after.
+      const reach = getComputedStyle(control, "::after")
+      const isReaching = reach.position === "absolute"
+      const target = Math.min(
+        isReaching ? Math.max(width, parseFloat(reach.width) || 0) : width,
+        isReaching ? Math.max(height, parseFloat(reach.height) || 0) : height
+      )
+      return width > 2 && height > 2 && target < 24
     }
   )
   for (const control of small) {

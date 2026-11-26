@@ -226,6 +226,6 @@ Finished starting points. Inspect before installing, then replace the content.
 | --- | --- |
 | `app-shell-01` … `-05` | Frames: workspace with a Details panel, workbench with tabs, classic SaaS, desktop window, mobile first |
 | `finance-01` | A complete dashboard page |
-| `mail-01`, `messenger-01`, `assistant-01`, `calendar-app-01` | Complete list and detail, messaging, AI chat, calendar apps |
+| `mail-01`, `messenger-01`, `assistant-01`, `calendar-app-01`, `board-01` | Complete list and detail, messaging, AI chat, calendar and ticket board apps |
 | `sign-in-01`, `sign-up-01`, `forgot-password-01` | Authentication screens with their errors |
 | `login-01` … `-05`, `signup-01` … `-05`, `sidebar-01` … `-16` | Other sign-in, sign-up and sidebar layouts |

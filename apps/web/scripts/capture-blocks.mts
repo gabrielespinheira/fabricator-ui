@@ -58,8 +58,8 @@ async function waitForAssets(page: Page) {
   await page.evaluate(async () => {
     await document.fonts.ready
     const visible = [...document.images].filter((image) => {
-      const { top, bottom } = image.getBoundingClientRect()
-      return bottom > 0 && top < innerHeight
+      const { top, bottom, left, right } = image.getBoundingClientRect()
+      return bottom > 0 && top < innerHeight && right > 0 && left < innerWidth
     })
     // A picture that fails to decode is the block's to fix, not a reason to
     // stop: the capture shows it.

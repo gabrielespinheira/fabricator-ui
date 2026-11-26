@@ -4,7 +4,9 @@ import {
   ArrowRightIcon,
   ArrowUpDownIcon,
   ArrowUpIcon,
+  CheckIcon,
   ChevronDownIcon,
+  ChevronLeftIcon,
   ChevronRightIcon,
   CircleAlertIcon,
   Columns3Icon,
@@ -16,7 +18,6 @@ import {
   MinusIcon,
   PencilIcon,
   PlusIcon,
-  SearchIcon,
   SlidersHorizontalIcon,
   SquareCheckIcon,
   SquarePenIcon,
@@ -81,6 +82,7 @@ import {
 } from "@/registry/native/lib/kanban-drag"
 import { usePaletteMark } from "@/registry/native/lib/palette-color"
 import { Button } from "@/registry/native/ui/button"
+import { DensityScope } from "@/registry/native/ui/density"
 import { Drawer, DrawerContent, DrawerTitle } from "@/registry/native/ui/drawer"
 import { Input } from "@/registry/native/ui/input"
 import {
@@ -89,6 +91,7 @@ import {
   PropertyMark,
   PropertyValue,
 } from "@/registry/native/ui/properties"
+import { Search } from "@/registry/native/ui/search"
 import { Skeleton } from "@/registry/native/ui/skeleton"
 import { Switch } from "@/registry/native/ui/switch"
 import { Text } from "@/registry/native/ui/text"
@@ -119,6 +122,8 @@ type KanbanBoardProps<Item> = React.ComponentProps<typeof View> &
     ) => readonly ControlMenuItem[]
     getCardActions?: (item: Item) => readonly ControlMenuItem[]
     addLabel?: string
+    /** An add button in the header too. */
+    hasHeaderAdd?: boolean
     paging?: "scroll" | "button"
   }
 
@@ -147,6 +152,7 @@ function Kanban<Item>({
   getColumnActions,
   getCardActions,
   addLabel,
+  hasHeaderAdd,
   paging,
   onOpenCard,
   getCover,
@@ -182,6 +188,7 @@ function Kanban<Item>({
               getColumnActions={getColumnActions}
               getCardActions={getCardActions}
               addLabel={addLabel}
+              hasHeaderAdd={hasHeaderAdd}
               paging={paging}
               onOpenCard={onOpenCard}
               getCover={getCover}
@@ -203,57 +210,138 @@ function Kanban<Item>({
   )
 }
 
+/** How much room the toolbar has: the labels go first, then the filter's parts. */
+type KanbanRoom = "wide" | "compact" | "narrow"
+
+const KanbanRoomContext = React.createContext<KanbanRoom>("narrow")
+
+const COMPACT_BELOW = 960
+const NARROW_BELOW = 560
+
+function getKanbanRoom(width: number): KanbanRoom {
+  if (width < NARROW_BELOW) return "narrow"
+  return width < COMPACT_BELOW ? "compact" : "wide"
+}
+
+/**
+ * One compact line over the board: what it is and what it is filtered by at the
+ * start, how it is arranged at the end, then the app's own actions.
+ */
 function KanbanToolbar<Item>({
   board,
+  title,
   className,
   children,
+  onLayout,
   ...props
-}: React.ComponentProps<typeof View> & KanbanPartProps<Item>) {
+}: React.ComponentProps<typeof View> &
+  KanbanPartProps<Item> & {
+    /** What the board is, at the start. Text is drawn as the title. */
+    title?: React.ReactNode
+    /** The app's actions, last in the line. */
+    children?: React.ReactNode
+  }) {
+  const [room, setRoom] = React.useState<KanbanRoom>("narrow")
+  const [isSearching, setIsSearching] = React.useState(false)
+  const isSearchOpen = isSearching || !!board.view.search
+  const isLineSearch = room === "narrow" && isSearchOpen
   return (
-    <View className="cn-kanban-toolbar-rows">
-      <View
-        data-slot="kanban-toolbar"
-        className={cn("cn-kanban-toolbar flex-row items-center", className)}
-        {...props}
-      >
-        <KanbanSearch board={board} />
-        <KanbanFilter board={board} />
-        <View className="cn-kanban-toolbar-end flex-row items-center">
-          {children}
-          <KanbanGroup board={board} />
-          <KanbanSort board={board} />
-          <KanbanViewOptions board={board} />
+    <KanbanRoomContext value={room}>
+      <DensityScope density="compact">
+        <View
+          data-slot="kanban-toolbar"
+          className={cn("cn-kanban-toolbar flex-row items-center", className)}
+          onLayout={(event) => {
+            setRoom(getKanbanRoom(event.nativeEvent.layout.width))
+            onLayout?.(event)
+          }}
+          {...props}
+        >
+          {!isLineSearch && (
+            <View
+              data-slot="kanban-toolbar-start"
+              className="cn-kanban-toolbar-start min-w-0 flex-1 flex-row items-center"
+            >
+              {typeof title === "string" ? (
+                <Text
+                  data-slot="kanban-toolbar-title"
+                  numberOfLines={1}
+                  accessibilityRole="header"
+                  className="cn-kanban-toolbar-title shrink"
+                >
+                  {title}
+                </Text>
+              ) : (
+                title
+              )}
+              <KanbanFilter board={board} />
+            </View>
+          )}
+          <View
+            data-slot="kanban-toolbar-end"
+            className={cn(
+              "cn-kanban-toolbar-end flex-row items-center",
+              isLineSearch && "flex-1"
+            )}
+          >
+            <KanbanSearch
+              board={board}
+              collapsible={room !== "wide"}
+              open={isSearchOpen}
+              onOpenChange={setIsSearching}
+              isFilling={isLineSearch}
+            />
+            {!isLineSearch && (
+              <>
+                <View className="cn-kanban-toolbar-controls flex-row items-center">
+                  <KanbanGroup board={board} />
+                  <KanbanSort board={board} />
+                  <KanbanViewOptions board={board} />
+                </View>
+                {children && (
+                  <View className="cn-kanban-toolbar-actions flex-row items-center">
+                    {children}
+                  </View>
+                )}
+              </>
+            )}
+          </View>
         </View>
-      </View>
-      <KanbanFilterChips board={board} />
-    </View>
+      </DensityScope>
+    </KanbanRoomContext>
   )
 }
 
 function KanbanSearch<Item>({
   board,
   placeholder = "Search cards",
-}: KanbanPartProps<Item> & { placeholder?: string }) {
-  const [muted] = useCSSVariable(["--muted-foreground"])
+  collapsible = false,
+  open,
+  onOpenChange,
+  isFilling = false,
+}: KanbanPartProps<Item> & {
+  placeholder?: string
+  /** A button that opens into the field, where there is no room for it. */
+  collapsible?: boolean
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  /** Takes the whole line while it is open. */
+  isFilling?: boolean
+}) {
   return (
-    <View className="cn-kanban-search-field relative flex-1 justify-center">
-      <Input
-        accessibilityLabel={placeholder}
-        placeholder={placeholder}
-        className="cn-kanban-search"
-        value={board.view.search ?? ""}
-        onChangeText={(search) => board.setView({ ...board.view, search })}
-      />
-      <View
-        pointerEvents="none"
-        className="cn-kanban-search-icon absolute start-0 items-center"
-      >
-        <SearchIcon
-          size={16}
-          color={typeof muted === "string" ? muted : undefined}
-        />
-      </View>
-    </View>
+    <Search
+      size="sm"
+      variant={open || !collapsible ? "outline" : "default"}
+      label={placeholder}
+      placeholder={placeholder}
+      className="cn-kanban-search"
+      width={isFilling ? "100%" : 200}
+      collapsible={collapsible}
+      open={open}
+      onOpenChange={onOpenChange}
+      value={board.view.search ?? ""}
+      onValueChange={(search) => board.setView({ ...board.view, search })}
+    />
   )
 }
 
@@ -277,24 +365,6 @@ function getOptionIcon(
   ) : (
     <PropertyMark mark={option} />
   )
-}
-
-function getFilterItems<Item>(
-  board: KanbanController<Item>,
-  property: PropertyDefinition
-): ControlMenuItem[] {
-  const picked = getOptionFilter(board.view.filters, property.id)
-  return (property.options ?? [])
-    .filter(({ value, isArchived }) => !isArchived || picked.includes(value))
-    .map((option) => ({
-      type: "check",
-      id: option.value,
-      label: option.label,
-      icon: getOptionIcon(property, option),
-      isChecked: picked.includes(option.value),
-      staysOpen: true,
-      onSelect: () => toggleFilter(board, property, option.value),
-    }))
 }
 
 /** A button that opens its menu data in a sheet. */
@@ -336,114 +406,241 @@ function KanbanSheetButton({
   )
 }
 
+/** The filter without one property's part, or without any. */
+function clearFilter<Item>(
+  board: KanbanController<Item>,
+  property?: PropertyDefinition
+) {
+  const filters = property
+    ? (board.view.filters?.filters.filter(
+        (entry) => !("propertyId" in entry) || entry.propertyId !== property.id
+      ) ?? [])
+    : []
+  board.setView({
+    ...board.view,
+    filters: filters.length
+      ? { match: board.view.filters?.match ?? "all", filters }
+      : undefined,
+  })
+}
+
+/**
+ * The whole filter in one control. It says what it is on, each part opens where
+ * it is changed, and one tap clears it. With less room it is a count.
+ */
 function KanbanFilter<Item>({ board }: KanbanPartProps<Item>) {
+  const room = React.use(KanbanRoomContext)
+  const [open, setOpen] = React.useState(false)
+  const [propertyId, setPropertyId] = React.useState<string | null>(null)
   const properties = board.properties.filter((property) =>
     isChoiceProperty(property, board.types)
   )
   if (!properties.length) return null
+  const active = properties.filter(
+    ({ id }) => getOptionFilter(board.view.filters, id).length > 0
+  )
+  function show(id: string | null) {
+    setPropertyId(id)
+    setOpen(true)
+  }
   return (
-    <KanbanSheetButton
-      label="Filter cards"
-      variant="outline"
-      groups={[
-        {
-          id: "properties",
-          items: properties.map((property) => ({
-            type: "submenu" as const,
-            id: property.id,
-            label: property.name,
-            icon: <PropertyIcon property={property} />,
-            groups: [
-              { id: property.id, items: getFilterItems(board, property) },
-            ],
-          })),
-        },
-      ]}
+    <View
+      data-slot="kanban-filter"
+      data-active={active.length > 0}
+      className="cn-kanban-filter shrink flex-row items-center"
     >
-      <ListFilterIcon />
-    </KanbanSheetButton>
+      <Button
+        variant="ghost"
+        size="sm"
+        accessibilityLabel={
+          active.length
+            ? `Filter: ${active.map(({ name }) => name).join(", ")}`
+            : "Filter cards"
+        }
+        aria-haspopup="dialog"
+        className="cn-kanban-filter-trigger"
+        onPress={() => show(null)}
+      >
+        <ListFilterIcon />
+        {active.length === 0
+          ? room !== "narrow" && <Text>Filter</Text>
+          : room !== "wide" && (
+              <View className="cn-kanban-filter-count items-center justify-center">
+                <Text className="cn-kanban-filter-count-text">
+                  {active.length}
+                </Text>
+              </View>
+            )}
+      </Button>
+      {room === "wide" && active.length > 0 && (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className="cn-kanban-filter-parts shrink"
+        >
+          {active.map((property) => (
+            <Pressable
+              key={property.id}
+              data-slot="kanban-filter-part"
+              accessibilityRole="button"
+              accessibilityLabel={`Change ${property.name.toLowerCase()} filter`}
+              className="cn-kanban-filter-part flex-row items-center"
+              onPress={() => show(property.id)}
+            >
+              <Text className="cn-kanban-filter-name">{property.name}</Text>
+              <KanbanFilterValue board={board} property={property} />
+            </Pressable>
+          ))}
+        </ScrollView>
+      )}
+      {active.length > 0 && (
+        <Button
+          variant="ghost"
+          size="icon-xs"
+          accessibilityLabel="Clear filters"
+          className="cn-kanban-filter-clear"
+          onPress={() => clearFilter(board)}
+        >
+          <XIcon />
+        </Button>
+      )}
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerContent>
+          <KanbanFilterPanel
+            board={board}
+            properties={properties}
+            property={properties.find(({ id }) => id === propertyId)}
+            onPropertyChange={(property) => setPropertyId(property?.id ?? null)}
+          />
+        </DrawerContent>
+      </Drawer>
+    </View>
   )
 }
 
-function KanbanFilterChips<Item>({ board }: KanbanPartProps<Item>) {
-  const active = board.properties.filter(
-    (property) =>
-      isChoiceProperty(property, board.types) &&
-      getOptionFilter(board.view.filters, property.id).length > 0
+/** What one property is filtered to. */
+function KanbanFilterValue<Item>({
+  board,
+  property,
+}: KanbanPartProps<Item> & { property: PropertyDefinition }) {
+  const picked = getOptionFilter(board.view.filters, property.id)
+  const options = (property.options ?? []).filter(({ value }) =>
+    picked.includes(value)
   )
-  if (!active.length) return null
+  if (!options.length) return null
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      <View className="cn-kanban-chips flex-row items-center">
-        {active.map((property) => {
-          const picked = getOptionFilter(board.view.filters, property.id)
-          const names = (property.options ?? []).filter(({ value }) =>
-            picked.includes(value)
-          )
-          return (
-            <View
-              key={property.id}
-              data-slot="kanban-filter-chip"
-              className="cn-kanban-chip flex-row items-center"
-            >
-              <KanbanSheetButton
-                label={`${property.name} filter`}
-                size="sm"
-                className="cn-kanban-chip-trigger"
-                groups={[
-                  {
-                    id: property.id,
-                    items: getFilterItems(board, property),
-                  },
-                ]}
-              >
-                <Text numberOfLines={1} className="cn-kanban-chip-name">
-                  {property.name}
-                </Text>
-                <Text numberOfLines={1} className="cn-kanban-chip-text">
-                  {names.length === 1
-                    ? names[0].label
-                    : `${picked.length} selected`}
-                </Text>
-              </KanbanSheetButton>
-              <Button
-                variant="ghost"
-                size="icon-xs"
-                accessibilityLabel={`Remove ${property.name.toLowerCase()} filter`}
-                className="cn-kanban-chip-remove"
-                onPress={() => {
-                  const filters = board.view.filters?.filters.filter(
-                    (entry) =>
-                      !("propertyId" in entry) ||
-                      entry.propertyId !== property.id
-                  )
-                  board.setView({
-                    ...board.view,
-                    filters: filters?.length
-                      ? { match: board.view.filters?.match ?? "all", filters }
-                      : undefined,
-                  })
-                }}
-              >
-                <XIcon />
-              </Button>
-            </View>
-          )
-        })}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="cn-kanban-clear"
-          onPress={() => board.setView({ ...board.view, filters: undefined })}
-        >
-          Clear
-        </Button>
+    <View className="cn-kanban-filter-value shrink flex-row items-center">
+      <View className="cn-kanban-filter-marks flex-row items-center">
+        {options.slice(0, 3).map((option) => (
+          <React.Fragment key={option.value}>
+            {getOptionIcon(property, option)}
+          </React.Fragment>
+        ))}
       </View>
-    </ScrollView>
+      <Text numberOfLines={1} className="cn-kanban-view-text shrink">
+        {options.length === 1 ? options[0].label : `${options.length} selected`}
+      </Text>
+    </View>
+  )
+}
+
+/** Every property that can be filtered, then one property's options in its place. */
+function KanbanFilterPanel<Item>({
+  board,
+  properties,
+  property,
+  onPropertyChange,
+}: KanbanPartProps<Item> & {
+  properties: readonly PropertyDefinition[]
+  property: PropertyDefinition | undefined
+  onPropertyChange: (property: PropertyDefinition | null) => void
+}) {
+  const [muted] = useCSSVariable(["--muted-foreground"])
+  const picked = property
+    ? getOptionFilter(board.view.filters, property.id)
+    : []
+  const isActive = property ? picked.length > 0 : !!board.view.filters
+  return (
+    <View
+      data-slot="kanban-filter-panel"
+      className="cn-kanban-filter-panel flex-col"
+    >
+      <View className="cn-kanban-filter-header flex-row items-center">
+        {property && (
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            accessibilityLabel="All filters"
+            onPress={() => onPropertyChange(null)}
+          >
+            <ChevronLeftIcon />
+          </Button>
+        )}
+        <DrawerTitle className="cn-kanban-filter-title flex-1">
+          {property?.name ?? "Filter"}
+        </DrawerTitle>
+        {isActive && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="cn-kanban-filter-reset"
+            onPress={() => clearFilter(board, property)}
+          >
+            {property ? "Clear" : "Clear all"}
+          </Button>
+        )}
+      </View>
+      <ScrollView className="cn-kanban-filter-list max-h-96">
+        {property
+          ? (property.options ?? [])
+              .filter(
+                ({ value, isArchived }) => !isArchived || picked.includes(value)
+              )
+              .map((option) => (
+                <Button
+                  key={option.value}
+                  variant="ghost"
+                  accessibilityState={{
+                    selected: picked.includes(option.value),
+                  }}
+                  className="cn-kanban-filter-row justify-start"
+                  onPress={() => toggleFilter(board, property, option.value)}
+                >
+                  {getOptionIcon(property, option)}
+                  <Text
+                    numberOfLines={1}
+                    className="cn-kanban-view-text flex-1"
+                  >
+                    {option.label}
+                  </Text>
+                  {picked.includes(option.value) && <CheckIcon />}
+                </Button>
+              ))
+          : properties.map((entry) => (
+              <Button
+                key={entry.id}
+                variant="ghost"
+                className="cn-kanban-filter-row justify-start"
+                onPress={() => onPropertyChange(entry)}
+              >
+                <PropertyIcon property={entry} />
+                <Text numberOfLines={1} className="cn-kanban-view-text flex-1">
+                  {entry.name}
+                </Text>
+                <KanbanFilterValue board={board} property={entry} />
+                <ChevronRightIcon
+                  size={14}
+                  color={typeof muted === "string" ? muted : undefined}
+                />
+              </Button>
+            ))}
+      </ScrollView>
+    </View>
   )
 }
 
 function KanbanGroup<Item>({ board }: KanbanPartProps<Item>) {
+  const isWide = React.use(KanbanRoomContext) === "wide"
   const choices = board.properties.filter(
     (property) =>
       (isChoiceProperty(property, board.types) && !isMultiProperty(property)) ||
@@ -453,6 +650,7 @@ function KanbanGroup<Item>({ board }: KanbanPartProps<Item>) {
   return (
     <KanbanSheetButton
       label={board.group ? `Group cards by ${board.group.name}` : "Group cards"}
+      size={isWide ? "sm" : "icon-sm"}
       className="cn-kanban-control"
       groups={[
         {
@@ -476,11 +674,13 @@ function KanbanGroup<Item>({ board }: KanbanPartProps<Item>) {
       ]}
     >
       <Columns3Icon />
+      {isWide && <Text>{board.group?.name ?? "Group"}</Text>}
     </KanbanSheetButton>
   )
 }
 
 function KanbanSort<Item>({ board }: KanbanPartProps<Item>) {
+  const isWide = React.use(KanbanRoomContext) === "wide"
   const sort = board.view.sort?.[0]
   const sorted = board.properties.find(({ id }) => id === sort?.propertyId)
   if (!board.properties.length) return null
@@ -495,6 +695,8 @@ function KanbanSort<Item>({ board }: KanbanPartProps<Item>) {
   return (
     <KanbanSheetButton
       label={sorted ? `Sort cards by ${sorted.name}` : "Sort cards"}
+      size={isWide ? "sm" : "icon-sm"}
+      className="cn-kanban-control"
       groups={[
         {
           id: "manual",
@@ -537,6 +739,7 @@ function KanbanSort<Item>({ board }: KanbanPartProps<Item>) {
       ]}
     >
       <ArrowUpDownIcon />
+      {isWide && <Text>{sorted?.name ?? "Sort"}</Text>}
     </KanbanSheetButton>
   )
 }
@@ -630,6 +833,7 @@ function KanbanCoverOptions<Item>({ board }: KanbanPartProps<Item>) {
 }
 
 function KanbanViewOptions<Item>({ board }: KanbanPartProps<Item>) {
+  const isWide = React.use(KanbanRoomContext) === "wide"
   const [open, setOpen] = React.useState(false)
   const { view } = board
   const fields = board.properties.filter(
@@ -642,11 +846,13 @@ function KanbanViewOptions<Item>({ board }: KanbanPartProps<Item>) {
     <>
       <Button
         variant="ghost"
-        size="icon"
+        size={isWide ? "sm" : "icon-sm"}
         accessibilityLabel="View options"
+        className="cn-kanban-control"
         onPress={() => setOpen(true)}
       >
         <SlidersHorizontalIcon />
+        {isWide && <Text>View</Text>}
       </Button>
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerContent>
@@ -1047,6 +1253,7 @@ function KanbanBoard<Item>({
   getColumnActions,
   getCardActions,
   addLabel = "New card",
+  hasHeaderAdd = false,
   paging = "scroll",
   onOpenCard,
   getCover,
@@ -1198,6 +1405,7 @@ function KanbanBoard<Item>({
                         getColumnActions={getColumnActions}
                         getCardActions={getCardActions}
                         addLabel={addLabel}
+                        hasHeaderAdd={hasHeaderAdd}
                         paging={paging}
                         onOpenCard={onOpenCard}
                         getCover={getCover}
@@ -1205,12 +1413,7 @@ function KanbanBoard<Item>({
                         openId={openId}
                       />
                     ))}
-                    {!hasLanes && hidden.length > 0 && (
-                      <KanbanHiddenColumns board={board} hidden={hidden} />
-                    )}
-                    {!hasLanes && board.onColumnsChange && (
-                      <KanbanColumnCreate board={board} />
-                    )}
+                    {!hasLanes && <KanbanEnd board={board} hidden={hidden} />}
                   </View>
                 </View>
               )
@@ -1237,6 +1440,22 @@ function KanbanBoard<Item>({
           </View>
         )}
       </KanbanNativeDragOverlay>
+    </View>
+  )
+}
+
+/** After the columns: a new one, then the hidden ones. */
+function KanbanEnd<Item>({
+  board,
+  hidden,
+}: KanbanPartProps<Item> & { hidden: KanbanController<Item>["groups"] }) {
+  if (!board.onColumnsChange && !hidden.length) return null
+  return (
+    <View data-slot="kanban-end" className="cn-kanban-end flex-col">
+      {board.onColumnsChange && <KanbanColumnCreate board={board} />}
+      {hidden.length > 0 && (
+        <KanbanHiddenColumns board={board} hidden={hidden} />
+      )}
     </View>
   )
 }
@@ -1315,7 +1534,7 @@ function KanbanColumnCreate<Item>({ board }: KanbanPartProps<Item>) {
           className="cn-kanban-column-add justify-start"
           onPress={() => setIsOpen(true)}
         >
-          <PlusIcon />
+          <PlusIcon size={16} />
           Add column
         </Button>
       )}
@@ -1327,7 +1546,12 @@ type KanbanColumnProps<Item> = React.ComponentProps<typeof View> &
   KanbanCardRenderers<Item> &
   Pick<
     KanbanBoardProps<Item>,
-    "onAddCard" | "getColumnActions" | "getCardActions" | "addLabel" | "paging"
+    | "onAddCard"
+    | "getColumnActions"
+    | "getCardActions"
+    | "addLabel"
+    | "hasHeaderAdd"
+    | "paging"
   > &
   KanbanPartProps<Item> & {
     column: KanbanColumnDefinition
@@ -1352,6 +1576,7 @@ function KanbanColumn<Item>({
   getColumnActions,
   getCardActions,
   addLabel = "New card",
+  hasHeaderAdd = false,
   paging = "scroll",
   onOpenCard,
   getCover,
@@ -1461,7 +1686,7 @@ function KanbanColumn<Item>({
         >
           <KanbanSheetButton
             label={`${column.name} options`}
-            size="icon-sm"
+            size="icon-xs"
             groups={[
               { id: "app", items: getColumnActions?.(column) ?? [] },
               {
@@ -1505,9 +1730,9 @@ function KanbanColumn<Item>({
           >
             <EllipsisIcon />
           </KanbanSheetButton>
-          {canAdd && (
+          {hasHeaderAdd && canAdd && (
             <Button
-              size="icon-sm"
+              size="icon-xs"
               variant="ghost"
               accessibilityLabel={`${addLabel} in ${column.name}`}
               onPress={add}
@@ -2006,7 +2231,6 @@ export {
   KanbanCard,
   KanbanColumn,
   KanbanFilter,
-  KanbanFilterChips,
   KanbanGroup,
   KanbanNotices,
   KanbanSearch,

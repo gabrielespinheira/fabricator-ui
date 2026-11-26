@@ -1260,6 +1260,13 @@
     "date": "2026-11-17"
   },
   {
+    "item": "board-01",
+    "kind": "component",
+    "name": "board-01",
+    "reason": "New web project block on App Shell. Kanban, Properties and Record View have native versions it can compose; its React Native port waits for a phone composition of the project list, the saved views and the ticket form. Its rules are pure modules it can reuse.",
+    "date": "2026-11-25"
+  },
+  {
     "item": "settings-01",
     "kind": "component",
     "name": "settings-01",

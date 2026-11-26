@@ -230,6 +230,7 @@ import {
   ShieldCheckIcon as FabricatorShieldCheckIcon,
   ShieldIcon as FabricatorShieldIcon,
   ShieldOffIcon as FabricatorShieldOffIcon,
+  ShoppingBagIcon as FabricatorShoppingBagIcon,
   SlashIcon as FabricatorSlashIcon,
   SlidersHorizontalIcon as FabricatorSlidersHorizontalIcon,
   SmartphoneIcon as FabricatorSmartphoneIcon,
@@ -1857,6 +1858,13 @@ export const ShieldOffIcon = createSiteIcon(FabricatorShieldOffIcon, {
   hugeicons: "ShieldBanIcon",
   phosphor: "ShieldSlashIcon",
   remixicon: "RiShieldLine",
+})
+export const ShoppingBagIcon = createSiteIcon(FabricatorShoppingBagIcon, {
+  lucide: "ShoppingBagIcon",
+  tabler: "IconShoppingBag",
+  hugeicons: "ShoppingBag01Icon",
+  phosphor: "BagIcon",
+  remixicon: "RiShoppingBagLine",
 })
 export const SlashIcon = createSiteIcon(FabricatorSlashIcon, {
   lucide: "SlashIcon",

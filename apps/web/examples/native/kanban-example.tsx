@@ -2,10 +2,12 @@ import * as React from "react"
 import { Example, ExampleWrapper } from "@/examples/native/example"
 import {
   MessageSquareIcon,
+  PlusIcon,
   RocketIcon,
 } from "@fabricator-ui/icons-react-native"
 import { View } from "react-native"
 
+import { Button } from "@/registry/native/ui/button"
 import { Checkbox } from "@/registry/native/ui/checkbox"
 import {
   Kanban,
@@ -466,7 +468,20 @@ function StorefrontBoard() {
       >
         {(board) => (
           <>
-            <KanbanToolbar board={board} />
+            <KanbanToolbar board={board} title="Storefront">
+              <Button
+                size="icon-sm"
+                accessibilityLabel="New card"
+                onPress={() =>
+                  setOpenId(
+                    board.create("Untitled card", "planned", null, "start") ??
+                      null
+                  )
+                }
+              >
+                <PlusIcon />
+              </Button>
+            </KanbanToolbar>
             <KanbanBoard
               board={board}
               openId={openId}

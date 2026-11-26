@@ -80,6 +80,7 @@ columns={[
 - `limit` shows the count as "2/3". `limitMode="block"` refuses a drop over it and says why.
 - `onColumnsChange` lets people add, rename, recolour, limit, move and delete columns. A double click on a column's name renames it in place.
 - `view.colorColumns` tints each column with its colour.
+- `hasHeaderAdd` puts an add button in each header, which adds at the top. Without it, New card under the cards adds at the end.
 
 With two or more single-choice properties, the toolbar offers to group by another one.
 
@@ -136,14 +137,20 @@ Reactive sources can pass a `ReadonlyMap<string, KanbanPage<Item>>` as `pages` a
 <Kanban {...options}>
   {(board) => (
     <>
-      <KanbanToolbar board={board} />
+      <KanbanToolbar board={board} title="Storefront">
+        <Button size="sm" onClick={addCard}>
+          New card
+        </Button>
+      </KanbanToolbar>
       <KanbanBoard board={board} onOpenCard={openCard} />
     </>
   )}
 </Kanban>
 ```
 
-`KanbanSearch`, `KanbanFilter`, `KanbanFilterChips`, `KanbanGroup`, `KanbanSort` and `KanbanViewOptions` are the toolbar's parts. Each takes the controller, so you can lay them out yourself. `useKanban` returns the same controller with no interface.
+`KanbanToolbar` is one compact line. `title` and the filter sit at the start, search, grouping, sorting and view options at the end, and its children last. It answers to its own width: labels go first, the filter becomes a count, search becomes a button, and the filter and view options open in a drawer.
+
+`KanbanSearch`, `KanbanFilter`, `KanbanGroup`, `KanbanSort` and `KanbanViewOptions` are its parts. Each takes the controller, so you can lay them out yourself. `useKanban` returns the same controller with no interface.
 
 ## Accessibility
 
