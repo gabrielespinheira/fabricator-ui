@@ -28,12 +28,12 @@
     @apply contain-content data-empty:min-h-72 pointer-fine:scrollbar-hide;
   }
 
-  /* Pinned edges: while rows scroll under the pinned columns, a hairline
-     marks the edge and the content fades into the surface over 32px, both
-     on the move timing. In grid lines the hairline sits on the column's own
-     rule. */
+  /* Pinned edges: while rows scroll under the pinned columns, the pinned
+     side sits above them. Its edge cells draw the hairline on their own
+     opaque surface, so nothing that scrolls can show through it, and the
+     column casts a 12px shadow over the rows, both on the move timing. */
   .cn-data-table-pin-edge {
-    @apply w-8 border-border from-(--data-table-surface) via-(--data-table-surface)/55 via-35% to-transparent opacity-0 transition-opacity duration-move ease-move data-[side=end]:border-e data-[side=end]:bg-linear-to-l data-[side=start]:border-s data-[side=start]:bg-linear-to-r in-data-[lines=grid]:data-[side=end]:-me-px in-data-[lines=grid]:data-[side=start]:-ms-px rtl:data-[side=end]:bg-linear-to-r rtl:data-[side=start]:bg-linear-to-l in-data-overflow-end:data-[side=end]:opacity-100 in-data-overflow-start:data-[side=start]:opacity-100;
+    @apply w-3 from-black/8 to-transparent opacity-0 transition-opacity duration-move ease-move data-[side=end]:bg-linear-to-l data-[side=start]:bg-linear-to-r rtl:data-[side=end]:bg-linear-to-r rtl:data-[side=start]:bg-linear-to-l dark:from-black/35 in-data-overflow-end:data-[side=end]:opacity-100 in-data-overflow-start:data-[side=start]:opacity-100;
   }
 
   /* Scrollbars: drawn over the rows. The vertical track runs from under
@@ -62,7 +62,7 @@
      Pinned heads sit above the scrolling ones. A head that moves grabs
      outside its buttons. */
   .cn-data-table-head {
-    @apply sticky top-0 z-20 h-(--data-table-head-height) cursor-default data-movable:cursor-grab border-b border-border/60 bg-(--data-table-surface) px-(--density-12) text-start align-middle font-medium whitespace-nowrap data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
+    @apply sticky top-0 z-20 h-(--data-table-head-height) cursor-default data-movable:cursor-grab border-b border-border/60 bg-(--data-table-surface) px-(--density-12) text-start align-middle font-medium whitespace-nowrap data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0 data-pin-edge:after:pointer-events-none data-pin-edge:after:absolute data-pin-edge:after:inset-y-0 data-pin-edge:after:w-px data-pin-edge:after:bg-border data-pin-edge:after:opacity-0 data-pin-edge:after:transition-opacity data-pin-edge:after:duration-move data-pin-edge:after:ease-move data-[pin-edge=end]:after:start-0 data-[pin-edge=start]:after:end-0 in-data-overflow-end:data-[pin-edge=end]:after:opacity-100 in-data-overflow-start:data-[pin-edge=start]:after:opacity-100 in-data-[lines=grid]:data-[pin-edge=start]:after:hidden;
   }
 
   /* Every head reads from the start with its options at the end, whatever
@@ -122,7 +122,7 @@
      every cell's contents each frame, which picking all rows multiplies.
      Numbers align to the end in tabular figures. */
   .cn-data-table-cell {
-    @apply h-(--data-table-row-height) cursor-default overflow-hidden border-b border-border/60 px-(--density-12) py-0 text-start in-data-clickable:cursor-pointer align-middle text-ellipsis whitespace-nowrap text-muted-foreground in-data-[state=selected]:text-foreground in-[tr:hover]:text-foreground data-pinned:sticky data-pinned:z-10 data-pinned:bg-(--data-table-surface) data-pinned:bg-[image:var(--data-table-row-tint)] data-primary:font-medium data-primary:text-foreground data-[align=center]:text-center data-[align=end]:text-end data-[kind=actions]:px-0 data-[kind=select]:px-0 data-editable:px-0 data-editable:not-data-pinned:relative data-editable:[&>[data-slot=checkbox]]:mx-auto in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
+    @apply h-(--data-table-row-height) cursor-default overflow-hidden border-b border-border/60 px-(--density-12) py-0 text-start in-data-clickable:cursor-pointer align-middle text-ellipsis whitespace-nowrap text-muted-foreground in-data-[state=selected]:text-foreground in-[tr:hover]:text-foreground data-pinned:sticky data-pinned:z-10 data-pinned:bg-(--data-table-surface) data-pinned:bg-[image:var(--data-table-row-tint)] data-primary:font-medium data-primary:text-foreground data-[align=center]:text-center data-[align=end]:text-end data-[kind=actions]:px-0 data-[kind=select]:px-0 data-editable:px-0 data-editable:not-data-pinned:relative data-editable:[&>[data-slot=checkbox]]:mx-auto in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0 data-pin-edge:after:pointer-events-none data-pin-edge:after:absolute data-pin-edge:after:inset-y-0 data-pin-edge:after:w-px data-pin-edge:after:bg-border data-pin-edge:after:opacity-0 data-pin-edge:after:transition-opacity data-pin-edge:after:duration-move data-pin-edge:after:ease-move data-[pin-edge=end]:after:start-0 data-[pin-edge=start]:after:end-0 in-data-overflow-end:data-[pin-edge=end]:after:opacity-100 in-data-overflow-start:data-[pin-edge=start]:after:opacity-100 in-data-[lines=grid]:data-[pin-edge=start]:after:hidden;
   }
 
   /* The empty column that takes the width the others leave. */
@@ -160,7 +160,7 @@
   }
 
   .cn-data-table-footer-cell {
-    @apply sticky bottom-0 z-20 h-(--density-36) cursor-default border-t border-border/60 bg-(--data-table-surface) px-(--density-8) align-middle font-normal data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
+    @apply sticky bottom-0 z-20 h-(--density-36) cursor-default border-t border-border/60 bg-(--data-table-surface) px-(--density-8) align-middle font-normal data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0 data-pin-edge:after:pointer-events-none data-pin-edge:after:absolute data-pin-edge:after:inset-y-0 data-pin-edge:after:w-px data-pin-edge:after:bg-border data-pin-edge:after:opacity-0 data-pin-edge:after:transition-opacity data-pin-edge:after:duration-move data-pin-edge:after:ease-move data-[pin-edge=end]:after:start-0 data-[pin-edge=start]:after:end-0 in-data-overflow-end:data-[pin-edge=end]:after:opacity-100 in-data-overflow-start:data-[pin-edge=start]:after:opacity-100 in-data-[lines=grid]:data-[pin-edge=start]:after:hidden;
   }
 
   /* A calculation: its name muted, its value in the foreground. An unset

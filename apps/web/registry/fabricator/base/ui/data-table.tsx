@@ -298,6 +298,17 @@ function getPinColumn<TData extends RowData>(column: DataTableColumn<TData>) {
   return column.getIsPinned() ? getCssName(column.id) : undefined
 }
 
+/**
+ * The pinned column whose cells draw the line rows scroll under: the last
+ * one pinned to the start, the first one pinned to the end.
+ */
+function getPinEdge<TData extends RowData>(column: DataTableColumn<TData>) {
+  const pinned = column.getIsPinned()
+  if (pinned === "start" && column.getIsLastColumn("start")) return "start"
+  if (pinned === "end" && column.getIsFirstColumn("end")) return "end"
+  return undefined
+}
+
 function getFormat<TData extends RowData>(
   column: DataTableColumn<TData>,
   table: DataTableCoreTable<TData>
@@ -1515,6 +1526,7 @@ function DataTableHead<TData extends RowData>({
           : undefined
       }
       data-pin-column={getPinColumn(column)}
+      data-pin-edge={getPinEdge(column)}
       className="cn-data-table-head"
     >
       <DataTableColumnHeader header={header} table={table} />
@@ -2499,6 +2511,7 @@ function DataTableSkeletonRows<TData extends RowData>({
               data-pinned={column.getIsPinned() || undefined}
               data-align={getColumnAlign(column)}
               data-pin-column={getPinColumn(column)}
+              data-pin-edge={getPinEdge(column)}
               className="cn-data-table-cell"
             >
               {kind === "actions" ? null : (
@@ -3133,6 +3146,7 @@ function DataTableContent<TData extends RowData>({
                           data-primary={meta?.primary ? "" : undefined}
                           data-align={getColumnAlign(column)}
                           data-pin-column={getPinColumn(column)}
+                          data-pin-edge={getPinEdge(column)}
                           className="cn-data-table-cell"
                         >
                           <DataTableMemo
@@ -3277,6 +3291,7 @@ function DataTableContent<TData extends RowData>({
                             data-kind={column.columnDef.meta?.kind}
                             data-align={getColumnAlign(column)}
                             data-pin-column={getPinColumn(column)}
+                            data-pin-edge={getPinEdge(column)}
                             className="cn-data-table-footer-cell"
                           >
                             <DataTableAggregateCell
@@ -3388,8 +3403,8 @@ function toggleData(element: HTMLElement, key: string, on: boolean) {
 
 /**
  * What the table draws over its scrolling rows. Pinned edges: while rows
- * scroll under the pinned columns, a hairline marks the edge and the
- * content fades into it. Scrollbars, for a mouse or trackpad: the vertical
+ * scroll under the pinned columns, the pinned column casts a soft shadow
+ * over them (its edge cells draw the line). Scrollbars, for a mouse or trackpad: the vertical
  * one runs from under the header to above the footer and the horizontal one
  * between the pinned columns, so neither crosses what stays in place; they
  * show while the table is lit or scrolling. Touch keeps the system's.
@@ -3427,8 +3442,13 @@ function DataTableScrollLayer({
     const overflow = scrollWidth - clientWidth
     root.style.setProperty("--data-table-head-height", `${head}px`)
     root.style.setProperty("--data-table-foot-height", `${foot}px`)
-    toggleData(root, "overflowStart", scrolled > 0.5)
-    toggleData(root, "overflowEnd", overflow - scrolled > 0.5)
+    // On the content frame: the pinned edge cells draw their line from it,
+    // and the shadows here read it too.
+    const frame = root.parentElement
+    if (frame) {
+      toggleData(frame, "overflowStart", scrolled > 0.5)
+      toggleData(frame, "overflowEnd", overflow - scrolled > 0.5)
+    }
     placeScrollThumb(
       verticalRef.current,
       "y",

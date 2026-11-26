@@ -489,22 +489,23 @@ It returns the TanStack table. The sort, filters, search and page live in the ho
 
 ### Data attributes
 
-| Attribute                                     | Element              | Present when           |
-| --------------------------------------------- | -------------------- | ---------------------- |
-| `data-slot="data-table-row"`                  | each row             | always                 |
-| `data-state="selected"`                       | a row                | it's picked            |
-| `data-pinned="start" \| "end"`                | a cell or head       | its column is pinned   |
-| `data-editable`                               | a cell               | its column edits       |
-| `data-slot="data-table-sort"`                 | a head's sort button | the column sorts       |
-| `data-sorted="asc" \| "desc"`                 | a sort button        | the column is sorted   |
-| `data-slot="data-table-column-trigger"`       | a head's options     | the column has options |
-| `data-filtered`                               | a head's options     | the column filters     |
-| `data-movable`                                | a head               | its column moves       |
-| `data-dragging`                               | a head               | it's being dragged     |
-| `data-slot="data-table-drop-marker"`          | the line at the gap  | a column is dragged    |
-| `data-slot="data-table-settings-trigger"`     | the settings button  | always                 |
-| `data-lines="rows" \| "grid"`, `data-striped` | the root             | the view says so       |
-| `data-state="open" \| "closed"`               | the selection bar    | rows are picked        |
+| Attribute                                     | Element              | Present when             |
+| --------------------------------------------- | -------------------- | ------------------------ |
+| `data-slot="data-table-row"`                  | each row             | always                   |
+| `data-state="selected"`                       | a row                | it's picked              |
+| `data-pinned="start" \| "end"`                | a cell or head       | its column is pinned     |
+| `data-pin-edge="start" \| "end"`              | a cell or head       | it draws the pinned line |
+| `data-editable`                               | a cell               | its column edits         |
+| `data-slot="data-table-sort"`                 | a head's sort button | the column sorts         |
+| `data-sorted="asc" \| "desc"`                 | a sort button        | the column is sorted     |
+| `data-slot="data-table-column-trigger"`       | a head's options     | the column has options   |
+| `data-filtered`                               | a head's options     | the column filters       |
+| `data-movable`                                | a head               | its column moves         |
+| `data-dragging`                               | a head               | it's being dragged       |
+| `data-slot="data-table-drop-marker"`          | the line at the gap  | a column is dragged      |
+| `data-slot="data-table-settings-trigger"`     | the settings button  | always                   |
+| `data-lines="rows" \| "grid"`, `data-striped` | the root             | the view says so         |
+| `data-state="open" \| "closed"`               | the selection bar    | rows are picked          |
 
 ## Accessibility
 

@@ -283,7 +283,8 @@ try {
       (button) => button.textContent?.trim() === "Move left"
     )
   )
-  await moveLeft.asElement().click()
+  // A pointer click can land while the panel is still opening.
+  await moveLeft.asElement().evaluate((button) => button.click())
   await settle(page)
   assert.deepEqual(await order(), before, "Move left puts it back")
   await page.keyboard.press("Escape")
@@ -349,13 +350,22 @@ try {
   await page.$eval(VIEWPORT, (viewport) => (viewport.scrollTop = 0))
   await loaded(page)
 
-  // Pinned edges: a hairline and a fade show only while rows scroll under
-  // the pinned columns.
+  // Pinned edges: the line and the shadow show only while rows scroll under
+  // the pinned columns. The line belongs to the pinned edge cells, which
+  // are opaque, so the rows under them never show through it.
   const edges = async () =>
-    page.$eval('[data-slot="data-table-scroll-layer"]', (layer) => ({
-      start: layer.hasAttribute("data-overflow-start"),
-      end: layer.hasAttribute("data-overflow-end"),
+    page.$eval('[data-slot="data-table-content"]', (content) => ({
+      start: content.hasAttribute("data-overflow-start"),
+      end: content.hasAttribute("data-overflow-end"),
     }))
+  const edgeCell = await page.$eval(
+    '[data-slot="data-table-cell"][data-pin-edge="start"]',
+    (cell) => ({
+      sticky: getComputedStyle(cell).position,
+      line: getComputedStyle(cell, "::after").width,
+    })
+  )
+  assert.deepEqual(edgeCell, { sticky: "sticky", line: "1px" })
   await page.$eval(VIEWPORT, (viewport) => (viewport.scrollLeft = 0))
   await settle(page)
   assert.deepEqual(await edges(), { start: false, end: true })
