@@ -4,6 +4,8 @@ Every component belongs to exactly one of eight groups. The groups order the hom
 
 The docs sidebar lists collapsible category rows under Components. App Shell follows Basics. Its row links to the wrapper's overview and expands to show Sidebar, App Nav, Tab Strip, Workspace Switcher, User Menu, and the shared references for the wrapper's exports. `apps/web/lib/docs-explorer.ts` sets the sidebar and pagination order.
 
+Each Advanced component row also links to its overview and expands to show its references. The Advanced badge counts the components available on the selected base or platform. References live under `/docs/advanced/<component>/<topic>` and use the Base UI navigation.
+
 ## The groups
 
 In this order:
@@ -59,4 +61,4 @@ The eight groups are a settled decision. Adding, removing, renaming or reorderin
 ## Done when
 
 - [ ] The component has a group in `GROUP_BY_SLUG` that follows the order above, and `bun run test` passes.
-- [ ] It appears under that group in the homepage filter (when it has a card), the desktop explorer, and the React Native demo when it has a native version. In the docs sidebar, App Shell and its companions appear under App Shell.
+- [ ] It appears under that group in the homepage filter (when it has a card), the desktop explorer, and the React Native demo when it has a native version. In the docs sidebar, App Shell and Advanced references appear under their owning rows.

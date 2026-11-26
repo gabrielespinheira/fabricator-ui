@@ -1,0 +1,25 @@
+---
+title: "Image Compare divider"
+description: "Choose how the handle position is controlled, committed, and exposed to the keyboard."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="image-compare-controlled"
+  previewClassName="h-auto"
+/>
+
+The handle, line, and clipped before layer are internal parts of `ImageCompare`. On web, customize them using the `image-compare-handle`, `image-compare-line`, and `image-compare-before` slots. The public value is the percentage of width occupied by the before image.
+
+```tsx
+<ImageCompare
+  beforeSrc={originalUrl}
+  afterSrc={restoredUrl}
+  defaultValue={35}
+  step={5}
+  aria-label="Original and restored photograph"
+  onValueCommitted={saveComparisonPosition}
+/>
+```
+
+Use `value` and `onValueChange` when another control must mirror the handle in real time. For persistence use `onValueCommitted` to keep saves out of the drag path. On web, keyboard users can move the divider with arrows or jump to either edge with Home and End. On React Native, screen reader adjustment moves the divider by `step`.

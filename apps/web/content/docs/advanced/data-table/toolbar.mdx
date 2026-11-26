@@ -1,0 +1,22 @@
+---
+title: "DataTableToolbar and Search"
+description: "Arrange search and page actions above a table."
+---
+
+`DataTableToolbar` is a wrapping layout for controls. `DataTableSearch` reads and writes the global filter on `table`. Give the search a label that identifies the dataset.
+
+```tsx
+<DataTable table={table}>
+  <DataTableToolbar>
+    <DataTableSearch
+      table={table}
+      label="Search deals"
+      placeholder="Company or owner"
+    />
+    <Button onClick={createDeal}>New deal</Button>
+  </DataTableToolbar>
+  <DataTableContent table={table} />
+</DataTable>
+```
+
+With a remote loader, the search becomes part of the next query and resets the window. Treat server results as the source for which fields are searchable. For a single field, use [DataTableColumnFilter](./columns) so the user can choose operators specific to that field.

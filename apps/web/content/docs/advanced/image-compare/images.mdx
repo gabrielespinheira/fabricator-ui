@@ -1,0 +1,26 @@
+---
+title: "Image Compare images"
+description: "Prepare aligned assets and label the two sides of the comparison."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="image-compare-labels"
+  previewClassName="h-auto"
+/>
+
+`ImageCompare` renders both image layers from `beforeSrc` and `afterSrc`. Use the same crop and aspect ratio for meaningful comparisons and give both assets their own descriptions. Reserve space for them with a known aspect ratio.
+
+```tsx
+<ImageCompare
+  className="aspect-[3/2]"
+  beforeSrc="/photos/atrium-before.webp"
+  afterSrc="/photos/atrium-after.webp"
+  beforeAlt="Atrium with the original opaque skylight"
+  afterAlt="Atrium with a clear skylight and direct sunlight"
+  beforeLabel="Original"
+  afterLabel="Renovated"
+/>
+```
+
+Size the assets for the displayed frame. Both must load even if one side is covered, so heavy galleries benefit from mounting each comparison when users reach it. The image and label slots can be styled on web without replacing either layer.

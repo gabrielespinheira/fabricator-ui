@@ -1,0 +1,28 @@
+---
+title: "EditorContent and useEditor"
+description: "Render the editable document and connect actions to its command store."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="editor-markdown"
+  previewClassName="h-auto"
+/>
+
+`EditorContent` belongs under `Editor`. Without custom children the root mounts the content itself. With custom children, include the content once and give it a label that names the document.
+
+```tsx
+import { Editor, EditorContent, useEditor } from "@/components/ui/editor"
+
+function SaveNote({ save }: { save: (markdown: string) => void }) {
+  const { getMarkdown } = useEditor()
+  return <button onClick={() => save(getMarkdown())}>Save note</button>
+}
+
+;<Editor defaultValue="## Review notes">
+  <EditorContent size="sm" aria-label="Review notes" />
+  <SaveNote save={saveNote} />
+</Editor>
+```
+
+Use `defaultValue` for a document owned by the editor, and `value` plus `onValueChange` for a controlled document. `getMarkdown()` reads the current content in an action. Avoid turning the entire surrounding screen into a subscriber to every keystroke.

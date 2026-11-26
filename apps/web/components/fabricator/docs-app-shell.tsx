@@ -9,6 +9,7 @@ import { getGroupNavId } from "@/lib/component-explorer"
 import { COMPONENT_GROUPS } from "@/lib/component-groups"
 import { siteConfig } from "@/lib/config"
 import {
+  ADVANCED_REFERENCE_PATH,
   APP_SHELL_NAV_ID,
   getDocsExplorerGroups,
   type ExplorerPage,
@@ -56,6 +57,9 @@ export function DocsAppShell({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
+  const currentBase = getCurrentBase(pathname)
+  const isAppShellOverview =
+    pathname === `/docs/components/${currentBase}/app-shell`
   const searchParams = useSearchParams()
   const getHref = (href: string) =>
     searchParams.size ? `${href}?${searchParams}` : href
@@ -63,7 +67,7 @@ export function DocsAppShell({
   const options = getDocsExplorerOptions(urlOptions)
   const groups = React.useMemo(
     () =>
-      getDocsExplorerGroups(pages, getCurrentBase(pathname)).map((group) => ({
+      getDocsExplorerGroups(pages, currentBase).map((group) => ({
         ...group,
         items: group.items.map((item) => ({
           ...item,
@@ -71,10 +75,10 @@ export function DocsAppShell({
             item.id === "overview"
               ? HomeIcon
               : COMPONENT_GROUP_ICONS.get(item.id),
-          defaultOpen: item.id === APP_SHELL_NAV_ID && item.href === pathname,
+          defaultOpen: item.id === APP_SHELL_NAV_ID && isAppShellOverview,
         })),
       })),
-    [pages, pathname]
+    [pages, currentBase, isAppShellOverview]
   )
   const componentGroups =
     groups.find((group) => group.id === "components")?.items ?? []
@@ -98,7 +102,21 @@ export function DocsAppShell({
           />
         }
         pathname={pathname}
-        renderLink={(item) => <Link href={getHref(item.href ?? "/docs")} />}
+        renderLink={(item) => {
+          const href = item.href ?? "/docs"
+          const isAdvancedReference = href.startsWith(ADVANCED_REFERENCE_PATH)
+          return (
+            <Link
+              href={getHref(href)}
+              prefetch={isAdvancedReference ? false : null}
+              className={
+                isAdvancedReference
+                  ? "data-[sidebar=menu-sub-button]:ps-[calc(var(--density-20)+(var(--density-icon-16)+var(--density-8))*var(--sidebar-menu-depth,1))]"
+                  : undefined
+              }
+            />
+          )
+        }}
         brand={
           <Link
             href="/"

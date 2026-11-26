@@ -1,0 +1,18 @@
+---
+title: "SyntaxHighlightCopy and Hook"
+description: "Copy raw source or build a control that reads the same syntax context."
+---
+
+`SyntaxHighlightCopy` copies the root's original `code` by default. Pass `value` if the copied text should differ, for example when the display includes an example prompt. `onCopied` receives the copied text after the operation succeeds.
+
+```tsx
+<SyntaxHighlight code="$ bun test" language="shell">
+  <SyntaxHighlightHeader>
+    <SyntaxHighlightTitle />
+    <SyntaxHighlightCopy value="bun test" />
+  </SyntaxHighlightHeader>
+  <SyntaxHighlightContent />
+</SyntaxHighlight>
+```
+
+Use `useSyntaxHighlight()` inside a custom child for `code`, `language`, `filename`, or tokenized `lines`. Prefer the default Copy control when you need its accessible confirmation and reset behavior.

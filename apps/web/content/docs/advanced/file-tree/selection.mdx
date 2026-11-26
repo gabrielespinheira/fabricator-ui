@@ -1,0 +1,21 @@
+---
+title: "File Tree selection"
+description: "Control expansion and selection independently and handle open or delete actions."
+---
+
+`selectionMode="multiple"` lets the user extend a range on web and toggle entries on React Native. Expansion and selection each have independent controlled and uncontrolled props. Use controlled IDs when your workspace restores them across screens.
+
+```tsx
+<FileTree
+  nodes={nodes}
+  selectionMode="multiple"
+  selectedIds={selectedIds}
+  onSelectionChange={setSelectedIds}
+  expandedIds={expandedIds}
+  onExpandedChange={setExpandedIds}
+  onOpen={(node) => openFile(node.id)}
+  onDelete={(nodes) => requestRemoval(nodes.map((node) => node.id))}
+/>
+```
+
+Opening a file and selecting it are separate actions. After deletion succeeds, prune removed IDs from saved state and provide a practical focus target. Web supports keyboard typeahead and range selection. React Native uses touch and accessibility actions.

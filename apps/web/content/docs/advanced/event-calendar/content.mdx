@@ -1,0 +1,18 @@
+---
+title: "EventCalendarContent and Agenda"
+description: "Mount the grid and understand where the list and empty state fit."
+---
+
+Place `EventCalendarContent` below the header inside `EventCalendar`. It switches between the platform's grid engine and `EventCalendarAgenda`, a virtualized list grouped by day. `EventCalendarEmpty` is the calendar's default empty surface.
+
+```tsx
+<EventCalendar events={events} defaultView="agenda" className="h-[32rem]">
+  <EventCalendarHeader>
+    <EventCalendarTitle />
+    <EventCalendarViewSelect />
+  </EventCalendarHeader>
+  <EventCalendarContent />
+</EventCalendar>
+```
+
+Give the calendar a height to keep its scrolling body bounded. Use `EventCalendarContent` when you want the grid and agenda to share the same surrounding layout and edit flows. On the web the grid uses FullCalendar. React Native uses its own calendar renderer.

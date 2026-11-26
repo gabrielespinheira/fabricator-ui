@@ -1,0 +1,22 @@
+---
+title: "DataTableSelectionBar"
+description: "Add bulk actions to the rows selected by the checkbox column."
+---
+
+`createDataTableSelectColumn<T>()` creates the selection column. Insert it once in your column definitions. `DataTableSelectionBar` appears when the table has selected rows and provides a way to clear them.
+
+```tsx
+const columns = [createDataTableSelectColumn<Deal>(), ...dealColumns]
+
+<DataTable table={table}>
+  <DataTableContent table={table}>
+    <DataTableSelectionBar table={table}>
+      <Button onClick={() => archiveDeals(Object.keys(table.state.rowSelection))}>
+        Archive selected deals
+      </Button>
+    </DataTableSelectionBar>
+  </DataTableContent>
+</DataTable>
+```
+
+Use stable record IDs with `getRowId` and send those IDs to the bulk action. With server paging, selected IDs can outlive their loaded rows. Disable the action while saving and clear the selection after a successful save.

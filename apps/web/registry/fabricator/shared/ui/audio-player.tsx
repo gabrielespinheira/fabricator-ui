@@ -1022,7 +1022,7 @@ function AudioPlayerSeek({
  * then the part under the pointer and the part played, each clipped at its
  * fraction so a bar fills partway as the playhead crosses it.
  */
-function AudioPlayerWaveformBars({
+const AudioPlayerWaveformBars = React.memo(function AudioPlayerWaveformBars({
   layer,
   bars,
 }: {
@@ -1051,7 +1051,7 @@ function AudioPlayerWaveformBars({
       ))}
     </div>
   )
-}
+})
 
 function AudioPlayerVolumeSlider({
   volume,

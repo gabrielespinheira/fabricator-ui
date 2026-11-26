@@ -1,0 +1,17 @@
+---
+title: "KanbanToolbar and Controls"
+description: "Compose search, filter, grouping, sorting, and view options."
+---
+
+`KanbanToolbar` adapts its controls to the width it has. Its standalone pieces, `KanbanSearch`, `KanbanFilter`, `KanbanGroup`, `KanbanSort` and `KanbanViewOptions`, all accept `board`, so you can arrange them around a custom header.
+
+```tsx
+<header aria-label="Board controls">
+  <KanbanSearch board={board} />
+  <KanbanFilter board={board} />
+  <KanbanSort board={board} />
+  <KanbanViewOptions board={board} />
+</header>
+```
+
+Use `KanbanGroup` when users should switch which property drives the columns. For a saved view, persist the controller's view changes and restore the grouped, filtered and sorted state together. Keep server query keys stable for the same effective query.

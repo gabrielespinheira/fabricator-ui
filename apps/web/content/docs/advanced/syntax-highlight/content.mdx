@@ -1,0 +1,27 @@
+---
+title: "SyntaxHighlightContent"
+description: "Control line numbering, line marks, diff indicators, and wrapping."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="syntax-highlight-highlight-lines"
+  previewClassName="h-auto"
+/>
+
+`SyntaxHighlightContent` renders the tokenized lines. Place it inside `SyntaxHighlight`. Line marks use the displayed line numbers, so include the `startLine` offset when annotating an excerpt.
+
+```tsx
+const highlightedLines = [42, [45, 47]] as const
+
+<SyntaxHighlight code={excerpt} filename="worker.ts">
+  <SyntaxHighlightContent
+    startLine={40}
+    showLineNumbers
+    highlightLines={highlightedLines}
+    insertedLines={[44]}
+  />
+</SyntaxHighlight>
+```
+
+Use `wrap` if horizontal scrolling would obscure the example. When annotating a long block, keep line-range arrays stable across unrelated renders so the content can reuse its rendered lines. For a file browser, show excerpts or load the code when the user opens it.

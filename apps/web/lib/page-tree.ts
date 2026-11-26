@@ -24,6 +24,10 @@ export function getPagesFromFolder(
   folder: PageTreeFolder,
   currentBase: string
 ): PageTreePage[] {
+  if (folder.$id === "advanced") {
+    return getAllPagesFromFolder(folder)
+  }
+
   // For the components folder, find the base subfolder.
   if (folder.$id === "components" || folder.name === "Components") {
     for (const child of folder.children) {

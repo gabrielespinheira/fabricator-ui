@@ -75,13 +75,15 @@ function FileTree({
   const [localExpanded, setLocalExpanded] = React.useState(defaultExpandedIds)
   const selected = selectedIds ?? localSelection
   const expanded = expandedIds ?? localExpanded
+  const selectedSet = React.useMemo(() => new Set(selected), [selected])
+  const expandedSet = React.useMemo(() => new Set(expanded), [expanded])
   const rows = React.useMemo(
     () => getVisibleFileTreeNodes(nodes, expanded),
     [nodes, expanded]
   )
   const lastPress = React.useRef({ id: "", at: 0 })
   function toggle(id: string) {
-    const next = expanded.includes(id)
+    const next = expandedSet.has(id)
       ? expanded.filter((entry) => entry !== id)
       : [...expanded, id]
     if (expandedIds === undefined) setLocalExpanded(next)
@@ -102,8 +104,8 @@ function FileTree({
             <Text className="text-muted-foreground">No files.</Text>
           ))
         : rows.map(({ node, level, isDisabled }) => {
-            const isExpanded = expanded.includes(node.id)
-            const isSelected = selected.includes(node.id)
+            const isExpanded = expandedSet.has(node.id)
+            const isSelected = selectedSet.has(node.id)
             return (
               <FileTreeEntry
                 itemKey={node.id}

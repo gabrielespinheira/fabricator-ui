@@ -1,0 +1,23 @@
+---
+title: "FileTreeIcon"
+description: "Reuse the default file and folder icon while overriding specific entries."
+---
+
+`FileTreeIcon` picks the Files pack icon from `node` and uses `expanded` for the open-folder appearance. Use it as the default branch of `renderIcon` when only some entries need custom artwork.
+
+```tsx
+import { FileTree, FileTreeIcon } from "@/components/ui/file-tree"
+
+;<FileTree
+  nodes={nodes}
+  renderIcon={(node, expanded) =>
+    node.id === "shared" ? (
+      <SharedFolderIcon aria-hidden />
+    ) : (
+      <FileTreeIcon node={node} expanded={expanded} />
+    )
+  }
+/>
+```
+
+The row's name provides the accessible label. Keep decorative icons hidden from assistive technology. The default automatic lookup includes the Files pack and its associations in the installed module.

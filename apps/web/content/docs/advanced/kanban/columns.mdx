@@ -1,0 +1,32 @@
+---
+title: "KanbanBoard and Column"
+description: "Render columns, lanes, card lists, and per-column pagination."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="kanban-loader"
+  type="frame"
+  fit
+  previewClassName="p-5"
+/>
+
+`KanbanBoard` mounts the drag and keyboard surface and renders a `KanbanColumn` for each board column. A column owns the header, add actions, limit indicators and card list. Configure these through the board's `columns`, `hasHeaderAdd` and column action props when using the standard layout.
+
+```tsx
+<Kanban
+  items={items}
+  groupBy="status"
+  columns={[
+    { id: "todo", name: "To do" },
+    { id: "review", name: "Review", limit: 3, limitMode: "block" },
+    { id: "done", name: "Done" },
+  ]}
+  fit="fill"
+  className="h-[34rem]"
+/>
+```
+
+Use a bounded board height and the per-column loader for long lists. A page returns `items`, `total` and `nextCursor`, with `null` marking the end. Keyboard moves and drag placement depend on the board's column and card identities, so retain those IDs when renaming columns.
+
+A standalone `KanbanColumn` takes the shared `board`, the `column` definition, and only that column's `items`. Give it `laneId` when displaying multiple lanes. Use `KanbanBoard` for the stock drag, selection and keyboard wiring across columns.

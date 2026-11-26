@@ -1,0 +1,20 @@
+---
+title: "Video Player controls"
+description: "Configure the transport, seek bar, speed menu, and player variants."
+---
+
+Video Player owns the control, progress, and overlay surfaces. The `compact` variant uses fewer controls and suits a card. Use the default for a standalone player. On the web, the `video-player-controls`, `video-player-seek`, and `video-player-control` slots support scoped styling.
+
+```tsx
+<VideoPlayer
+  src="/media/review.mp4"
+  poster="/media/review.webp"
+  title="Design review"
+  variant="compact"
+  playbackRates={[0.75, 1, 1.5, 2]}
+  onPlayingChange={setIsPlaying}
+  onEnded={markReviewComplete}
+/>
+```
+
+Keep `onPlayingChange` for playback status and `onEnded` for completion. In a feed, use posters as the initial UI and mount a player when the user opens a clip to avoid loading media metadata for each card. Fullscreen and picture-in-picture availability depend on the platform.

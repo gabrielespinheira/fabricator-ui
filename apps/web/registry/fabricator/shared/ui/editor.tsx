@@ -41,6 +41,7 @@ import {
 } from "@/registry/bases/__base__/lib/editor-model"
 import {
   createEditorStore,
+  selectEditorWordCount,
   useEditorSelector,
   useEditorSnapshot,
   type EditorStore,
@@ -2671,10 +2672,6 @@ function EditorKeyboardBar({
 
 // MARK: Footer
 
-function countWords(text: string) {
-  return text.split(/\s+/).filter((word) => /[\p{L}\p{N}]/u.test(word)).length
-}
-
 function EditorFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -2690,9 +2687,7 @@ function EditorWordCount({
   ...props
 }: React.ComponentProps<"span">) {
   const { store } = useEditorContext()
-  const words = useEditorSelector(store, (state) =>
-    countWords(getFlatText(state.document).replace(/[\u2028\uFFFC]/g, " "))
-  )
+  const words = useEditorSelector(store, selectEditorWordCount)
   return (
     <span
       data-slot="editor-word-count"

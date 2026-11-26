@@ -3,6 +3,7 @@
   "pages": [
     "components",
     "app-shell",
+    "advanced",
     "icons",
     "(root)",
     "foundations",

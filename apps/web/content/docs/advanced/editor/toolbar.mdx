@@ -1,0 +1,29 @@
+---
+title: "EditorToolbar and Buttons"
+description: "Build a toolbar from named editor commands."
+---
+
+<ComponentPreview styleName="base-nova" name="editor-comment" />
+
+`EditorToolbar` lays out commands and folds those that do not fit into a More menu. `EditorToolbarGroup` keeps related commands together and `EditorToolbarSeparator` divides groups. `EditorToolbarButton` runs a registered command and reflects its active state.
+
+```tsx
+<Editor defaultValue="Write a short update">
+  <EditorToolbar>
+    <EditorToolbarGroup>
+      <EditorToolbarButton command="bold" />
+      <EditorToolbarButton command="italic" />
+    </EditorToolbarGroup>
+    <EditorToolbarSeparator />
+    <EditorToolbarGroup>
+      <EditorToolbarButton command="undo" />
+      <EditorToolbarButton command="redo" />
+    </EditorToolbarGroup>
+  </EditorToolbar>
+  <EditorContent aria-label="Update" />
+</Editor>
+```
+
+Keep the toolbar under the same editor as the content so it operates on the active selection. A custom kit must register any command your toolbar exposes. Test overflow and keyboard navigation at the narrowest width of the editor's container.
+
+The web toolbar uses a More menu. The React Native toolbar scrolls horizontally when the commands exceed its width.

@@ -322,67 +322,77 @@ function SyntaxHighlightContent({
   ...props
 }: SyntaxHighlightContentProps) {
   const { lines } = useSyntaxHighlight()
-  const highlighted = getLineNumbers(highlightLines)
-  const inserted = getLineNumbers(insertedLines)
-  const deleted = getLineNumbers(deletedLines)
-  const digits = String(startLine + lines.length - 1).length
+  const rows = React.useMemo(() => {
+    const highlighted = getLineNumbers(highlightLines)
+    const inserted = getLineNumbers(insertedLines)
+    const deleted = getLineNumbers(deletedLines)
+    const digits = String(startLine + lines.length - 1).length
 
-  const rows = (
-    <View
-      data-slot="syntax-highlight-code"
-      className="cn-syntax-highlight-code grow"
-    >
-      {lines.map((line, index) => {
-        const number = startLine + index
-        const isHighlighted = highlighted.has(number)
-        const diff =
-          line.diff ??
-          (inserted.has(number)
-            ? "inserted"
-            : deleted.has(number)
-              ? "deleted"
-              : undefined)
-        return (
-          <View
-            key={index}
-            data-slot="syntax-highlight-line"
-            data-highlighted={isHighlighted}
-            data-diff={diff}
-            className="cn-syntax-highlight-line flex-row"
-          >
-            {showLineNumbers ? (
-              <Text
-                data-slot="syntax-highlight-line-number"
-                data-highlighted={isHighlighted}
-                data-diff={diff}
-                aria-hidden
-                importantForAccessibility="no"
-                selectable={false}
-                style={ANDROID_MONO}
-                className="cn-syntax-highlight-line-number shrink-0"
-              >
-                {/* Padded to the last number's width: every digit and space
-                    is as wide as the next in a mono font. */}
-                {String(number).padStart(digits, " ")}
-              </Text>
-            ) : null}
-            <Text
-              data-slot="syntax-highlight-line-content"
-              selectable
-              numberOfLines={wrap ? undefined : 1}
-              style={ANDROID_MONO}
-              className={cn(
-                "cn-syntax-highlight-line-content",
-                wrap ? "min-w-0 flex-1" : "shrink-0"
-              )}
+    return (
+      <View
+        data-slot="syntax-highlight-code"
+        className="cn-syntax-highlight-code grow"
+      >
+        {lines.map((line, index) => {
+          const number = startLine + index
+          const isHighlighted = highlighted.has(number)
+          const diff =
+            line.diff ??
+            (inserted.has(number)
+              ? "inserted"
+              : deleted.has(number)
+                ? "deleted"
+                : undefined)
+          return (
+            <View
+              key={index}
+              data-slot="syntax-highlight-line"
+              data-highlighted={isHighlighted}
+              data-diff={diff}
+              className="cn-syntax-highlight-line flex-row"
             >
-              {line.tokens.length > 0 ? line.tokens.map(renderToken) : " "}
-            </Text>
-          </View>
-        )
-      })}
-    </View>
-  )
+              {showLineNumbers ? (
+                <Text
+                  data-slot="syntax-highlight-line-number"
+                  data-highlighted={isHighlighted}
+                  data-diff={diff}
+                  aria-hidden
+                  importantForAccessibility="no"
+                  selectable={false}
+                  style={ANDROID_MONO}
+                  className="cn-syntax-highlight-line-number shrink-0"
+                >
+                  {/* Padded to the last number's width: every digit and space
+                    is as wide as the next in a mono font. */}
+                  {String(number).padStart(digits, " ")}
+                </Text>
+              ) : null}
+              <Text
+                data-slot="syntax-highlight-line-content"
+                selectable
+                numberOfLines={wrap ? undefined : 1}
+                style={ANDROID_MONO}
+                className={cn(
+                  "cn-syntax-highlight-line-content",
+                  wrap ? "min-w-0 flex-1" : "shrink-0"
+                )}
+              >
+                {line.tokens.length > 0 ? line.tokens.map(renderToken) : " "}
+              </Text>
+            </View>
+          )
+        })}
+      </View>
+    )
+  }, [
+    lines,
+    showLineNumbers,
+    startLine,
+    highlightLines,
+    insertedLines,
+    deletedLines,
+    wrap,
+  ])
 
   return (
     <TextStyle className="cn-syntax-highlight-content-text">

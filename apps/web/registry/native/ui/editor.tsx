@@ -80,13 +80,13 @@ import {
   fromFlatOffset,
   getBlockIndex,
   getBlockText,
-  getFlatText,
   toFlatOffset,
   type EditorDocument,
 } from "@/registry/fabricator/shared/lib/editor-model"
 import { getNativeEditorContent } from "@/registry/fabricator/shared/lib/editor-native-content"
 import {
   createEditorStore,
+  selectEditorWordCount,
   useEditorSelector,
   useEditorSnapshot,
   type EditorStore,
@@ -127,7 +127,6 @@ import { useBottomBarClaim } from "@/registry/native/lib/bottom-bar"
 import { applyDataVariants } from "@/registry/native/lib/data-variants"
 import { getTouchSlop } from "@/registry/native/lib/density-scale"
 import {
-  countWords,
   getDeleteInput,
   getEditorFonts,
   getEditorTheme,
@@ -1988,15 +1987,12 @@ function EditorFooter({
   )
 }
 
-const selectWordCount = (state: EditorState) =>
-  countWords(getFlatText(state.document))
-
 function EditorWordCount({
   className,
   ...props
 }: React.ComponentProps<typeof Text>) {
   const { store } = useEditorContext()
-  const words = useEditorSelector(store, selectWordCount)
+  const words = useEditorSelector(store, selectEditorWordCount)
   return (
     <Text
       data-slot="editor-word-count"

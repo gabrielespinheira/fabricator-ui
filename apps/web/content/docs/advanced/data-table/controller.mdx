@@ -1,0 +1,29 @@
+---
+title: "useDataTable"
+description: "Connect stable row identities, typed columns, and a local or remote data source to every table part."
+---
+
+`useDataTable` returns the TanStack table instance consumed by the Fabricator parts. Import the hook from `@/hooks/use-data-table` and the visual parts from `@/components/ui/data-table`. Every visual part should receive the same instance.
+
+## Local data
+
+```tsx
+import { useDataTable } from "@/hooks/use-data-table"
+import { DataTable, DataTableContent } from "@/components/ui/data-table"
+
+export function Deals({ deals }: { deals: Deal[] }) {
+  const table = useDataTable({
+    data: deals,
+    columns,
+    getRowId: (deal) => deal.id,
+  })
+
+  return (
+    <DataTable table={table}>
+      <DataTableContent table={table} />
+    </DataTable>
+  )
+}
+```
+
+Define `columns` outside the render or memoize them when they depend on props. A stable row ID lets selection and edits survive a reorder. For remote data use `load` instead of `data`. Apply the supplied sort, search and filters before slicing the requested window, and pass the abort signal through to your fetch. Supply `paginate: true` when you want numbered pages.

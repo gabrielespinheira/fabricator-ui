@@ -339,10 +339,55 @@ function SyntaxHighlightContent({
   ...props
 }: SyntaxHighlightContentProps) {
   const { lines } = useSyntaxHighlight()
-  const highlighted = getLineNumbers(highlightLines)
-  const inserted = getLineNumbers(insertedLines)
-  const deleted = getLineNumbers(deletedLines)
   const lastLine = startLine + lines.length - 1
+  const rows = React.useMemo(() => {
+    const highlighted = getLineNumbers(highlightLines)
+    const inserted = getLineNumbers(insertedLines)
+    const deleted = getLineNumbers(deletedLines)
+
+    return lines.map((line, index) => {
+      const number = startLine + index
+      const diff =
+        line.diff ??
+        (inserted.has(number)
+          ? "inserted"
+          : deleted.has(number)
+            ? "deleted"
+            : undefined)
+      return (
+        <span
+          key={index}
+          data-slot="syntax-highlight-line"
+          data-highlighted={highlighted.has(number) ? "" : undefined}
+          data-diff={diff}
+          className="cn-syntax-highlight-line flex"
+        >
+          {showLineNumbers ? (
+            <span
+              data-slot="syntax-highlight-line-number"
+              aria-hidden="true"
+              className="cn-syntax-highlight-line-number shrink-0 text-end select-none"
+            >
+              {number}
+            </span>
+          ) : null}
+          <span
+            data-slot="syntax-highlight-line-content"
+            className="cn-syntax-highlight-line-content min-w-0 flex-1"
+          >
+            {line.tokens.length > 0 ? line.tokens.map(renderToken) : "\n"}
+          </span>
+        </span>
+      )
+    })
+  }, [
+    lines,
+    showLineNumbers,
+    startLine,
+    highlightLines,
+    insertedLines,
+    deletedLines,
+  ])
 
   return (
     <pre
@@ -366,41 +411,7 @@ function SyntaxHighlightContent({
         data-slot="syntax-highlight-code"
         className="cn-syntax-highlight-code grid"
       >
-        {lines.map((line, index) => {
-          const number = startLine + index
-          const diff =
-            line.diff ??
-            (inserted.has(number)
-              ? "inserted"
-              : deleted.has(number)
-                ? "deleted"
-                : undefined)
-          return (
-            <span
-              key={index}
-              data-slot="syntax-highlight-line"
-              data-highlighted={highlighted.has(number) ? "" : undefined}
-              data-diff={diff}
-              className="cn-syntax-highlight-line flex"
-            >
-              {showLineNumbers ? (
-                <span
-                  data-slot="syntax-highlight-line-number"
-                  aria-hidden="true"
-                  className="cn-syntax-highlight-line-number shrink-0 text-end select-none"
-                >
-                  {number}
-                </span>
-              ) : null}
-              <span
-                data-slot="syntax-highlight-line-content"
-                className="cn-syntax-highlight-line-content min-w-0 flex-1"
-              >
-                {line.tokens.length > 0 ? line.tokens.map(renderToken) : "\n"}
-              </span>
-            </span>
-          )
-        })}
+        {rows}
       </code>
     </pre>
   )

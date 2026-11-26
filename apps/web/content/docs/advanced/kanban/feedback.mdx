@@ -1,0 +1,15 @@
+---
+title: "KanbanSelectionBar and Notices"
+description: "Place bulk actions and board feedback around the card area."
+---
+
+`KanbanSelectionBar` follows the selected records. `KanbanNotices` renders feedback from the board controller, including notices that support undo or retry. The `Kanban` root mounts both surfaces, including with render-function children. Compose them yourself when using `useKanban` with a standalone `KanbanBoard`.
+
+```tsx
+<>
+  <KanbanSelectionBar board={board} />
+  <KanbanNotices board={board} />
+</>
+```
+
+Keep a single notice surface per controller so a failed move or save is announced once. Use card IDs to address a selection since a card can change columns while an action is pending.

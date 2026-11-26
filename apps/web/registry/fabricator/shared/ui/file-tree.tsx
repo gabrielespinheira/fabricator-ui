@@ -138,13 +138,16 @@ function FileTree({
   const search = React.useRef({ text: "", time: 0 })
   const selectedIds = controlledSelectedIds ?? localSelectedIds
   const expandedIds = controlledExpandedIds ?? localExpandedIds
-  const selected = new Set(selectedIds)
-  const expanded = new Set(expandedIds)
+  const selected = React.useMemo(() => new Set(selectedIds), [selectedIds])
+  const expanded = React.useMemo(() => new Set(expandedIds), [expandedIds])
   const rows = React.useMemo(
     () => getVisibleFileTreeNodes(nodes, expandedIds),
     [nodes, expandedIds]
   )
-  const enabledRows = rows.filter((row) => !row.isDisabled)
+  const enabledRows = React.useMemo(
+    () => rows.filter((row) => !row.isDisabled),
+    [rows]
+  )
   const tabId =
     enabledRows.find(({ node }) => node.id === focusedId)?.node.id ??
     enabledRows.find(({ node }) => selected.has(node.id))?.node.id ??

@@ -1,0 +1,24 @@
+---
+title: "VideoPlayerChapter"
+description: "Mark meaningful seek points and label sections of a video."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="video-player-chapters"
+  previewClassName="h-auto"
+/>
+
+A `VideoPlayerChapter` pairs a `title` with a `start` in seconds. The default player shows chapters in the seek preview and can show the active chapter beside the time.
+
+```tsx
+const chapters: VideoPlayerChapter[] = [
+  { start: 0, title: "Overview" },
+  { start: 34, title: "Create a workspace" },
+  { start: 112, title: "Invite your team" },
+]
+
+<VideoPlayer src="/media/setup.mp4" chapters={chapters} title="Workspace setup" />
+```
+
+Keep chapters in chronological order with distinct, in-range start times. Use chapter names that describe a task or subject. In a controlled layout, keep the array stable between unrelated parent renders.

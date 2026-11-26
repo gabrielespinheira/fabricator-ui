@@ -975,6 +975,35 @@ function AudioPlayerSeek({
   }
 
   const riseMs = sheet.isOff || sheet.isReduced ? 0 : sheet.enterMs
+  const delayMs = riseMs > 0 ? feedbackMotion.enterMs / 12 : 0
+  const easing = sheet.drawerEasing
+  const trackBars = React.useMemo(
+    () =>
+      bars.map((level, index) => (
+        <AudioPlayerWaveformBar
+          key={index}
+          index={index}
+          level={level}
+          delayMs={delayMs}
+          durationMs={riseMs}
+          easing={easing}
+        />
+      )),
+    [bars, delayMs, riseMs, easing]
+  )
+  const playedBars = React.useMemo(
+    () =>
+      bars.map((level, index) => (
+        <View
+          key={index}
+          data-slot="audio-player-waveform-bar"
+          data-layer="played"
+          className="cn-audio-player-waveform-bar min-w-0 flex-1"
+          style={{ height: `${level * 100}%` }}
+        />
+      )),
+    [bars]
+  )
   const previewWidth = 64
 
   return (
@@ -1015,16 +1044,7 @@ function AudioPlayerSeek({
               data-layer="track"
               className="cn-audio-player-waveform-bars absolute inset-0 flex-row items-center"
             >
-              {bars.map((level, index) => (
-                <AudioPlayerWaveformBar
-                  key={index}
-                  index={index}
-                  level={level}
-                  delayMs={riseMs > 0 ? feedbackMotion.enterMs / 12 : 0}
-                  durationMs={riseMs}
-                  easing={sheet.drawerEasing}
-                />
-              ))}
+              {trackBars}
             </View>
             {/* What has played: the same bars in primary, cut at the
                 playhead so a bar fills partway as it passes. */}
@@ -1038,15 +1058,7 @@ function AudioPlayerSeek({
                 className="cn-audio-player-waveform-bars h-full flex-row items-center"
                 style={{ width }}
               >
-                {bars.map((level, index) => (
-                  <View
-                    key={index}
-                    data-slot="audio-player-waveform-bar"
-                    data-layer="played"
-                    className="cn-audio-player-waveform-bar min-w-0 flex-1"
-                    style={{ height: `${level * 100}%` }}
-                  />
-                ))}
+                {playedBars}
               </View>
             </Animated.View>
           </View>

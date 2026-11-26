@@ -3,6 +3,8 @@
 // commands from the kit's shortcuts, and how the view's events become inputs.
 // Pure, so the website's Vitest runs it.
 
+import { countWords } from "@/registry/fabricator/shared/lib/editor-model"
+
 type DocumentSize = "sm" | "default" | "lg"
 
 type DocumentType = {
@@ -393,14 +395,6 @@ function getDeleteInput(
  */
 function isPastedText(text: string) {
   return /[\r\n]/.test(text)
-}
-
-/** The website's word count: runs of text holding a letter or a digit. */
-function countWords(flatText: string) {
-  return flatText
-    .replace(/[\u2028\uFFFC]/g, " ")
-    .split(/\s+/)
-    .filter((word) => /[\p{L}\p{N}]/u.test(word)).length
 }
 
 export {

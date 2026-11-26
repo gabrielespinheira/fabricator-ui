@@ -1,0 +1,19 @@
+---
+title: "EventCalendarHeader and Navigation"
+description: "Arrange the title, date controls, view picker, settings, and creation button."
+---
+
+`EventCalendarHeader` lays out the controls. `EventCalendarTitle` shows the active period and opens a date picker. `EventCalendarNavigation` moves by the current view's step, `EventCalendarToday` returns to today, and `EventCalendarViewSelect` switches views. `EventCalendarSettings` exposes options such as weekends, week numbers, and clock format.
+
+```tsx
+<EventCalendarHeader>
+  <EventCalendarTitle />
+  <EventCalendarToday />
+  <EventCalendarNavigation />
+  <EventCalendarViewSelect />
+  <EventCalendarSettings />
+  <EventCalendarCreateButton />
+</EventCalendarHeader>
+```
+
+Use a subset for a smaller header. Keep `EventCalendarCreateButton` inside the calendar or pass it the same controller when it sits in a separate toolbar. A view can also be controlled from your application through `view` and `onViewChange`.

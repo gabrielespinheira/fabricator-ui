@@ -1,0 +1,24 @@
+---
+title: "useKanban"
+description: "Connect records, column grouping, and optimistic edits to one board controller."
+---
+
+`useKanban` returns the controller shared by the visual parts. `Kanban` can create it for you and pass it to a render function. Keep the record list and property definitions stable between unrelated updates.
+
+```tsx
+const board = useKanban({
+  items,
+  properties,
+  groupBy: "status",
+  onCardsChange: (change) => setItems(change.apply),
+})
+
+return (
+  <>
+    <KanbanToolbar board={board} title="Release work" />
+    <KanbanBoard board={board} />
+  </>
+)
+```
+
+For a server-backed board, return a save promise from `onCardsChange`. A rejected promise rolls back that change and the board offers a retry. Moves use neighboring card IDs, so their destination still makes sense when a column is filtered or partially loaded.

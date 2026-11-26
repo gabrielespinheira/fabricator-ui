@@ -1,0 +1,18 @@
+---
+title: "EditorKeyboardBar and Word Count"
+description: "Add editing commands above the keyboard and feedback below the document."
+---
+
+`EditorKeyboardBar` exposes formatting above the on-screen keyboard. `EditorFooter` lays out supporting information, and `EditorWordCount` reads the editor document to display its word count.
+
+```tsx
+<Editor defaultValue="A short draft">
+  <EditorContent aria-label="Draft" />
+  <EditorKeyboardBar />
+  <EditorFooter>
+    <EditorWordCount />
+  </EditorFooter>
+</Editor>
+```
+
+Use the keyboard bar with editable documents. Leave the word count out of a large-document workflow if the information has no role there. It reads the document text to compute the count.

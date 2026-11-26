@@ -1,0 +1,23 @@
+---
+title: "VideoPlayerTrack"
+description: "Attach caption and subtitle tracks to a video."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="video-player-captions"
+  previewClassName="h-auto"
+/>
+
+Pass an array of `VideoPlayerTrack` objects to `tracks`. Each has a WebVTT URL, a language tag in `srcLang`, and a label shown in the menu. Set `kind="subtitles"` for translated dialogue and use captions for dialogue plus relevant audio. Pick at most one default track.
+
+```tsx
+const tracks: VideoPlayerTrack[] = [
+  { src: "/media/walkthrough.en.vtt", srcLang: "en", label: "English", default: true },
+  { src: "/media/walkthrough.pt.vtt", srcLang: "pt", label: "Português", kind: "subtitles" },
+]
+
+<VideoPlayer src="/media/walkthrough.mp4" title="Setup walkthrough" tracks={tracks} />
+```
+
+Serve captions from the same origin as the page when possible. If you host them separately, test the track with the deployed video's origin and CORS settings. Choose a meaningful player title so assistive technology can distinguish multiple videos.

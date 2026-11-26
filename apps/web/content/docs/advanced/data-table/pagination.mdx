@@ -1,0 +1,31 @@
+---
+title: "DataTablePagination"
+description: "Offer page navigation and a page-size selector."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="data-table-pagination"
+  align="start"
+  previewClassName="items-start h-auto px-4 md:px-8"
+/>
+
+Pass `paginate: true` to `useDataTable` and put `DataTablePagination` after the content. Pass the same table to both parts so the displayed range reflects the filtered dataset.
+
+```tsx
+const table = useDataTable({
+  load: loadDeals,
+  columns,
+  paginate: true,
+  pageSize: 25,
+})
+
+return (
+  <DataTable table={table}>
+    <DataTableContent table={table} />
+    <DataTablePagination table={table} pageSizes={[25, 50, 100]} />
+  </DataTable>
+)
+```
+
+For a remote source, return the filtered row count so the last page and the range label are accurate. For infinite scrolling, leave `paginate` off and keep only [DataTableContent](./content).

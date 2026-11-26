@@ -7,6 +7,7 @@ import {
   getBlockIndex,
   getBlockStarts,
   getBlockText,
+  getEditorWordCount,
   getFlatText,
   getIndentLimit,
   getNextCharacterOffset,
@@ -30,6 +31,19 @@ const doc: EditorDocument = {
     createBlock({ id: "d", type: "paragraph" }, ""),
   ],
 }
+
+it("counts words across blocks and updates when a block is replaced", () => {
+  expect(getEditorWordCount(doc)).toBe(3)
+  const edited = {
+    ...doc,
+    blocks: [
+      ...doc.blocks.slice(0, -1),
+      createBlock({ id: "d", type: "paragraph" }, "4 — revisão"),
+    ],
+  }
+  expect(getEditorWordCount(edited)).toBe(5)
+  expect(getEditorWordCount(doc)).toBe(3)
+})
 
 describe("runs", () => {
   it("merges neighbours with the same marks and drops empty runs", () => {

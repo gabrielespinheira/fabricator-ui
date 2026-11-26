@@ -1,0 +1,24 @@
+---
+title: "Audio Player controls"
+description: "Configure playback, speed, artwork, and a layout that fits the recording."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="audio-player-compact"
+  previewClassName="h-auto"
+/>
+
+Audio Player renders its own transport, seek, time display and volume controls. Use `compact` for a voice message, `cover` for larger artwork, or `default` for a card with title and artist details.
+
+```tsx
+<AudioPlayer
+  src="/media/voice-note.m4a"
+  title="Voice note from Ana"
+  variant="compact"
+  playbackRates={[1, 1.25, 1.5, 2]}
+  onPlayingChange={(isPlaying) => updatePlaybackIndicator(isPlaying)}
+/>
+```
+
+Use `onEnded` for completion actions and give the player a title even when the compact layout hides it visually. When listing many recordings, mount the active audio player on demand. This limits metadata requests and keeps inactive recordings out of the playback update path.

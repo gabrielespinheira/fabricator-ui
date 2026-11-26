@@ -17,6 +17,7 @@ import type { EditorKitRuntime } from "./editor-kit"
 import {
   fromFlatOffset,
   getBlockIndex,
+  getEditorWordCount,
   toFlatOffset,
   type EditorBlock,
   type EditorDocument,
@@ -173,6 +174,9 @@ function createSelectionReader<T>(
   }
 }
 
+const selectEditorWordCount = (state: EditorState) =>
+  getEditorWordCount(state.document)
+
 /**
  * Reads part of the state, re-rendering only when it changes by `isEqual`.
  * Pass a stable `selector` (module level or memoised): a new one each render
@@ -235,6 +239,7 @@ function useEditorSnapshot(store: EditorStore): EditorSnapshot {
 export {
   createEditorStore,
   isSameSnapshot,
+  selectEditorWordCount,
   useEditorBlock,
   useEditorSelector,
   useEditorSnapshot,

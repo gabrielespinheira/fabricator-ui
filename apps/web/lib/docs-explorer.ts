@@ -14,6 +14,7 @@ export type ExplorerPage = { url: string; title: string; date?: string }
 const CHANGELOG_URL = "/docs/changelog"
 export const APP_SHELL_NAV_ID = "group-app-shell"
 const APP_SHELL_REFERENCE_PATH = "/docs/app-shell/"
+export const ADVANCED_REFERENCE_PATH = "/docs/advanced/"
 const APP_SHELL_COMPANIONS = [
   "sidebar",
   "app-nav",
@@ -96,6 +97,28 @@ export function getDocsExplorerGroups(
     { overview: undefined, groups: {} },
     { overviewHref: "/docs", componentPath }
   )
+  const referencesByComponent = new Map<string, NavItem<undefined>[]>()
+  for (const page of pages) {
+    if (!page.url.startsWith(ADVANCED_REFERENCE_PATH)) continue
+    const slug = page.url.slice(ADVANCED_REFERENCE_PATH.length).split("/")[0]
+    const references = referencesByComponent.get(slug) ?? []
+    references.push(getPageItem(page))
+    referencesByComponent.set(slug, references)
+  }
+  const advanced = componentSection.items.find(
+    (item) => item.id === getGroupNavId("Advanced")
+  )
+  if (advanced) {
+    advanced.children = advanced.children?.map((item) => {
+      const references = referencesByComponent.get(item.id)
+      return references
+        ? {
+            ...item,
+            children: references.sort((a, b) => a.label.localeCompare(b.label)),
+          }
+        : item
+    })
+  }
   const appShell = byUrl.get(appShellHref)
   if (appShell) {
     const children = [...shellSubpages].flatMap((url) => {
@@ -120,6 +143,7 @@ export function getDocsExplorerGroups(
       page.url !== "/docs/new" &&
       page.url !== "/docs/rtl" &&
       !page.url.startsWith(APP_SHELL_REFERENCE_PATH) &&
+      !page.url.startsWith(ADVANCED_REFERENCE_PATH) &&
       !page.url.startsWith("/docs/components/")
   )
   const otherPages = guidePages.filter(

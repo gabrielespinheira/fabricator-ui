@@ -1,0 +1,41 @@
+---
+title: "EventCalendarEvent and Forms"
+description: "Customize event chips and understand how details and editing are displayed."
+---
+
+`EventCalendarEvent` renders the default chip. Wrap it in `renderEvent` when your event needs additional text and keep the render function stable. `EventCalendarEventDetails` and `EventCalendarEventForm` are the details and editor UI used by the calendar. The standard content wires their open state, selection and save actions.
+
+```tsx
+function TeamEvent(props: EventCalendarRenderEventProps) {
+  return (
+    <EventCalendarEvent {...props}>
+      {props.event.title}
+      {props.event.location ? ` · ` + props.event.location : null}
+    </EventCalendarEvent>
+  )
+}
+
+;<EventCalendar events={events} renderEvent={TeamEvent} />
+```
+
+Return `false` from `onEventOpen` to present your own record view. Keep modification and permission rules in the same place as your save logic. An ISO date-only event is all-day and its end is exclusive.
+
+## Place the built-in editing surface
+
+Mount both parts under `EventCalendar`. Give the details an `event` and an `onClose` callback. For a custom editing layout, give the form the event or draft and control when it appears. The form delegates saves to the same calendar controller.
+
+```tsx
+<EventCalendar calendar={calendar}>
+  <EventCalendarContent />
+  {draft && (
+    <EventCalendarEventForm
+      key={draft.id}
+      event={draft}
+      isNew
+      onCancel={() => setDraft(null)}
+    />
+  )}
+</EventCalendar>
+```
+
+Use `isNew` for a new event and leave it off when editing an existing one. Remount the form when the event identity changes so its local draft starts with the selected event's values.

@@ -1,0 +1,21 @@
+---
+title: "SyntaxHighlightHeader"
+description: "Compose file metadata, a language label, and a copy control."
+---
+
+<ComponentPreview styleName="base-nova" name="syntax-highlight-command" />
+
+`SyntaxHighlightHeader` lays out the header. `SyntaxHighlightIcon` distinguishes code from shell commands, `SyntaxHighlightTitle` reads the filename or language, and `SyntaxHighlightLanguage` shows only the language label. All read the nearest `SyntaxHighlight` root.
+
+```tsx
+<SyntaxHighlight code={command} language="shell" filename="Terminal">
+  <SyntaxHighlightHeader>
+    <SyntaxHighlightIcon />
+    <SyntaxHighlightTitle />
+    <SyntaxHighlightCopy />
+  </SyntaxHighlightHeader>
+  <SyntaxHighlightContent wrap />
+</SyntaxHighlight>
+```
+
+Use a title and language label together when each adds information, such as `worker.ts` and TypeScript. Omit the header for a compact read-only snippet with no controls.

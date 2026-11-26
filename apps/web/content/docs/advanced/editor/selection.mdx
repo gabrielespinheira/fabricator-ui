@@ -1,0 +1,20 @@
+---
+title: "EditorBubbleMenu and Link Popover"
+description: "Show formatting near a selection and let readers edit links."
+---
+
+`EditorBubbleMenu` anchors formatting to a text selection. `EditorBlockTypeMenu` changes the selected block's type. `EditorLinkPopover` shows the link editor when the link command opens it. These parts use the current editor's selection and should sit under its root.
+
+```tsx
+<Editor>
+  <EditorContent aria-label="Article body" />
+  <EditorBubbleMenu>
+    <EditorBlockTypeMenu />
+    <EditorToolbarButton command="bold" />
+    <EditorToolbarButton command="link" />
+  </EditorBubbleMenu>
+  <EditorLinkPopover />
+</Editor>
+```
+
+On web, the link field and selection popup use the top layer so an overflow container can still scroll. On React Native, `EditorBubbleMenu` renders nothing. Use [EditorKeyboardBar](./feedback) to offer formatting on touch. The link editor opens as a dialog.

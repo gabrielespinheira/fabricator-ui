@@ -1,0 +1,22 @@
+---
+title: "EventCalendarMiniMonth and Sources"
+description: "Add a date navigator and calendar visibility controls beside the grid."
+---
+
+`EventCalendarMiniMonth` moves the existing calendar to the picked day and can notify an enclosing popover through `onDateSelect`. `EventCalendarSources` lists the controller's configured calendars and toggles their visibility.
+
+```tsx
+const calendar = useEventCalendar({ events, calendars })
+
+return (
+  <>
+    <aside aria-label="Calendar navigation">
+      <EventCalendarMiniMonth calendar={calendar} />
+      <EventCalendarSources calendar={calendar} />
+    </aside>
+    <EventCalendar calendar={calendar} />
+  </>
+)
+```
+
+Use calendar IDs that match your events' `calendarId`. Mount the controls with the same controller so changing visibility or date updates the grid immediately.

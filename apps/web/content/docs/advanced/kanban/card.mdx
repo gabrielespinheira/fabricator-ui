@@ -1,0 +1,17 @@
+---
+title: "KanbanCard"
+description: "Customize card content, covers, and record actions."
+---
+
+`KanbanCard` is the interactive card rendered by `KanbanBoard`. It supplies selection, a drag handle, keyboard moves and opening the record. Use the board's `renderCard` to replace the content while retaining the board's interaction wiring.
+
+```tsx
+<KanbanBoard
+  board={board}
+  openId={openId}
+  onOpenCard={(card) => setOpenId(card.id)}
+  renderCard={(card) => <span>{card.title}</span>}
+/>
+```
+
+Use `getCardActions` for actions such as copying a link. `view.visibleProperties` and the cover settings affect the default content. If you render a custom card face, keep focusable actions named and test opening the card without a pointer.

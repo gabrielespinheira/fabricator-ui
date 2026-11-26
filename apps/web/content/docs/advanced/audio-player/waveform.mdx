@@ -1,0 +1,26 @@
+---
+title: "Audio Player waveform"
+description: "Supply precomputed audio peaks and choose when the seek bar shows them."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="audio-player-demo"
+  previewClassName="h-auto"
+/>
+
+`peaks` describes loudness from the beginning to the end as values from 0 to 1. The player resamples them to the width available. Generate the values when audio is produced or uploaded and store them alongside the media. The installed `getAudioPeaks` helper in `@/lib/audio-player-model` accepts decoded samples.
+
+```tsx
+import { getAudioPeaks } from "@/lib/audio-player-model"
+
+const peaks = getAudioPeaks(channelSamples, 128)
+
+<AudioPlayer
+  src="/media/episode-12.mp3"
+  title="Episode 12"
+  peaks={peaks}
+/>
+```
+
+Compute the peaks outside the player render path. Reuse the array until the audio changes. Omit `peaks` to show a seek track when the data is unavailable. The `audio-player-waveform-bars` slots identify the visual layers.

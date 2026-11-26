@@ -1,0 +1,25 @@
+---
+title: "FileTreeNode"
+description: "Describe files, folders, and disabled subtrees with stable IDs."
+---
+
+<ComponentPreview styleName="base-nova" name="file-tree-single" />
+
+Use a full path or an immutable record ID for `id`, and the visible filename for `name`. Omit `children` for a file. Pass an empty array for an empty folder. A disabled folder disables its descendants, and `muted` is a visual distinction for entries such as generated files.
+
+```tsx
+import { FileTree, type FileTreeNode } from "@/components/ui/file-tree"
+
+const nodes: FileTreeNode[] = [
+  {
+    id: "src",
+    name: "src",
+    children: [{ id: "src/index.ts", name: "index.ts" }],
+  },
+  { id: "dist", name: "dist", muted: true, children: [] },
+]
+
+<FileTree nodes={nodes} defaultExpandedIds={["src"]} />
+```
+
+Keep `nodes` stable while handling selection or focus. Collapsed branches stay out of the rendered row list. For a large remote tree, request a folder's children when it expands and replace that branch immutably.

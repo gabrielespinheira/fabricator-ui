@@ -3,6 +3,38 @@ import { describe, expect, it } from "vitest"
 import { getDocsExplorerGroups, getDocsNeighbours } from "./docs-explorer"
 
 describe("docs explorer", () => {
+  it("nests shared Advanced references under the selected base's component", () => {
+    const overview = "/docs/components/radix/file-tree"
+    const reference = "/docs/advanced/file-tree/selection"
+    const pages = [
+      { url: overview, title: "File Tree" },
+      { url: "/docs/components/base/file-tree", title: "File Tree" },
+      { url: reference, title: "File Tree selection" },
+      { url: "/docs/advanced/data-table/rows", title: "Data Table rows" },
+    ]
+
+    const groups = getDocsExplorerGroups(pages, "radix")
+    expect(groups.find(({ id }) => id === "components")?.items).toEqual([
+      expect.objectContaining({
+        id: "group-advanced",
+        badge: 1,
+        children: [
+          expect.objectContaining({
+            href: overview,
+            children: [
+              { id: reference, href: reference, label: "File Tree selection" },
+            ],
+          }),
+        ],
+      }),
+    ])
+    expect(groups.find(({ id }) => id === "guides")?.items).toEqual([])
+    expect(getDocsNeighbours(pages, overview).next?.url).toBe(reference)
+    expect(getDocsNeighbours(pages, reference).previous?.url).toBe(
+      "/docs/components/base/file-tree"
+    )
+  })
+
   it("keeps guide links and groups only the selected platform's components", () => {
     const groups = getDocsExplorerGroups(
       [

@@ -1,0 +1,36 @@
+---
+title: "DataTableColumnHeader and Filter"
+description: "Compose a column header or place the filter for one column in a separate panel."
+---
+
+`DataTableColumnHeader` receives the TanStack `header` and its `table`. The default content already renders it for every column, including the sort state and the column actions. `DataTableColumnFilter` edits one column and selects its operators from the column's Fabricator `meta.type`.
+
+## Render a header in a custom table
+
+Pass an actual TanStack header from the current table. Keep the slot inside a table header cell so the browser preserves the table's structure. Use `DataTableContent` to get the full header, body and scrolling layout together.
+
+```tsx
+<tr>
+  {table.getCenterLeafHeaders().map((header) => (
+    <th key={header.id} scope="col">
+      <DataTableColumnHeader table={table} header={header} />
+    </th>
+  ))}
+</tr>
+```
+
+This example renders the center columns. For a layout with pinned columns, include the start and end leaf headers in their display order.
+
+## Expose a status filter in the page header
+
+```tsx
+import { DataTableColumnFilter } from "@/components/ui/data-table"
+
+const statusColumn = table.getColumn("status")
+
+return statusColumn ? (
+  <DataTableColumnFilter table={table} column={statusColumn} />
+) : null
+```
+
+Label your external surface with the column name. It edits the same filter as the column menu. Render it on demand for wide tables, especially when filters display facet counts.
