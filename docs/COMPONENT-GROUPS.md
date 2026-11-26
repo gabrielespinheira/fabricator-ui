@@ -25,7 +25,7 @@ In this order:
 
 Pick the group a reader would look in when building the screen, in this order:
 
-1. **Advanced** when it is a complete tool rather than a part, with its own state model and controls (`data-table`, `editor`, `file-tree`, `syntax-highlight`, `image-compare`, `video-player`, `audio-player`). The Data Table is one: it loads, sorts, filters, edits and lays itself out. A component that is merely large but still one part of a screen (`app-shell`) stays in its own group.
+1. **Advanced** when it is a complete tool rather than a part, with its own state model and controls (`data-table`, `editor`, `file-tree`, `syntax-highlight`, `image-compare`, `video-player`, `audio-player`, `text-motion`). The Data Table is one: it loads, sorts, filters, edits and lays itself out. Text Motion is one too: its own engine that splits, sequences and times text across effects. A component that is merely large but still one part of a screen (`app-shell`) stays in its own group.
 2. **Charts** when the component draws numbers as marks (lines, bars, areas, arcs, cells, flows) with a scale, a legend or a tooltip. A table of numbers stays Content; a single `Progress` bar stays Content.
 3. **Chat** when the component exists for conversations. A general component that chat also uses (`markdown`, `avatar`) stays in its own group.
 4. **Overlays** when its main surface floats above the page. A header navigation that stays in place (`navigation-menu`) is Structure.
