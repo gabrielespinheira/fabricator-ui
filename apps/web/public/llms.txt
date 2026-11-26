@@ -209,3 +209,39 @@ Whole screens built from the components, installed as a page with its parts: `np
 - [components.json Schema](https://fabricator-ui.vercel.app/schema.json): JSON Schema for the `components.json` configuration file.
 - [Registry Schema](https://fabricator-ui.vercel.app/schema/registry.json): JSON Schema for registry index files.
 - [Registry Item Schema](https://fabricator-ui.vercel.app/schema/registry-item.json): JSON Schema for individual registry items: files, dependencies, CSS variables and more.
+
+## Advanced component references
+
+- [Audio Player controls](https://fabricator-ui.vercel.app/docs/advanced/audio-player/controls.md): Configure playback, speed, artwork, and a layout that fits the recording.
+- [Audio Player waveform](https://fabricator-ui.vercel.app/docs/advanced/audio-player/waveform.md): Supply precomputed audio peaks and choose when the seek bar shows them.
+- [DataTableColumnHeader and Filter](https://fabricator-ui.vercel.app/docs/advanced/data-table/columns.md): Compose a column header or place the filter for one column in a separate panel.
+- [DataTableContent](https://fabricator-ui.vercel.app/docs/advanced/data-table/content.md): Render the virtualized body and handle its empty, loading, and error states.
+- [useDataTable](https://fabricator-ui.vercel.app/docs/advanced/data-table/controller.md): Connect stable row identities, typed columns, and a local or remote data source to every table part.
+- [DataTablePagination](https://fabricator-ui.vercel.app/docs/advanced/data-table/pagination.md): Offer page navigation and a page-size selector.
+- [DataTableSelectionBar](https://fabricator-ui.vercel.app/docs/advanced/data-table/selection.md): Add bulk actions to the rows selected by the checkbox column.
+- [DataTableToolbar and Search](https://fabricator-ui.vercel.app/docs/advanced/data-table/toolbar.md): Arrange search and page actions above a table.
+- [EditorContent and useEditor](https://fabricator-ui.vercel.app/docs/advanced/editor/content.md): Render the editable document and connect actions to its command store.
+- [EditorKeyboardBar and Word Count](https://fabricator-ui.vercel.app/docs/advanced/editor/feedback.md): Add editing commands above the keyboard and feedback below the document.
+- [EditorBubbleMenu and Link Popover](https://fabricator-ui.vercel.app/docs/advanced/editor/selection.md): Show formatting near a selection and let readers edit links.
+- [EditorToolbar and Buttons](https://fabricator-ui.vercel.app/docs/advanced/editor/toolbar.md): Build a toolbar from named editor commands.
+- [EventCalendarContent and Agenda](https://fabricator-ui.vercel.app/docs/advanced/event-calendar/content.md): Mount the grid and understand where the list and empty state fit.
+- [useEventCalendar](https://fabricator-ui.vercel.app/docs/advanced/event-calendar/controller.md): Share date, view, loaded ranges, and edits across a composed calendar.
+- [EventCalendarEvent and Forms](https://fabricator-ui.vercel.app/docs/advanced/event-calendar/events.md): Customize event chips and understand how details and editing are displayed.
+- [EventCalendarHeader and Navigation](https://fabricator-ui.vercel.app/docs/advanced/event-calendar/navigation.md): Arrange the title, date controls, view picker, settings, and creation button.
+- [EventCalendarMiniMonth and Sources](https://fabricator-ui.vercel.app/docs/advanced/event-calendar/sources.md): Add a date navigator and calendar visibility controls beside the grid.
+- [FileTreeIcon](https://fabricator-ui.vercel.app/docs/advanced/file-tree/icon.md): Reuse the default file and folder icon while overriding specific entries.
+- [FileTreeNode](https://fabricator-ui.vercel.app/docs/advanced/file-tree/nodes.md): Describe files, folders, and disabled subtrees with stable IDs.
+- [File Tree selection](https://fabricator-ui.vercel.app/docs/advanced/file-tree/selection.md): Control expansion and selection independently and handle open or delete actions.
+- [Image Compare divider](https://fabricator-ui.vercel.app/docs/advanced/image-compare/divider.md): Choose how the handle position is controlled, committed, and exposed to the keyboard.
+- [Image Compare images](https://fabricator-ui.vercel.app/docs/advanced/image-compare/images.md): Prepare aligned assets and label the two sides of the comparison.
+- [KanbanCard](https://fabricator-ui.vercel.app/docs/advanced/kanban/card.md): Customize card content, covers, and record actions.
+- [KanbanBoard and Column](https://fabricator-ui.vercel.app/docs/advanced/kanban/columns.md): Render columns, lanes, card lists, and per-column pagination.
+- [useKanban](https://fabricator-ui.vercel.app/docs/advanced/kanban/controller.md): Connect records, column grouping, and optimistic edits to one board controller.
+- [KanbanSelectionBar and Notices](https://fabricator-ui.vercel.app/docs/advanced/kanban/feedback.md): Place bulk actions and board feedback around the card area.
+- [KanbanToolbar and Controls](https://fabricator-ui.vercel.app/docs/advanced/kanban/toolbar.md): Compose search, filter, grouping, sorting, and view options.
+- [SyntaxHighlightContent](https://fabricator-ui.vercel.app/docs/advanced/syntax-highlight/content.md): Control line numbering, line marks, diff indicators, and wrapping.
+- [SyntaxHighlightCopy and Hook](https://fabricator-ui.vercel.app/docs/advanced/syntax-highlight/copy.md): Copy raw source or build a control that reads the same syntax context.
+- [SyntaxHighlightHeader](https://fabricator-ui.vercel.app/docs/advanced/syntax-highlight/header.md): Compose file metadata, a language label, and a copy control.
+- [VideoPlayerChapter](https://fabricator-ui.vercel.app/docs/advanced/video-player/chapters.md): Mark meaningful seek points and label sections of a video.
+- [Video Player controls](https://fabricator-ui.vercel.app/docs/advanced/video-player/controls.md): Configure the transport, seek bar, speed menu, and player variants.
+- [VideoPlayerTrack](https://fabricator-ui.vercel.app/docs/advanced/video-player/tracks.md): Attach caption and subtitle tracks to a video.

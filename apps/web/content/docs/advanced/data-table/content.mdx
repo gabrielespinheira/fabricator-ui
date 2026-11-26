@@ -1,0 +1,27 @@
+---
+title: "DataTableContent"
+description: "Render the virtualized body and handle its empty, loading, and error states."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="data-table-states"
+  align="start"
+  previewClassName="items-start h-auto px-4 md:px-8"
+/>
+
+Place `DataTableContent` inside `DataTable`. It renders the headers, typed cells, sticky columns and optional calculation footer. Give its frame a bounded height so the virtualizer can keep the mounted row count close to the viewport.
+
+## Keep the empty state actionable
+
+```tsx
+<DataTable table={table}>
+  <DataTableContent
+    table={table}
+    empty={<p>No matching deals. Try clearing the filters.</p>}
+    onRowClick={(row) => openDeal(row.original.id)}
+  />
+</DataTable>
+```
+
+A table created with `useDataTable({ load })` supplies first-load and fetch-more state to the content. When implementing your own source, pass `loading` and `error` for the initial request and `hasMore`, `loadingMore` and `onLoadMore` for the next window. Keep the rendered row height fixed where possible. Profile scroll before increasing `overscan` above its default of five.
