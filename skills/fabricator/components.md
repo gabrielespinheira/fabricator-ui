@@ -85,7 +85,7 @@ Start at [asking.md](asking.md): most values should never reach this table.
 | `drawer` | Phone tasks, filters, pickers | `showSwipeHandle`, `snapPoints`; primary above Cancel |
 | `popover` | One or two controls, a filter, a small preview | `PopoverHeader`, `PopoverTitle` |
 | `hover-card` | A preview of a linked person or record | Never holds the only copy of something; a long press on touch |
-| `tooltip` | The name of an icon button, a truncated value | Never essential, never interactive |
+| `tooltip` | The name and shortcut of every icon-only button; a truncated value | One to three words, then `Kbd`; never interactive ([rules/icons.md](rules/icons.md#buttons-without-a-clear-label)) |
 
 Every dialog, sheet and drawer has a title. Two modal layers at most.
 

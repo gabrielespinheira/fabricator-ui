@@ -405,6 +405,19 @@
         "Relies on the chart's own draw-in and the components' built-in motion for liveliness",
         "Writes no custom keyframes or millisecond durations"
       ]
+    },
+    {
+      "id": 30,
+      "prompt": "Add a toolbar above this Fabricator (base) document editor with icon-only buttons for bold, italic, insert link, undo and share. Bold, italic and undo already have shortcuts registered with useShellShortcut.",
+      "expected_output": "Every icon-only button has an aria-label and a Tooltip with the same one-to-three-word name; bold, italic and undo show their shortcut in Kbd from useShortcutLabel; base render composition on TooltipTrigger.",
+      "files": [],
+      "expectations": [
+        "Every icon-only button has an aria-label and a Tooltip whose text matches it",
+        "Tooltip text is one to three words in sentence case with no period",
+        "Bold, italic and undo tooltips show their shortcut in Kbd, printed with useShortcutLabel rather than a hard-coded ⌘",
+        "Link and share tooltips show no Kbd because they have no shortcut",
+        "Uses the base render prop on TooltipTrigger, not asChild"
+      ]
     }
   ]
 }

@@ -46,7 +46,7 @@ The complete list per component is at `/docs/installation/react-native-differenc
 
 ## Do and don't
 
-- **Do** set `accessibilityLabel` on a control with no text, such as an icon button.
+- **Do** set `accessibilityLabel` on a control with no text, such as an icon button, and wrap it in a `Tooltip` with the same words for its long press ([icons.md](icons.md#buttons-without-a-clear-label)).
 - **Do** change the look at runtime with `applyLook` from `@/lib/apply-look` (`add native-theme`), never by writing colours.
 - **Don't** import `Text` from `react-native` inside a library control: it won't take the control's text style.
 - **Don't** add `tailwind.config`, or edit `fabricator.css` by hand to change one colour: use the look.

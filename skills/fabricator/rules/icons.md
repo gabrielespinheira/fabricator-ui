@@ -6,7 +6,7 @@ Read installed imports, package dependencies and the `@fabricator` registry conf
 
 For a new project using Fabricator defaults, prefer Fabricator Icons. For an existing product, keep its choice unless a migration was requested. Check actual exports/types before importing an unfamiliar icon. Outline names and aliases follow Lucide, but package versions and specialized sets differ.
 
-Choose one metaphor for each meaning throughout the product. Use outline icons for actions/navigation, brand marks for companies and file icons for file types. Use labels for important or unfamiliar actions. A decorative icon beside text should be hidden from assistive technology; an icon-only control gets its accessible name on the control, plus a tooltip for sighted users.
+Choose one metaphor for each meaning throughout the product. Use outline icons for actions/navigation, brand marks for companies and file icons for file types. Use labels for important or unfamiliar actions. A decorative icon beside text should be hidden from assistive technology.
 
 ## Placement and sizing
 
@@ -27,7 +27,29 @@ import { ArrowRightIcon, PlusIcon } from "@fabricator-ui/icons"
 </Button>
 ```
 
-For icon-only buttons, use the installed Button's icon size variant, an accessible name and the base-appropriate Tooltip composition. For standalone icons outside a component's sizing contract, use the region's density-aware icon token. Pass component references to icon props (`icon={PlusIcon}`) when that API accepts a component, rather than inventing a string lookup map.
+For standalone icons outside a component's sizing contract, use the region's density-aware icon token. Pass component references to icon props (`icon={PlusIcon}`) when that API accepts a component, rather than inventing a string lookup map.
+
+## Buttons without a clear label
+
+Every icon-only button, and every button whose visible text doesn't say the action (a count, an avatar, a lone value), gets an accessible name and a `Tooltip` that shows it. Use the installed Button's icon size variant.
+
+- **The name is the action,** one to three words in sentence case with no period: "Refresh", "Copy link", "Close panel". The tooltip and `aria-label` say the same words.
+- **A shortcut follows the name** in `Kbd` (`KbdGroup` for several keys) whenever the action has one. For a key registered with `useShellShortcut`, print it with `useShortcutLabel({ keys })` so it reads right on each platform ("⌘K", "Ctrl+K").
+- **Components that take `tooltip` or `shortcut`** (`SidebarMenuButton`, `AppShellHeaderActions` actions, `AvatarGroup`) draw the tooltip; pass the props instead of wrapping them.
+
+```tsx
+// base; radix wraps the Button in <TooltipTrigger asChild>; aria: rules/base-vs-radix.md
+const searchShortcut = useShortcutLabel({ keys: "mod+k" })
+
+<Tooltip>
+  <TooltipTrigger render={<Button variant="ghost" size="icon-sm" aria-label="Search" />}>
+    <SearchIcon />
+  </TooltipTrigger>
+  <TooltipContent>
+    Search <Kbd>{searchShortcut}</Kbd>
+  </TooltipContent>
+</Tooltip>
+```
 
 ## Web package entry points
 

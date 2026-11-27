@@ -158,10 +158,17 @@ Show up to four period presets with the default `TabsList`. Use a `Select` for m
     </span>
     <div className="ms-auto flex items-center gap-(--density-4) text-(length:--density-text-12) text-muted-foreground">
       <span>Updated 2 min ago</span>
-      <Button variant="ghost" size="icon-sm" aria-label="Refresh">
-        {/* with a Tooltip */}
-        <RefreshCwIcon />
-      </Button>
+      {/* base; radix uses <TooltipTrigger asChild> around the Button */}
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <Button variant="ghost" size="icon-sm" aria-label="Refresh" />
+          }
+        >
+          <RefreshCwIcon />
+        </TooltipTrigger>
+        <TooltipContent>Refresh</TooltipContent>
+      </Tooltip>
     </div>
   </div>
   <TabsContent value={period}>

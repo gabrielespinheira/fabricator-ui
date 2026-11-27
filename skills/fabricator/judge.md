@@ -46,6 +46,7 @@ Signs, and the better move. Use them to name what you see and to write the fix.
 | A shortened number, date or status | Give it the room; shorten the name instead |
 | A floating button over a row's action | Room under the last row; a labelled action where the task ends |
 | Icon-only buttons for actions people don't know | A label, or a place in a menu with one |
+| An icon button with no tooltip, or one that reads as a sentence | Its name in one to three words, then its shortcut in `Kbd` |
 | Centred text and lists in an app | Start edge; centre only what stands alone |
 | Lines between sections, rows or columns | Space, then a heading, then a surface |
 | Icon tiles, gradients, glows, coloured bands | Nothing; or the content itself |

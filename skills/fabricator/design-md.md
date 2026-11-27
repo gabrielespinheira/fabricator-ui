@@ -9,7 +9,7 @@ Use the following as an outline, keeping only sections the product needs:
 3. **Foundations:** theme/token source paths, type roles, surface ladder, radius, regional density and motion. Reference implemented values; label proposed changes separately.
 4. **Frame and hierarchy:** navigation, content widths, scroll ownership, action placement, panels and small-screen transformations.
 5. **Screen patterns:** map the product's real routes to regions, Fabricator components and variants. Include one representative screen with its job, component map and states.
-6. **Icons:** configured package, recurring action-to-icon mapping, brand/file handling, icon-only labeling and animation policy.
+6. **Icons:** configured package, recurring action-to-icon mapping, brand/file handling, icon-only buttons (accessible name, tooltip wording, shortcut in `Kbd`) and animation policy.
 7. **States and content:** loading, empty, errors, warnings, limits, permissions, destructive actions, long values, and the product's own words for each, with one status map (label, role, icon).
 8. **Platforms:** which the product ships on, what each region becomes on each, and what is shared.
 9. **Asking:** what the product never asks, its defaults and where they come from, and the shape each create flow takes.

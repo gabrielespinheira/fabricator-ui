@@ -156,7 +156,7 @@ Small decisions that separate finished from generated:
 
 Components own their keys, roles and focus; composing them keeps that. What a screen adds:
 
-- **Names:** every icon button, slider, switch, chart, dialog and region. A visible label names its control with `htmlFor` or `aria-labelledby`.
+- **Names:** every icon button (shown in its tooltip, [rules/icons.md](rules/icons.md#buttons-without-a-clear-label)), slider, switch, chart, dialog and region. A visible label names its control with `htmlFor` or `aria-labelledby`.
 - **One `h1`** (`AppShellPageTitle`), then levels in order. A row's name is its link or button, so the row has one tab stop before its actions.
 - **Announce what changes by itself:** counts, saving, results and freshness sit in `aria-live="polite"`; a waiting region is `aria-busy` with one name.
 - **Focus goes where the work is:** into an overlay, back to its trigger, to the first invalid field, to the neighbour of a deleted row.

@@ -518,7 +518,8 @@ Every animation has a role and comes with the components (see [Built into Fabric
 
 - **One icon library per product, one icon per meaning.** The default is Fabricator Icons, a line set at the text's weight whose strokes thicken on hover with their row or button. Never emoji, never two libraries on one screen.
 - **Components size their icons** and colour them with their label; beside a label an icon rests in grey.
-- **An icon supports a label.** Icon-only buttons are for actions everyone knows (close, search, more, add, refresh) and toolbars, each with an accessible name, and a tooltip when it acts directly.
+- **An icon supports a label.** Icon-only buttons are for actions everyone knows (close, search, more, add, refresh) and toolbars.
+- **A button without a clear label names itself in a `Tooltip`:** every icon-only button, and any button whose visible text doesn't say the action (a count, an avatar, a lone value). The tooltip says the button's accessible name, one to three words in sentence case with no period ("Refresh", "Copy link", "Close panel"), then the shortcut in `Kbd` when the action has one: "Search ⌘K". Components with a `tooltip` or `shortcut` prop (sidebar rows, header actions) draw it themselves.
 - **Before a label an icon names the action; after it, it shows direction:** an arrow for going somewhere, a chevron for a menu or a row that opens.
 - **Menu items lead with an icon** (see [Menus and commands](#menus-and-commands)); in a list, every row has an icon or none does, so the labels share one edge.
 - Company logos come from the brand set and file types from the file set.
@@ -556,7 +557,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 ### Overlays
 
 - **Dialog** for a focused task, its actions in the footer. **AlertDialog** only for what can't be undone ("Delete Acme Inc.?", the consequence, "Delete"); everything else acts at once with Undo in a toast.
-- **Sheet** beside the list from the end edge, **Drawer** on touch screens, **Popover** for small interactive content, **HoverCard** for previews, **Tooltip** for an icon's name.
+- **Sheet** beside the list from the end edge, **Drawer** on touch screens, **Popover** for small interactive content, **HoverCard** for previews, **Tooltip** for an icon button's name and shortcut ([Iconography](#iconography)).
 - **Two modal layers at most. Escape closes, and focus returns to what opened it.**
 
 ### Menus and commands
@@ -813,7 +814,7 @@ A page loaded on a slow connection moves nothing after its first paint except pl
 A screen is done when every line holds. Check it in the running app, never from the code alone.
 
 - [ ] The screen's job fits in one sentence, and its focal point is the first thing seen.
-- [ ] Each region has one primary action; every icon-only button has a name; every menu action leads with an icon.
+- [ ] Each region has one primary action; every icon-only button has a name and a tooltip with its shortcut; every menu action leads with an icon.
 - [ ] Title, toolbar and body share one start edge; space is tighter inside groups than between them.
 - [ ] No line divides the layout: space, headings and surfaces part every section, row, card and panel.
 - [ ] A page of cards uses one grid rhythm; gutters continue down the page and cards in a row are equal height.
