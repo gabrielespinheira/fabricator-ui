@@ -63,7 +63,6 @@ updated:
   - heat-calendar
   - status-bar
   - /docs/foundations/motion
-  - menubar
 ---
 
 These changes are merged and ship in the next version.
@@ -157,6 +156,8 @@ All seven are on the web for every base; their React Native ports follow.
 **Desktop sidebar toggle.** The App Shell’s sidebar toggle icon is slightly larger next to the window controls.
 
 **Resize lines beside cards.** With the inset sidebar, the line that shows when you hover the resize edge traces the main card's side, rounded corners included, instead of running straight across them from the top of the window to the bottom. With the floating sidebar, it traces the sidebar card's outer side. The App Shell panel's resize edge does the same beside the inset sidebar, tracing the panel card's inner side. In right-to-left layouts the resize edge now sits on the sidebar's edge, as it does left to right.
+
+**App Shell panel resizing.** The panel's resize edge can be grabbed again: it had no height, so dragging it selected text instead. Dragging stops at the widest the panel can be while the main column keeps its minimum width, instead of turning the panel into an overlay that disappears.
 
 **Tab Strip rename.** Base UI and Radix focus the inline field after a rename starts. Tab Strip now passes Biome's autofocus rule while keeping keyboard renaming.
 

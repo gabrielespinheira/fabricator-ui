@@ -817,6 +817,29 @@ export function getPanelPlacement({
     : "overlay"
 }
 
+/**
+ * The widest an inline panel can be dragged: its maximum, or less when the
+ * main column would drop below its minimum, which would float the panel.
+ * Never under the panel's own minimum.
+ */
+export function getInlinePanelMaxWidth({
+  shellWidth,
+  occupiedWidth,
+  minWidth,
+  maxWidth,
+  minMainWidth = MIN_MAIN_WIDTH,
+}: {
+  shellWidth: number
+  /** Width already taken beside the main column (sidebar, other panels). */
+  occupiedWidth: number
+  minWidth: number
+  maxWidth: number
+  minMainWidth?: number
+}) {
+  const room = shellWidth - occupiedWidth - minMainWidth
+  return Math.max(minWidth, Math.min(maxWidth, room))
+}
+
 // MARK: Panels
 
 /** A right panel toggles with ⌘\\ unless it asks otherwise. */

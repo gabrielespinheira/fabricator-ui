@@ -1893,6 +1893,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "model-picker-effort",
       filePath: "examples/base/model-picker-effort.tsx",
     },
+    "morph-island-demo": {
+      name: "morph-island-demo",
+      filePath: "examples/base/morph-island-demo.tsx",
+    },
     "multi-select-controlled": {
       name: "multi-select-controlled",
       filePath: "examples/base/multi-select-controlled.tsx",
@@ -2600,10 +2604,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "status-bar-maintenance": {
       name: "status-bar-maintenance",
       filePath: "examples/base/status-bar-maintenance.tsx",
-    },
-    "status-island-demo": {
-      name: "status-island-demo",
-      filePath: "examples/base/status-island-demo.tsx",
     },
     "stepper-demo": {
       name: "stepper-demo",
@@ -4831,6 +4831,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "model-picker-effort",
       filePath: "examples/aria/model-picker-effort.tsx",
     },
+    "morph-island-demo": {
+      name: "morph-island-demo",
+      filePath: "examples/aria/morph-island-demo.tsx",
+    },
     "multi-select-controlled": {
       name: "multi-select-controlled",
       filePath: "examples/aria/multi-select-controlled.tsx",
@@ -5562,10 +5566,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "status-bar-maintenance": {
       name: "status-bar-maintenance",
       filePath: "examples/aria/status-bar-maintenance.tsx",
-    },
-    "status-island-demo": {
-      name: "status-island-demo",
-      filePath: "examples/aria/status-island-demo.tsx",
     },
     "stepper-demo": {
       name: "stepper-demo",
@@ -7761,6 +7761,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "model-picker-effort",
       filePath: "examples/radix/model-picker-effort.tsx",
     },
+    "morph-island-demo": {
+      name: "morph-island-demo",
+      filePath: "examples/radix/morph-island-demo.tsx",
+    },
     "multi-select-controlled": {
       name: "multi-select-controlled",
       filePath: "examples/radix/multi-select-controlled.tsx",
@@ -8500,10 +8504,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "status-bar-maintenance": {
       name: "status-bar-maintenance",
       filePath: "examples/radix/status-bar-maintenance.tsx",
-    },
-    "status-island-demo": {
-      name: "status-island-demo",
-      filePath: "examples/radix/status-island-demo.tsx",
     },
     "stepper-demo": {
       name: "stepper-demo",
@@ -10713,6 +10713,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "model-picker-effort",
       filePath: "examples/__styles__/base-fabricator/model-picker-effort.tsx",
     },
+    "morph-island-demo": {
+      name: "morph-island-demo",
+      filePath: "examples/__styles__/base-fabricator/morph-island-demo.tsx",
+    },
     "multi-select-controlled": {
       name: "multi-select-controlled",
       filePath:
@@ -11359,10 +11363,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "status-bar-maintenance",
       filePath:
         "examples/__styles__/base-fabricator/status-bar-maintenance.tsx",
-    },
-    "status-island-demo": {
-      name: "status-island-demo",
-      filePath: "examples/__styles__/base-fabricator/status-island-demo.tsx",
     },
     "stepper-demo": {
       name: "stepper-demo",
@@ -13466,6 +13466,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "model-picker-effort",
       filePath: "examples/__styles__/aria-fabricator/model-picker-effort.tsx",
     },
+    "morph-island-demo": {
+      name: "morph-island-demo",
+      filePath: "examples/__styles__/aria-fabricator/morph-island-demo.tsx",
+    },
     "multi-select-controlled": {
       name: "multi-select-controlled",
       filePath:
@@ -14140,10 +14144,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "status-bar-maintenance",
       filePath:
         "examples/__styles__/aria-fabricator/status-bar-maintenance.tsx",
-    },
-    "status-island-demo": {
-      name: "status-island-demo",
-      filePath: "examples/__styles__/aria-fabricator/status-island-demo.tsx",
     },
     "stepper-demo": {
       name: "stepper-demo",
@@ -16233,6 +16233,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "model-picker-effort",
       filePath: "examples/__styles__/radix-fabricator/model-picker-effort.tsx",
     },
+    "morph-island-demo": {
+      name: "morph-island-demo",
+      filePath: "examples/__styles__/radix-fabricator/morph-island-demo.tsx",
+    },
     "multi-select-controlled": {
       name: "multi-select-controlled",
       filePath:
@@ -16917,10 +16921,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "status-bar-maintenance",
       filePath:
         "examples/__styles__/radix-fabricator/status-bar-maintenance.tsx",
-    },
-    "status-island-demo": {
-      name: "status-island-demo",
-      filePath: "examples/__styles__/radix-fabricator/status-island-demo.tsx",
     },
     "stepper-demo": {
       name: "stepper-demo",

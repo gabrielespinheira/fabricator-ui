@@ -3594,6 +3594,14 @@ export const Components: Record<string, any> = {
       ) || "model-picker-effort"
     return { default: mod.default || mod[exportName] }
   }),
+  "morph-island-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/morph-island-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "morph-island-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
   "multi-select-controlled": React.lazy(async () => {
     const mod = await import("@/examples/radix/multi-select-controlled")
     const exportName =
@@ -5072,14 +5080,6 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "status-bar-maintenance"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "status-island-demo": React.lazy(async () => {
-    const mod = await import("@/examples/radix/status-island-demo")
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "status-island-demo"
     return { default: mod.default || mod[exportName] }
   }),
   "stepper-demo": React.lazy(async () => {

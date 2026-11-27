@@ -18,6 +18,7 @@ import {
   getCustomizableNavGroups,
   getDefaultPanelShortcut,
   getHeaderMenu,
+  getInlinePanelMaxWidth,
   getKeyedBreadcrumbs,
   getMobileTabItems,
   getNavList,
@@ -409,6 +410,24 @@ describe("layout", () => {
     expect(getPanelPlacement(input)).toBe("inline")
     expect(getPanelPlacement({ ...input, shellWidth: 1000 })).toBe("overlay")
     expect(getPanelPlacement({ ...input, minMainWidth: 800 })).toBe("overlay")
+  })
+
+  it("caps an inline panel's width at the room the main column leaves", () => {
+    const input = {
+      shellWidth: 1280,
+      occupiedWidth: 256,
+      minWidth: 240,
+      maxWidth: 640,
+    }
+    expect(getInlinePanelMaxWidth(input)).toBe(504)
+    expect(getInlinePanelMaxWidth({ ...input, shellWidth: 1600 })).toBe(640)
+    expect(getInlinePanelMaxWidth({ ...input, shellWidth: 900 })).toBe(240)
+    expect(
+      getPanelPlacement({
+        ...input,
+        panelWidth: getInlinePanelMaxWidth(input),
+      })
+    ).toBe("inline")
   })
 
   it("uses the mobile role on phones", () => {

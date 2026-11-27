@@ -18,6 +18,7 @@ import {
   formatShortcut,
   getDefaultPanelShortcut,
   getHeaderMenu,
+  getInlinePanelMaxWidth,
   getKeyedBreadcrumbs,
   getPanelPlacement,
   getPanelTriggerAnchor,
@@ -1817,7 +1818,18 @@ function AppShellPanel({
     placement: placement ?? "drawer",
     panel,
     minWidth,
-    maxWidth,
+    // The handle stops where the panel would stop fitting inline, so a drag
+    // never floats it.
+    maxWidth:
+      shell.size === null
+        ? maxWidth
+        : getInlinePanelMaxWidth({
+            shellWidth: shell.width,
+            occupiedWidth: shell.sidebarWidth + otherPanels,
+            minWidth,
+            maxWidth,
+            minMainWidth: shell.minMainWidth,
+          }),
     defaultWidth,
     setOpen: control.setOpen,
     setWidth: (width) =>
@@ -1997,7 +2009,9 @@ function AppShellPanelResizeHandle() {
       data-slot="app-shell-panel-resize-handle"
       data-side={side}
       data-dragging={isDragging ? "" : undefined}
-      className="cn-app-shell-panel-resize-handle absolute inset-y-0 z-10 touch-none border-0 outline-none"
+      // h-auto: preflight gives an hr height 0, which would win over inset-y-0
+      // and leave nothing to grab.
+      className="cn-app-shell-panel-resize-handle absolute inset-y-0 z-10 h-auto touch-none border-0 outline-none"
       onPointerDown={(event) => {
         if (event.button !== 0) return
         event.currentTarget.setPointerCapture(event.pointerId)

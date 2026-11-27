@@ -65,9 +65,10 @@
 
   /* The frame shows through the sidebar wrapper. --app-shell-sidebar-gap
      is the room the desktop sidebar takes beside the main column (its gap's
-     width in each state), for the status bar to start after it. */
+     width in each state), for the status bar to start after it. The inset
+     sidebar's rail line spans the main card, which keeps the shell's margins. */
   .cn-app-shell-body {
-    @apply relative has-data-[variant=inset]:bg-transparent data-reveal:bg-transparent [--app-shell-sidebar-gap:0px] md:has-[>[data-slot=sidebar]:not([data-collapsible=offcanvas],[data-collapsible=icon],[data-peeking])]:[--app-shell-sidebar-gap:var(--sidebar-width)] md:has-[>[data-slot=sidebar][data-collapsible=icon]:not([data-variant=floating])]:[--app-shell-sidebar-gap:var(--sidebar-width-icon)] md:has-[>[data-slot=sidebar][data-collapsible=icon][data-variant=floating]]:[--app-shell-sidebar-gap:calc(var(--sidebar-width-icon)+var(--spacing)*4)];
+    @apply relative [&_[data-variant=inset]_[data-slot=sidebar-rail]]:after:top-(--density-8) [&_[data-variant=inset]_[data-slot=sidebar-rail]]:after:bottom-[max(var(--density-8),var(--app-shell-status-bar-height))] has-data-[variant=inset]:bg-transparent data-reveal:bg-transparent [--app-shell-sidebar-gap:0px] md:has-[>[data-slot=sidebar]:not([data-collapsible=offcanvas],[data-collapsible=icon],[data-peeking])]:[--app-shell-sidebar-gap:var(--sidebar-width)] md:has-[>[data-slot=sidebar][data-collapsible=icon]:not([data-variant=floating])]:[--app-shell-sidebar-gap:var(--sidebar-width-icon)] md:has-[>[data-slot=sidebar][data-collapsible=icon][data-variant=floating]]:[--app-shell-sidebar-gap:calc(var(--sidebar-width-icon)+var(--spacing)*4)];
   }
 
   /* Match the inset main column's top margin at desktop widths. */
@@ -204,9 +205,11 @@
   }
 
   /* The panel's edge: a hairline that brightens on hover, while dragging
-     and with focus. */
+     and with focus. Beside the inset sidebar the panel is a card, so the line
+     traces its inner side, rounded corners included, as the sidebar's rail
+     traces the main card. */
   .cn-app-shell-panel-resize-handle {
-    @apply w-2 cursor-col-resize after:absolute after:inset-y-0 after:w-px after:bg-transparent after:transition-colors after:duration-feedback hover:after:bg-foreground/25 focus-visible:after:bg-ring data-dragging:after:bg-foreground/25 data-[side=left]:end-0 data-[side=left]:after:end-0 data-[side=right]:start-0 data-[side=right]:after:start-0;
+    @apply w-2 cursor-col-resize [--app-shell-panel-handle-color:transparent] hover:[--app-shell-panel-handle-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] data-dragging:[--app-shell-panel-handle-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] focus-visible:[--app-shell-panel-handle-color:var(--ring)] after:absolute after:inset-y-0 after:w-px after:bg-(--app-shell-panel-handle-color) after:border-(--app-shell-panel-handle-color) after:transition-colors after:duration-feedback data-[side=left]:end-0 data-[side=left]:after:end-0 data-[side=right]:start-0 data-[side=right]:after:start-0 group-has-data-[variant=inset]/sidebar-wrapper:after:w-3 group-has-data-[variant=inset]/sidebar-wrapper:after:bg-transparent group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:after:rounded-s-xl group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:after:border-s group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:after:rounded-e-xl group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:after:border-e;
   }
 
   /* A docked panel's header leaves room for the toggle pinned over its end.

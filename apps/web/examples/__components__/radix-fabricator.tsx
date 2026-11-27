@@ -4072,6 +4072,16 @@ export const Components: Record<string, any> = {
       ) || "model-picker-effort"
     return { default: mod.default || mod[exportName] }
   }),
+  "morph-island-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/morph-island-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "morph-island-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
   "multi-select-controlled": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/multi-select-controlled"
@@ -5710,16 +5720,6 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "status-bar-maintenance"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "status-island-demo": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/radix-fabricator/status-island-demo"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "status-island-demo"
     return { default: mod.default || mod[exportName] }
   }),
   "stepper-demo": React.lazy(async () => {

@@ -20,9 +20,13 @@
 
   /* The edge handle: drag to resize, click to collapse. A hairline on the
      sidebar's edge brightens on hover and while dragging. Collapsed, it only
-     expands. */
+     expands. Beside a card it traces the card's edge instead, corners and all:
+     the inset main column's side facing the sidebar, or the floating
+     sidebar's own outer side (not while it's hidden off canvas). The inset
+     card sits flush against a sidebar at the inline start and keeps its 8px
+     margin from one at the end. */
   .cn-sidebar-rail {
-    @apply cursor-col-resize group-data-[state=collapsed]:cursor-pointer after:bg-transparent after:transition-colors after:duration-feedback hover:after:bg-foreground/25 data-dragging:after:bg-foreground/25 group-data-[collapsible=offcanvas]:hover:after:bg-border;
+    @apply cursor-col-resize group-data-[state=collapsed]:cursor-pointer [--sidebar-rail-color:transparent] hover:[--sidebar-rail-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] data-dragging:[--sidebar-rail-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] group-data-[collapsible=offcanvas]:hover:[--sidebar-rail-color:var(--border)] after:bg-(--sidebar-rail-color) after:border-(--sidebar-rail-color) after:transition-colors after:duration-feedback group-data-[variant=inset]:after:inset-y-2 group-data-[variant=inset]:after:w-3 group-data-[variant=inset]:after:bg-transparent group-data-[variant=inset]:group-data-[side=left]:after:rounded-l-xl group-data-[variant=inset]:group-data-[side=left]:after:border-l group-data-[variant=inset]:group-data-[side=right]:after:rounded-r-xl group-data-[variant=inset]:group-data-[side=right]:after:border-r ltr:group-data-[variant=inset]:group-data-[side=right]:after:start-auto ltr:group-data-[variant=inset]:group-data-[side=right]:after:end-full rtl:group-data-[variant=inset]:group-data-[side=left]:after:start-auto rtl:group-data-[variant=inset]:group-data-[side=left]:after:end-full group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:after:inset-y-2 group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:after:w-3 group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:after:bg-transparent group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=left]:after:left-auto group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=left]:after:right-full group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=left]:after:rounded-r-xl group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=left]:after:border-r group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=right]:after:right-auto group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=right]:after:left-full group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=right]:after:rounded-l-xl group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=right]:after:border-l;
   }
 
   .cn-sidebar-rail-tooltip {
