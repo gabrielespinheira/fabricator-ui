@@ -152,6 +152,7 @@ One headline number is type (`Metric` role) with a delta `Badge`, not a chart.
 | `aspect-ratio` | Holding the space of media before it loads |
 | `typography` | Long-form HTML outside Markdown |
 | `text-motion` | A website's moment: a hero headline and lead (`TextMotionGroup`), a section heading arriving, one headline word that cycles (`TextMotionRotate`), a command typed, an ID resolving. Effects are layers; see [foundations.md](foundations.md#text-that-plays-in). Web only |
+| `blueprint` | A website's moment for a component: a landing-page card, feature grid or product shot sketched into place (`BlueprintGroup` plays a set in turn), or the first load of a panel with `loading`, which holds the sketch until the data arrives. It traces whatever it wraps; `data-blueprint-skip` leaves a part out. Not for screens people revisit all day. Web only |
 
 ## Feedback and waiting
 

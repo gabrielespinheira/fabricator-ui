@@ -41,6 +41,7 @@ import {
 } from "@/registry/bases/__base__/lib/canvas-keyboard"
 import { type CanvasLayoutEngine } from "@/registry/bases/__base__/lib/canvas-layout"
 import {
+  getConnectedPorts,
   getNodeRect,
   getReadingOrder,
   indexNodes,
@@ -409,7 +410,12 @@ function Canvas({
           .join(" ")
       )
     }
-    return { names, descriptions, pending: controller.pending }
+    return {
+      names,
+      descriptions,
+      pending: controller.pending,
+      connected: getConnectedPorts(controller.edges),
+    }
   }, [namesKey, controller.edges, controller.pending, labels])
 
   const openNode = React.useCallback(
@@ -1200,9 +1206,9 @@ function CanvasPanel({
   )
 }
 
-/** Zoom, fit, lock, undo and redo, in a panel at the bottom start. */
+/** Zoom, fit, lock, undo and redo, in a bar at the top centre. */
 function CanvasControls({
-  position = "bottom-start",
+  position = "top-center",
   hasHistory = true,
   className,
 }: {

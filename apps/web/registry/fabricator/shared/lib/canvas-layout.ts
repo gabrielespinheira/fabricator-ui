@@ -35,6 +35,32 @@ type CanvasLayoutEngine = (
 /** A node measured as nothing gets this size, so it still takes room. */
 const FALLBACK_SIZE = { width: 160, height: 48 }
 
+/** Each edge between top-level nodes, once, with grouped ends lifted. */
+function getTopLevelEdges(
+  nodes: readonly CanvasNode[],
+  edges: readonly CanvasEdge[],
+  ids: ReadonlySet<string>
+) {
+  const parents = new Map(nodes.map((node) => [node.id, node.parentId]))
+  const getTopLevel = (id: string) => {
+    const seen = new Set<string>()
+    let current: string | undefined = id
+    while (current !== undefined && !ids.has(current) && !seen.has(current)) {
+      seen.add(current)
+      current = parents.get(current)
+    }
+    return current !== undefined && ids.has(current) ? current : undefined
+  }
+  const lifted = new Map<string, { source: string; target: string }>()
+  for (const edge of edges) {
+    const source = getTopLevel(edge.source)
+    const target = getTopLevel(edge.target)
+    if (!source || !target || source === target) continue
+    lifted.set(`${source}>${target}`, { source, target })
+  }
+  return [...lifted.values()]
+}
+
 const DEFAULT_LAYOUT: Required<CanvasLayoutOptions> = {
   direction: "down",
   nodeGap: 48,
@@ -43,7 +69,9 @@ const DEFAULT_LAYOUT: Required<CanvasLayoutOptions> = {
 
 /**
  * Lays out the top-level nodes (children stay put inside their group) and
- * returns the position changes. Hidden nodes and their edges are left out.
+ * returns the position changes. A connection to a node inside a group counts
+ * as one to the group, so the group takes its place in the flow. Hidden nodes
+ * and their edges are left out.
  */
 function getLayoutChanges<TNode extends CanvasNode>(
   nodes: readonly TNode[],
@@ -62,9 +90,7 @@ function getLayoutChanges<TNode extends CanvasNode>(
         height: size.height || FALLBACK_SIZE.height,
       }
     }),
-    edges: edges
-      .filter((edge) => ids.has(edge.source) && ids.has(edge.target))
-      .map(({ source, target }) => ({ source, target })),
+    edges: getTopLevelEdges(nodes, edges, ids),
   }
   const positions = engine(graph, { ...DEFAULT_LAYOUT, ...options })
   const changes: CanvasNodeChange<TNode>[] = []

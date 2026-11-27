@@ -545,6 +545,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 - **Feedback and structure:** `Alert`, toasts, `Progress`, `SegmentedMeter` for one limit split into parts, `MorphIsland` for one live activity, `PasswordStrength` under a new password, `Spinner`, `Skeleton`, `Empty`, `Accordion`, `Collapsible`, `Resizable`, `ScrollArea`.
 - **Media and chat:** `AudioPlayer`, `VideoPlayer`, `ImageCompare`, `AspectRatio`, `Carousel`; `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`, `ModelPicker`, `Questionnaire`, `BotFace`.
 - **Words in motion:** `TextMotion` for a website headline that plays in, `TextMotionGroup` for a headline and lead in sequence, `TextMotionRotate` for a word that cycles.
+- **Components in motion:** `Blueprint` sketches a component into place on a website (a hero's product, a feature grid in a `BlueprintGroup`), or holds its sketch with `loading` on the first load of a showcase panel. Product screens keep their skeletons.
 
 ### Buttons
 

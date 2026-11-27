@@ -1833,14 +1833,17 @@
 
   /* MARK: Canvas handle */
 
-  /* A dot on the node's surface with a ring edge, always visible on touch;
-     the hit area around it is larger, and reaches 44pt through hitSlop. */
+  /* The hit area around a port is larger than its dot, and reaches 44pt
+     through hitSlop. */
   .cn-canvas-handle {
     @apply rounded-full;
   }
 
+  /* A connected port is a solid dot in the edge's colour, ringed by the
+     node's surface, so the edge reads as plugged in; an empty one is
+     hollow. */
   .cn-canvas-handle-dot {
-    @apply size-(--density-12) rounded-full border border-foreground/30 bg-surface-3;
+    @apply size-(--density-12) rounded-full border border-foreground/30 bg-surface-3 data-[connected=true]:border-2 data-[connected=true]:border-surface-3 data-[connected=true]:bg-foreground/50 dark:data-[connected=true]:bg-foreground/40 data-[hidden=true]:opacity-0;
   }
 
   .cn-canvas-handle-label {

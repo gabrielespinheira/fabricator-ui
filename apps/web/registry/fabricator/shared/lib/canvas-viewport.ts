@@ -43,6 +43,8 @@ type CanvasFitOptions = {
   padding?: CanvasPadding
   minZoom?: number
   maxZoom?: number
+  /** Frames only these nodes, such as where a large graph starts. */
+  nodeIds?: string[]
 }
 
 function clamp(value: number, min: number, max: number) {

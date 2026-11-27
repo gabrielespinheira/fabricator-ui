@@ -14,6 +14,7 @@ import { useCSSVariable } from "uniwind"
 
 import { type CanvasSide } from "@/registry/fabricator/shared/lib/canvas-geometry"
 import {
+  getPortKey,
   type CanvasData,
   type CanvasHandleKind,
   type CanvasNodeStatus as CanvasRunStatus,
@@ -345,7 +346,10 @@ function CanvasHandle({
       runOnJS(surface.endConnection)()
     })
 
-  if (mode !== "edit") return null
+  const isConnected = node.connectedPorts.has(getPortKey(kind, handleId))
+  // Outside edit mode a handle still lays out, so its edges know where to
+  // end; only an empty port hides.
+  const isHidden = mode !== "edit" && !isConnected
   return (
     <GestureDetector gesture={pan}>
       <View
@@ -356,6 +360,7 @@ function CanvasHandle({
           label ? `${label}, ${labels.handle}` : labels.handle
         }
         importantForAccessibility="no"
+        pointerEvents={canConnect ? "auto" : "none"}
         onLayout={onLayout}
         hitSlop={10}
         className={cn(
@@ -368,8 +373,13 @@ function CanvasHandle({
         ]}
         {...props}
       >
-        <View data-slot="canvas-handle-dot" className="cn-canvas-handle-dot" />
-        {label && (
+        <View
+          data-slot="canvas-handle-dot"
+          data-connected={isConnected}
+          data-hidden={isHidden}
+          className="cn-canvas-handle-dot"
+        />
+        {label && !isHidden && (
           <Text
             data-slot="canvas-handle-label"
             data-side={side}

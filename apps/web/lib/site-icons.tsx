@@ -39,7 +39,9 @@ import {
   Bot as FabricatorBot,
   BotIcon as FabricatorBotIcon,
   BoxIcon as FabricatorBoxIcon,
+  BrainIcon as FabricatorBrainIcon,
   BringToFrontIcon as FabricatorBringToFrontIcon,
+  BugIcon as FabricatorBugIcon,
   Building2Icon as FabricatorBuilding2Icon,
   BuildingIcon as FabricatorBuildingIcon,
   CableIcon as FabricatorCableIcon,
@@ -47,6 +49,7 @@ import {
   CalculatorIcon as FabricatorCalculatorIcon,
   Calendar as FabricatorCalendar,
   CalendarArrowUpIcon as FabricatorCalendarArrowUpIcon,
+  CalendarClockIcon as FabricatorCalendarClockIcon,
   CalendarDaysIcon as FabricatorCalendarDaysIcon,
   CalendarIcon as FabricatorCalendarIcon,
   CalendarPlusIcon as FabricatorCalendarPlusIcon,
@@ -92,6 +95,7 @@ import {
   CornerDownRightIcon as FabricatorCornerDownRightIcon,
   CreditCard as FabricatorCreditCard,
   CreditCardIcon as FabricatorCreditCardIcon,
+  DatabaseIcon as FabricatorDatabaseIcon,
   DollarSignIcon as FabricatorDollarSignIcon,
   DotIcon as FabricatorDotIcon,
   DownloadIcon as FabricatorDownloadIcon,
@@ -106,6 +110,7 @@ import {
   FilesIcon as FabricatorFilesIcon,
   FileTextIcon as FabricatorFileTextIcon,
   FileWarningIcon as FabricatorFileWarningIcon,
+  FilterIcon as FabricatorFilterIcon,
   Folder as FabricatorFolder,
   FolderIcon as FabricatorFolderIcon,
   FolderOpenIcon as FabricatorFolderOpenIcon,
@@ -133,6 +138,7 @@ import {
   HelpCircleIcon as FabricatorHelpCircleIcon,
   HistoryIcon as FabricatorHistoryIcon,
   HomeIcon as FabricatorHomeIcon,
+  HourglassIcon as FabricatorHourglassIcon,
   HouseIcon as FabricatorHouseIcon,
   ImageIcon as FabricatorImageIcon,
   ImagesIcon as FabricatorImagesIcon,
@@ -150,6 +156,7 @@ import {
   LayoutDashboardIcon as FabricatorLayoutDashboardIcon,
   LayoutGridIcon as FabricatorLayoutGridIcon,
   LayoutIcon as FabricatorLayoutIcon,
+  LibraryIcon as FabricatorLibraryIcon,
   LifeBuoyIcon as FabricatorLifeBuoyIcon,
   Link2Icon as FabricatorLink2Icon,
   LinkIcon as FabricatorLinkIcon,
@@ -172,6 +179,7 @@ import {
   MapIcon as FabricatorMapIcon,
   MapPinIcon as FabricatorMapPinIcon,
   MaximizeIcon as FabricatorMaximizeIcon,
+  MergeIcon as FabricatorMergeIcon,
   MessageCircleDashedIcon as FabricatorMessageCircleDashedIcon,
   MessageCircleIcon as FabricatorMessageCircleIcon,
   MessageSquareIcon as FabricatorMessageSquareIcon,
@@ -208,10 +216,12 @@ import {
   PinOffIcon as FabricatorPinOffIcon,
   PipetteIcon as FabricatorPipetteIcon,
   PlayIcon as FabricatorPlayIcon,
+  PlugIcon as FabricatorPlugIcon,
   Plus as FabricatorPlus,
   PlusIcon as FabricatorPlusIcon,
   RadarIcon as FabricatorRadarIcon,
   RadioIcon as FabricatorRadioIcon,
+  ReceiptIcon as FabricatorReceiptIcon,
   ReceiptTextIcon as FabricatorReceiptTextIcon,
   RectangleHorizontalIcon as FabricatorRectangleHorizontalIcon,
   RectangleVerticalIcon as FabricatorRectangleVerticalIcon,
@@ -283,6 +293,7 @@ import {
   UngroupIcon as FabricatorUngroupIcon,
   UploadIcon as FabricatorUploadIcon,
   User as FabricatorUser,
+  UserCheckIcon as FabricatorUserCheckIcon,
   UserIcon as FabricatorUserIcon,
   UserRoundXIcon as FabricatorUserRoundXIcon,
   UsersIcon as FabricatorUsersIcon,
@@ -294,6 +305,7 @@ import {
   WalletIcon as FabricatorWalletIcon,
   WandSparklesIcon as FabricatorWandSparklesIcon,
   WaypointsIcon as FabricatorWaypointsIcon,
+  WebhookIcon as FabricatorWebhookIcon,
   WorkflowIcon as FabricatorWorkflowIcon,
   XIcon as FabricatorXIcon,
   ZapIcon as FabricatorZapIcon,
@@ -560,12 +572,26 @@ export const BoxIcon = createSiteIcon(FabricatorBoxIcon, {
   phosphor: "PackageIcon",
   remixicon: "RiBox3Line",
 })
+export const BrainIcon = createSiteIcon(FabricatorBrainIcon, {
+  lucide: "BrainIcon",
+  tabler: "IconBrain",
+  hugeicons: "AiBrainIcon",
+  phosphor: "BrainIcon",
+  remixicon: "RiBrainLine",
+})
 export const BringToFrontIcon = createSiteIcon(FabricatorBringToFrontIcon, {
   lucide: "BringToFrontIcon",
   tabler: "IconStack2",
   hugeicons: "Layers01Icon",
   phosphor: "StackIcon",
   remixicon: "RiBringToFront",
+})
+export const BugIcon = createSiteIcon(FabricatorBugIcon, {
+  lucide: "BugIcon",
+  tabler: "IconBug",
+  hugeicons: "Bug01Icon",
+  phosphor: "BugIcon",
+  remixicon: "RiBugLine",
 })
 export const Building2Icon = createSiteIcon(FabricatorBuilding2Icon, {
   lucide: "Building2Icon",
@@ -615,6 +641,13 @@ export const CalendarArrowUpIcon = createSiteIcon(
     remixicon: "RiCalendarTodoLine",
   }
 )
+export const CalendarClockIcon = createSiteIcon(FabricatorCalendarClockIcon, {
+  lucide: "CalendarClockIcon",
+  tabler: "IconCalendarTime",
+  hugeicons: "Calendar03Icon",
+  phosphor: "CalendarDotsIcon",
+  remixicon: "RiCalendarScheduleLine",
+})
 export const CalendarDaysIcon = createSiteIcon(FabricatorCalendarDaysIcon, {
   lucide: "CalendarDaysIcon",
   tabler: "IconCalendarWeek",
@@ -926,6 +959,13 @@ export const CreditCardIcon = createSiteIcon(FabricatorCreditCardIcon, {
   phosphor: "CreditCardIcon",
   remixicon: "RiBankCardLine",
 })
+export const DatabaseIcon = createSiteIcon(FabricatorDatabaseIcon, {
+  lucide: "DatabaseIcon",
+  tabler: "IconDatabase",
+  hugeicons: "Database01Icon",
+  phosphor: "DatabaseIcon",
+  remixicon: "RiDatabase2Line",
+})
 export const DollarSignIcon = createSiteIcon(FabricatorDollarSignIcon, {
   lucide: "DollarSignIcon",
   tabler: "IconCurrencyDollar",
@@ -1021,6 +1061,13 @@ export const FilesIcon = createSiteIcon(FabricatorFilesIcon, {
   hugeicons: "Files01Icon",
   phosphor: "FilesIcon",
   remixicon: "RiFileCopyLine",
+})
+export const FilterIcon = createSiteIcon(FabricatorFilterIcon, {
+  lucide: "FilterIcon",
+  tabler: "IconFilter",
+  hugeicons: "FilterIcon",
+  phosphor: "FunnelIcon",
+  remixicon: "RiFilterLine",
 })
 export const Folder = createSiteIcon(FabricatorFolder, {
   lucide: "Folder",
@@ -1214,6 +1261,13 @@ export const HomeIcon = createSiteIcon(FabricatorHomeIcon, {
   phosphor: "HouseIcon",
   remixicon: "RiHomeLine",
 })
+export const HourglassIcon = createSiteIcon(FabricatorHourglassIcon, {
+  lucide: "HourglassIcon",
+  tabler: "IconHourglass",
+  hugeicons: "HourglassIcon",
+  phosphor: "HourglassIcon",
+  remixicon: "RiHourglassLine",
+})
 export const HouseIcon = createSiteIcon(FabricatorHouseIcon, {
   lucide: "HouseIcon",
   tabler: "IconHome",
@@ -1331,6 +1385,13 @@ export const LayoutIcon = createSiteIcon(FabricatorLayoutIcon, {
   hugeicons: "LayoutIcon",
   phosphor: "LayoutIcon",
   remixicon: "RiLayoutLine",
+})
+export const LibraryIcon = createSiteIcon(FabricatorLibraryIcon, {
+  lucide: "LibraryIcon",
+  tabler: "IconBooks",
+  hugeicons: "Book02Icon",
+  phosphor: "BooksIcon",
+  remixicon: "RiBookShelfLine",
 })
 export const LifeBuoyIcon = createSiteIcon(FabricatorLifeBuoyIcon, {
   lucide: "LifeBuoyIcon",
@@ -1477,6 +1538,13 @@ export const MaximizeIcon = createSiteIcon(FabricatorMaximizeIcon, {
   hugeicons: "PlusSignIcon",
   phosphor: "PlusIcon",
   remixicon: "RiAddLine",
+})
+export const MergeIcon = createSiteIcon(FabricatorMergeIcon, {
+  lucide: "MergeIcon",
+  tabler: "IconArrowMerge",
+  hugeicons: "GitMergeIcon",
+  phosphor: "GitMergeIcon",
+  remixicon: "RiGitMergeLine",
 })
 export const MessageCircleDashedIcon = createSiteIcon(
   FabricatorMessageCircleDashedIcon,
@@ -1732,6 +1800,9 @@ export const PlayIcon = createSiteIcon(FabricatorPlayIcon, {
   phosphor: "PlayIcon",
   remixicon: "RiPlayFill",
 })
+export const PlugIcon = createSiteIcon(FabricatorPlugIcon, {
+  lucide: "PlugIcon",
+})
 export const Plus = createSiteIcon(FabricatorPlus, {
   lucide: "Plus",
   tabler: "IconPlus",
@@ -1755,6 +1826,13 @@ export const RadioIcon = createSiteIcon(FabricatorRadioIcon, {
   hugeicons: "RecordIcon",
   phosphor: "RecordIcon",
   remixicon: "RiRecordCircleLine",
+})
+export const ReceiptIcon = createSiteIcon(FabricatorReceiptIcon, {
+  lucide: "ReceiptIcon",
+  tabler: "IconReceipt",
+  hugeicons: "Invoice01Icon",
+  phosphor: "ReceiptIcon",
+  remixicon: "RiBillLine",
 })
 export const ReceiptTextIcon = createSiteIcon(FabricatorReceiptTextIcon, {
   lucide: "ReceiptTextIcon",
@@ -2231,6 +2309,13 @@ export const User = createSiteIcon(FabricatorUser, {
   phosphor: "UserIcon",
   remixicon: "RiUserLine",
 })
+export const UserCheckIcon = createSiteIcon(FabricatorUserCheckIcon, {
+  lucide: "UserCheckIcon",
+  tabler: "IconUserCheck",
+  hugeicons: "UserCheck01Icon",
+  phosphor: "UserCheckIcon",
+  remixicon: "RiUserFollowLine",
+})
 export const UserIcon = createSiteIcon(FabricatorUserIcon, {
   lucide: "UserIcon",
   tabler: "IconUser",
@@ -2299,6 +2384,13 @@ export const WandSparklesIcon = createSiteIcon(FabricatorWandSparklesIcon, {
 })
 export const WaypointsIcon = createSiteIcon(FabricatorWaypointsIcon, {
   lucide: "WaypointsIcon",
+})
+export const WebhookIcon = createSiteIcon(FabricatorWebhookIcon, {
+  lucide: "WebhookIcon",
+  tabler: "IconWebhook",
+  hugeicons: "WebhookIcon",
+  phosphor: "WebhooksLogoIcon",
+  remixicon: "RiWebhookLine",
 })
 export const WorkflowIcon = createSiteIcon(FabricatorWorkflowIcon, {
   lucide: "WorkflowIcon",

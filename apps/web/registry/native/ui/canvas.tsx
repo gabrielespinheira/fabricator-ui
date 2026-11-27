@@ -42,6 +42,7 @@ import {
 } from "@/registry/fabricator/shared/lib/canvas-clipboard"
 import { type CanvasLayoutEngine } from "@/registry/fabricator/shared/lib/canvas-layout"
 import {
+  getConnectedPorts,
   getReadingOrder,
   type CanvasConnection,
   type CanvasData,
@@ -378,7 +379,12 @@ function Canvas({
           .join(" ")
       )
     }
-    return { names, descriptions, pending: controller.pending }
+    return {
+      names,
+      descriptions,
+      pending: controller.pending,
+      connected: getConnectedPorts(controller.edges),
+    }
   }, [namesKey, controller.edges, controller.pending, labels])
 
   const openNode = React.useCallback(
@@ -939,9 +945,9 @@ function CanvasPanel({
   )
 }
 
-/** Zoom, fit, lock, undo and redo, in a bar at the bottom start. */
+/** Zoom, fit, lock, undo and redo, in a bar at the top centre. */
 function CanvasControls({
-  position = "bottom-start",
+  position = "top-center",
   hasHistory = true,
   className,
 }: {

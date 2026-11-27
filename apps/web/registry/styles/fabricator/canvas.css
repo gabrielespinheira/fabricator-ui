@@ -7,7 +7,7 @@
      colour, a minimap on the raised surface. Small pins compact density for
      dense graphs. Disabled dims the whole canvas and takes no pointer. */
   .cn-canvas {
-    @apply bg-background text-(length:--density-text-13) text-foreground [--xy-background-color:transparent] [--xy-node-border:none] [--xy-node-border-selected:none] [--xy-node-color:inherit] [--xy-handle-background-color:transparent] [--xy-selection-background-color:color-mix(in_oklab,var(--primary)_8%,transparent)] [--xy-selection-border:1px_solid_color-mix(in_oklab,var(--primary)_40%,transparent)] [--xy-resize-background-color:var(--primary)] [--xy-minimap-background-color:var(--surface-3)] [--xy-minimap-mask-background-color:color-mix(in_oklab,var(--background)_70%,transparent)] [--xy-minimap-mask-stroke-color:color-mix(in_oklab,var(--primary)_40%,transparent)] [--xy-minimap-node-background-color:color-mix(in_oklab,var(--foreground)_16%,transparent)] data-[size=sm]:density-compact data-disabled:pointer-events-none data-disabled:opacity-50;
+    @apply @container/canvas bg-background text-(length:--density-text-13) text-foreground [--xy-background-color:transparent] [--xy-node-border:none] [--xy-node-border-selected:none] [--xy-node-color:inherit] [--xy-handle-background-color:transparent] [--xy-selection-background-color:color-mix(in_oklab,var(--primary)_8%,transparent)] [--xy-selection-border:1px_solid_color-mix(in_oklab,var(--primary)_40%,transparent)] [--xy-resize-background-color:var(--primary)] [--xy-minimap-background-color:var(--surface-3)] [--xy-minimap-mask-background-color:color-mix(in_oklab,var(--background)_70%,transparent)] [--xy-minimap-mask-stroke-color:color-mix(in_oklab,var(--primary)_40%,transparent)] [--xy-minimap-node-background-color:color-mix(in_oklab,var(--foreground)_16%,transparent)] data-[size=sm]:density-compact data-disabled:pointer-events-none data-disabled:opacity-50;
   }
 
   /* React Flow's frame fills the canvas. */
@@ -87,19 +87,22 @@
 
   /* MARK: Canvas handle */
 
-  /* The handle is an invisible target a little larger than its dot, and a
-     44pt one on touch. The dot rests on the node's surface with the ring
-     edge. With a fine pointer the dots wait until the node is pointed at,
-     focused or selected; on touch they stay. While a connection is dragged
-     every dot shows; the one under the pointer grows and fills with the
-     primary colour, or the destructive one when it can't take it. View and
-     static canvases draw no dots. */
+  /* A handle is an invisible target a little larger than its port, and a
+     touch-sized one on coarse pointers. A port with an edge plugged in is
+     a solid dot in the edge's colour, ringed by the node's surface, always
+     shown: the edge runs into it, so the two read as joined rather than as
+     a line pointing at the card. An empty port is a hollow dot that waits
+     until the node is pointed at, focused or selected (on touch it stays).
+     While a connection is dragged every port shows; the one under the
+     pointer grows and fills with the primary colour, or the destructive one
+     when it can't take it. View and static canvases show only connected
+     ports. */
   .cn-canvas-handle {
     @apply flex size-(--density-16) cursor-crosshair items-center justify-center rounded-full pointer-coarse:size-(--density-48);
   }
 
   .cn-canvas-handle-dot {
-    @apply size-(--density-8) rounded-full bg-surface-3 ring-1 ring-foreground/30 transition-[background-color,scale,opacity,box-shadow] duration-feedback ease-feedback in-data-[mode=static]:hidden in-data-[mode=view]:hidden in-data-[state=connecting]:opacity-100 in-data-[state=invalid]:scale-150 in-data-[state=invalid]:bg-destructive in-data-[state=invalid]:ring-destructive in-data-[state=source]:bg-primary in-data-[state=source]:ring-primary in-data-[state=valid]:scale-150 in-data-[state=valid]:bg-primary in-data-[state=valid]:ring-primary pointer-fine:opacity-0 pointer-fine:group-hover/canvas-node:opacity-100 pointer-fine:group-focus-visible/canvas-node:opacity-100 pointer-fine:group-data-selected/canvas-node:opacity-100;
+    @apply size-(--density-8) rounded-full bg-surface-3 ring-1 ring-foreground/30 transition-[background-color,scale,opacity,box-shadow] duration-feedback ease-feedback in-data-connected:bg-foreground/50 in-data-connected:opacity-100 in-data-connected:ring-2 in-data-connected:ring-surface-3 dark:in-data-connected:bg-foreground/40 in-data-[mode=static]:not-in-data-connected:hidden in-data-[mode=view]:not-in-data-connected:hidden in-data-[state=connecting]:opacity-100 in-data-[state=invalid]:scale-150 in-data-[state=invalid]:bg-destructive in-data-[state=invalid]:ring-destructive in-data-[state=source]:bg-primary in-data-[state=source]:ring-primary in-data-[state=valid]:scale-150 in-data-[state=valid]:bg-primary in-data-[state=valid]:ring-primary pointer-fine:not-in-data-connected:opacity-0 pointer-fine:group-hover/canvas-node:opacity-100 pointer-fine:group-focus-visible/canvas-node:opacity-100 pointer-fine:group-data-selected/canvas-node:opacity-100 group-data-selected/canvas-node:in-data-connected:bg-foreground;
   }
 
   /* A handle's name sits beside it on the node, a step smaller than captions. */
@@ -187,8 +190,10 @@
     @apply min-w-[calc(var(--density-36)*1.6)] justify-center font-normal text-muted-foreground tabular-nums;
   }
 
+  /* Below a phone's width the controls take the top centre, so search
+     keeps only its icon beside them. */
   .cn-canvas-search {
-    @apply text-muted-foreground;
+    @apply text-muted-foreground @max-lg/canvas:[&>kbd]:hidden @max-lg/canvas:[&>span]:sr-only;
   }
 
   /* The minimap is a raised card in the corner; a narrow canvas leaves it out. */

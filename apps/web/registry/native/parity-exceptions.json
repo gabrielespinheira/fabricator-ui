@@ -1267,6 +1267,13 @@
     "date": "2026-11-25"
   },
   {
+    "item": "automation-01",
+    "kind": "component",
+    "name": "automation-01",
+    "reason": "New web automation block on App Shell and Canvas. Canvas and Canvas Layout have native versions it can compose; its React Native port waits for a phone composition of the step panel and the step library as sheets. Its run path and edits are pure modules it can reuse.",
+    "date": "2026-11-27"
+  },
+  {
     "item": "settings-01",
     "kind": "component",
     "name": "settings-01",
@@ -1460,6 +1467,13 @@
     "kind": "placeholder",
     "name": "cn-canvas-guide",
     "reason": "The style of the live guide lines native doesn't draw; see the canvas-guide slot.",
+    "date": "2026-11-27"
+  },
+  {
+    "item": "blueprint",
+    "kind": "component",
+    "name": "blueprint",
+    "reason": "New web component that measures the DOM and draws on SVG and a canvas. The native port measures parts with onLayout and draws the same blueprint-model timeline with react-native-svg; it follows in its own change.",
     "date": "2026-11-27"
   }
 ]

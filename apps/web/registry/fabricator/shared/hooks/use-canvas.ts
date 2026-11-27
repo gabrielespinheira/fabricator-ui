@@ -62,7 +62,7 @@ import { type CanvasFitOptions } from "@/registry/bases/__base__/lib/canvas-view
 
 /** What only an engine can do. Web registers React Flow's; native its own. */
 type CanvasEngine = {
-  fitView: (options?: CanvasFitOptions & { nodeIds?: string[] }) => void
+  fitView: (options?: CanvasFitOptions) => void
   zoomIn: () => void
   zoomOut: () => void
   zoomTo: (zoom: number) => void
@@ -813,7 +813,7 @@ function useCanvasController<
       dismissNotice,
       getNodes: () => nodesRef.current,
       getEdges: () => edgesRef.current,
-      fitView: (fitOptions?: CanvasFitOptions & { nodeIds?: string[] }) =>
+      fitView: (fitOptions?: CanvasFitOptions) =>
         engineRef.current?.fitView(fitOptions),
       zoomIn: () => engineRef.current?.zoomIn(),
       zoomOut: () => engineRef.current?.zoomOut(),

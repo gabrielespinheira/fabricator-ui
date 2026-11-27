@@ -100,7 +100,8 @@ const CanvasEdge = React.memo(function CanvasEdge({
   const { pending } = React.useContext(CanvasEdgeContext)
   const colors = useEdgeColors()
   const { path } = getCanvasEdgePath(getEdgeShape(edge.type), ends)
-  const hasArrow = edge.marker !== "none"
+  // Ports show where an edge plugs in; an arrowhead is asked for.
+  const hasArrow = edge.marker === "arrow"
   return (
     <>
       <Path
@@ -144,7 +145,9 @@ function CanvasEdgeMarkers({ canvasId }: { canvasId: string }) {
           key={state}
           id={getMarkerId(canvasId, state)}
           viewBox="0 0 10 10"
-          refX="8"
+          // The tip stops at the edge of the target's port (4px dot and its
+          // 1px ring, at 0.8px per marker unit) instead of under it.
+          refX="14.5"
           refY="5"
           markerWidth="8"
           markerHeight="8"

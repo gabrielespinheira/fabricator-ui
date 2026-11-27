@@ -598,6 +598,16 @@ export const Components: Record<string, any> = {
       ) || "board-01"
     return { default: mod.default || mod[exportName] }
   }),
+  "automation-01": React.lazy(async () => {
+    const mod = await import(
+      "@/styles/base-fabricator/blocks/automation-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "automation-01"
+    return { default: mod.default || mod[exportName] }
+  }),
   "calendar-app-01": React.lazy(async () => {
     const mod = await import(
       "@/styles/base-fabricator/blocks/calendar-app-01/page"

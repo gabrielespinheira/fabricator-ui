@@ -614,6 +614,7 @@ The repo's definitions of done apply in full (AGENTS.md, COMPONENTS.md, PLATFORM
 - **Web** (`shared/ui/canvas*.tsx`, one source for all three bases; per-base `components/canvas-commands.tsx` for the search and connect dialogs and the toast), the style map, 11 examples per base, a docs page per base, six Advanced references, the group, the catalog card, the skill catalogue, the changelog, `NOTICE.md`, `DESIGN.md` and `COMPONENTS.md`.
 - **Native** (`registry/native/ui/canvas*.tsx`, `lib/canvas-surface.tsx`, the native style map and example, its docs page and a `differences.ts` entry). Parity is clean, with one dated exception for live guide lines.
 - `canvas-layout` on web and native.
+- **Block `automation-01`** (Automation builder, its own Automation category in the gallery), replacing the planned `canvas-01` and `canvas-02`: a 20-step support workflow with an AI agent whose model, memory and tool plug into typed ports below it, a router and a condition with a handle per route, a grouped billing lane, a note, the step library, issues, Tidy up, Export as JSON, and a test run that plays the sample ticket's path (`getRunPath`, tested) while untaken lanes end skipped. The picked step's settings, connections and last output sit in an App Shell panel. Native port deferred with a dated exception.
 
 ### Changed against the plan
 
@@ -622,17 +623,21 @@ The repo's definitions of done apply in full (AGENTS.md, COMPONENTS.md, PLATFORM
 - **Native edges.** Animated SVG props (`d` from a worklet) stopped updating after mount in this setup, while Image Compare's work; the cause wasn't found. Native edges are static paths in an SVG inside the layer that pans and zooms, sized to the visible region at the settled zoom and counter-scaled. Pan and zoom move them with the nodes; a drag re-renders the edges it touches once a frame.
 - **Native differences:** a dropped node snaps to neighbours and the grid without live guide lines; a running edge keeps its dashes still; library items are added with a press; no hardware keyboard map on iPad yet.
 - **Menus and keyboard.** Shift F10 and the Menu key open the focused node's menu. `C` opens a list of valid targets rather than cycling handles on the canvas.
+- **Ports, not arrows (2026-11-27 feedback).** Arrowheads read as pointing at a node rather than plugged into it, with a gap at each end. Edges now run handle centre to handle centre on the node's border, connected ports stay filled (`getConnectedPorts`), and `marker: "arrow"` is opt-in. The controls default to the top centre and the minimap is 132 × 88.
+- **Fit.** `fitView.nodeIds` frames part of a large graph; on the web the fit holds through frame resizes until the view is moved, so an App Shell panel restoring its width doesn't crop the first view. A narrow canvas shows search as its icon beside the centred controls.
+- **Layout and groups.** A connection to a node inside a group counts as one to the group, so Tidy up ranks the group in the flow instead of stranding it.
 - **Node focus** is on the node frame (`nodesFocusable={false}` in React Flow), so focus is styled by slot, not by React Flow's class.
 
 ### Checked
 
 - `bun run check` and `bun run test` pass; `native:parity --strict` is clean for Canvas (the one gap left is `input-group`, from other work on this branch); the native typecheck passes; `registry:native --check` compiles both items; `shadcn add --dry-run` succeeds for `canvas` on Base UI, Radix, React Aria and native.
 - In the running site (Base UI, Radix, React Aria): light and dark, selection, the node menu from the keyboard, arrows and Alt + arrows, undo merging a run of nudges, keyboard connect and its announcement, empty, loading and error, read-only, static, schema, groups.
+- `automation-01` in the running site on all three bases: light and dark previews, phone (390px) and tablet (820px) frames, a test run, Tidy up from the header menu (React Aria), step selection and the panel. On the iPhone simulator after the ports change: connected ports on node edges and the controls at the top centre.
 - On the iPhone simulator: rendering, pan, pinch, level of detail, node drag with edges following, the long-press menu, Connect to… from the menu, empty, loading and error.
 
 ### Not built
 
-- Blocks `canvas-01` and `canvas-02`.
+- The automation block's native port (a phone composition of the step panel and library as sheets).
 - The iPad hardware keyboard map; dragging library items on native.
 
 ### Not verified

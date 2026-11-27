@@ -20,6 +20,7 @@ import { cn } from "cn"
 
 import { type CanvasSide } from "@/registry/bases/__base__/lib/canvas-geometry"
 import {
+  getPortKey,
   type CanvasData,
   type CanvasHandleKind,
   type CanvasNodeStatus as CanvasRunStatus,
@@ -355,6 +356,9 @@ function CanvasHandle({
       data-kind={kind}
       data-side={side}
       data-state={state ?? undefined}
+      data-connected={
+        node.connectedPorts.has(getPortKey(kind, handleId)) || undefined
+      }
       aria-label={label ? `${label}, ${labels.handle}` : labels.handle}
       className={cn("cn-canvas-handle", className)}
       {...props}

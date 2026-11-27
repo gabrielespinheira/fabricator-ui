@@ -7,7 +7,7 @@ import {
   type CanvasEdgeRecord,
 } from "@/styles/base-fabricator/ui/canvas"
 
-// Default nodes flow top to bottom; "Tidy up" in the canvas's menu (right
+// Default nodes flow top to bottom, with arrowheads for a process; "Tidy up" in the canvas's menu (right
 // click the empty canvas) arranges them with dagre.
 const nodes = [
   {
@@ -38,12 +38,19 @@ const nodes = [
 ]
 
 const edges: CanvasEdgeRecord[] = [
-  { id: "1", source: "request", target: "eligible", type: "smoothstep" },
+  {
+    id: "1",
+    source: "request",
+    target: "eligible",
+    type: "smoothstep",
+    marker: "arrow",
+  },
   {
     id: "2",
     source: "eligible",
     target: "approve",
     type: "smoothstep",
+    marker: "arrow",
     label: "Yes",
   },
   {
@@ -51,10 +58,23 @@ const edges: CanvasEdgeRecord[] = [
     source: "eligible",
     target: "review",
     type: "smoothstep",
+    marker: "arrow",
     label: "No",
   },
-  { id: "4", source: "approve", target: "notify", type: "smoothstep" },
-  { id: "5", source: "review", target: "notify", type: "smoothstep" },
+  {
+    id: "4",
+    source: "approve",
+    target: "notify",
+    type: "smoothstep",
+    marker: "arrow",
+  },
+  {
+    id: "5",
+    source: "review",
+    target: "notify",
+    type: "smoothstep",
+    marker: "arrow",
+  },
 ]
 
 export function CanvasFlowchart() {
@@ -63,7 +83,7 @@ export function CanvasFlowchart() {
       defaultNodes={nodes}
       defaultEdges={edges}
       layout={layoutWithDagre}
-      edgeDefaults={{ type: "smoothstep" }}
+      edgeDefaults={{ type: "smoothstep", marker: "arrow" }}
       background="lines"
       snapToGrid
       label="Refund process"

@@ -361,6 +361,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "bar-chart-stacked",
       filePath: "examples/base/bar-chart-stacked.tsx",
     },
+    "blueprint-demo": {
+      name: "blueprint-demo",
+      filePath: "examples/base/blueprint-demo.tsx",
+    },
+    "blueprint-group": {
+      name: "blueprint-group",
+      filePath: "examples/base/blueprint-group.tsx",
+    },
+    "blueprint-loading": {
+      name: "blueprint-loading",
+      filePath: "examples/base/blueprint-loading.tsx",
+    },
     "bot-face-demo": {
       name: "bot-face-demo",
       filePath: "examples/base/bot-face-demo.tsx",
@@ -3359,6 +3371,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "bar-chart-stacked",
       filePath: "examples/aria/bar-chart-stacked.tsx",
     },
+    "blueprint-demo": {
+      name: "blueprint-demo",
+      filePath: "examples/aria/blueprint-demo.tsx",
+    },
+    "blueprint-group": {
+      name: "blueprint-group",
+      filePath: "examples/aria/blueprint-group.tsx",
+    },
+    "blueprint-loading": {
+      name: "blueprint-loading",
+      filePath: "examples/aria/blueprint-loading.tsx",
+    },
     "bot-face-demo": {
       name: "bot-face-demo",
       filePath: "examples/aria/bot-face-demo.tsx",
@@ -6336,6 +6360,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bar-chart-stacked": {
       name: "bar-chart-stacked",
       filePath: "examples/radix/bar-chart-stacked.tsx",
+    },
+    "blueprint-demo": {
+      name: "blueprint-demo",
+      filePath: "examples/radix/blueprint-demo.tsx",
+    },
+    "blueprint-group": {
+      name: "blueprint-group",
+      filePath: "examples/radix/blueprint-group.tsx",
+    },
+    "blueprint-loading": {
+      name: "blueprint-loading",
+      filePath: "examples/radix/blueprint-loading.tsx",
     },
     "bot-face-demo": {
       name: "bot-face-demo",
@@ -9394,6 +9430,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "bar-chart-stacked",
       filePath: "examples/__styles__/base-fabricator/bar-chart-stacked.tsx",
     },
+    "blueprint-demo": {
+      name: "blueprint-demo",
+      filePath: "examples/__styles__/base-fabricator/blueprint-demo.tsx",
+    },
+    "blueprint-group": {
+      name: "blueprint-group",
+      filePath: "examples/__styles__/base-fabricator/blueprint-group.tsx",
+    },
+    "blueprint-loading": {
+      name: "blueprint-loading",
+      filePath: "examples/__styles__/base-fabricator/blueprint-loading.tsx",
+    },
     "bot-face-demo": {
       name: "bot-face-demo",
       filePath: "examples/__styles__/base-fabricator/bot-face-demo.tsx",
@@ -12209,6 +12257,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "bar-chart-stacked",
       filePath: "examples/__styles__/aria-fabricator/bar-chart-stacked.tsx",
     },
+    "blueprint-demo": {
+      name: "blueprint-demo",
+      filePath: "examples/__styles__/aria-fabricator/blueprint-demo.tsx",
+    },
+    "blueprint-group": {
+      name: "blueprint-group",
+      filePath: "examples/__styles__/aria-fabricator/blueprint-group.tsx",
+    },
+    "blueprint-loading": {
+      name: "blueprint-loading",
+      filePath: "examples/__styles__/aria-fabricator/blueprint-loading.tsx",
+    },
     "bot-face-demo": {
       name: "bot-face-demo",
       filePath: "examples/__styles__/aria-fabricator/bot-face-demo.tsx",
@@ -15008,6 +15068,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bar-chart-stacked": {
       name: "bar-chart-stacked",
       filePath: "examples/__styles__/radix-fabricator/bar-chart-stacked.tsx",
+    },
+    "blueprint-demo": {
+      name: "blueprint-demo",
+      filePath: "examples/__styles__/radix-fabricator/blueprint-demo.tsx",
+    },
+    "blueprint-group": {
+      name: "blueprint-group",
+      filePath: "examples/__styles__/radix-fabricator/blueprint-group.tsx",
+    },
+    "blueprint-loading": {
+      name: "blueprint-loading",
+      filePath: "examples/__styles__/radix-fabricator/blueprint-loading.tsx",
     },
     "bot-face-demo": {
       name: "bot-face-demo",

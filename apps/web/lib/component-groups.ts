@@ -103,6 +103,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   // Content
   typography: "Content",
   "text-motion": "Content",
+  blueprint: "Content",
   table: "Content",
   progress: "Content",
   "segmented-meter": "Content",

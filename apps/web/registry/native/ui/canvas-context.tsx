@@ -289,6 +289,8 @@ type CanvasNodeState = {
   isDragging: boolean
   isPending: boolean
   isConnectable: boolean
+  /** Ports an edge plugs into, by `getPortKey`, so they show as connected. */
+  connectedPorts: ReadonlySet<string>
 }
 
 const CanvasNodeContext = React.createContext<CanvasNodeState | null>(null)

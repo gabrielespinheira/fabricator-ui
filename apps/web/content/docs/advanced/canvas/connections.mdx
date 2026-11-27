@@ -18,6 +18,8 @@ A handle's `produces` and `accepts` are value types. A connection lands only whe
 <CanvasHandle kind="target" side="left" accepts={["text", "image"]} max={1} />
 ```
 
+A connection runs from port to port: it starts and ends on the node's edge, and a port with a connection stays filled so the two read as plugged together. An empty port shows when you point at its node or select it. Set `marker: "arrow"` on an edge, or in `edgeDefaults`, for an arrowhead at its target, as process diagrams draw them.
+
 The canvas also refuses a node connecting to itself (`allowSelfLoops` allows it), a connection that already exists, and, with `allowCycles={false}`, one that would close a loop. Add your own rule with `validateConnection`: return `true`, or the reason as a string.
 
 ```tsx

@@ -76,7 +76,7 @@ type CanvasEdge<TData extends CanvasData = CanvasData> = {
   focusable?: boolean
   zIndex?: number
   data?: TData
-  /** The arrow at the target end; on by default. */
+  /** An arrowhead at the target end; off by default, where ports show the ends. */
   marker?: "arrow" | "none"
 }
 
@@ -484,6 +484,32 @@ function createEdge<TData extends CanvasData = CanvasData>(
   }
 }
 
+/** A handle's key within its node: its kind and id. */
+function getPortKey(
+  kind: CanvasHandleKind,
+  handleId: string | null | undefined
+) {
+  return `${kind}:${handleId ?? ""}`
+}
+
+/** For each node, the ports (`getPortKey`) at least one edge plugs into. */
+function getConnectedPorts(
+  edges: readonly CanvasEdge[]
+): Map<string, Set<string>> {
+  const ports = new Map<string, Set<string>>()
+  const add = (nodeId: string, key: string) => {
+    const set = ports.get(nodeId)
+    if (set) set.add(key)
+    else ports.set(nodeId, new Set([key]))
+  }
+  for (const edge of edges) {
+    if (edge.hidden) continue
+    add(edge.source, getPortKey("source", edge.sourceHandle))
+    add(edge.target, getPortKey("target", edge.targetHandle))
+  }
+  return ports
+}
+
 function isDeletable(element: { deletable?: boolean }) {
   return element.deletable !== false
 }
@@ -676,6 +702,7 @@ export {
   createEdge,
   getAbsolutePosition,
   getConnectedEdges,
+  getConnectedPorts,
   getDescendantIds,
   getEdgeId,
   getGroupChanges,
@@ -684,6 +711,7 @@ export {
   getNodesBounds,
   getNodeSize,
   getOutgoers,
+  getPortKey,
   getReadingOrder,
   getRemovalChanges,
   getSelectedIds,

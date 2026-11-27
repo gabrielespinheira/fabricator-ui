@@ -6,6 +6,7 @@ import {
   CanvasNodeNotFoundError,
   createEdge,
   getAbsolutePosition,
+  getConnectedPorts,
   getGroupChanges,
   getIncomers,
   getNodesBounds,
@@ -318,5 +319,18 @@ describe("getReadingOrder", () => {
       "end",
       "second-row",
     ])
+  })
+})
+
+describe("getConnectedPorts", () => {
+  it("lists the ports edges plug into, per node, skipping hidden edges", () => {
+    const ports = getConnectedPorts([
+      { id: "1", source: "a", target: "b", sourceHandle: "out" },
+      { id: "2", source: "a", target: "c" },
+      { id: "3", source: "c", target: "a", hidden: true },
+    ])
+    expect([...(ports.get("a") ?? [])]).toEqual(["source:out", "source:"])
+    expect([...(ports.get("b") ?? [])]).toEqual(["target:"])
+    expect(ports.has("d")).toBe(false)
   })
 })

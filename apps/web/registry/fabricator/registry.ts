@@ -469,6 +469,26 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "blueprint",
+    type: "registry:ui",
+    title: "Blueprint",
+    description:
+      "Sketches a component into place: a dot field ripples out, guides and a dotted outline draw the frame with its size and a clock, each box, line of text and icon is traced under a reticle, then the content fades in as the drawing clears. Timed by the reveal motion role.",
+    files: [
+      { path: "ui/blueprint.tsx", type: "registry:ui" },
+      { path: "lib/blueprint-model.ts", type: "registry:lib" },
+    ],
+    categories: ["basics"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/blueprint",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/blueprint#examples",
+      },
+    },
+  },
+  {
     name: "preview-rail",
     type: "registry:ui",
     title: "Preview Rail",

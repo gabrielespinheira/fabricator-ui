@@ -99,10 +99,13 @@ type CanvasMenuTarget =
   | { kind: "edge"; point: CanvasPosition; id: string }
   | { kind: "selection"; point: CanvasPosition }
 
+const NO_PORTS: ReadonlySet<string> = new Set()
+
 type CanvasNodeMeta = {
   pending: ReadonlySet<string>
   names: ReadonlyMap<string, string>
   descriptions: ReadonlyMap<string, string>
+  connected: ReadonlyMap<string, ReadonlySet<string>>
 }
 
 /** The node type the engine draws: the Canvas's own, as on the website. */
@@ -300,7 +303,7 @@ function CanvasEngine({
   }, [controlledViewport, moveTo])
 
   const fit = React.useCallback(
-    (options?: CanvasFitOptions & { nodeIds?: string[] }, animate = true) => {
+    (options?: CanvasFitOptions, animate = true) => {
       const frame = latest.current.size
       if (frame.width === 0) return
       const all = latest.current.nodes
@@ -331,8 +334,9 @@ function CanvasEngine({
     if (size.width === 0 || !isMeasured) return
     if (hasFitted.current && mode !== "static") return
     hasFitted.current = true
-    fit(undefined, false)
-  }, [fit, isMeasured, mode, size])
+    // The first fit frames the nodes `fitView` names; later fits take all.
+    fit(typeof fitView === "object" ? { nodeIds: fitView.nodeIds } : {}, false)
+  }, [fit, fitView, isMeasured, mode, size])
 
   const zoomBy = React.useCallback(
     (direction: "in" | "out") => {
@@ -1160,6 +1164,7 @@ const CanvasNodeView = React.memo(function CanvasNodeView({
       isDragging: Boolean(node.dragging),
       isPending: meta.pending.has(id),
       isConnectable: isEditable && node.connectable !== false,
+      connectedPorts: meta.connected.get(id) ?? NO_PORTS,
     }),
     [id, isEditable, meta, node]
   )
@@ -1256,7 +1261,7 @@ function CanvasMinimap({ className }: { className?: string }) {
   const index = indexNodes(nodes)
   const bounds = getNodesBounds(nodes, index)
   if (!bounds || windowWidth < 768) return null
-  const frame = { width: 160, height: 104 }
+  const frame = { width: 132, height: 88 }
   const scale = Math.min(
     frame.width / Math.max(1, bounds.width),
     frame.height / Math.max(1, bounds.height)

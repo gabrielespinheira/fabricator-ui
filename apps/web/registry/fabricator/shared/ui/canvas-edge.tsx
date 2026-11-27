@@ -74,7 +74,8 @@ function CanvasEdge({
     targetSide: targetPosition satisfies CanvasSide,
   })
   // The marker is the Canvas's own field, so it's read off the edge itself.
-  const hasArrow = useEdge<CanvasEdgeRecord>(id)?.marker !== "none"
+  // Ports show where an edge plugs in; an arrowhead is asked for.
+  const hasArrow = useEdge<CanvasEdgeRecord>(id)?.marker === "arrow"
   const isPending = pending.has(id)
   const hasLabel = typeof label === "string" && label.length > 0
   const canInsert = Boolean(onInsert) && isEditable
@@ -155,7 +156,9 @@ function CanvasEdgeMarkers({ canvasId }: { canvasId: string }) {
             key={state}
             id={getMarkerId(canvasId, state)}
             viewBox="0 0 10 10"
-            refX="8"
+            // The tip stops at the edge of the target's port (4px dot and its
+            // 1px ring, at 0.8px per marker unit) instead of under it.
+            refX="14.5"
             refY="5"
             markerWidth="8"
             markerHeight="8"

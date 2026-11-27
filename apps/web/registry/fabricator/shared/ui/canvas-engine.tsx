@@ -89,16 +89,20 @@ type CanvasMenuTarget =
   | { kind: "edge"; point: CanvasPosition; id: string }
   | { kind: "selection"; point: CanvasPosition }
 
+const NO_PORTS: ReadonlySet<string> = new Set()
+
 type CanvasNodeMeta = {
   pending: ReadonlySet<string>
   names: ReadonlyMap<string, string>
   descriptions: ReadonlyMap<string, string>
+  connected: ReadonlyMap<string, ReadonlySet<string>>
 }
 
 const CanvasNodeMetaContext = React.createContext<CanvasNodeMeta>({
   pending: new Set(),
   names: new Map(),
   descriptions: new Map(),
+  connected: new Map(),
 })
 
 // One wrapper per node component, kept for the component's life: React Flow
@@ -130,6 +134,7 @@ function getNodeRenderer(Component: CanvasNodeComponent) {
         isDragging: props.dragging,
         isPending: meta.pending.has(props.id),
         isConnectable: props.isConnectable,
+        connectedPorts: meta.connected.get(props.id) ?? NO_PORTS,
       }),
       [
         color,
@@ -178,6 +183,8 @@ const backgroundPatternClass = {
   className: cn("cn-canvas-background-pattern"),
 }.className
 const minimapNodeClass = { className: cn("cn-canvas-minimap-node") }.className
+
+const MINIMAP_SIZE = { width: 132, height: 88 }
 
 const BACKGROUNDS = {
   dots: BackgroundVariant.Dots,
@@ -519,8 +526,12 @@ function CanvasEngine({
     [openMenu]
   )
 
+  // Set once a person pans or zooms; until then the view keeps its fit.
+  const hasMovedRef = React.useRef(false)
+
   const onMove = React.useCallback(
-    (_event: MouseEvent | TouchEvent | null, next: CanvasViewport) => {
+    (event: MouseEvent | TouchEvent | null, next: CanvasViewport) => {
+      if (event) hasMovedRef.current = true
       const level = getLevelOfDetail(next.zoom)
       if (level !== levelRef.current) {
         levelRef.current = level
@@ -546,12 +557,14 @@ function CanvasEngine({
   const capturesWheel = mode === "edit" || (isView && isActive)
 
   const fitViewOptions = React.useMemo(() => {
-    const options = typeof fitView === "object" ? fitView : {}
+    const { nodeIds, padding, ...options } =
+      typeof fitView === "object" ? fitView : {}
     // Fitting never zooms a small graph past 100%: it would read as zoomed in.
     return {
       maxZoom: 1,
       ...options,
-      padding: toEnginePadding(options.padding),
+      padding: toEnginePadding(padding),
+      nodes: nodeIds?.map((id) => ({ id })),
     }
   }, [fitView])
 
@@ -640,6 +653,8 @@ function CanvasEngine({
             minZoom={minZoom}
             maxZoom={maxZoom}
             isStatic={isStatic}
+            fitOptions={fitView === false ? null : fitViewOptions}
+            hasMovedRef={hasMovedRef}
           />
           {children}
         </ReactFlow>
@@ -676,18 +691,23 @@ function CanvasGuides({ guides }: { guides: CanvasGuide[] }) {
   )
 }
 
-// Registers what only React Flow can do with the controller, and refits a
-// static canvas whenever its frame changes size.
+// Registers what only React Flow can do with the controller, and refits
+// when the frame changes size: a static canvas always, a fitted one until the
+// view is moved, so a panel opening beside it doesn't crop the first view.
 function CanvasEngineBridge({
   api,
   minZoom,
   maxZoom,
   isStatic,
+  fitOptions,
+  hasMovedRef,
 }: {
   api: CanvasApi<CanvasNode, CanvasData>
   minZoom: number
   maxZoom: number
   isStatic: boolean
+  fitOptions: React.ComponentProps<typeof ReactFlow>["fitViewOptions"] | null
+  hasMovedRef: React.RefObject<boolean>
 }) {
   const flow = useReactFlow<CanvasEngineNode, CanvasEdgeRecord>()
   const markerRef = React.useRef<HTMLSpanElement>(null)
@@ -700,8 +720,13 @@ function CanvasEngineBridge({
       const rect = frame()?.getBoundingClientRect()
       return { width: rect?.width ?? 0, height: rect?.height ?? 0 }
     }
+    // Any move asked for in code ends the first fit too.
+    const move = () => {
+      hasMovedRef.current = true
+    }
     api.registerEngine({
       fitView: (options) => {
+        move()
         void flow.fitView({
           padding: toEnginePadding(options?.padding),
           minZoom: options?.minZoom,
@@ -710,25 +735,35 @@ function CanvasEngineBridge({
           nodes: options?.nodeIds?.map((id) => ({ id })),
         })
       },
-      zoomIn: () =>
+      zoomIn: () => {
+        move()
         void flow.zoomTo(getNextZoom(flow.getZoom(), "in", minZoom, maxZoom), {
           duration: duration(),
-        }),
-      zoomOut: () =>
+        })
+      },
+      zoomOut: () => {
+        move()
         void flow.zoomTo(getNextZoom(flow.getZoom(), "out", minZoom, maxZoom), {
           duration: duration(),
-        }),
-      zoomTo: (zoom) => void flow.zoomTo(zoom, { duration: duration() }),
-      setViewport: (next, options) =>
+        })
+      },
+      zoomTo: (zoom) => {
+        move()
+        void flow.zoomTo(zoom, { duration: duration() })
+      },
+      setViewport: (next, options) => {
+        move()
         void flow.setViewport(next, {
           duration: options?.animate === false ? 0 : duration(),
-        }),
+        })
+      },
       getViewport: () => flow.getViewport(),
       getSize,
       screenToCanvas: (point) => flow.screenToFlowPosition(point),
       focusNode: (id) => {
         const bounds = api.getNodeBounds(id)
         if (bounds) {
+          move()
           const next = getViewportToReveal(
             bounds,
             flow.getViewport(),
@@ -746,18 +781,27 @@ function CanvasEngineBridge({
       },
     })
     return () => api.registerEngine(null)
-  }, [api, flow, maxZoom, minZoom])
+  }, [api, flow, maxZoom, minZoom, hasMovedRef])
 
+  // Read when the frame resizes, so an inline `fitView` object doesn't
+  // observe again on every render.
+  const fitOptionsRef = React.useRef(fitOptions)
   React.useEffect(() => {
-    if (!isStatic) return
+    fitOptionsRef.current = fitOptions
+  })
+  const isFitted = fitOptions !== null
+  React.useEffect(() => {
+    if (!isStatic && !isFitted) return
     const element = markerRef.current?.closest("[data-slot=canvas]")
     if (!element) return
     const observer = new ResizeObserver(() => {
-      void flow.fitView({ padding: "8%", maxZoom: 1 })
+      const options = fitOptionsRef.current
+      if (isStatic) void flow.fitView({ padding: "8%", maxZoom: 1 })
+      else if (options && !hasMovedRef.current) void flow.fitView(options)
     })
     observer.observe(element)
     return () => observer.disconnect()
-  }, [flow, isStatic])
+  }, [flow, isStatic, isFitted, hasMovedRef])
 
   return <span ref={markerRef} hidden />
 }
@@ -781,6 +825,9 @@ function CanvasMinimap({ className }: { className?: string }) {
       position="bottom-right"
       nodeBorderRadius={4}
       nodeClassName={minimapNodeClass}
+      // React Flow sizes the map's drawing from these; its default is 200
+      // by 150, which crowds a canvas.
+      style={MINIMAP_SIZE}
       className={cn("cn-canvas-minimap", className)}
     />
   )

@@ -24,6 +24,6 @@ const canvas = useCanvas()
 canvas.layout(layoutWithDagre, { direction: "right", nodeGap: 48, rankGap: 96 })
 ```
 
-Only top-level nodes move; children keep their place in their group. A layout is one step in the history, so ⌘Z undoes it.
+Only top-level nodes move; children keep their place in their group, and a connection to a node inside a group counts as one to the group, so the group takes its place in the flow. A layout is one step in the history, so ⌘Z undoes it.
 
 A layout engine is any function with the `CanvasLayoutEngine` signature: it receives node sizes and edges and returns each node's top start corner. ELK, or a layout computed on a server, fits the same way.

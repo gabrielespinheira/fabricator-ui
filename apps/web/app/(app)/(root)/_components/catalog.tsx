@@ -502,6 +502,12 @@ const SOURCES: CatalogSource[] = [
       ),
   },
   {
+    slug: "blueprint",
+    title: "Blueprint",
+    height: "lg",
+    load: () => import("@/examples/__styles__/base-fabricator/blueprint-group"),
+  },
+  {
     slug: "text-motion",
     title: "Text Motion",
     height: "md",

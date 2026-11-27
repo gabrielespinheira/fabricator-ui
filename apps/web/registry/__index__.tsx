@@ -13284,6 +13284,89 @@ export const Index: Record<string, Record<string, any>> = {
         },
       },
     },
+    "automation-01": {
+      name: "automation-01",
+      title: "Automation builder",
+      description:
+        "An automation builder edge to edge: a support workflow on a canvas with an AI agent and its model, memory and tools, a router with a lane per topic, a grouped billing lane, typed ports, a step library, issues to fix, a test run that plays the path a ticket takes, and the picked step beside it.",
+      type: "registry:block",
+      registryDependencies: [
+        "app-shell",
+        "app-nav",
+        "workspace-switcher",
+        "user-menu",
+        "sidebar",
+        "canvas",
+        "canvas-layout",
+        "badge",
+        "button",
+        "dropdown-menu",
+        "field",
+        "input",
+        "spinner",
+      ],
+      files: [
+        {
+          path: "styles/base-fabricator/blocks/automation-01/page.tsx",
+          type: "registry:page",
+          target: "app/automations/page.tsx",
+        },
+        {
+          path: "styles/base-fabricator/blocks/automation-01/components/automation-controls.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/base-fabricator/blocks/automation-01/components/automation-header.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/base-fabricator/blocks/automation-01/components/automation-icons.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/base-fabricator/blocks/automation-01/components/automation-inspector.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/base-fabricator/blocks/automation-01/components/automation-nodes.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/base-fabricator/blocks/automation-01/components/automation-sidebar.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/base-fabricator/blocks/automation-01/hooks/use-automation-run.ts",
+          type: "registry:hook",
+          target: "",
+        },
+        {
+          path: "styles/base-fabricator/blocks/automation-01/lib/automation-data.ts",
+          type: "registry:lib",
+          target: "",
+        },
+        {
+          path: "styles/base-fabricator/blocks/automation-01/lib/automation-model.ts",
+          type: "registry:lib",
+          target: "",
+        },
+      ],
+      categories: ["automation"],
+      meta: {
+        fabricator: true,
+        baseRegistryDependencies: {
+          base: ["toast"],
+          radix: ["sonner"],
+          aria: ["sonner"],
+        },
+      },
+    },
     "calendar-app-01": {
       name: "calendar-app-01",
       title: "Calendar",
@@ -16151,6 +16234,89 @@ export const Index: Record<string, Record<string, any>> = {
         },
       ],
       categories: ["projects"],
+      meta: {
+        fabricator: true,
+        baseRegistryDependencies: {
+          base: ["toast"],
+          radix: ["sonner"],
+          aria: ["sonner"],
+        },
+      },
+    },
+    "automation-01": {
+      name: "automation-01",
+      title: "Automation builder",
+      description:
+        "An automation builder edge to edge: a support workflow on a canvas with an AI agent and its model, memory and tools, a router with a lane per topic, a grouped billing lane, typed ports, a step library, issues to fix, a test run that plays the path a ticket takes, and the picked step beside it.",
+      type: "registry:block",
+      registryDependencies: [
+        "app-shell",
+        "app-nav",
+        "workspace-switcher",
+        "user-menu",
+        "sidebar",
+        "canvas",
+        "canvas-layout",
+        "badge",
+        "button",
+        "dropdown-menu",
+        "field",
+        "input",
+        "spinner",
+      ],
+      files: [
+        {
+          path: "styles/radix-fabricator/blocks/automation-01/page.tsx",
+          type: "registry:page",
+          target: "app/automations/page.tsx",
+        },
+        {
+          path: "styles/radix-fabricator/blocks/automation-01/components/automation-controls.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/radix-fabricator/blocks/automation-01/components/automation-header.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/radix-fabricator/blocks/automation-01/components/automation-icons.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/radix-fabricator/blocks/automation-01/components/automation-inspector.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/radix-fabricator/blocks/automation-01/components/automation-nodes.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/radix-fabricator/blocks/automation-01/components/automation-sidebar.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/radix-fabricator/blocks/automation-01/hooks/use-automation-run.ts",
+          type: "registry:hook",
+          target: "",
+        },
+        {
+          path: "styles/radix-fabricator/blocks/automation-01/lib/automation-data.ts",
+          type: "registry:lib",
+          target: "",
+        },
+        {
+          path: "styles/radix-fabricator/blocks/automation-01/lib/automation-model.ts",
+          type: "registry:lib",
+          target: "",
+        },
+      ],
+      categories: ["automation"],
       meta: {
         fabricator: true,
         baseRegistryDependencies: {
@@ -19038,6 +19204,89 @@ export const Index: Record<string, Record<string, any>> = {
         },
       ],
       categories: ["projects"],
+      meta: {
+        fabricator: true,
+        baseRegistryDependencies: {
+          base: ["toast"],
+          radix: ["sonner"],
+          aria: ["sonner"],
+        },
+      },
+    },
+    "automation-01": {
+      name: "automation-01",
+      title: "Automation builder",
+      description:
+        "An automation builder edge to edge: a support workflow on a canvas with an AI agent and its model, memory and tools, a router with a lane per topic, a grouped billing lane, typed ports, a step library, issues to fix, a test run that plays the path a ticket takes, and the picked step beside it.",
+      type: "registry:block",
+      registryDependencies: [
+        "app-shell",
+        "app-nav",
+        "workspace-switcher",
+        "user-menu",
+        "sidebar",
+        "canvas",
+        "canvas-layout",
+        "badge",
+        "button",
+        "dropdown-menu",
+        "field",
+        "input",
+        "spinner",
+      ],
+      files: [
+        {
+          path: "styles/aria-fabricator/blocks/automation-01/page.tsx",
+          type: "registry:page",
+          target: "app/automations/page.tsx",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/automation-01/components/automation-controls.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/automation-01/components/automation-header.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/automation-01/components/automation-icons.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/automation-01/components/automation-inspector.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/automation-01/components/automation-nodes.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/automation-01/components/automation-sidebar.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/automation-01/hooks/use-automation-run.ts",
+          type: "registry:hook",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/automation-01/lib/automation-data.ts",
+          type: "registry:lib",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/automation-01/lib/automation-model.ts",
+          type: "registry:lib",
+          target: "",
+        },
+      ],
+      categories: ["automation"],
       meta: {
         fabricator: true,
         baseRegistryDependencies: {

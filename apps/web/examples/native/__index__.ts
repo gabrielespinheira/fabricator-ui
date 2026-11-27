@@ -14,6 +14,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "avatar": () => require("@/examples/native/avatar-example").AvatarExample,
   "badge": () => require("@/examples/native/badge-example").BadgeExample,
   "bar-chart": () => require("@/examples/native/bar-chart-example").BarChartExample,
+  "blueprint": () => require("@/examples/native/blueprint-example").BlueprintExample,
   "bot-face": () => require("@/examples/native/bot-face-example").BotFaceExample,
   "bottom-nav": () => require("@/examples/native/bottom-nav-example").BottomNavExample,
   "breadcrumb": () => require("@/examples/native/breadcrumb-example").BreadcrumbExample,

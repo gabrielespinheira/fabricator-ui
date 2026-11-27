@@ -2,6 +2,7 @@
 title: Unreleased
 description: Changes merged since the last release. They ship in the next version.
 new:
+  - blueprint
   - canvas
   - text-motion
   - folder
@@ -128,6 +129,8 @@ All seven are on the web for every base; their React Native ports follow.
 
 **Text Motion.** A new component plays text in by character, word or line. Effects are layers that combine: `fade`, `blur`, `rise`, `fall`, `slide`, `scale`, `flip` and `mask`, plus `scramble`, which settles random glyphs into the text, and `type`, which types it behind a caret. `shimmer` and `wave` loops keep a status or a word moving once it lands. `TextMotionGroup` plays a heading and its paragraph in order on one trigger, and `TextMotionRotate` cycles a word in place at the widest word's width. Every time comes from the reveal motion role, so the project's speed retimes it, `instant` and `off` show the text at once, and Reduce Motion keeps only the fades. Screen readers hear the text once, whole. `DESIGN.md` and the fabricator skill say when a website's words play in and when text stays in place. On the web; React Native follows. [Text Motion](/docs/components/base/text-motion).
 
+**Blueprint.** A new component sketches whatever it wraps into place. A dot field ripples out, a probe sweeps across, guides and a dotted outline draw the frame with its size and a running clock, then every box, line of text and small icon inside is traced under a reticle before the content fades in over the drawing. It reads the layout itself, so a card, a form or a whole panel each get their own drawing. `BlueprintGroup` plays a set in turn as it comes into view, and `loading` holds the finished sketch, still scanning, until the data arrives. Timed by the reveal motion role; Reduce Motion skips the drawing. On the web; React Native follows. [Blueprint](/docs/components/base/blueprint).
+
 **Folder.** A new component shows a folder as a tile, the way a drive does: up to three files peek out of it as blank sheets or your own thumbnails, a cover on the front holds badges and avatars, and the name and details sit below. Hover or focus lifts the files out one after another and tips the front panel open; they drop back on a quicker timing. Any palette colour or role, drawn from your surfaces with a tint of that colour so folders sit in the page, solid or frosted glass, three sizes, and `open` for a drop target. A link in the title makes the whole tile the target. On web and React Native. [Folder](/docs/components/base/folder).
 
 **Data Table columns move.** Drag a column by its head to a new place: a copy of the head follows the pointer, the column dims and a line marks where it lands, and the table scrolls when you near its edge. The settings list the columns in the table's order with a grip on each, and a column's options add Move left and Move right, with Alt+Shift+Up and Down in the settings for the keyboard. Pinned columns reorder among themselves. The order is TanStack's `columnOrder`, and Reset columns clears it. [Column order](/docs/components/base/data-table#column-order).
@@ -204,6 +207,8 @@ All seven are on the web for every base; their React Native ports follow.
 
 **Settings, Members, Billing and Onboarding.** Add `settings-01`, `members-01`, `billing-01` or `onboarding-01` for workspace settings, invitations and roles, plan and invoice management, or a guided setup with a live workspace preview.
 
+**Automation builder.** Add `automation-01` for a workflow editor that fills the page: a support workflow with an AI agent and its model, memory and tools plugged in from below, a router with a lane per topic, a grouped billing lane, a step library, issues to fix before publishing, and a test run that plays the path a sample ticket takes while the picked step's settings sit beside the canvas.
+
 **Project board.** Add `board-01` for a ticket board that fills the page: projects and saved views in the sidebar, filters, people and rows over tinted columns, a new ticket form on `C`, and each ticket beside the board with its properties, sub-tasks, comments and history.
 
 **Assistant upgrades.** If you previously installed `assistant-01`, its old `assistant-tool-call.tsx` can be removed after updating. The revised transcript uses grouped work steps.
@@ -225,7 +230,8 @@ Canvas for React web, with React Native to follow in this release: an infinite, 
 - **Editing:** snapping to neighbours with guide lines, undo and redo, copy and paste between canvases, groups, a node library to drag from, node search and menus on every node, edge and the empty canvas.
 - **Keyboard:** arrows move between nodes by position, Alt and an arrow moves them, C connects from a list of valid targets, and a live region reads out each change.
 - **Modes:** edit, view (page scroll passes through) and static (a diagram in a page), with empty, loading and error states, and changes that wait on a server and revert with Retry.
-- **Canvas Layout** arranges a graph with dagre.
+- **Canvas Layout** arranges a graph with dagre; a group takes its place in the flow from the connections of the nodes inside it.
+- **Ports and chrome:** connections run from port to port on the node's edge, with connected ports filled and arrowheads opt-in (`marker: "arrow"`). The controls sit at the top centre and the minimap is a compact card. `fitView` can frame part of a large graph with `nodeIds`, and keeps its fit while a panel opens beside the canvas.
 
 ## Kanban
 

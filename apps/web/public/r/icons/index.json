@@ -497,6 +497,13 @@
     "phosphor": "StackIcon",
     "remixicon": "RiBringToFront"
   },
+  "BugIcon": {
+    "lucide": "BugIcon",
+    "tabler": "IconBug",
+    "hugeicons": "Bug01Icon",
+    "phosphor": "BugIcon",
+    "remixicon": "RiBugLine"
+  },
   "Building2Icon": {
     "lucide": "Building2Icon",
     "tabler": "IconBuildingBank",
@@ -517,6 +524,13 @@
     "hugeicons": "CalendarUpload01Icon",
     "phosphor": "CalendarBlankIcon",
     "remixicon": "RiCalendarTodoLine"
+  },
+  "CalendarClockIcon": {
+    "lucide": "CalendarClockIcon",
+    "tabler": "IconCalendarTime",
+    "hugeicons": "Calendar03Icon",
+    "phosphor": "CalendarDotsIcon",
+    "remixicon": "RiCalendarScheduleLine"
   },
   "CalendarDaysIcon": {
     "lucide": "CalendarDaysIcon",
@@ -875,6 +889,13 @@
     "phosphor": "FilesIcon",
     "remixicon": "RiFileCopyLine"
   },
+  "FilterIcon": {
+    "lucide": "FilterIcon",
+    "tabler": "IconFilter",
+    "hugeicons": "FilterIcon",
+    "phosphor": "FunnelIcon",
+    "remixicon": "RiFilterLine"
+  },
   "FlipHorizontalIcon": {
     "lucide": "FlipHorizontalIcon",
     "tabler": "IconFlipHorizontal",
@@ -1043,6 +1064,13 @@
     "phosphor": "HouseIcon",
     "remixicon": "RiHomeLine"
   },
+  "HourglassIcon": {
+    "lucide": "HourglassIcon",
+    "tabler": "IconHourglass",
+    "hugeicons": "HourglassIcon",
+    "phosphor": "HourglassIcon",
+    "remixicon": "RiHourglassLine"
+  },
   "HouseIcon": {
     "lucide": "HouseIcon",
     "tabler": "IconHome",
@@ -1133,6 +1161,13 @@
     "hugeicons": "LayoutIcon",
     "phosphor": "LayoutIcon",
     "remixicon": "RiLayoutLine"
+  },
+  "LibraryIcon": {
+    "lucide": "LibraryIcon",
+    "tabler": "IconBooks",
+    "hugeicons": "Book02Icon",
+    "phosphor": "BooksIcon",
+    "remixicon": "RiBookShelfLine"
   },
   "LifeBuoy": {
     "lucide": "LifeBuoy",
@@ -1245,6 +1280,13 @@
     "hugeicons": "Menu09Icon",
     "phosphor": "ListIcon",
     "remixicon": "RiMenuLine"
+  },
+  "MergeIcon": {
+    "lucide": "MergeIcon",
+    "tabler": "IconArrowMerge",
+    "hugeicons": "GitMergeIcon",
+    "phosphor": "GitMergeIcon",
+    "remixicon": "RiGitMergeLine"
   },
   "MessageCircleIcon": {
     "lucide": "MessageCircleIcon",
@@ -1462,6 +1504,13 @@
     "hugeicons": "RecordIcon",
     "phosphor": "RecordIcon",
     "remixicon": "RiRecordCircleLine"
+  },
+  "ReceiptIcon": {
+    "lucide": "ReceiptIcon",
+    "tabler": "IconReceipt",
+    "hugeicons": "Invoice01Icon",
+    "phosphor": "ReceiptIcon",
+    "remixicon": "RiBillLine"
   },
   "ReceiptTextIcon": {
     "lucide": "ReceiptTextIcon",
@@ -1855,6 +1904,13 @@
     "phosphor": "UploadSimpleIcon",
     "remixicon": "RiUploadLine"
   },
+  "UserCheckIcon": {
+    "lucide": "UserCheckIcon",
+    "tabler": "IconUserCheck",
+    "hugeicons": "UserCheck01Icon",
+    "phosphor": "UserCheckIcon",
+    "remixicon": "RiUserFollowLine"
+  },
   "UserRoundXIcon": {
     "lucide": "UserRoundXIcon",
     "tabler": "IconUserX",
@@ -1917,6 +1973,13 @@
     "hugeicons": "Wallet01Icon",
     "phosphor": "WalletIcon",
     "remixicon": "RiWalletLine"
+  },
+  "WebhookIcon": {
+    "lucide": "WebhookIcon",
+    "tabler": "IconWebhook",
+    "hugeicons": "WebhookIcon",
+    "phosphor": "WebhooksLogoIcon",
+    "remixicon": "RiWebhookLine"
   },
   "WorkflowIcon": {
     "lucide": "WorkflowIcon",

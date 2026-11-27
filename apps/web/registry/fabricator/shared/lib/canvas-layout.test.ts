@@ -46,6 +46,29 @@ describe("getLayoutChanges", () => {
     expect(changes.map(({ id }) => id)).toEqual(["left", "right"])
   })
 
+  it("ranks a group by the connections of the nodes inside it", () => {
+    let seen: string[] = []
+    getLayoutChanges(
+      [
+        node("start"),
+        node("group", { type: "group" }),
+        node("inside", { parentId: "group" }),
+        node("deeper", { parentId: "inside" }),
+        node("end"),
+      ],
+      [
+        { id: "1", source: "start", target: "deeper" },
+        { id: "2", source: "deeper", target: "inside" },
+        { id: "3", source: "inside", target: "end" },
+      ],
+      (graph) => {
+        seen = graph.edges.map(({ source, target }) => `${source}>${target}`)
+        return new Map()
+      }
+    )
+    expect(seen).toEqual(["start>group", "group>end"])
+  })
+
   it("gives unmeasured nodes a fallback size", () => {
     let width = 0
     getLayoutChanges(

@@ -1,6 +1,8 @@
 import { type StaticImageData } from "next/image"
 import assistant01Dark from "@/public/blocks/assistant-01-dark.webp"
 import assistant01Light from "@/public/blocks/assistant-01-light.webp"
+import automation01Dark from "@/public/blocks/automation-01-dark.webp"
+import automation01Light from "@/public/blocks/automation-01-light.webp"
 import billing01Dark from "@/public/blocks/billing-01-dark.webp"
 import billing01Light from "@/public/blocks/billing-01-light.webp"
 import board01Dark from "@/public/blocks/board-01-dark.webp"
@@ -39,6 +41,7 @@ export const blockPreviews: Partial<Record<string, BlockPreviews>> = {
   "assistant-01": { light: assistant01Light, dark: assistant01Dark },
   "billing-01": { light: billing01Light, dark: billing01Dark },
   "board-01": { light: board01Light, dark: board01Dark },
+  "automation-01": { light: automation01Light, dark: automation01Dark },
   "calendar-app-01": { light: calendarApp01Light, dark: calendarApp01Dark },
   "finance-01": { light: finance01Light, dark: finance01Dark },
   "forgot-password-01": {
