@@ -276,12 +276,6 @@ function withTime(day: Date, time: string | undefined) {
   return time ? `${toPropertyDay(day)}T${time}` : toPropertyDay(day)
 }
 
-const presets = [
-  { label: "Today", days: 0 },
-  { label: "Tomorrow", days: 1 },
-  { label: "Next week", days: 7 },
-]
-
 function PropertyDateEditor({ property, value, onSave }: PropertyFieldProps) {
   const [open, setOpen] = React.useState(false)
   const date = toPropertyDate(value)
@@ -356,24 +350,10 @@ function PropertyDateEditor({ property, value, onSave }: PropertyFieldProps) {
           )}
         </div>
       )}
-      <div className="cn-properties-presets flex flex-wrap items-center">
-        {!hasRange &&
-          presets.map(({ label, days }) => (
-            <Button
-              key={label}
-              variant="ghost"
-              size="sm"
-              className="cn-properties-preset"
-              onClick={() => {
-                const day = new Date()
-                day.setDate(day.getDate() + days)
-                if (write(day, null)) setOpen(false)
-              }}
-            >
-              {label}
-            </Button>
-          ))}
-        {date && !property.required && (
+      {/* Actions stack under the calendar, one per row, so they never
+          widen it. */}
+      {date && !property.required && (
+        <div className="cn-properties-date-actions flex flex-col">
           <Button
             variant="ghost"
             size="sm"
@@ -384,8 +364,8 @@ function PropertyDateEditor({ property, value, onSave }: PropertyFieldProps) {
           >
             Clear
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </ControlPopover>
   )
 }
@@ -463,7 +443,7 @@ function PropertyNumberEditor({
   const { cancel, schedule } = useDelayedSave(onSave)
 
   return (
-    <div className="flex min-w-0 items-center">
+    <div className="flex w-full min-w-0 items-center">
       <ControlNumber
         key={revision}
         {...getNumberControl(property)}

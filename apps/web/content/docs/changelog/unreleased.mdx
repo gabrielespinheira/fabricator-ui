@@ -155,6 +155,8 @@ All seven are on the web for every base; their React Native ports follow.
 
 **Desktop sidebar toggle.** The App Shell’s sidebar toggle icon is slightly larger next to the window controls.
 
+**Calmer resize edge tooltip.** The sidebar's resize edge waits 900ms before its Drag and Click hint opens, so a pointer passing over it on the way to the page no longer shows it. Sliding off a sidebar row onto the edge no longer opens the hint at once either.
+
 **Resize lines beside cards.** With the inset sidebar, the line that shows when you hover the resize edge traces the main card's side, rounded corners included, instead of running straight across them from the top of the window to the bottom. With the floating sidebar, it traces the sidebar card's outer side. The App Shell panel's resize edge does the same beside the inset sidebar, tracing the panel card's inner side. In right-to-left layouts the resize edge now sits on the sidebar's edge, as it does left to right.
 
 **App Shell panel resizing.** The panel's resize edge can be grabbed again: it had no height, so dragging it selected text instead. Dragging stops at the widest the panel can be while the main column keeps its minimum width, instead of turning the panel into an overlay that disappears.

@@ -8,13 +8,17 @@
 
   /* Labels share one column, sized so a long name still leaves the value most
      of the row. */
+  /* A value shorter than the row (a custom editor's buttons) centres on the
+     label; taller ones grow down from it. */
   .cn-properties-row {
-    @apply grid-cols-[minmax(6.5rem,0.36fr)_minmax(0,1fr)] items-start gap-(--density-8) rounded-lg data-dragging:bg-surface-6 data-dragging:shadow-surface-6;
+    @apply grid-cols-[minmax(6.5rem,0.36fr)_minmax(0,1fr)] items-start gap-(--density-8) rounded-lg data-dragging:bg-surface-6 data-dragging:shadow-surface-6 [&>dd]:flex [&>dd]:min-h-(--density-32) [&>dd]:flex-col [&>dd]:justify-center;
   }
 
   /* Grey, with the type's icon: the value is what people came to read. */
+  /* The name is trimmed to its cap height, as in the sidebar, so its capitals
+     centre on the icon; the padding keeps descenders inside the truncation. */
   .cn-properties-label {
-    @apply h-(--density-32) gap-(--density-8) text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5];
+    @apply h-(--density-32) gap-(--density-8) text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&>span:not(.sr-only)]:text-box-trim [&>span:not(.sr-only)]:py-(--density-4);
   }
 
   /* A label that opens its settings. It pulls out by its own inset, so its icon
@@ -43,19 +47,25 @@
     @apply h-(--density-32) bg-transparent px-[calc(var(--density-8)+1px)] ring-transparent hover:bg-hover focus-visible:bg-hover aria-invalid:ring-destructive/50;
   }
 
+  /* One line sits in the row's height on the trimmed text beside it: a
+     field's line can't be trimmed and rides a pixel high when centred. More
+     lines grow from there. */
   .cn-properties-textarea {
-    @apply min-h-(--density-32) bg-transparent px-[calc(var(--density-8)+1px)] py-(--density-6) leading-snug ring-transparent hover:bg-hover focus-visible:bg-hover;
+    @apply min-h-(--density-32) bg-transparent px-[calc(var(--density-8)+1px)] pt-[calc((var(--density-32)-1lh)/2+1px)] pb-[calc((var(--density-32)-1lh)/2-1px)] leading-snug ring-transparent hover:bg-hover focus-visible:bg-hover;
   }
 
   /* A number field the length of a figure, quiet until it is pointed at: its
      text starts where every other row's does and its steppers wait at the end.
      At a limit only the stepper dims, since the number still reads. */
+  /* As wide as the other values. */
   .cn-properties-number-field {
-    @apply w-52 max-w-full;
+    @apply min-w-0 flex-1;
   }
 
+  /* The steppers show while the field is hovered or in use, like the
+     wash. */
   .cn-properties-number-group {
-    @apply h-(--density-32) ring-transparent hover:not-focus-within:bg-hover focus-within:bg-hover has-disabled:opacity-100 [&>[data-align=inline-end]]:py-0;
+    @apply h-(--density-32) ring-transparent hover:not-focus-within:bg-hover focus-within:bg-hover has-disabled:opacity-100 [&>[data-align=inline-end]]:py-0 *:data-stepper:pointer-events-none *:data-stepper:opacity-0 *:data-stepper:transition-opacity *:data-stepper:duration-feedback hover:*:data-stepper:pointer-events-auto hover:*:data-stepper:opacity-100 focus-within:*:data-stepper:pointer-events-auto focus-within:*:data-stepper:opacity-100;
   }
 
   /* As long as its digits, so the unit follows them. */
@@ -78,8 +88,10 @@
 
   /* Empty is a word in the label's grey, so a blank row still says it can be
      filled. */
+  /* A row's text is trimmed to its cap height like the label beside it, so
+     both columns share one line and icons centre on the capitals. */
   .cn-properties-value {
-    @apply gap-(--density-8) leading-snug data-empty:text-muted-foreground data-[variant=card]:gap-(--density-4) data-[variant=card]:text-(length:--density-text-12) data-[variant=card]:text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] data-[variant=card]:[&_svg]:size-(--density-icon-14);
+    @apply gap-(--density-8) leading-snug data-empty:text-muted-foreground data-[variant=card]:gap-(--density-4) data-[variant=card]:text-(length:--density-text-12) data-[variant=card]:text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] data-[variant=card]:[&_svg]:size-(--density-icon-14) data-[variant=row]:[&_.truncate]:text-box-trim data-[variant=row]:[&_.truncate]:py-(--density-4);
   }
 
   .cn-properties-option {
@@ -254,16 +266,12 @@
   }
 
   .cn-properties-clear {
-    @apply self-start font-normal;
+    @apply justify-start px-(--density-8)! font-normal;
   }
 
   /* Days people pick most, under the month. */
-  .cn-properties-presets {
-    @apply gap-px pt-(--density-4);
-  }
-
-  .cn-properties-preset {
-    @apply px-(--density-8)! font-normal;
+  .cn-properties-date-actions {
+    @apply gap-px border-t pt-(--density-4);
   }
 
   .cn-properties-times {

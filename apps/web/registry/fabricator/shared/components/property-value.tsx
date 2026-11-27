@@ -88,7 +88,7 @@ function PropertyValue({
       )}
       {...props}
     >
-      {content ?? "Empty"}
+      {content ?? <span className="truncate">Empty</span>}
     </span>
   )
 }
@@ -404,7 +404,9 @@ function PropertyDate({
           remixicon="RiCalendarLine"
         />
       )}
-      {formatPropertyDateValue(property, value, now)}
+      <span className="truncate">
+        {formatPropertyDateValue(property, value, now)}
+      </span>
       {isOverdue && <span className="sr-only"> overdue</span>}
     </span>
   )

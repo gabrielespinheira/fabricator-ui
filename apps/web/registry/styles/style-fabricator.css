@@ -5945,13 +5945,17 @@
 
   /* Labels share one column, sized so a long name still leaves the value most
      of the row. */
+  /* A value shorter than the row (a custom editor's buttons) centres on the
+     label; taller ones grow down from it. */
   .cn-properties-row {
-    @apply grid-cols-[minmax(6.5rem,0.36fr)_minmax(0,1fr)] items-start gap-(--density-8) rounded-lg data-dragging:bg-surface-6 data-dragging:shadow-surface-6;
+    @apply grid-cols-[minmax(6.5rem,0.36fr)_minmax(0,1fr)] items-start gap-(--density-8) rounded-lg data-dragging:bg-surface-6 data-dragging:shadow-surface-6 [&>dd]:flex [&>dd]:min-h-(--density-32) [&>dd]:flex-col [&>dd]:justify-center;
   }
 
   /* Grey, with the type's icon: the value is what people came to read. */
+  /* The name is trimmed to its cap height, as in the sidebar, so its capitals
+     centre on the icon; the padding keeps descenders inside the truncation. */
   .cn-properties-label {
-    @apply h-(--density-32) gap-(--density-8) text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5];
+    @apply h-(--density-32) gap-(--density-8) text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&>span:not(.sr-only)]:text-box-trim [&>span:not(.sr-only)]:py-(--density-4);
   }
 
   /* A label that opens its settings. It pulls out by its own inset, so its icon
@@ -5980,10 +5984,11 @@
     @apply h-(--density-32) bg-transparent px-[calc(var(--density-8)+1px)] ring-transparent hover:bg-hover focus-visible:bg-hover aria-invalid:ring-destructive/50;
   }
 
-  /* One line sits centred in the row's height, like an input; more lines
-     grow from there. */
+  /* One line sits in the row's height on the trimmed text beside it: a
+     field's line can't be trimmed and rides a pixel high when centred. More
+     lines grow from there. */
   .cn-properties-textarea {
-    @apply min-h-(--density-32) bg-transparent px-[calc(var(--density-8)+1px)] py-[calc((var(--density-32)-1lh)/2)] leading-snug ring-transparent hover:bg-hover focus-visible:bg-hover;
+    @apply min-h-(--density-32) bg-transparent px-[calc(var(--density-8)+1px)] pt-[calc((var(--density-32)-1lh)/2+1px)] pb-[calc((var(--density-32)-1lh)/2-1px)] leading-snug ring-transparent hover:bg-hover focus-visible:bg-hover;
   }
 
   /* A number field the length of a figure, quiet until it is pointed at: its
@@ -6020,8 +6025,10 @@
 
   /* Empty is a word in the label's grey, so a blank row still says it can be
      filled. */
+  /* A row's text is trimmed to its cap height like the label beside it, so
+     both columns share one line and icons centre on the capitals. */
   .cn-properties-value {
-    @apply gap-(--density-8) leading-snug data-empty:text-muted-foreground data-[variant=card]:gap-(--density-4) data-[variant=card]:text-(length:--density-text-12) data-[variant=card]:text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] data-[variant=card]:[&_svg]:size-(--density-icon-14);
+    @apply gap-(--density-8) leading-snug data-empty:text-muted-foreground data-[variant=card]:gap-(--density-4) data-[variant=card]:text-(length:--density-text-12) data-[variant=card]:text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] data-[variant=card]:[&_svg]:size-(--density-icon-14) data-[variant=row]:[&_.truncate]:text-box-trim data-[variant=row]:[&_.truncate]:py-(--density-4);
   }
 
   .cn-properties-option {

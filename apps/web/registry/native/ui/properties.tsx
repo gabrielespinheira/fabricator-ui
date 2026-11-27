@@ -717,12 +717,6 @@ function withTime(day: Date, time: string | undefined) {
   return time ? `${toPropertyDay(day)}T${time}` : toPropertyDay(day)
 }
 
-const presets = [
-  { label: "Today", days: 0 },
-  { label: "Tomorrow", days: 1 },
-  { label: "Next week", days: 7 },
-]
-
 function PropertyDateEditor({ property, value, onSave }: PropertyFieldProps) {
   const [open, setOpen] = React.useState(false)
   const date = toPropertyDate(value)
@@ -805,34 +799,22 @@ function PropertyDateEditor({ property, value, onSave }: PropertyFieldProps) {
                 )}
               </View>
             )}
-            <View className="cn-properties-presets flex-row flex-wrap">
-              {!hasRange &&
-                presets.map(({ label, days }) => (
-                  <Button
-                    key={label}
-                    size="sm"
-                    variant="ghost"
-                    onPress={() => {
-                      const day = new Date()
-                      day.setDate(day.getDate() + days)
-                      if (write(day, null)) setOpen(false)
-                    }}
-                  >
-                    {label}
-                  </Button>
-                ))}
-              {date && !property.required && (
+            {/* Actions stack under the calendar, one per row, as on the
+                web. */}
+            {date && !property.required && (
+              <View className="cn-properties-date-actions flex-col">
                 <Button
                   size="sm"
                   variant="ghost"
+                  className="cn-properties-sheet-row justify-start"
                   onPress={() => {
                     if (onSave(null)) setOpen(false)
                   }}
                 >
                   Clear
                 </Button>
-              )}
-            </View>
+              </View>
+            )}
           </View>
         </DrawerContent>
       </Drawer>
