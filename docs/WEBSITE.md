@@ -25,6 +25,7 @@
 - Code colours come from one Shiki theme (`lib/shiki-fabricator-theme.ts`) mapped to the `--syntax-*` tokens; change a colour in `registry/fabricator/syntax-colors.ts`.
 - Every page has a `.md` export and is listed in `llms.txt`; keep both accurate.
 - The site changelog is one page per release, `content/docs/changelog/vX-Y-Z.mdx` (`title: Version X.Y.Z`, `date:` the `CHANGELOG.md` release day, a UTC time added only when two releases share a day), plus `unreleased.mdx` for merged changes not yet released, which has no date and lists first. The index, the pages and the sidebar show the day and list releases newest first (`lib/changelog-order.ts`). A page opens with what the release brings, then `## New components`, `## Updated components`, `## Breaking changes`, `## Fixes` and `## Docs`, with a `###` per component, and ends with its GitHub release link. Old per-change URLs redirect through `lib/changelog-redirects.mjs`.
+- Each changelog page's frontmatter lists what it adds under `new` and what it changes under `updated`: a component by its slug (`folder`, every platform's page) or another docs page by its path (`/docs/foundations/motion`). The docs sidebar shows those pages with a New or Updated pill while they are in one of the two newest versions, where `unreleased.mdx` counts as the next version: a badge lasts for the version that ships it and the next one, and drops once the version after that starts (`lib/release-badges.ts`). New wins over Updated. `lib/changelog-releases.test.ts` fails on an entry with no docs page.
 
 ## Chrome
 

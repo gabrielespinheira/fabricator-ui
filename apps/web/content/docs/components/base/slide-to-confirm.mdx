@@ -7,7 +7,7 @@ component: true
 
 <ComponentPreview styleName="base-nova" name="slide-to-confirm-demo" />
 
-Drag the thumb along the track: it follows your finger, gives like rubber past either end, and confirms once it has gone most of the way. Short of that it springs back. The ink behind it fills as it travels and the label fades. Use it on touch screens for an action a stray tap shouldn't set off, such as sending a payment or ending a call.
+Drag the thumb along the track: it follows your finger, gives like rubber past either end, and the ink it leaves turns the label over as it passes. Past most of the way the arrow nudges forward, and letting go confirms; short of that it springs back. Return a promise from `onConfirm` and the thumb spins while it runs, then the track turns the success colour with a check. Use it on touch screens for an action a stray tap shouldn't set off, such as sending a payment or ending a call.
 
 Slide to Confirm is part of the Fabricator style. It's built on HTML, so the same component ships for every base.
 
@@ -60,7 +60,11 @@ import { SlideToConfirm } from "@/components/ui/slide-to-confirm"
 ```
 
 ```tsx
-<SlideToConfirm confirmedLabel="Payment sent" onConfirm={sendPayment}>
+<SlideToConfirm
+  confirmingLabel="Paying"
+  confirmedLabel="Paid"
+  onConfirm={sendPayment}
+>
   Slide to pay $240.00
 </SlideToConfirm>
 ```
@@ -68,13 +72,13 @@ import { SlideToConfirm } from "@/components/ui/slide-to-confirm"
 ## Composition
 
 ```text
-SlideToConfirm           data-slot="slide-to-confirm" data-state [data-dragging]
-├── span                 data-slot="slide-to-confirm-fill"
+SlideToConfirm           data-slot="slide-to-confirm" data-state [data-armed]
 ├── span                 data-slot="slide-to-confirm-label"
+├── span                 data-slot="slide-to-confirm-ink"
 └── span                 data-slot="slide-to-confirm-thumb"
 ```
 
-`data-state` is `idle` or `confirmed`. It stays confirmed; give it a new `key` to reset it.
+`data-state` is `idle`, `dragging`, `confirming` (while `onConfirm`'s promise runs) or `confirmed`; `data-armed` marks a drag that would confirm if let go. A rejected promise sends it back to idle. It stays confirmed; give it a new `key` to reset it.
 
 ## Examples
 
@@ -86,19 +90,20 @@ A disabled track dims and takes no drag or key.
 
 ## Motion
 
-The thumb follows the pointer with no lag, and anywhere else (springing back, or on to the end) moves on the settle spring. Past either end it moves a quarter of the drag, up to a small stretch. Reduce Motion drops the springs; the thumb still follows the finger.
+The thumb follows the pointer with no lag, and anywhere else (springing back, or on to the end) moves on the settle spring, with the ink cut at its centre. Past either end it moves a quarter of the drag, up to a small stretch. Armed, the arrow nudges forward; confirming, it slips away into a spinner; done, a check pops in on the pop spring and the ink turns the success colour. Each new label rises in out of a small blur. Reduce Motion drops the springs and the blur; the thumb still follows the finger.
 
 ## API Reference
 
-| Prop             | Type         | Default  |
-| ---------------- | ------------ | -------- |
-| `children`       | `ReactNode`  |          |
-| `confirmedLabel` | `ReactNode`  | `"Done"` |
-| `onConfirm`      | `() => void` |          |
-| `disabled`       | `boolean`    | `false`  |
+| Prop              | Type                                | Default        |
+| ----------------- | ----------------------------------- | -------------- |
+| `children`        | `ReactNode`                         |                |
+| `confirmingLabel` | `ReactNode`                         | `"Confirming"` |
+| `confirmedLabel`  | `ReactNode`                         | `"Done"`       |
+| `onConfirm`       | `() => Promise<unknown> \| unknown` |                |
+| `disabled`        | `boolean`                           | `false`        |
 
 It renders a `button` and takes its props, except `onClick`.
 
 ## Accessibility
 
-It is a button named by its label, with a description that says to slide or press Enter. Enter and Space confirm it at once, with the same slide, so the keyboard never has to drag. Once confirmed it is marked `aria-disabled` and shows the confirmed label.
+It is a button named by its label, with a description that says to slide or press Enter. Enter and Space confirm it at once, with the same slide, so the keyboard never has to drag. The confirming and confirmed labels are announced politely. Once it starts confirming it is marked `aria-disabled`.

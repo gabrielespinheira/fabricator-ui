@@ -4,7 +4,8 @@
 // another as the password gets stronger, turning from the destructive role to
 // success, with a word that says how strong it is. The score comes from
 // length and the kinds of character used (password-strength-model). Put it
-// under the field, in the same Field.
+// under the field, in the same Field. PasswordToggle shows and hides the
+// password: its eye draws a slash across itself while the text is hidden.
 import * as React from "react"
 import { cn } from "cn"
 
@@ -70,4 +71,52 @@ function PasswordStrength({
   )
 }
 
-export { PasswordStrength }
+type PasswordToggleProps = Omit<React.ComponentProps<"button">, "onClick"> & {
+  /** Whether the password shows as text. */
+  visible: boolean
+  onVisibleChange: (visible: boolean) => void
+}
+
+/** Shows or hides a password field's text. Put it in the field's end addon. */
+function PasswordToggle({
+  visible,
+  onVisibleChange,
+  className,
+  ...props
+}: PasswordToggleProps) {
+  return (
+    <button
+      type="button"
+      data-slot="password-toggle"
+      data-visible={visible ? "" : undefined}
+      aria-label={visible ? "Hide password" : "Show password"}
+      aria-pressed={visible}
+      className={cn(
+        "cn-password-toggle group/password-toggle inline-flex shrink-0 items-center justify-center outline-none",
+        className
+      )}
+      onClick={() => onVisibleChange(!visible)}
+      {...props}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+        className="cn-password-toggle-eye"
+      >
+        <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+        <circle cx="12" cy="12" r="3" className="cn-password-toggle-pupil" />
+        <path
+          d="M4.5 4.5l15 15"
+          pathLength={1}
+          className="cn-password-toggle-slash"
+        />
+      </svg>
+    </button>
+  )
+}
+
+export { PasswordStrength, PasswordToggle }

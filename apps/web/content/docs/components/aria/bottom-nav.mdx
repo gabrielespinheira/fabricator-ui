@@ -7,7 +7,7 @@ component: true
 
 <ComponentPreview styleName="aria-nova" name="bottom-nav-demo" />
 
-A bottom nav is the tab bar of an app on a phone. The current tab opens into a pill with its name while the others close to their icons, so the bar stays short and the current place is always named. Picking a tab pops its icon.
+A bottom nav is the tab bar of an app on a phone. The current tab opens to show its name on a pill that slides from tab to tab, while the others close to their icons, so the bar stays short and the current place is always named. Picking a tab pops its icon.
 
 Bottom Nav is part of the Fabricator style. It's built on HTML, so the same component ships for every base.
 
@@ -68,6 +68,7 @@ import {
 
 ```text
 BottomNav                data-slot="bottom-nav" (nav)
+├── span                 data-slot="fluid-hover-selection" (the pill)
 └── BottomNavItem        data-slot="bottom-nav-item" [data-active] [aria-current="page"]
     ├── span             data-slot="bottom-nav-icon"
     └── span             data-slot="bottom-nav-label-frame"
@@ -77,7 +78,7 @@ BottomNav                data-slot="bottom-nav" (nav)
 
 ## Motion
 
-The current tab's name opens to its width on the soft spring as the old one closes, so the pills trade room. Pressing squashes the icon and letting go pops it back on the pop spring. Reduce Motion opens and closes at once.
+One pill slides under the current tab on the selection springs (its leading edge stiff, its trailing edge soft, so it stretches on the way), and follows the tab's width as its name opens on the soft spring while the old one closes. Pressing squashes the icon and letting go pops it back on the pop spring. Reduce Motion opens and closes at once.
 
 ## API Reference
 

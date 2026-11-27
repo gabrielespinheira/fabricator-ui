@@ -436,9 +436,11 @@
   }
 
   /* The panel's edge: a hairline that brightens on hover, while dragging
-     and with focus. */
+     and with focus. Beside the inset sidebar the panel is a card, so the line
+     traces its inner side, rounded corners included, as the sidebar's rail
+     traces the main card. */
   .cn-app-shell-panel-resize-handle {
-    @apply w-2 cursor-col-resize after:absolute after:inset-y-0 after:w-px after:bg-transparent after:transition-colors after:duration-feedback hover:after:bg-foreground/25 focus-visible:after:bg-ring data-dragging:after:bg-foreground/25 data-[side=left]:end-0 data-[side=left]:after:end-0 data-[side=right]:start-0 data-[side=right]:after:start-0;
+    @apply w-2 cursor-col-resize [--app-shell-panel-handle-color:transparent] hover:[--app-shell-panel-handle-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] data-dragging:[--app-shell-panel-handle-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] focus-visible:[--app-shell-panel-handle-color:var(--ring)] after:absolute after:inset-y-0 after:w-px after:bg-(--app-shell-panel-handle-color) after:border-(--app-shell-panel-handle-color) after:transition-colors after:duration-feedback data-[side=left]:end-0 data-[side=left]:after:end-0 data-[side=right]:start-0 data-[side=right]:after:start-0 group-has-data-[variant=inset]/sidebar-wrapper:after:w-3 group-has-data-[variant=inset]/sidebar-wrapper:after:bg-transparent group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:after:rounded-s-xl group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:after:border-s group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:after:rounded-e-xl group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:after:border-e;
   }
 
   /* A docked panel's header leaves room for the toggle pinned over its end.
@@ -956,34 +958,42 @@
 /* MARK: Bottom Nav */
 
   /* A floating bar of tabs: surface 3 with its shadow, a full pill around a
-     4px inset. */
+     6px inset, the tabs 4px apart. */
   .cn-bottom-nav {
-    @apply w-fit gap-1 rounded-full bg-surface-3 p-1 shadow-surface-3;
+    @apply w-fit gap-1 rounded-full bg-surface-3 p-1.5 shadow-surface-3;
   }
 
-  /* A tab: a pill the height of a large control. Closed it is its icon; the
-     current tab is foreground on a bg-active pill. Hover turns the icon
-     foreground. Focus is the 1px ring. */
+  /* The current tab's pill: one bg-active pill that slides between tabs on
+     the selection springs and stretches as it goes. */
+  .cn-bottom-nav-selection {
+    @apply rounded-full;
+  }
+
+  /* A tab: a pill the height of a large control, at least as wide as it is
+     tall so an icon alone sits in a circle. Muted at rest, foreground on
+     hover and when current. Focus is the 1px ring. */
   .cn-bottom-nav-item {
-    @apply cursor-pointer h-(--density-40) rounded-full px-(--density-12) text-(length:--density-text-13) font-medium text-muted-foreground transition-[background-color,color] duration-feedback ease-feedback hover:text-foreground data-active:bg-active data-active:text-foreground focus-visible:ring-1 focus-visible:ring-ring;
+    @apply cursor-pointer h-(--density-40) min-w-(--density-40) justify-center rounded-full px-(--density-12) text-muted-foreground transition-colors duration-feedback ease-feedback hover:text-foreground data-active:text-foreground focus-visible:ring-1 focus-visible:ring-ring;
   }
 
-  /* Pressing squashes the icon; letting go pops it back on the pop spring,
-     so picking a tab lands with a bounce. The current tab's icon is drawn
-     heavier. */
+  /* A 20px icon. Pressing squashes it; letting go pops it back on the pop
+     spring, so picking a tab lands with a bounce. The current tab's icon is
+     drawn heavier. */
   .cn-bottom-nav-icon {
-    @apply transition-[scale] duration-pop-spring ease-pop-spring group-active/bottom-nav-item:scale-85 group-active/bottom-nav-item:duration-feedback group-active/bottom-nav-item:ease-feedback motion-reduce:scale-100 [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] group-data-active/bottom-nav-item:[&_svg]:stroke-2;
+    @apply transition-[scale] duration-pop-spring ease-pop-spring group-active/bottom-nav-item:scale-85 group-active/bottom-nav-item:duration-feedback group-active/bottom-nav-item:ease-feedback motion-reduce:scale-100 [&_svg:not([class*='size-'])]:size-[calc(var(--density-icon-16)+4px)] [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] group-data-active/bottom-nav-item:[&_svg]:stroke-2;
   }
 
   /* The name opens to its width on the soft spring as the tab becomes
-     current, and closes as another does, so the pills trade room. It stays
-     in the page for screen readers while closed. */
+     current, and closes as another does, so the tabs trade room. It stays in
+     the page for screen readers while closed. */
   .cn-bottom-nav-label-frame {
-    @apply grid-cols-[0fr] opacity-0 transition-[grid-template-columns,opacity,margin] duration-soft-spring ease-soft-spring group-data-active/bottom-nav-item:ms-(--density-6) group-data-active/bottom-nav-item:grid-cols-[1fr] group-data-active/bottom-nav-item:opacity-100 motion-reduce:transition-none;
+    @apply grid-cols-[0fr] opacity-0 transition-[grid-template-columns,opacity,margin] duration-soft-spring ease-soft-spring group-data-active/bottom-nav-item:ms-(--density-8) group-data-active/bottom-nav-item:grid-cols-[1fr] group-data-active/bottom-nav-item:opacity-100 motion-reduce:transition-none;
   }
 
+  /* 14px medium, trimmed to its cap height so it centres on the icon rather
+     than riding on its line box. */
   .cn-bottom-nav-label {
-    @apply min-w-0;
+    @apply min-w-0 text-(length:--density-text-14) leading-none font-medium [text-box:trim-both_cap_alphabetic];
   }
 
 /* MARK: Breadcrumb */
@@ -5468,6 +5478,27 @@
     @apply text-muted-foreground text-(length:--density-text-12);
   }
 
+/* MARK: Morph Island */
+
+  /* A grey object, not a surface: the foreground mixed a tenth into the card colour,
+     so it is dark grey in dark and pale grey in light and its content follows
+     the theme. It takes its size, corners and squash from morph-island-model
+     (the corners stop at --morph-island-radius when tall). */
+  .cn-morph-island {
+    @apply bg-[color-mix(in_oklab,var(--foreground)_10%,var(--card))] text-foreground [--morph-island-radius:calc(var(--radius)*3.2)] select-none;
+  }
+
+  /* A state, centred in the island at its own size; the idle state is a
+     short pill even when empty. Leaving, it fades into a 6px blur and shrinks
+     to 90% on the popup's exit timing. Arriving, a beat later, it fades in on
+     the toast's entrance time (350ms at the default speed, as the Motion
+     Studies' island) and grows back on the reveal timing with the entrance
+     curve, so it settles while the island lands. Reduce Motion keeps the
+     fades only. */
+  .cn-morph-island-content {
+    @apply pointer-events-none min-h-(--density-36) min-w-[calc(var(--density-36)*3.5)] -translate-x-1/2 -translate-y-1/2 gap-(--density-12) px-(--density-16) py-(--density-8) text-(length:--density-text-13) whitespace-nowrap opacity-0 blur-[6px] scale-90 transition-[opacity,filter,scale] duration-[calc(var(--motion-popup-exit)*var(--motion-scale,1)),calc(var(--motion-popup-exit)*var(--motion-scale,1)),calc(var(--motion-popup)*var(--motion-scale,1))] ease-exit data-active:pointer-events-auto data-active:opacity-100 data-active:blur-none data-active:scale-100 data-active:duration-[calc(var(--motion-toast)*var(--motion-scale,1)),calc(var(--motion-toast)*var(--motion-scale,1)),calc(var(--motion-reveal)*var(--motion-scale,1))] data-active:delay-feedback-exit data-active:ease-enter motion-reduce:blur-none motion-reduce:scale-100 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
 /* MARK: Multi Select */
 
   /* Field: the input recipe (1px ring-border frame, light fill on hover,
@@ -5720,6 +5751,28 @@
   /* A new word rises in on the fade spring. */
   .cn-password-strength-word {
     @apply inline-block animate-in fade-in-0 slide-in-from-bottom-1 duration-fade-spring ease-fade-spring motion-reduce:slide-in-from-bottom-0;
+  }
+
+  /* The show and hide button in the field's end addon: a small ghost icon
+     button, muted until hovered. Focus is the 1px ring. */
+  .cn-password-toggle {
+    @apply cursor-pointer size-(--density-24) rounded-md text-muted-foreground transition-colors duration-feedback ease-feedback hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-16);
+  }
+
+  .cn-password-toggle-eye {
+    @apply stroke-[1.75];
+  }
+
+  /* Hidden, the pupil shrinks to half on the pop spring; shown, it opens
+     back with a small bounce. */
+  .cn-password-toggle-pupil {
+    @apply origin-center [transform-box:fill-box] scale-50 transition-[scale] duration-pop-spring ease-pop-spring group-data-visible/password-toggle:scale-100 motion-reduce:transition-none;
+  }
+
+  /* The slash has pathLength 1: drawn (offset 0) while the password is
+     hidden, it retracts from its end as the text shows. */
+  .cn-password-toggle-slash {
+    @apply [stroke-dasharray:1_2] [stroke-dashoffset:0] transition-[stroke-dashoffset] duration-move ease-enter group-data-visible/password-toggle:[stroke-dashoffset:1] motion-reduce:transition-none;
   }
 
 /* MARK: Pie Chart */
@@ -7226,34 +7279,61 @@
 
 /* MARK: Slide to Confirm */
 
-  /* A pill track the height of a large control, a faint wash around a 4px
-     inset. --slide-thumb is the thumb's size, and the track is an inline-size
+  /* A pill track the height of a large control: the muted wash framed by a
+     hairline, a 4px inset around the thumb so their curves stay concentric.
+     --slide-thumb is the thumb's size and the track is an inline-size
      container, so the thumb's travel is 100cqw (the inner width) less the
-     thumb. Focus is the 1px ring, offset. */
+     thumb, and its centre sits at --slide-centre. Focus is the 1px ring,
+     offset. */
   .cn-slide-to-confirm {
-    @apply cursor-default @container w-full max-w-sm h-(--density-48) rounded-full bg-muted p-1 text-(length:--density-text-13) font-medium [--slide-thumb:calc(var(--density-48)-var(--spacing)*2)] focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50;
+    @apply cursor-default @container w-full max-w-sm h-(--density-48) rounded-full bg-muted p-1 inset-ring inset-ring-border text-(length:--density-text-13) font-medium [--slide-thumb:calc(var(--density-48)-var(--spacing)*2)] [--slide-centre:calc(var(--spacing)+var(--slide-thumb)/2+var(--slide-progress)*(100cqw-var(--slide-thumb)))] focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50;
   }
 
-  /* The ink behind the thumb, reaching just past it. It follows the thumb at
-     once while dragged and springs with it on the settle spring otherwise;
-     confirmed, it fills the track. */
-  .cn-slide-to-confirm-fill {
-    @apply rounded-full bg-primary/12 w-[calc(var(--spacing)+var(--slide-thumb)+var(--slide-progress)*(100cqw-var(--slide-thumb)))] transition-[width,background-color] duration-settle-spring ease-settle-spring group-data-dragging/slide-to-confirm:transition-none group-data-[state=confirmed]/slide-to-confirm:bg-primary/20 motion-reduce:transition-none;
-  }
-
-  /* The label, in the foreground (muted text doesn't hold 4.5:1 on the
-     muted track), fades as the thumb passes over it and shows the confirmed
-     label once it lands. */
+  /* The label on the bare track, centred in the room beside the thumb. It is
+     the foreground at 75% (muted text doesn't hold 4.5:1 on the muted
+     wash) and fades as the thumb passes over it. */
   .cn-slide-to-confirm-label {
-    @apply text-foreground opacity-[calc(1-var(--slide-progress)*1.6)] transition-opacity duration-feedback ease-feedback group-data-dragging/slide-to-confirm:transition-none group-data-[state=confirmed]/slide-to-confirm:opacity-100;
+    @apply ps-[calc(var(--slide-thumb)/2)] text-foreground/75 opacity-[calc(1-var(--slide-progress)*1.4)];
   }
 
-  /* The thumb: a raised round knob with a chevron, grabbed by the pointer.
-     It travels the track by --slide-progress, following the finger with no
-     transition and springing back, or on to the end, on the settle spring.
-     Confirmed, it turns the primary fill and shows a check. */
+  /* The ink the thumb leaves: the inverted fill cut off at the thumb's
+     centre, with the label in its own colour on top, so the words turn over
+     as the thumb passes them. It follows the thumb at once while dragged and
+     springs with it on the settle spring otherwise. Confirming and done it
+     fills the track; done, it turns the success colour. */
+  .cn-slide-to-confirm-ink {
+    @apply rounded-full bg-foreground text-background opacity-[calc(var(--slide-progress)*12)] [clip-path:inset(0_calc(100%-var(--slide-centre))_0_0_round_9999px)] transition-[clip-path,background-color,color] duration-settle-spring ease-settle-spring group-data-[state=dragging]/slide-to-confirm:transition-[background-color,color] group-data-[state=confirming]/slide-to-confirm:[clip-path:inset(0_round_9999px)] group-data-[state=confirmed]/slide-to-confirm:[clip-path:inset(0_round_9999px)] group-data-[state=confirmed]/slide-to-confirm:bg-success group-data-[state=confirmed]/slide-to-confirm:text-success-foreground motion-reduce:transition-[background-color,color];
+  }
+
+  /* While idle or dragged the ink's label lines up with the track's; once
+     confirming it centres in the room beside the thumb at the end. A new
+     label rises in out of a small blur. */
+  .cn-slide-to-confirm-ink-label {
+    @apply ps-[calc(var(--slide-thumb)/2)] animate-in fade-in-0 slide-in-from-bottom-2 blur-in-[2px] duration-move ease-enter group-data-[state=confirming]/slide-to-confirm:ps-0 group-data-[state=confirming]/slide-to-confirm:pe-[calc(var(--slide-thumb)/2)] group-data-[state=confirmed]/slide-to-confirm:ps-0 group-data-[state=confirmed]/slide-to-confirm:pe-[calc(var(--slide-thumb)/2)] motion-reduce:slide-in-from-bottom-0 motion-reduce:blur-in-0;
+  }
+
+  /* The thumb: a raised round knob, concentric with the track. It travels by
+     --slide-progress, following the finger with no transition and springing
+     back, or on to the end, on the settle spring. */
   .cn-slide-to-confirm-thumb {
-    @apply cursor-grab z-10 size-(--slide-thumb) rounded-full bg-background text-foreground shadow-surface-3 translate-x-[calc(var(--slide-progress)*(100cqw-var(--slide-thumb)))] transition-[translate,background-color,color] duration-settle-spring ease-settle-spring group-data-dragging/slide-to-confirm:cursor-grabbing group-data-dragging/slide-to-confirm:transition-none group-data-[state=confirmed]/slide-to-confirm:bg-primary group-data-[state=confirmed]/slide-to-confirm:text-primary-foreground motion-reduce:transition-none [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply cursor-grab size-(--slide-thumb) rounded-full bg-surface-4 text-foreground shadow-surface-4 translate-x-[calc(var(--slide-progress)*(100cqw-var(--slide-thumb)))] transition-[translate] duration-settle-spring ease-settle-spring group-data-[state=dragging]/slide-to-confirm:cursor-grabbing group-data-[state=dragging]/slide-to-confirm:transition-none motion-reduce:transition-none [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+  /* The arrow nudges forward once letting go would confirm, and slips away
+     into a blur when the thumb starts working. */
+  .cn-slide-to-confirm-arrow {
+    @apply transition-[opacity,translate,filter] duration-feedback ease-enter group-data-armed/slide-to-confirm:translate-x-0.5 group-data-[state=confirming]/slide-to-confirm:translate-x-1.5 group-data-[state=confirming]/slide-to-confirm:opacity-0 group-data-[state=confirming]/slide-to-confirm:blur-[2px] group-data-[state=confirmed]/slide-to-confirm:opacity-0;
+  }
+
+  /* A ring that spins while onConfirm's promise runs: a faint track and a
+     short arc in the foreground. */
+  .cn-slide-to-confirm-spinner {
+    @apply size-(--density-icon-16) animate-spin opacity-0 transition-opacity duration-feedback [&_circle:first-child]:stroke-foreground/15 [&_circle:last-child]:stroke-current group-data-[state=confirming]/slide-to-confirm:opacity-100 motion-reduce:animate-none;
+  }
+
+  /* Done, a check in the success colour pops in on the pop spring. */
+  .cn-slide-to-confirm-check {
+    @apply scale-50 text-success-text opacity-0 transition-[scale,opacity] duration-pop-spring ease-pop-spring group-data-[state=confirmed]/slide-to-confirm:scale-100 group-data-[state=confirmed]/slide-to-confirm:opacity-100 motion-reduce:scale-100 [&_svg]:stroke-[2.5];
   }
 
 /* MARK: Slider */
@@ -7363,30 +7443,6 @@
   /* A small pill, as the bar draws them. */
   .cn-status-bar-legend-key {
     @apply block h-2.5 w-1.5 shrink-0 rounded-full;
-  }
-
-/* MARK: Status Island */
-
-  /* A floating pill on the inverted surface, as a tooltip is, raised on the
-     dialog shadow. It takes its content's measured size (--island-width,
-     --island-height): width on the lead spring and height on the soft one,
-     so a change lands sideways first and then drops into place. Its corners
-     stay a full pill while short and stop at a card's radius when tall. */
-  .cn-status-island {
-    @apply bg-foreground text-background shadow-surface-5 w-[var(--island-width,auto)] h-[var(--island-height,auto)] rounded-[min(calc(var(--island-height,2.25rem)/2),calc(var(--radius)*2.4))] data-measured:transition-[width,height,border-radius] data-measured:duration-[calc(var(--motion-spring-lead-duration)*var(--motion-scale,1)),calc(var(--motion-spring-soft-duration)*var(--motion-scale,1)),calc(var(--motion-spring-soft-duration)*var(--motion-scale,1))] data-measured:ease-[var(--motion-ease-lead-spring),var(--motion-ease-soft-spring),var(--motion-ease-soft-spring)] motion-reduce:transition-none;
-  }
-
-  /* The padding lives inside the measured frame, so the size includes it.
-     The frame takes its content's width up to a cap of its own (never the
-     island's, which follows it), so new content can widen the island. */
-  .cn-status-island-frame {
-    @apply max-w-sm px-(--density-16) py-(--density-8);
-  }
-
-  /* Each new state fades in out of a small blur on the fade spring while
-     the island reshapes around it. Reduce Motion keeps the fade. */
-  .cn-status-island-content {
-    @apply gap-(--density-8) text-(length:--density-text-13) font-medium animate-in fade-in-0 blur-in-sm duration-fade-spring ease-fade-spring motion-reduce:blur-in-0 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
 /* MARK: Stepper */

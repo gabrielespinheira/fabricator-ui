@@ -76,7 +76,7 @@ Report each applicable line as passed, or name what wasn't run and why.
 - [ ] Authored registry changes are followed by a full `bun run registry:build`; committed indexes are updated and no gitignored output is staged.
 - [ ] The contract holds, and the area doc's own checks pass (each doc ends with a **Done when** list).
 - [ ] UI was checked in the running site: light and dark, keyboard only, phone and desktop widths, axe clean on touched pages.
-- [ ] User-visible registry changes have a section in `apps/web/content/docs/changelog/unreleased.mdx` ([`docs/WEBSITE.md`](docs/WEBSITE.md#docs)). Versions and `CHANGELOG.md` change only in a `/release` commit.
+- [ ] User-visible registry changes have a section in `apps/web/content/docs/changelog/unreleased.mdx`, and the component is listed in its `new` or `updated` frontmatter for the sidebar badge ([`docs/WEBSITE.md`](docs/WEBSITE.md#docs)). Versions and `CHANGELOG.md` change only in a `/release` commit.
 - [ ] Docs that own a changed convention are updated.
 
 ## Git

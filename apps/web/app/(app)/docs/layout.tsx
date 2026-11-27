@@ -1,6 +1,8 @@
 import { Suspense } from "react"
 
 import { getChangelogDay, isChangelogEntry } from "@/lib/changelog"
+import { getChangelogReleases } from "@/lib/changelog-releases"
+import { getPageReleaseBadge, getReleaseBadges } from "@/lib/release-badges"
 import { source } from "@/lib/source"
 import { DocsAppShell } from "@/components/fabricator/docs-app-shell"
 import {
@@ -14,6 +16,7 @@ export default function DocsLayout({
 }: {
   children: React.ReactNode
 }) {
+  const releaseBadges = getReleaseBadges(getChangelogReleases())
   return (
     <Suspense
       fallback={
@@ -34,6 +37,7 @@ export default function DocsLayout({
           date: isChangelogEntry(page.slugs)
             ? getChangelogDay(page.slugs)
             : undefined,
+          release: getPageReleaseBadge(releaseBadges, page.url),
         }))}
       >
         {children}

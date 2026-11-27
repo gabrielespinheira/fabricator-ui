@@ -135,7 +135,11 @@ export function OptionShell({
   navLabel?: string
   sidebarTools?: React.ReactNode
   pathname: string
-  renderLink: (item: { id?: string; href?: string }) => React.ReactElement
+  renderLink: (item: {
+    id?: string
+    href?: string
+    badge?: number | string
+  }) => React.ReactElement
   /** Stands in the sidebar's header without a workspace switcher. */
   brand?: React.ReactNode
   /** The trail's first crumb. Default: the workspace. */

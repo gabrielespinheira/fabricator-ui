@@ -17,6 +17,7 @@ import {
 import { isWideDocsPage } from "@/lib/docs-wide-pages"
 import { EXPLORER_ICONS } from "@/lib/explorer-icons"
 import { getCurrentBase } from "@/lib/page-tree"
+import { getReleaseBadgeFromLabel } from "@/lib/release-badges"
 import { AppWindowIcon, HomeIcon } from "@/lib/site-icons"
 import type { source } from "@/lib/source"
 import { CommandMenu } from "@/components/command-menu"
@@ -108,6 +109,7 @@ export function DocsAppShell({
           return (
             <Link
               href={getHref(href)}
+              data-release={getReleaseBadgeFromLabel(item.badge)}
               prefetch={isAdvancedReference ? false : null}
               className={
                 isAdvancedReference

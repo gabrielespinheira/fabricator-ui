@@ -7,9 +7,18 @@ import { formatChangelogDate, sortNewestFirst } from "./changelog-order"
 import { getExplorerNavGroups, getGroupNavId } from "./component-explorer"
 import { getComponentGroup } from "./component-groups"
 import { getCurrentBase } from "./page-tree"
+import { RELEASE_BADGE_LABELS, type ReleaseBadge } from "./release-badges"
 
-/** `date` is a changelog entry's day, `yyyy-MM-dd`. */
-export type ExplorerPage = { url: string; title: string; date?: string }
+/**
+ * `date` is a changelog entry's day, `yyyy-MM-dd`. `release` marks a page new
+ * or updated in a recent release (lib/release-badges.ts).
+ */
+export type ExplorerPage = {
+  url: string
+  title: string
+  date?: string
+  release?: ReleaseBadge
+}
 
 const CHANGELOG_URL = "/docs/changelog"
 export const APP_SHELL_NAV_ID = "group-app-shell"
@@ -152,7 +161,7 @@ export function getDocsExplorerGroups(
         section.prefixes.some((prefix) => page.url.startsWith(prefix))
       )
   )
-  return [
+  const groups: NavGroup<undefined>[] = [
     overview,
     componentSection,
     {
@@ -182,6 +191,29 @@ export function getDocsExplorerGroups(
       ),
     },
   ]
+  return groups.map((group) => ({
+    ...group,
+    items: addReleaseBadges(group.items, byUrl),
+  }))
+}
+
+// A page new or updated in a recent release says so, unless its row already
+// counts its children.
+function addReleaseBadges(
+  items: NavItem<undefined>[],
+  byUrl: Map<string, ExplorerPage>
+): NavItem<undefined>[] {
+  return items.map((item) => {
+    const release = item.href ? byUrl.get(item.href)?.release : undefined
+    return {
+      ...item,
+      ...(item.children && {
+        children: addReleaseBadges(item.children, byUrl),
+      }),
+      ...(release &&
+        item.badge === undefined && { badge: RELEASE_BADGE_LABELS[release] }),
+    }
+  })
 }
 
 function getPageItem(page: ExplorerPage): NavItem<undefined> {

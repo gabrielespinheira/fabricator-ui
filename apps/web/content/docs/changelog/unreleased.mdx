@@ -7,6 +7,13 @@ new:
   - kanban
   - properties
   - record-view
+  - hold-button
+  - slide-to-confirm
+  - stepper
+  - morph-island
+  - password-strength
+  - segmented-meter
+  - bottom-nav
 updated:
   - time-input
   - input-group
@@ -56,6 +63,7 @@ updated:
   - heat-calendar
   - status-bar
   - /docs/foundations/motion
+  - menubar
 ---
 
 These changes are merged and ship in the next version.
@@ -104,17 +112,17 @@ These changes are merged and ship in the next version.
 
 **Hold Button.** A new button that confirms only when held for its whole duration: it fills from its start edge as you hold, springs back and shakes if you let go early, and shows a check when done. For deleting, publishing or paying without a dialog in the way. Space and Enter hold it too. [Hold Button](/docs/components/base/hold-button).
 
-**Slide to Confirm.** A new track whose thumb you slide to the end to commit: it follows the finger, gives like rubber past the ends, and springs back short of the end. Enter confirms from the keyboard. [Slide to Confirm](/docs/components/base/slide-to-confirm).
+**Slide to Confirm.** A new track whose thumb you slide to the end to commit: it follows the finger, gives like rubber past the ends, and the ink it leaves turns the label over as it passes. Short of the end it springs back; past it, a promise from `onConfirm` spins the thumb, then the track turns the success colour with a check. Enter confirms from the keyboard. [Slide to Confirm](/docs/components/base/slide-to-confirm).
 
 **Stepper.** A new component for the steps of a flow: finished steps draw a check, the current one pops up, and the line to the next step fills as each is done. [Stepper](/docs/components/base/stepper).
 
-**Status Island.** One new pill for a live activity that reshapes around what it shows: width lands first, height drops into place, and new content fades in through a blur. Screen readers hear each change. [Status Island](/docs/components/base/status-island).
+**Morph Island.** One new pill for a live activity (a timer, an upload, a call) that morphs between states: the width lands first, the height drops into place, the island keeps its volume and gives a small squash, and the states cross-fade through a blur. Screen readers hear each change. [Morph Island](/docs/components/base/morph-island).
 
-**Password Strength.** Four bars under a new-password field fill one after another as the password gets stronger, from red to green, with a word for how strong it is. [Password Strength](/docs/components/base/password-strength).
+**Password Strength.** Four bars under a new-password field fill one after another as the password gets stronger, from red to green, with a word for how strong it is. `PasswordToggle` shows and hides the password; its eye draws a slash across itself while the text is hidden. [Password Strength](/docs/components/base/password-strength).
 
 **Segmented Meter.** Parts of one total in a single bar with a legend, such as storage by kind. A part that changes springs to its new size and the rest slide over. [Segmented Meter](/docs/components/base/segmented-meter).
 
-**Bottom Nav.** A tab bar for phone web apps: the current tab opens into a pill with its name and its icon pops. React Native keeps the App Shell's bottom bar. [Bottom Nav](/docs/components/base/bottom-nav).
+**Bottom Nav.** A tab bar for phone web apps: the current tab opens to show its name on a pill that slides between tabs, and its icon pops. React Native keeps the App Shell's bottom bar. [Bottom Nav](/docs/components/base/bottom-nav).
 
 All seven are on the web for every base; their React Native ports follow.
 
@@ -148,7 +156,7 @@ All seven are on the web for every base; their React Native ports follow.
 
 **Desktop sidebar toggle.** The App Shell’s sidebar toggle icon is slightly larger next to the window controls.
 
-**Sidebar resize line beside cards.** With the inset sidebar, the line that shows when you hover the resize edge traces the main card's side, rounded corners included, instead of running straight across them from the top of the window to the bottom. With the floating sidebar, it traces the sidebar card's outer side. In right-to-left layouts the resize edge now sits on the sidebar's edge, as it does left to right.
+**Resize lines beside cards.** With the inset sidebar, the line that shows when you hover the resize edge traces the main card's side, rounded corners included, instead of running straight across them from the top of the window to the bottom. With the floating sidebar, it traces the sidebar card's outer side. The App Shell panel's resize edge does the same beside the inset sidebar, tracing the panel card's inner side. In right-to-left layouts the resize edge now sits on the sidebar's edge, as it does left to right.
 
 **Tab Strip rename.** Base UI and Radix focus the inline field after a rename starts. Tab Strip now passes Biome's autofocus rule while keeping keyboard renaming.
 

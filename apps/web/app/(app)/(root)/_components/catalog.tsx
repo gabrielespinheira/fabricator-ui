@@ -35,6 +35,13 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/hold-button-demo"),
   },
   {
+    slug: "morph-island",
+    title: "Morph Island",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/morph-island-demo"),
+  },
+  {
     slug: "password-strength",
     title: "Password Strength",
     height: "md",
@@ -54,13 +61,6 @@ const SOURCES: CatalogSource[] = [
     height: "sm",
     load: () =>
       import("@/examples/__styles__/base-fabricator/slide-to-confirm-demo"),
-  },
-  {
-    slug: "status-island",
-    title: "Status Island",
-    height: "md",
-    load: () =>
-      import("@/examples/__styles__/base-fabricator/status-island-demo"),
   },
   {
     slug: "stepper",

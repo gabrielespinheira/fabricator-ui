@@ -352,3 +352,34 @@ html.dark:root .theme-blue {
     color: var(--color-muted-foreground);
   }
 }
+
+/* Pages new or updated in a recent release (lib/release-badges.ts) wear their
+   badge as a pill, and their label clears its width like the changelog rows.
+   Unlayered: the badge's padding and colour are utilities, which outrank
+   @layer components. */
+[data-slot="docs-shell"] a[data-release] {
+  --sidebar-menu-gutter: calc(var(--density-8) * 2 + 2.25rem);
+  --sidebar-menu-gutter-hover: var(--sidebar-menu-gutter);
+}
+[data-slot="docs-shell"] a[data-release="updated"] {
+  --sidebar-menu-gutter: calc(var(--density-8) * 2 + 3.75rem);
+}
+[data-slot="docs-shell"] a[data-release] ~ [data-sidebar="menu-badge"] {
+  align-items: center;
+  padding: 0 var(--density-6);
+  font-weight: 500;
+  font-variation-settings: normal;
+  /* Badge's secondary recipe: muted text fails contrast on the tint. */
+  background-color: var(--color-hover);
+  color: var(--color-foreground);
+}
+[data-slot="docs-shell"] a[data-release="new"] ~ [data-sidebar="menu-badge"] {
+  background-color: var(--color-info-surface-1);
+  color: var(--color-info-text);
+}
+html.dark
+  [data-slot="docs-shell"]
+  a[data-release="new"]
+  ~ [data-sidebar="menu-badge"] {
+  background-color: var(--color-info-surface-3);
+}
