@@ -296,9 +296,10 @@
 
   /* The frame shows through the sidebar wrapper. --app-shell-sidebar-gap
      is the room the desktop sidebar takes beside the main column (its gap's
-     width in each state), for the status bar to start after it. */
+     width in each state), for the status bar to start after it. The inset
+     sidebar's rail line spans the main card, which keeps the shell's margins. */
   .cn-app-shell-body {
-    @apply relative has-data-[variant=inset]:bg-transparent data-reveal:bg-transparent [--app-shell-sidebar-gap:0px] md:has-[>[data-slot=sidebar]:not([data-collapsible=offcanvas],[data-collapsible=icon],[data-peeking])]:[--app-shell-sidebar-gap:var(--sidebar-width)] md:has-[>[data-slot=sidebar][data-collapsible=icon]:not([data-variant=floating])]:[--app-shell-sidebar-gap:var(--sidebar-width-icon)] md:has-[>[data-slot=sidebar][data-collapsible=icon][data-variant=floating]]:[--app-shell-sidebar-gap:calc(var(--sidebar-width-icon)+var(--spacing)*4)];
+    @apply relative [&_[data-variant=inset]_[data-slot=sidebar-rail]]:after:top-(--density-8) [&_[data-variant=inset]_[data-slot=sidebar-rail]]:after:bottom-[max(var(--density-8),var(--app-shell-status-bar-height))] has-data-[variant=inset]:bg-transparent data-reveal:bg-transparent [--app-shell-sidebar-gap:0px] md:has-[>[data-slot=sidebar]:not([data-collapsible=offcanvas],[data-collapsible=icon],[data-peeking])]:[--app-shell-sidebar-gap:var(--sidebar-width)] md:has-[>[data-slot=sidebar][data-collapsible=icon]:not([data-variant=floating])]:[--app-shell-sidebar-gap:var(--sidebar-width-icon)] md:has-[>[data-slot=sidebar][data-collapsible=icon][data-variant=floating]]:[--app-shell-sidebar-gap:calc(var(--sidebar-width-icon)+var(--spacing)*4)];
   }
 
   /* Match the inset main column's top margin at desktop widths. */
@@ -950,6 +951,39 @@
 
   .cn-bot-face-color-teal {
     @apply text-[oklch(0.48_0.0825_190)] dark:text-[oklch(0.74_0.0825_190)];
+  }
+
+/* MARK: Bottom Nav */
+
+  /* A floating bar of tabs: surface 3 with its shadow, a full pill around a
+     4px inset. */
+  .cn-bottom-nav {
+    @apply w-fit gap-1 rounded-full bg-surface-3 p-1 shadow-surface-3;
+  }
+
+  /* A tab: a pill the height of a large control. Closed it is its icon; the
+     current tab is foreground on a bg-active pill. Hover turns the icon
+     foreground. Focus is the 1px ring. */
+  .cn-bottom-nav-item {
+    @apply cursor-pointer h-(--density-40) rounded-full px-(--density-12) text-(length:--density-text-13) font-medium text-muted-foreground transition-[background-color,color] duration-feedback ease-feedback hover:text-foreground data-active:bg-active data-active:text-foreground focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  /* Pressing squashes the icon; letting go pops it back on the pop spring,
+     so picking a tab lands with a bounce. The current tab's icon is drawn
+     heavier. */
+  .cn-bottom-nav-icon {
+    @apply transition-[scale] duration-pop-spring ease-pop-spring group-active/bottom-nav-item:scale-85 group-active/bottom-nav-item:duration-feedback group-active/bottom-nav-item:ease-feedback motion-reduce:scale-100 [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] group-data-active/bottom-nav-item:[&_svg]:stroke-2;
+  }
+
+  /* The name opens to its width on the soft spring as the tab becomes
+     current, and closes as another does, so the pills trade room. It stays
+     in the page for screen readers while closed. */
+  .cn-bottom-nav-label-frame {
+    @apply grid-cols-[0fr] opacity-0 transition-[grid-template-columns,opacity,margin] duration-soft-spring ease-soft-spring group-data-active/bottom-nav-item:ms-(--density-6) group-data-active/bottom-nav-item:grid-cols-[1fr] group-data-active/bottom-nav-item:opacity-100 motion-reduce:transition-none;
+  }
+
+  .cn-bottom-nav-label {
+    @apply min-w-0;
   }
 
 /* MARK: Breadcrumb */
@@ -1777,13 +1811,15 @@
   /* 18px, rounded-[6px], a quiet 1.5px outline that firms up on hover. Checked
      fills with the primary role (the foreground while neutral) and the check
      pops in in its foreground. Fill and border change on the feedback
-     timing, with a press give (scale 0.9). Focus is the 1px ring, offset. */
+     timing, with a press give (scale 0.9); letting go pops the box back on
+     the pop spring, so the click lands with a bounce. Focus is the 1px ring,
+     offset. */
   .cn-checkbox {
-    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px] border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-[6px] text-primary-foreground data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary group-has-disabled/field:opacity-50;
+    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px] border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-[calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-spring-pop-duration)*var(--motion-scale,1))] ease-[var(--motion-ease-feedback),var(--motion-ease-feedback),var(--motion-ease-feedback),var(--motion-ease-pop-spring)] active:duration-feedback active:ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-[6px] text-primary-foreground data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary group-has-disabled/field:opacity-50;
   }
 
   .cn-checkbox-aria {
-    @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:bg-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary;
+    @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 data-pressed:duration-feedback data-pressed:ease-feedback motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:bg-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary;
   }
 
   /* The mark: the indicator stays mounted and carries the state. Checking
@@ -2164,18 +2200,19 @@
   /* Rows: 36px, 13px, muted at rest; the lit row (fluid highlight, or the
      primitive's highlight where there is no fluid container; React Aria
      marks it data-focused) turns foreground and thickens its icon.
-     Destructive rows stay destructive when lit. */
+     Destructive rows stay destructive when lit. Rows fall in one
+     after another as the menu opens (motion-stagger). */
   .cn-context-menu-item {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive;
   }
 
   /* Checked rows are foreground and semibold, with a foreground check. */
   .cn-context-menu-checkbox-item {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-context-menu-radio-item {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-context-menu-item-indicator {
@@ -2183,7 +2220,7 @@
   }
 
   .cn-context-menu-label {
-    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply motion-stagger text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-context-menu-separator {
@@ -2196,7 +2233,7 @@
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-context-menu-sub-trigger {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-context-menu-sub-content {
@@ -2229,8 +2266,10 @@
     @apply gap-(--density-8);
   }
 
+  /* The search keeps the width it had as a toolbar field (20rem) and gives
+     way when the toolbar is narrower. */
   .cn-data-table-search {
-    @apply min-w-0;
+    @apply w-80 max-w-full min-w-0;
   }
 
   /* Frame: a card (surface 3 on the card shadow, rounded) or nothing.
@@ -2969,17 +3008,18 @@
   /* Rows: 36px, 13px, muted at rest; the lit row (fluid highlight, or the
      primitive's highlight where there is no fluid container; React Aria
      marks it data-focused) turns foreground and thickens its icon.
-     Destructive rows stay destructive when lit. */
+     Destructive rows stay destructive when lit. Rows fall in one
+     after another as the menu opens (motion-stagger). */
   .cn-dropdown-menu-item {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive;
   }
 
   .cn-dropdown-menu-checkbox-item {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-dropdown-menu-radio-item {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-dropdown-menu-item-indicator {
@@ -2987,7 +3027,7 @@
   }
 
   .cn-dropdown-menu-label {
-    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply motion-stagger text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-dropdown-menu-separator {
@@ -3000,7 +3040,7 @@
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-dropdown-menu-sub-trigger {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-dropdown-menu-sub-content {
@@ -4074,17 +4114,18 @@
 /* MARK: Fluid Hover */
 
   /* The highlight that glides to the item nearest the pointer
-     (lib/fluid-hover). It fades in where it first appears, then glides on the
-     glide timing with the entrance curve. Reduced motion keeps the fade and
-     drops the travel. */
+     (lib/fluid-hover). It fades in where it first appears, then travels on
+     the lead and trail springs (--motion-spring-lead, --motion-spring-trail),
+     which lib/fluid-hover steps; only the fade is CSS. Reduced motion keeps
+     the fade and drops the travel. */
   .cn-fluid-hover-highlight {
-    @apply bg-hover rounded-lg transition-opacity duration-glide ease-linear starting:opacity-0 data-animate:transition-[transform,width,height,opacity] data-animate:ease-enter motion-reduce:transition-opacity;
+    @apply bg-hover rounded-lg transition-opacity duration-glide ease-linear starting:opacity-0;
   }
 
-  /* The selected item's background, sliding between selections on the move
-     timing. */
+  /* The selected item's background, stretching from one selection to the
+     next on the same springs. */
   .cn-fluid-hover-selection {
-    @apply bg-active rounded-lg transition-opacity duration-glide ease-linear data-animate:transition-[transform,width,height,opacity] data-animate:duration-move data-animate:ease-move motion-reduce:transition-opacity;
+    @apply bg-active rounded-lg transition-opacity duration-glide ease-linear;
   }
 
 /* MARK: Folder */
@@ -4321,6 +4362,60 @@
     @apply gap-(--density-6);
   }
 
+/* MARK: Hold Button */
+
+  /* A button: its density, radius and type. Pressing gives to the press
+     scale; the cursor is a hand. Focus is the 1px ring, offset. */
+  .cn-hold-button {
+    @apply cursor-pointer h-(--density-36) gap-(--density-6) rounded-lg px-(--density-16) text-(length:--density-text-13) font-medium transition-[scale,background-color] duration-feedback ease-feedback motion-press focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50;
+  }
+
+  /* At rest the secondary fill; holding pours the primary fill over it. */
+  .cn-hold-button-variant-default {
+    @apply bg-secondary text-secondary-foreground [&_[data-slot=hold-button-fill]]:bg-primary [&_[data-slot=hold-button-fill]]:text-primary-foreground [&_[data-slot=hold-button-check]]:text-primary-foreground;
+  }
+
+  /* For destroying something: the soft destructive wash, filling solid. */
+  .cn-hold-button-variant-destructive {
+    @apply bg-destructive/12 text-destructive-text [&_[data-slot=hold-button-fill]]:bg-destructive [&_[data-slot=hold-button-fill]]:text-destructive-foreground [&_[data-slot=hold-button-check]]:text-destructive-foreground;
+  }
+
+  /* Sizes pin a density, as the button's do; the default follows the
+     region. Icons take the density's icon size. */
+  .cn-hold-button-size-sm {
+    @apply density-compact [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:shrink-0;
+  }
+
+  .cn-hold-button-size-default {
+    @apply [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:shrink-0;
+  }
+
+  .cn-hold-button-size-lg {
+    @apply density-spacious [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:shrink-0;
+  }
+
+  .cn-hold-button-label {
+    @apply gap-(--density-6) transition-opacity duration-feedback ease-feedback group-data-[state=complete]/hold-button:opacity-0;
+  }
+
+  /* The fill: the same label in the turned-over colours, cut away from the
+     end edge. Held, it uncovers from the start edge in a straight line over
+     the hold (--hold-duration), so it reads as progress, under Reduce Motion
+     too. Let go early, it springs back on the settle spring. Complete, it
+     stays full under the check. */
+  .cn-hold-button-fill {
+    @apply [clip-path:inset(0_100%_0_0)] transition-[clip-path] duration-settle-spring ease-settle-spring group-data-[state=holding]/hold-button:[clip-path:inset(0_0_0_0)] group-data-[state=holding]/hold-button:duration-(--hold-duration) group-data-[state=holding]/hold-button:ease-linear group-data-[state=complete]/hold-button:[clip-path:inset(0_0_0_0)] motion-reduce:duration-0 motion-reduce:group-data-[state=holding]/hold-button:duration-(--hold-duration);
+  }
+
+  .cn-hold-button-fill-label {
+    @apply gap-(--density-6) transition-opacity duration-feedback ease-feedback group-data-[state=complete]/hold-button:opacity-0;
+  }
+
+  /* Complete, a check pops in on the pop spring where the label was. */
+  .cn-hold-button-check {
+    @apply scale-50 opacity-0 transition-[scale,opacity] duration-pop-spring ease-pop-spring group-data-[state=complete]/hold-button:scale-100 group-data-[state=complete]/hold-button:opacity-100 motion-reduce:scale-100;
+  }
+
 /* MARK: Hover Card */
 
   /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl,
@@ -4441,6 +4536,19 @@
     @apply rounded-none border-0 bg-transparent py-(--density-8) shadow-none ring-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 aria-invalid:hover:bg-transparent aria-invalid:focus-visible:bg-transparent;
   }
 
+/* MARK: Input Search */
+
+  /* A search field is an input group like any other: the same frame, height
+     and focus. The icon is a quiet addon at the start; the clear button
+     scales in once there is text and leaves at once. */
+  .cn-input-search {
+    @apply [&_[data-slot=input-search-icon]]:pointer-events-none;
+  }
+
+  .cn-input-search-clear {
+    @apply text-muted-foreground hover:text-foreground animate-in fade-in-0 zoom-in-75 duration-feedback ease-enter motion-reduce:zoom-in-100;
+  }
+
 /* MARK: Input OTP */
 
   .cn-input-otp {
@@ -4464,10 +4572,11 @@
     @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive data-[filled=true]:not-data-[active=true]:not-aria-invalid:ring-foreground/15 size-(--density-36) rounded-lg bg-transparent text-(length:--density-text-14) tabular-nums ring-1 ring-inset transition-[background-color,box-shadow] duration-feedback ease-feedback outline-none;
   }
 
-  /* A typed character rises into its slot and fades in; a replaced one does
-     it again. Placeholder characters stay muted. */
+  /* A typed character drops into its slot and lands with a small bounce on
+     the pop spring; a replaced one does it again. Placeholder characters
+     stay muted. */
   .cn-input-otp-char {
-    @apply animate-in fade-in-0 slide-in-from-bottom-1 duration-feedback ease-enter motion-reduce:animate-none;
+    @apply animate-in fade-in-0 slide-in-from-top-2 duration-pop-spring ease-pop-spring motion-reduce:animate-none;
   }
 
   .cn-input-otp-placeholder {
@@ -4632,10 +4741,15 @@
     @apply text-(length:--density-text-12) text-muted-foreground @max-2xl/kanban-toolbar:sr-only;
   }
 
-  /* The corners of the controls beside it. Where it is a button it takes the
-     whole line when it opens. */
+  /* An input like any other, as wide as the controls need beside it. Where
+     there is no room it is a button, and the field takes the whole line when
+     it opens. */
   .cn-kanban-search {
-    @apply rounded-lg not-data-open:bg-transparent not-data-open:ring-0 [&_[data-slot=search-trigger]]:rounded-lg not-data-open:[&_[data-slot=search-trigger]]:text-muted-foreground not-data-open:[&_[data-slot=search-trigger]]:hover:text-foreground in-data-searching:@max-2xl/kanban-toolbar:w-full!;
+    @apply w-50 min-w-0 in-data-searching:@max-2xl/kanban-toolbar:w-full;
+  }
+
+  .cn-kanban-search-trigger {
+    @apply text-muted-foreground hover:text-foreground;
   }
 
   /* Reads as its current choice, so the toolbar also says how the board is
@@ -5208,76 +5322,6 @@
     @apply **:data-[slot$=-item]:data-focused:not-in-data-[fluid-hover]:bg-hover;
   }
 
-/* MARK: Menubar */
-
-  /* The bar is a raised strip (surface 2 ring, no border) and a fluid hover
-     container for its triggers (relative isolate). */
-  .cn-menubar {
-    @apply bg-card shadow-surface-2 relative isolate h-(--density-36) gap-0.5 rounded-xl p-(--density-4);
-  }
-
-  /* Triggers: 28px, 13px, muted at rest. The fluid highlight lights the
-     trigger nearest the pointer; an open trigger keeps a hover fill while
-     the pointer is in its menu. */
-  .cn-menubar-trigger {
-    @apply cursor-pointer text-muted-foreground h-(--density-28) rounded-lg px-(--density-10) text-(length:--density-text-13) font-normal transition-colors duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground aria-expanded:text-foreground not-data-fluid-hover-active:aria-expanded:bg-hover;
-  }
-
-  /* Menus: the popup recipe (surface 3, rounded-xl, p-1, popup motion),
-     sized to their rows rather than to the trigger. */
-  .cn-menubar-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate w-auto min-w-36 rounded-xl p-1 motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0;
-  }
-
-  .cn-menubar-content-logical {
-    @apply motion-popup;
-  }
-
-  /* Rows: 36px, 13px, muted at rest; the lit row turns foreground and
-     thickens its icon. Destructive rows stay destructive when lit. */
-  .cn-menubar-item {
-    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-disabled:opacity-50 data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive!;
-  }
-
-  /* Checkbox and radio rows keep the check on the start side. Checked rows
-     are foreground and semibold. */
-  .cn-menubar-checkbox-item {
-    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
-  }
-
-  .cn-menubar-checkbox-item-indicator {
-    @apply text-foreground left-(--density-8) size-(--density-icon-16) [&_svg:not([class*='size-'])]:size-(--density-icon-16);
-  }
-
-  .cn-menubar-radio-item {
-    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-disabled:opacity-50 data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
-  }
-
-  .cn-menubar-radio-item-indicator {
-    @apply text-foreground left-(--density-8) size-(--density-icon-16) [&_svg:not([class*='size-'])]:size-(--density-icon-16);
-  }
-
-  .cn-menubar-label {
-    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
-  }
-
-  .cn-menubar-separator {
-    @apply bg-border/60;
-  }
-
-  .cn-menubar-shortcut {
-    @apply text-muted-foreground text-(length:--density-text-11) tracking-normal;
-  }
-
-  /* An open sub-trigger stays lit while the pointer is in its submenu. */
-  .cn-menubar-sub-trigger {
-    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
-  }
-
-  .cn-menubar-sub-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-32 rounded-xl p-1 motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0;
-  }
-
 /* MARK: Message Scroller */
 
   /* Thin, low-contrast scrollbar (overlay 8%, 12% while the pointer is over
@@ -5479,7 +5523,7 @@
      bg-active and gives it the press scale, easing both ways on the glide
      timing. */
   .cn-multi-select-list {
-    @apply no-scrollbar max-h-[min(--spacing(72),var(--available-height,--spacing(72)))] scroll-py-1 p-1 data-empty:p-0 [&>[data-slot=fluid-hover-highlight]]:transition-[opacity,background-color,scale] [&>[data-slot=fluid-hover-highlight][data-animate]]:transition-[transform,width,height,opacity,background-color,scale] [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:bg-active [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-(--motion-press-scale) motion-reduce:[&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-100;
+    @apply no-scrollbar max-h-[min(--spacing(72),var(--available-height,--spacing(72)))] scroll-py-1 p-1 data-empty:p-0 [&>[data-slot=fluid-hover-highlight]]:transition-[opacity,background-color,scale] [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:bg-active [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-(--motion-press-scale) motion-reduce:[&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-100;
   }
 
   .cn-multi-select-label {
@@ -5643,6 +5687,39 @@
 
   .cn-pagination-next {
     @apply pr-(--density-10)!;
+  }
+
+/* MARK: Password Strength */
+
+  .cn-password-strength {
+    @apply gap-(--density-6);
+  }
+
+  .cn-password-strength-bars {
+    @apply gap-1;
+  }
+
+  /* Four thin tracks of the faint foreground. */
+  .cn-password-strength-bar {
+    @apply h-1 rounded-full bg-foreground/10;
+  }
+
+  /* A bar fills from its start on the soft spring, each one --motion-stagger
+     after the bar before it as the score rises; emptying runs at once. The
+     colour walks destructive, warning, success as the score grows. */
+  .cn-password-strength-bar-fill {
+    @apply origin-left scale-x-0 rounded-full transition-[scale,background-color] duration-soft-spring ease-soft-spring in-data-filled:scale-x-100 in-data-filled:delay-[calc(var(--bar-index)*var(--motion-stagger))] group-data-[score=1]/password-strength:bg-destructive group-data-[score=2]/password-strength:bg-warning group-data-[score=3]/password-strength:bg-success/70 group-data-[score=4]/password-strength:bg-success motion-reduce:transition-none;
+  }
+
+  /* The word under the bars, in the bars' role as text. Its line keeps its
+     height while empty so the form doesn't jump. */
+  .cn-password-strength-label {
+    @apply min-h-[calc(var(--density-text-12)*1.5)] text-(length:--density-text-12) text-muted-foreground group-data-[score=1]/password-strength:text-destructive-text group-data-[score=2]/password-strength:text-warning-text group-data-[score=3]/password-strength:text-success-text group-data-[score=4]/password-strength:text-success-text;
+  }
+
+  /* A new word rises in on the fade spring. */
+  .cn-password-strength-word {
+    @apply inline-block animate-in fade-in-0 slide-in-from-bottom-1 duration-fade-spring ease-fade-spring motion-reduce:slide-in-from-bottom-0;
   }
 
 /* MARK: Pie Chart */
@@ -6703,57 +6780,54 @@
     @apply scroll-fade;
   }
 
-/* MARK: Search */
+/* MARK: Segmented Meter */
 
-  /* One object: closed it is a round button (width = height), open it grows
-     to --search-width (default 320px, never wider than its parent). The width
-     opens on the move timing and closes on its quicker exit; a press on the
-     closed button gives to the press scale.
-     Corners stay a full pill. Fill is the translucent `active` overlay, so it sits
-     on any surface in both themes. */
-  .cn-search {
-    @apply text-foreground max-w-full rounded-full transition-[width,scale,background-color,box-shadow] duration-move ease-move not-data-open:duration-move-exit not-data-open:ease-exit has-[[data-slot=search-trigger]:active]:not-data-open:scale-(--motion-press-scale) has-[[data-slot=search-trigger]:focus-visible]:ring-1 has-[[data-slot=search-trigger]:focus-visible]:ring-ring has-[[data-slot=search-input]:focus-visible]:ring-1 has-[[data-slot=search-input]:focus-visible]:ring-foreground/20 motion-reduce:transition-[background-color,box-shadow] motion-reduce:has-[[data-slot=search-trigger]:active]:not-data-open:scale-100;
+  .cn-segmented-meter {
+    @apply w-full gap-(--density-8);
   }
 
-  .cn-search-variant-default {
-    @apply bg-active not-data-open:hover:bg-foreground/[0.13];
+  .cn-segmented-meter-header {
+    @apply gap-(--density-8) text-(length:--density-text-13);
   }
 
-  /* Bencho's "stroke": a hairline ring instead of the fill. */
-  .cn-search-variant-outline {
-    @apply ring-border bg-transparent ring-1 not-data-open:hover:bg-hover;
+  .cn-segmented-meter-label {
+    @apply font-medium text-foreground;
   }
 
-  /* Sizes follow the density: default takes the nearest one, sm pins the
-     search to compact and lg to spacious. Each size opens to its own width. */
-  .cn-search-size-default {
-    @apply h-(--density-36) w-(--density-36) text-(length:--density-text-13) [&_[data-slot=search-input]]:ps-(--density-36) [&_[data-slot=search-input]]:pe-(--density-12) has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-(--density-36) [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-open:w-(--search-width,320px);
+  .cn-segmented-meter-total {
+    @apply text-muted-foreground tabular-nums;
   }
 
-  .cn-search-size-sm {
-    @apply density-compact h-(--density-36) w-(--density-36) text-(length:--density-text-13) [&_[data-slot=search-input]]:ps-(--density-36) [&_[data-slot=search-input]]:pe-(--density-12) has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-(--density-36) [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-open:w-(--search-width,240px);
+  /* A rounded track of the faint foreground; parts sit end to end with a
+     hairline cut between them. */
+  .cn-segmented-meter-bar {
+    @apply h-2 gap-0.5 rounded-full bg-foreground/8;
   }
 
-  .cn-search-size-lg {
-    @apply density-spacious h-(--density-36) w-(--density-36) text-(length:--density-text-13) [&_[data-slot=search-input]]:ps-(--density-36) [&_[data-slot=search-input]]:pe-(--density-12) has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-(--density-36) [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-open:w-(--search-width,360px);
+  /* A part is its share of the bar in its series colour. A new size springs
+     on the soft spring and the parts after it slide over. */
+  .cn-segmented-meter-segment {
+    @apply w-(--segment-share) bg-(--segment-color) transition-[width] duration-soft-spring ease-soft-spring motion-reduce:transition-none;
   }
 
-  /* Closed: the whole button. Open: just the icon, muted. */
-  .cn-search-trigger {
-    @apply cursor-pointer rounded-full text-foreground transition-colors duration-feedback ease-feedback group-data-open/search:text-muted-foreground;
+  .cn-segmented-meter-legend {
+    @apply gap-x-(--density-16) gap-y-(--density-4) text-(length:--density-text-12);
   }
 
-  .cn-search-icon {
-    @apply stroke-[1.75];
+  .cn-segmented-meter-legend-item {
+    @apply gap-(--density-6);
   }
 
-  /* The field fades in once the width is on its way, and out at once. */
-  .cn-search-input {
-    @apply cursor-text text-foreground placeholder:text-muted-foreground opacity-0 transition-opacity duration-feedback-exit ease-exit group-data-open/search:opacity-100 group-data-open/search:delay-feedback group-data-open/search:duration-move group-data-open/search:ease-enter motion-reduce:delay-0;
+  .cn-segmented-meter-dot {
+    @apply size-2 rounded-full bg-(--segment-color);
   }
 
-  .cn-search-clear {
-    @apply text-muted-foreground hover:text-foreground focus-visible:text-foreground cursor-pointer rounded-full transition-colors duration-feedback ease-feedback animate-in fade-in-0 zoom-in-75 motion-reduce:zoom-in-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg:not([class*='size-'])]:size-(--density-icon-14);
+  .cn-segmented-meter-legend-label {
+    @apply text-muted-foreground;
+  }
+
+  .cn-segmented-meter-legend-value {
+    @apply font-medium text-foreground tabular-nums;
   }
 
 /* MARK: Select */
@@ -6794,14 +6868,15 @@
   }
 
   .cn-select-label {
-    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
+    @apply motion-stagger text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
   }
 
   /* Rows: 36px, 13px, muted at rest; the lit row turns foreground. The
      selected row is foreground and semibold on a bg-active fill, which
-     slides between rows inside a fluid container. */
+     slides between rows inside a fluid container. Rows fall in one
+     after another as the menu opens (motion-stagger). */
   .cn-select-item {
-    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-(--density-8);
+    @apply motion-stagger cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-(--density-8);
   }
 
   .cn-select-item-aria {
@@ -6911,9 +6986,13 @@
 
   /* The edge handle: drag to resize, click to collapse. A hairline on the
      sidebar's edge brightens on hover and while dragging. Collapsed, it only
-     expands. */
+     expands. Beside a card it traces the card's edge instead, corners and all:
+     the inset main column's side facing the sidebar, or the floating
+     sidebar's own outer side (not while it's hidden off canvas). The inset
+     card sits flush against a sidebar at the inline start and keeps its 8px
+     margin from one at the end. */
   .cn-sidebar-rail {
-    @apply cursor-col-resize group-data-[state=collapsed]:cursor-pointer after:bg-transparent after:transition-colors after:duration-feedback hover:after:bg-foreground/25 data-dragging:after:bg-foreground/25 group-data-[collapsible=offcanvas]:hover:after:bg-border;
+    @apply cursor-col-resize group-data-[state=collapsed]:cursor-pointer [--sidebar-rail-color:transparent] hover:[--sidebar-rail-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] data-dragging:[--sidebar-rail-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] group-data-[collapsible=offcanvas]:hover:[--sidebar-rail-color:var(--border)] after:bg-(--sidebar-rail-color) after:border-(--sidebar-rail-color) after:transition-colors after:duration-feedback group-data-[variant=inset]:after:inset-y-2 group-data-[variant=inset]:after:w-3 group-data-[variant=inset]:after:bg-transparent group-data-[variant=inset]:group-data-[side=left]:after:rounded-l-xl group-data-[variant=inset]:group-data-[side=left]:after:border-l group-data-[variant=inset]:group-data-[side=right]:after:rounded-r-xl group-data-[variant=inset]:group-data-[side=right]:after:border-r ltr:group-data-[variant=inset]:group-data-[side=right]:after:start-auto ltr:group-data-[variant=inset]:group-data-[side=right]:after:end-full rtl:group-data-[variant=inset]:group-data-[side=left]:after:start-auto rtl:group-data-[variant=inset]:group-data-[side=left]:after:end-full group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:after:inset-y-2 group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:after:w-3 group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:after:bg-transparent group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=left]:after:left-auto group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=left]:after:right-full group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=left]:after:rounded-r-xl group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=left]:after:border-r group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=right]:after:right-auto group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=right]:after:left-full group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=right]:after:rounded-l-xl group-data-[variant=floating]:group-not-data-[collapsible=offcanvas]:group-data-[side=right]:after:border-l;
   }
 
   .cn-sidebar-rail-tooltip {
@@ -7145,6 +7224,38 @@
     @apply bg-hover rounded-md;
   }
 
+/* MARK: Slide to Confirm */
+
+  /* A pill track the height of a large control, a faint wash around a 4px
+     inset. --slide-thumb is the thumb's size, and the track is an inline-size
+     container, so the thumb's travel is 100cqw (the inner width) less the
+     thumb. Focus is the 1px ring, offset. */
+  .cn-slide-to-confirm {
+    @apply cursor-default @container w-full max-w-sm h-(--density-48) rounded-full bg-muted p-1 text-(length:--density-text-13) font-medium [--slide-thumb:calc(var(--density-48)-var(--spacing)*2)] focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50;
+  }
+
+  /* The ink behind the thumb, reaching just past it. It follows the thumb at
+     once while dragged and springs with it on the settle spring otherwise;
+     confirmed, it fills the track. */
+  .cn-slide-to-confirm-fill {
+    @apply rounded-full bg-primary/12 w-[calc(var(--spacing)+var(--slide-thumb)+var(--slide-progress)*(100cqw-var(--slide-thumb)))] transition-[width,background-color] duration-settle-spring ease-settle-spring group-data-dragging/slide-to-confirm:transition-none group-data-[state=confirmed]/slide-to-confirm:bg-primary/20 motion-reduce:transition-none;
+  }
+
+  /* The label, in the foreground (muted text doesn't hold 4.5:1 on the
+     muted track), fades as the thumb passes over it and shows the confirmed
+     label once it lands. */
+  .cn-slide-to-confirm-label {
+    @apply text-foreground opacity-[calc(1-var(--slide-progress)*1.6)] transition-opacity duration-feedback ease-feedback group-data-dragging/slide-to-confirm:transition-none group-data-[state=confirmed]/slide-to-confirm:opacity-100;
+  }
+
+  /* The thumb: a raised round knob with a chevron, grabbed by the pointer.
+     It travels the track by --slide-progress, following the finger with no
+     transition and springing back, or on to the end, on the settle spring.
+     Confirmed, it turns the primary fill and shows a check. */
+  .cn-slide-to-confirm-thumb {
+    @apply cursor-grab z-10 size-(--slide-thumb) rounded-full bg-background text-foreground shadow-surface-3 translate-x-[calc(var(--slide-progress)*(100cqw-var(--slide-thumb)))] transition-[translate,background-color,color] duration-settle-spring ease-settle-spring group-data-dragging/slide-to-confirm:cursor-grabbing group-data-dragging/slide-to-confirm:transition-none group-data-[state=confirmed]/slide-to-confirm:bg-primary group-data-[state=confirmed]/slide-to-confirm:text-primary-foreground motion-reduce:transition-none [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
 /* MARK: Slider */
 
   /* size sm pins the slider to the compact density and lg to spacious.
@@ -7152,10 +7263,11 @@
      and overhangs the track above it: 20px over 16px at default, 24px over
      18px spacious. min() reads it off the density tokens (--density-36 is 28px only
      at compact), so a DensityProvider sets it as well as size does.
-     --slider-glide is the move timing for a click or a key, and nothing while a
-     drag follows the pointer. Radix positions each thumb on a wrapper span. */
+     --slider-glide is the fade spring's time for a click or a key, and nothing
+     while a drag follows the pointer; the thumb and range glide on its curve,
+     which lands without a visible overshoot. Radix positions each thumb on a wrapper span. */
   .cn-slider {
-    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40 data-[size=sm]:density-compact data-[size=lg]:density-spacious [--slider-track-size:calc(var(--density-icon-14)+2px)] [--slider-thumb-size:min(var(--density-20),calc(var(--density-icon-14)+var(--density-36)-1.75rem))] [--slider-glide:calc(var(--motion-move)*var(--motion-scale,1))] data-following:[--slider-glide:calc(var(--motion-move)*0)] [&>span:has(>[data-slot=slider-thumb])]:transition-[left,bottom] [&>span:has(>[data-slot=slider-thumb])]:duration-(--slider-glide) [&>span:has(>[data-slot=slider-thumb])]:ease-enter;
+    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40 data-[size=sm]:density-compact data-[size=lg]:density-spacious [--slider-track-size:calc(var(--density-icon-14)+2px)] [--slider-thumb-size:min(var(--density-20),calc(var(--density-icon-14)+var(--density-36)-1.75rem))] [--slider-glide:calc(var(--motion-spring-fade-duration)*var(--motion-scale,1))] data-following:[--slider-glide:calc(var(--motion-move)*0)] [&>span:has(>[data-slot=slider-thumb])]:transition-[left,bottom] [&>span:has(>[data-slot=slider-thumb])]:duration-(--slider-glide) [&>span:has(>[data-slot=slider-thumb])]:ease-fade-spring;
   }
 
   /* A 16px pill framed by the border colour, transparent inside. */
@@ -7166,7 +7278,7 @@
   /* The filled range is a soft wash of the primary role: a neutral grey
      while primary is neutral. It glides with the thumb. */
   .cn-slider-range {
-    @apply bg-primary/10 dark:bg-primary/15 transition-[inset-inline-start,left,right,top,bottom,width,height] duration-(--slider-glide) ease-enter;
+    @apply bg-primary/10 dark:bg-primary/15 transition-[inset-inline-start,left,right,top,bottom,width,height] duration-(--slider-glide) ease-fade-spring;
   }
 
   /* One 4px dot per step, the foreground at 25%. Under the range it shrinks
@@ -7182,7 +7294,7 @@
      shadow. Focus shows a 1px blue ring 4px outside the knob (::before);
      ::after widens the hit area. */
   .cn-slider-thumb {
-    @apply cursor-grab active:cursor-grabbing data-dragging:cursor-grabbing data-disabled:cursor-not-allowed relative size-(--slider-thumb-size) rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.12)] ring-1 ring-black/5 ring-offset-white transition-[box-shadow,inset-inline-start,left,top,bottom] [transition-duration:calc(var(--motion-feedback)*var(--motion-scale,1)),var(--slider-glide),var(--slider-glide),var(--slider-glide),var(--slider-glide)] ease-enter before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-feedback after:absolute after:-inset-2 hover:shadow-[0_1px_4px_rgb(0_0_0/0.18)] [[data-slot=slider]:active_&:focus-within]:ring-offset-2 [[data-slot=slider]:active_&:focus-within]:shadow-[0_4px_12px_rgb(0_0_0/0.18)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
+    @apply cursor-grab active:cursor-grabbing data-dragging:cursor-grabbing data-disabled:cursor-not-allowed relative size-(--slider-thumb-size) rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.12)] ring-1 ring-black/5 ring-offset-white transition-[box-shadow,inset-inline-start,left,top,bottom] [transition-duration:calc(var(--motion-feedback)*var(--motion-scale,1)),var(--slider-glide),var(--slider-glide),var(--slider-glide),var(--slider-glide)] ease-fade-spring before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-feedback after:absolute after:-inset-2 hover:shadow-[0_1px_4px_rgb(0_0_0/0.18)] [[data-slot=slider]:active_&:focus-within]:ring-offset-2 [[data-slot=slider]:active_&:focus-within]:shadow-[0_4px_12px_rgb(0_0_0/0.18)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
   }
 
 /* MARK: Spinner */
@@ -7253,6 +7365,83 @@
     @apply block h-2.5 w-1.5 shrink-0 rounded-full;
   }
 
+/* MARK: Status Island */
+
+  /* A floating pill on the inverted surface, as a tooltip is, raised on the
+     dialog shadow. It takes its content's measured size (--island-width,
+     --island-height): width on the lead spring and height on the soft one,
+     so a change lands sideways first and then drops into place. Its corners
+     stay a full pill while short and stop at a card's radius when tall. */
+  .cn-status-island {
+    @apply bg-foreground text-background shadow-surface-5 w-[var(--island-width,auto)] h-[var(--island-height,auto)] rounded-[min(calc(var(--island-height,2.25rem)/2),calc(var(--radius)*2.4))] data-measured:transition-[width,height,border-radius] data-measured:duration-[calc(var(--motion-spring-lead-duration)*var(--motion-scale,1)),calc(var(--motion-spring-soft-duration)*var(--motion-scale,1)),calc(var(--motion-spring-soft-duration)*var(--motion-scale,1))] data-measured:ease-[var(--motion-ease-lead-spring),var(--motion-ease-soft-spring),var(--motion-ease-soft-spring)] motion-reduce:transition-none;
+  }
+
+  /* The padding lives inside the measured frame, so the size includes it.
+     The frame takes its content's width up to a cap of its own (never the
+     island's, which follows it), so new content can widen the island. */
+  .cn-status-island-frame {
+    @apply max-w-sm px-(--density-16) py-(--density-8);
+  }
+
+  /* Each new state fades in out of a small blur on the fade spring while
+     the island reshapes around it. Reduce Motion keeps the fade. */
+  .cn-status-island-content {
+    @apply gap-(--density-8) text-(length:--density-text-13) font-medium animate-in fade-in-0 blur-in-sm duration-fade-spring ease-fade-spring motion-reduce:blur-in-0 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+/* MARK: Stepper */
+
+  /* Steps share the row; each takes the room up to the next, where its line
+     runs. The last one takes only its own width. */
+  .cn-stepper {
+    @apply w-full gap-(--density-8);
+  }
+
+  .cn-stepper-item {
+    @apply flex-1 items-center gap-(--density-8) last:flex-none;
+  }
+
+  /* A round mark the height of a small control. Upcoming: a hairline ring
+     and the muted step number, a little smaller. Current: the primary ring
+     around the number, popping up to size on the pop spring. Complete: the
+     primary fill, the number giving way to a check that draws itself just
+     after the fill lands. Colours change on the feedback timing. */
+  .cn-stepper-indicator {
+    @apply size-(--density-28) rounded-full text-(length:--density-text-12) font-medium tabular-nums text-muted-foreground ring-1 ring-border ring-inset scale-90 transition-[background-color,color,box-shadow,scale] duration-[calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-spring-pop-duration)*var(--motion-scale,1))] ease-[var(--motion-ease-feedback),var(--motion-ease-feedback),var(--motion-ease-feedback),var(--motion-ease-pop-spring)] group-data-[state=current]/stepper-item:scale-100 group-data-[state=current]/stepper-item:text-foreground group-data-[state=current]/stepper-item:ring-2 group-data-[state=current]/stepper-item:ring-primary group-data-[state=complete]/stepper-item:scale-100 group-data-[state=complete]/stepper-item:bg-primary group-data-[state=complete]/stepper-item:text-primary-foreground group-data-[state=complete]/stepper-item:ring-0 motion-reduce:scale-100;
+  }
+
+  .cn-stepper-number {
+    @apply transition-opacity duration-feedback ease-feedback group-data-[state=complete]/stepper-item:opacity-0;
+  }
+
+  /* The check's path has pathLength 1: a 1-long dash and a 2-long gap,
+     offset by 1, hide it; offset 0 draws it from its start. */
+  .cn-stepper-check {
+    @apply size-(--density-icon-14) stroke-[3] [&_path]:[stroke-dasharray:1_2] [&_path]:[stroke-dashoffset:1] [&_path]:transition-[stroke-dashoffset] [&_path]:duration-move [&_path]:ease-enter group-data-[state=complete]/stepper-item:[&_path]:[stroke-dashoffset:0] group-data-[state=complete]/stepper-item:[&_path]:delay-feedback motion-reduce:[&_path]:transition-none;
+  }
+
+  .cn-stepper-content {
+    @apply gap-0.5;
+  }
+
+  .cn-stepper-title {
+    @apply truncate text-(length:--density-text-13) font-medium text-muted-foreground transition-colors duration-feedback ease-feedback group-data-[state=current]/stepper-item:text-foreground group-data-[state=complete]/stepper-item:text-foreground;
+  }
+
+  .cn-stepper-description {
+    @apply truncate text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  /* The line to the next step: a hairline track that fills with the primary
+     colour from its start on the soft spring once the step is complete. */
+  .cn-stepper-separator {
+    @apply h-0.5 min-w-(--density-16) flex-1 rounded-full bg-border;
+  }
+
+  .cn-stepper-separator-fill {
+    @apply origin-left scale-x-0 rounded-full bg-primary transition-[scale] duration-soft-spring ease-soft-spring group-data-[state=complete]/stepper-item:scale-x-100 motion-reduce:transition-none;
+  }
+
 /* MARK: Switch */
 
   /* Track 34x20 at the default density (size sm pins it to compact: 28x16),
@@ -7268,12 +7457,14 @@
     @apply cursor-pointer not-data-selected:bg-accent data-selected:bg-primary data-hovered:not-data-selected:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-hovered:data-selected:bg-primary/90 data-focus-visible:ring-ring data-invalid:ring-destructive/50 data-focus-visible:ring-1 data-focus-visible:ring-offset-2 data-invalid:ring-1 data-invalid:ring-offset-2;
   }
 
-  /* The thumb element only travels (move timing); its ::before draws the
-     knob, white and the primary foreground when on, so the knob can change shape without fighting the inline
-     transition-transform. Hover stretches it 2px into a pill toward the
-     centre of the track; press stretches it further and squashes it. */
+  /* The thumb element only travels, on the settle spring, so it lands with a
+     small overshoot; its ::before draws the knob, white and the primary
+     foreground when on, so the knob can change shape without fighting the
+     inline transition-transform. Hover stretches it 2px into a pill toward
+     the centre of the track; press stretches it further and squashes it, and
+     letting go rounds it back up on the pop spring, with a wobble. */
   .cn-switch-thumb {
-    @apply relative rounded-full bg-transparent duration-move ease-move before:absolute before:inset-0 before:rounded-full before:bg-white data-checked:before:bg-primary-foreground before:shadow-[0_1px_2px_rgb(0_0_0/0.15),0_0_0_0.5px_rgb(0_0_0/0.04)] before:transition-[inset,background-color] before:duration-move before:ease-move size-[calc(var(--density-20)-4px)] data-checked:translate-x-(--density-14) data-unchecked:translate-x-0 group-hover/switch:data-unchecked:before:-right-0.5 group-hover/switch:data-checked:before:-left-0.5 group-active/switch:data-unchecked:before:-right-1 group-active/switch:data-checked:before:-left-1 group-active/switch:before:inset-y-0.5 motion-reduce:before:transition-none;
+    @apply relative rounded-full bg-transparent duration-settle-spring ease-settle-spring before:absolute before:inset-0 before:rounded-full before:bg-white data-checked:before:bg-primary-foreground before:shadow-[0_1px_2px_rgb(0_0_0/0.15),0_0_0_0.5px_rgb(0_0_0/0.04)] before:transition-[inset,background-color] before:duration-pop-spring before:ease-pop-spring size-[calc(var(--density-20)-4px)] data-checked:translate-x-(--density-14) data-unchecked:translate-x-0 group-hover/switch:data-unchecked:before:-right-0.5 group-hover/switch:data-checked:before:-left-0.5 group-active/switch:data-unchecked:before:-right-1 group-active/switch:data-checked:before:-left-1 group-active/switch:before:inset-y-0.5 motion-reduce:before:transition-none;
   }
 
   .cn-switch-thumb-aria {
@@ -7314,8 +7505,10 @@
     @apply text-muted-foreground hover:text-foreground data-copied:text-success-text;
   }
 
+  /* Each icon turns in from a quarter turn back and pops to size on the pop
+     spring, so the check lands with a bounce. Reduced motion only fades. */
   .cn-syntax-highlight-copy-icon {
-    @apply animate-in fade-in-0 zoom-in-75 duration-feedback ease-enter motion-reduce:zoom-in-100;
+    @apply animate-in fade-in-0 zoom-in-75 -spin-in-30 duration-pop-spring ease-pop-spring motion-reduce:zoom-in-100 motion-reduce:spin-in-0;
   }
 
   /* The code scrolls both ways inside the panel and fades at the top and
@@ -7727,34 +7920,39 @@
 /* MARK: Time Wheel */
 
   /* Seven rows tall by default, about what an iOS wheel shows; a parent can set
-     its own height (the Date Picker fills the calendar's). */
+     its own height (the Date Picker fills the calendar's) and the drum
+     follows it. */
   .cn-time-wheel {
-    @apply h-[calc(var(--density-32)*7)] gap-(--density-4) px-(--density-4);
+    @apply h-[calc(var(--density-36)*7)] gap-(--density-4) px-(--density-8);
   }
 
   /* The band the value sits on, across every column. */
   .cn-time-wheel-band {
-    @apply bg-active h-(--density-32) rounded-lg;
+    @apply bg-active h-(--density-36) rounded-lg;
   }
 
-  /* A column snaps to its rows and fades from the band out: the band's row
-     whole, the next rows at 60%, the far ones at 15%, then nothing; the rows tilt
-     around a shallow perspective, like a drum. Its rows don't size it
-     (contain-size): it takes the wheel's height, and its width from the
-     token, so a parent can make the wheel as tall as it likes. */
+  /* A column is as wide as AM/PM in the wheel's figures; its rows don't size
+     it (contain-size), so it takes the wheel's height. It turns under a drag. */
   .cn-time-wheel-column {
-    @apply no-scrollbar contain-size w-(--density-48) snap-y snap-mandatory rounded-lg [perspective:15rem] [mask-image:linear-gradient(to_bottom,transparent,rgb(0_0_0/0.15)_15%,rgb(0_0_0/0.6)_calc(50%-var(--density-32)*1.5),black_calc(50%-var(--density-32)/2),black_calc(50%+var(--density-32)/2),rgb(0_0_0/0.6)_calc(50%+var(--density-32)*1.5),rgb(0_0_0/0.15)_85%,transparent)] focus-visible:ring-1 focus-visible:ring-focus-ring;
+    @apply contain-size w-[calc(var(--density-28)*2)] cursor-grab rounded-lg active:cursor-grabbing focus-visible:ring-1 focus-visible:ring-focus-ring;
   }
 
-  /* Room above the first row and below the last, so either can sit on the
-     band. */
-  .cn-time-wheel-spacer {
-    @apply h-[calc(50%-var(--density-32)/2)];
+  /* The drum, seen from far enough away that its rows keep their size at the
+     band; it fades out towards the top and bottom. The fade sits inside the
+     column, so the focus ring stays crisp. */
+  .cn-time-wheel-drum {
+    @apply [perspective:62.5rem] [mask-image:linear-gradient(to_bottom,transparent,rgb(0_0_0/0.3)_15%,black_38%,black_62%,rgb(0_0_0/0.3)_85%,transparent)];
   }
 
-  /* Rows: muted, the one on the band in the foreground and semibold. */
+  /* The rows drawn twice: muted, then in the foreground, clipped to the band
+     so a row brightens exactly as it crosses the band's edge. */
+  .cn-time-wheel-layer {
+    @apply text-muted-foreground data-selected:text-foreground data-selected:[clip-path:inset(calc(50%-var(--density-36)/2)_0)];
+  }
+
+  /* A row, centred on its spot on the drum; the back of the drum hides. */
   .cn-time-wheel-item {
-    @apply text-muted-foreground h-(--density-32) snap-center px-(--density-6) text-(length:--density-text-16) tabular-nums transition-colors duration-feedback ease-feedback [backface-visibility:hidden] data-selected:text-foreground data-selected:font-semibold;
+    @apply -mt-[calc(var(--density-36)/2)] h-(--density-36) text-[calc(var(--density-text-16)*1.25)] font-medium tabular-nums [backface-visibility:hidden];
   }
 
 /* MARK: Toast */

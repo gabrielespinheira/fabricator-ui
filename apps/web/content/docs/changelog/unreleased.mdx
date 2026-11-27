@@ -1,6 +1,61 @@
 ---
 title: Unreleased
 description: Changes merged since the last release. They ship in the next version.
+new:
+  - text-motion
+  - folder
+  - kanban
+  - properties
+  - record-view
+updated:
+  - time-input
+  - input-group
+  - input
+  - data-table
+  - file-tree
+  - syntax-highlight
+  - audio-player
+  - editor
+  - drawer
+  - sheet
+  - user-menu
+  - app-nav
+  - app-shell
+  - tab-strip
+  - event-calendar
+  - bubble
+  - toast
+  - sonner
+  - switch
+  - checkbox
+  - input-otp
+  - slider
+  - dropdown-menu
+  - context-menu
+  - select
+  - number-field
+  - tooltip
+  - tabs
+  - toggle-group
+  - combobox
+  - command
+  - sidebar
+  - area-chart
+  - line-chart
+  - bar-chart
+  - composition-chart
+  - candlestick-chart
+  - bump-chart
+  - pie-chart
+  - donut-chart
+  - radial-chart
+  - radar-chart
+  - treemap
+  - funnel-chart
+  - sankey-chart
+  - heat-calendar
+  - status-bar
+  - /docs/foundations/motion
 ---
 
 These changes are merged and ship in the next version.
@@ -21,7 +76,7 @@ These changes are merged and ship in the next version.
 
 **Setup pages in the design guide.** `DESIGN.md` adds the Setup pattern: a draft that saves itself, one line per decision, and checks beside a live preview, in place of a long form. It also says which settings controls stay beside their label on phones, and that React Native is only missing the Data Table and the time in Date Picker.
 
-**Menu icons in the design guide.** The `DESIGN.md` new projects receive now asks every dropdown, context-menu and menubar action to lead with its icon, so menus scan by shape and their labels share one edge. Checkbox items and sub-menu triggers keep their icon, with the check or chevron at the end. A sub-menu of plain values goes without icons, and an action with no fitting icon takes `inset`. The fabricator skill's icon, design and dashboard rules say the same.
+**Menu icons in the design guide.** The `DESIGN.md` new projects receive now asks every dropdown and context-menu action to lead with its icon, so menus scan by shape and their labels share one edge. Checkbox items and sub-menu triggers keep their icon, with the check or chevron at the end. A sub-menu of plain values goes without icons, and an action with no fitting icon takes `inset`. The fabricator skill's icon, design and dashboard rules say the same.
 
 **Cursors in the design guide.** `DESIGN.md` now says which cursor each interaction takes, on the web and in desktop windows: a pointer only on what acts on a click, text where people type, grab and grabbing on what drags, a resize cursor on an edge, not-allowed on a disabled control that keeps its tooltip, and the arrow on everything static. A drag or resize holds its cursor on the whole window. The skill's styling rules add the classes for markup made interactive by hand.
 
@@ -34,6 +89,34 @@ These changes are merged and ship in the next version.
 **SwiftUI and Kotlin Compose previews retired.** The CLI and hosted registry no longer install or update SwiftUI and Compose items. Existing apps can continue using the source they copied. The preview source is available in the `fabricator-ui@0.9.0` release.
 
 ## Components
+
+**Search is an input again.** `InputSearch`, new in Input Group, is a search field framed like every other input: the search icon at the start and a clear button once there is text. The button and Escape clear the text and keep the focus in the field; Escape on an empty field reaches the dialog around it. It works controlled or uncontrolled and takes more addons, such as a keycap. The Data Table, Kanban, Mail, Members and Messenger toolbars use it; where the Kanban toolbar has no room, a search button opens the field. The Search component, a round button that sprang open into a pill, is removed: replace `<Search collapsible={false} label="…" />` with `<InputSearch aria-label="…" />`. On web and React Native. [Search](/docs/components/base/input#search).
+
+**Menubar removed.** The registry no longer ships Menubar on any base or on React Native: desktop apps take their menus from the window, and pages use a Dropdown Menu. A project that installed it keeps its copy.
+
+**Components regrouped.** Forms now holds every control for entering a value: Input, Textarea, Label, Checkbox, Radio Group, Switch, Slider and Rating join it from Basics. Alert, Toast and Empty move to Basics as feedback in place, and Typography and Text Motion move to Content. The docs sidebar, the homepage filter and the desktop and mobile explorers follow.
+
+**Highlights stretch on springs.** The highlight that follows the pointer and the selection background in tabs, toggle groups, menus, selects, comboboxes, command, the sidebar, the file tree and every other list with Fluid Hover now move each edge on its own spring. The edge facing the move is stiff and the edge behind it soft, so they stretch toward the next item and gather as they land, and a second click mid-flight bends the motion instead of restarting it. Seven named springs join the motion tokens (`follow`, `settle`, `soft`, `lead`, `trail`, `pop`, `fade`) as `--motion-spring-<name>`, plus `--motion-stagger`; each speed retimes them with the same feel, `instant` takes the overshoot out, and Reduce Motion still jumps. On web and React Native. [Springs](/docs/foundations/motion#springs).
+
+**Time wheels that loop, on a real drum.** Time Input's wheel is rebuilt. Each column is now a 3D drum: rows bunch up and turn away towards the top and bottom instead of tilting in place, and a row brightens exactly as it crosses the band's edge. Hours, minutes and seconds loop, so 59 runs on into 00 and 12 into 1, while AM or PM stops at its ends. Drag a column, flick it to coast and slow into a row, scroll it with a mouse wheel or trackpad, or click a row to turn to it; it settles on the `settle` spring. Rows and the band are taller, the numbers larger and centred in even columns. Arrow Up now steps to the next value, as a spinbutton should. Date Picker's time column gets the same wheel. On web and React Native; React Native draws the drum from its scroll position and colours the row once it settles. [Time Input](/docs/components/base/time-input).
+
+**Controls that land on springs.** The switch thumb lands with a small overshoot and its knob wobbles back after a press; a checkbox pops back as you let go; a typed one-time code digit drops into its slot with a bounce; the slider glides to a click or a key and settles without a visible overshoot; the copy button in Syntax Highlight turns its check in with a bounce. Menus (dropdown, context menu and select) drop their rows in one after another as they open. A number field's value rolls up or down into place when it steps. A tooltip opening right after another travels from it, resizing to its label, instead of reappearing. Every spring has a CSS form, `duration-<name>-spring ease-<name>-spring`, and `motion-stagger` staggers any list. Reduce Motion keeps fades only. On web and React Native, except the menu cascade, number roll and tooltip travel, which are web only.
+
+**Hold Button.** A new button that confirms only when held for its whole duration: it fills from its start edge as you hold, springs back and shakes if you let go early, and shows a check when done. For deleting, publishing or paying without a dialog in the way. Space and Enter hold it too. [Hold Button](/docs/components/base/hold-button).
+
+**Slide to Confirm.** A new track whose thumb you slide to the end to commit: it follows the finger, gives like rubber past the ends, and springs back short of the end. Enter confirms from the keyboard. [Slide to Confirm](/docs/components/base/slide-to-confirm).
+
+**Stepper.** A new component for the steps of a flow: finished steps draw a check, the current one pops up, and the line to the next step fills as each is done. [Stepper](/docs/components/base/stepper).
+
+**Status Island.** One new pill for a live activity that reshapes around what it shows: width lands first, height drops into place, and new content fades in through a blur. Screen readers hear each change. [Status Island](/docs/components/base/status-island).
+
+**Password Strength.** Four bars under a new-password field fill one after another as the password gets stronger, from red to green, with a word for how strong it is. [Password Strength](/docs/components/base/password-strength).
+
+**Segmented Meter.** Parts of one total in a single bar with a legend, such as storage by kind. A part that changes springs to its new size and the rest slide over. [Segmented Meter](/docs/components/base/segmented-meter).
+
+**Bottom Nav.** A tab bar for phone web apps: the current tab opens into a pill with its name and its icon pops. React Native keeps the App Shell's bottom bar. [Bottom Nav](/docs/components/base/bottom-nav).
+
+All seven are on the web for every base; their React Native ports follow.
 
 **Text Motion.** A new component plays text in by character, word or line. Effects are layers that combine: `fade`, `blur`, `rise`, `fall`, `slide`, `scale`, `flip` and `mask`, plus `scramble`, which settles random glyphs into the text, and `type`, which types it behind a caret. `shimmer` and `wave` loops keep a status or a word moving once it lands. `TextMotionGroup` plays a heading and its paragraph in order on one trigger, and `TextMotionRotate` cycles a word in place at the widest word's width. Every time comes from the reveal motion role, so the project's speed retimes it, `instant` and `off` show the text at once, and Reduce Motion keeps only the fades. Screen readers hear the text once, whole. `DESIGN.md` and the fabricator skill say when a website's words play in and when text stays in place. On the web; React Native follows. [Text Motion](/docs/components/base/text-motion).
 
@@ -64,6 +147,8 @@ These changes are merged and ship in the next version.
 **App Shell window dragging.** On macOS, drag the frame above the inset main column to move the window. Tabs and their controls remain clickable.
 
 **Desktop sidebar toggle.** The App Shell’s sidebar toggle icon is slightly larger next to the window controls.
+
+**Sidebar resize line beside cards.** With the inset or floating sidebar, the line that shows when you hover the resize edge sits in the gap between the sidebar and the card and stops at the card's top and bottom, instead of running over the card's rounded corners from the top of the window to the bottom. In right-to-left layouts the resize edge now sits on the sidebar's edge, as it does left to right.
 
 **Tab Strip rename.** Base UI and Radix focus the inline field after a rename starts. Tab Strip now passes Biome's autofocus rule while keeping keyboard renaming.
 
@@ -114,6 +199,8 @@ These changes are merged and ship in the next version.
 ## Docs
 
 **Advanced component references.** Expand any component under Advanced to find focused examples for its parts, hooks, configuration, and controls.
+
+**New and Updated in the sidebar.** Components and pages that are new or changed in the last two releases, or waiting for the next one, carry a New or Updated badge in the docs sidebar.
 
 **App Shell primitives.** The App Shell row under Components links to the overview and expands to show its installable companions and individual references. Each primitive reference starts with a live preview and its code. The overview shows how to customize sidebar grouping and tab placement.
 

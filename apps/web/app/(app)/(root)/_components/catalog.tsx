@@ -22,6 +22,53 @@ export type CatalogEntry = Omit<CatalogSource, "load"> & {
 
 const SOURCES: CatalogSource[] = [
   {
+    slug: "bottom-nav",
+    title: "Bottom Nav",
+    height: "sm",
+    load: () => import("@/examples/__styles__/base-fabricator/bottom-nav-demo"),
+  },
+  {
+    slug: "hold-button",
+    title: "Hold Button",
+    height: "sm",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/hold-button-demo"),
+  },
+  {
+    slug: "password-strength",
+    title: "Password Strength",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/password-strength-demo"),
+  },
+  {
+    slug: "segmented-meter",
+    title: "Segmented Meter",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/segmented-meter-demo"),
+  },
+  {
+    slug: "slide-to-confirm",
+    title: "Slide to Confirm",
+    height: "sm",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/slide-to-confirm-demo"),
+  },
+  {
+    slug: "status-island",
+    title: "Status Island",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/status-island-demo"),
+  },
+  {
+    slug: "stepper",
+    title: "Stepper",
+    height: "sm",
+    load: () => import("@/examples/__styles__/base-fabricator/stepper-demo"),
+  },
+  {
     slug: "theme-toggle",
     title: "Theme Toggle",
     height: "md",
@@ -300,12 +347,6 @@ const SOURCES: CatalogSource[] = [
     title: "Marker",
     height: "sm",
     load: () => import("@/examples/__styles__/base-fabricator/marker-demo"),
-  },
-  {
-    slug: "menubar",
-    title: "Menubar",
-    height: "sm",
-    load: () => import("@/examples/__styles__/base-fabricator/menubar-demo"),
   },
   {
     slug: "message",

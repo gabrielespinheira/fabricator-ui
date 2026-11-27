@@ -52,7 +52,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "number-field": {
     tier: "touch",
-    note: "A decimal keyboard and touch steppers use the same clamping, locale parsing, formatting, fractional steps and bounds. Browser keyboard shortcuts and pointer scrubbing have no native equivalent.",
+    note: "A decimal keyboard and touch steppers use the same clamping, locale parsing, formatting, fractional steps and bounds. Browser keyboard shortcuts and pointer scrubbing have no native equivalent. A stepped value changes in place: the website rolls its input's text, and a native text input can't move inside its frame.",
   },
   "time-input": {
     tier: "touch",
@@ -60,7 +60,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "time-wheel": {
     tier: "touch",
-    note: "Native scroll views snap each column to its rows; accessibility adjustment actions step it. Values and bounds use the same shared time model. DOM keyboard shortcuts and hover effects have no native equivalent.",
+    note: "Native scroll views snap each column to its rows, and the rows are moved onto the same drum as the website's from the scroll position. Looping columns repeat their rows and jump back to the middle turn when they come to rest. A row turns the foreground colour once it settles on the band, not as it crosses the band's edge. Accessibility adjustment actions step it. Values and bounds use the same shared time model. DOM keyboard shortcuts have no native equivalent.",
   },
 
   accordion: SAME,
@@ -121,7 +121,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "context-menu": {
     tier: "touch",
-    note: "A long press opens it, in place of a right click. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard.",
+    note: "A long press opens it, in place of a right click. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard. Rows appear together; on the website they fall in one after another.",
   },
   dialog: SAME,
   direction: {
@@ -138,7 +138,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "dropdown-menu": {
     tier: "same",
-    note: "`side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard.",
+    note: "`side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard. Rows appear together; on the website they fall in one after another.",
   },
   editor: {
     tier: "engine",
@@ -170,10 +170,6 @@ export const NATIVE_DIFFERENCES: Record<
     note: "`components.a` receives `href`, `title` and `children` and renders inside a Text; the default opens the link with `Linking`. `components.img` receives `src`, `alt` and `title`; the default is React Native's `Image`. Tables scroll sideways with each cell on one line. Inline code takes the hover fill without the website's rounded, padded chip: React Native can't pad a run of text inside a paragraph.",
   },
   marker: SAME,
-  menubar: {
-    tier: "touch",
-    note: "A desktop pattern: triggers in a row that scrolls, each opening its menu. A press lights a trigger; a drag scrolls the row. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard.",
-  },
   message: SAME,
   "message-scroller": {
     tier: "engine",
@@ -206,10 +202,9 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "same",
     note: "Touch keeps native scrolling, so `ScrollBar` renders nothing, as it does on touch devices on the web.",
   },
-  search: SAME,
   select: {
     tier: "touch",
-    note: "Opens as a sheet on phones and a popover on tablets.",
+    note: "Opens as a sheet on phones and a popover on tablets. Rows appear together; on the website they fall in one after another.",
   },
   separator: SAME,
   sheet: {
@@ -259,7 +254,7 @@ export const NATIVE_DIFFERENCES: Record<
   "toggle-group": SAME,
   tooltip: {
     tier: "touch",
-    note: "A long press shows it, and screen readers read it as the trigger's hint.",
+    note: "A long press shows it, and screen readers read it as the trigger's hint. One shows at a time, so it never travels from one trigger to the next as the website's does.",
   },
   "user-menu": {
     tier: "same",

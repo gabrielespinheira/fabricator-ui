@@ -224,6 +224,37 @@ describe("docs pagination", () => {
     }
   )
 
+  it("badges pages that are new or updated in a recent release", () => {
+    const groups = getDocsExplorerGroups(
+      [
+        {
+          url: "/docs/components/base/folder",
+          title: "Folder",
+          release: "new",
+        },
+        { url: "/docs/components/base/button", title: "Button" },
+        {
+          url: "/docs/foundations/motion",
+          title: "Motion",
+          release: "updated",
+        },
+      ],
+      "base"
+    )
+    const items = groups.flatMap((group) =>
+      group.items.flatMap((item) => item.children ?? [])
+    )
+    expect(items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ label: "Folder", badge: "New" }),
+        expect.objectContaining({ label: "Motion", badge: "Updated" }),
+      ])
+    )
+    expect(items.find((item) => item.label === "Button")).not.toHaveProperty(
+      "badge"
+    )
+  })
+
   it("returns no neighbours for an unknown page", () => {
     expect(getDocsNeighbours(pages, "/docs/missing")).toEqual({
       previous: undefined,

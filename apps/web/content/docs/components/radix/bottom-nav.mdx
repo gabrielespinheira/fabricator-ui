@@ -1,0 +1,94 @@
+---
+title: Bottom Nav
+description: "A phone app's tab bar: the current tab opens into a pill with its name."
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="bottom-nav-demo" />
+
+A bottom nav is the tab bar of an app on a phone. The current tab opens into a pill with its name while the others close to their icons, so the bar stays short and the current place is always named. Picking a tab pops its icon.
+
+Bottom Nav is part of the Fabricator style. It's built on HTML, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add bottom-nav
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/bottom-nav.tsx"
+  title="components/ui/bottom-nav.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  BottomNav,
+  BottomNavItem,
+  BottomNavLink,
+} from "@/components/ui/bottom-nav"
+```
+
+```tsx
+<BottomNav aria-label="Main">
+  <BottomNavLink href="/" label="Home" icon={<HomeIcon />} active />
+  <BottomNavLink href="/search" label="Search" icon={<SearchIcon />} />
+</BottomNav>
+```
+
+## Composition
+
+```text
+BottomNav                data-slot="bottom-nav" (nav)
+└── BottomNavItem        data-slot="bottom-nav-item" [data-active] [aria-current="page"]
+    ├── span             data-slot="bottom-nav-icon"
+    └── span             data-slot="bottom-nav-label-frame"
+```
+
+`BottomNavLink` renders a link for tabs that go to a page; `BottomNavItem` a button for tabs that switch a view in place. Mark the current one with `active`. Place the bar yourself, such as fixed to the bottom of the screen.
+
+## Motion
+
+The current tab's name opens to its width on the soft spring as the old one closes, so the pills trade room. Pressing squashes the icon and letting go pops it back on the pop spring. Reduce Motion opens and closes at once.
+
+## API Reference
+
+| Component                        | Prop     | Type        |
+| -------------------------------- | -------- | ----------- |
+| `BottomNavItem`, `BottomNavLink` | `label`  | `string`    |
+|                                  | `icon`   | `ReactNode` |
+|                                  | `active` | `boolean`   |
+
+`BottomNav` renders a `nav`, `BottomNavLink` an `a` and `BottomNavItem` a `button`, each taking its element's props.
+
+## Accessibility
+
+The bar is a `nav`; name it with `aria-label`. Every tab keeps its name in the page, so screen readers read it even when the pill is closed, and the current one is marked `aria-current="page"`. Tabs are reached with Tab and activated with Enter.

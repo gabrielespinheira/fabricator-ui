@@ -24,7 +24,7 @@ export const formItems: Registry["items"] = [
     name: "time-wheel",
     type: "registry:ui",
     title: "Time Wheel",
-    dependencies: ["cn", "uniwind@1.13.1"],
+    dependencies: ["cn", "react-native-reanimated", "uniwind@1.13.1"],
     registryDependencies: ["@fabricator/text", "@fabricator/motion"],
     files: [
       { path: "ui/time-wheel.tsx", type: "registry:ui" },
@@ -146,7 +146,10 @@ export const formItems: Registry["items"] = [
       "@fabricator/text",
       "@fabricator/textarea",
     ],
-    files: [{ path: "ui/input-group.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/input-group.tsx", type: "registry:ui" },
+      { path: "lib/input-search-model.ts", type: "registry:lib" },
+    ],
     meta: docs("input-group"),
   },
   {

@@ -90,12 +90,22 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "spring-model",
+    type: "registry:lib",
+    title: "Spring Model",
+    description:
+      "Springs that keep their velocity when the target changes, and a highlight whose leading edge is stiff and trailing edge soft, read from the motion spring tokens.",
+    files: [{ path: "lib/spring-model.ts", type: "registry:lib" }],
+    meta: { fabricator: true },
+  },
+  {
     name: "fluid-hover",
     type: "registry:lib",
     title: "Fluid Hover",
     description:
-      "One highlight that glides to the item nearest the pointer, and a selection background that slides between selected items.",
+      "One highlight that glides to the item nearest the pointer, and a selection background that slides between selected items. Both stretch toward their target on springs.",
     dependencies: ["@radix-ui/react-compose-refs@1.1.5"],
+    registryDependencies: ["spring-model"],
     files: [{ path: "lib/fluid-hover.tsx", type: "registry:lib" }],
   },
   {
@@ -130,23 +140,6 @@ export const fabricatorItems = [
       { path: "lib/desktop-window.ts", type: "registry:lib" },
     ],
     meta: { fabricator: true },
-  },
-  {
-    name: "search",
-    type: "registry:ui",
-    title: "Search",
-    description:
-      "A search button that springs open into a search field as one object. Escape clears, then closes.",
-    files: [{ path: "ui/search.tsx", type: "registry:ui" }],
-    categories: ["forms"],
-    meta: {
-      fabricator: true,
-      links: {
-        docs: "https://fabricator-ui.vercel.app/docs/components/base/search",
-        examples:
-          "https://fabricator-ui.vercel.app/docs/components/base/search#examples",
-      },
-    },
   },
   {
     name: "file-tree",
@@ -316,6 +309,141 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "hold-button",
+    type: "registry:ui",
+    title: "Hold Button",
+    description:
+      "A button that confirms only when held for its whole duration: it fills as you hold, springs back and shakes if you let go early, and shows a check when done. For actions worth a second thought, without a dialog.",
+    files: [
+      { path: "ui/hold-button.tsx", type: "registry:ui" },
+      { path: "lib/hold-button-model.ts", type: "registry:lib" },
+    ],
+    registryDependencies: ["fluid-hover", "spring-model"],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/hold-button",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/hold-button#examples",
+      },
+    },
+  },
+  {
+    name: "slide-to-confirm",
+    type: "registry:ui",
+    title: "Slide to Confirm",
+    description:
+      "A track whose thumb you slide to the end to commit. It follows the finger, gives like rubber past the ends, springs back short of the end, and confirms from the keyboard with Enter.",
+    files: [
+      { path: "ui/slide-to-confirm.tsx", type: "registry:ui" },
+      { path: "lib/slide-to-confirm-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/slide-to-confirm",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/slide-to-confirm#examples",
+      },
+    },
+  },
+  {
+    name: "stepper",
+    type: "registry:ui",
+    title: "Stepper",
+    description:
+      "The steps of a flow and where the person is in it. Finished steps draw a check, the current one pops up, and the line to the next step fills as each is done.",
+    files: [
+      { path: "ui/stepper.tsx", type: "registry:ui" },
+      { path: "lib/stepper-model.ts", type: "registry:lib" },
+    ],
+    categories: ["navigation"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/stepper",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/stepper#examples",
+      },
+    },
+  },
+  {
+    name: "status-island",
+    type: "registry:ui",
+    title: "Status Island",
+    description:
+      "One pill that changes shape to hold what it shows: width springs before height, so a change lands sideways and then drops, and new content fades in through a blur.",
+    files: [{ path: "ui/status-island.tsx", type: "registry:ui" }],
+    categories: ["basics"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/status-island",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/status-island#examples",
+      },
+    },
+  },
+  {
+    name: "password-strength",
+    type: "registry:ui",
+    title: "Password Strength",
+    description:
+      "Four bars under a password field that fill one after another as the password gets stronger, from the destructive role to success, with a word for how strong it is.",
+    files: [
+      { path: "ui/password-strength.tsx", type: "registry:ui" },
+      { path: "lib/password-strength-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/password-strength",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/password-strength#examples",
+      },
+    },
+  },
+  {
+    name: "segmented-meter",
+    type: "registry:ui",
+    title: "Segmented Meter",
+    description:
+      "Parts of one total in a single bar with a legend, such as storage by kind. Each part takes a chart series colour and springs to a new size while the rest slide over.",
+    files: [
+      { path: "ui/segmented-meter.tsx", type: "registry:ui" },
+      { path: "lib/segmented-meter-model.ts", type: "registry:lib" },
+    ],
+    categories: ["content"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/segmented-meter",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/segmented-meter#examples",
+      },
+    },
+  },
+  {
+    name: "bottom-nav",
+    type: "registry:ui",
+    title: "Bottom Nav",
+    description:
+      "A phone app's tab bar: the current tab opens into a pill with its name, the others close to their icons, and the icon pops as it is picked.",
+    files: [{ path: "ui/bottom-nav.tsx", type: "registry:ui" }],
+    categories: ["navigation"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/bottom-nav",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/bottom-nav#examples",
+      },
+    },
+  },
+  {
     name: "text-motion",
     type: "registry:ui",
     title: "Text Motion",
@@ -379,8 +507,8 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Number Field",
     description:
-      "A number input with decrement and increment steppers, min, max and step, keyboard stepping, and locale formatting for currency, percent and units.",
-    registryDependencies: ["input-group"],
+      "A number input with decrement and increment steppers, min, max and step, keyboard stepping, and locale formatting for currency, percent and units. A stepped value rolls into place.",
+    registryDependencies: ["input-group", "number-roll"],
     files: [{ path: "ui/number-field.tsx", type: "registry:ui" }],
     categories: ["forms"],
     meta: {
@@ -471,9 +599,9 @@ export const fabricatorItems = [
       "dropdown-menu",
       "empty",
       "input",
+      "input-group",
       "popover",
       "progress",
-      "search",
       "select",
       "separator",
       "skeleton",
@@ -595,7 +723,7 @@ export const fabricatorItems = [
       "button",
       "drawer",
       "input",
-      "search",
+      "input-group",
       "skeleton",
       "textarea",
     ],
@@ -1047,12 +1175,13 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Time Input",
     description:
-      "A text field that takes a typed time or one picked on a scroll wheel of hours, minutes and seconds, in 12- or 24-hour form, with a range and a form value.",
-    registryDependencies: ["input-group", "popover"],
+      "A text field that takes a typed time or one picked on a looping 3D wheel of hours, minutes and seconds, in 12- or 24-hour form, with a range and a form value.",
+    registryDependencies: ["input-group", "popover", "spring-model"],
     files: [
       { path: "ui/time-input.tsx", type: "registry:ui" },
       { path: "ui/time-wheel.tsx", type: "registry:ui" },
       { path: "lib/time-input-model.ts", type: "registry:lib" },
+      { path: "lib/time-wheel-model.ts", type: "registry:lib" },
     ],
     categories: ["forms"],
     meta: {
@@ -1199,6 +1328,14 @@ export const fabricatorItems = [
     ],
   },
   {
+    name: "input-search-model",
+    type: "registry:lib",
+    title: "Input search model",
+    description:
+      "When a search field offers its clear button and what Escape does: clears the text, or reaches the dialog around an empty field.",
+    files: [{ path: "lib/input-search-model.ts", type: "registry:lib" }],
+  },
+  {
     name: "accordion-shape",
     type: "registry:lib",
     title: "Accordion shape",
@@ -1219,6 +1356,32 @@ export const fabricatorItems = [
       { path: "lib/toast-stack-model.ts", type: "registry:lib" },
       { path: "hooks/use-toast-stack.ts", type: "registry:hook" },
     ],
+  },
+  {
+    name: "tooltip-travel",
+    type: "registry:lib",
+    title: "Tooltip travel",
+    description:
+      "Moving between triggers, a tooltip opens at the last one's place and size and springs to its own, so one tooltip seems to travel along a toolbar.",
+    registryDependencies: ["fluid-hover", "spring-model"],
+    files: [
+      { path: "lib/tooltip-travel-model.ts", type: "registry:lib" },
+      { path: "hooks/use-tooltip-travel.ts", type: "registry:hook" },
+    ],
+    meta: { fabricator: true },
+  },
+  {
+    name: "number-roll",
+    type: "registry:lib",
+    title: "Number roll",
+    description:
+      "Rolls a number field's value into place when it steps: up when it grows, down when it shrinks, on the soft spring.",
+    registryDependencies: ["fluid-hover", "spring-model"],
+    files: [
+      { path: "lib/number-roll-model.ts", type: "registry:lib" },
+      { path: "hooks/use-number-roll.ts", type: "registry:hook" },
+    ],
+    meta: { fabricator: true },
   },
   {
     name: "radio-glide",
@@ -1470,10 +1633,9 @@ export const fabricatorOverrides: Record<
   drawer: { registryDependencies: ["density"] },
   popover: { registryDependencies: ["density"] },
   "hover-card": { registryDependencies: ["density"] },
-  tooltip: { registryDependencies: ["density"] },
+  tooltip: { registryDependencies: ["density", "tooltip-travel"] },
   "dropdown-menu": { registryDependencies: ["fluid-hover", "density"] },
   "context-menu": { registryDependencies: ["fluid-hover", "density"] },
-  menubar: { registryDependencies: ["fluid-hover", "density"] },
   select: { registryDependencies: ["fluid-hover", "density"] },
   combobox: { registryDependencies: ["fluid-hover", "density"] },
   command: { registryDependencies: ["fluid-hover"] },
@@ -1484,6 +1646,8 @@ export const fabricatorOverrides: Record<
   accordion: { registryDependencies: ["fluid-hover", "accordion-shape"] },
   table: { registryDependencies: ["fluid-hover"] },
   questionnaire: { registryDependencies: ["fluid-hover"] },
+  // InputSearch: the clear button and Escape.
+  "input-group": { registryDependencies: ["input-search-model"] },
   slider: { registryDependencies: ["slider-model"] },
   "radio-group": { registryDependencies: ["radio-glide"] },
   toast: { registryDependencies: ["toast-stack", "fluid-hover"] },
@@ -1496,7 +1660,9 @@ export const fabricatorOverrides: Record<
  * Upstream items the Fabricator library leaves out of its registry, mapped
  * to the item that replaces them in other items' dependencies (null drops the
  * dependency). The library doesn't ship controls that only restyle a raw
- * native element: Native Select is replaced by Select everywhere. Chart is
+ * native element: Native Select is replaced by Select everywhere. Menubar is
+ * left out: desktop apps take their menus from the window, and pages use a
+ * Dropdown Menu. Chart is
  * left out for now, together with the blocks built on it (dashboard-01 and
  * the preview / preview-02 showcase blocks). The upstream styles, compiled
  * only for the parity check, keep every upstream item. Items that used an
@@ -1506,6 +1672,8 @@ export const fabricatorOverrides: Record<
 export const FABRICATOR_EXCLUDED_ITEMS: Record<string, string | null> = {
   "native-select": "select",
   "native-select-example": null,
+  menubar: null,
+  "menubar-example": null,
   chart: null,
   "chart-example": null,
   "dashboard-01": null,

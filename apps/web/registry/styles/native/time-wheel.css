@@ -1,6 +1,11 @@
 /* MARK: Time Wheel */
-.cn-time-wheel { @apply gap-(--density-4) px-(--density-4) min-w-56; }
+/* Seven rows tall, the band across the middle; the rows sit on a drum drawn
+   from the scroll position, as on the website. */
+.cn-time-wheel { @apply gap-(--density-4) px-(--density-8) min-w-56; }
 .cn-time-wheel-band { @apply bg-active rounded-lg; }
-.cn-time-wheel-column { @apply min-w-12; }
+.cn-time-wheel-column { @apply w-14; }
 .cn-time-wheel-spacer { @apply shrink-0; }
-.cn-time-wheel-item { @apply px-(--density-6); }
+.cn-time-wheel-item { @apply px-(--density-4); }
+.cn-time-wheel-item-text { @apply text-xl font-medium tabular-nums; }
+.cn-time-wheel-drum { @apply grow-0; }
+.cn-time-wheel-layer { @apply shrink-0; }

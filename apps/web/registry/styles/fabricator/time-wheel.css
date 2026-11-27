@@ -1,32 +1,37 @@
 /* MARK: Time Wheel */
 
   /* Seven rows tall by default, about what an iOS wheel shows; a parent can set
-     its own height (the Date Picker fills the calendar's). */
+     its own height (the Date Picker fills the calendar's) and the drum
+     follows it. */
   .cn-time-wheel {
-    @apply h-[calc(var(--density-32)*7)] gap-(--density-4) px-(--density-4);
+    @apply h-[calc(var(--density-36)*7)] gap-(--density-4) px-(--density-8);
   }
 
   /* The band the value sits on, across every column. */
   .cn-time-wheel-band {
-    @apply bg-active h-(--density-32) rounded-lg;
+    @apply bg-active h-(--density-36) rounded-lg;
   }
 
-  /* A column snaps to its rows and fades from the band out: the band's row
-     whole, the next rows at 60%, the far ones at 15%, then nothing; the rows tilt
-     around a shallow perspective, like a drum. Its rows don't size it
-     (contain-size): it takes the wheel's height, and its width from the
-     token, so a parent can make the wheel as tall as it likes. */
+  /* A column is as wide as AM/PM in the wheel's figures; its rows don't size
+     it (contain-size), so it takes the wheel's height. It turns under a drag. */
   .cn-time-wheel-column {
-    @apply no-scrollbar contain-size w-(--density-48) snap-y snap-mandatory rounded-lg [perspective:15rem] [mask-image:linear-gradient(to_bottom,transparent,rgb(0_0_0/0.15)_15%,rgb(0_0_0/0.6)_calc(50%-var(--density-32)*1.5),black_calc(50%-var(--density-32)/2),black_calc(50%+var(--density-32)/2),rgb(0_0_0/0.6)_calc(50%+var(--density-32)*1.5),rgb(0_0_0/0.15)_85%,transparent)] focus-visible:ring-1 focus-visible:ring-focus-ring;
+    @apply contain-size w-[calc(var(--density-28)*2)] cursor-grab rounded-lg active:cursor-grabbing focus-visible:ring-1 focus-visible:ring-focus-ring;
   }
 
-  /* Room above the first row and below the last, so either can sit on the
-     band. */
-  .cn-time-wheel-spacer {
-    @apply h-[calc(50%-var(--density-32)/2)];
+  /* The drum, seen from far enough away that its rows keep their size at the
+     band; it fades out towards the top and bottom. The fade sits inside the
+     column, so the focus ring stays crisp. */
+  .cn-time-wheel-drum {
+    @apply [perspective:62.5rem] [mask-image:linear-gradient(to_bottom,transparent,rgb(0_0_0/0.3)_15%,black_38%,black_62%,rgb(0_0_0/0.3)_85%,transparent)];
   }
 
-  /* Rows: muted, the one on the band in the foreground and semibold. */
+  /* The rows drawn twice: muted, then in the foreground, clipped to the band
+     so a row brightens exactly as it crosses the band's edge. */
+  .cn-time-wheel-layer {
+    @apply text-muted-foreground data-selected:text-foreground data-selected:[clip-path:inset(calc(50%-var(--density-36)/2)_0)];
+  }
+
+  /* A row, centred on its spot on the drum; the back of the drum hides. */
   .cn-time-wheel-item {
-    @apply text-muted-foreground h-(--density-32) snap-center px-(--density-6) text-(length:--density-text-16) tabular-nums transition-colors duration-feedback ease-feedback [backface-visibility:hidden] data-selected:text-foreground data-selected:font-semibold;
+    @apply -mt-[calc(var(--density-36)/2)] h-(--density-36) text-[calc(var(--density-text-16)*1.25)] font-medium tabular-nums [backface-visibility:hidden];
   }
