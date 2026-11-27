@@ -160,6 +160,13 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/candlestick-chart-demo"),
   },
   {
+    slug: "canvas",
+    title: "Canvas",
+    height: "md",
+    // The docs demo is a full editor; the card shows a diagram at rest.
+    load: () => import("@/examples/__styles__/base-fabricator/canvas-static"),
+  },
+  {
     slug: "card",
     title: "Card",
     height: "lg",

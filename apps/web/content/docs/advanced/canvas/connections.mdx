@@ -1,0 +1,38 @@
+---
+title: "Canvas connections"
+description: "Typed handles, connection rules with reasons, keyboard and menu connect, and connections that wait on a server."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-validation"
+  type="frame"
+  fit
+  wide
+/>
+
+A handle's `produces` and `accepts` are value types. A connection lands only where they match (`accepts={["*"]}` takes anything), and `max` caps how many connections a handle takes. While a connection is dragged every handle shows; the one under the pointer fills with the primary colour, or turns red with the line dashed when it can't take it.
+
+```tsx
+<CanvasHandle kind="source" side="right" produces="image" />
+<CanvasHandle kind="target" side="left" accepts={["text", "image"]} max={1} />
+```
+
+The canvas also refuses a node connecting to itself (`allowSelfLoops` allows it), a connection that already exists, and, with `allowCycles={false}`, one that would close a loop. Add your own rule with `validateConnection`: return `true`, or the reason as a string.
+
+```tsx
+<Canvas
+  allowCycles={false}
+  validateConnection={(connection, { nodes }) =>
+    isPublished(connection.source, nodes)
+      ? "Published pages can't move back"
+      : true
+  }
+/>
+```
+
+Dropping a connection on a node's body connects to its first handle that takes it. Dropping it on empty canvas calls `onConnectToPane` with the point and the handle it came from, so you can open the library there and create the next step already connected.
+
+From the keyboard, focus a node and press C, or choose Connect to… in its menu: a list of every handle that can take the connection, grouped by the node's outputs, nearest first. This is also the way to connect on a phone.
+
+`onConnect` can return a promise. The edge shows at once, faded, until it settles; a rejection removes it and raises a toast with Retry.

@@ -1319,6 +1319,312 @@
     @apply block size-2 shrink-0 rounded-[2px] bg-current;
   }
 
+/* MARK: Canvas */
+
+  /* The page itself is the canvas: surface 1, so nodes rise off it as cards
+     do off a page. React Flow keeps its structure (in the base layer) and
+     takes every colour from these variables, so none of its own look shows:
+     no node borders, a transparent pane, selection and resize in the primary
+     colour, a minimap on the raised surface. Small pins compact density for
+     dense graphs. Disabled dims the whole canvas and takes no pointer. */
+  .cn-canvas {
+    @apply bg-background text-(length:--density-text-13) text-foreground [--xy-background-color:transparent] [--xy-node-border:none] [--xy-node-border-selected:none] [--xy-node-color:inherit] [--xy-handle-background-color:transparent] [--xy-selection-background-color:color-mix(in_oklab,var(--primary)_8%,transparent)] [--xy-selection-border:1px_solid_color-mix(in_oklab,var(--primary)_40%,transparent)] [--xy-resize-background-color:var(--primary)] [--xy-minimap-background-color:var(--surface-3)] [--xy-minimap-mask-background-color:color-mix(in_oklab,var(--background)_70%,transparent)] [--xy-minimap-mask-stroke-color:color-mix(in_oklab,var(--primary)_40%,transparent)] [--xy-minimap-node-background-color:color-mix(in_oklab,var(--foreground)_16%,transparent)] data-[size=sm]:density-compact data-disabled:pointer-events-none data-disabled:opacity-50;
+  }
+
+  /* React Flow's frame fills the canvas. */
+  .cn-canvas-engine {
+    @apply size-full min-h-0 flex-1;
+  }
+
+  /* A grid of 1px dots a step above the page, fading away when zoomed far
+     out, where it would turn the canvas grey. Lines and crosses use the same
+     colour. */
+  .cn-canvas-background {
+    @apply transition-opacity duration-move ease-move in-data-[lod=outline]:opacity-0;
+  }
+
+  .cn-canvas-background-pattern {
+    @apply fill-foreground/12 stroke-foreground/8 dark:fill-foreground/16 dark:stroke-foreground/10;
+  }
+
+  /* MARK: Canvas node */
+
+  /* A node is a raised card (surface 3): rounded like a card, sized by the
+     density, its ring the edge. Hover lifts it a level; selection draws a
+     1.5px primary ring and keeps it lifted; keyboard focus is the 1px blue
+     outline just outside, so focus and selection read at once. A drag lifts
+     it to the dialog level and grows it a hair on the settle timing. Run
+     states colour the ring with their role and carry an icon in the header;
+     skipped dims. A change waiting on the server fades and shows progress. */
+  .cn-canvas-node {
+    @apply max-w-[calc(var(--density-36)*9)] min-w-[calc(var(--density-36)*5)] gap-(--density-8) rounded-xl bg-surface-3 p-(--density-12) text-start shadow-surface-3 transition-[box-shadow,scale,opacity] duration-feedback ease-feedback hover:shadow-surface-4 outline-hidden focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid data-selected:shadow-surface-4 data-selected:ring-[1.5px] data-selected:ring-primary data-dragging:scale-[1.01] data-dragging:shadow-surface-5 data-dragging:duration-settle-spring data-dragging:ease-settle-spring data-pending:cursor-progress data-pending:opacity-60 data-invalid:ring-1 data-invalid:ring-destructive/50 data-[status=error]:ring-1 data-[status=error]:ring-destructive-border data-[status=running]:ring-1 data-[status=running]:ring-info-border data-[status=skipped]:opacity-50 data-[status=success]:ring-1 data-[status=success]:ring-success-border data-[status=warning]:ring-1 data-[status=warning]:ring-warning-border data-selected:data-[status]:ring-primary data-[variant=group]:size-full data-[variant=group]:max-w-none data-[variant=group]:min-w-0 data-[variant=group]:bg-hover data-[variant=group]:p-0 data-[variant=group]:shadow-none data-[variant=note]:size-full data-[variant=note]:max-w-none data-[variant=note]:min-w-0 data-[variant=note]:bg-warning-surface-1 data-[variant=note]:shadow-surface-2 dark:data-[variant=note]:bg-warning-surface-3 data-[variant=placeholder]:flex-row data-[variant=placeholder]:items-center data-[variant=placeholder]:justify-center data-[variant=placeholder]:bg-transparent data-[variant=placeholder]:text-muted-foreground data-[variant=placeholder]:shadow-none data-[variant=placeholder]:outline-1 data-[variant=placeholder]:outline-foreground/20 data-[variant=placeholder]:outline-dashed data-[variant=placeholder]:[&_svg]:size-(--density-icon-16);
+  }
+
+  /* The header is one control row: icon tile, title, status. */
+  .cn-canvas-node-header {
+    @apply min-h-(--density-28) gap-(--density-8);
+  }
+
+  /* A tile in the node's palette colour (or muted) that names its kind at a
+     glance, even zoomed out. */
+  .cn-canvas-node-icon {
+    @apply size-(--density-28) rounded-lg bg-muted text-muted-foreground in-data-colored:bg-[color-mix(in_oklab,var(--palette-light)_16%,transparent)] in-data-colored:text-(--palette-light) dark:in-data-colored:bg-[color-mix(in_oklab,var(--palette-dark)_22%,transparent)] dark:in-data-colored:text-(--palette-dark) [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  /* Subtitle size: the node's name is what a person scans the graph for. */
+  .cn-canvas-node-title {
+    @apply text-(length:--density-text-14) leading-tight font-medium;
+  }
+
+  .cn-canvas-node-description {
+    @apply line-clamp-3 text-(length:--density-text-12) text-pretty text-muted-foreground;
+  }
+
+  /* Zoomed out, content is too small to read; the header stays. */
+  .cn-canvas-node-content {
+    @apply in-data-[lod=compact]:hidden in-data-[lod=outline]:hidden;
+  }
+
+  /* Caption size, muted; an invalid node's message reads in the error text. */
+  .cn-canvas-node-footer {
+    @apply gap-(--density-6) text-(length:--density-text-12) text-muted-foreground group-data-invalid/canvas-node:text-destructive-text empty:hidden;
+  }
+
+  /* Each run state is its role's icon; running is the ring spinner in the
+     info colour, matching the running ring on the node. */
+  .cn-canvas-node-status {
+    @apply size-(--density-20) text-muted-foreground data-[status=error]:text-destructive data-[status=running]:text-info data-[status=success]:text-success data-[status=warning]:text-warning [&_svg]:size-(--density-icon-16);
+  }
+
+  /* The note's text, at body size, keeping its line breaks. */
+  .cn-canvas-note-text {
+    @apply text-(length:--density-text-13) whitespace-pre-wrap text-foreground;
+  }
+
+  /* A group names itself with a caption in its top corner. */
+  .cn-canvas-group-label {
+    @apply absolute start-(--density-12) top-(--density-8) text-(length:--density-text-12) font-medium text-muted-foreground;
+  }
+
+  /* MARK: Canvas handle */
+
+  /* The handle is an invisible target a little larger than its dot, and a
+     44pt one on touch. The dot rests on the node's surface with the ring
+     edge. With a fine pointer the dots wait until the node is pointed at,
+     focused or selected; on touch they stay. While a connection is dragged
+     every dot shows; the one under the pointer grows and fills with the
+     primary colour, or the destructive one when it can't take it. View and
+     static canvases draw no dots. */
+  .cn-canvas-handle {
+    @apply flex size-(--density-16) cursor-crosshair items-center justify-center rounded-full pointer-coarse:size-(--density-48);
+  }
+
+  .cn-canvas-handle-dot {
+    @apply size-(--density-8) rounded-full bg-surface-3 ring-1 ring-foreground/30 transition-[background-color,scale,opacity,box-shadow] duration-feedback ease-feedback in-data-[mode=static]:hidden in-data-[mode=view]:hidden in-data-[state=connecting]:opacity-100 in-data-[state=invalid]:scale-150 in-data-[state=invalid]:bg-destructive in-data-[state=invalid]:ring-destructive in-data-[state=source]:bg-primary in-data-[state=source]:ring-primary in-data-[state=valid]:scale-150 in-data-[state=valid]:bg-primary in-data-[state=valid]:ring-primary pointer-fine:opacity-0 pointer-fine:group-hover/canvas-node:opacity-100 pointer-fine:group-focus-visible/canvas-node:opacity-100 pointer-fine:group-data-selected/canvas-node:opacity-100;
+  }
+
+  /* A handle's name sits beside it on the node, a step smaller than captions. */
+  .cn-canvas-handle-label {
+    @apply text-(length:--density-text-11) text-muted-foreground data-[side=bottom]:bottom-full data-[side=bottom]:mb-(--density-4) data-[side=left]:start-full data-[side=left]:ms-(--density-6) data-[side=right]:end-full data-[side=right]:me-(--density-6) data-[side=top]:top-full data-[side=top]:mt-(--density-4);
+  }
+
+  /* MARK: Canvas node toolbar */
+
+  /* Actions over the selected node: a small raised bar like a menu. */
+  .cn-canvas-node-toolbar {
+    @apply gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+  }
+
+  /* Resize: a hairline in the primary colour and square grips on the page. */
+  .cn-canvas-node-resizer-line {
+    @apply border-primary/50;
+  }
+
+  .cn-canvas-node-resizer-handle {
+    @apply size-(--density-8) rounded-sm border-0 bg-background ring-1 ring-primary;
+  }
+
+  /* MARK: Canvas edge */
+
+  /* A 1.5px line in half the foreground (40% in dark): the least that still
+     meets 3:1 on the page, so the graph reads while nodes stay the subject. Selected is the full
+     foreground. A run draws dashes flowing toward the target on a multiple
+     of the move timing; reduced motion keeps them still. A connection
+     waiting on the server fades. */
+  .cn-canvas-edge {
+    @apply fill-none stroke-foreground/50 [stroke-width:1.5] transition-[stroke,opacity] dark:stroke-foreground/40 duration-feedback ease-feedback data-animated:[stroke-dasharray:6_4] data-pending:opacity-60 data-selected:stroke-foreground motion-safe:data-animated:animate-[dashdraw_calc(var(--motion-move)*var(--motion-scale,1)*3)_linear_infinite] motion-reduce:data-animated:animate-none;
+  }
+
+  /* An open arrowhead in the line's colour. */
+  .cn-canvas-edge-marker {
+    @apply fill-none stroke-foreground/50 [stroke-linecap:round] dark:stroke-foreground/40 [stroke-linejoin:round] [stroke-width:1.5] data-[state=selected]:stroke-foreground;
+  }
+
+  /* A label is a small badge on the raised surface, caption size, muted until
+     its edge is selected. */
+  .cn-canvas-edge-label {
+    @apply h-(--density-20) rounded-md bg-surface-3 px-(--density-6) text-(length:--density-text-12) leading-(--density-20) text-muted-foreground shadow-surface-3 group-data-selected/canvas-edge-label:text-foreground;
+  }
+
+  /* The insert button appears on the selected edge, its label hovered or
+     focused, and always on touch. */
+  .cn-canvas-edge-insert {
+    @apply ms-(--density-4) size-(--density-20) cursor-pointer rounded-full bg-surface-3 text-muted-foreground opacity-0 shadow-surface-3 outline-none transition-[opacity,color] duration-feedback ease-feedback group-hover/canvas-edge-label:opacity-100 group-data-selected/canvas-edge-label:opacity-100 hover:text-foreground focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring pointer-coarse:opacity-100 [&_svg]:size-(--density-icon-14);
+  }
+
+  /* The line being dragged: neutral, primary over a valid target, dashed in
+     the destructive colour over one it can't take. */
+  .cn-canvas-connection-line {
+    @apply stroke-foreground/50 [stroke-width:1.5] in-data-[status=invalid]:stroke-destructive in-data-[status=invalid]:[stroke-dasharray:4_4] in-data-[status=valid]:stroke-primary;
+  }
+
+  .cn-canvas-connection-end {
+    @apply fill-surface-3 stroke-foreground/50 [stroke-width:1.5] in-data-[status=invalid]:stroke-destructive in-data-[status=valid]:fill-primary in-data-[status=valid]:stroke-primary;
+  }
+
+  /* Alignment guides: hairlines in the primary colour. */
+  .cn-canvas-guide {
+    @apply bg-primary/60 data-[orientation=horizontal]:h-px data-[orientation=vertical]:w-px;
+  }
+
+  /* MARK: Canvas panels */
+
+  /* Panels sit in the corners with a control's padding from the edge. */
+  .cn-canvas-panel {
+    @apply gap-(--density-8) p-(--density-12) data-[position=bottom-center]:bottom-0 data-[position=bottom-center]:left-1/2 data-[position=bottom-center]:-translate-x-1/2 data-[position=bottom-end]:end-0 data-[position=bottom-end]:bottom-0 data-[position=bottom-start]:start-0 data-[position=bottom-start]:bottom-0 data-[position=center-end]:end-0 data-[position=center-end]:top-1/2 data-[position=center-end]:-translate-y-1/2 data-[position=center-start]:start-0 data-[position=center-start]:top-1/2 data-[position=center-start]:-translate-y-1/2 data-[position=top-center]:top-0 data-[position=top-center]:left-1/2 data-[position=top-center]:-translate-x-1/2 data-[position=top-end]:end-0 data-[position=top-end]:top-0 data-[position=top-start]:start-0 data-[position=top-start]:top-0;
+  }
+
+  /* The controls are one raised bar of ghost buttons, grouped by hairlines. */
+  .cn-canvas-controls {
+    @apply gap-px rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+  }
+
+  .cn-canvas-controls-separator {
+    @apply mx-(--density-4) h-(--density-20) w-px bg-border/60;
+  }
+
+  /* The zoom reads as a number in figures that don't shift. */
+  .cn-canvas-zoom {
+    @apply min-w-[calc(var(--density-36)*1.6)] justify-center font-normal text-muted-foreground tabular-nums;
+  }
+
+  .cn-canvas-search {
+    @apply text-muted-foreground;
+  }
+
+  /* The minimap is a raised card in the corner; a narrow canvas leaves it out. */
+  .cn-canvas-minimap {
+    @apply m-(--density-12) overflow-hidden rounded-xl shadow-surface-3 @max-xl/canvas:hidden;
+  }
+
+  .cn-canvas-minimap-node {
+    @apply fill-foreground/16;
+  }
+
+  /* MARK: Canvas library */
+
+  /* A raised panel of node kinds: a search field and rows like a menu's. Rows
+     drag onto the canvas, so they show the grab cursor. */
+  .cn-canvas-library {
+    @apply max-h-full w-[calc(var(--density-36)*7)] gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+  }
+
+  .cn-canvas-library-search {
+    @apply h-(--density-32) rounded-lg bg-transparent px-(--density-8) text-base outline-none placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-foreground/25 md:text-(length:--density-text-13);
+  }
+
+  .cn-canvas-library-list {
+    @apply max-h-[calc(var(--density-36)*10)];
+  }
+
+  .cn-canvas-library-group {
+    @apply px-(--density-8) pt-(--density-8) pb-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-canvas-library-item {
+    @apply min-h-(--density-36) cursor-grab gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring active:cursor-grabbing disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .cn-canvas-library-icon {
+    @apply size-(--density-28) rounded-lg bg-muted text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  .cn-canvas-library-description {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  /* MARK: Canvas outline */
+
+  /* The graph as a list: rows like a sidebar's, connections indented under
+     their node in caption size. */
+  .cn-canvas-outline {
+    @apply gap-(--density-4) text-(length:--density-text-13);
+  }
+
+  .cn-canvas-outline-item {
+    @apply gap-(--density-4);
+  }
+
+  .cn-canvas-outline-node {
+    @apply min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-lg px-(--density-8) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  .cn-canvas-outline-status {
+    @apply ms-auto shrink-0 text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-canvas-outline-edges {
+    @apply ps-(--density-20) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-canvas-outline-edge {
+    @apply py-(--density-4);
+  }
+
+  /* MARK: Canvas issues */
+
+  /* A raised list of nodes with a problem, each leading with the error icon. */
+  .cn-canvas-issues {
+    @apply max-w-[calc(var(--density-36)*8)] gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+  }
+
+  .cn-canvas-issues-title {
+    @apply px-(--density-8) py-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-canvas-issue {
+    @apply cursor-pointer gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:text-destructive;
+  }
+
+  .cn-canvas-issue-message {
+    @apply text-(length:--density-text-12) text-destructive-text;
+  }
+
+  /* MARK: Canvas states */
+
+  /* Empty, loading and error sit over the canvas with a dialog's padding. A
+     failure over a graph that loaded stays at the top, out of its way. */
+  .cn-canvas-overlay {
+    @apply p-(--density-24) data-[placement=center]:items-center data-[placement=top]:items-start;
+  }
+
+  /* Ghost nodes in a loose flow while the first load runs. */
+  .cn-canvas-loading {
+    @apply gap-(--density-24);
+  }
+
+  .cn-canvas-loading-node {
+    @apply h-(--density-48) w-[calc(var(--density-36)*4.5)] rounded-xl data-[index=1]:translate-y-(--density-24) data-[index=3]:col-start-1 data-[index=4]:col-start-3;
+  }
+
+  .cn-canvas-error {
+    @apply max-w-md;
+  }
+
+  .cn-canvas-error-retry {
+    @apply shrink-0;
+  }
+
 /* MARK: Card */
 
   /* Light, visible container: bg-card on surface 2's shadow ring (no

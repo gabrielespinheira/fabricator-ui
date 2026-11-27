@@ -621,6 +621,50 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "candlestick-chart-plain",
       filePath: "examples/base/candlestick-chart-plain.tsx",
     },
+    "canvas-controlled": {
+      name: "canvas-controlled",
+      filePath: "examples/base/canvas-controlled.tsx",
+    },
+    "canvas-demo": {
+      name: "canvas-demo",
+      filePath: "examples/base/canvas-demo.tsx",
+    },
+    "canvas-flowchart": {
+      name: "canvas-flowchart",
+      filePath: "examples/base/canvas-flowchart.tsx",
+    },
+    "canvas-large": {
+      name: "canvas-large",
+      filePath: "examples/base/canvas-large.tsx",
+    },
+    "canvas-pipeline-status": {
+      name: "canvas-pipeline-status",
+      filePath: "examples/base/canvas-pipeline-status.tsx",
+    },
+    "canvas-readonly": {
+      name: "canvas-readonly",
+      filePath: "examples/base/canvas-readonly.tsx",
+    },
+    "canvas-schema": {
+      name: "canvas-schema",
+      filePath: "examples/base/canvas-schema.tsx",
+    },
+    "canvas-states": {
+      name: "canvas-states",
+      filePath: "examples/base/canvas-states.tsx",
+    },
+    "canvas-static": {
+      name: "canvas-static",
+      filePath: "examples/base/canvas-static.tsx",
+    },
+    "canvas-subflows": {
+      name: "canvas-subflows",
+      filePath: "examples/base/canvas-subflows.tsx",
+    },
+    "canvas-validation": {
+      name: "canvas-validation",
+      filePath: "examples/base/canvas-validation.tsx",
+    },
     "card-demo": {
       name: "card-demo",
       filePath: "examples/base/card-demo.tsx",
@@ -3571,6 +3615,50 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "candlestick-chart-plain",
       filePath: "examples/aria/candlestick-chart-plain.tsx",
     },
+    "canvas-controlled": {
+      name: "canvas-controlled",
+      filePath: "examples/aria/canvas-controlled.tsx",
+    },
+    "canvas-demo": {
+      name: "canvas-demo",
+      filePath: "examples/aria/canvas-demo.tsx",
+    },
+    "canvas-flowchart": {
+      name: "canvas-flowchart",
+      filePath: "examples/aria/canvas-flowchart.tsx",
+    },
+    "canvas-large": {
+      name: "canvas-large",
+      filePath: "examples/aria/canvas-large.tsx",
+    },
+    "canvas-pipeline-status": {
+      name: "canvas-pipeline-status",
+      filePath: "examples/aria/canvas-pipeline-status.tsx",
+    },
+    "canvas-readonly": {
+      name: "canvas-readonly",
+      filePath: "examples/aria/canvas-readonly.tsx",
+    },
+    "canvas-schema": {
+      name: "canvas-schema",
+      filePath: "examples/aria/canvas-schema.tsx",
+    },
+    "canvas-states": {
+      name: "canvas-states",
+      filePath: "examples/aria/canvas-states.tsx",
+    },
+    "canvas-static": {
+      name: "canvas-static",
+      filePath: "examples/aria/canvas-static.tsx",
+    },
+    "canvas-subflows": {
+      name: "canvas-subflows",
+      filePath: "examples/aria/canvas-subflows.tsx",
+    },
+    "canvas-validation": {
+      name: "canvas-validation",
+      filePath: "examples/aria/canvas-validation.tsx",
+    },
     "card-demo": {
       name: "card-demo",
       filePath: "examples/aria/card-demo.tsx",
@@ -6508,6 +6596,50 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "candlestick-chart-plain": {
       name: "candlestick-chart-plain",
       filePath: "examples/radix/candlestick-chart-plain.tsx",
+    },
+    "canvas-controlled": {
+      name: "canvas-controlled",
+      filePath: "examples/radix/canvas-controlled.tsx",
+    },
+    "canvas-demo": {
+      name: "canvas-demo",
+      filePath: "examples/radix/canvas-demo.tsx",
+    },
+    "canvas-flowchart": {
+      name: "canvas-flowchart",
+      filePath: "examples/radix/canvas-flowchart.tsx",
+    },
+    "canvas-large": {
+      name: "canvas-large",
+      filePath: "examples/radix/canvas-large.tsx",
+    },
+    "canvas-pipeline-status": {
+      name: "canvas-pipeline-status",
+      filePath: "examples/radix/canvas-pipeline-status.tsx",
+    },
+    "canvas-readonly": {
+      name: "canvas-readonly",
+      filePath: "examples/radix/canvas-readonly.tsx",
+    },
+    "canvas-schema": {
+      name: "canvas-schema",
+      filePath: "examples/radix/canvas-schema.tsx",
+    },
+    "canvas-states": {
+      name: "canvas-states",
+      filePath: "examples/radix/canvas-states.tsx",
+    },
+    "canvas-static": {
+      name: "canvas-static",
+      filePath: "examples/radix/canvas-static.tsx",
+    },
+    "canvas-subflows": {
+      name: "canvas-subflows",
+      filePath: "examples/radix/canvas-subflows.tsx",
+    },
+    "canvas-validation": {
+      name: "canvas-validation",
+      filePath: "examples/radix/canvas-validation.tsx",
     },
     "card-demo": {
       name: "card-demo",
@@ -9508,6 +9640,51 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/base-fabricator/candlestick-chart-plain.tsx",
     },
+    "canvas-controlled": {
+      name: "canvas-controlled",
+      filePath: "examples/__styles__/base-fabricator/canvas-controlled.tsx",
+    },
+    "canvas-demo": {
+      name: "canvas-demo",
+      filePath: "examples/__styles__/base-fabricator/canvas-demo.tsx",
+    },
+    "canvas-flowchart": {
+      name: "canvas-flowchart",
+      filePath: "examples/__styles__/base-fabricator/canvas-flowchart.tsx",
+    },
+    "canvas-large": {
+      name: "canvas-large",
+      filePath: "examples/__styles__/base-fabricator/canvas-large.tsx",
+    },
+    "canvas-pipeline-status": {
+      name: "canvas-pipeline-status",
+      filePath:
+        "examples/__styles__/base-fabricator/canvas-pipeline-status.tsx",
+    },
+    "canvas-readonly": {
+      name: "canvas-readonly",
+      filePath: "examples/__styles__/base-fabricator/canvas-readonly.tsx",
+    },
+    "canvas-schema": {
+      name: "canvas-schema",
+      filePath: "examples/__styles__/base-fabricator/canvas-schema.tsx",
+    },
+    "canvas-states": {
+      name: "canvas-states",
+      filePath: "examples/__styles__/base-fabricator/canvas-states.tsx",
+    },
+    "canvas-static": {
+      name: "canvas-static",
+      filePath: "examples/__styles__/base-fabricator/canvas-static.tsx",
+    },
+    "canvas-subflows": {
+      name: "canvas-subflows",
+      filePath: "examples/__styles__/base-fabricator/canvas-subflows.tsx",
+    },
+    "canvas-validation": {
+      name: "canvas-validation",
+      filePath: "examples/__styles__/base-fabricator/canvas-validation.tsx",
+    },
     "card-demo": {
       name: "card-demo",
       filePath: "examples/__styles__/base-fabricator/card-demo.tsx",
@@ -12274,6 +12451,51 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/aria-fabricator/candlestick-chart-plain.tsx",
     },
+    "canvas-controlled": {
+      name: "canvas-controlled",
+      filePath: "examples/__styles__/aria-fabricator/canvas-controlled.tsx",
+    },
+    "canvas-demo": {
+      name: "canvas-demo",
+      filePath: "examples/__styles__/aria-fabricator/canvas-demo.tsx",
+    },
+    "canvas-flowchart": {
+      name: "canvas-flowchart",
+      filePath: "examples/__styles__/aria-fabricator/canvas-flowchart.tsx",
+    },
+    "canvas-large": {
+      name: "canvas-large",
+      filePath: "examples/__styles__/aria-fabricator/canvas-large.tsx",
+    },
+    "canvas-pipeline-status": {
+      name: "canvas-pipeline-status",
+      filePath:
+        "examples/__styles__/aria-fabricator/canvas-pipeline-status.tsx",
+    },
+    "canvas-readonly": {
+      name: "canvas-readonly",
+      filePath: "examples/__styles__/aria-fabricator/canvas-readonly.tsx",
+    },
+    "canvas-schema": {
+      name: "canvas-schema",
+      filePath: "examples/__styles__/aria-fabricator/canvas-schema.tsx",
+    },
+    "canvas-states": {
+      name: "canvas-states",
+      filePath: "examples/__styles__/aria-fabricator/canvas-states.tsx",
+    },
+    "canvas-static": {
+      name: "canvas-static",
+      filePath: "examples/__styles__/aria-fabricator/canvas-static.tsx",
+    },
+    "canvas-subflows": {
+      name: "canvas-subflows",
+      filePath: "examples/__styles__/aria-fabricator/canvas-subflows.tsx",
+    },
+    "canvas-validation": {
+      name: "canvas-validation",
+      filePath: "examples/__styles__/aria-fabricator/canvas-validation.tsx",
+    },
     "card-demo": {
       name: "card-demo",
       filePath: "examples/__styles__/aria-fabricator/card-demo.tsx",
@@ -15035,6 +15257,51 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "candlestick-chart-plain",
       filePath:
         "examples/__styles__/radix-fabricator/candlestick-chart-plain.tsx",
+    },
+    "canvas-controlled": {
+      name: "canvas-controlled",
+      filePath: "examples/__styles__/radix-fabricator/canvas-controlled.tsx",
+    },
+    "canvas-demo": {
+      name: "canvas-demo",
+      filePath: "examples/__styles__/radix-fabricator/canvas-demo.tsx",
+    },
+    "canvas-flowchart": {
+      name: "canvas-flowchart",
+      filePath: "examples/__styles__/radix-fabricator/canvas-flowchart.tsx",
+    },
+    "canvas-large": {
+      name: "canvas-large",
+      filePath: "examples/__styles__/radix-fabricator/canvas-large.tsx",
+    },
+    "canvas-pipeline-status": {
+      name: "canvas-pipeline-status",
+      filePath:
+        "examples/__styles__/radix-fabricator/canvas-pipeline-status.tsx",
+    },
+    "canvas-readonly": {
+      name: "canvas-readonly",
+      filePath: "examples/__styles__/radix-fabricator/canvas-readonly.tsx",
+    },
+    "canvas-schema": {
+      name: "canvas-schema",
+      filePath: "examples/__styles__/radix-fabricator/canvas-schema.tsx",
+    },
+    "canvas-states": {
+      name: "canvas-states",
+      filePath: "examples/__styles__/radix-fabricator/canvas-states.tsx",
+    },
+    "canvas-static": {
+      name: "canvas-static",
+      filePath: "examples/__styles__/radix-fabricator/canvas-static.tsx",
+    },
+    "canvas-subflows": {
+      name: "canvas-subflows",
+      filePath: "examples/__styles__/radix-fabricator/canvas-subflows.tsx",
+    },
+    "canvas-validation": {
+      name: "canvas-validation",
+      filePath: "examples/__styles__/radix-fabricator/canvas-validation.tsx",
     },
     "card-demo": {
       name: "card-demo",

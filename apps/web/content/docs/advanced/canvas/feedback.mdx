@@ -1,0 +1,27 @@
+---
+title: "Canvas feedback"
+description: "Empty, loading and failed canvases, changes waiting on a server, run status and problems."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-states"
+  type="frame"
+  fit
+  wide
+/>
+
+- **Empty:** with a `library`, the canvas invites the first node and offers the first library item as a button; in view mode it says there's nothing yet.
+- **Loading:** `loading` before any graph shows ghost nodes; reloading with a graph keeps it on screen.
+- **Error:** `error` shows the message with Retry (`onRetry`), centred when there's no graph and at the top when there is.
+- **Waiting:** a change whose `onConnect` or `onDelete` promise hasn't settled shows faded with the progress cursor. A rejection reverts it and raises a toast with Retry.
+- **Run status:** `status` on each node. Update one node at a time; only that node re-renders.
+- **Problems:** `invalid` on a node rings it in the destructive colour and its footer reads the message. `CanvasIssues` lists them, each a link to its node.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-pipeline-status"
+  type="frame"
+  fit
+  wide
+/>

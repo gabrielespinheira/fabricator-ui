@@ -15,6 +15,8 @@ Fabricator Icons (`packages/icons*`) vendors the outline icons of [Lucide](https
 
 The React Native components (`apps/web/registry/native`) are built on [RN Primitives](https://github.com/roninoss/rn-primitives) (MIT) and style themselves with [Uniwind](https://github.com/uni-stack/uniwind) (MIT). [React Native Reusables](https://github.com/founded-labs/react-native-reusables) (MIT) was the reference for how shadcn's patterns translate to React Native.
 
+The Canvas (`registry/fabricator/shared/ui/canvas*.tsx`) draws with [React Flow](https://reactflow.dev) (`@xyflow/react`, MIT License, Copyright (c) 2019-2026 webkid GmbH). Its edge path geometry (`registry/fabricator/shared/lib/canvas-geometry.ts`) is ported from React Flow's `@xyflow/system` under the same licence. The Canvas hides React Flow's attribution link and credits it here and on its docs page.
+
 The Color Picker (`registry/fabricator/*/ui/color-picker.tsx`, `registry/fabricator/shared/lib/color-model.ts`) is adapted from the Color Picker of [Fluid Functionalism](https://www.fluidfunctionalism.com) (MIT License, Copyright (c) 2026 Micka Touillaud).
 
 The Video Player's demo clip (`apps/web/public/media/sintel-trailer.*`) is the trailer for [Sintel](https://durian.blender.org), Copyright (c) Blender Foundation, used under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). It is re-encoded, with a poster frame taken from it and captions transcribed from its dialogue, with a Portuguese translation. The Audio Player's demo (`sintel-trailer.m4a`, `sintel-trailer-cover.jpg`) is its soundtrack and a square frame from it.

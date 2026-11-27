@@ -380,7 +380,7 @@ Read [`registry/native/README.md`][native-readme] before writing native source. 
 ## Dependencies
 
 - Reuse upstream's: `radix-ui`, `@base-ui/react`, `react-aria-components`, `cmdk`, `vaul`, `sonner`, `react-day-picker` + `date-fns`, `embla-carousel-react`, `input-otp`, `react-resizable-panels`, `motion`.
-- Fabricator's own, each behind its component's files: `@tanstack/react-table` and `@tanstack/react-virtual` (Data Table), `@fullcalendar/react` with `temporal-polyfill` and `@date-fns/tz` (Event Calendar), `d3-scale`, `d3-shape` and `d3-hierarchy` (inside the chart models only).
+- Fabricator's own, each behind its component's files: `@tanstack/react-table` and `@tanstack/react-virtual` (Data Table), `@fullcalendar/react` with `temporal-polyfill` and `@date-fns/tz` (Event Calendar), `@xyflow/react` (Canvas, its structural CSS imported into the `base` layer by the item) and `@dagrejs/dagre` (Canvas Layout), `d3-scale`, `d3-shape` and `d3-hierarchy` (inside the chart models only).
 - A new runtime dependency needs a written reason in the PR: size, maintenance, licence, React 19 support, and its native equivalent. Pin only where upstream pins. Base primitives belong on the base's `index` / `style` item. Different dependencies per base go in `meta.baseRegistryDependencies`.
 - Web drag sensors go through `lib/sortable.tsx`. Kanban resolves card placement against its own scroll viewport, from `kanban-model`. Shared files that need popups describe them as data for `components/property-controls.tsx`, which each base draws with its own parts. React Native uses its own drag adapter, and both platforms offer move actions.
 

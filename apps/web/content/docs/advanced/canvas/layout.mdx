@@ -1,0 +1,29 @@
+---
+title: "Canvas layout"
+description: "Arrange a graph automatically with dagre, or any layout engine of your own."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-flowchart"
+  type="frame"
+  fit
+  wide
+/>
+
+Canvas Layout is a separate item: dagre lays a graph out in layers, for flows, trees and org charts.
+
+```bash
+npx fabricator-ui@latest add canvas-layout
+```
+
+Pass the engine as `layout` and the canvas offers Tidy up in its menu. Or arrange from code:
+
+```tsx
+const canvas = useCanvas()
+canvas.layout(layoutWithDagre, { direction: "right", nodeGap: 48, rankGap: 96 })
+```
+
+Only top-level nodes move; children keep their place in their group. A layout is one step in the history, so ⌘Z undoes it.
+
+A layout engine is any function with the `CanvasLayoutEngine` signature: it receives node sizes and edges and returns each node's top start corner. ELK, or a layout computed on a server, fits the same way.

@@ -39,8 +39,10 @@ import {
   Bot as FabricatorBot,
   BotIcon as FabricatorBotIcon,
   BoxIcon as FabricatorBoxIcon,
+  BringToFrontIcon as FabricatorBringToFrontIcon,
   Building2Icon as FabricatorBuilding2Icon,
   BuildingIcon as FabricatorBuildingIcon,
+  CableIcon as FabricatorCableIcon,
   Calculator as FabricatorCalculator,
   CalculatorIcon as FabricatorCalculatorIcon,
   Calendar as FabricatorCalendar,
@@ -77,6 +79,7 @@ import {
   CircleStopIcon as FabricatorCircleStopIcon,
   CircleUserIcon as FabricatorCircleUserIcon,
   CircleUserRoundIcon as FabricatorCircleUserRoundIcon,
+  CircleXIcon as FabricatorCircleXIcon,
   ClipboardPasteIcon as FabricatorClipboardPasteIcon,
   Clock2Icon as FabricatorClock2Icon,
   ClockIcon as FabricatorClockIcon,
@@ -118,6 +121,7 @@ import {
   GitBranchIcon as FabricatorGitBranchIcon,
   GlobeIcon as FabricatorGlobeIcon,
   GripVerticalIcon as FabricatorGripVerticalIcon,
+  GroupIcon as FabricatorGroupIcon,
   HashIcon as FabricatorHashIcon,
   Heading1Icon as FabricatorHeading1Icon,
   Heading2Icon as FabricatorHeading2Icon,
@@ -158,6 +162,7 @@ import {
   Loader2Icon as FabricatorLoader2Icon,
   LoaderIcon as FabricatorLoaderIcon,
   LockIcon as FabricatorLockIcon,
+  LockOpenIcon as FabricatorLockOpenIcon,
   LogOut as FabricatorLogOut,
   LogOutIcon as FabricatorLogOutIcon,
   MailCheckIcon as FabricatorMailCheckIcon,
@@ -179,7 +184,9 @@ import {
   MoonIcon as FabricatorMoonIcon,
   MoreHorizontal as FabricatorMoreHorizontal,
   MoreHorizontalIcon as FabricatorMoreHorizontalIcon,
+  MousePointer2Icon as FabricatorMousePointer2Icon,
   MusicIcon as FabricatorMusicIcon,
+  NetworkIcon as FabricatorNetworkIcon,
   NewspaperIcon as FabricatorNewspaperIcon,
   OctagonAlertIcon as FabricatorOctagonAlertIcon,
   OctagonXIcon as FabricatorOctagonXIcon,
@@ -217,10 +224,12 @@ import {
   RotateCcwIcon as FabricatorRotateCcwIcon,
   RotateCwIcon as FabricatorRotateCwIcon,
   SaveIcon as FabricatorSaveIcon,
+  ScanIcon as FabricatorScanIcon,
   ScissorsIcon as FabricatorScissorsIcon,
   Search as FabricatorSearch,
   SearchIcon as FabricatorSearchIcon,
   SendIcon as FabricatorSendIcon,
+  SendToBackIcon as FabricatorSendToBackIcon,
   Settings as FabricatorSettings,
   Settings2 as FabricatorSettings2,
   Settings2Icon as FabricatorSettings2Icon,
@@ -231,6 +240,7 @@ import {
   ShieldIcon as FabricatorShieldIcon,
   ShieldOffIcon as FabricatorShieldOffIcon,
   ShoppingBagIcon as FabricatorShoppingBagIcon,
+  SkipForwardIcon as FabricatorSkipForwardIcon,
   SlashIcon as FabricatorSlashIcon,
   SlidersHorizontalIcon as FabricatorSlidersHorizontalIcon,
   SmartphoneIcon as FabricatorSmartphoneIcon,
@@ -238,6 +248,7 @@ import {
   SmileIcon as FabricatorSmileIcon,
   Sparkles as FabricatorSparkles,
   SparklesIcon as FabricatorSparklesIcon,
+  SplitIcon as FabricatorSplitIcon,
   SquareCheckIcon as FabricatorSquareCheckIcon,
   SquareCodeIcon as FabricatorSquareCodeIcon,
   SquareIcon as FabricatorSquareIcon,
@@ -269,6 +280,7 @@ import {
   Underline as FabricatorUnderline,
   UnderlineIcon as FabricatorUnderlineIcon,
   Undo2Icon as FabricatorUndo2Icon,
+  UngroupIcon as FabricatorUngroupIcon,
   UploadIcon as FabricatorUploadIcon,
   User as FabricatorUser,
   UserIcon as FabricatorUserIcon,
@@ -282,6 +294,7 @@ import {
   WalletIcon as FabricatorWalletIcon,
   WandSparklesIcon as FabricatorWandSparklesIcon,
   WaypointsIcon as FabricatorWaypointsIcon,
+  WorkflowIcon as FabricatorWorkflowIcon,
   XIcon as FabricatorXIcon,
   ZapIcon as FabricatorZapIcon,
   ZoomInIcon as FabricatorZoomInIcon,
@@ -547,6 +560,13 @@ export const BoxIcon = createSiteIcon(FabricatorBoxIcon, {
   phosphor: "PackageIcon",
   remixicon: "RiBox3Line",
 })
+export const BringToFrontIcon = createSiteIcon(FabricatorBringToFrontIcon, {
+  lucide: "BringToFrontIcon",
+  tabler: "IconStack2",
+  hugeicons: "Layers01Icon",
+  phosphor: "StackIcon",
+  remixicon: "RiBringToFront",
+})
 export const Building2Icon = createSiteIcon(FabricatorBuilding2Icon, {
   lucide: "Building2Icon",
   tabler: "IconBuildingBank",
@@ -556,6 +576,13 @@ export const Building2Icon = createSiteIcon(FabricatorBuilding2Icon, {
 })
 export const BuildingIcon = createSiteIcon(FabricatorBuildingIcon, {
   lucide: "BuildingIcon",
+})
+export const CableIcon = createSiteIcon(FabricatorCableIcon, {
+  lucide: "CableIcon",
+  tabler: "IconPlug",
+  hugeicons: "ConnectIcon",
+  phosphor: "PlugsConnectedIcon",
+  remixicon: "RiPlugLine",
 })
 export const Calculator = createSiteIcon(FabricatorCalculator, {
   lucide: "Calculator",
@@ -821,6 +848,13 @@ export const CircleUserRoundIcon = createSiteIcon(
     remixicon: "RiUserLine",
   }
 )
+export const CircleXIcon = createSiteIcon(FabricatorCircleXIcon, {
+  lucide: "CircleXIcon",
+  tabler: "IconCircleX",
+  hugeicons: "CancelCircleIcon",
+  phosphor: "XCircleIcon",
+  remixicon: "RiCloseCircleLine",
+})
 export const ClipboardPasteIcon = createSiteIcon(FabricatorClipboardPasteIcon, {
   lucide: "ClipboardPasteIcon",
   tabler: "IconClipboard",
@@ -1096,6 +1130,13 @@ export const GripVerticalIcon = createSiteIcon(FabricatorGripVerticalIcon, {
   phosphor: "DotsSixVerticalIcon",
   remixicon: "RiDraggable",
 })
+export const GroupIcon = createSiteIcon(FabricatorGroupIcon, {
+  lucide: "GroupIcon",
+  tabler: "IconBoxMultiple",
+  hugeicons: "GroupItemsIcon",
+  phosphor: "SelectionPlusIcon",
+  remixicon: "RiGroupLine",
+})
 export const HashIcon = createSiteIcon(FabricatorHashIcon, {
   lucide: "HashIcon",
   tabler: "IconHash",
@@ -1367,6 +1408,13 @@ export const LockIcon = createSiteIcon(FabricatorLockIcon, {
   phosphor: "LockKeyIcon",
   remixicon: "RiLockLine",
 })
+export const LockOpenIcon = createSiteIcon(FabricatorLockOpenIcon, {
+  lucide: "LockOpenIcon",
+  tabler: "IconLockOpen",
+  hugeicons: "SquareUnlock02Icon",
+  phosphor: "LockOpenIcon",
+  remixicon: "RiLockUnlockLine",
+})
 export const LogOut = createSiteIcon(FabricatorLogOut, {
   lucide: "LogOut",
   tabler: "IconLogout",
@@ -1517,12 +1565,26 @@ export const MoreHorizontalIcon = createSiteIcon(FabricatorMoreHorizontalIcon, {
   phosphor: "DotsThreeOutlineIcon",
   remixicon: "RiMoreLine",
 })
+export const MousePointer2Icon = createSiteIcon(FabricatorMousePointer2Icon, {
+  lucide: "MousePointer2Icon",
+  tabler: "IconPointer",
+  hugeicons: "Cursor01Icon",
+  phosphor: "CursorIcon",
+  remixicon: "RiCursorLine",
+})
 export const MusicIcon = createSiteIcon(FabricatorMusicIcon, {
   lucide: "MusicIcon",
   tabler: "IconMusic",
   hugeicons: "MusicNote01Icon",
   phosphor: "MusicNoteIcon",
   remixicon: "RiMusic2Line",
+})
+export const NetworkIcon = createSiteIcon(FabricatorNetworkIcon, {
+  lucide: "NetworkIcon",
+  tabler: "IconHierarchy2",
+  hugeicons: "HierarchyIcon",
+  phosphor: "TreeStructureIcon",
+  remixicon: "RiNodeTree",
 })
 export const NewspaperIcon = createSiteIcon(FabricatorNewspaperIcon, {
   lucide: "NewspaperIcon",
@@ -1768,6 +1830,13 @@ export const SaveIcon = createSiteIcon(FabricatorSaveIcon, {
   phosphor: "FloppyDiskIcon",
   remixicon: "RiSaveLine",
 })
+export const ScanIcon = createSiteIcon(FabricatorScanIcon, {
+  lucide: "ScanIcon",
+  tabler: "IconScan",
+  hugeicons: "CenterFocusIcon",
+  phosphor: "FrameCornersIcon",
+  remixicon: "RiFullscreenLine",
+})
 export const ScissorsIcon = createSiteIcon(FabricatorScissorsIcon, {
   lucide: "ScissorsIcon",
   tabler: "IconCut",
@@ -1795,6 +1864,13 @@ export const SendIcon = createSiteIcon(FabricatorSendIcon, {
   hugeicons: "SentIcon",
   phosphor: "PaperPlaneTiltIcon",
   remixicon: "RiSendPlaneLine",
+})
+export const SendToBackIcon = createSiteIcon(FabricatorSendToBackIcon, {
+  lucide: "SendToBackIcon",
+  tabler: "IconStack3",
+  hugeicons: "Layers02Icon",
+  phosphor: "StackSimpleIcon",
+  remixicon: "RiSendToBack",
 })
 export const Settings = createSiteIcon(FabricatorSettings, {
   lucide: "Settings",
@@ -1866,6 +1942,13 @@ export const ShoppingBagIcon = createSiteIcon(FabricatorShoppingBagIcon, {
   phosphor: "BagIcon",
   remixicon: "RiShoppingBagLine",
 })
+export const SkipForwardIcon = createSiteIcon(FabricatorSkipForwardIcon, {
+  lucide: "SkipForwardIcon",
+  tabler: "IconPlayerSkipForward",
+  hugeicons: "NextIcon",
+  phosphor: "SkipForwardIcon",
+  remixicon: "RiSkipForwardLine",
+})
 export const SlashIcon = createSiteIcon(FabricatorSlashIcon, {
   lucide: "SlashIcon",
 })
@@ -1913,6 +1996,13 @@ export const SparklesIcon = createSiteIcon(FabricatorSparklesIcon, {
   hugeicons: "SparklesIcon",
   phosphor: "SparkleIcon",
   remixicon: "RiSparklingLine",
+})
+export const SplitIcon = createSiteIcon(FabricatorSplitIcon, {
+  lucide: "SplitIcon",
+  tabler: "IconArrowsSplit",
+  hugeicons: "GitBranchIcon",
+  phosphor: "GitForkIcon",
+  remixicon: "RiGitBranchLine",
 })
 export const SquareCheckIcon = createSiteIcon(FabricatorSquareCheckIcon, {
   lucide: "SquareCheckIcon",
@@ -2120,6 +2210,13 @@ export const Undo2Icon = createSiteIcon(FabricatorUndo2Icon, {
   phosphor: "ArrowUUpLeftIcon",
   remixicon: "RiArrowGoBackLine",
 })
+export const UngroupIcon = createSiteIcon(FabricatorUngroupIcon, {
+  lucide: "UngroupIcon",
+  tabler: "IconBoxOff",
+  hugeicons: "UngroupItemsIcon",
+  phosphor: "SelectionSlashIcon",
+  remixicon: "RiFolderReduceLine",
+})
 export const UploadIcon = createSiteIcon(FabricatorUploadIcon, {
   lucide: "UploadIcon",
   tabler: "IconUpload",
@@ -2202,6 +2299,13 @@ export const WandSparklesIcon = createSiteIcon(FabricatorWandSparklesIcon, {
 })
 export const WaypointsIcon = createSiteIcon(FabricatorWaypointsIcon, {
   lucide: "WaypointsIcon",
+})
+export const WorkflowIcon = createSiteIcon(FabricatorWorkflowIcon, {
+  lucide: "WorkflowIcon",
+  tabler: "IconSitemap",
+  hugeicons: "WorkflowSquare01Icon",
+  phosphor: "FlowArrowIcon",
+  remixicon: "RiFlowChart",
 })
 export const XIcon = createSiteIcon(FabricatorXIcon, {
   lucide: "XIcon",

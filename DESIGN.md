@@ -540,6 +540,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 - **Overlays:** `Dialog`, `AlertDialog`, `Sheet`, `Drawer` on phones, `Popover`, `HoverCard`, `Tooltip`.
 - **Frame:** `AppShell`, `AppNav`, `Sidebar`, `TabStrip`, `WorkspaceSwitcher`, `UserMenu`, `NavigationMenu` on websites, `Breadcrumb`, `Pagination`, `PreviewRail`, `Stepper` for a flow done in steps, `BottomNav` for a phone web app outside the App Shell.
 - **Records:** `Card`, `ItemGroup`, `Table`, `DataTable`, `EventCalendar`, `FileTree`, `Folder`, `Badge`, `Avatar`, `AvatarGroup`, `Kbd`, `SyntaxHighlight`.
+- **Graphs:** `Canvas` for things people connect and arrange: workflow editors, flowcharts, schemas, maps of a system; `mode="view"` to explore one, `mode="static"` for a diagram in a page.
 - **Charts:** [Choosing a widget](#choosing-a-widget), plus `PieChart`, `RadarChart`, `Treemap`, `CandlestickChart`, `BumpChart`, `SankeyChart`.
 - **Feedback and structure:** `Alert`, toasts, `Progress`, `SegmentedMeter` for one limit split into parts, `MorphIsland` for one live activity, `PasswordStrength` under a new password, `Spinner`, `Skeleton`, `Empty`, `Accordion`, `Collapsible`, `Resizable`, `ScrollArea`.
 - **Media and chat:** `AudioPlayer`, `VideoPlayer`, `ImageCompare`, `AspectRatio`, `Carousel`; `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`, `ModelPicker`, `Questionnaire`, `BotFace`.

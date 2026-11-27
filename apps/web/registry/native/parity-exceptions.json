@@ -1447,5 +1447,19 @@
     "name": "bottom-nav",
     "reason": "A phone web app's tab bar. React Native apps already get theirs from the App Shell's bottom bar (lib/bottom-bar), so there is no separate native item.",
     "date": "2026-11-26"
+  },
+  {
+    "item": "canvas-engine",
+    "kind": "slot",
+    "name": "canvas-guide",
+    "reason": "Native snaps a dropped node to its neighbours and the grid at the drop rather than drawing live guide lines while it moves, so there's no guide element.",
+    "date": "2026-11-27"
+  },
+  {
+    "item": "canvas-engine",
+    "kind": "placeholder",
+    "name": "cn-canvas-guide",
+    "reason": "The style of the live guide lines native doesn't draw; see the canvas-guide slot.",
+    "date": "2026-11-27"
   }
 ]

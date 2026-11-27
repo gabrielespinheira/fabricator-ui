@@ -1,0 +1,276 @@
+import * as React from "react"
+import { Example, ExampleWrapper } from "@/examples/native/example"
+import {
+  FilterIcon,
+  MailIcon,
+  SparklesIcon,
+  WebhookIcon,
+} from "@fabricator-ui/icons-react-native"
+
+import {
+  Canvas,
+  CanvasHandle,
+  CanvasLibrary,
+  CanvasNode,
+  CanvasNodeContent,
+  CanvasNodeDescription,
+  CanvasNodeFooter,
+  CanvasNodeHeader,
+  CanvasNodeIcon,
+  CanvasNodeStatus,
+  CanvasNodeTitle,
+  CanvasPanel,
+  CanvasSearch,
+  type CanvasEdgeRecord,
+  type CanvasLibraryItem,
+  type CanvasNodeComponent,
+  type CanvasNodeProps,
+} from "@/registry/native/ui/canvas"
+
+type StepKind = "trigger" | "ai" | "filter" | "action"
+
+const ICONS: Record<StepKind, React.ReactNode> = {
+  trigger: <WebhookIcon size={16} />,
+  ai: <SparklesIcon size={16} />,
+  filter: <FilterIcon size={16} />,
+  action: <MailIcon size={16} />,
+}
+
+function isStepKind(value: unknown): value is StepKind {
+  return (
+    value === "trigger" ||
+    value === "ai" ||
+    value === "filter" ||
+    value === "action"
+  )
+}
+
+function StepNode({ data }: CanvasNodeProps) {
+  const kind = isStepKind(data.kind) ? data.kind : "action"
+  return (
+    <CanvasNode>
+      <CanvasNodeHeader>
+        <CanvasNodeIcon>{ICONS[kind]}</CanvasNodeIcon>
+        <CanvasNodeTitle>{String(data.title)}</CanvasNodeTitle>
+        <CanvasNodeStatus />
+      </CanvasNodeHeader>
+      <CanvasNodeContent>
+        <CanvasNodeDescription>
+          {String(data.description)}
+        </CanvasNodeDescription>
+      </CanvasNodeContent>
+      <CanvasNodeFooter />
+      {typeof data.input === "string" && (
+        <CanvasHandle kind="target" side="left" accepts={[data.input]} />
+      )}
+      {typeof data.output === "string" && (
+        <CanvasHandle kind="source" side="right" produces={data.output} />
+      )}
+    </CanvasNode>
+  )
+}
+
+const nodeTypes: Record<string, CanvasNodeComponent> = { step: StepNode }
+
+const nodes = [
+  {
+    id: "ticket",
+    type: "step",
+    position: { x: 0, y: 120 },
+    color: "blue" as const,
+    status: "success" as const,
+    data: {
+      title: "New ticket",
+      description: "Runs when a customer writes to support.",
+      kind: "trigger",
+      output: "ticket",
+    },
+  },
+  {
+    id: "classify",
+    type: "step",
+    position: { x: 300, y: 120 },
+    color: "purple" as const,
+    status: "running" as const,
+    data: {
+      title: "Classify",
+      description: "Labels the topic and urgency.",
+      kind: "ai",
+      input: "ticket",
+      output: "ticket",
+    },
+  },
+  {
+    id: "billing",
+    type: "step",
+    position: { x: 600, y: 0 },
+    color: "orange" as const,
+    data: {
+      title: "Billing only",
+      description: "Lets through invoices and refunds.",
+      kind: "filter",
+      input: "ticket",
+      output: "ticket",
+    },
+  },
+  {
+    id: "draft",
+    type: "step",
+    position: { x: 600, y: 240 },
+    color: "purple" as const,
+    data: {
+      title: "Draft a reply",
+      description: "Writes an answer from the help center.",
+      kind: "ai",
+      input: "ticket",
+      output: "text",
+    },
+  },
+  {
+    id: "send",
+    type: "step",
+    position: { x: 900, y: 240 },
+    color: "green" as const,
+    invalid: "Choose who the reply is sent from.",
+    data: {
+      title: "Send email",
+      description: "Replies to the customer.",
+      kind: "action",
+      input: "text",
+    },
+  },
+]
+
+const edges: CanvasEdgeRecord[] = [
+  {
+    id: "ticket-classify",
+    source: "ticket",
+    target: "classify",
+    animated: true,
+  },
+  {
+    id: "classify-billing",
+    source: "classify",
+    target: "billing",
+    label: "Billing",
+  },
+  {
+    id: "classify-draft",
+    source: "classify",
+    target: "draft",
+    type: "smoothstep",
+  },
+  { id: "draft-send", source: "draft", target: "send" },
+]
+
+let nextId = 1
+const library: CanvasLibraryItem[] = [
+  {
+    id: "ai",
+    label: "AI step",
+    description: "Ask a model to read or write",
+    icon: <SparklesIcon size={16} />,
+    create: (position) => ({
+      id: `ai-${nextId++}`,
+      type: "step",
+      position,
+      color: "purple",
+      data: {
+        title: "AI step",
+        description: "Describe what the model should do.",
+        kind: "ai",
+        input: "ticket",
+        output: "text",
+      },
+    }),
+  },
+]
+
+const flow = [
+  { id: "a", position: { x: 0, y: 0 }, data: { title: "Web app" } },
+  { id: "b", position: { x: 260, y: 0 }, data: { title: "API" } },
+  { id: "c", position: { x: 520, y: 0 }, data: { title: "Database" } },
+]
+const flowEdges: CanvasEdgeRecord[] = [
+  { id: "a-b", source: "a", target: "b", label: "HTTPS" },
+  { id: "b-c", source: "b", target: "c", label: "SQL" },
+]
+
+function CanvasExample() {
+  return (
+    <ExampleWrapper fit>
+      <Example title="Workflow">
+        <Canvas
+          defaultNodes={nodes}
+          defaultEdges={edges}
+          nodeTypes={nodeTypes}
+          library={library}
+          edgeDefaults={{ type: "smoothstep" }}
+          label="Support triage workflow"
+          className="h-[520px] w-full rounded-xl"
+        >
+          <CanvasPanel position="top-end">
+            <CanvasSearch />
+          </CanvasPanel>
+        </Canvas>
+      </Example>
+      <Example title="View">
+        <Canvas
+          defaultNodes={flow}
+          defaultEdges={flowEdges}
+          mode="view"
+          label="How requests reach the database"
+          className="h-64 w-full rounded-xl"
+        />
+      </Example>
+      <Example title="Static">
+        <Canvas
+          defaultNodes={flow}
+          defaultEdges={flowEdges}
+          mode="static"
+          background="none"
+          label="How requests reach the database"
+          className="h-40 min-h-0 w-full rounded-xl"
+        />
+      </Example>
+      <Example title="Empty">
+        <Canvas
+          defaultNodes={[]}
+          library={library}
+          label="New workflow"
+          className="h-64 w-full rounded-xl"
+        />
+      </Example>
+      <Example title="Library">
+        <Canvas
+          defaultNodes={nodes.slice(0, 2)}
+          defaultEdges={edges.slice(0, 1)}
+          nodeTypes={nodeTypes}
+          label="Workflow with a library"
+          className="h-96 w-full rounded-xl"
+        >
+          <CanvasPanel position="top-start">
+            <CanvasLibrary items={library} />
+          </CanvasPanel>
+        </Canvas>
+      </Example>
+      <Example title="Loading and error">
+        <Canvas
+          defaultNodes={[]}
+          loading
+          label="Loading"
+          className="h-40 min-h-0 w-full rounded-xl"
+        />
+        <Canvas
+          defaultNodes={[]}
+          error="The workflow service didn't answer."
+          onRetry={() => {}}
+          label="Failed"
+          className="h-48 min-h-0 w-full rounded-xl"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { CanvasExample }

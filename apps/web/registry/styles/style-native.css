@@ -1744,6 +1744,315 @@
     @apply text-muted-foreground text-(length:--density-text-12);
   }
 
+/* MARK: Canvas */
+
+  /* The page is the canvas: surface 1, so nodes rise off it as cards do.
+     Small pins compact density for dense graphs. Disabled dims the canvas. */
+  .cn-canvas {
+    @apply bg-background data-[disabled=true]:opacity-50 data-[size=sm]:density-compact;
+  }
+
+  .cn-canvas-engine {
+    @apply bg-background;
+  }
+
+  /* The grid's dots, a step above the page; the SVG reads the colour. */
+  .cn-canvas-background {
+    @apply opacity-100;
+  }
+
+  .cn-canvas-background-pattern {
+    @apply text-foreground/12 dark:text-foreground/16;
+  }
+
+  /* MARK: Canvas node */
+
+  /* A raised card (surface 3), rounded like a card, sized by the density,
+     its ring the edge. Selection draws a 1.5pt primary ring; a drag lifts it
+     to the dialog level. Run states colour the ring with their role and
+     carry an icon; skipped dims. A change waiting on the server fades. */
+  .cn-canvas-node {
+    @apply w-[calc(var(--density-36)*5)] gap-(--density-8) rounded-xl bg-surface-3 p-(--density-12) shadow-surface-3 data-[dragging=true]:shadow-surface-5 data-[invalid=true]:border data-[invalid=true]:border-destructive/50 data-[pending=true]:opacity-60 data-[selected=true]:border-[1.5px] data-[selected=true]:border-primary data-[selected=true]:shadow-surface-4 data-[status=error]:border data-[status=error]:border-destructive-border data-[status=running]:border data-[status=running]:border-info-border data-[status=skipped]:opacity-50 data-[status=success]:border data-[status=success]:border-success-border data-[status=warning]:border data-[status=warning]:border-warning-border data-[variant=group]:size-full data-[variant=group]:bg-hover data-[variant=group]:p-0 data-[variant=group]:shadow-none data-[variant=note]:size-full data-[variant=note]:bg-warning-surface-1 data-[variant=note]:shadow-surface-2 dark:data-[variant=note]:bg-warning-surface-3 data-[variant=placeholder]:flex-row data-[variant=placeholder]:items-center data-[variant=placeholder]:justify-center data-[variant=placeholder]:border data-[variant=placeholder]:border-dashed data-[variant=placeholder]:border-foreground/20 data-[variant=placeholder]:bg-transparent data-[variant=placeholder]:shadow-none;
+  }
+
+  .cn-canvas-node-header {
+    @apply min-h-(--density-28) gap-(--density-8);
+  }
+
+  /* A tile in the node's palette colour (or muted): its kind at a glance. */
+  .cn-canvas-node-icon {
+    @apply size-(--density-28) rounded-lg bg-muted data-[colored=true]:bg-transparent;
+  }
+
+  .cn-canvas-node-icon-text {
+    @apply text-muted-foreground;
+  }
+
+  /* Subtitle size: the node's name is what a person scans the graph for. */
+  .cn-canvas-node-title {
+    @apply text-(length:--density-text-14) font-medium text-foreground;
+  }
+
+  .cn-canvas-node-description {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-canvas-node-content {
+    @apply gap-(--density-4);
+  }
+
+  .cn-canvas-node-footer {
+    @apply gap-(--density-6);
+  }
+
+  /* Caption size; an invalid node's message reads in the error text. */
+  .cn-canvas-node-footer-text {
+    @apply text-(length:--density-text-12) text-destructive-text;
+  }
+
+  .cn-canvas-node-status {
+    @apply size-(--density-20);
+  }
+
+  /* Each run state is its role's colour; running is the info ring spinner. */
+  .cn-canvas-node-status-text {
+    @apply text-muted-foreground data-[status=error]:text-destructive data-[status=running]:text-info data-[status=success]:text-success data-[status=warning]:text-warning;
+  }
+
+  .cn-canvas-note-text {
+    @apply text-(length:--density-text-13) text-foreground;
+  }
+
+  .cn-canvas-group-label {
+    @apply start-(--density-12) top-(--density-8) text-(length:--density-text-12) font-medium text-muted-foreground;
+  }
+
+  .cn-canvas-placeholder-text {
+    @apply text-muted-foreground;
+  }
+
+  /* MARK: Canvas handle */
+
+  /* A dot on the node's surface with a ring edge, always visible on touch;
+     the hit area around it is larger, and reaches 44pt through hitSlop. */
+  .cn-canvas-handle {
+    @apply rounded-full;
+  }
+
+  .cn-canvas-handle-dot {
+    @apply size-(--density-12) rounded-full border border-foreground/30 bg-surface-3;
+  }
+
+  .cn-canvas-handle-label {
+    @apply text-(length:--density-text-11) text-muted-foreground data-[side=bottom]:bottom-full data-[side=left]:left-full data-[side=right]:right-full data-[side=top]:top-full;
+  }
+
+  /* MARK: Canvas node toolbar */
+
+  .cn-canvas-node-toolbar {
+    @apply bottom-full mb-(--density-8) gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+  }
+
+  /* Resize: a hairline in the primary colour and a square grip. */
+  .cn-canvas-node-resizer-line {
+    @apply rounded-xl border border-primary/50;
+  }
+
+  .cn-canvas-node-resizer-handle {
+    @apply size-(--density-12) rounded-sm border border-primary bg-background;
+  }
+
+  /* MARK: Canvas edge */
+
+  /* Half the foreground (40% in dark): the least that meets 3:1 on the page.
+     Selected is the full foreground. The SVG reads these colours. */
+  .cn-canvas-edge {
+    @apply text-foreground/50 dark:text-foreground/40;
+  }
+
+  .cn-canvas-edge-selected {
+    @apply text-foreground;
+  }
+
+  .cn-canvas-edge-marker {
+    @apply text-foreground/50 dark:text-foreground/40;
+  }
+
+  /* A label is a small badge on the raised surface, caption size. */
+  .cn-canvas-edge-label {
+    @apply h-(--density-20) rounded-md bg-surface-3 px-(--density-6) shadow-surface-3;
+  }
+
+  .cn-canvas-edge-label-text {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-canvas-edge-insert {
+    @apply ms-(--density-4) size-(--density-24) rounded-full bg-surface-3 shadow-surface-3;
+  }
+
+  /* The line being dragged: neutral, primary over a valid target,
+     destructive over one it can't take. */
+  .cn-canvas-connection-line {
+    @apply text-foreground/50;
+  }
+
+  .cn-canvas-connection-line-valid {
+    @apply text-primary;
+  }
+
+  .cn-canvas-connection-line-invalid {
+    @apply text-destructive;
+  }
+
+  .cn-canvas-connection-end {
+    @apply text-surface-3;
+  }
+
+  /* MARK: Canvas panels */
+
+  .cn-canvas-panel {
+    @apply gap-(--density-8) p-(--density-12) data-[position=bottom-center]:bottom-0 data-[position=bottom-center]:self-center data-[position=bottom-end]:right-0 data-[position=bottom-end]:bottom-0 data-[position=bottom-start]:bottom-0 data-[position=bottom-start]:left-0 data-[position=center-end]:right-0 data-[position=center-end]:top-1/3 data-[position=center-start]:left-0 data-[position=center-start]:top-1/3 data-[position=top-center]:top-0 data-[position=top-center]:self-center data-[position=top-end]:top-0 data-[position=top-end]:right-0 data-[position=top-start]:top-0 data-[position=top-start]:left-0;
+  }
+
+  /* One raised bar of ghost buttons, grouped by hairlines. */
+  .cn-canvas-controls {
+    @apply gap-px rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+  }
+
+  .cn-canvas-controls-separator {
+    @apply mx-(--density-4) h-(--density-20) w-px bg-border;
+  }
+
+  .cn-canvas-zoom {
+    @apply min-w-(--density-48);
+  }
+
+  .cn-canvas-search {
+    @apply rounded-xl bg-surface-3 shadow-surface-3;
+  }
+
+  /* The minimap: a raised card in the corner, on tablets. */
+  .cn-canvas-minimap {
+    @apply m-(--density-12) rounded-xl bg-surface-3 shadow-surface-3;
+  }
+
+  .cn-canvas-minimap-node {
+    @apply text-foreground/16;
+  }
+
+  .cn-canvas-minimap-frame {
+    @apply text-primary/40;
+  }
+
+  /* MARK: Canvas library */
+
+  .cn-canvas-library {
+    @apply max-h-96 w-[calc(var(--density-36)*7)] gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+  }
+
+  .cn-canvas-library-search {
+    @apply h-(--density-36);
+  }
+
+  .cn-canvas-library-list {
+    @apply grow-0;
+  }
+
+  .cn-canvas-library-group {
+    @apply px-(--density-8) pt-(--density-8) pb-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-canvas-library-item {
+    @apply min-h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) active:bg-hover disabled:opacity-50;
+  }
+
+  .cn-canvas-library-icon {
+    @apply size-(--density-28) rounded-lg bg-muted;
+  }
+
+  .cn-canvas-library-icon-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-canvas-library-label {
+    @apply text-(length:--density-text-13) text-foreground;
+  }
+
+  .cn-canvas-library-description {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  /* MARK: Canvas outline */
+
+  .cn-canvas-outline {
+    @apply gap-(--density-4);
+  }
+
+  .cn-canvas-outline-item {
+    @apply gap-(--density-4);
+  }
+
+  .cn-canvas-outline-node {
+    @apply min-h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover;
+  }
+
+  .cn-canvas-outline-status {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-canvas-outline-edges {
+    @apply ps-(--density-20);
+  }
+
+  .cn-canvas-outline-edge {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  /* MARK: Canvas issues */
+
+  .cn-canvas-issues {
+    @apply gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+  }
+
+  .cn-canvas-issues-title {
+    @apply px-(--density-8) py-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-canvas-issue {
+    @apply gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) active:bg-hover;
+  }
+
+  .cn-canvas-issue-icon {
+    @apply text-destructive;
+  }
+
+  .cn-canvas-issue-message {
+    @apply text-(length:--density-text-12) text-destructive-text;
+  }
+
+  /* MARK: Canvas states */
+
+  .cn-canvas-overlay {
+    @apply p-(--density-24) data-[placement=center]:justify-center data-[placement=top]:justify-start;
+  }
+
+  .cn-canvas-loading {
+    @apply gap-(--density-24);
+  }
+
+  .cn-canvas-loading-node {
+    @apply h-(--density-48) w-[calc(var(--density-36)*4)] rounded-xl;
+  }
+
+  .cn-canvas-error {
+    @apply max-w-md;
+  }
+
+  .cn-canvas-error-retry {
+    @apply shrink-0;
+  }
+
 /* MARK: Card */
 
   /* The card colour with surface 2's shadow ring, rounded-xl. py-(--density-16) with

@@ -1,0 +1,55 @@
+---
+title: "Canvas controller"
+description: "Drive the canvas from code: the graph, selection, viewport, undo, the clipboard and layout."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-controlled"
+  type="frame"
+  fit
+  wide
+/>
+
+Inside a canvas, `useCanvas()` returns its controller. Its methods keep one identity, so they're safe in effects and memoized callbacks.
+
+```tsx
+function RunButton() {
+  const canvas = useCanvas()
+  return (
+    <Button
+      onClick={() => {
+        canvas.select({ nodeIds: ["start"] })
+        canvas.focusNode("start")
+      }}
+    >
+      Start here
+    </Button>
+  )
+}
+
+;<Canvas>
+  <CanvasPanel position="top-end">
+    <RunButton />
+  </CanvasPanel>
+</Canvas>
+```
+
+| Member                                                        |                                                         |
+| ------------------------------------------------------------- | ------------------------------------------------------- |
+| `nodes`, `edges`, `selection`                                 | The graph and what's selected                           |
+| `canUndo`, `canRedo`, `undo()`, `redo()`                      | One step per edit; a drag or a run of nudges is one     |
+| `addNodes(nodes)`, `updateNodeData(id, data)`, `moveNodes()`  | Edits, recorded in the history                          |
+| `connect(connection)`, `validate(connection)`                 | Returns whether it's valid, and the issue when it isn't |
+| `deleteElements({ nodeIds, edgeIds })`, `deleteSelection()`   | A group takes its children, a node its edges            |
+| `select(ids)`, `selectAll()`, `clearSelection()`              |                                                         |
+| `group(groupNode, ids?)`, `ungroup(id)`, `reorder(ids, side)` |                                                         |
+| `copy()`, `cut()`, `paste(at?)`, `duplicate()`                | Versioned JSON; pastes between canvases                 |
+| `fitView()`, `zoomIn()`, `zoomOut()`, `zoomTo(zoom)`          | On the move timing                                      |
+| `focusNode(id)`                                               | Pans it into view and moves keyboard focus to it        |
+| `layout(engine, options)`                                     | Arranges the graph, then fits it                        |
+| `toJSON()`                                                    | `{ nodes, edges, viewport }` for saving                 |
+
+To hold the graph yourself, pass `nodes` and `edges` with their change handlers; `useCanvasState(initialNodes, initialEdges)` is that state in one hook.
+
+Pass `clipboard={canvasClipboard}` to copy and paste through the system clipboard, across tabs. For nodes of your own types, build a port with `createCanvasClipboardPort(parse)` and validate what comes in.

@@ -31,6 +31,7 @@ const FRAME_EXAMPLE_PREFIXES = [
   "user-menu-",
   "event-calendar-",
   "kanban-",
+  "canvas-",
 ]
 export const dynamicParams = false
 

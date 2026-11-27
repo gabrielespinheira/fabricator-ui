@@ -70,6 +70,16 @@ const SHARED_LIB_FILES = [
   "model-picker-model",
   "event-calendar-model",
   "palette-model",
+  "canvas-model",
+  "canvas-geometry",
+  "canvas-validation",
+  "canvas-history",
+  "canvas-viewport",
+  "canvas-guides",
+  "canvas-keyboard",
+  "canvas-clipboard",
+  "canvas-layout",
+  "canvas-layout-dagre",
   "data-table-model",
   "kanban-model",
   "property-model",
@@ -96,6 +106,7 @@ const SHARED_LIB_FILES = [
 
 // React-only hooks the website and native share, from shared/hooks.
 const SHARED_HOOK_FILES = [
+  "use-canvas",
   "use-event-calendar",
   "use-bot-face-state",
   "use-kanban",

@@ -1240,6 +1240,94 @@ export const Components: Record<string, any> = {
       ) || "candlestick-chart-plain"
     return { default: mod.default || mod[exportName] }
   }),
+  "canvas-controlled": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-controlled")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-controlled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "canvas-demo": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "canvas-flowchart": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-flowchart")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-flowchart"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "canvas-large": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-large")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-large"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "canvas-pipeline-status": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-pipeline-status")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-pipeline-status"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "canvas-readonly": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-readonly")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-readonly"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "canvas-schema": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-schema")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-schema"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "canvas-states": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-states")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-states"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "canvas-static": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-static")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-static"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "canvas-subflows": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-subflows")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-subflows"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "canvas-validation": React.lazy(async () => {
+    const mod = await import("@/examples/base/canvas-validation")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "canvas-validation"
+    return { default: mod.default || mod[exportName] }
+  }),
   "card-demo": React.lazy(async () => {
     const mod = await import("@/examples/base/card-demo")
     const exportName =

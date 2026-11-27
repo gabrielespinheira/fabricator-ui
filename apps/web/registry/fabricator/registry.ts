@@ -811,6 +811,73 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "canvas",
+    type: "registry:ui",
+    title: "Canvas",
+    description:
+      "An infinite, zoomable surface of nodes and connections for workflow editors, diagrams and node-based tools, on React Flow: typed handles with connection rules, undo, copy and paste, alignment guides, groups, run status, a node library, search, keyboard navigation and connect, and every state from empty to failed.",
+    // React Flow 13 draws the web canvas. Its structural stylesheet goes in
+    // Tailwind's base layer, under the utilities, so the style map's classes
+    // and the --xy-* variables it sets win without a layer order to set up.
+    dependencies: ["@xyflow/react@13.0.3"],
+    registryDependencies: [
+      "palette-model",
+      "properties",
+      "alert",
+      "button",
+      "command",
+      "empty",
+      "kbd",
+      "skeleton",
+      "spinner",
+    ],
+    css: { '@import "@xyflow/react/dist/base.css" layer(base)': {} },
+    files: [
+      { path: "ui/canvas.tsx", type: "registry:ui" },
+      { path: "ui/canvas-context.tsx", type: "registry:ui" },
+      { path: "ui/canvas-engine.tsx", type: "registry:ui" },
+      { path: "ui/canvas-node.tsx", type: "registry:ui" },
+      { path: "ui/canvas-edge.tsx", type: "registry:ui" },
+      { path: "components/canvas-commands.tsx", type: "registry:component" },
+      { path: "hooks/use-canvas.ts", type: "registry:hook" },
+      { path: "lib/canvas-model.ts", type: "registry:lib" },
+      { path: "lib/canvas-geometry.ts", type: "registry:lib" },
+      { path: "lib/canvas-validation.ts", type: "registry:lib" },
+      { path: "lib/canvas-history.ts", type: "registry:lib" },
+      { path: "lib/canvas-viewport.ts", type: "registry:lib" },
+      { path: "lib/canvas-guides.ts", type: "registry:lib" },
+      { path: "lib/canvas-keyboard.ts", type: "registry:lib" },
+      { path: "lib/canvas-clipboard.ts", type: "registry:lib" },
+      { path: "lib/canvas-layout.ts", type: "registry:lib" },
+    ],
+    categories: ["data", "diagram"],
+    meta: {
+      fabricator: true,
+      baseRegistryDependencies: {
+        base: ["toast"],
+        radix: ["sonner"],
+        aria: ["sonner"],
+      },
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/canvas",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/canvas#examples",
+      },
+    },
+  },
+  {
+    name: "canvas-layout",
+    type: "registry:lib",
+    title: "Canvas Layout",
+    description:
+      "Automatic layered layout for the Canvas on dagre: flows, trees and org charts arranged down or across, through the Canvas's layout port.",
+    dependencies: ["@dagrejs/dagre@3.1.4"],
+    registryDependencies: ["canvas"],
+    files: [{ path: "lib/canvas-layout-dagre.ts", type: "registry:lib" }],
+    categories: ["diagram"],
+    meta: { fabricator: true },
+  },
+  {
     name: "chart-kit",
     type: "registry:lib",
     title: "Chart Kit",

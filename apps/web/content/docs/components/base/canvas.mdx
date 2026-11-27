@@ -1,0 +1,450 @@
+---
+title: Canvas
+description: An infinite, zoomable surface of nodes and connections for workflow editors, diagrams and node-based tools, on React Flow.
+base: base
+component: true
+links:
+  doc: https://reactflow.dev/api-reference
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-demo"
+  type="frame"
+  fit
+  previewClassName="px-4 py-6 md:px-8"
+  wide
+/>
+
+Drag a step from the library onto the canvas, or click it to add it in the middle. Drag from a step's right edge to another step's left edge to connect them: a step only takes what the one before it gives, so the line turns red over a step that can't take it. Scroll to pan, pinch or hold ⌘ and scroll to zoom, and drag across empty space to select. Right-click a step, or focus it and press Shift F10, for its menu; press C to connect it from the keyboard and ⌘K to find a step. Every change can be undone with ⌘Z.
+
+Canvas is part of the Fabricator style. It draws with [React Flow 13](https://reactflow.dev) and none of React Flow's look: nodes are raised cards, connections are quiet lines, and the controls, menus and dialogs are the library's own components. Canvas draws with HTML and SVG rather than a `<canvas>` element, so a node can hold any component, from a badge to a form. Undo, the clipboard, connection rules, keyboard navigation and the edge shapes come from a model with no React Flow or DOM in it, shared with React Native.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add canvas
+```
+
+For automatic layout, add Canvas Layout too:
+
+```bash
+npx fabricator-ui@latest add canvas-layout
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @xyflow/react@13.0.3
+```
+
+<Step>
+  Import React Flow's structural styles into Tailwind's base layer, after
+  Tailwind, in your CSS:
+</Step>
+
+```css
+@import "tailwindcss";
+@import "@xyflow/react/dist/base.css" layer(base);
+```
+
+<Step>
+  Add Alert, Button, Command, Empty, Kbd, Palette Model, Properties, Skeleton,
+  Spinner and Toast.
+</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/canvas-model.ts"
+  title="lib/canvas-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/canvas-geometry.ts"
+  title="lib/canvas-geometry.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/hooks/use-canvas.ts"
+  title="hooks/use-canvas.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/canvas.tsx"
+  title="components/ui/canvas.tsx"
+  styleName="base-nova"
+/>
+
+<Step>
+  Copy the rest of the files the same way: `lib/canvas-validation.ts`,
+  `lib/canvas-history.ts`, `lib/canvas-viewport.ts`, `lib/canvas-guides.ts`,
+  `lib/canvas-keyboard.ts`, `lib/canvas-clipboard.ts`, `lib/canvas-layout.ts`,
+  `ui/canvas-context.tsx`, `ui/canvas-engine.tsx`, `ui/canvas-node.tsx`,
+  `ui/canvas-edge.tsx` and `components/canvas-commands.tsx`.
+</Step>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Canvas } from "@/components/ui/canvas"
+```
+
+```tsx
+const nodes = [
+  { id: "fetch", position: { x: 0, y: 0 }, data: { title: "Fetch orders" } },
+  { id: "sum", position: { x: 280, y: 0 }, data: { title: "Total by day" } },
+]
+const edges = [{ id: "fetch-sum", source: "fetch", target: "sum" }]
+
+<Canvas defaultNodes={nodes} defaultEdges={edges} className="h-[480px]" />
+```
+
+Give the canvas a height: it fills its box, and takes 384px when the box has none. Nodes and edges have React Flow's shape, so data written for React Flow drops in. A node without a `type` is the default node: its `title` (or `label`), an optional `description` and `icon`, a connection point on each side.
+
+## Saving changes
+
+Hold the graph yourself with `useCanvasState`, or any state, and apply each change list with `applyCanvasNodeChanges` and `applyCanvasEdgeChanges`:
+
+```tsx
+const { nodes, edges, onNodesChange, onEdgesChange } = useCanvasState(
+  initialNodes,
+  initialEdges
+)
+
+<Canvas
+  nodes={nodes}
+  edges={edges}
+  onNodesChange={onNodesChange}
+  onEdgesChange={onEdgesChange}
+  onConnect={(connection) => saveConnection(connection)}
+  onDelete={({ nodes, edges }) => deleteOnServer(nodes, edges)}
+  onViewportChangeEnd={saveView}
+/>
+```
+
+`onConnect` and `onDelete` may return a promise. The change shows at once and waits faded until it settles; a rejection puts it back and raises a toast with Retry, and the undo history only records changes that landed.
+
+## Your own nodes
+
+A node component receives the node's `data`, `selected`, `status` and `invalid`, and draws itself from the node parts:
+
+```tsx
+function PromptNode({ data }: CanvasNodeProps<{ title: string }>) {
+  return (
+    <CanvasNode>
+      <CanvasNodeHeader>
+        <CanvasNodeIcon>
+          <SparklesIcon />
+        </CanvasNodeIcon>
+        <CanvasNodeTitle>{data.title}</CanvasNodeTitle>
+        <CanvasNodeStatus />
+      </CanvasNodeHeader>
+      <CanvasNodeContent>…</CanvasNodeContent>
+      <CanvasNodeFooter />
+      <CanvasHandle kind="target" side="left" accepts={["text"]} />
+      <CanvasHandle kind="source" side="right" produces="text" />
+    </CanvasNode>
+  )
+}
+
+const nodeTypes = { prompt: PromptNode }
+
+<Canvas nodeTypes={nodeTypes} defaultNodes={nodes} />
+```
+
+Define `nodeTypes` outside the component, so it keeps one identity. A handle's `produces` and `accepts` are value types: a connection lands only where they match, and the line turns red over a handle that can't take it. `max` caps how many connections a handle takes. Add `validateConnection` for a rule of your own; return a string and it's the reason shown.
+
+Set `status` on a node (`running`, `success`, `warning`, `error`, `skipped`) to show a run, `color` for its icon tile, and `invalid` for a problem the footer reads out. Notes (`type: "note"`), groups (`type: "group"`) and placeholders (`type: "placeholder"`) are built in.
+
+## Modes
+
+`mode="edit"` (the default) changes the graph. `mode="view"` pans, zooms and selects, and the page scrolls past it until it's clicked. `mode="static"` is a picture: no controls, no edits, refitted whenever its box changes size. `panOn="drag"` pans by dragging empty space, for people used to maps; the default, `scroll`, pans like a design tool.
+
+## Composition
+
+```text
+Canvas                       data-slot="canvas"
+├── CanvasPanel              data-slot="canvas-panel"
+│   ├── CanvasLibrary        data-slot="canvas-library"
+│   ├── CanvasSearch
+│   ├── CanvasOutline        data-slot="canvas-outline"
+│   └── CanvasIssues         data-slot="canvas-issues"
+├── CanvasControls           data-slot="canvas-controls"
+├── CanvasMinimap            data-slot="canvas-minimap"
+└── (nodes, from nodeTypes)
+    CanvasNode               data-slot="canvas-node"
+    ├── CanvasNodeHeader     data-slot="canvas-node-header"
+    │   ├── CanvasNodeIcon   data-slot="canvas-node-icon"
+    │   ├── CanvasNodeTitle  data-slot="canvas-node-title"
+    │   └── CanvasNodeStatus data-slot="canvas-node-status"
+    ├── CanvasNodeContent    data-slot="canvas-node-content"
+    ├── CanvasNodeFooter     data-slot="canvas-node-footer"
+    ├── CanvasNodeToolbar    data-slot="canvas-node-toolbar"
+    ├── CanvasNodeResizer
+    └── CanvasHandle         data-slot="canvas-handle"
+```
+
+Without children, a canvas in edit or view mode shows the controls and the minimap. Inside a canvas, `useCanvas()` returns its controller: the nodes, edges and selection, and `fitView`, `focusNode`, `addNodes`, `connect`, `deleteElements`, `undo`, `redo`, `copy`, `paste`, `group` and `layout`.
+
+## Examples
+
+### Flowchart
+
+Default nodes top to bottom with labelled branches. Right-click the empty canvas and choose Tidy up to arrange it with [Canvas Layout](#automatic-layout).
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-flowchart"
+  type="frame"
+  fit
+  wide
+/>
+
+### Database schema
+
+A handle on each key column, so relations join the exact columns.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-schema"
+  type="frame"
+  fit
+  wide
+/>
+
+### Run status
+
+A run sets one node's status at a time, and the edge into the running step flows. A failure stops the run.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-pipeline-status"
+  type="frame"
+  fit
+  wide
+/>
+
+### Connection rules
+
+No loops, a rule of the canvas's own, and a server that refuses every connection into Archive: the line lands, waits, then goes back with a toast.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-validation"
+  type="frame"
+  fit
+  wide
+/>
+
+### Groups
+
+Nodes inside a group move with it. Select nodes and press ⌘G to group them, ⇧⌘G to ungroup.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-subflows"
+  type="frame"
+  fit
+  wide
+/>
+
+### Read-only
+
+An org chart in view mode: drag to pan, select to read, nothing changes.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-readonly"
+  type="frame"
+  fit
+  wide
+/>
+
+### In a page
+
+A static diagram, the way it sits in docs or on a website.
+
+<ComponentPreview styleName="base-nova" name="canvas-static" />
+
+### Controlled, with an outline
+
+The app holds the graph; the outline beside it is the same graph as a list.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-controlled"
+  type="frame"
+  fit
+  wide
+/>
+
+### Empty, loading and error
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-states"
+  type="frame"
+  fit
+  wide
+/>
+
+### A thousand nodes
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-large"
+  type="frame"
+  fit
+  wide
+/>
+
+## Automatic layout
+
+Canvas Layout arranges a graph in layers with [dagre](https://github.com/dagrejs/dagre). Pass it as `layout` to offer Tidy up in the canvas's menu, or call it yourself:
+
+```tsx
+import { layoutWithDagre } from "@/lib/canvas-layout-dagre"
+
+;<Canvas layout={layoutWithDagre} />
+
+// or, inside the canvas
+const canvas = useCanvas()
+canvas.layout(layoutWithDagre, { direction: "down" })
+```
+
+Any engine with the same signature works, such as ELK on a server.
+
+## Coming from React Flow
+
+`nodes`, `edges`, `onNodesChange`, `onEdgesChange`, `onConnect`, `fitView`, `minZoom`, `maxZoom` and `viewport` keep React Flow's names and shapes. The changes Canvas reports are plain objects rather than React Flow 13's changeset class. `reactFlow` passes any other prop to React Flow as it is (web only), and `edgeTypes` takes React Flow edge components. React Flow's attribution is hidden; Canvas credits it here and in the library's notices.
+
+## API Reference
+
+### Canvas
+
+| Prop                                                                     | Type                                       | Default               |                                                       |
+| ------------------------------------------------------------------------ | ------------------------------------------ | --------------------- | ----------------------------------------------------- |
+| `nodes`, `defaultNodes`                                                  | `CanvasNode[]`                             | -                     |                                                       |
+| `edges`, `defaultEdges`                                                  | `CanvasEdge[]`                             | -                     |                                                       |
+| `onNodesChange`, `onEdgesChange`                                         | `(changes) => void`                        | -                     | Every change, as plain objects                        |
+| `onConnect`                                                              | `(connection, edge) => void \| Promise`    | -                     | A rejection removes the edge                          |
+| `onDelete`                                                               | `({ nodes, edges }) => void \| Promise`    | -                     | A rejection puts them back                            |
+| `onConnectToPane`                                                        | `({ position, source }) => void`           | -                     | A connection dropped on empty canvas                  |
+| `onEdgeInsert`                                                           | `(edgeId, position) => void`               | -                     | Shows a + on edges                                    |
+| `onNodeOpen`                                                             | `(node) => void`                           | -                     | Double click, Enter, Open                             |
+| `onSelectionChange`                                                      | `({ nodes, edges }) => void`               | -                     |                                                       |
+| `validateConnection`                                                     | `(connection, graph) => true \| string`    | -                     | A string is the reason shown                          |
+| `allowCycles`, `allowSelfLoops`                                          | `boolean`                                  | `true`, `false`       |                                                       |
+| `edgeDefaults`                                                           | `Partial<CanvasEdge>`                      | -                     | Fields every new edge starts with                     |
+| `nodeTypes`                                                              | `Record<string, CanvasNodeComponent>`      | built-ins             | Merged with `default`, `note`, `group`, `placeholder` |
+| `edgeTypes`                                                              | `Record<string, ComponentType<EdgeProps>>` | -                     | Web only                                              |
+| `mode`                                                                   | `"edit" \| "view" \| "static"`             | `"edit"`              |                                                       |
+| `panOn`                                                                  | `"scroll" \| "drag"`                       | `"scroll"`            | In edit mode                                          |
+| `background`                                                             | `"dots" \| "lines" \| "cross" \| "none"`   | `"dots"`              |                                                       |
+| `gridSize`, `snapToGrid`, `guides`                                       | `number`, `boolean`, `boolean`             | `20`, `false`, `true` |                                                       |
+| `fitView`                                                                | `boolean \| { padding, minZoom, maxZoom }` | `true`                | Never past 100% unless `maxZoom` says so              |
+| `minZoom`, `maxZoom`                                                     | `number`                                   | `0.1`, `2`            |                                                       |
+| `viewport`, `defaultViewport`, `onViewportChange`, `onViewportChangeEnd` | `{ x, y, zoom }`                           | -                     | `End` fires once a move settles                       |
+| `layout`                                                                 | `CanvasLayoutEngine`                       | -                     | Offers Tidy up                                        |
+| `library`                                                                | `CanvasLibraryItem[]`                      | -                     | What the pane menu and the empty state add            |
+| `history`                                                                | `boolean \| { limit }`                     | `true`, 100           |                                                       |
+| `createId`                                                               | `() => string`                             | `crypto.randomUUID`   |                                                       |
+| `clipboard`                                                              | `CanvasClipboardPort`                      | -                     | `canvasClipboard` for the browser's                   |
+| `loading`, `error`, `onRetry`, `disabled`                                |                                            | -                     |                                                       |
+| `label`, `labels`                                                        | `string`, `Partial<CanvasLabels>`          | -                     | The canvas's name and every word it shows             |
+| `size`                                                                   | `"sm" \| "default"`                        | `"default"`           | Compact nodes and controls                            |
+| `reactFlow`                                                              | `Partial<ReactFlowProps>`                  | -                     | Web only; merged last                                 |
+
+### CanvasNode (data)
+
+| Field                                                             | Type                                                                    |                                     |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------- |
+| `id`, `type`, `position`, `data`                                  | as React Flow                                                           |                                     |
+| `width`, `height`, `parentId`, `extent`, `hidden`, `zIndex`       | as React Flow                                                           |                                     |
+| `selected`, `draggable`, `selectable`, `connectable`, `deletable` | `boolean`                                                               |                                     |
+| `status`                                                          | `"idle" \| "running" \| "success" \| "warning" \| "error" \| "skipped"` | The run state                       |
+| `color`                                                           | a palette colour or role                                                | The icon tile                       |
+| `invalid`                                                         | `string`                                                                | A problem, in the footer and Issues |
+
+### CanvasHandle
+
+| Prop       | Type                                     |                               |
+| ---------- | ---------------------------------------- | ----------------------------- |
+| `kind`     | `"source" \| "target"`                   |                               |
+| `side`     | `"top" \| "right" \| "bottom" \| "left"` |                               |
+| `id`       | `string`                                 | Unique per kind on the node   |
+| `accepts`  | `string[]`                               | Value types; `*` takes any    |
+| `produces` | `string`                                 | The value type it gives       |
+| `max`      | `number`                                 | Most connections              |
+| `label`    | `string`                                 | Shown beside it and announced |
+
+### Data attributes
+
+| Attribute                                                                        | On              | Values                                                                   |
+| -------------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------ |
+| `data-mode`, `data-lod`                                                          | `canvas`        | The mode; `full`, `compact`, `outline` by zoom                           |
+| `data-status`, `data-variant`                                                    | `canvas-node`   | The run state; the built-in kind                                         |
+| `data-selected`, `data-dragging`, `data-pending`, `data-invalid`, `data-colored` | `canvas-node`   | Present in that state                                                    |
+| `data-state`                                                                     | `canvas-handle` | `connecting`, `source`, `valid`, `invalid` while a connection is dragged |
+
+## Keyboard shortcuts
+
+The canvas takes these while focus is inside it, never while typing in a field.
+
+| Keys                | Action                                              |
+| ------------------- | --------------------------------------------------- |
+| Arrows              | Focus the nearest node in that direction            |
+| Alt + arrows        | Move the selection a grid step; Shift for ten       |
+| Enter               | Open the focused node                               |
+| Space               | Select or deselect the focused node                 |
+| C                   | Connect the focused node: pick a target from a list |
+| Shift F10, Menu key | The focused node's menu                             |
+| Delete, Backspace   | Delete the selection                                |
+| ⌘A, ⌘C, ⌘X, ⌘V, ⌘D  | Select all, copy, cut, paste, duplicate             |
+| ⌘Z, ⇧⌘Z             | Undo, redo                                          |
+| ⌘G, ⇧⌘G             | Group, ungroup                                      |
+| ⌘0, ⌘+, ⌘−, ⇧1      | 100%, zoom in, zoom out, fit                        |
+| ⌘K, /               | Find a node                                         |
+| Escape              | Clear the selection                                 |
+
+## Accessibility
+
+- The canvas is a labelled region with a summary screen readers read: its name, how many nodes and connections, how many are selected.
+- Each node is a group named by its title and described by its connections ("In from Classify. Out to Send email."), its run state and its problem.
+- Every pointer action has a keyboard path, including connecting, which picks from a list of the targets that can take the connection.
+- Connections, deletions, undo and redo are announced in a polite live region.
+- `CanvasOutline` is the graph as a list, for screen readers and small screens.
+- Run states pair their colour with an icon; edges meet 3:1 against the page in light and dark.
+
+## Performance
+
+- Define `nodeTypes`, callbacks you pass and option objects once: a new identity remounts nodes.
+- A node reads only its own state, so a status change re-renders one node and a drag doesn't re-render the rest.
+- Past 300 nodes, offscreen nodes aren't drawn. Below half zoom nodes drop their content, and below a quarter the grid fades out.
+- Undo stores what each change touched, never a copy of the graph.

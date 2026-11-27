@@ -139,6 +139,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   // Advanced
   "data-table": "Advanced",
   "event-calendar": "Advanced",
+  canvas: "Advanced",
   editor: "Advanced",
   "file-tree": "Advanced",
   "syntax-highlight": "Advanced",

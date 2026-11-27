@@ -245,6 +245,11 @@
       "@/registry/bases/__base__/components/property-controls": [
         "./registry/fabricator/base/components/property-controls"
       ],
+      // The Canvas's command dialogs and toasts differ by base; shared code
+      // typechecks against Base UI's.
+      "@/registry/bases/__base__/components/canvas-commands": [
+        "./registry/fabricator/base/components/canvas-commands"
+      ],
       "@/registry/bases/__base__/ui/badge": [
         "./registry/fabricator/base/ui/badge"
       ],

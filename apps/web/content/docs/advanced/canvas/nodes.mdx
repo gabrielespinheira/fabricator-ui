@@ -1,0 +1,51 @@
+---
+title: "Canvas nodes"
+description: "Build node components from the node parts, with status, colour, problems, notes, groups and placeholders."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-schema"
+  type="frame"
+  fit
+  wide
+/>
+
+A node component receives `CanvasNodeProps`: the node's `id`, `type`, `data`, `selected`, `dragging`, `isConnectable`, `status` and `invalid`. Draw it with `CanvasNode` and its parts, so it takes the Fabricator look, the focus and selection rings and the run states without any classes of your own.
+
+```tsx
+function StepNode({ data }: CanvasNodeProps<StepData>) {
+  return (
+    <CanvasNode>
+      <CanvasNodeHeader>
+        <CanvasNodeIcon>
+          <SparklesIcon />
+        </CanvasNodeIcon>
+        <CanvasNodeTitle>{data.title}</CanvasNodeTitle>
+        <CanvasNodeStatus />
+      </CanvasNodeHeader>
+      <CanvasNodeContent>
+        <CanvasNodeDescription>{data.description}</CanvasNodeDescription>
+      </CanvasNodeContent>
+      <CanvasNodeFooter />
+      <CanvasHandle kind="target" side="left" />
+      <CanvasHandle kind="source" side="right" />
+      <CanvasNodeToolbar>
+        <Button size="icon-sm" variant="ghost" aria-label="Run this step">
+          <PlayIcon />
+        </Button>
+      </CanvasNodeToolbar>
+    </CanvasNode>
+  )
+}
+```
+
+- `CanvasNodeContent` drops away below half zoom, where it's too small to read; the header stays.
+- `CanvasNodeFooter` shows the node's `invalid` message when it has no children.
+- `CanvasNodeToolbar` floats over the selected node. `CanvasNodeResizer` adds grips to resize it.
+- `color` on the node tints its icon tile from the palette (`blue`, `purple`, `green`… or a role).
+- `status` is the run state; `running` shows a spinner and colours the ring with the info role, `error`, `warning` and `success` their roles, and `skipped` dims the node.
+
+The built-in types are `default` (title, description, icon), `note` (text on a warm tint), `group` (a frame other nodes sit in; give children `parentId` and `extent: "parent"`) and `placeholder` (a dashed slot for a step not chosen yet). Your `nodeTypes` merge over them.
+
+Define `nodeTypes` outside your component: a new object remounts every node.

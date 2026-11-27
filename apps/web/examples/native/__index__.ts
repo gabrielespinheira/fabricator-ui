@@ -23,6 +23,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "button-group": () => require("@/examples/native/button-group-example").ButtonGroupExample,
   "calendar": () => require("@/examples/native/calendar-example").CalendarExample,
   "candlestick-chart": () => require("@/examples/native/candlestick-chart-example").CandlestickChartExample,
+  "canvas": () => require("@/examples/native/canvas-example").CanvasExample,
   "card": () => require("@/examples/native/card-example").CardExample,
   "carousel": () => require("@/examples/native/carousel-example").CarouselExample,
   "chat-input": () => require("@/examples/native/chat-input-example").ChatInputExample,

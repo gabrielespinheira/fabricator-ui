@@ -1,0 +1,26 @@
+---
+title: "Canvas interaction"
+description: "Edit, view and static modes, panning like a design tool or a map, touch, and the keyboard."
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="canvas-readonly"
+  type="frame"
+  fit
+  wide
+/>
+
+| `mode`   | Pan                                 | Zoom                        | Edits | Page scroll over it          |
+| -------- | ----------------------------------- | --------------------------- | ----- | ---------------------------- |
+| `edit`   | Scroll, Space and drag, middle drag | Pinch, ⌘ or Ctrl and scroll | Yes   | Taken by the canvas          |
+| `view`   | Drag                                | Pinch, ⌘ or Ctrl and scroll | No    | Passes through until clicked |
+| `static` | None                                | None, refits to its box     | No    | Always passes through        |
+
+In edit mode, dragging across empty space selects. `panOn="drag"` makes a drag pan instead, the way a map does, and Shift and drag selects. Lock in the controls stops moving and connecting until it's unlocked; selecting and opening still work.
+
+On touch, one finger pans, two pinch to zoom, handles grow to 44 points and stay visible, and a long press opens the menu a right click does.
+
+The keyboard works the whole graph: arrows move focus to the nearest node in that direction, Alt (Option) and an arrow moves the selection, C connects, Shift F10 opens the menu, ⌘K finds a node. The full list is on the [Canvas page](/docs/components/base/canvas#keyboard-shortcuts).
+
+Snapping: `guides` (on by default) snaps a dragged node to the edges and centres of the nodes around it and draws the line it snapped to; `snapToGrid` snaps to `gridSize` when no guide is near.

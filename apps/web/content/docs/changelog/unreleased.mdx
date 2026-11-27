@@ -2,6 +2,7 @@
 title: Unreleased
 description: Changes merged since the last release. They ship in the next version.
 new:
+  - canvas
   - text-motion
   - folder
   - kanban
@@ -214,6 +215,17 @@ All seven are on the web for every base; their React Native ports follow.
 **New and Updated in the sidebar.** Components and pages that are new or changed in this version or the one before carry a New or Updated badge in the docs sidebar.
 
 **App Shell primitives.** The App Shell row under Components links to the overview and expands to show its installable companions and individual references. Each primitive reference starts with a live preview and its code. The overview shows how to customize sidebar grouping and tab placement.
+
+## Canvas
+
+Canvas for React web, with React Native to follow in this release: an infinite, zoomable surface of nodes and connections for workflow editors, diagrams and node-based tools, drawn with React Flow 13 in the Fabricator look.
+
+- **Nodes** are raised cards built from parts: an icon tile in a palette colour, a title, a run status (running, done, warning, failed, skipped), content that drops away when zoomed out, and a footer that reads out a problem. Notes, groups and placeholders are built in.
+- **Connections** have typed handles: a line only lands where the types match, turns red with the reason over a handle that can't take it, and can refuse loops or follow a rule of your own. A connection dropped on empty canvas asks your app what to create there.
+- **Editing:** snapping to neighbours with guide lines, undo and redo, copy and paste between canvases, groups, a node library to drag from, node search and menus on every node, edge and the empty canvas.
+- **Keyboard:** arrows move between nodes by position, Alt and an arrow moves them, C connects from a list of valid targets, and a live region reads out each change.
+- **Modes:** edit, view (page scroll passes through) and static (a diagram in a page), with empty, loading and error states, and changes that wait on a server and revert with Retry.
+- **Canvas Layout** arranges a graph with dagre.
 
 ## Kanban
 

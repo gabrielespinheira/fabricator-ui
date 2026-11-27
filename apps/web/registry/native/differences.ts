@@ -38,6 +38,10 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "touch",
     note: "A press, or an iPad pointer resting on it, lifts the files out and tips the front open; `open` holds it, as hover and focus do on the website. `onPress` makes the tile a button. `color` takes a palette name, a role, hex, rgb(), hsl() or oklch(); the website also reads named CSS colours. Glass has no blur behind it, so its front is denser to frost the files. Text on the cover is the text colour rather than the folder colour's text token, and badges on it keep their own look instead of turning frosted pills. `size` sets the tile's width; its text follows the device's density.",
   },
+  canvas: {
+    tier: "engine",
+    note: "Drawn by its own engine instead of React Flow: one finger pans, two pinch, a node drags on touch and its edges follow, a long press opens the menu a right click does, and Connect to… and Find a node open in sheets. Library items are added with a press rather than dragged. A dragged node snaps to its neighbours and the grid when it lands, without live guide lines, and a running edge keeps its dashes still. VoiceOver and TalkBack reach open, the menu, connect, delete and a nudge each way as actions. `reactFlow` and `edgeTypes` are web only.",
+  },
   "image-compare": {
     tier: "touch",
     note: 'A horizontal drag moves the line and a vertical one scrolls the page; a tap glides it there and a flick sends it to the edge, with a notch every step. One SVG draws both pictures with the same cover crop and clips the "before" one along the curve. Screen readers adjust it by `step` with swipes up and down. There\'s no hover or keyboard, and the labels have no backdrop blur.',

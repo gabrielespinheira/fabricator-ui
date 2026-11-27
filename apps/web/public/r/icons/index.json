@@ -490,12 +490,26 @@
     "phosphor": "BrainIcon",
     "remixicon": "RiBrainLine"
   },
+  "BringToFrontIcon": {
+    "lucide": "BringToFrontIcon",
+    "tabler": "IconStack2",
+    "hugeicons": "Layers01Icon",
+    "phosphor": "StackIcon",
+    "remixicon": "RiBringToFront"
+  },
   "Building2Icon": {
     "lucide": "Building2Icon",
     "tabler": "IconBuildingBank",
     "hugeicons": "BankIcon",
     "phosphor": "BankIcon",
     "remixicon": "RiBankLine"
+  },
+  "CableIcon": {
+    "lucide": "CableIcon",
+    "tabler": "IconPlug",
+    "hugeicons": "ConnectIcon",
+    "phosphor": "PlugsConnectedIcon",
+    "remixicon": "RiPlugLine"
   },
   "CalendarArrowUpIcon": {
     "lucide": "CalendarArrowUpIcon",
@@ -650,6 +664,13 @@
     "hugeicons": "UserCircle02Icon",
     "phosphor": "UserCircleIcon",
     "remixicon": "RiUserLine"
+  },
+  "CircleXIcon": {
+    "lucide": "CircleXIcon",
+    "tabler": "IconCircleX",
+    "hugeicons": "CancelCircleIcon",
+    "phosphor": "XCircleIcon",
+    "remixicon": "RiCloseCircleLine"
   },
   "ClipboardPasteIcon": {
     "lucide": "ClipboardPasteIcon",
@@ -938,6 +959,13 @@
     "phosphor": "GlobeIcon",
     "remixicon": "RiGlobalLine"
   },
+  "GroupIcon": {
+    "lucide": "GroupIcon",
+    "tabler": "IconBoxMultiple",
+    "hugeicons": "GroupItemsIcon",
+    "phosphor": "SelectionPlusIcon",
+    "remixicon": "RiGroupLine"
+  },
   "HashIcon": {
     "lucide": "HashIcon",
     "tabler": "IconHash",
@@ -1176,6 +1204,13 @@
     "phosphor": "LockKeyIcon",
     "remixicon": "RiLockLine"
   },
+  "LockOpenIcon": {
+    "lucide": "LockOpenIcon",
+    "tabler": "IconLockOpen",
+    "hugeicons": "SquareUnlock02Icon",
+    "phosphor": "LockOpenIcon",
+    "remixicon": "RiLockUnlockLine"
+  },
   "LogOutIcon": {
     "lucide": "LogOutIcon",
     "tabler": "IconLogout",
@@ -1267,12 +1302,26 @@
     "phosphor": "DotsThreeVerticalIcon",
     "remixicon": "RiMore2Line"
   },
+  "MousePointer2Icon": {
+    "lucide": "MousePointer2Icon",
+    "tabler": "IconPointer",
+    "hugeicons": "Cursor01Icon",
+    "phosphor": "CursorIcon",
+    "remixicon": "RiCursorLine"
+  },
   "MusicIcon": {
     "lucide": "MusicIcon",
     "tabler": "IconMusic",
     "hugeicons": "MusicNote01Icon",
     "phosphor": "MusicNoteIcon",
     "remixicon": "RiMusic2Line"
+  },
+  "NetworkIcon": {
+    "lucide": "NetworkIcon",
+    "tabler": "IconHierarchy2",
+    "hugeicons": "HierarchyIcon",
+    "phosphor": "TreeStructureIcon",
+    "remixicon": "RiNodeTree"
   },
   "OctagonAlertIcon": {
     "lucide": "OctagonAlertIcon",
@@ -1484,6 +1533,13 @@
     "phosphor": "FloppyDiskIcon",
     "remixicon": "RiSaveLine"
   },
+  "ScanIcon": {
+    "lucide": "ScanIcon",
+    "tabler": "IconScan",
+    "hugeicons": "CenterFocusIcon",
+    "phosphor": "FrameCornersIcon",
+    "remixicon": "RiFullscreenLine"
+  },
   "ScissorsIcon": {
     "lucide": "ScissorsIcon",
     "tabler": "IconCut",
@@ -1497,6 +1553,13 @@
     "hugeicons": "SentIcon",
     "phosphor": "PaperPlaneTiltIcon",
     "remixicon": "RiSendPlaneLine"
+  },
+  "SendToBackIcon": {
+    "lucide": "SendToBackIcon",
+    "tabler": "IconStack3",
+    "hugeicons": "Layers02Icon",
+    "phosphor": "StackSimpleIcon",
+    "remixicon": "RiSendToBack"
   },
   "ServerIcon": {
     "lucide": "ServerIcon",
@@ -1554,6 +1617,13 @@
     "phosphor": "ShoppingCartIcon",
     "remixicon": "RiShoppingCartLine"
   },
+  "SkipForwardIcon": {
+    "lucide": "SkipForwardIcon",
+    "tabler": "IconPlayerSkipForward",
+    "hugeicons": "NextIcon",
+    "phosphor": "SkipForwardIcon",
+    "remixicon": "RiSkipForwardLine"
+  },
   "SlidersHorizontalIcon": {
     "lucide": "SlidersHorizontalIcon",
     "tabler": "IconAdjustmentsHorizontal",
@@ -1574,6 +1644,13 @@
     "hugeicons": "SparklesIcon",
     "phosphor": "SparkleIcon",
     "remixicon": "RiSparklingLine"
+  },
+  "SplitIcon": {
+    "lucide": "SplitIcon",
+    "tabler": "IconArrowsSplit",
+    "hugeicons": "GitBranchIcon",
+    "phosphor": "GitForkIcon",
+    "remixicon": "RiGitBranchLine"
   },
   "SquareCheckIcon": {
     "lucide": "SquareCheckIcon",
@@ -1757,6 +1834,13 @@
     "phosphor": "ArrowUUpLeftIcon",
     "remixicon": "RiArrowGoBackLine"
   },
+  "UngroupIcon": {
+    "lucide": "UngroupIcon",
+    "tabler": "IconBoxOff",
+    "hugeicons": "UngroupItemsIcon",
+    "phosphor": "SelectionSlashIcon",
+    "remixicon": "RiFolderReduceLine"
+  },
   "UploadCloudIcon": {
     "lucide": "UploadCloudIcon",
     "tabler": "IconCloudUpload",
@@ -1833,6 +1917,13 @@
     "hugeicons": "Wallet01Icon",
     "phosphor": "WalletIcon",
     "remixicon": "RiWalletLine"
+  },
+  "WorkflowIcon": {
+    "lucide": "WorkflowIcon",
+    "tabler": "IconSitemap",
+    "hugeicons": "WorkflowSquare01Icon",
+    "phosphor": "FlowArrowIcon",
+    "remixicon": "RiFlowChart"
   },
   "ZapIcon": {
     "lucide": "ZapIcon",

@@ -95,6 +95,7 @@ Every dialog, sheet and drawer has a title. Two modal layers at most.
 | --- | --- | --- |
 | `table` | A few to a hundred records compared by column | Columns fold into the name cell in narrow containers ([recipes/list.md](recipes/list.md)); row hover is built in |
 | `kanban` | Work grouped by status or another field | Drag cards across columns, compose detail actions, page by cursor and save moves via callbacks |
+| `canvas` | Things connected to each other that people arrange: workflow and automation editors, flowcharts, mind maps, schemas, architecture diagrams; `mode="static"` for a diagram in a page | Typed handles with connection rules, run `status` on nodes, a library, undo, keyboard connect; `canvas-layout` arranges with dagre |
 | `data-table` | Records people sort, filter, edit, or have by the thousand | Typed columns through `meta` (`status`, `person`, `currency`, `progress`, `tags`, `date`), `editable` cells, `load`, footers, selection bar, views. Web only; needs a height |
 | `item` | Things read one by one: people, files, tasks, apps | `ItemGroup` > `Item size="default\|sm\|xs" variant="default\|outline\|muted"`; `ItemMedia variant="icon\|image"`; a link through `render`/`asChild`; rows carry `role="listitem"` ([rules/composition.md](rules/composition.md)) |
 | `card` | One discrete thing | `CardHeader` (`CardTitle`, `CardDescription`, `CardAction`), `CardContent`, `CardFooter`; `--card-spacing` is its inset |
