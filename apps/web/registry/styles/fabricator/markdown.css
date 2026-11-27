@@ -69,7 +69,7 @@
   }
 
   .cn-markdown-image {
-    @apply h-auto max-w-full rounded-lg;
+    @apply h-auto max-w-full rounded-(--radius-control);
   }
 
   .cn-markdown-list {
@@ -98,12 +98,12 @@
     @apply data-checked:text-muted-foreground data-checked:line-through;
   }
 
-  /* Tables sit in a framed box (rounded-xl, a hairline at 70%) that
+  /* Tables sit in a framed box (the surface corner, a hairline at 70%) that
      scrolls sideways when they're wide. The header row takes the muted tint,
      semibold; hairlines at 50% run between rows and columns; body text stays
      foreground, at 0.875em with tabular figures so numbers line up. */
   .cn-markdown-table {
-    @apply ring-border/70 overflow-x-auto rounded-xl text-[0.875em] tabular-nums ring-1 ring-inset [&_table]:w-full [&_table]:border-collapse;
+    @apply ring-border/70 overflow-x-auto rounded-(--radius-surface) text-[0.875em] tabular-nums ring-1 ring-inset [&_table]:w-full [&_table]:border-collapse;
   }
 
   .cn-markdown-table-head {
@@ -125,5 +125,5 @@
   }
 
   .cn-markdown-raw-block {
-    @apply bg-muted text-muted-foreground rounded-md p-[0.75em] font-mono text-[0.8125em] whitespace-pre-wrap;
+    @apply bg-muted text-muted-foreground rounded-(--radius-inner) p-[0.75em] font-mono text-[0.8125em] whitespace-pre-wrap;
   }

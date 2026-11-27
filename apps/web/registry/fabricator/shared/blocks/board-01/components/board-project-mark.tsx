@@ -22,7 +22,7 @@ export function BoardProjectMark({
     <span
       aria-hidden
       className={cn(
-        "flex size-(--density-20) shrink-0 items-center justify-center rounded-md [&_svg]:size-(--density-12)!",
+        "flex size-(--density-20) shrink-0 items-center justify-center rounded-(--radius-inner) [&_svg]:size-(--density-12)!",
         TONES[projectId],
         className
       )}

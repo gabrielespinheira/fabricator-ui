@@ -23,9 +23,10 @@ const COMPONENTS = [
   "calendar",
   "dropdown-menu",
   "tabs",
-  // Fabricator-only items: sounds (lib + component) and the pill radius theme.
+  // Fabricator-only items: sounds (lib + component) and the shape themes.
   "sounds",
   "radius-pill",
+  "radius-squircle",
 ]
 
 // Fabricator-only components (no upstream item of the same name).

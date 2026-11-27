@@ -26,7 +26,7 @@
   }
 
   .cn-model-picker-route {
-    @apply bg-hover/60 gap-0.5 rounded-lg px-(--density-10) py-(--density-8) disabled:opacity-50;
+    @apply bg-hover/60 gap-0.5 rounded-(--radius-control) px-(--density-10) py-(--density-8) disabled:opacity-50 corner-curve;
   }
 
   /* The lift, as layers that ease under the tile's content: 40% of the hover
@@ -74,7 +74,7 @@
      model in use tinted with a check at the end. Rows keep the 44pt touch
      target on small screens and take the density's height from sm up. */
   .cn-model-picker-item {
-    @apply gap-(--density-8) rounded-lg ps-(--density-32) pe-(--density-8) disabled:opacity-50 sm:min-h-(--density-32);
+    @apply gap-(--density-8) rounded-(--radius-control) ps-(--density-32) pe-(--density-8) disabled:opacity-50 sm:min-h-(--density-32) corner-curve;
   }
 
   /* The model in use, easing in under the row's content. */

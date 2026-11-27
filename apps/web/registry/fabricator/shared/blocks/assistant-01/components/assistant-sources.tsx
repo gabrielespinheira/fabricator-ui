@@ -87,7 +87,7 @@ export function AssistantSourceList({
             href={source.url}
             target="_blank"
             rel="noreferrer"
-            className="flex min-h-(--density-36) items-center gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) text-(length:--density-text-13) outline-none focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:min-h-11"
+            className="flex min-h-(--density-36) items-center gap-(--density-8) rounded-(--radius-control) px-(--density-8) py-(--density-6) text-(length:--density-text-13) outline-none focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:min-h-11"
           >
             <AssistantSourceMark domain={source.domain} />
             <span className="min-w-0 flex-1">{source.title}</span>

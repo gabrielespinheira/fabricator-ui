@@ -57,6 +57,7 @@ The native tree (`apps/web/registry/native/`) holds the React Native version of 
 
 - `getNativeCssVariables` gives every token under the website's names; `toNativeStylesheet` writes them into the installed `fabricator.css`, and `applyLook` hands them to Uniwind at runtime through `getNativeRuntimeVariables`.
 - Its tests pin values measured in a browser and read `app-shell.css` and `globals.css`, so a token or radius change fails there until `native-theme.ts` follows.
+- Corners: native has no `calc()`, so `getNativeRadii` (`radius.ts`) resolves every radius role (`--radius-control`, `--radius-nested`, …) to points for the look's shape and density, and the native style maps use the same `rounded-(--radius-*)` classes as the web plus `corner-curve`. That utility writes `border-curve: var(--corner-curve)`: `continuous` (Apple's squircle) for Squircle, `circular` otherwise. Android ignores it and draws round corners, Squircle's fallback.
 - `registry/fabricator/look-presets.ts` holds the named looks both settings UIs offer. Modules native installs import (`foundation-tokens.ts`, not `foundations.ts`) stay free of React, the DOM and the website's CSS.
 
 ### Gotchas

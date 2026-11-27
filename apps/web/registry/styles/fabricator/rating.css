@@ -4,7 +4,7 @@
      takes input. Focus shows the 1px ring around the row. Disabled dims it;
      read-only keeps the plain arrow. */
   .cn-rating {
-    @apply cursor-pointer rounded-sm focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-disabled:cursor-not-allowed data-disabled:opacity-50 data-readonly:cursor-default;
+    @apply cursor-pointer rounded-(--radius-mark) focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-disabled:cursor-not-allowed data-disabled:opacity-50 data-readonly:cursor-default;
   }
 
   /* The default stars are the yellow everyone reads as a score, fixed

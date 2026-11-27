@@ -241,7 +241,7 @@ function StepDetails({
       </Section>
       {node.status === "success" && step.sample && (
         <Section title="Last test run">
-          <div className="flex flex-col gap-(--density-4) rounded-lg bg-muted px-(--density-12) py-(--density-8)">
+          <div className="flex flex-col gap-(--density-4) rounded-(--radius-control) bg-muted px-(--density-12) py-(--density-8)">
             <span className="font-mono text-(length:--density-text-12) wrap-break-word">
               {step.sample.output}
             </span>

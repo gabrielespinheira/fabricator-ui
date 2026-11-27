@@ -84,7 +84,7 @@ export function SignUpCheckEmail({
               )}
             </span>
           </div>
-          <div className="flex min-h-(--density-36) items-center justify-between gap-(--density-12) rounded-lg bg-hover px-(--density-10) py-(--density-6) text-(length:--density-text-13)">
+          <div className="flex min-h-(--density-36) items-center justify-between gap-(--density-12) rounded-(--radius-control) bg-hover px-(--density-10) py-(--density-6) text-(length:--density-text-13)">
             <span className="wrap-anywhere">{email}</span>
             <button
               type="button"

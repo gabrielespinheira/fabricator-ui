@@ -1,0 +1,75 @@
+---
+title: Radius
+description: Rounded, Squircle or Pill. Every corner comes from its role and the control height, and layers stay concentric.
+---
+
+## Installation
+
+The radius roles ship with the foundations, which every Fabricator component installs. Rounded is the default; the other shapes are one item each:
+
+```bash
+npx fabricator-ui@latest add radius-squircle
+npx fabricator-ui@latest add radius-pill
+```
+
+A new project can pick its shape on [Get started](/create), or with `shape=squircle` or `shape=pill` in the `--look` of `npx fabricator-ui@latest init`.
+
+## Three shapes
+
+<RadiusCompare />
+
+|                 | Rounded | Squircle         | Pill            |
+| --------------- | ------- | ---------------- | --------------- |
+| Controls (36px) | 8px     | 9px, continuous  | 18px, a capsule |
+| Containers      | 12px    | 14px, continuous | 22px            |
+| Rows in a menu  | 8px     | 10px             | 18px, a capsule |
+| Large panels    | 16px    | 20px             | 26px            |
+| Small marks     | 4px     | 5px              | 6px             |
+
+Control corners follow the control height, so a `size="sm"` button, a compact toolbar and a spacious landing page keep the same proportions. In Pill a control is always a capsule, and containers grow only as much as their capsule rows need.
+
+## Roles
+
+Components never write `rounded-lg` or a pixel value. Each corner takes one of four roles:
+
+| Role    | Class                        | For                                                         |
+| ------- | ---------------------------- | ----------------------------------------------------------- |
+| Control | `rounded-(--radius-control)` | Buttons, inputs, select triggers, badges, toggles, tooltips |
+| Surface | `rounded-(--radius-surface)` | Cards, popovers, menus, dialogs, alerts, toasts             |
+| Panel   | `rounded-(--radius-panel)`   | The App Shell's inset and panels, sheet and drawer edges    |
+| Mark    | `rounded-(--radius-mark)`    | Checkboxes, keycaps, inline marks                           |
+
+Switches, avatars, status dots and slider thumbs are fully round in every shape. They are CSS variables, so class merging still lets a `className="rounded-none"` you pass replace a component's corner.
+
+## Layers are concentric
+
+When one rounded layer sits inside another, the inner corner is the outer one minus the gap between their edges. A menu has 4px of padding, so its rows take the menu's corner minus 4px:
+
+<ShapeDemo />
+
+| Class                       | Corner                  | For                                         |
+| --------------------------- | ----------------------- | ------------------------------------------- |
+| `rounded-(--radius-nested)` | Surface − 4px           | Rows and highlights in a `p-1` popup        |
+| `rounded-(--radius-inner)`  | Control − `--density-4` | A button or chip inside an input or trigger |
+| `rounded-(--radius-wrap)`   | Control + `--density-4` | A tab track or group around its controls    |
+
+Any other gap writes the same sum, with the gap equal on both sides of the corner:
+
+```tsx
+<div className="rounded-(--radius-surface) p-(--density-6)">
+  <img className="rounded-[max(var(--radius-mark),calc(var(--radius-surface)-var(--density-6)))]" />
+</div>
+```
+
+## Squircle
+
+Squircle draws Apple's continuous corners, which ease into the straight edge instead of meeting it with a circle.
+
+- **Web and desktop:** CSS [`corner-shape`](https://developer.mozilla.org/en-US/docs/Web/CSS/corner-shape) in Chrome, Edge and Electron. A superellipse reads tighter than a circle of the same radius, so where it is supported the corners are drawn 1.35 times larger with a gentle superellipse. Safari, Firefox and Tauri on macOS and Linux draw the same corners round, which looks like a slightly softer Rounded.
+- **React Native:** `borderCurve: "continuous"` on iOS. Android draws round corners.
+
+Nothing else changes between shapes: sizes, spacing and layout stay the same, so a page never shifts when the shape does.
+
+## Your own corners
+
+shadcn's `--radius` and the `rounded-sm` to `rounded-4xl` scale keep working for your own markup, and each shape sets `--radius` to match: `0.5rem`, `0.625rem` or `0.75rem`. To follow the shape exactly, use the roles above.

@@ -16,6 +16,10 @@ import { type Registry } from "shadcn/schema"
 
 import { fabricatorBlocks } from "@/registry/fabricator/blocks"
 import { FABRICATOR_FOUNDATIONS } from "@/registry/fabricator/foundations"
+import {
+  SHAPE_ROOT_RADIUS,
+  toChangedShapeVars,
+} from "@/registry/fabricator/radius"
 
 export const fabricatorItems = [
   {
@@ -1701,9 +1705,25 @@ export const fabricatorItems = [
     type: "registry:theme",
     title: "Pill radius",
     description:
-      "Sets --radius to 1.25rem: controls become full pills and containers stay concentric. The default is 0.5rem.",
+      "The Pill shape: capsule controls and menu rows, with containers that stay moderate and concentric.",
     cssVars: {
-      light: { radius: "1.25rem" },
+      light: {
+        ...toChangedShapeVars("pill"),
+        radius: SHAPE_ROOT_RADIUS.pill,
+      },
+    },
+  },
+  {
+    name: "radius-squircle",
+    type: "registry:theme",
+    title: "Squircle radius",
+    description:
+      "The Squircle shape: Apple-style continuous corners where the browser draws CSS corner-shape, softer round corners elsewhere.",
+    cssVars: {
+      light: {
+        ...toChangedShapeVars("squircle"),
+        radius: SHAPE_ROOT_RADIUS.squircle,
+      },
     },
   },
 ] satisfies Registry["items"]

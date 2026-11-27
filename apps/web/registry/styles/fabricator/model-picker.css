@@ -17,7 +17,7 @@
   }
 
   .cn-model-picker-route {
-    @apply bg-hover/60 text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-pressed:bg-hover aria-pressed:text-foreground data-selected:bg-hover data-selected:text-foreground cursor-pointer gap-0.5 rounded-lg px-(--density-10) py-(--density-8) transition-colors duration-feedback ease-feedback disabled:opacity-50;
+    @apply bg-hover/60 text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-pressed:bg-hover aria-pressed:text-foreground data-selected:bg-hover data-selected:text-foreground cursor-pointer gap-0.5 rounded-(--radius-control) px-(--density-10) py-(--density-8) transition-colors duration-feedback ease-feedback disabled:opacity-50;
   }
 
   .cn-model-picker-route-label {
@@ -41,7 +41,7 @@
   /* Menu rows, their names lined up under the provider's: muted until lit,
      the model in use tinted with a check at the end. */
   .cn-model-picker-item {
-    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground data-selected:bg-hover/60 data-selected:text-foreground min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-lg ps-(--density-32) pe-(--density-8) transition-colors duration-feedback ease-feedback disabled:opacity-50 [&>[data-slot=model-picker-check]]:invisible data-selected:[&>[data-slot=model-picker-check]]:visible;
+    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground data-selected:bg-hover/60 data-selected:text-foreground min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-(--radius-control) ps-(--density-32) pe-(--density-8) transition-colors duration-feedback ease-feedback disabled:opacity-50 [&>[data-slot=model-picker-check]]:invisible data-selected:[&>[data-slot=model-picker-check]]:visible;
   }
 
   .cn-model-picker-check {

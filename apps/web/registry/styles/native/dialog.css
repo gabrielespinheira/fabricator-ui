@@ -5,9 +5,9 @@
     @apply bg-black/40 dark:bg-black/80;
   }
 
-  /* Panel: surface 5 with its shadow ring, rounded-xl, p-6. */
+  /* Panel: surface 5 with its shadow ring, the surface corner, p-6. */
   .cn-dialog-content {
-    @apply bg-surface-5 shadow-surface-5 max-w-[92%] gap-(--density-16) rounded-xl p-(--density-24) sm:max-w-[400px];
+    @apply bg-surface-5 shadow-surface-5 max-w-[92%] gap-(--density-16) rounded-(--radius-surface) p-(--density-24) sm:max-w-[400px] corner-curve;
   }
 
   .cn-dialog-text {

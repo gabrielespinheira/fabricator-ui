@@ -45,7 +45,7 @@
   /* One object: a quiet button until it filters, then a pill that says what it
      is on. */
   .cn-kanban-filter {
-    @apply rounded-lg data-[active=true]:bg-hover;
+    @apply rounded-(--radius-control) data-[active=true]:bg-hover corner-curve;
   }
 
   .cn-kanban-filter-trigger {
@@ -147,7 +147,7 @@
   }
 
   .cn-kanban-lane-title {
-    @apply min-h-(--density-36) gap-(--density-6) rounded-lg px-(--density-8) active:bg-hover;
+    @apply min-h-(--density-36) gap-(--density-6) rounded-(--radius-control) px-(--density-8) active:bg-hover corner-curve;
   }
 
   .cn-kanban-lane-text {
@@ -162,7 +162,7 @@
      board. Over a column it deepens a step. A coloured
      column is tinted whole. */
   .cn-kanban-column {
-    @apply rounded-xl bg-foreground/3 data-[drop-target=true]:bg-foreground/5;
+    @apply rounded-(--radius-surface) bg-foreground/3 data-[drop-target=true]:bg-foreground/5 corner-curve;
   }
 
   /* The header spans the cards: its glyph starts on their edge and the menu's
@@ -199,7 +199,7 @@
   }
 
   .cn-kanban-card {
-    @apply rounded-lg bg-card shadow-surface-2 data-[dragging=true]:opacity-30 data-[open=true]:bg-surface-4 data-[pending=true]:opacity-70 data-[selected=true]:bg-surface-5;
+    @apply rounded-(--radius-control) bg-card shadow-surface-2 data-[dragging=true]:opacity-30 data-[open=true]:bg-surface-4 data-[pending=true]:opacity-70 data-[selected=true]:bg-surface-5 corner-curve;
   }
 
   .cn-kanban-card-press {
@@ -207,7 +207,7 @@
   }
 
   .cn-kanban-card-lifted {
-    @apply overflow-visible rounded-lg border border-foreground/20 bg-surface-4/75 shadow-surface-5;
+    @apply overflow-visible rounded-(--radius-control) border border-foreground/20 bg-surface-4/75 shadow-surface-5 corner-curve;
   }
 
   .cn-kanban-card-cover {
@@ -246,7 +246,7 @@
      without moving anything. The hidden text makes the title row one line of
      title text. */
   .cn-kanban-card-skeleton {
-    @apply mb-(--density-8) rounded-lg bg-card;
+    @apply mb-(--density-8) rounded-(--radius-control) bg-card corner-curve;
   }
 
   .cn-kanban-skeleton-title {
@@ -254,16 +254,16 @@
   }
 
   .cn-kanban-skeleton-line {
-    @apply h-(--density-12) rounded-md;
+    @apply h-(--density-12) rounded-(--radius-inner) corner-curve;
   }
 
   /* Holds the count's place until the total is known. */
   .cn-kanban-count-skeleton {
-    @apply h-(--density-12) w-(--density-24) rounded-md;
+    @apply h-(--density-12) w-(--density-24) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-kanban-skeleton-chip {
-    @apply h-(--density-24) rounded-md;
+    @apply h-(--density-24) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-kanban-add {
@@ -286,7 +286,7 @@
 
   /* Where the card will land. */
   .cn-kanban-drop-slot {
-    @apply mb-(--density-8) h-(--density-48) rounded-lg border border-foreground/10 bg-foreground/4;
+    @apply mb-(--density-8) h-(--density-48) rounded-(--radius-control) border border-foreground/10 bg-foreground/4 corner-curve;
   }
 
   .cn-kanban-drag-overlay {
@@ -324,7 +324,7 @@
   }
 
   .cn-kanban-float {
-    @apply max-w-full gap-px rounded-xl bg-surface-5 p-(--density-4) shadow-surface-5;
+    @apply max-w-full gap-px rounded-(--radius-surface) bg-surface-5 p-(--density-4) shadow-surface-5 corner-curve;
   }
 
   .cn-kanban-selection-count {
@@ -332,7 +332,7 @@
   }
 
   .cn-kanban-notice {
-    @apply max-w-full gap-(--density-8) rounded-xl bg-surface-5 py-(--density-6) ps-(--density-12) pe-(--density-6) shadow-surface-5;
+    @apply max-w-full gap-(--density-8) rounded-(--radius-surface) bg-surface-5 py-(--density-6) ps-(--density-12) pe-(--density-6) shadow-surface-5 corner-curve;
   }
 
   .cn-kanban-notice-text {

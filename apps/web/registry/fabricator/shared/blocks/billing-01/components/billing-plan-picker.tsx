@@ -506,7 +506,7 @@ export function BillingPlanPicker({
         {change.kind === "downgrade" && (
           <ul
             className={cn(
-              "flex flex-col gap-(--density-6) rounded-lg bg-hover p-(--density-12)"
+              "flex flex-col gap-(--density-6) rounded-(--radius-control) bg-hover p-(--density-12)"
             )}
           >
             {change.losses.map((loss) => (

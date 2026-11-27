@@ -49,7 +49,7 @@
 
   /* Ghost cells; the chosen one on bg-active, out of range at 50%. */
   .cn-date-picker-cell {
-    @apply h-(--density-36) min-w-16 rounded-lg px-(--density-12) data-[selected=true]:bg-active disabled:opacity-50;
+    @apply h-(--density-36) min-w-16 rounded-(--radius-control) px-(--density-12) data-[selected=true]:bg-active disabled:opacity-50 corner-curve;
   }
 
   /* Muted at rest; this month or year in the foreground, the chosen one

@@ -3,7 +3,7 @@
   /* A menu on a phone: surface 3 from the bottom, on the sheet motion, with its
      square bottom on the screen's edge. */
   .cn-menu-sheet {
-    @apply bg-surface-3 shadow-surface-3 max-h-[80%] rounded-t-xl px-(--density-8);
+    @apply bg-surface-3 shadow-surface-3 max-h-[80%] rounded-t-(--radius-surface) px-(--density-8) corner-curve;
   }
 
   .cn-menu-sheet-text {

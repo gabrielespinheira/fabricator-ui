@@ -13,9 +13,10 @@ import {
   type SurfaceTint,
 } from "@/registry/fabricator/surface-tint"
 
-/** The look's shapes: --radius at 0.5rem, or at 1.25rem for Pill. */
+/** The look's shapes (registry/fabricator/radius.ts). */
 export const RADIUS_OPTIONS = [
   { value: "rounded", label: "Rounded" },
+  { value: "squircle", label: "Squircle" },
   { value: "pill", label: "Pill" },
 ] as const
 

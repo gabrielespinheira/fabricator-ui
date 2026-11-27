@@ -35,7 +35,7 @@
 
   /* A group's name label. The outer layer carries its place and glides
      between avatars on the settle spring; the chip inside is the tooltip's
-     (inverted, 12px medium, px-2 py-1, rounded-lg), which fades and grows in
+     (inverted, 12px medium, px-2 py-1, the control corner), which fades and grows in
      after the tooltip's beat, so crossing a group doesn't flash it, and fades
      out on the tooltip's exit. Reduced motion only fades. */
   .cn-avatar-group-label {
@@ -43,7 +43,7 @@
   }
 
   .cn-avatar-group-label-chip {
-    @apply bg-foreground text-background rounded-lg px-(--density-8) py-1 text-(length:--density-text-12) leading-4 font-medium opacity-0 scale-(--motion-tooltip-scale) transition-[opacity,scale] duration-tooltip-exit ease-exit in-data-open:opacity-100 in-data-open:scale-100 in-data-open:duration-tooltip in-data-open:delay-tooltip in-data-open:ease-enter in-data-[label-side=bottom]:origin-top in-data-[label-side=top]:origin-bottom motion-reduce:scale-100 motion-reduce:transition-opacity;
+    @apply bg-foreground text-background rounded-(--radius-control) px-(--density-8) py-1 text-(length:--density-text-12) leading-4 font-medium opacity-0 scale-(--motion-tooltip-scale) transition-[opacity,scale] duration-tooltip-exit ease-exit in-data-open:opacity-100 in-data-open:scale-100 in-data-open:duration-tooltip in-data-open:delay-tooltip in-data-open:ease-enter in-data-[label-side=bottom]:origin-top in-data-[label-side=top]:origin-bottom motion-reduce:scale-100 motion-reduce:transition-opacity;
   }
 
   /* Opaque like an avatar: the active tint over the background, drawn as an

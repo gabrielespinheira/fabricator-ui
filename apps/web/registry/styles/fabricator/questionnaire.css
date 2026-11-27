@@ -43,7 +43,7 @@
      chosen row holds the active fill. The 1px focus ring shows while its
      input has keyboard focus. Colour moves on the feedback timing. */
   .cn-questionnaire-choice {
-    @apply text-foreground min-h-(--density-40) pointer-coarse:min-h-(--density-48) gap-(--density-12) rounded-lg bg-transparent py-(--density-8) ps-(--density-12) pe-(--density-8) text-(length:--density-text-14) leading-snug font-medium duration-feedback ease-feedback hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent data-checked:bg-active data-checked:hover:bg-active has-[>input:focus-visible]:ring-1 has-[>input:focus-visible]:ring-focus-ring;
+    @apply text-foreground min-h-(--density-40) pointer-coarse:min-h-(--density-48) gap-(--density-12) rounded-(--radius-control) bg-transparent py-(--density-8) ps-(--density-12) pe-(--density-8) text-(length:--density-text-14) leading-snug font-medium duration-feedback ease-feedback hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent data-checked:bg-active data-checked:hover:bg-active has-[>input:focus-visible]:ring-1 has-[>input:focus-visible]:ring-focus-ring;
   }
 
   /* The chip: 20px, the shortcut in 11px muted type. A single choice's turns
@@ -52,7 +52,7 @@
      moves on, its arrow covers the chip while the row is hovered or focused.
      A press gives the chip the control's scale. */
   .cn-questionnaire-choice-indicator {
-    @apply text-muted-foreground size-(--density-20) rounded-md text-(length:--density-text-11) tabular-nums transition-[color,background-color,box-shadow,scale] duration-feedback ease-feedback group-data-checked/questionnaire-choice:text-foreground group-data-checked/questionnaire-choice:font-semibold group-data-[type=checkbox]/questionnaire-choice:ring-1 group-data-[type=checkbox]/questionnaire-choice:ring-border group-data-[type=checkbox]/questionnaire-choice:group-data-checked/questionnaire-choice:bg-foreground group-data-[type=checkbox]/questionnaire-choice:group-data-checked/questionnaire-choice:text-background group-data-[type=checkbox]/questionnaire-choice:group-data-checked/questionnaire-choice:ring-foreground group-active/questionnaire-choice:scale-90 motion-reduce:group-active/questionnaire-choice:scale-100;
+    @apply text-muted-foreground size-(--density-20) rounded-(--radius-inner) text-(length:--density-text-11) tabular-nums transition-[color,background-color,box-shadow,scale] duration-feedback ease-feedback group-data-checked/questionnaire-choice:text-foreground group-data-checked/questionnaire-choice:font-semibold group-data-[type=checkbox]/questionnaire-choice:ring-1 group-data-[type=checkbox]/questionnaire-choice:ring-border group-data-[type=checkbox]/questionnaire-choice:group-data-checked/questionnaire-choice:bg-foreground group-data-[type=checkbox]/questionnaire-choice:group-data-checked/questionnaire-choice:text-background group-data-[type=checkbox]/questionnaire-choice:group-data-checked/questionnaire-choice:ring-foreground group-active/questionnaire-choice:scale-90 motion-reduce:group-active/questionnaire-choice:scale-100;
   }
 
   .cn-questionnaire-choice-check {
@@ -60,7 +60,7 @@
   }
 
   .cn-questionnaire-choice-advance {
-    @apply bg-foreground text-background inset-0 size-full rounded-md p-(--density-4) opacity-0 transition-opacity duration-feedback ease-feedback in-data-[advance-on-select]:group-data-[type=radio]/questionnaire-choice:group-hover/questionnaire-choice:opacity-100 in-data-[advance-on-select]:group-data-[type=radio]/questionnaire-choice:group-has-[>input:focus-visible]/questionnaire-choice:opacity-100;
+    @apply bg-foreground text-background inset-0 size-full rounded-(--radius-inner) p-(--density-4) opacity-0 transition-opacity duration-feedback ease-feedback in-data-[advance-on-select]:group-data-[type=radio]/questionnaire-choice:group-hover/questionnaire-choice:opacity-100 in-data-[advance-on-select]:group-data-[type=radio]/questionnaire-choice:group-has-[>input:focus-visible]/questionnaire-choice:opacity-100;
   }
 
   /* The Fabricator dot and check are the Radio Group and Checkbox ones; these

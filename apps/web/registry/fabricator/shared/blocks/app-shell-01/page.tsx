@@ -264,7 +264,10 @@ export default function Page() {
           <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6">
             <AppShellPageTitle>Q4 launch</AppShellPageTitle>
             {Array.from({ length: 6 }, (_, index) => (
-              <div key={index} className="h-32 rounded-xl bg-muted/50" />
+              <div
+                key={index}
+                className="h-32 rounded-(--radius-surface) bg-muted/50"
+              />
             ))}
           </div>
         </AppShellContent>

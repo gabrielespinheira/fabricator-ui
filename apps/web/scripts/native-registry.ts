@@ -14,6 +14,7 @@ const TOKEN_MODULES: Record<string, string> = {
   "density-variables": "density-variables",
   motion: "motion-speeds",
   loader: "loaders",
+  radius: "radius",
   "foundation-tokens": "foundation-tokens",
   look: "look",
   "native-theme": "native-theme",

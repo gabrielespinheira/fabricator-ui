@@ -6,19 +6,19 @@ What every screen is made of, with the classes that write it. The look is quiet 
 
 Depth is a ladder of levels. Each pairs a background with a shadow whose first layer is a hairline, so the surface needs no border. In light mode the higher levels are white and the shadow carries the height; in dark mode each level is a step lighter.
 
-| Level | Holds | Written as |
-| --- | --- | --- |
-| 0 | A screen that stands alone: sign in, reset, a finished flow | `bg-surface-0` |
-| Frame | The App Shell's frame and its sidebar, a step darker than the page | comes with `AppShell` |
-| 1 | The page; the App Shell's main column and panels | `bg-background`, comes with `AppShellMain` |
-| 2 | The default `Card`, inset regions | comes with `Card`; by hand `bg-surface-2 shadow-surface-2 rounded-xl` |
-| 3 | Menus, popovers, sheets, drawers; a raised picture on a website | comes with them; `bg-surface-3 shadow-surface-3` |
-| 4 | The active tab; anything raised inside level 3; an empty state's icon | comes with them |
-| 5 | Dialogs, alert dialogs, toasts | comes with them |
-| Inverted | Tooltips | comes with `Tooltip` |
+| Level    | Holds                                                                 | Written as                                                                            |
+| -------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| 0        | A screen that stands alone: sign in, reset, a finished flow           | `bg-surface-0`                                                                        |
+| Frame    | The App Shell's frame and its sidebar, a step darker than the page    | comes with `AppShell`                                                                 |
+| 1        | The page; the App Shell's main column and panels                      | `bg-background`, comes with `AppShellMain`                                            |
+| 2        | The default `Card`, inset regions                                     | comes with `Card`; by hand `bg-surface-2 shadow-surface-2 rounded-(--radius-surface)` |
+| 3        | Menus, popovers, sheets, drawers; a raised picture on a website       | comes with them; `bg-surface-3 shadow-surface-3`                                      |
+| 4        | The active tab; anything raised inside level 3; an empty state's icon | comes with them                                                                       |
+| 5        | Dialogs, alert dialogs, toasts                                        | comes with them                                                                       |
+| Inverted | Tooltips                                                              | comes with `Tooltip`                                                                  |
 
 - **Height means layering,** never importance. A thing is raised because it sits over something else.
-- **A child sits above its parent or on a wash.** A quiet area inside a surface (a code block, a summary, a nested option) is a **well**: `rounded-lg bg-hover`, or `Item variant="muted"`. Going back down the ladder reads as a hole.
+- **A child sits above its parent or on a wash.** A quiet area inside a surface (a code block, a summary, a nested option) is a **well**: `rounded-(--radius-control) bg-hover`, or `Item variant="muted"`. Going back down the ladder reads as a hole.
 - **Two steps per screen are usually enough:** page and cards, with overlays above. If three levels are visible at rest, one of them wants to be space.
 - **Plane against plane:** the sidebar on the frame, the main column and panels as cards in front. That single contrast gives an app its depth, so leave the frame's colour alone.
 - Scrolling edges fade with `scroll-fade` (`scroll-fade-x`, `scroll-fade-b`) instead of a line or a shadow.
@@ -33,20 +33,20 @@ Neutral until it has a reason. Until a project picks a brand hue, primary is the
 
 **Roles.** Six meanings, each with the same tokens:
 
-| Role | Means | Where it belongs |
-| --- | --- | --- |
-| `primary` | The main action; on or selected | One button per region, links, checked controls, progress, a chosen date |
-| `secondary` | A soft second action | A real second action |
-| `info` | Under way, neutral news | Badges, alerts, running jobs |
-| `success` | Done, healthy, a change that went the right way | Badges, deltas, done marks |
-| `warning` | Late, near a limit, worth a look | Badges, alerts, checks that don't block |
-| `destructive` | Failed, invalid, irreversible, the wrong way | Field errors, deltas, delete actions, outages |
+| Role          | Means                                           | Where it belongs                                                        |
+| ------------- | ----------------------------------------------- | ----------------------------------------------------------------------- |
+| `primary`     | The main action; on or selected                 | One button per region, links, checked controls, progress, a chosen date |
+| `secondary`   | A soft second action                            | A real second action                                                    |
+| `info`        | Under way, neutral news                         | Badges, alerts, running jobs                                            |
+| `success`     | Done, healthy, a change that went the right way | Badges, deltas, done marks                                              |
+| `warning`     | Late, near a limit, worth a look                | Badges, alerts, checks that don't block                                 |
+| `destructive` | Failed, invalid, irreversible, the wrong way    | Field errors, deltas, delete actions, outages                           |
 
-| Token | Use |
-| --- | --- |
-| `bg-<role>`, `text-<role>` | Fills, icons and dots, 3:1 on every surface |
-| `text-<role>-foreground` | Text on that fill |
-| `text-<role>-text` | Coloured text on any surface, AA |
+| Token                         | Use                                                              |
+| ----------------------------- | ---------------------------------------------------------------- |
+| `bg-<role>`, `text-<role>`    | Fills, icons and dots, 3:1 on every surface                      |
+| `text-<role>-foreground`      | Text on that fill                                                |
+| `text-<role>-text`            | Coloured text on any surface, AA                                 |
 | `bg-<role>-surface-1` to `-8` | A tinted ladder, with `shadow-surface-N`; prefer `Alert`/`Badge` |
 
 - **Colour never works alone:** pair it with an icon, a sign or a word.
@@ -61,17 +61,17 @@ Neutral until it has a reason. Until a project picks a brand hue, primary is the
 
 Inter, small and precise; a monospace face for code, keys and IDs. Components set their own type. Text you write around them takes a role:
 
-| Role | Use | Classes |
-| --- | --- | --- |
-| Page title | The page's name | `AppShellPageTitle` |
-| Lead | One sentence under it | `text-[15px] text-pretty text-muted-foreground` |
-| Metric | A stat's value, a chart's headline | `text-2xl tracking-tight tabular-nums weight-semibold` |
-| Title | A section heading inside a page | `text-(length:--density-text-16) weight-semibold` |
-| Subtitle | A group's name; `CardTitle` is this already | `text-(length:--density-text-14) font-medium` |
-| Body | Text, a stat's label | `text-(length:--density-text-13)` |
-| Caption | Metadata, freshness, group labels | `text-(length:--density-text-12) text-muted-foreground` |
-| Display | Website headings, prices | `text-[28px] tracking-tight weight-semibold` |
-| Hero | A website's one headline | `text-5xl md:text-6xl tracking-tight weight-medium text-balance` |
+| Role       | Use                                         | Classes                                                          |
+| ---------- | ------------------------------------------- | ---------------------------------------------------------------- |
+| Page title | The page's name                             | `AppShellPageTitle`                                              |
+| Lead       | One sentence under it                       | `text-[15px] text-pretty text-muted-foreground`                  |
+| Metric     | A stat's value, a chart's headline          | `text-2xl tracking-tight tabular-nums weight-semibold`           |
+| Title      | A section heading inside a page             | `text-(length:--density-text-16) weight-semibold`                |
+| Subtitle   | A group's name; `CardTitle` is this already | `text-(length:--density-text-14) font-medium`                    |
+| Body       | Text, a stat's label                        | `text-(length:--density-text-13)`                                |
+| Caption    | Metadata, freshness, group labels           | `text-(length:--density-text-12) text-muted-foreground`          |
+| Display    | Website headings, prices                    | `text-[28px] tracking-tight weight-semibold`                     |
+| Hero       | A website's one headline                    | `text-5xl md:text-6xl tracking-tight weight-medium text-balance` |
 
 - Two weights per view. Weight is state or title; hover changes colour, never weight.
 - One step at a time: a heading is larger or heavier than its neighbour, never both plus coloured.
@@ -83,14 +83,14 @@ Inter, small and precise; a monospace face for code, keys and IDs. Components se
 
 Space does the grouping. Tighter binds, wider separates, and each relationship has one step that tightens and loosens with density:
 
-| Relationship | App | Website |
-| --- | --- | --- |
-| A heading and its lead | `gap-(--density-4)` | 12px |
-| Controls in one row | `gap-(--density-8)` | 12px |
-| Cards in a grid; a heading and its content | `gap-(--density-16)` | 24 to 40px |
-| Fields of a form | `FieldGroup` | `FieldGroup` |
-| The bands of a page (title, toolbar, body) | `gap-(--density-24)` | 40px |
-| Sections of a page | `gap-(--density-40)` | 64 to 96px |
+| Relationship                               | App                  | Website      |
+| ------------------------------------------ | -------------------- | ------------ |
+| A heading and its lead                     | `gap-(--density-4)`  | 12px         |
+| Controls in one row                        | `gap-(--density-8)`  | 12px         |
+| Cards in a grid; a heading and its content | `gap-(--density-16)` | 24 to 40px   |
+| Fields of a form                           | `FieldGroup`         | `FieldGroup` |
+| The bands of a page (title, toolbar, body) | `gap-(--density-24)` | 40px         |
+| Sections of a page                         | `gap-(--density-40)` | 64 to 96px   |
 
 Page padding comes from `AppShellContent`. Use `gap`, and let siblings own no margins.
 
@@ -98,11 +98,11 @@ Page padding comes from `AppShellContent`. Use `gap`, and let siblings own no ma
 
 One setting sizes every control, row, icon, text and gap:
 
-| Density | For | Controls | Text | Card inset |
-| --- | --- | --- | --- | --- |
-| `compact` | Toolbars, dense tables, editors, ops | 28px | 12px | 12px |
-| `default` | Apps | 36px | 13px | 16px |
-| `spacious` | Websites, kiosks, touch-first screens | 44px | 15px | 20px |
+| Density    | For                                   | Controls | Text | Card inset |
+| ---------- | ------------------------------------- | -------- | ---- | ---------- |
+| `compact`  | Toolbars, dense tables, editors, ops  | 28px     | 12px | 12px       |
+| `default`  | Apps                                  | 36px     | 13px | 16px       |
+| `spacious` | Websites, kiosks, touch-first screens | 44px     | 15px | 20px       |
 
 Set it on the widest region it is true for with `DensityProvider`, which also reaches the menus and dialogs opened inside. `data-density` or `density-*` classes do the same without the portals, and take breakpoints. `size="sm"` and `size="lg"` pin one control apart from its neighbours. If a region feels too big, its density is wrong.
 
@@ -110,7 +110,7 @@ Your own parts follow it with tokens named after their default value: `h-(--dens
 
 ## Shape
 
-Two corners: controls and rows `rounded-lg` (8px), containers `rounded-xl`. A container holds its rows with a small inset so the corners share a centre. Media takes the corner of its place. Avatars, switches and status dots are round. Pill is a project setting, so write the classes and never pixels.
+Corners come from roles: `rounded-(--radius-control)` for controls, `rounded-(--radius-surface)` for containers, `rounded-(--radius-panel)` for large frames, `rounded-(--radius-mark)` for small parts. A layer inside another takes the outer corner minus the gap between them, so the corners share a centre: `rounded-(--radius-nested)` for rows in a `p-1` popup, or `rounded-[max(var(--radius-mark),calc(var(--radius-surface)-<gap>))]`. Media takes the corner of its place. Avatars, switches and status dots are round. The shape (Rounded, Squircle, Pill) is a project setting, so write the roles and never `rounded-lg` or pixels.
 
 ## Motion
 
@@ -122,13 +122,13 @@ App content appears in place. Something you animate uses a role: `duration-feedb
 
 `TextMotion` plays words in once, on the reveal role: the region's speed retimes it, `instant` and `off` show the text at once, reduced motion keeps only the fade, and screen readers hear the text whole. It is a website's **moment**: one per view, where the words are the point.
 
-| Moment | Write |
-| --- | --- |
-| Hero headline and lead | `TextMotionGroup trigger="mount"` around `<h1><TextMotion by="word">` and `<p><TextMotion effect={["fade", "rise"]}>`; they play in order |
-| A section heading arriving on scroll | `<h2><TextMotion effect={["fade", "mask"]}>`; plays once in view |
+| Moment                                                      | Write                                                                                                                                                                                |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Hero headline and lead                                      | `TextMotionGroup trigger="mount"` around `<h1><TextMotion by="word">` and `<p><TextMotion effect={["fade", "rise"]}>`; they play in order                                            |
+| A section heading arriving on scroll                        | `<h2><TextMotion effect={["fade", "mask"]}>`; plays once in view                                                                                                                     |
 | One headline word that cycles (who it's for, where it runs) | `<TextMotionRotate texts={[…]} />` beside a `TextMotion` in the headline: two to four texts close in length (the box holds the widest). In a group it plays in its turn, then cycles |
-| A command being entered | `effect="type"` in `font-mono` |
-| An ID, hash or code that resolves | `effect="scramble"` in `font-mono` or `tabular-nums` |
+| A command being entered                                     | `effect="type"` in `font-mono`                                                                                                                                                       |
+| An ID, hash or code that resolves                           | `effect="scramble"` in `font-mono` or `tabular-nums`                                                                                                                                 |
 
 - **Pieces:** `by="character"` for a headline of a few words, `word` (the default) for a sentence, `line` for short lines split with `\n`. Longer text plays by word or line.
 - **Effects** are layers in a list. The default `fade`, `blur`, `rise` suits most moments; `mask` reads editorial; `fade` alone suits a lead. Keep `flip`, `scale` and `loop="wave"` for one playful moment per site.

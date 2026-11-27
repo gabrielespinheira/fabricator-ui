@@ -44,7 +44,7 @@
      48pt (40pt from the density's step up). A chosen row holds the active
      fill. */
   .cn-questionnaire-choice {
-    @apply min-h-(--density-40) gap-(--density-12) rounded-lg bg-transparent py-(--density-8) ps-(--density-12) pe-(--density-8) data-[checked=true]:bg-active;
+    @apply min-h-(--density-40) gap-(--density-12) rounded-(--radius-control) bg-transparent py-(--density-8) ps-(--density-12) pe-(--density-8) data-[checked=true]:bg-active corner-curve;
   }
 
   /* 14pt medium, as the website's row. */
@@ -54,14 +54,14 @@
 
   /* Pressed is a tint, easing in and out under the row's content. */
   .cn-questionnaire-choice-wash {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   /* The chip: 20pt. A multiple choice's is a square with a hairline that fills
      with the foreground once chosen; the row's press gives it the control's
      scale. */
   .cn-questionnaire-choice-indicator {
-    @apply size-(--density-20) rounded-md data-[boxed=true]:border data-[boxed=true]:border-border data-[filled=true]:border-foreground data-[filled=true]:bg-foreground;
+    @apply size-(--density-20) rounded-(--radius-inner) data-[boxed=true]:border data-[boxed=true]:border-border data-[filled=true]:border-foreground data-[filled=true]:bg-foreground corner-curve;
   }
 
   /* The chip sits in its row as an input does on the website. */
@@ -99,7 +99,7 @@
   }
 
   .cn-questionnaire-shortcut {
-    @apply rounded-md;
+    @apply rounded-(--radius-inner) corner-curve;
   }
 
   /* 11pt muted figures; the chosen row's turns foreground, and a filled chip's

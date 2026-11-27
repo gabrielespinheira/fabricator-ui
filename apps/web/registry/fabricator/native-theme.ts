@@ -15,7 +15,6 @@ import {
 import {
   DEFAULT_LOOK,
   parseLook,
-  PILL_RADIUS,
   type FabricatorLook,
 } from "@/registry/fabricator/look"
 import {
@@ -24,6 +23,7 @@ import {
   MOTION_SPEED_NAMES,
   MOTION_SPEEDS,
 } from "@/registry/fabricator/motion"
+import { getNativeRadii, SHAPE_ROOT_RADIUS } from "@/registry/fabricator/radius"
 import {
   MUTED_FOREGROUND_STEP,
   oklchToHex,
@@ -138,9 +138,7 @@ function getBezier(easing: string) {
 }
 
 function getRadiusScale(look: FabricatorLook) {
-  const radius =
-    look.radius === "pill" ? PILL_RADIUS : FABRICATOR_PALETTE.light.radius
-  const base = Number.parseFloat(radius) * REM
+  const base = Number.parseFloat(SHAPE_ROOT_RADIUS[look.radius]) * REM
   return {
     sm: base * RADIUS_SCALE.sm,
     md: base * RADIUS_SCALE.md,
@@ -228,7 +226,12 @@ export function getNativeTheme(mode: NativeMode, look: FabricatorLook) {
     isDark: mode === "dark",
     colors: getColors(mode, look),
     shadows: getShadows(mode),
-    radius: getRadiusScale(look),
+    // shadcn's scale for a project's own classes, and the corner roles the
+    // components use (radius.ts).
+    radius: {
+      ...getRadiusScale(look),
+      ...getNativeRadii(look.radius, density),
+    },
     space: density.space,
     text: density.text,
     icon: density.icon,
@@ -406,6 +409,13 @@ export function getNativeCssVariables(
     "--radius-lg": radius.lg,
     "--radius-xl": radius.xl,
     "--radius-2xl": radius["2xl"],
+    ...Object.fromEntries(
+      Object.entries(getNativeRadii(look.radius, DENSITIES[look.density])).map(
+        ([role, value]) => [`--radius-${role}`, value]
+      )
+    ),
+    // iOS draws continuous (squircle) corners; Android ignores it.
+    "--corner-curve": look.radius === "squircle" ? "continuous" : "circular",
     ...getDensityVariables(DENSITIES[look.density]),
     ...getMotionVariables(look.motion),
   }
@@ -483,6 +493,9 @@ export function toNativeStylesheet(
     "/* Fabricator UI's tokens for React Native. Generated; change the look with `fabricator-ui init` or at runtime with applyLook. */",
     `@layer theme {\n  :root {\n${mode("light")}\n${mode("dark")}\n  }\n}`,
     `@theme inline {\n${toCssBlock(getThemeMapping(), "  ")}\n}`,
+    // Corners take the look's curve: continuous (squircle) on iOS for
+    // Squircle, circular otherwise; Android draws circular (radius.ts).
+    "@utility corner-curve {\n  border-curve: var(--corner-curve);\n}",
     "",
   ].join("\n\n")
 }

@@ -4,10 +4,10 @@
      pressed item's bg-active background slides between items on the move timing.
      A joined group (spacing 0) clips the overlays and items to its corners. */
   .cn-toggle-group {
-    @apply rounded-lg data-[spacing=0]:overflow-hidden;
+    @apply rounded-(--radius-control) data-[spacing=0]:overflow-hidden corner-curve;
   }
 
-  /* Items: 36pt, px-3, rounded-lg at the default density; size sm pins them to
+  /* Items: 36pt, px-3, the control corner at the default density; size sm pins them to
      compact. The highlight paints the pressed fill, and in a single-select group
      the sliding selection paints the on fill. Joined items square their corners
      and share their outlines. */
@@ -16,9 +16,9 @@
   }
 
   .cn-toggle-group-selection {
-    @apply bg-active rounded-lg data-[spacing=0]:rounded-none;
+    @apply bg-active rounded-(--radius-control) data-[spacing=0]:rounded-none corner-curve;
   }
 
   .cn-toggle-group-highlight {
-    @apply bg-hover rounded-lg data-[spacing=0]:rounded-none;
+    @apply bg-hover rounded-(--radius-control) data-[spacing=0]:rounded-none corner-curve;
   }

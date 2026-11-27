@@ -1,13 +1,13 @@
 /* MARK: Alert Dialog */
 
-  /* Same scrim and panel recipe as Dialog: surface 5, rounded-xl, p-6, on the
+  /* Same scrim and panel recipe as Dialog: surface 5, the surface corner, p-6, on the
      dialog motion. */
   .cn-alert-dialog-overlay {
     @apply bg-black/40 dark:bg-black/80;
   }
 
   .cn-alert-dialog-content {
-    @apply bg-surface-5 shadow-surface-5 gap-(--density-16) rounded-xl p-(--density-24) data-[size=default]:max-w-[92%] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
+    @apply bg-surface-5 shadow-surface-5 gap-(--density-16) rounded-(--radius-surface) p-(--density-24) data-[size=default]:max-w-[92%] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px] corner-curve;
   }
 
   .cn-alert-dialog-text {
@@ -21,7 +21,7 @@
 
   /* The icon tile above the title. */
   .cn-alert-dialog-media {
-    @apply bg-hover mb-2 size-(--density-40) items-center justify-center rounded-lg;
+    @apply bg-hover mb-2 size-(--density-40) items-center justify-center rounded-(--radius-control) corner-curve;
   }
 
   .cn-alert-dialog-media-text {

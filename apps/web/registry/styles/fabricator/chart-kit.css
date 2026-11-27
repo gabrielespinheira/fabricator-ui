@@ -8,7 +8,7 @@
      reveal timing; tooltips stay at full strength. Under Reduce Motion its
      SVG fades in on mount: the draw-in without the sweep. */
   .cn-chart-plot {
-    @apply text-(length:--density-text-11) rounded-md [&>svg]:transition-opacity [&>svg]:duration-(--loader-reveal) [&>svg]:ease-enter in-data-loading:[&>svg]:opacity-(--loader-dim) in-data-loading:outline-(--loader-outline) in-data-loading:outline-dotted in-data-loading:[outline-width:var(--loader-outline-width)] in-data-loading:after:pointer-events-none in-data-loading:after:absolute in-data-loading:after:inset-0 in-data-loading:after:rounded-[inherit] in-data-loading:after:outline-(--loader-pen) in-data-loading:after:outline-dotted in-data-loading:after:[outline-width:var(--loader-outline-width)] in-data-loading:after:[mask-image:conic-gradient(transparent_var(--loader-tail),#000_var(--loader-tail)_var(--loader-head),transparent_var(--loader-head)_calc(360deg_-_var(--loader-head)),#000_calc(360deg_-_var(--loader-head))_calc(360deg_-_var(--loader-tail)),transparent_calc(360deg_-_var(--loader-tail)))] in-data-loading:after:animate-(--loader-trace) motion-reduce:in-data-loading:after:animate-none motion-reduce:[&_svg]:animate-in motion-reduce:[&_svg]:fade-in-0 motion-reduce:[&_svg]:duration-tooltip motion-reduce:[&_svg]:ease-enter;
+    @apply text-(length:--density-text-11) rounded-(--radius-inner) [&>svg]:transition-opacity [&>svg]:duration-(--loader-reveal) [&>svg]:ease-enter in-data-loading:[&>svg]:opacity-(--loader-dim) in-data-loading:outline-(--loader-outline) in-data-loading:outline-dotted in-data-loading:[outline-width:var(--loader-outline-width)] in-data-loading:after:pointer-events-none in-data-loading:after:absolute in-data-loading:after:inset-0 in-data-loading:after:rounded-[inherit] in-data-loading:after:outline-(--loader-pen) in-data-loading:after:outline-dotted in-data-loading:after:[outline-width:var(--loader-outline-width)] in-data-loading:after:[mask-image:conic-gradient(transparent_var(--loader-tail),#000_var(--loader-tail)_var(--loader-head),transparent_var(--loader-head)_calc(360deg_-_var(--loader-head)),#000_calc(360deg_-_var(--loader-head))_calc(360deg_-_var(--loader-tail)),transparent_calc(360deg_-_var(--loader-tail)))] in-data-loading:after:animate-(--loader-trace) motion-reduce:in-data-loading:after:animate-none motion-reduce:[&_svg]:animate-in motion-reduce:[&_svg]:fade-in-0 motion-reduce:[&_svg]:duration-tooltip motion-reduce:[&_svg]:ease-enter;
   }
 
   /* A series dims while another is spotlit from the legend. One being
@@ -90,7 +90,7 @@
      shrinks from the side facing its mark, as popups grow from their
      trigger. */
   .cn-chart-tooltip-content {
-    @apply bg-surface-5 shadow-surface-5 text-popover-foreground flex min-w-36 flex-col gap-(--density-6) rounded-lg px-(--density-10) py-(--density-8) text-(length:--density-text-12) motion-tooltip animate-in fade-in-0 [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter),scale_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 motion-safe:in-data-leaving:scale-(--motion-tooltip-scale) in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit),scale_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)] in-data-[placement=after]:origin-left in-data-[placement=before]:origin-right in-data-[placement=above]:origin-bottom;
+    @apply bg-surface-5 shadow-surface-5 text-popover-foreground flex min-w-36 flex-col gap-(--density-6) rounded-(--radius-control) px-(--density-10) py-(--density-8) text-(length:--density-text-12) motion-tooltip animate-in fade-in-0 [transition:opacity_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter),scale_calc(var(--motion-tooltip)*var(--motion-scale,1))_var(--motion-ease-enter)] in-data-leaving:opacity-0 motion-safe:in-data-leaving:scale-(--motion-tooltip-scale) in-data-leaving:[transition:opacity_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit),scale_calc(var(--motion-tooltip-exit)*var(--motion-scale,1))_var(--motion-ease-exit)] in-data-[placement=after]:origin-left in-data-[placement=before]:origin-right in-data-[placement=above]:origin-bottom;
   }
 
   .cn-chart-tooltip-title {
@@ -129,7 +129,7 @@
   }
 
   .cn-chart-legend-item {
-    @apply text-muted-foreground hover:text-foreground data-hidden:text-muted-foreground/60 h-(--density-24) gap-(--density-6) rounded-md px-(--density-6) transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring hover:bg-hover;
+    @apply text-muted-foreground hover:text-foreground data-hidden:text-muted-foreground/60 h-(--density-24) gap-(--density-6) rounded-(--radius-inner) px-(--density-6) transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring hover:bg-hover;
   }
 
   .cn-chart-legend-key {
@@ -139,7 +139,7 @@
   /* The inspector covers the plot. Focus draws the ring around the plot,
      inset so it isn't clipped. */
   .cn-chart-inspector {
-    @apply rounded-md focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
+    @apply rounded-(--radius-inner) focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
   }
 
   /* A label that arrives with its mark fades in on the move role, and fades

@@ -1,6 +1,6 @@
 /* MARK: Alert Dialog */
 
-  /* Same scrim and panel recipe as Dialog: surface 5, rounded-xl, p-6,
+  /* Same scrim and panel recipe as Dialog: surface 5, the surface corner, p-6,
      on the dialog motion. */
   .cn-alert-dialog-overlay {
     @apply bg-black/40 motion-scrim data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 dark:bg-black/80;
@@ -10,7 +10,7 @@
      a translate lands on half pixels for odd sizes and blurs the text.
      The ! beats the inline centering classes in the source. */
   .cn-alert-dialog-content {
-    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground gap-(--density-16) rounded-xl p-(--density-24) text-(length:--density-text-13) motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-[size=default]:max-w-[calc(100%-2rem)] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground gap-(--density-16) rounded-(--radius-surface) p-(--density-24) text-(length:--density-text-13) motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-[size=default]:max-w-[calc(100%-2rem)] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
   }
 
   .cn-alert-dialog-header {
@@ -18,7 +18,7 @@
   }
 
   .cn-alert-dialog-media {
-    @apply bg-hover text-foreground mb-2 inline-flex size-(--density-40) items-center justify-center rounded-lg sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-(--density-20);
+    @apply bg-hover text-foreground mb-2 inline-flex size-(--density-40) items-center justify-center rounded-(--radius-control) sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-(--density-20);
   }
 
   .cn-alert-dialog-title {
@@ -41,5 +41,5 @@
 
   /* Same pixel-snapped centering as the other bases. */
   .cn-alert-dialog-content-aria {
-    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground gap-(--density-16) rounded-xl p-(--density-24) text-(length:--density-text-13) motion-dialog data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 data-[size=default]:max-w-[calc(100%-2rem)] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground gap-(--density-16) rounded-(--radius-surface) p-(--density-24) text-(length:--density-text-13) motion-dialog data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 data-[size=default]:max-w-[calc(100%-2rem)] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
   }

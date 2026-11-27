@@ -6,7 +6,7 @@
      theme token stays legible on. Compact pins the compact density in the
      source and takes smaller corners. */
   .cn-video-player {
-    @apply aspect-video rounded-xl bg-black data-[variant=compact]:rounded-lg;
+    @apply aspect-video rounded-(--radius-surface) bg-black data-[variant=compact]:rounded-(--radius-control) corner-curve;
   }
 
   .cn-video-player-video {
@@ -74,7 +74,7 @@
 
   /* 16pt medium text on a 75% black band. */
   .cn-video-player-cue {
-    @apply max-w-[80%] overflow-hidden rounded-md bg-black/75 px-(--density-8) py-(--density-4) text-(length:--density-text-16) leading-snug font-medium text-white;
+    @apply max-w-[80%] overflow-hidden rounded-(--radius-inner) bg-black/75 px-(--density-8) py-(--density-4) text-(length:--density-text-16) leading-snug font-medium text-white corner-curve;
   }
 
   /* The controls sit on a scrim that rises from the bottom edge, and fade
@@ -131,7 +131,7 @@
   /* While dragging: the time under the finger, with its chapter, on dark
      glass above it. */
   .cn-video-player-seek-preview {
-    @apply mb-(--density-8) rounded-md bg-black/75 px-(--density-8) py-(--density-4);
+    @apply mb-(--density-8) rounded-(--radius-inner) bg-black/75 px-(--density-8) py-(--density-4) corner-curve;
   }
 
   .cn-video-player-seek-preview-chapter {
@@ -165,7 +165,7 @@
   }
 
   .cn-video-player-menu-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover;
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-control) px-(--density-8) active:bg-hover corner-curve;
   }
 
   .cn-video-player-menu-item-text {

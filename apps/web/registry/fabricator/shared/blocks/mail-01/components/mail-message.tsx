@@ -95,7 +95,7 @@ function MessageBody({ body }: { body: string }) {
       {quote !== undefined && isQuoteOpen && (
         <div
           id={quoteId}
-          className="flex w-full flex-col gap-(--density-8) rounded-lg bg-hover px-(--density-16) py-(--density-12) text-foreground/70"
+          className="flex w-full flex-col gap-(--density-8) rounded-(--radius-control) bg-hover px-(--density-16) py-(--density-12) text-foreground/70"
         >
           {attribution && (
             <p className="text-(length:--density-text-12)">{attribution}</p>
@@ -166,7 +166,7 @@ export function MailCollapsedMessage({
       onClick={onExpand}
       // Pulled out by its own padding, so its avatar and time line up with
       // the open messages'.
-      className="-mx-(--density-8) flex min-h-(--density-44) cursor-pointer items-center gap-(--density-10) rounded-lg px-(--density-8) text-start text-(length:--density-text-13) transition-colors duration-feedback ease-feedback outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+      className="-mx-(--density-8) flex min-h-(--density-44) cursor-pointer items-center gap-(--density-10) rounded-(--radius-control) px-(--density-8) text-start text-(length:--density-text-13) transition-colors duration-feedback ease-feedback outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
     >
       <MailAvatar contact={sender} className="shrink-0" />
       <span className="flex min-w-0 flex-1 gap-x-(--density-8) @max-md/thread:flex-col">
@@ -233,7 +233,7 @@ export function MailOpenMessage({
             type="button"
             aria-expanded
             onClick={onCollapse}
-            className="-mx-(--density-8) flex w-[calc(100%+2*var(--density-8))] cursor-pointer items-start gap-(--density-10) rounded-lg px-(--density-8) py-(--density-6) text-start transition-colors duration-feedback ease-feedback outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+            className="-mx-(--density-8) flex w-[calc(100%+2*var(--density-8))] cursor-pointer items-start gap-(--density-10) rounded-(--radius-control) px-(--density-8) py-(--density-6) text-start transition-colors duration-feedback ease-feedback outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
           >
             {heading}
           </button>

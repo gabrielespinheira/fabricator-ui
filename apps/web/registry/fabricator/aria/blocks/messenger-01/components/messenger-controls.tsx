@@ -151,7 +151,7 @@ export function MessengerPhotoDialog({
       <img
         src={photo?.src}
         alt={photo?.alt}
-        className="max-h-[75svh] w-full rounded-lg object-contain"
+        className="max-h-[75svh] w-full rounded-(--radius-control) object-contain"
       />
     </Dialog>
   )

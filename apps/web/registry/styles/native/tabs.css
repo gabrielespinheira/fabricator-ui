@@ -4,10 +4,10 @@
     @apply gap-(--density-8);
   }
 
-  /* Track: rounded-xl, p-1, 36pt tall. The selected pill and the pressed pill are
+  /* Track: the surface corner, p-1, 36pt tall. The selected pill and the pressed pill are
      overlays under the triggers. */
   .cn-tabs-list {
-    @apply rounded-xl p-(--density-4) data-[orientation=horizontal]:h-(--density-36) data-[orientation=vertical]:gap-(--density-4);
+    @apply rounded-(--radius-wrap) p-(--density-4) data-[orientation=horizontal]:h-(--density-36) data-[orientation=vertical]:gap-(--density-4) corner-curve;
   }
 
   /* The default track is a translucent foreground step instead of bg-muted: in
@@ -27,7 +27,7 @@
      Subtle tabs are as wide as their content: an icon-only tab is 32
      wide, and the active one pads its icon and label 10 and 12. */
   .cn-tabs-trigger {
-    @apply h-(--density-28) gap-(--density-6) rounded-lg px-(--density-12) data-[orientation=vertical]:h-(--density-32) data-[variant=subtle]:grow-0 data-[variant=subtle]:px-(--density-8) data-[variant=subtle]:data-[state=active]:ps-(--density-10) data-[variant=subtle]:data-[state=active]:pe-(--density-12);
+    @apply h-(--density-28) gap-(--density-6) rounded-(--radius-control) px-(--density-12) data-[orientation=vertical]:h-(--density-32) data-[variant=subtle]:grow-0 data-[variant=subtle]:px-(--density-8) data-[variant=subtle]:data-[state=active]:ps-(--density-10) data-[variant=subtle]:data-[state=active]:pe-(--density-12) corner-curve;
   }
 
   /* 13pt. The resting colour is foreground/65 (dark: muted-foreground), one step
@@ -51,13 +51,13 @@
      whatever is underneath: on a card, surface 4 is darker than it. So the pill
      is a step over the track too, about 1.5:1 against it on every surface. */
   .cn-tabs-selection {
-    @apply bg-surface-4 dark:bg-foreground/14 shadow-surface-4 rounded-lg;
+    @apply bg-surface-4 dark:bg-foreground/14 shadow-surface-4 rounded-(--radius-control) corner-curve;
   }
 
   /* The website's hover pill previews the next click. A finger shows it while
      pressed. */
   .cn-tabs-highlight {
-    @apply bg-hover/60 rounded-lg;
+    @apply bg-hover/60 rounded-(--radius-control) corner-curve;
   }
 
   /* A long label gives way before the icon does. */

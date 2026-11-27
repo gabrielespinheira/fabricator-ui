@@ -21,10 +21,12 @@ import {
 import {
   DENSITY_OPTIONS,
   MOTION_OPTIONS,
+  RADIUS_OPTIONS,
   ROLE_PRESETS,
   SURFACE_PRESETS,
   type RolePreset,
 } from "@/registry/fabricator/look-presets"
+import { RADIUS_SHAPES, type RadiusShape } from "@/registry/fabricator/radius"
 import {
   isSpinnerVariant,
   type SpinnerVariant,
@@ -42,7 +44,8 @@ import {
  *
  * - sound: whether components play interface sounds (on by default).
  * - iconLibrary: the icon pack the site's previews render (Fabricator by default).
- * - radius: "rounded" (--radius 0.5rem) or "pill" (--radius 1.25rem).
+ * - radius: the look's shape, data-radius on <html> (rounded, squircle or
+ *   pill; registry/fabricator/radius.ts).
  * - motion: the motion speed, data-motion on <html> (smooth to instant, or off).
  * - density: compact, default or spacious, data-density on <html>.
  * - loader: skeleton or blueprint, how placeholders look while content
@@ -61,9 +64,9 @@ export const ICON_LIBRARIES = [
 ] as const
 
 export type SiteIconLibrary = (typeof ICON_LIBRARIES)[number]["value"]
-export type SiteRadius = "rounded" | "pill"
+export type SiteRadius = RadiusShape
 
-export { DENSITY_OPTIONS, ROLE_PRESETS, SURFACE_PRESETS }
+export { DENSITY_OPTIONS, RADIUS_OPTIONS, ROLE_PRESETS, SURFACE_PRESETS }
 export { MOTION_OPTIONS as MOTION_SPEEDS }
 export type { RolePreset }
 
@@ -137,9 +140,8 @@ function read(): SiteSettings {
       ? stored.spinner
       : DEFAULT_SITE_SETTINGS.spinner,
     radius:
-      stored.radius === "pill" || stored.radius === "rounded"
-        ? stored.radius
-        : DEFAULT_SITE_SETTINGS.radius,
+      RADIUS_SHAPES.find((shape) => shape === stored.radius) ??
+      DEFAULT_SITE_SETTINGS.radius,
     motion: MOTION_OPTIONS.some((speed) => speed.value === stored.motion)
       ? (stored.motion as SiteMotion)
       : DEFAULT_SITE_SETTINGS.motion,
@@ -245,7 +247,7 @@ export function applyColorRoles(colors: Record<ColorRole, RoleColor>) {
 }
 
 /**
- * Runs before paint (inlined in <head>) so a stored Pill radius, motion
+ * Runs before paint (inlined in <head>) so a stored shape, motion
  * speed, density, loader, surface tint or colour role doesn't flash the defaults
  * first. Keep
  * in step with the rules in app/fabricator-site.css, applySurfaceTint and
@@ -253,6 +255,6 @@ export function applyColorRoles(colors: Record<ColorRole, RoleColor>) {
  */
 export const SITE_SETTINGS_SCRIPT = `try{var s=JSON.parse(localStorage.getItem(${JSON.stringify(
   SITE_SETTINGS_STORAGE_KEY
-)})||"{}"),r=document.documentElement,d=r.dataset,t=s.surface;if(s.radius==="pill")d.radius="pill";if(s.motion&&s.motion!=="default")d.motion=s.motion;if(s.density==="compact"||s.density==="spacious")d.density=s.density;if(s.loader==="blueprint")d.loader=s.loader;if(t&&isFinite(t.hue)&&t.chroma>0&&t.chroma<=${SURFACE_MAX_CHROMA}){r.style.setProperty("--surface-hue",t.hue);r.style.setProperty("--surface-chroma",t.chroma)}var c=s.colors||{},k=${JSON.stringify(
+)})||"{}"),r=document.documentElement,d=r.dataset,t=s.surface;if(s.radius==="pill"||s.radius==="squircle")d.radius=s.radius;if(s.motion&&s.motion!=="default")d.motion=s.motion;if(s.density==="compact"||s.density==="spacious")d.density=s.density;if(s.loader==="blueprint")d.loader=s.loader;if(t&&isFinite(t.hue)&&t.chroma>0&&t.chroma<=${SURFACE_MAX_CHROMA}){r.style.setProperty("--surface-hue",t.hue);r.style.setProperty("--surface-chroma",t.chroma)}var c=s.colors||{},k=${JSON.stringify(
   COLOR_ROLES
 )};for(var i=0;i<k.length;i++){var v=c[k[i]];if(v&&isFinite(v.hue)&&isFinite(v.chroma)&&v.chroma>=0&&v.chroma<=0.4){r.style.setProperty("--"+k[i]+"-hue",v.hue);r.style.setProperty("--"+k[i]+"-chroma",v.chroma)}}}catch(e){}`

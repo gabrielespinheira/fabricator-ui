@@ -24,7 +24,7 @@
   }
 
   .cn-record-view-badge {
-    @apply rounded-md bg-hover px-(--density-6) text-(length:--density-text-12) text-muted-foreground;
+    @apply rounded-(--radius-inner) bg-hover px-(--density-6) text-(length:--density-text-12) text-muted-foreground corner-curve;
   }
 
   .cn-record-view-actions {
@@ -89,15 +89,15 @@
   }
 
   .cn-record-view-skeleton-label {
-    @apply h-(--density-12) w-24 rounded-md;
+    @apply h-(--density-12) w-24 rounded-(--radius-inner) corner-curve;
   }
 
   .cn-record-view-skeleton-value {
-    @apply h-(--density-12) w-40 rounded-md;
+    @apply h-(--density-12) w-40 rounded-(--radius-inner) corner-curve;
   }
 
   .cn-record-view-skeleton-block {
-    @apply mt-(--density-12) h-28 rounded-xl;
+    @apply mt-(--density-12) h-28 rounded-(--radius-surface) corner-curve;
   }
 
   .cn-record-view-message {

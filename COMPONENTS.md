@@ -21,7 +21,7 @@ A component's look has one written spec: its style map. Each rule opens with a c
 
 1. **A superset of upstream.** A replacement keeps upstream's name, target path, exports, props, variant names and `data-slot`s, and only adds (contract 1). A Fabricator-only component follows the same shape: parts, `data-slot`s, `variant` and `size`.
 2. **Source holds behaviour; the style map holds the look.** Structure and mechanics are inline classes; anything a style could change is a placeholder resolved by `registry/styles/fabricator/<name>.css`.
-3. **Every value comes from a foundation.** Colour from the roles and neutrals, size from the density, timing from the motion roles, corners from `--radius`, height from the surface ladder. No hex, no pixels for controls, no milliseconds.
+3. **Every value comes from a foundation.** Colour from the roles and neutrals, size from the density, timing from the motion roles, corners from the radius roles, height from the surface ladder. No hex, no pixels for controls, no milliseconds.
 4. **The region decides the size and speed.** A component never fixes its density or motion; it follows `data-density` and `data-motion` from the nearest ancestor, portals included.
 5. **Behaviour is pure and shared.** Logic (positions, parsing, selection, scales) lives in a tested model shared by React web and React Native. Rendering code wires it to events.
 6. **Built-in, never per use.** Fluid hover, sliding selection, the press, focus, sounds and haptics come from the component, so the people using it write none of them.
@@ -164,15 +164,15 @@ Use these through their tokens and utilities. How they are calculated is in [STY
 
 An eight-level ladder of backgrounds, each paired with a shadow that starts with a 1px ring. **Surfaces have no borders: the ring is the edge.** Light: level 1 is the page (#FAFAFA), level 2 is #FCFCFC, then flat white separated only by shadow. Dark: each level is a step lighter. `surface-0` grounds a screen that stands alone (the auth blocks), with no shadow. A project's surface tint (`--surface-hue`, `--surface-chroma`) flows through every level, so never write a surface colour.
 
-| Level    | Classes                                    | Holds                                                                |
-| -------- | ------------------------------------------ | -------------------------------------------------------------------- |
-| Page     | `bg-background` (surface 1)                | The page; in an App Shell, the main column and panels                |
-| 2        | `bg-card shadow-surface-2 rounded-xl`      | The default card, inset regions, the sidebar on its own              |
-| 3        | `bg-surface-3 shadow-surface-3 rounded-xl` | Raised cards, menus, popovers, selects, hover cards, sheets, drawers |
-| 4        | `bg-surface-4 shadow-surface-4`            | The active tab, anything raised inside a level-3 surface             |
-| 5        | `bg-surface-5 shadow-surface-5 rounded-xl` | Dialogs, alert dialogs, toasts, chart tooltips                       |
-| Inverted | `bg-foreground text-background`            | Tooltips                                                             |
-| Scrim    | `bg-black/40 dark:bg-black/80`             | Behind dialogs and sheets                                            |
+| Level    | Classes                                                    | Holds                                                                |
+| -------- | ---------------------------------------------------------- | -------------------------------------------------------------------- |
+| Page     | `bg-background` (surface 1)                                | The page; in an App Shell, the main column and panels                |
+| 2        | `bg-card shadow-surface-2 rounded-(--radius-surface)`      | The default card, inset regions, the sidebar on its own              |
+| 3        | `bg-surface-3 shadow-surface-3 rounded-(--radius-surface)` | Raised cards, menus, popovers, selects, hover cards, sheets, drawers |
+| 4        | `bg-surface-4 shadow-surface-4`                            | The active tab, anything raised inside a level-3 surface             |
+| 5        | `bg-surface-5 shadow-surface-5 rounded-(--radius-surface)` | Dialogs, alert dialogs, toasts, chart tooltips                       |
+| Inverted | `bg-foreground text-background`                            | Tooltips                                                             |
+| Scrim    | `bg-black/40 dark:bg-black/80`                             | Behind dialogs and sheets                                            |
 
 - A child sits above its parent. A quiet area inside a surface is a faint wash (`bg-hover`, `bg-muted`), never a lower level.
 - Height means layering, never importance. No other shadows, no borders on surfaces; status surfaces are the tinted ladder (`bg-<role>-surface-N`).
@@ -242,7 +242,16 @@ Tokens are named after their default value. Write `h-(--density-36)`, `px-(--den
 
 ### Shape
 
-Every corner comes from `--radius`. `rounded-lg` (8px) for controls, rows, badges, tooltips and highlights; `rounded-xl` (`--radius` × 1.4, about 11px) for containers: popups, cards, dialogs, alerts, tab tracks. Nesting is concentric: a `rounded-xl` container with `p-1` holds `rounded-lg` rows. Small inner parts use `rounded-md`. Switches, avatars, status dots and slider thumbs are `rounded-full`. The Pill look sets `--radius: 1.25rem`, so write `rounded-lg` and `rounded-xl`, never a literal radius.
+Every corner comes from a radius role (`registry/fabricator/radius.ts`), never `rounded-lg` or a literal: the look's shape (Rounded, Squircle, Pill) sets each role, and the control corner follows the density's control height, so `size="sm"` and `size="lg"` stay proportional.
+
+| Role    | Class                        | For                                                                                              |
+| ------- | ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| Control | `rounded-(--radius-control)` | Single-line controls and their highlights: button, input, select trigger, badge, toggle, tooltip |
+| Surface | `rounded-(--radius-surface)` | Containers: card, popover, menu, dialog, alert, toast, code block                                |
+| Panel   | `rounded-(--radius-panel)`   | Large frames: App Shell inset and panels, sheet and drawer edges                                 |
+| Mark    | `rounded-(--radius-mark)`    | Small parts: checkbox, kbd, inline marks, chart and event chips                                  |
+
+**Layers are concentric: an inner corner is the outer one minus the gap between their edges.** `rounded-(--radius-nested)` is a row in a `p-1` popup (surface − 4px), `rounded-(--radius-inner)` a part inside a control (control − `--density-4`), and `rounded-(--radius-wrap)` a track hugging its controls with `p-(--density-4)` (control + `--density-4`). Any other gap writes the same sum inline, `rounded-[max(var(--radius-mark),calc(var(--radius-surface)-var(--density-6)))]`, with the gap equal on both axes at that corner. A Fluid Hover highlight in a popup takes the rows' corner through `[--fluid-hover-radius:var(--radius-nested)]` on the popup. Switches, avatars, status dots and slider thumbs are `rounded-full` in every shape. `__tests__/radius-usage.test.ts` fails on rungs and literal radii in the style maps.
 
 ### Typography and weight
 

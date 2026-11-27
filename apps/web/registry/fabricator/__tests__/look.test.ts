@@ -15,6 +15,7 @@ import {
   type FabricatorLook,
 } from "@/registry/fabricator/look"
 import { MOTION_SPEEDS, toMotionVars } from "@/registry/fabricator/motion"
+import { SQUIRCLE_CORNER_SCALE } from "@/registry/fabricator/radius"
 
 const CUSTOM_LOOK: FabricatorLook = {
   surface: { hue: 145, chroma: 0.022 },
@@ -145,7 +146,33 @@ describe("lookCssVars", () => {
 
   it("rounds the corners into pills", () => {
     expect(lookCssVars({ ...DEFAULT_LOOK, radius: "pill" }).light).toEqual({
-      radius: "1.25rem",
+      "radius-control-ratio": "0.5",
+      "radius-surface-ratio": "0.5",
+      "radius-surface-base": "4px",
+      "radius-panel-ratio": "0.5",
+      "radius-panel-base": "8px",
+      "radius-mark-base": "6px",
+      radius: "0.75rem",
+    })
+  })
+
+  it("draws squircles, scaled where the browser supports them", () => {
+    expect(lookCssVars({ ...DEFAULT_LOOK, radius: "squircle" }).light).toEqual({
+      "radius-control-ratio": "0.25",
+      "radius-surface-base": "14px",
+      "radius-panel-base": "20px",
+      "radius-mark-base": "5px",
+      "corner-shape": "superellipse(1.5)",
+      "radius-squircle-scale": String(SQUIRCLE_CORNER_SCALE),
+      radius: "0.625rem",
+    })
+  })
+
+  it("round-trips the squircle shape", () => {
+    const look = { ...DEFAULT_LOOK, radius: "squircle" as const }
+    expect(parseLook(lookToSearchParams(look))).toEqual({
+      success: true,
+      look,
     })
   })
 

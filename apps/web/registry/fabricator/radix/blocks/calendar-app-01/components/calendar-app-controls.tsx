@@ -60,7 +60,10 @@ export function CalendarAppChoice<TValue extends string>({
         const option = options.find((item) => item.value === next)
         if (option) onValueChange(option.value)
       }}
-      className={cn("rounded-lg bg-foreground/[0.05]", className)}
+      className={cn(
+        "rounded-(--radius-control) bg-foreground/[0.05]",
+        className
+      )}
     >
       {options.map((option) => (
         <ToggleGroupItem

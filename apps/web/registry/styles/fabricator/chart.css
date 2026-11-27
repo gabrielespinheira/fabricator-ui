@@ -3,5 +3,5 @@
   /* Popup recipe at tooltip scale: surface 3 with its shadow ring, no
      border. */
   .cn-chart-tooltip {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground gap-(--density-6) rounded-lg px-(--density-10) py-(--density-6) text-(length:--density-text-12);
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground gap-(--density-6) rounded-(--radius-control) px-(--density-10) py-(--density-6) text-(length:--density-text-12);
   }

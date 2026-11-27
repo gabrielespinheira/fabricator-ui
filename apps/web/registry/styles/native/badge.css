@@ -1,8 +1,8 @@
 /* MARK: Badge */
 
-  /* 24pt, 12pt medium text, rounded-lg like the other items. */
+  /* 24pt, 12pt medium text, the control corner like the other items. */
   .cn-badge {
-    @apply h-(--density-24) gap-(--density-6) rounded-lg border border-transparent px-(--density-10) data-[invalid=true]:border-destructive/50;
+    @apply h-(--density-24) gap-(--density-6) rounded-(--radius-control) border border-transparent px-(--density-10) data-[invalid=true]:border-destructive/50 corner-curve;
   }
 
   .cn-badge-text {

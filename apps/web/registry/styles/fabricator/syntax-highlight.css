@@ -1,11 +1,11 @@
 /* MARK: Syntax Highlight */
 
   /* A raised panel one step up the ladder (surface 2, like the docs' code
-     blocks) with a hairline ring, rounded-xl like Card. The colours come
+     blocks) with a hairline ring, the surface corner like Card. The colours come
      from the foundations' --syntax-* tokens (syntax-colors.ts), which follow
      the colour roles and the surface tint. */
   .cn-syntax-highlight {
-    @apply bg-surface-2 text-foreground ring-border/60 rounded-xl ring-1;
+    @apply bg-surface-2 text-foreground ring-border/60 rounded-(--radius-surface) ring-1;
   }
 
   /* The title bar: the file's icon and name, then its language and Copy at

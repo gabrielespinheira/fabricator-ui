@@ -18,7 +18,7 @@
   }
 
   .cn-breadcrumb-link {
-    @apply active:opacity-70 rounded-[4px];
+    @apply active:opacity-70 rounded-(--radius-mark) corner-curve;
   }
 
   .cn-breadcrumb-page {

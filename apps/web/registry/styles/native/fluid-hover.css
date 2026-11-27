@@ -2,9 +2,9 @@
 
   /* The highlight and the selection, under the rows. */
   .cn-fluid-hover-highlight {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   .cn-fluid-hover-selection {
-    @apply bg-active rounded-lg;
+    @apply bg-active rounded-(--radius-control) corner-curve;
   }

@@ -132,7 +132,7 @@ export function SignInForm({
                       {failure.message}{" "}
                       <a
                         href={signUpHref}
-                        className="rounded-sm underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="rounded-(--radius-mark) underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       >
                         Create an account
                       </a>

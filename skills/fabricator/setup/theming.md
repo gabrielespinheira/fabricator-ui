@@ -87,7 +87,7 @@ Check 4.5:1 for text and 3:1 for controls in both themes. `warning`, `success` a
 
 ## Radius, motion and density
 
-- **Radius:** `--radius` (`0.5rem`; Pill is `1.25rem`, `add radius-pill`). Everything derives from it.
+- **Radius:** the look's shape: Rounded (default), Squircle (`add radius-squircle`, continuous corners where supported, round elsewhere) or Pill (`add radius-pill`). Components take corners from roles, never `rounded-lg`: `rounded-(--radius-control)` for controls, `rounded-(--radius-surface)` for containers, `rounded-(--radius-panel)` for large frames, `rounded-(--radius-mark)` for small parts. A layer inside another is the outer corner minus the gap: `rounded-(--radius-nested)` for a row in a `p-1` popup. shadcn's `--radius` still drives `rounded-lg` in your own markup.
 - **Motion:** `data-motion="smooth|snappy|instant|off"` on `<html>`, or any element for its subtree; portalled popups follow `<html>`. Retune one role with `:root { --motion-popup: 200ms; }`; `--motion-scale` multiplies all.
 - **Density:** `<html data-density="spacious">` or `DensityProvider` around a region. `density-*` utilities take breakpoints.
 
@@ -102,7 +102,13 @@ In order of preference:
 
 ```tsx
 // Radix shown; Base UI uses render={children}
-export function ConfirmDialog({ title, description, action, onConfirm, children }: ConfirmDialogProps) {
+export function ConfirmDialog({
+  title,
+  description,
+  action,
+  onConfirm,
+  children,
+}: ConfirmDialogProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
@@ -113,7 +119,9 @@ export function ConfirmDialog({ title, description, action, onConfirm, children 
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction variant="destructive" onClick={onConfirm}>{action}</AlertDialogAction>
+          <AlertDialogAction variant="destructive" onClick={onConfirm}>
+            {action}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

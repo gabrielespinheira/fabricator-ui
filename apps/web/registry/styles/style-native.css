@@ -9,12 +9,12 @@
   /* The highlight draws under the items; their tiles are a wash, so it shows
      through, as on the website where it sits over them. */
   .cn-accordion-highlight {
-    @apply rounded-lg;
+    @apply rounded-(--radius-control) corner-curve;
   }
 
   /* Each item is a tile, a 6% wash of the foreground over whatever it sits
      on. Closed neighbours join into one card; an open item parts from both
-     by --density-8 and rounds every corner. The gap and the rounded-xl
+     by --density-8 and rounds every corner. The gap and the the surface corner
      corners spring there from the item's animated style (accordion-model);
      closing, the gap settles without the spring, so the tiles never overlap.
      An open item's trigger isn't lit; holding it tints the whole card. */
@@ -22,11 +22,11 @@
     @apply bg-foreground/6 p-(--density-4) data-[pressed=true]:bg-foreground/9;
   }
 
-  /* Triggers: rounded-lg rows inside the tile. The root's Fluid Hover paints
+  /* Triggers: the control corner rows inside the tile. The root's Fluid Hover paints
      the pressed row through the tile: a press fades its highlight in, and
      another before it has faded glides there. */
   .cn-accordion-trigger {
-    @apply gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8);
+    @apply gap-(--density-8) rounded-(--radius-control) px-(--density-12) py-(--density-8) corner-curve;
   }
 
   /* 14pt medium in foreground/80 at rest; the lit and the open trigger turn
@@ -66,14 +66,14 @@
 
 /* MARK: Alert Dialog */
 
-  /* Same scrim and panel recipe as Dialog: surface 5, rounded-xl, p-6, on the
+  /* Same scrim and panel recipe as Dialog: surface 5, the surface corner, p-6, on the
      dialog motion. */
   .cn-alert-dialog-overlay {
     @apply bg-black/40 dark:bg-black/80;
   }
 
   .cn-alert-dialog-content {
-    @apply bg-surface-5 shadow-surface-5 gap-(--density-16) rounded-xl p-(--density-24) data-[size=default]:max-w-[92%] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
+    @apply bg-surface-5 shadow-surface-5 gap-(--density-16) rounded-(--radius-surface) p-(--density-24) data-[size=default]:max-w-[92%] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px] corner-curve;
   }
 
   .cn-alert-dialog-text {
@@ -87,7 +87,7 @@
 
   /* The icon tile above the title. */
   .cn-alert-dialog-media {
-    @apply bg-hover mb-2 size-(--density-40) items-center justify-center rounded-lg;
+    @apply bg-hover mb-2 size-(--density-40) items-center justify-center rounded-(--radius-control) corner-curve;
   }
 
   .cn-alert-dialog-media-text {
@@ -118,10 +118,10 @@
 
 /* MARK: Alert */
 
-  /* Borderless: a hover-tinted panel, rounded-xl, 13pt body. High contrast draws
+  /* Borderless: a hover-tinted panel, the surface corner, 13pt body. High contrast draws
      a hairline: a border here, because a Tailwind ring doesn't reach React Native. */
   .cn-alert {
-    @apply gap-(--density-10) rounded-xl border p-(--density-16) data-[action=true]:pe-18;
+    @apply gap-(--density-10) rounded-(--radius-surface) border p-(--density-16) data-[action=true]:pe-18 corner-curve;
   }
 
   .cn-alert-text {
@@ -240,13 +240,13 @@
 
   /* A dragged row lifts onto a floating surface, without its controls. */
   .cn-app-nav-item {
-    @apply data-[dragging=true]:bg-surface-5 data-[dragging=true]:shadow-surface-5 data-[dragging=true]:z-10 data-[dragging=true]:rounded-lg;
+    @apply data-[dragging=true]:bg-surface-5 data-[dragging=true]:shadow-surface-5 data-[dragging=true]:z-10 data-[dragging=true]:rounded-(--radius-control) corner-curve;
   }
 
   /* The chevron at a row's end, always shown because touch has no hover: a 28pt
      target on the axis of the row's badges, turned down while open. */
   .cn-app-nav-toggle {
-    @apply top-[calc((var(--density-30)-var(--density-28))/2)] size-(--density-28) rounded-md active:bg-hover data-[collapsible=icon]:hidden data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-28))/2)] data-[row-size=sm]:top-0;
+    @apply top-[calc((var(--density-30)-var(--density-28))/2)] size-(--density-28) rounded-(--radius-inner) active:bg-hover data-[collapsible=icon]:hidden data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-28))/2)] data-[row-size=sm]:top-0 corner-curve;
   }
 
   .cn-app-nav-toggle-text {
@@ -285,7 +285,7 @@
 
   /* As in the sidebar: lifted while dragged. */
   .cn-app-nav-customize-item {
-    @apply gap-0.5 rounded-lg data-[dragging=true]:bg-surface-6 data-[dragging=true]:shadow-surface-6 data-[dragging=true]:z-10;
+    @apply gap-0.5 rounded-(--radius-control) data-[dragging=true]:bg-surface-6 data-[dragging=true]:shadow-surface-6 data-[dragging=true]:z-10 corner-curve;
   }
 
   .cn-app-nav-customize-label {
@@ -294,14 +294,14 @@
 
   /* Children indent 16pt a level under their parent, in a style. */
   .cn-app-nav-customize-row {
-    @apply min-h-(--density-36) gap-(--density-4) rounded-lg pr-(--density-8);
+    @apply min-h-(--density-36) gap-(--density-4) rounded-(--radius-control) pr-(--density-8) corner-curve;
   }
 
   /* The grip drags on a long press, and a screen reader moves the row through its
      actions. A row alone in its list has nowhere to go, so it keeps the space and
      hides the grip. */
   .cn-app-nav-customize-handle {
-    @apply size-(--density-24) rounded-md active:bg-hover disabled:opacity-0;
+    @apply size-(--density-24) rounded-(--radius-inner) active:bg-hover disabled:opacity-0 corner-curve;
   }
 
   .cn-app-nav-customize-handle-text {
@@ -396,7 +396,7 @@
   }
 
   .cn-app-shell-breadcrumb-fold {
-    @apply rounded-md active:opacity-70;
+    @apply rounded-(--radius-inner) active:opacity-70 corner-curve;
   }
 
   /* A phone's trail: the page's name beside the way up, once its heading is gone. */
@@ -459,7 +459,7 @@
      column's edge; otherwise a hairline parts them. On phones, `swap` makes the
      panel the screen. */
   .cn-app-shell-panel {
-    @apply bg-app-shell-panel border-border data-[edge=left]:border-l data-[edge=right]:border-r data-[layout=card]:shadow-app-shell-card data-[layout=card]:overflow-hidden data-[layout=card]:rounded-xl data-[placement=swap]:h-full data-[placement=swap]:pt-safe;
+    @apply bg-app-shell-panel border-border data-[edge=left]:border-l data-[edge=right]:border-r data-[layout=card]:shadow-app-shell-card data-[layout=card]:overflow-hidden data-[layout=card]:rounded-(--radius-surface) data-[placement=swap]:h-full data-[placement=swap]:pt-safe corner-curve;
   }
 
   .cn-app-shell-panel-text {
@@ -567,7 +567,7 @@
   }
 
   .cn-app-shell-bottom-nav-highlight {
-    @apply rounded-lg data-[variant=floating]:bg-hover/60 data-[variant=floating]:rounded-full;
+    @apply rounded-(--radius-control) data-[variant=floating]:bg-hover/60 data-[variant=floating]:rounded-full corner-curve;
   }
 
   .cn-app-shell-bottom-nav-text {
@@ -615,7 +615,7 @@
      transparent). Idle drafts keep a dashed hairline instead; errors a destructive
      one. */
   .cn-attachment {
-    @apply bg-surface-2 shadow-surface-2 dark:shadow-surface-3 rounded-lg border-transparent data-[state=idle]:border-border data-[state=idle]:border-dashed data-[state=idle]:shadow-none data-[state=error]:border-destructive/30 data-[state=error]:shadow-none;
+    @apply bg-surface-2 shadow-surface-2 dark:shadow-surface-3 rounded-(--radius-control) border-transparent data-[state=idle]:border-border data-[state=idle]:border-dashed data-[state=idle]:shadow-none data-[state=error]:border-destructive/30 data-[state=error]:shadow-none corner-curve;
   }
 
   .cn-attachment-text {
@@ -639,7 +639,7 @@
   }
 
   .cn-attachment-orientation-vertical {
-    @apply w-24 rounded-xl data-[content=true]:w-30;
+    @apply w-24 rounded-(--radius-surface) data-[content=true]:w-30 corner-curve;
   }
 
   /* Padding: a media tile is inset evenly (concentric with its well); a
@@ -654,12 +654,12 @@
   }
 
   .cn-attachment-size-xs {
-    @apply gap-(--density-6) rounded-lg p-1 data-[end-inset=true]:pe-(--density-6) data-[media=false]:px-(--density-6);
+    @apply gap-(--density-6) rounded-(--radius-control) p-1 data-[end-inset=true]:pe-(--density-6) data-[media=false]:px-(--density-6) corner-curve;
   }
 
   /* Media well: the hover fill with an inset hairline painted over the preview. */
   .cn-attachment-media {
-    @apply bg-hover w-9 rounded-md outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 data-[layout=sm]:w-7 data-[layout=xs]:w-6 data-[layout=xs]:rounded-[5px] data-[layout=vertical]:w-full data-[layout=vertical]:rounded-lg data-[state=error]:bg-destructive/10;
+    @apply bg-hover w-9 rounded-(--radius-inner) outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 data-[layout=sm]:w-7 data-[layout=xs]:w-6 data-[layout=xs]:rounded-(--radius-mark) data-[layout=vertical]:w-full data-[layout=vertical]:rounded-(--radius-control) data-[state=error]:bg-destructive/10 corner-curve;
   }
 
   .cn-attachment-media-text {
@@ -707,16 +707,16 @@
 
   /* Covers the tile. */
   .cn-attachment-trigger {
-    @apply rounded-lg;
+    @apply rounded-(--radius-control) corner-curve;
   }
 
   /* Pressed lights it up, easing in and out. */
   .cn-attachment-trigger-wash {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   .cn-attachment-trigger-wash-vertical {
-    @apply rounded-xl;
+    @apply rounded-(--radius-surface) corner-curve;
   }
 
 /* MARK: Audio Player */
@@ -726,7 +726,7 @@
      stacks the header, the seek bar and the controls; cover adds room for a
      large artwork; compact is one pill-shaped row, as a voice message. */
   .cn-audio-player {
-    @apply gap-(--density-12) rounded-xl bg-card p-(--density-16) shadow-surface-2 data-[variant=compact]:flex-row data-[variant=compact]:items-center data-[variant=compact]:gap-(--density-8) data-[variant=compact]:rounded-full data-[variant=compact]:p-(--density-6) data-[variant=compact]:pe-(--density-8) data-[variant=cover]:gap-(--density-16) data-[variant=cover]:p-(--density-20);
+    @apply gap-(--density-12) rounded-(--radius-surface) bg-card p-(--density-16) shadow-surface-2 data-[variant=compact]:flex-row data-[variant=compact]:items-center data-[variant=compact]:gap-(--density-8) data-[variant=compact]:rounded-full data-[variant=compact]:p-(--density-6) data-[variant=compact]:pe-(--density-8) data-[variant=cover]:gap-(--density-16) data-[variant=cover]:p-(--density-20) corner-curve;
   }
 
   .cn-audio-player-header {
@@ -739,11 +739,11 @@
      carries the corners itself, so the tile keeps its shadow on iOS, where
      clipping would cut it. */
   .cn-audio-player-artwork {
-    @apply size-(--density-48) rounded-lg bg-muted shadow-surface-1 data-[variant=cover]:aspect-square data-[variant=cover]:size-auto data-[variant=cover]:w-full data-[variant=cover]:rounded-xl data-[variant=cover]:shadow-surface-3;
+    @apply size-(--density-48) rounded-(--radius-control) bg-muted shadow-surface-1 data-[variant=cover]:aspect-square data-[variant=cover]:size-auto data-[variant=cover]:w-full data-[variant=cover]:rounded-(--radius-surface) data-[variant=cover]:shadow-surface-3 corner-curve;
   }
 
   .cn-audio-player-artwork-image {
-    @apply rounded-lg data-[variant=cover]:rounded-xl;
+    @apply rounded-(--radius-control) data-[variant=cover]:rounded-(--radius-surface) corner-curve;
   }
 
   .cn-audio-player-artwork-text {
@@ -808,7 +808,7 @@
 
   /* The time under the finger while it drags, inverted like a tooltip. */
   .cn-audio-player-seek-preview {
-    @apply mb-(--density-6) rounded-md bg-foreground px-(--density-6) py-0.5;
+    @apply mb-(--density-6) rounded-(--radius-inner) bg-foreground px-(--density-6) py-0.5 corner-curve;
   }
 
   .cn-audio-player-seek-preview-text {
@@ -954,9 +954,9 @@
 
 /* MARK: Badge */
 
-  /* 24pt, 12pt medium text, rounded-lg like the other items. */
+  /* 24pt, 12pt medium text, the control corner like the other items. */
   .cn-badge {
-    @apply h-(--density-24) gap-(--density-6) rounded-lg border border-transparent px-(--density-10) data-[invalid=true]:border-destructive/50;
+    @apply h-(--density-24) gap-(--density-6) rounded-(--radius-control) border border-transparent px-(--density-10) data-[invalid=true]:border-destructive/50 corner-curve;
   }
 
   .cn-badge-text {
@@ -1192,7 +1192,7 @@
   }
 
   .cn-breadcrumb-link {
-    @apply active:opacity-70 rounded-[4px];
+    @apply active:opacity-70 rounded-(--radius-mark) corner-curve;
   }
 
   .cn-breadcrumb-page {
@@ -1219,7 +1219,7 @@
 
   /* Soft chat bubble: 8pt corners, 14pt text. */
   .cn-bubble-content {
-    @apply rounded-lg border border-transparent px-(--density-14) py-(--density-8) data-[align=end]:self-end;
+    @apply rounded-(--radius-control) border border-transparent px-(--density-14) py-(--density-8) data-[align=end]:self-end corner-curve;
   }
 
   .cn-bubble-text {
@@ -1406,7 +1406,7 @@
   /* An addon cell: hover fill with a hairline edge, muted 13pt text, sized like
      the 36pt controls beside it. */
   .cn-button-group-text {
-    @apply bg-hover border-border gap-(--density-8) rounded-lg border px-(--density-12);
+    @apply bg-hover border-border gap-(--density-8) rounded-(--radius-control) border px-(--density-12) corner-curve;
   }
 
   .cn-button-group-text-text {
@@ -1419,18 +1419,18 @@
 
 /* MARK: Button */
 
-  /* 36pt controls at the default density, 13pt medium text, rounded-lg.
+  /* 36pt controls at the default density, 13pt medium text, the control corner.
      Pressed is a wash under the label plus the press scale (usePressScale),
      both easing on the feedback timing. Icons draw at stroke 1.5, set in the
      source: a class can't reach them. */
   .cn-button {
-    @apply rounded-lg border border-transparent;
+    @apply rounded-(--radius-control) border border-transparent corner-curve;
   }
 
   /* The wash fills the border box and follows the button's corners. Each step
      matches the website's: the fill at 80%, or the next interaction token. */
   .cn-button-wash {
-    @apply -inset-px rounded-lg;
+    @apply -inset-px rounded-(--radius-control) corner-curve;
   }
 
   /* In a button group the wash squares the corners its button squares. */
@@ -1587,7 +1587,7 @@
 
 /* MARK: Calendar */
 
-  /* 32pt day cells with rounded-lg highlights, 13pt numerals. A cell grows past
+  /* 32pt day cells with the control corner highlights, 13pt numerals. A cell grows past
      32pt when the calendar is given a wider box: on a phone, `w-full` makes the
      days finger-sized. */
   .cn-calendar {
@@ -1606,7 +1606,7 @@
   }
 
   .cn-calendar-nav-button {
-    @apply size-(--density-32) rounded-lg;
+    @apply size-(--density-32) rounded-(--radius-control) corner-curve;
   }
 
   .cn-calendar-month-caption {
@@ -1619,7 +1619,7 @@
   }
 
   .cn-calendar-dropdown-root {
-    @apply border-border active:bg-active rounded-lg border;
+    @apply border-border active:bg-active rounded-(--radius-control) border corner-curve;
   }
 
   .cn-calendar-caption-label {
@@ -1657,28 +1657,28 @@
   /* Today, and a range's middle and ends, are the active step: they read in dark
      mode too. The range runs edge to edge between its rounded ends. */
   .cn-calendar-day {
-    @apply md:data-[stretched=true]:max-h-(--density-48) min-w-(--density-32) rounded-lg data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none;
+    @apply md:data-[stretched=true]:max-h-(--density-48) min-w-(--density-32) rounded-(--radius-control) data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none corner-curve;
   }
 
   .cn-calendar-day-button {
-    @apply md:aspect-auto md:h-full h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[range-start=true]:bg-primary data-[range-end=true]:bg-primary data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
+    @apply md:aspect-auto md:h-full h-auto min-w-(--density-32) gap-1 rounded-(--radius-control) border-0 data-[selected-single=true]:bg-primary data-[range-start=true]:bg-primary data-[range-end=true]:bg-primary data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none corner-curve;
   }
 
   /* Pressed, under the numeral and easing in and out: the next interaction step, as
      on a ghost button. */
   .cn-calendar-day-wash {
-    @apply rounded-lg bg-active;
+    @apply rounded-(--radius-control) bg-active corner-curve;
   }
 
   /* A selected day's fill goes to 80%, as a primary button's does: the interaction
      step wouldn't show on it. */
   .cn-calendar-filled-day-wash {
-    @apply rounded-lg bg-background/20;
+    @apply rounded-(--radius-control) bg-background/20 corner-curve;
   }
 
   /* The month buttons keep Button's border, so theirs fills the border box. */
   .cn-calendar-nav-wash {
-    @apply -inset-px rounded-lg bg-active;
+    @apply -inset-px rounded-(--radius-control) bg-active corner-curve;
   }
 
   /* Numerals: foreground, muted outside the month and when disabled, in the
@@ -1772,7 +1772,7 @@
      to the dialog level. Run states colour the ring with their role and
      carry an icon; skipped dims. A change waiting on the server fades. */
   .cn-canvas-node {
-    @apply w-[calc(var(--density-36)*5)] gap-(--density-8) rounded-xl bg-surface-3 p-(--density-12) shadow-surface-3 data-[dragging=true]:shadow-surface-5 data-[invalid=true]:border data-[invalid=true]:border-destructive/50 data-[pending=true]:opacity-60 data-[selected=true]:border-[1.5px] data-[selected=true]:border-primary data-[selected=true]:shadow-surface-4 data-[status=error]:border data-[status=error]:border-destructive-border data-[status=running]:border data-[status=running]:border-info-border data-[status=skipped]:opacity-50 data-[status=success]:border data-[status=success]:border-success-border data-[status=warning]:border data-[status=warning]:border-warning-border data-[variant=group]:size-full data-[variant=group]:bg-hover data-[variant=group]:p-0 data-[variant=group]:shadow-none data-[variant=note]:size-full data-[variant=note]:bg-warning-surface-1 data-[variant=note]:shadow-surface-2 dark:data-[variant=note]:bg-warning-surface-3 data-[variant=placeholder]:flex-row data-[variant=placeholder]:items-center data-[variant=placeholder]:justify-center data-[variant=placeholder]:border data-[variant=placeholder]:border-dashed data-[variant=placeholder]:border-foreground/20 data-[variant=placeholder]:bg-transparent data-[variant=placeholder]:shadow-none;
+    @apply w-[calc(var(--density-36)*5)] gap-(--density-8) rounded-(--radius-surface) bg-surface-3 p-(--density-12) shadow-surface-3 data-[dragging=true]:shadow-surface-5 data-[invalid=true]:border data-[invalid=true]:border-destructive/50 data-[pending=true]:opacity-60 data-[selected=true]:border-[1.5px] data-[selected=true]:border-primary data-[selected=true]:shadow-surface-4 data-[status=error]:border data-[status=error]:border-destructive-border data-[status=running]:border data-[status=running]:border-info-border data-[status=skipped]:opacity-50 data-[status=success]:border data-[status=success]:border-success-border data-[status=warning]:border data-[status=warning]:border-warning-border data-[variant=group]:size-full data-[variant=group]:bg-hover data-[variant=group]:p-0 data-[variant=group]:shadow-none data-[variant=note]:size-full data-[variant=note]:bg-warning-surface-1 data-[variant=note]:shadow-surface-2 dark:data-[variant=note]:bg-warning-surface-3 data-[variant=placeholder]:flex-row data-[variant=placeholder]:items-center data-[variant=placeholder]:justify-center data-[variant=placeholder]:border data-[variant=placeholder]:border-dashed data-[variant=placeholder]:border-foreground/20 data-[variant=placeholder]:bg-transparent data-[variant=placeholder]:shadow-none corner-curve;
   }
 
   .cn-canvas-node-header {
@@ -1781,7 +1781,7 @@
 
   /* A tile in the node's palette colour (or muted): its kind at a glance. */
   .cn-canvas-node-icon {
-    @apply size-(--density-28) rounded-lg bg-muted data-[colored=true]:bg-transparent;
+    @apply size-(--density-28) rounded-(--radius-control) bg-muted data-[colored=true]:bg-transparent corner-curve;
   }
 
   .cn-canvas-node-icon-text {
@@ -1853,16 +1853,16 @@
   /* MARK: Canvas node toolbar */
 
   .cn-canvas-node-toolbar {
-    @apply bottom-full mb-(--density-8) gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply bottom-full mb-(--density-8) gap-(--density-4) rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3 corner-curve;
   }
 
   /* Resize: a hairline in the primary colour and a square grip. */
   .cn-canvas-node-resizer-line {
-    @apply rounded-xl border border-primary/50;
+    @apply rounded-(--radius-surface) border border-primary/50 corner-curve;
   }
 
   .cn-canvas-node-resizer-handle {
-    @apply size-(--density-12) rounded-sm border border-primary bg-background;
+    @apply size-(--density-12) rounded-(--radius-mark) border border-primary bg-background corner-curve;
   }
 
   /* MARK: Canvas edge */
@@ -1883,7 +1883,7 @@
 
   /* A label is a small badge on the raised surface, caption size. */
   .cn-canvas-edge-label {
-    @apply h-(--density-20) rounded-md bg-surface-3 px-(--density-6) shadow-surface-3;
+    @apply h-(--density-20) rounded-(--radius-inner) bg-surface-3 px-(--density-6) shadow-surface-3 corner-curve;
   }
 
   .cn-canvas-edge-label-text {
@@ -1920,7 +1920,7 @@
 
   /* One raised bar of ghost buttons, grouped by hairlines. */
   .cn-canvas-controls {
-    @apply gap-px rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply gap-px rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3 corner-curve;
   }
 
   .cn-canvas-controls-separator {
@@ -1932,12 +1932,12 @@
   }
 
   .cn-canvas-search {
-    @apply rounded-xl bg-surface-3 shadow-surface-3;
+    @apply rounded-(--radius-surface) bg-surface-3 shadow-surface-3 corner-curve;
   }
 
   /* The minimap: a raised card in the corner, on tablets. */
   .cn-canvas-minimap {
-    @apply m-(--density-12) rounded-xl bg-surface-3 shadow-surface-3;
+    @apply m-(--density-12) rounded-(--radius-surface) bg-surface-3 shadow-surface-3 corner-curve;
   }
 
   .cn-canvas-minimap-node {
@@ -1951,7 +1951,7 @@
   /* MARK: Canvas library */
 
   .cn-canvas-library {
-    @apply max-h-96 w-[calc(var(--density-36)*7)] gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply max-h-96 w-[calc(var(--density-36)*7)] gap-(--density-4) rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3 corner-curve;
   }
 
   .cn-canvas-library-search {
@@ -1967,11 +1967,11 @@
   }
 
   .cn-canvas-library-item {
-    @apply min-h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) active:bg-hover disabled:opacity-50;
+    @apply min-h-(--density-36) gap-(--density-8) rounded-(--radius-control) px-(--density-8) py-(--density-6) active:bg-hover disabled:opacity-50 corner-curve;
   }
 
   .cn-canvas-library-icon {
-    @apply size-(--density-28) rounded-lg bg-muted;
+    @apply size-(--density-28) rounded-(--radius-control) bg-muted corner-curve;
   }
 
   .cn-canvas-library-icon-text {
@@ -1997,7 +1997,7 @@
   }
 
   .cn-canvas-outline-node {
-    @apply min-h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover;
+    @apply min-h-(--density-36) gap-(--density-8) rounded-(--radius-control) px-(--density-8) active:bg-hover corner-curve;
   }
 
   .cn-canvas-outline-status {
@@ -2015,7 +2015,7 @@
   /* MARK: Canvas issues */
 
   .cn-canvas-issues {
-    @apply gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply gap-(--density-4) rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3 corner-curve;
   }
 
   .cn-canvas-issues-title {
@@ -2023,7 +2023,7 @@
   }
 
   .cn-canvas-issue {
-    @apply gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) active:bg-hover;
+    @apply gap-(--density-8) rounded-(--radius-control) px-(--density-8) py-(--density-6) active:bg-hover corner-curve;
   }
 
   .cn-canvas-issue-icon {
@@ -2045,7 +2045,7 @@
   }
 
   .cn-canvas-loading-node {
-    @apply h-(--density-48) w-[calc(var(--density-36)*4)] rounded-xl;
+    @apply h-(--density-48) w-[calc(var(--density-36)*4)] rounded-(--radius-surface) corner-curve;
   }
 
   .cn-canvas-error {
@@ -2058,10 +2058,10 @@
 
 /* MARK: Card */
 
-  /* The card colour with surface 2's shadow ring, rounded-xl. py-(--density-16) with
+  /* The card colour with surface 2's shadow ring, the surface corner. py-(--density-16) with
      px on the parts; sm tightens through the same parts. */
   .cn-card {
-    @apply bg-card shadow-surface-2 gap-(--density-16) rounded-xl py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12);
+    @apply bg-card shadow-surface-2 gap-(--density-16) rounded-(--radius-surface) py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12) corner-curve;
   }
 
   .cn-card-text {
@@ -2171,7 +2171,7 @@
   }
 
   .cn-chart-band-mark {
-    @apply bg-hover rounded-md;
+    @apply bg-hover rounded-(--radius-inner) corner-curve;
   }
 
   /* The tooltip sits over the finger, two steps over the card a chart
@@ -2182,7 +2182,7 @@
   }
 
   .cn-chart-tooltip-content {
-    @apply bg-surface-5 shadow-surface-5 min-w-36 gap-(--density-4) rounded-lg px-(--density-10) py-(--density-8);
+    @apply bg-surface-5 shadow-surface-5 min-w-36 gap-(--density-4) rounded-(--radius-control) px-(--density-10) py-(--density-8) corner-curve;
   }
 
   .cn-chart-tooltip-title {
@@ -2219,7 +2219,7 @@
   /* Each toggle keeps a 32pt row; a hidden series greys out with a hollow
      key. */
   .cn-chart-legend-item {
-    @apply h-(--density-32) gap-(--density-6) rounded-md px-(--density-6) active:bg-active;
+    @apply h-(--density-32) gap-(--density-6) rounded-(--radius-inner) px-(--density-6) active:bg-active corner-curve;
   }
 
   .cn-chart-legend-key {
@@ -2231,7 +2231,7 @@
   }
 
   .cn-chart-inspector {
-    @apply rounded-md;
+    @apply rounded-(--radius-inner) corner-curve;
   }
 
   .cn-chart-empty {
@@ -2252,17 +2252,17 @@
      26pt-round around the round send as the stacked pill grows; the large
      card has 16pt corners. */
   .cn-chat-input {
-    @apply bg-surface-3 shadow-surface-3 rounded-2xl data-[focused=true]:shadow-surface-4 data-[disabled=true]:opacity-60;
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) data-[focused=true]:shadow-surface-4 data-[disabled=true]:opacity-60 corner-curve;
   }
 
   /* Invalid draws a red hairline over the card's edge. */
   .cn-chat-input-invalid {
-    @apply border-destructive/50 rounded-2xl;
+    @apply border-destructive/50 rounded-(--radius-surface) corner-curve;
   }
 
   /* What the card holds, clipped to its corners while its height eases. */
   .cn-chat-input-clip {
-    @apply rounded-2xl;
+    @apply rounded-(--radius-surface) corner-curve;
   }
 
   .cn-chat-input-content {
@@ -2328,7 +2328,7 @@
      with its icon and name. Uploading dims the image under a spinner (the
      dimming is in the source, easing on the move timing). */
   .cn-chat-input-attachment-tile {
-    @apply bg-surface-2 border-border h-(--density-48) rounded-lg border data-[layout=default]:h-(--density-40) data-[layout=default]:rounded-2xl data-[layout=inline]:h-(--density-36) data-[layout=inline]:rounded-xl data-[kind=image]:aspect-square data-[kind=file]:max-w-48 data-[kind=file]:gap-(--density-8) data-[kind=file]:px-(--density-12);
+    @apply bg-surface-2 border-border h-(--density-48) rounded-(--radius-control) border data-[layout=default]:h-(--density-40) data-[layout=default]:rounded-(--radius-surface) data-[layout=inline]:h-(--density-36) data-[layout=inline]:rounded-(--radius-surface) data-[kind=image]:aspect-square data-[kind=file]:max-w-48 data-[kind=file]:gap-(--density-8) data-[kind=file]:px-(--density-12) corner-curve;
   }
 
   .cn-chat-input-attachment-image {
@@ -2382,7 +2382,7 @@
      artifacts ($) warning, cards (#) success, any other sigil the primary
      role. */
   .cn-chat-input-mention {
-    @apply text-(length:--density-text-14) rounded-sm;
+    @apply text-(length:--density-text-14) rounded-(--radius-mark) corner-curve;
   }
 
   .cn-chat-input-mention-file {
@@ -2429,7 +2429,7 @@
      leads. A toggle that's on holds the active fill. A size you pass keeps
      the Button's own. */
   .cn-chat-input-button {
-    @apply data-[pressed=true]:bg-active data-[shape=square]:size-(--density-32) data-[shape=pill]:h-(--density-32) data-[shape=pill]:w-auto data-[shape=pill]:gap-(--density-6) data-[shape=pill]:px-(--density-8) data-[place=pill]:rounded-full data-[place=pill]:data-[shape=square]:size-(--density-36) data-[place=pill]:data-[shape=pill]:h-(--density-36) data-[place=pill]:data-[shape=pill]:px-(--density-10) data-[place=tray]:rounded-md data-[place=tray]:data-[shape=square]:size-(--density-24) data-[place=tray]:data-[shape=pill]:h-(--density-24) data-[place=tray]:data-[shape=pill]:gap-(--density-4) data-[place=tray]:data-[shape=pill]:px-(--density-6);
+    @apply data-[pressed=true]:bg-active data-[shape=square]:size-(--density-32) data-[shape=pill]:h-(--density-32) data-[shape=pill]:w-auto data-[shape=pill]:gap-(--density-6) data-[shape=pill]:px-(--density-8) data-[place=pill]:rounded-full data-[place=pill]:data-[shape=square]:size-(--density-36) data-[place=pill]:data-[shape=pill]:h-(--density-36) data-[place=pill]:data-[shape=pill]:px-(--density-10) data-[place=tray]:rounded-(--radius-inner) data-[place=tray]:data-[shape=square]:size-(--density-24) data-[place=tray]:data-[shape=pill]:h-(--density-24) data-[place=tray]:data-[shape=pill]:gap-(--density-4) data-[place=tray]:data-[shape=pill]:px-(--density-6) corner-curve;
   }
 
   .cn-chat-input-button-wash {
@@ -2441,7 +2441,7 @@
   }
 
   .cn-chat-input-button-wash-tray {
-    @apply rounded-md;
+    @apply rounded-(--radius-inner) corner-curve;
   }
 
   .cn-chat-input-button-text-tray {
@@ -2533,11 +2533,11 @@
   }
 
   .cn-chat-input-option {
-    @apply gap-(--density-10) rounded-lg px-(--density-10) py-(--density-8);
+    @apply gap-(--density-10) rounded-(--radius-control) px-(--density-10) py-(--density-8) corner-curve;
   }
 
   .cn-chat-input-option-wash {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   .cn-chat-input-option-text {
@@ -2570,7 +2570,7 @@
      lists the keys; rows are menu rows, muted until lit, the first (the
      return key's pick) on the hover fill. */
   .cn-chat-input-commands {
-    @apply bg-surface-5 shadow-surface-5 mb-(--density-8) rounded-xl;
+    @apply bg-surface-5 shadow-surface-5 mb-(--density-8) rounded-(--radius-surface) corner-curve;
   }
 
   .cn-chat-input-commands-header {
@@ -2602,7 +2602,7 @@
   }
 
   .cn-chat-input-command {
-    @apply min-h-(--density-36) gap-(--density-10) rounded-lg px-(--density-8) data-[active=true]:data-[lit=false]:bg-hover;
+    @apply min-h-(--density-36) gap-(--density-10) rounded-(--radius-control) px-(--density-8) data-[active=true]:data-[lit=false]:bg-hover corner-curve;
   }
 
   .cn-chat-input-command-text {
@@ -2636,7 +2636,7 @@
   }
 
   .cn-chat-input-command-badge {
-    @apply bg-active rounded-md px-(--density-6);
+    @apply bg-active rounded-(--radius-inner) px-(--density-6) corner-curve;
   }
 
   .cn-chat-input-command-badge-text {
@@ -2649,7 +2649,7 @@
      overlaps the stack. They rise into place on the move timing (in the
      source). */
   .cn-chat-input-tray {
-    @apply border-border/60 -mb-(--density-16) rounded-t-2xl border px-(--density-4) pt-(--density-4) pb-(--density-20) data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36);
+    @apply border-border/60 -mb-(--density-16) rounded-t-(--radius-surface) border px-(--density-4) pt-(--density-4) pb-(--density-20) data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36) corner-curve;
   }
 
   /* A folding stack. */
@@ -2665,12 +2665,12 @@
   }
 
   .cn-chat-input-trays-edges {
-    @apply rounded-t-2xl;
+    @apply rounded-t-(--radius-surface) corner-curve;
   }
 
   /* Opened, Show less folds the stack again: quiet 12pt text over its end. */
   .cn-chat-input-trays-less {
-    @apply mb-(--density-6) h-(--density-24) gap-(--density-4) rounded-md px-(--density-6);
+    @apply mb-(--density-6) h-(--density-24) gap-(--density-4) rounded-(--radius-inner) px-(--density-6) corner-curve;
   }
 
   .cn-chat-input-trays-less-text {
@@ -2684,7 +2684,7 @@
   /* Rows of 13pt text with a muted icon (in the source) and ghost actions at
      the end. */
   .cn-chat-input-tray-item {
-    @apply h-(--density-30) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) data-[trigger=true]:ps-0;
+    @apply h-(--density-30) gap-(--density-8) rounded-(--radius-control) ps-(--density-8) pe-(--density-4) data-[trigger=true]:ps-0 corner-curve;
   }
 
   .cn-chat-input-tray-item-text {
@@ -2694,11 +2694,11 @@
   /* The row's text as a button that opens its content: the hover fill while
      pressed, a chevron at the end that turns while open. */
   .cn-chat-input-tray-trigger {
-    @apply gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-6);
+    @apply gap-(--density-8) rounded-(--radius-control) ps-(--density-8) pe-(--density-6) corner-curve;
   }
 
   .cn-chat-input-tray-trigger-wash {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   .cn-chat-input-tray-chevron {
@@ -2721,17 +2721,17 @@
 
 /* MARK: Checkbox */
 
-  /* 18pt, rounded-[6px], a quiet 1.5pt outline, and the check draws itself
+  /* 18pt, the mark corner, a quiet 1.5pt outline, and the check draws itself
      in the role's foreground. The press gives on the feedback timing, in the
      source: a class could only snap. */
   .cn-checkbox {
-    @apply size-[calc(var(--density-icon-16)+2px)] rounded-[6px] border-[1.5px] border-foreground/25 bg-transparent data-[invalid=true]:border-destructive;
+    @apply size-[calc(var(--density-icon-16)+2px)] rounded-(--radius-mark) border-[1.5px] border-foreground/25 bg-transparent data-[invalid=true]:border-destructive corner-curve;
   }
 
   /* Checked fills with the primary role, or the destructive one when invalid,
      over the outline, easing on the feedback timing. */
   .cn-checkbox-fill {
-    @apply -inset-[1.5px] rounded-[6px] bg-primary data-[invalid=true]:bg-destructive;
+    @apply -inset-[1.5px] rounded-(--radius-mark) bg-primary data-[invalid=true]:bg-destructive corner-curve;
   }
 
   /* The mark fades in from 0.6 while its stroke draws itself, in the source:
@@ -2770,7 +2770,7 @@
 
 /* MARK: color-picker */
 .cn-color-picker { @apply gap-(--density-12); }
-.cn-color-picker-area { @apply h-40 rounded-lg overflow-hidden; }
+.cn-color-picker-area { @apply h-40 rounded-(--radius-control) overflow-hidden corner-curve; }
 .cn-color-picker-area-thumb { @apply size-4 rounded-full border-2 border-white; }
 .cn-color-picker-controls { @apply relative; }
 .cn-color-picker-field { @apply gap-(--density-4); }
@@ -2781,13 +2781,13 @@
 .cn-color-picker-popover-content { @apply min-w-64; }
 .cn-color-picker-slider-row { @apply gap-(--density-4); }
 .cn-color-picker-sliders { @apply relative; }
-.cn-color-picker-swatch { @apply rounded-lg; }
-.cn-color-picker-swatch-color { @apply rounded-md; }
+.cn-color-picker-swatch { @apply rounded-(--radius-control) corner-curve; }
+.cn-color-picker-swatch-color { @apply rounded-(--radius-inner) corner-curve; }
 .cn-color-picker-swatches { @apply gap-(--density-4); }
 .cn-color-picker-trigger { @apply relative; }
 .cn-color-picker-trigger-label { @apply relative; }
 .cn-color-picker-trigger-value { @apply text-muted-foreground text-(length:--density-text-12); }
-.cn-color-tile { @apply size-6 rounded-md; }
+.cn-color-tile { @apply size-6 rounded-(--radius-inner) corner-curve; }
 .cn-color-picker-alpha { @apply relative; }
 .cn-color-picker-content { @apply relative; }
 .cn-color-picker-hue { @apply relative; }
@@ -2799,7 +2799,7 @@
   /* The popup is a dialog on the popup's surface. Its field sits in its own row
      above the list. */
   .cn-combobox-content {
-    @apply bg-surface-3 shadow-surface-3 gap-0 overflow-hidden rounded-xl p-0 sm:max-w-[400px];
+    @apply bg-surface-3 shadow-surface-3 gap-0 overflow-hidden rounded-(--radius-surface) p-0 sm:max-w-[400px] corner-curve;
   }
 
   /* A percentage here resolves against the dialog's own content height. */
@@ -2817,7 +2817,7 @@
      the end. With several chosen there's no one row to slide to, so each fills
      itself. */
   .cn-combobox-item {
-    @apply data-[multiple=true]:data-[selected=true]:bg-active h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8);
+    @apply data-[multiple=true]:data-[selected=true]:bg-active h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) corner-curve;
   }
 
   .cn-combobox-item-text {
@@ -2879,7 +2879,7 @@
      while its list is open. Invalid turns the frame red. Inside the popup it sits
      in a margin with no frame of its own. */
   .cn-combobox-input {
-    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) gap-(--density-6) rounded-lg border bg-transparent px-(--density-10) data-[popup=true]:m-1 data-[popup=true]:mb-0;
+    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) gap-(--density-6) rounded-(--radius-control) border bg-transparent px-(--density-10) data-[popup=true]:m-1 data-[popup=true]:mb-0 corner-curve;
   }
 
   .cn-combobox-input-text {
@@ -2892,11 +2892,11 @@
 
   /* Chips field: the input recipe, growing with its chips. */
   .cn-combobox-chips {
-    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-(--density-36) gap-1 rounded-lg border bg-transparent px-(--density-10) py-1 data-[has-chips=true]:px-1;
+    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-(--density-36) gap-1 rounded-(--radius-control) border bg-transparent px-(--density-10) py-1 data-[has-chips=true]:px-1 corner-curve;
   }
 
   .cn-combobox-chip {
-    @apply bg-active h-(--density-24) gap-1 self-start rounded-md px-(--density-8) data-[removable=true]:pr-0;
+    @apply bg-active h-(--density-24) gap-1 self-start rounded-(--radius-inner) px-(--density-8) data-[removable=true]:pr-0 corner-curve;
   }
 
   .cn-combobox-chip-text {
@@ -2920,7 +2920,7 @@
   /* A raised surface on its own; inside a dialog or popover pass `bg-transparent`
      and it takes the host's: React Native has no `in-data-*`. */
   .cn-command {
-    @apply bg-surface-3 rounded-xl;
+    @apply bg-surface-3 rounded-(--radius-surface) corner-curve;
   }
 
   .cn-command-text {
@@ -2928,7 +2928,7 @@
   }
 
   .cn-command-dialog {
-    @apply gap-0 rounded-xl sm:max-w-[400px];
+    @apply gap-0 rounded-(--radius-surface) sm:max-w-[400px] corner-curve;
   }
 
   .cn-command-input-wrapper {
@@ -2978,7 +2978,7 @@
      while it's lit, so the two never stack. Checked rows are foreground and
      semibold. */
   .cn-command-item {
-    @apply data-[selected=true]:data-[lit=false]:bg-hover h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8);
+    @apply data-[selected=true]:data-[lit=false]:bg-hover h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) corner-curve;
   }
 
   .cn-command-item-text {
@@ -3027,10 +3027,10 @@
     @apply active:opacity-70;
   }
 
-  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1. Enters on
+  /* Popup: surface 3 with its shadow ring (no border), the surface corner, p-1. Enters on
      the popup motion (useSurfaceAnimation), at the finger. */
   .cn-context-menu-content {
-    @apply bg-surface-3 shadow-surface-3 rounded-xl p-1;
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) p-1 corner-curve;
   }
 
   /* On the website this holds the motion, which is useSurfaceAnimation here. It
@@ -3047,7 +3047,7 @@
      glides under the finger (Fluid Hover). Touch has no resting highlight, so a
      row is lit only while the finger is on it. */
   .cn-context-menu-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] corner-curve;
   }
 
   .cn-context-menu-item-text {
@@ -3081,11 +3081,11 @@
   }
 
   .cn-context-menu-checkbox-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] corner-curve;
   }
 
   .cn-context-menu-radio-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] corner-curve;
   }
 
   .cn-context-menu-item-indicator {
@@ -3112,7 +3112,7 @@
   /* An open sub-trigger keeps a fill while its submenu shows below it, and gives
      way to the highlight while it's lit, so the two never stack. */
   .cn-context-menu-sub-trigger {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover;
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover corner-curve;
   }
 
   /* A submenu expands inline, indented under a hairline: a phone has no room
@@ -3172,7 +3172,7 @@
 
   /* Ghost cells; the chosen one on bg-active, out of range at 50%. */
   .cn-date-picker-cell {
-    @apply h-(--density-36) min-w-16 rounded-lg px-(--density-12) data-[selected=true]:bg-active disabled:opacity-50;
+    @apply h-(--density-36) min-w-16 rounded-(--radius-control) px-(--density-12) data-[selected=true]:bg-active disabled:opacity-50 corner-curve;
   }
 
   /* Muted at rest; this month or year in the foreground, the chosen one
@@ -3188,9 +3188,9 @@
     @apply bg-black/40 dark:bg-black/80;
   }
 
-  /* Panel: surface 5 with its shadow ring, rounded-xl, p-6. */
+  /* Panel: surface 5 with its shadow ring, the surface corner, p-6. */
   .cn-dialog-content {
-    @apply bg-surface-5 shadow-surface-5 max-w-[92%] gap-(--density-16) rounded-xl p-(--density-24) sm:max-w-[400px];
+    @apply bg-surface-5 shadow-surface-5 max-w-[92%] gap-(--density-16) rounded-(--radius-surface) p-(--density-24) sm:max-w-[400px] corner-curve;
   }
 
   .cn-dialog-text {
@@ -3255,7 +3255,7 @@
 
   /* A held row lights up with its slice. */
   .cn-donut-chart-list-item {
-    @apply gap-(--density-6) rounded-md px-(--density-8) py-(--density-6) data-[active=true]:bg-hover;
+    @apply gap-(--density-6) rounded-(--radius-inner) px-(--density-8) py-(--density-6) data-[active=true]:bg-hover corner-curve;
   }
 
   .cn-donut-chart-list-row {
@@ -3299,11 +3299,11 @@
   }
 
   /* Panel: surface 3 whose shadow ring is the edge (no border); the edge that
-     meets the screen is square, the free edge rounded-xl. From the bottom on iOS it
+     meets the screen is square, the free edge the surface corner. From the bottom on iOS it
      has the system sheet's corner: 38pt and continuous, measured on iOS 27. A drawer
      along the sides takes 3/4 of the width, at most 384pt from sm up. */
   .cn-drawer-popup {
-    @apply bg-surface-3 shadow-surface-3 data-[swipe-axis=x]:w-3/4 data-[swipe-axis=x]:flex-row data-[swipe-axis=x]:sm:w-96 data-[swipe-axis=y]:max-h-[90%] data-[swipe-direction=down]:rounded-t-xl ios:data-[swipe-direction=down]:rounded-t-[38px] ios:border-continuous data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl;
+    @apply bg-surface-3 shadow-surface-3 data-[swipe-axis=x]:w-3/4 data-[swipe-axis=x]:flex-row data-[swipe-axis=x]:sm:w-96 data-[swipe-axis=y]:max-h-[90%] data-[swipe-direction=down]:rounded-t-(--radius-surface) ios:data-[swipe-direction=down]:rounded-t-[38px] ios:border-continuous data-[swipe-direction=left]:rounded-r-(--radius-surface) data-[swipe-direction=right]:rounded-l-(--radius-surface) data-[swipe-direction=up]:rounded-b-(--radius-surface) corner-curve;
   }
 
   .cn-drawer-text {
@@ -3345,10 +3345,10 @@
 
 /* MARK: Dropdown Menu */
 
-  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1. Enters on
+  /* Popup: surface 3 with its shadow ring (no border), the surface corner, p-1. Enters on
      the popup motion (useSurfaceAnimation). */
   .cn-dropdown-menu-content {
-    @apply bg-surface-3 shadow-surface-3 rounded-xl p-1;
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) p-1 corner-curve;
   }
 
   /* On the website this holds the motion, which is useSurfaceAnimation here. It
@@ -3365,7 +3365,7 @@
      glides under the finger (Fluid Hover). Touch has no resting highlight, so a
      row is lit only while the finger is on it. */
   .cn-dropdown-menu-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] corner-curve;
   }
 
   .cn-dropdown-menu-item-text {
@@ -3399,11 +3399,11 @@
   }
 
   .cn-dropdown-menu-checkbox-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] corner-curve;
   }
 
   .cn-dropdown-menu-radio-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] corner-curve;
   }
 
   .cn-dropdown-menu-item-indicator {
@@ -3430,7 +3430,7 @@
   /* An open sub-trigger keeps a fill while its submenu shows below it, and gives
      way to the highlight while it's lit, so the two never stack. */
   .cn-dropdown-menu-sub-trigger {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover;
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover corner-curve;
   }
 
   /* A submenu expands inline, indented under a hairline: a phone has no room
@@ -3441,11 +3441,11 @@
 
 /* MARK: Editor */
 
-  /* A card-like frame (the card's fill with a hairline edge, rounded-xl)
+  /* A card-like frame (the card's fill with a hairline edge, the surface corner)
      that darkens its edge while the document has focus, like a text field.
      Pass a className to drop the frame for a full-page document. */
   .cn-editor {
-    @apply bg-card border-border/70 overflow-hidden rounded-xl border data-[focused=true]:border-foreground/25;
+    @apply bg-card border-border/70 overflow-hidden rounded-(--radius-surface) border data-[focused=true]:border-foreground/25 corner-curve;
   }
 
   /* The document's padding, 1em by 0.75em of the Document role's body. The
@@ -3507,11 +3507,11 @@
      On and pressed are one fill under the icon. On the keyboard bar's capsule
      they're pills, nested in its round ends. */
   .cn-editor-toolbar-button {
-    @apply h-(--density-36) min-w-(--density-36) shrink-0 gap-(--density-6) rounded-lg px-(--density-10) disabled:opacity-40 data-[bar=keyboard]:h-(--density-40) data-[bar=keyboard]:min-w-(--density-40) data-[bar=keyboard]:rounded-full;
+    @apply h-(--density-36) min-w-(--density-36) shrink-0 gap-(--density-6) rounded-(--radius-control) px-(--density-10) disabled:opacity-40 data-[bar=keyboard]:h-(--density-40) data-[bar=keyboard]:min-w-(--density-40) data-[bar=keyboard]:rounded-full corner-curve;
   }
 
   .cn-editor-toolbar-button-fill {
-    @apply bg-active rounded-lg;
+    @apply bg-active rounded-(--radius-control) corner-curve;
   }
 
   .cn-editor-keyboard-bar-button-fill {
@@ -3581,7 +3581,7 @@
      code block's sheet: Copy code, then the languages, the current one
      checked. */
   .cn-editor-code-block {
-    @apply bg-surface-2 border-border/60 rounded-xl border;
+    @apply bg-surface-2 border-border/60 rounded-(--radius-surface) border corner-curve;
   }
 
   .cn-editor-code-sheet {
@@ -3677,7 +3677,7 @@
 /* MARK: Empty */
 
   .cn-empty {
-    @apply border-border gap-(--density-16) rounded-xl border-dashed p-(--density-24);
+    @apply border-border gap-(--density-16) rounded-(--radius-surface) border-dashed p-(--density-24) corner-curve;
   }
 
   .cn-empty-text {
@@ -3703,7 +3703,7 @@
   /* A raised tile: surface 4 with its shadow ring (one step above the card it
      usually sits on), no border. */
   .cn-empty-media-icon {
-    @apply bg-surface-4 shadow-surface-4 size-(--density-40) rounded-xl;
+    @apply bg-surface-4 shadow-surface-4 size-(--density-40) rounded-(--radius-surface) corner-curve;
   }
 
   .cn-empty-title {
@@ -3796,7 +3796,7 @@
 
   /* Content: the grid's frame, a card unless the calendar is flat. */
   .cn-event-calendar-content {
-    @apply overflow-hidden data-[variant=card]:rounded-xl data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2 data-[variant=flat]:bg-background;
+    @apply overflow-hidden data-[variant=card]:rounded-(--radius-surface) data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2 data-[variant=flat]:bg-background corner-curve;
   }
 
   /* Loading: the Data Table's primary line along the top edge. */
@@ -3886,7 +3886,7 @@
   }
 
   .cn-event-calendar-highlight {
-    @apply rounded-md bg-active;
+    @apply rounded-(--radius-inner) bg-active corner-curve;
   }
 
   .cn-event-calendar-more-link-inner {
@@ -3895,7 +3895,7 @@
 
   /* The engine's "+N more" day list. */
   .cn-event-calendar-popover {
-    @apply rounded-xl bg-surface-3 p-(--density-8) shadow-surface-3;
+    @apply rounded-(--radius-surface) bg-surface-3 p-(--density-8) shadow-surface-3 corner-curve;
   }
 
   /* MARK: Events */
@@ -3914,7 +3914,7 @@
      line of text (timed events in month). The colours are inline, from the
      shared model's recipe for the scheme; this sets the shape. */
   .cn-event-calendar-event {
-    @apply gap-x-(--density-4) rounded-md border-transparent data-[variant=block]:flex-col data-[variant=block]:border-s-[3px] data-[variant=block]:px-(--density-6) data-[variant=block]:pt-(--density-6) data-[variant=block]:pb-(--density-4) data-[selected=true]:shadow-surface-3 data-[short=true]:flex-row data-[short=true]:items-center data-[short=true]:py-0 data-[variant=row]:flex-row data-[variant=row]:items-center data-[variant=row]:px-(--density-6) data-[variant=row]:py-px data-[variant=dot]:flex-row data-[variant=dot]:items-center data-[variant=dot]:px-(--density-4) data-[variant=dot]:py-px data-[pending=true]:opacity-60 data-[dragging=true]:shadow-surface-4 data-[draft=true]:shadow-surface-3 data-[status=tentative]:border;
+    @apply gap-x-(--density-4) rounded-(--radius-inner) border-transparent data-[variant=block]:flex-col data-[variant=block]:border-s-[3px] data-[variant=block]:px-(--density-6) data-[variant=block]:pt-(--density-6) data-[variant=block]:pb-(--density-4) data-[selected=true]:shadow-surface-3 data-[short=true]:flex-row data-[short=true]:items-center data-[short=true]:py-0 data-[variant=row]:flex-row data-[variant=row]:items-center data-[variant=row]:px-(--density-6) data-[variant=row]:py-px data-[variant=dot]:flex-row data-[variant=dot]:items-center data-[variant=dot]:px-(--density-4) data-[variant=dot]:py-px data-[pending=true]:opacity-60 data-[dragging=true]:shadow-surface-4 data-[draft=true]:shadow-surface-3 data-[status=tentative]:border corner-curve;
   }
 
   /* Text a dot row leaves uncoloured is foreground, grey once past. */
@@ -3959,7 +3959,7 @@
   }
 
   .cn-event-calendar-event-details-swatch {
-    @apply mt-(--density-6) size-3.5 rounded-sm bg-primary;
+    @apply mt-(--density-6) size-3.5 rounded-(--radius-mark) bg-primary corner-curve;
   }
 
   .cn-event-calendar-event-details-title {
@@ -4046,11 +4046,11 @@
   }
 
   .cn-event-calendar-agenda-event {
-    @apply min-h-(--density-36) gap-(--density-12) rounded-lg px-(--density-8) py-(--density-6) data-[pending=true]:opacity-60;
+    @apply min-h-(--density-36) gap-(--density-12) rounded-(--radius-control) px-(--density-8) py-(--density-6) data-[pending=true]:opacity-60 corner-curve;
   }
 
   .cn-event-calendar-agenda-event-wash {
-    @apply rounded-lg bg-hover;
+    @apply rounded-(--radius-control) bg-hover corner-curve;
   }
 
   .cn-event-calendar-agenda-event-dot {
@@ -4082,11 +4082,11 @@
   }
 
   .cn-event-calendar-mini-month-in-view-start {
-    @apply rounded-l-lg;
+    @apply rounded-l-(--radius-control) corner-curve;
   }
 
   .cn-event-calendar-mini-month-in-view-end {
-    @apply rounded-r-lg;
+    @apply rounded-r-(--radius-control) corner-curve;
   }
 
   .cn-event-calendar-sources {
@@ -4148,7 +4148,7 @@
      a whole Field is a choice card: framed by a hairline, pressed tint, the active
      step when its control is on. */
   .cn-field-label {
-    @apply data-[card=true]:border-border data-[card=true]:active:bg-hover data-[checked=true]:bg-active data-[checked=true]:border-foreground/20 gap-(--density-8) data-[card=true]:w-full data-[card=true]:flex-col data-[card=true]:items-stretch data-[card=true]:rounded-lg data-[card=true]:border data-[disabled=true]:opacity-50 data-[orientation=horizontal]:flex-1 sm:data-[orientation=responsive]:self-center;
+    @apply data-[card=true]:border-border data-[card=true]:active:bg-hover data-[checked=true]:bg-active data-[checked=true]:border-foreground/20 gap-(--density-8) data-[card=true]:w-full data-[card=true]:flex-col data-[card=true]:items-stretch data-[card=true]:rounded-(--radius-control) data-[card=true]:border data-[disabled=true]:opacity-50 data-[orientation=horizontal]:flex-1 sm:data-[orientation=responsive]:self-center corner-curve;
   }
 
   /* 13pt labels, red inside an invalid field. */
@@ -4191,18 +4191,18 @@
 
 /* MARK: File Tree */
 .cn-file-tree { @apply p-(--density-4); }
-.cn-file-tree-item { @apply min-h-(--density-40) rounded-md data-[disabled=true]:opacity-50; }
+.cn-file-tree-item { @apply min-h-(--density-40) rounded-(--radius-inner) data-[disabled=true]:opacity-50 corner-curve; }
 .cn-file-tree-chevron { @apply text-muted-foreground; }
 .cn-file-tree-icon { @apply mx-(--density-4); }
 .cn-file-tree-name { @apply ps-(--density-6) text-(length:--density-text-13); }
 .cn-file-tree-guide { @apply border-border opacity-30; }
-.cn-file-tree-highlight { @apply rounded-md; }
-.cn-file-tree-selection { @apply rounded-md bg-active; }
+.cn-file-tree-highlight { @apply rounded-(--radius-inner) corner-curve; }
+.cn-file-tree-selection { @apply rounded-(--radius-inner) bg-active corner-curve; }
 
 /* MARK: file-upload */
 .cn-file-upload { @apply gap-(--density-12); }
 .cn-file-upload-description { @apply text-muted-foreground text-(length:--density-text-13); }
-.cn-file-upload-dropzone { @apply rounded-xl bg-muted p-(--density-24); }
+.cn-file-upload-dropzone { @apply rounded-(--radius-surface) bg-muted p-(--density-24) corner-curve; }
 .cn-file-upload-field { @apply relative; }
 .cn-file-upload-item { @apply w-full; }
 .cn-file-upload-item-delete { @apply relative; }
@@ -4225,11 +4225,11 @@
 
   /* The highlight and the selection, under the rows. */
   .cn-fluid-hover-highlight {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   .cn-fluid-hover-selection {
-    @apply bg-active rounded-lg;
+    @apply bg-active rounded-(--radius-control) corner-curve;
   }
 
 /* MARK: Folder */
@@ -4239,7 +4239,7 @@
      share of the folder's mark, mixed by lib/folder-colors as the website's
      style map mixes them, so the tile itself has no fill. */
   .cn-folder {
-    @apply gap-(--density-8) overflow-hidden rounded-xl px-(--density-8) pt-(--density-20) pb-(--density-12);
+    @apply gap-(--density-8) overflow-hidden rounded-(--radius-surface) px-(--density-8) pt-(--density-20) pb-(--density-12) corner-curve;
   }
 
   /* Solid and glass differ in the front panel's fill, which folder-colors
@@ -4269,11 +4269,11 @@
      hover wash; pressed, the pressed one. Both ease on the feedback
      timing. */
   .cn-folder-wash-open {
-    @apply rounded-xl bg-hover;
+    @apply rounded-(--radius-surface) bg-hover corner-curve;
   }
 
   .cn-folder-wash-pressed {
-    @apply rounded-xl bg-active;
+    @apply rounded-(--radius-surface) bg-active corner-curve;
   }
 
   /* The drawing, 4:3, sized in shares of its width from folder-model. */
@@ -4415,7 +4415,7 @@
 
   /* Raised off the grid with a soft shadow. */
   .cn-heat-calendar-lift-mark {
-    @apply shadow-surface-2 rounded-sm;
+    @apply shadow-surface-2 rounded-(--radius-mark) corner-curve;
   }
 
   /* The 2pt surface ring every mark keeps where it overlaps others. */
@@ -4447,10 +4447,10 @@
 
 /* MARK: Hover Card */
 
-  /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl, p-3,
+  /* Popup recipe: surface 3 with its shadow ring (no border), the surface corner, p-3,
      13pt. Grows from its trigger on the popup motion (useSurfaceAnimation). */
   .cn-hover-card-content {
-    @apply bg-surface-3 shadow-surface-3 rounded-xl p-(--density-12);
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) p-(--density-12) corner-curve;
   }
 
   /* On the website this holds the motion, which is useSurfaceAnimation here. It
@@ -4468,7 +4468,7 @@
   /* A 3:2 frame rounded like a card, on the muted fill while the pictures
      load. Disabled dims it; the gestures are off. */
   .cn-image-compare {
-    @apply aspect-3/2 rounded-xl bg-muted data-[disabled=true]:opacity-50;
+    @apply aspect-3/2 rounded-(--radius-surface) bg-muted data-[disabled=true]:opacity-50 corner-curve;
   }
 
   /* The labels sit in the top corners on dark glass, white whatever the
@@ -4506,7 +4506,7 @@
      controls turn the frame red. It stacks when an addon is block-aligned, and
      grows when it holds a textarea. */
   .cn-input-group {
-    @apply border-border data-[focused=true]:bg-card data-[focused=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent data-[disabled=true]:opacity-50 data-[stacked=true]:h-auto data-[stacked=true]:flex-col data-[stacked=true]:items-stretch data-[tall=true]:h-auto;
+    @apply border-border data-[focused=true]:bg-card data-[focused=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-(--radius-control) border bg-transparent data-[disabled=true]:opacity-50 data-[stacked=true]:h-auto data-[stacked=true]:flex-col data-[stacked=true]:items-stretch data-[tall=true]:h-auto corner-curve;
   }
 
   .cn-input-group-addon {
@@ -4549,23 +4549,23 @@
 
   /* The pressed wash follows the inline button's smaller corners. */
   .cn-input-group-button-wash {
-    @apply rounded-md;
+    @apply rounded-(--radius-inner) corner-curve;
   }
 
   .cn-input-group-button-size-xs {
-    @apply h-(--density-24) gap-1 rounded-md px-(--density-8);
+    @apply h-(--density-24) gap-1 rounded-(--radius-inner) px-(--density-8) corner-curve;
   }
 
   .cn-input-group-button-size-sm {
-    @apply h-(--density-28) gap-1 rounded-md px-(--density-10);
+    @apply h-(--density-28) gap-1 rounded-(--radius-inner) px-(--density-10) corner-curve;
   }
 
   .cn-input-group-button-size-icon-xs {
-    @apply size-(--density-24) rounded-md p-0;
+    @apply size-(--density-24) rounded-(--radius-inner) p-0 corner-curve;
   }
 
   .cn-input-group-button-size-icon-sm {
-    @apply size-(--density-28) rounded-md p-0;
+    @apply size-(--density-28) rounded-(--radius-inner) p-0 corner-curve;
   }
 
   .cn-input-group-text {
@@ -4610,19 +4610,19 @@
   }
 
   .cn-input-otp-group {
-    @apply gap-(--density-6) rounded-lg;
+    @apply gap-(--density-6) rounded-(--radius-control) corner-curve;
   }
 
   /* 36pt slots framed by a hairline; filled slots keep a slightly firmer edge,
      so progress reads at a glance. Invalid slots turn the edge red. */
   .cn-input-otp-slot {
-    @apply border-border data-[filled=true]:border-foreground/15 data-[invalid=true]:border-destructive/50 size-(--density-36) rounded-lg border bg-transparent;
+    @apply border-border data-[filled=true]:border-foreground/15 data-[invalid=true]:border-destructive/50 size-(--density-36) rounded-(--radius-control) border bg-transparent corner-curve;
   }
 
   /* The active slot lifts to the card surface with a firmer neutral edge, red when
      invalid. It covers the border box, and fades on the feedback timing. */
   .cn-input-otp-slot-focus {
-    @apply bg-card border-foreground/30 data-[invalid=true]:border-destructive -inset-px rounded-lg border;
+    @apply bg-card border-foreground/30 data-[invalid=true]:border-destructive -inset-px rounded-(--radius-control) border corner-curve;
   }
 
   .cn-input-otp-slot-text {
@@ -4660,7 +4660,7 @@
      focus. Invalid turns the frame red. It gives way in a row, as on the website,
      and never below its height. */
   .cn-input {
-    @apply shrink min-h-(--density-36) font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent px-(--density-10) py-1 text-(length:--density-text-13);
+    @apply shrink min-h-(--density-36) font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-(--radius-control) border bg-transparent px-(--density-10) py-1 text-(length:--density-text-13) corner-curve;
   }
 
   /* The frame's colours at rest and in focus: it eases between them on the feedback
@@ -4676,10 +4676,10 @@
 
 /* MARK: Item */
 
-  /* 13pt rows, rounded-lg. An item rendered as a Pressable gets the hover fill
+  /* 13pt rows, the control corner. An item rendered as a Pressable gets the hover fill
      when pressed. */
   .cn-item {
-    @apply active:bg-hover rounded-lg border;
+    @apply active:bg-hover rounded-(--radius-control) border corner-curve;
   }
 
   .cn-item-text {
@@ -4723,7 +4723,7 @@
   }
 
   .cn-item-media-variant-image {
-    @apply size-(--density-40) overflow-hidden rounded-lg data-[size=sm]:size-(--density-32) data-[size=xs]:size-(--density-24) data-[size=xs]:rounded-md;
+    @apply size-(--density-40) overflow-hidden rounded-(--radius-control) data-[size=sm]:size-(--density-32) data-[size=xs]:size-(--density-24) data-[size=xs]:rounded-(--radius-inner) corner-curve;
   }
 
   .cn-item-content {
@@ -4805,7 +4805,7 @@
   /* One object: a quiet button until it filters, then a pill that says what it
      is on. */
   .cn-kanban-filter {
-    @apply rounded-lg data-[active=true]:bg-hover;
+    @apply rounded-(--radius-control) data-[active=true]:bg-hover corner-curve;
   }
 
   .cn-kanban-filter-trigger {
@@ -4907,7 +4907,7 @@
   }
 
   .cn-kanban-lane-title {
-    @apply min-h-(--density-36) gap-(--density-6) rounded-lg px-(--density-8) active:bg-hover;
+    @apply min-h-(--density-36) gap-(--density-6) rounded-(--radius-control) px-(--density-8) active:bg-hover corner-curve;
   }
 
   .cn-kanban-lane-text {
@@ -4922,7 +4922,7 @@
      board. Over a column it deepens a step. A coloured
      column is tinted whole. */
   .cn-kanban-column {
-    @apply rounded-xl bg-foreground/3 data-[drop-target=true]:bg-foreground/5;
+    @apply rounded-(--radius-surface) bg-foreground/3 data-[drop-target=true]:bg-foreground/5 corner-curve;
   }
 
   /* The header spans the cards: its glyph starts on their edge and the menu's
@@ -4959,7 +4959,7 @@
   }
 
   .cn-kanban-card {
-    @apply rounded-lg bg-card shadow-surface-2 data-[dragging=true]:opacity-30 data-[open=true]:bg-surface-4 data-[pending=true]:opacity-70 data-[selected=true]:bg-surface-5;
+    @apply rounded-(--radius-control) bg-card shadow-surface-2 data-[dragging=true]:opacity-30 data-[open=true]:bg-surface-4 data-[pending=true]:opacity-70 data-[selected=true]:bg-surface-5 corner-curve;
   }
 
   .cn-kanban-card-press {
@@ -4967,7 +4967,7 @@
   }
 
   .cn-kanban-card-lifted {
-    @apply overflow-visible rounded-lg border border-foreground/20 bg-surface-4/75 shadow-surface-5;
+    @apply overflow-visible rounded-(--radius-control) border border-foreground/20 bg-surface-4/75 shadow-surface-5 corner-curve;
   }
 
   .cn-kanban-card-cover {
@@ -5006,7 +5006,7 @@
      without moving anything. The hidden text makes the title row one line of
      title text. */
   .cn-kanban-card-skeleton {
-    @apply mb-(--density-8) rounded-lg bg-card;
+    @apply mb-(--density-8) rounded-(--radius-control) bg-card corner-curve;
   }
 
   .cn-kanban-skeleton-title {
@@ -5014,16 +5014,16 @@
   }
 
   .cn-kanban-skeleton-line {
-    @apply h-(--density-12) rounded-md;
+    @apply h-(--density-12) rounded-(--radius-inner) corner-curve;
   }
 
   /* Holds the count's place until the total is known. */
   .cn-kanban-count-skeleton {
-    @apply h-(--density-12) w-(--density-24) rounded-md;
+    @apply h-(--density-12) w-(--density-24) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-kanban-skeleton-chip {
-    @apply h-(--density-24) rounded-md;
+    @apply h-(--density-24) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-kanban-add {
@@ -5046,7 +5046,7 @@
 
   /* Where the card will land. */
   .cn-kanban-drop-slot {
-    @apply mb-(--density-8) h-(--density-48) rounded-lg border border-foreground/10 bg-foreground/4;
+    @apply mb-(--density-8) h-(--density-48) rounded-(--radius-control) border border-foreground/10 bg-foreground/4 corner-curve;
   }
 
   .cn-kanban-drag-overlay {
@@ -5084,7 +5084,7 @@
   }
 
   .cn-kanban-float {
-    @apply max-w-full gap-px rounded-xl bg-surface-5 p-(--density-4) shadow-surface-5;
+    @apply max-w-full gap-px rounded-(--radius-surface) bg-surface-5 p-(--density-4) shadow-surface-5 corner-curve;
   }
 
   .cn-kanban-selection-count {
@@ -5092,7 +5092,7 @@
   }
 
   .cn-kanban-notice {
-    @apply max-w-full gap-(--density-8) rounded-xl bg-surface-5 py-(--density-6) ps-(--density-12) pe-(--density-6) shadow-surface-5;
+    @apply max-w-full gap-(--density-8) rounded-(--radius-surface) bg-surface-5 py-(--density-6) ps-(--density-12) pe-(--density-6) shadow-surface-5 corner-curve;
   }
 
   .cn-kanban-notice-text {
@@ -5111,7 +5111,7 @@
 
   /* A quiet 20pt keycap: hover fill, 11pt muted text. */
   .cn-kbd {
-    @apply bg-hover h-(--density-20) min-w-(--density-20) gap-1 rounded-[5px] px-1;
+    @apply bg-hover h-(--density-20) min-w-(--density-20) gap-1 rounded-(--radius-mark) px-1 corner-curve;
   }
 
   .cn-kbd-text {
@@ -5261,7 +5261,7 @@
   }
 
   .cn-markdown-image {
-    @apply rounded-lg;
+    @apply rounded-(--radius-control) corner-curve;
   }
 
   /* Items 0.25em apart; a nested list starts 0.25em under its item. */
@@ -5308,7 +5308,7 @@
      column where the bullet would be and centred on the first line. Checked
      fills with the primary role, the check in its foreground. */
   .cn-markdown-task-checkbox {
-    @apply border-foreground/25 mt-[3px] size-[18px] rounded-[6px] border-[1.5px] data-[checked=true]:bg-primary data-[checked=true]:border-primary data-[size=sm]:mt-[3.3px] data-[size=sm]:size-[15.75px] data-[size=sm]:rounded-[5.25px] data-[size=lg]:mt-[5.2px] data-[size=lg]:size-[20.25px] data-[size=lg]:rounded-[6.75px];
+    @apply border-foreground/25 mt-[3px] size-[18px] rounded-(--radius-mark) border-[1.5px] data-[checked=true]:bg-primary data-[checked=true]:border-primary data-[size=sm]:mt-[3.3px] data-[size=sm]:size-[15.75px] data-[size=sm]:rounded-[5.25px] data-[size=lg]:mt-[5.2px] data-[size=lg]:size-[20.25px] data-[size=lg]:rounded-[6.75px] corner-curve;
   }
 
   /* The check: 0.75em, a heavy stroke, in the primary role's foreground. */
@@ -5320,7 +5320,7 @@
     @apply data-[checked=true]:text-muted-foreground data-[checked=true]:line-through;
   }
 
-  /* Tables sit in a framed box (rounded-xl, a hairline at 70%) that scrolls
+  /* Tables sit in a framed box (the surface corner, a hairline at 70%) that scrolls
      sideways when they're wide, and fill the width when they aren't. The
      header row takes the muted tint, semibold; hairlines at 50% run between
      rows and columns (70% under the header); body text stays foreground, at
@@ -5328,7 +5328,7 @@
      so every row is one fixed height: the text's line plus 0.5em above and
      below, with 0.875em at the sides. */
   .cn-markdown-table {
-    @apply border-border/70 self-stretch overflow-hidden rounded-xl border;
+    @apply border-border/70 self-stretch overflow-hidden rounded-(--radius-surface) border corner-curve;
   }
 
   .cn-markdown-table-text {
@@ -5380,7 +5380,7 @@
   }
 
   .cn-markdown-raw-block {
-    @apply bg-muted rounded-md p-[12px] data-[size=sm]:p-[10.5px] data-[size=lg]:p-[13.5px];
+    @apply bg-muted rounded-(--radius-inner) p-[12px] data-[size=sm]:p-[10.5px] data-[size=lg]:p-[13.5px] corner-curve;
   }
 
   .cn-markdown-raw-block-text {
@@ -5433,7 +5433,7 @@
   /* A menu on a phone: surface 3 from the bottom, on the sheet motion, with its
      square bottom on the screen's edge. */
   .cn-menu-sheet {
-    @apply bg-surface-3 shadow-surface-3 max-h-[80%] rounded-t-xl px-(--density-8);
+    @apply bg-surface-3 shadow-surface-3 max-h-[80%] rounded-t-(--radius-surface) px-(--density-8) corner-curve;
   }
 
   .cn-menu-sheet-text {
@@ -5548,7 +5548,7 @@
   }
 
   .cn-model-picker-route {
-    @apply bg-hover/60 gap-0.5 rounded-lg px-(--density-10) py-(--density-8) disabled:opacity-50;
+    @apply bg-hover/60 gap-0.5 rounded-(--radius-control) px-(--density-10) py-(--density-8) disabled:opacity-50 corner-curve;
   }
 
   /* The lift, as layers that ease under the tile's content: 40% of the hover
@@ -5596,7 +5596,7 @@
      model in use tinted with a check at the end. Rows keep the 44pt touch
      target on small screens and take the density's height from sm up. */
   .cn-model-picker-item {
-    @apply gap-(--density-8) rounded-lg ps-(--density-32) pe-(--density-8) disabled:opacity-50 sm:min-h-(--density-32);
+    @apply gap-(--density-8) rounded-(--radius-control) ps-(--density-32) pe-(--density-8) disabled:opacity-50 sm:min-h-(--density-32) corner-curve;
   }
 
   /* The model in use, easing in under the row's content. */
@@ -5702,7 +5702,7 @@
      frame red. Its start padding holds chips snug, and the prompt adds its
      own, so the prompt never moves as the last chip leaves. */
   .cn-multi-select-trigger {
-    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-(--density-36) gap-(--density-6) rounded-lg border bg-transparent py-(--density-4) pr-(--density-10) pl-(--density-4);
+    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-(--density-36) gap-(--density-6) rounded-(--radius-control) border bg-transparent py-(--density-4) pr-(--density-10) pl-(--density-4) corner-curve;
   }
 
   .cn-multi-select-chips {
@@ -5720,7 +5720,7 @@
   }
 
   .cn-multi-select-chip {
-    @apply bg-active h-(--density-28) gap-(--density-2) rounded-md pr-(--density-2) pl-(--density-8);
+    @apply bg-active h-(--density-28) gap-(--density-2) rounded-(--radius-inner) pr-(--density-2) pl-(--density-8) corner-curve;
   }
 
   .cn-multi-select-chip-text {
@@ -5732,7 +5732,7 @@
   }
 
   .cn-multi-select-chip-remove {
-    @apply rounded-sm;
+    @apply rounded-(--radius-mark) corner-curve;
   }
 
   .cn-multi-select-chip-remove-icon {
@@ -5746,11 +5746,11 @@
   /* The popup is a dialog on the popup's surface. Its search sits in its own
      row above the list. */
   .cn-multi-select-content {
-    @apply bg-surface-3 shadow-surface-3 max-h-96 gap-0 overflow-hidden rounded-xl p-0 sm:max-w-[400px];
+    @apply bg-surface-3 shadow-surface-3 max-h-96 gap-0 overflow-hidden rounded-(--radius-surface) p-0 sm:max-w-[400px] corner-curve;
   }
 
   .cn-multi-select-search {
-    @apply border-border m-1 mb-0 h-(--density-36) rounded-lg border px-(--density-10);
+    @apply border-border m-1 mb-0 h-(--density-36) rounded-(--radius-control) border px-(--density-10) corner-curve;
   }
 
   .cn-multi-select-input {
@@ -5774,7 +5774,7 @@
      highlight glides under the finger (Fluid Hover). Picked rows are
      foreground and semibold, with a check that scales in at the end. */
   .cn-multi-select-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8);
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) corner-curve;
   }
 
   .cn-multi-select-item-text {
@@ -5829,7 +5829,7 @@
      between them (Fluid Hover). An open trigger keeps the hover fill while its panel
      shows. */
   .cn-navigation-menu-trigger {
-    @apply h-(--density-36) gap-1 rounded-lg px-(--density-12) data-[state=open]:bg-hover disabled:opacity-50;
+    @apply h-(--density-36) gap-1 rounded-(--radius-control) px-(--density-12) data-[state=open]:bg-hover disabled:opacity-50 corner-curve;
   }
 
   .cn-navigation-menu-trigger-text {
@@ -5847,10 +5847,10 @@
     @apply -mr-(--density-4) size-(--density-icon-14);
   }
 
-  /* Panel links: rounded-lg rows, lit by the panel's own highlight (Fluid Hover).
+  /* Panel links: the control corner rows, lit by the panel's own highlight (Fluid Hover).
      The current page's link is foreground on a bg-active fill. */
   .cn-navigation-menu-link {
-    @apply gap-(--density-8) rounded-lg p-(--density-8) data-[active=true]:bg-active;
+    @apply gap-(--density-8) rounded-(--radius-nested) p-(--density-8) data-[active=true]:bg-active corner-curve;
   }
 
   .cn-navigation-menu-link-text {
@@ -5869,7 +5869,7 @@
   /* The popover a panel opens in: surface 3 on the popup motion. On a phone the
      panel is a sheet from the bottom instead. */
   .cn-navigation-menu-popup {
-    @apply bg-surface-3 shadow-surface-3 rounded-xl data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8);
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8) corner-curve;
   }
 
   .cn-navigation-menu-popup-text {
@@ -5894,7 +5894,7 @@
   }
 
   .cn-navigation-menu-indicator-arrow {
-    @apply bg-border top-[60%] size-2 rotate-45 rounded-tl-sm;
+    @apply bg-border top-[60%] size-2 rotate-45 rounded-tl-(--radius-mark) corner-curve;
   }
 
 /* MARK: Number Field */
@@ -5928,7 +5928,7 @@
   /* Pressed is the next interaction step, as on a ghost or outline button, under
      the label. It fills the border box and follows the button's corners. */
   .cn-pagination-link-wash {
-    @apply -inset-px rounded-lg bg-active;
+    @apply -inset-px rounded-(--radius-control) bg-active corner-curve;
   }
 
   .cn-pagination-ellipsis {
@@ -6001,11 +6001,11 @@
 
 /* MARK: Popover */
 
-  /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl, p-3,
+  /* Popup recipe: surface 3 with its shadow ring (no border), the surface corner, p-3,
      13pt. Grows from its trigger on the popup motion and closes quicker than it
      opened (useSurfaceAnimation). */
   .cn-popover-content {
-    @apply bg-surface-3 shadow-surface-3 rounded-xl p-(--density-12);
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) p-(--density-12) corner-curve;
   }
 
   /* On the website this holds the motion, which is useSurfaceAnimation here. It
@@ -6038,7 +6038,7 @@
   }
 
   .cn-preview-rail-list {
-    @apply rounded-lg;
+    @apply rounded-(--radius-control) corner-curve;
   }
 
   /* A tick's box fills its step: a 24-step along the rail, a 40-step across,
@@ -6066,11 +6066,11 @@
     @apply data-[side=bottom]:pt-(--density-8) data-[side=left]:pe-(--density-8) data-[side=right]:ps-(--density-8) data-[side=top]:pb-(--density-8);
   }
 
-  /* The hover card's recipe: surface 3 with its shadow ring, rounded-xl,
+  /* The hover card's recipe: surface 3 with its shadow ring, the surface corner,
      p12, w-64. It grows from the rail on the popup motion
      (useSurfaceAnimation). */
   .cn-preview-rail-card {
-    @apply w-64 rounded-xl bg-surface-3 p-(--density-12) shadow-surface-3;
+    @apply w-64 rounded-(--radius-surface) bg-surface-3 p-(--density-12) shadow-surface-3 corner-curve;
   }
 
   /* Each item's content fades in as the card reaches it, on the feedback
@@ -6133,7 +6133,7 @@
   }
 
   .cn-properties-label-trigger {
-    @apply rounded-lg px-(--density-8) active:bg-hover;
+    @apply rounded-(--radius-control) px-(--density-8) active:bg-hover corner-curve;
   }
 
   .cn-properties-label-text {
@@ -6146,11 +6146,11 @@
 
   /* The value is the button: no frame at rest, the neutral wash while pressed. */
   .cn-properties-trigger {
-    @apply min-h-(--density-36) rounded-lg px-(--density-8) py-(--density-4) active:bg-hover;
+    @apply min-h-(--density-36) rounded-(--radius-control) px-(--density-8) py-(--density-4) active:bg-hover corner-curve;
   }
 
   .cn-properties-input {
-    @apply min-h-(--density-36) rounded-lg px-(--density-8) py-(--density-8) font-sans text-(length:--density-text-13) text-foreground focus:bg-hover;
+    @apply min-h-(--density-36) rounded-(--radius-control) px-(--density-8) py-(--density-8) font-sans text-(length:--density-text-13) text-foreground focus:bg-hover corner-curve;
   }
 
   .cn-properties-option-input {
@@ -6197,7 +6197,7 @@
 
   /* Neutral chips with the option's colour in its mark. */
   .cn-properties-chip {
-    @apply h-(--density-24) gap-(--density-6) rounded-md bg-hover px-(--density-6);
+    @apply h-(--density-24) gap-(--density-6) rounded-(--radius-inner) bg-hover px-(--density-6) corner-curve;
   }
 
   .cn-properties-chip-text {
@@ -6233,7 +6233,7 @@
   }
 
   .cn-properties-swatch {
-    @apply size-(--density-16) rounded-sm;
+    @apply size-(--density-16) rounded-(--radius-mark) corner-curve;
   }
 
   .cn-properties-date-actions {
@@ -6263,7 +6263,7 @@
   }
 
   .cn-properties-file {
-    @apply h-(--density-48) justify-center rounded-lg bg-hover active:opacity-80;
+    @apply h-(--density-48) justify-center rounded-(--radius-control) bg-hover active:opacity-80 corner-curve;
   }
 
   .cn-properties-file-image {
@@ -6275,7 +6275,7 @@
   }
 
   .cn-properties-file-mark {
-    @apply size-(--density-20) rounded-sm;
+    @apply size-(--density-20) rounded-(--radius-mark) corner-curve;
   }
 
   .cn-properties-file-add {
@@ -6291,7 +6291,7 @@
   }
 
   .cn-properties-file-preview {
-    @apply aspect-video rounded-lg bg-hover;
+    @apply aspect-video rounded-(--radius-control) bg-hover corner-curve;
   }
 
   .cn-properties-file-actions {
@@ -6382,11 +6382,11 @@
   }
 
   .cn-properties-preview {
-    @apply gap-(--density-8) rounded-lg bg-hover p-(--density-12);
+    @apply gap-(--density-8) rounded-(--radius-control) bg-hover p-(--density-12) corner-curve;
   }
 
   .cn-properties-option-list {
-    @apply rounded-lg;
+    @apply rounded-(--radius-control) corner-curve;
   }
 
   .cn-properties-option-row {
@@ -6439,7 +6439,7 @@
      48pt (40pt from the density's step up). A chosen row holds the active
      fill. */
   .cn-questionnaire-choice {
-    @apply min-h-(--density-40) gap-(--density-12) rounded-lg bg-transparent py-(--density-8) ps-(--density-12) pe-(--density-8) data-[checked=true]:bg-active;
+    @apply min-h-(--density-40) gap-(--density-12) rounded-(--radius-control) bg-transparent py-(--density-8) ps-(--density-12) pe-(--density-8) data-[checked=true]:bg-active corner-curve;
   }
 
   /* 14pt medium, as the website's row. */
@@ -6449,14 +6449,14 @@
 
   /* Pressed is a tint, easing in and out under the row's content. */
   .cn-questionnaire-choice-wash {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   /* The chip: 20pt. A multiple choice's is a square with a hairline that fills
      with the foreground once chosen; the row's press gives it the control's
      scale. */
   .cn-questionnaire-choice-indicator {
-    @apply size-(--density-20) rounded-md data-[boxed=true]:border data-[boxed=true]:border-border data-[filled=true]:border-foreground data-[filled=true]:bg-foreground;
+    @apply size-(--density-20) rounded-(--radius-inner) data-[boxed=true]:border data-[boxed=true]:border-border data-[filled=true]:border-foreground data-[filled=true]:bg-foreground corner-curve;
   }
 
   /* The chip sits in its row as an input does on the website. */
@@ -6494,7 +6494,7 @@
   }
 
   .cn-questionnaire-shortcut {
-    @apply rounded-md;
+    @apply rounded-(--radius-inner) corner-curve;
   }
 
   /* 11pt muted figures; the chosen row's turns foreground, and a filled chip's
@@ -6746,7 +6746,7 @@
   }
 
   .cn-record-view-badge {
-    @apply rounded-md bg-hover px-(--density-6) text-(length:--density-text-12) text-muted-foreground;
+    @apply rounded-(--radius-inner) bg-hover px-(--density-6) text-(length:--density-text-12) text-muted-foreground corner-curve;
   }
 
   .cn-record-view-actions {
@@ -6811,15 +6811,15 @@
   }
 
   .cn-record-view-skeleton-label {
-    @apply h-(--density-12) w-24 rounded-md;
+    @apply h-(--density-12) w-24 rounded-(--radius-inner) corner-curve;
   }
 
   .cn-record-view-skeleton-value {
-    @apply h-(--density-12) w-40 rounded-md;
+    @apply h-(--density-12) w-40 rounded-(--radius-inner) corner-curve;
   }
 
   .cn-record-view-skeleton-block {
-    @apply mt-(--density-12) h-28 rounded-xl;
+    @apply mt-(--density-12) h-28 rounded-(--radius-surface) corner-curve;
   }
 
   .cn-record-view-message {
@@ -6922,7 +6922,7 @@
      and 13pt at the default density; size sm pins it to compact. Invalid turns the
      frame destructive. */
   .cn-select-trigger {
-    @apply border-border active:bg-muted/50 data-[invalid=true]:border-destructive/50 data-[invalid=true]:active:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg border bg-transparent py-0 pr-(--density-8) pl-(--density-10);
+    @apply border-border active:bg-muted/50 data-[invalid=true]:border-destructive/50 data-[invalid=true]:active:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-(--radius-control) border bg-transparent py-0 pr-(--density-8) pl-(--density-10) corner-curve;
   }
 
   .cn-select-trigger-text {
@@ -6941,11 +6941,11 @@
     @apply text-muted-foreground;
   }
 
-  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1, on the
+  /* Popup: surface 3 with its shadow ring (no border), the surface corner, p-1, on the
      popup motion. On a phone it opens as a sheet on the sheet motion, its square
      edge on the screen's, with the rows in reach of a thumb. */
   .cn-select-content {
-    @apply bg-surface-3 shadow-surface-3 rounded-xl p-1 data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8);
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) p-1 data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8) corner-curve;
   }
 
   /* On the website this holds the motion, which is useSurfaceAnimation here. It
@@ -6975,7 +6975,7 @@
      row (Fluid Hover). A multiple select has no one row to slide to, so each
      chosen row fills itself. */
   .cn-select-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[multiple=true]:data-[selected=true]:bg-active;
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[multiple=true]:data-[selected=true]:bg-active corner-curve;
   }
 
   .cn-select-item-label {
@@ -7072,7 +7072,7 @@
      sheet motion (the drawer curve); closes quicker. Side panels take 3/4 of the
      width, at most 384pt from sm up. */
   .cn-sheet-content {
-    @apply md:data-[side=bottom]:rounded-t-xl md:data-[side=top]:rounded-b-xl bg-surface-3 shadow-surface-3 gap-(--density-16) data-[side=left]:w-3/4 data-[side=left]:sm:max-w-sm data-[side=right]:w-3/4 data-[side=right]:sm:max-w-sm;
+    @apply md:data-[side=bottom]:rounded-t-(--radius-surface) md:data-[side=top]:rounded-b-(--radius-surface) bg-surface-3 shadow-surface-3 gap-(--density-16) data-[side=left]:w-3/4 data-[side=left]:sm:max-w-sm data-[side=right]:w-3/4 data-[side=right]:sm:max-w-sm corner-curve;
   }
 
   .cn-sheet-text {
@@ -7121,10 +7121,10 @@
     @apply border-border z-10 data-[edge=left]:border-r data-[edge=right]:border-l data-[side=left]:left-0 data-[side=right]:right-0 data-[variant=floating]:px-(--density-8);
   }
 
-  /* The panel is surface 2 (bg-sidebar). Floating: a rounded-xl surface whose
+  /* The panel is surface 2 (bg-sidebar). Floating: a the surface corner surface whose
      shadow ring is its edge. */
   .cn-sidebar-inner {
-    @apply bg-sidebar data-[variant=floating]:shadow-surface-2 data-[variant=floating]:overflow-hidden data-[variant=floating]:rounded-xl;
+    @apply bg-sidebar data-[variant=floating]:shadow-surface-2 data-[variant=floating]:overflow-hidden data-[variant=floating]:rounded-(--radius-surface) corner-curve;
   }
 
   .cn-sidebar-text {
@@ -7170,7 +7170,7 @@
 
   /* Pressed is the next interaction step, as on a ghost button. */
   .cn-sidebar-trigger-wash {
-    @apply -inset-px rounded-lg bg-active;
+    @apply -inset-px rounded-(--radius-control) bg-active corner-curve;
   }
 
   /* What the content's edges fade to: the sidebar's own colour. */
@@ -7178,11 +7178,11 @@
     @apply text-sidebar;
   }
 
-  /* The page. Inset main area: surface 2 with its shadow ring, rounded-xl. While
+  /* The page. Inset main area: surface 2 with its shadow ring, the surface corner. While
      the phone sidebar is revealed it moves aside and shrinks towards the sidebar's
      edge on the sheet's timing, and its corners and shadow leave last. */
   .cn-sidebar-inset {
-    @apply bg-background data-[aside=true]:shadow-surface-6 data-[layout=card]:bg-surface-2 data-[layout=card]:shadow-surface-2 data-[aside=true]:overflow-hidden data-[layout=card]:overflow-hidden data-[aside=true]:rounded-[48px] ios:border-continuous data-[layout=card]:rounded-xl data-[reveal=true]:z-10;
+    @apply bg-background data-[aside=true]:shadow-surface-6 data-[layout=card]:bg-surface-2 data-[layout=card]:shadow-surface-2 data-[aside=true]:overflow-hidden data-[layout=card]:overflow-hidden data-[aside=true]:rounded-[48px] ios:border-continuous data-[layout=card]:rounded-(--radius-surface) data-[reveal=true]:z-10 corner-curve;
   }
 
   /* The revealed sidebar: behind the page, drifting a little as it uncovers. */
@@ -7242,7 +7242,7 @@
   /* Group labels: a 24pt header 4pt above the rows, 12pt medium, muted (full
      muted-foreground, not /70, to keep 4.5:1 on surface 2). Gone on the rail. */
   .cn-sidebar-group-label {
-    @apply mb-(--density-4) h-(--density-24) gap-0.5 rounded-md px-(--density-8) data-[collapsible=icon]:hidden;
+    @apply mb-(--density-4) h-(--density-24) gap-0.5 rounded-(--radius-inner) px-(--density-8) data-[collapsible=icon]:hidden corner-curve;
   }
 
   .cn-sidebar-group-label-text {
@@ -7258,7 +7258,7 @@
   /* Header actions: 24pt boxes on the axis of the rows' actions and badges, over
      the group's padding or at the end of a collapsible group's header. */
   .cn-sidebar-group-action {
-    @apply size-(--density-24) rounded-md active:bg-hover data-[place=group]:top-(--density-8) data-[place=group]:right-[calc(var(--density-8)+var(--density-6))] data-[place=header]:top-0 data-[place=header]:right-(--density-6);
+    @apply size-(--density-24) rounded-(--radius-inner) active:bg-hover data-[place=group]:top-(--density-8) data-[place=group]:right-[calc(var(--density-8)+var(--density-6))] data-[place=header]:top-0 data-[place=header]:right-(--density-6) corner-curve;
   }
 
   .cn-sidebar-group-action-text {
@@ -7273,13 +7273,13 @@
     @apply min-w-0;
   }
 
-  /* Rows: 30pt, gap-2, rounded-lg, 13pt: the label at foreground/80 and the icon
+  /* Rows: 30pt, gap-2, the control corner, 13pt: the label at foreground/80 and the icon
      muted at rest. The lit row turns foreground; the active row is foreground on a
      raised bg-active. The menu's highlight and selection paint those fills, so a
      row paints them itself only outside a menu, and while a drag has the selection
      hidden. On the rail a row is a 32pt square with only its icon. */
   .cn-sidebar-menu-button {
-    @apply gap-(--density-8) rounded-lg pr-(--density-8) pl-(--density-8) disabled:opacity-50 data-[active=true]:data-[fluid=false]:bg-active data-[active=true]:data-[fluid=false]:shadow-surface-2 data-[collapsible=icon]:size-(--density-32) data-[collapsible=icon]:justify-center data-[collapsible=icon]:pr-0 data-[collapsible=icon]:pl-0;
+    @apply gap-(--density-8) rounded-(--radius-control) pr-(--density-8) pl-(--density-8) disabled:opacity-50 data-[active=true]:data-[fluid=false]:bg-active data-[active=true]:data-[fluid=false]:shadow-surface-2 data-[collapsible=icon]:size-(--density-32) data-[collapsible=icon]:justify-center data-[collapsible=icon]:pr-0 data-[collapsible=icon]:pl-0 corner-curve;
   }
 
   .cn-sidebar-menu-button-variant-default {
@@ -7340,7 +7340,7 @@
   /* Row actions: 24pt boxes centred on the row, each placed by what else its row
      holds (lib/sidebar-layout-model). In a cluster they flow in its row. */
   .cn-sidebar-menu-action {
-    @apply data-[shown=false]:opacity-0 size-(--density-24) rounded-md active:bg-hover data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)];
+    @apply data-[shown=false]:opacity-0 size-(--density-24) rounded-(--radius-inner) active:bg-hover data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)] corner-curve;
   }
 
   .cn-sidebar-menu-action-text {
@@ -7357,7 +7357,7 @@
   }
 
   .cn-sidebar-menu-badge {
-    @apply h-(--density-20) min-w-(--density-20) rounded-md px-1 data-[row-size=default]:top-[calc((var(--density-30)-var(--density-20))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-20))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-20))/2)];
+    @apply h-(--density-20) min-w-(--density-20) rounded-(--radius-inner) px-1 data-[row-size=default]:top-[calc((var(--density-30)-var(--density-20))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-20))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-20))/2)] corner-curve;
   }
 
   .cn-sidebar-menu-badge-text {
@@ -7369,11 +7369,11 @@
   }
 
   .cn-sidebar-menu-skeleton {
-    @apply h-(--density-30) gap-(--density-8) rounded-lg px-(--density-8);
+    @apply h-(--density-30) gap-(--density-8) rounded-(--radius-control) px-(--density-8) corner-curve;
   }
 
   .cn-sidebar-menu-skeleton-icon {
-    @apply size-(--density-icon-16) rounded-md;
+    @apply size-(--density-icon-16) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-sidebar-menu-skeleton-text {
@@ -7391,7 +7391,7 @@
      the top-level rows. The current one sits on a quiet wash (half the hover fill)
      instead of the raised selection, which marks its top-level row. */
   .cn-sidebar-menu-sub-button {
-    @apply h-(--density-30) gap-(--density-8) rounded-lg data-[fluid=false]:active:bg-hover disabled:opacity-50 data-[active=true]:bg-hover/50 data-[collapsible=icon]:hidden data-[size=sm]:h-(--density-24);
+    @apply h-(--density-30) gap-(--density-8) rounded-(--radius-control) data-[fluid=false]:active:bg-hover disabled:opacity-50 data-[active=true]:bg-hover/50 data-[collapsible=icon]:hidden data-[size=sm]:h-(--density-24) corner-curve;
   }
 
   .cn-sidebar-menu-sub-button-text {
@@ -7415,7 +7415,7 @@
 
   /* The hover fill, so it reads on any surface in both themes. */
   .cn-skeleton {
-    @apply bg-hover rounded-md;
+    @apply bg-hover rounded-(--radius-inner) corner-curve;
   }
 
 /* MARK: Slider */
@@ -7465,7 +7465,7 @@
   }
 
   .cn-sonner-cancel {
-    @apply my-(--density-4) h-(--density-28) rounded-md px-(--density-10);
+    @apply my-(--density-4) h-(--density-28) rounded-(--radius-inner) px-(--density-10) corner-curve;
   }
 
   .cn-sonner-custom {
@@ -7562,11 +7562,11 @@
 
 /* MARK: Syntax Highlight */
 
-  /* The website's raised panel: surface 2 with a hairline edge, rounded-xl.
+  /* The website's raised panel: surface 2 with a hairline edge, the surface corner.
      The colours are the same --syntax-* tokens, resolved for the look by
      native-theme.ts. */
   .cn-syntax-highlight {
-    @apply bg-surface-2 border-border/60 rounded-xl border;
+    @apply bg-surface-2 border-border/60 rounded-(--radius-surface) border corner-curve;
   }
 
   .cn-syntax-highlight-header {
@@ -7731,18 +7731,18 @@
   }
 
   .cn-tab-strip-selection {
-    @apply bg-surface-4 shadow-surface-4 rounded-lg;
+    @apply bg-surface-4 shadow-surface-4 rounded-(--radius-control) corner-curve;
   }
 
   .cn-tab-strip-highlight {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   /* Tabs: 176pt on a phone (the website shrinks to 144 before it scrolls; a
      phone's strip is always there), 192pt from the sm breakpoint. Pinned tabs are
      their icon. */
   .cn-tab-strip-tab {
-    @apply h-full w-44 rounded-lg data-[pinned=true]:w-auto sm:w-48;
+    @apply h-full w-44 rounded-(--radius-control) data-[pinned=true]:w-auto sm:w-48 corner-curve;
   }
 
   /* 13pt, muted at rest; the active tab is foreground and semibold. */
@@ -7759,7 +7759,7 @@
   }
 
   .cn-tab-strip-trigger {
-    @apply h-full gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-4) data-[pinned=true]:justify-center data-[pinned=true]:px-(--density-10);
+    @apply h-full gap-(--density-6) rounded-(--radius-control) ps-(--density-10) pe-(--density-4) data-[pinned=true]:justify-center data-[pinned=true]:px-(--density-10) corner-curve;
   }
 
   /* A preview tab is italic. */
@@ -7775,7 +7775,7 @@
   }
 
   .cn-tab-strip-close {
-    @apply active:bg-hover size-(--density-20) rounded-md;
+    @apply active:bg-hover size-(--density-20) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-tab-strip-dirty {
@@ -7795,7 +7795,7 @@
   }
 
   .cn-tab-strip-rename {
-    @apply font-sans bg-card border-ring text-foreground h-(--density-24) rounded-md border px-(--density-6) text-(length:--density-text-13);
+    @apply font-sans bg-card border-ring text-foreground h-(--density-24) rounded-(--radius-inner) border px-(--density-6) text-(length:--density-text-13) corner-curve;
   }
 
   .cn-tab-strip-new {
@@ -7821,7 +7821,7 @@
      count of open tabs at its end: a press shows them all. The chip's own box
      is the end's inset, so the end takes less padding to look even. */
   .cn-tab-strip-compact-tab {
-    @apply bg-surface-4 shadow-surface-4 my-(--density-4) gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-8);
+    @apply bg-surface-4 shadow-surface-4 my-(--density-4) gap-(--density-6) rounded-(--radius-control) ps-(--density-10) pe-(--density-8) corner-curve;
   }
 
   .cn-tab-strip-compact-text {
@@ -7830,7 +7830,7 @@
 
   /* The count, a soft chip as wide as its digits. */
   .cn-tab-strip-count {
-    @apply bg-muted h-(--density-20) min-w-(--density-20) rounded-md px-(--density-6);
+    @apply bg-muted h-(--density-20) min-w-(--density-20) rounded-(--radius-inner) px-(--density-6) corner-curve;
   }
 
   .cn-tab-strip-count-text {
@@ -7849,7 +7849,7 @@
 
   /* A card one step above the sheet. The active tab's is ringed in primary. */
   .cn-tab-strip-card {
-    @apply bg-surface-4 shadow-surface-2 data-[active=true]:border-primary min-h-24 gap-(--density-12) rounded-xl border-2 border-transparent p-(--density-12);
+    @apply bg-surface-4 shadow-surface-2 data-[active=true]:border-primary min-h-24 gap-(--density-12) rounded-(--radius-surface) border-2 border-transparent p-(--density-12) corner-curve;
   }
 
   .cn-tab-strip-card-text {
@@ -7945,10 +7945,10 @@
     @apply gap-(--density-8);
   }
 
-  /* Track: rounded-xl, p-1, 36pt tall. The selected pill and the pressed pill are
+  /* Track: the surface corner, p-1, 36pt tall. The selected pill and the pressed pill are
      overlays under the triggers. */
   .cn-tabs-list {
-    @apply rounded-xl p-(--density-4) data-[orientation=horizontal]:h-(--density-36) data-[orientation=vertical]:gap-(--density-4);
+    @apply rounded-(--radius-wrap) p-(--density-4) data-[orientation=horizontal]:h-(--density-36) data-[orientation=vertical]:gap-(--density-4) corner-curve;
   }
 
   /* The default track is a translucent foreground step instead of bg-muted: in
@@ -7968,7 +7968,7 @@
      Subtle tabs are as wide as their content: an icon-only tab is 32
      wide, and the active one pads its icon and label 10 and 12. */
   .cn-tabs-trigger {
-    @apply h-(--density-28) gap-(--density-6) rounded-lg px-(--density-12) data-[orientation=vertical]:h-(--density-32) data-[variant=subtle]:grow-0 data-[variant=subtle]:px-(--density-8) data-[variant=subtle]:data-[state=active]:ps-(--density-10) data-[variant=subtle]:data-[state=active]:pe-(--density-12);
+    @apply h-(--density-28) gap-(--density-6) rounded-(--radius-control) px-(--density-12) data-[orientation=vertical]:h-(--density-32) data-[variant=subtle]:grow-0 data-[variant=subtle]:px-(--density-8) data-[variant=subtle]:data-[state=active]:ps-(--density-10) data-[variant=subtle]:data-[state=active]:pe-(--density-12) corner-curve;
   }
 
   /* 13pt. The resting colour is foreground/65 (dark: muted-foreground), one step
@@ -7992,13 +7992,13 @@
      whatever is underneath: on a card, surface 4 is darker than it. So the pill
      is a step over the track too, about 1.5:1 against it on every surface. */
   .cn-tabs-selection {
-    @apply bg-surface-4 dark:bg-foreground/14 shadow-surface-4 rounded-lg;
+    @apply bg-surface-4 dark:bg-foreground/14 shadow-surface-4 rounded-(--radius-control) corner-curve;
   }
 
   /* The website's hover pill previews the next click. A finger shows it while
      pressed. */
   .cn-tabs-highlight {
-    @apply bg-hover/60 rounded-lg;
+    @apply bg-hover/60 rounded-(--radius-control) corner-curve;
   }
 
   /* A long label gives way before the icon does. */
@@ -8030,7 +8030,7 @@
      card surface on focus. Invalid turns the frame red. It grows with its text,
      from a 64pt floor. */
   .cn-textarea {
-    @apply font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 min-h-16 rounded-lg border bg-transparent px-(--density-10) py-(--density-8) text-(length:--density-text-13);
+    @apply font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 min-h-16 rounded-(--radius-control) border bg-transparent px-(--density-10) py-(--density-8) text-(length:--density-text-13) corner-curve;
   }
 
   /* The frame's colours at rest and in focus, as the input's. */
@@ -8064,7 +8064,7 @@
 /* Seven rows tall, the band across the middle; the rows sit on a drum drawn
    from the scroll position, as on the website. */
 .cn-time-wheel { @apply gap-(--density-4) px-(--density-8) min-w-56; }
-.cn-time-wheel-band { @apply bg-active rounded-lg; }
+.cn-time-wheel-band { @apply bg-active rounded-(--radius-control) corner-curve; }
 .cn-time-wheel-column { @apply w-14; }
 .cn-time-wheel-spacer { @apply shrink-0; }
 .cn-time-wheel-item { @apply px-(--density-4); }
@@ -8074,12 +8074,12 @@
 
 /* MARK: Toast */
 
-  /* Surface 5 with its shadow ring (no border), rounded-xl, 13pt. Applies to the
+  /* Surface 5 with its shadow ring (no border), the surface corner, 13pt. Applies to the
      toast root of both `toast` and `sonner`. As on the website, every toast
      has the same width, and its place, size and opacity follow the toast
      timing (ui/toast). */
   .cn-toast {
-    @apply bg-surface-5 shadow-surface-5 rounded-xl;
+    @apply bg-surface-5 shadow-surface-5 rounded-(--radius-surface) corner-curve;
   }
 
   .cn-toast-text {
@@ -8087,7 +8087,7 @@
   }
 
   .cn-toast-clip {
-    @apply rounded-xl;
+    @apply rounded-(--radius-surface) corner-curve;
   }
 
   /* The website's 10px above a line of text, in two steps: the text keeps the
@@ -8117,7 +8117,7 @@
 
   /* A quiet fill rather than a second edge. */
   .cn-toast-action {
-    @apply bg-foreground/8 my-(--density-4) h-(--density-28) rounded-md px-(--density-10);
+    @apply bg-foreground/8 my-(--density-4) h-(--density-28) rounded-(--radius-inner) px-(--density-10) corner-curve;
   }
 
   /* On the corner, as on the website, where touch always shows it. */
@@ -8158,10 +8158,10 @@
      pressed item's bg-active background slides between items on the move timing.
      A joined group (spacing 0) clips the overlays and items to its corners. */
   .cn-toggle-group {
-    @apply rounded-lg data-[spacing=0]:overflow-hidden;
+    @apply rounded-(--radius-control) data-[spacing=0]:overflow-hidden corner-curve;
   }
 
-  /* Items: 36pt, px-3, rounded-lg at the default density; size sm pins them to
+  /* Items: 36pt, px-3, the control corner at the default density; size sm pins them to
      compact. The highlight paints the pressed fill, and in a single-select group
      the sliding selection paints the on fill. Joined items square their corners
      and share their outlines. */
@@ -8170,24 +8170,24 @@
   }
 
   .cn-toggle-group-selection {
-    @apply bg-active rounded-lg data-[spacing=0]:rounded-none;
+    @apply bg-active rounded-(--radius-control) data-[spacing=0]:rounded-none corner-curve;
   }
 
   .cn-toggle-group-highlight {
-    @apply bg-hover rounded-lg data-[spacing=0]:rounded-none;
+    @apply bg-hover rounded-(--radius-control) data-[spacing=0]:rounded-none corner-curve;
   }
 
 /* MARK: Toggle */
 
   /* Ghost look. The press scale comes from usePressScale. */
   .cn-toggle {
-    @apply gap-(--density-6) rounded-lg;
+    @apply gap-(--density-6) rounded-(--radius-control) corner-curve;
   }
 
   /* On and pressed are one fill, as on the website: a layer under the content,
      easing on the feedback timing. */
   .cn-toggle-fill {
-    @apply bg-active rounded-lg;
+    @apply bg-active rounded-(--radius-control) corner-curve;
   }
 
   /* 13pt medium, muted at rest and foreground when on. The icon's stroke follows:
@@ -8226,10 +8226,10 @@
 /* MARK: Tooltip */
 
   /* Inverted chip (the component sets bg-foreground): 12pt medium, px-2 py-1,
-     rounded-lg. Grows from its trigger on the tooltip motion
+     the control corner. Grows from its trigger on the tooltip motion
      (useSurfaceAnimation). */
   .cn-tooltip-content {
-    @apply rounded-lg px-(--density-8) py-1;
+    @apply rounded-(--radius-control) px-(--density-8) py-1 corner-curve;
   }
 
   /* On the website this holds the motion, which is useSurfaceAnimation here. It
@@ -8347,7 +8347,7 @@
      theme token stays legible on. Compact pins the compact density in the
      source and takes smaller corners. */
   .cn-video-player {
-    @apply aspect-video rounded-xl bg-black data-[variant=compact]:rounded-lg;
+    @apply aspect-video rounded-(--radius-surface) bg-black data-[variant=compact]:rounded-(--radius-control) corner-curve;
   }
 
   .cn-video-player-video {
@@ -8415,7 +8415,7 @@
 
   /* 16pt medium text on a 75% black band. */
   .cn-video-player-cue {
-    @apply max-w-[80%] overflow-hidden rounded-md bg-black/75 px-(--density-8) py-(--density-4) text-(length:--density-text-16) leading-snug font-medium text-white;
+    @apply max-w-[80%] overflow-hidden rounded-(--radius-inner) bg-black/75 px-(--density-8) py-(--density-4) text-(length:--density-text-16) leading-snug font-medium text-white corner-curve;
   }
 
   /* The controls sit on a scrim that rises from the bottom edge, and fade
@@ -8472,7 +8472,7 @@
   /* While dragging: the time under the finger, with its chapter, on dark
      glass above it. */
   .cn-video-player-seek-preview {
-    @apply mb-(--density-8) rounded-md bg-black/75 px-(--density-8) py-(--density-4);
+    @apply mb-(--density-8) rounded-(--radius-inner) bg-black/75 px-(--density-8) py-(--density-4) corner-curve;
   }
 
   .cn-video-player-seek-preview-chapter {
@@ -8506,7 +8506,7 @@
   }
 
   .cn-video-player-menu-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover;
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-control) px-(--density-8) active:bg-hover corner-curve;
   }
 
   .cn-video-player-menu-item-text {
@@ -8529,12 +8529,12 @@
 
   /* The mark (data-workspace-switcher="mark") is the logo alone as a 36pt button. */
   .cn-workspace-switcher-trigger {
-    @apply data-[state=open]:bg-hover data-[workspace-switcher=mark]:size-(--density-36) data-[workspace-switcher=mark]:rounded-lg data-[workspace-switcher=mark]:active:bg-hover;
+    @apply data-[state=open]:bg-hover data-[workspace-switcher=mark]:size-(--density-36) data-[workspace-switcher=mark]:rounded-(--radius-control) data-[workspace-switcher=mark]:active:bg-hover corner-curve;
   }
 
   /* The logo: a 32pt rounded square in the primary colour, or the image. */
   .cn-workspace-switcher-logo {
-    @apply bg-primary size-(--density-32) rounded-lg;
+    @apply bg-primary size-(--density-32) rounded-(--radius-control) corner-curve;
   }
 
   .cn-workspace-switcher-logo-text {
@@ -8542,7 +8542,7 @@
   }
 
   .cn-workspace-switcher-logo-sm {
-    @apply size-(--density-24) rounded-md;
+    @apply size-(--density-24) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-workspace-switcher-logo-sm-text {
@@ -8593,7 +8593,7 @@
   }
 
   .cn-workspace-switcher-overlay-logo {
-    @apply size-(--density-48) rounded-xl;
+    @apply size-(--density-48) rounded-(--radius-surface) corner-curve;
   }
 
   .cn-workspace-switcher-overlay-logo-text {

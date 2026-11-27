@@ -4,7 +4,7 @@
      card surface on focus. Invalid turns the frame red. It grows with its text,
      from a 64pt floor. */
   .cn-textarea {
-    @apply font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 min-h-16 rounded-lg border bg-transparent px-(--density-10) py-(--density-8) text-(length:--density-text-13);
+    @apply font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 min-h-16 rounded-(--radius-control) border bg-transparent px-(--density-10) py-(--density-8) text-(length:--density-text-13) corner-curve;
   }
 
   /* The frame's colours at rest and in focus, as the input's. */

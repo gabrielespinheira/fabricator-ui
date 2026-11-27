@@ -225,14 +225,6 @@
   }
 }
 
-/* Radius setting (lib/site-settings.ts). Pill raises the radius token, so
-   36px controls become full pills (rounded-lg = 20px) inside containers that
-   stay concentric (rounded-xl = 28px). Specificity beats `html:root` in the
-   generated fabricator.css. */
-html[data-radius="pill"]:root {
-  --radius: 1.25rem;
-}
-
 /* Site chrome: Tailwind v4 gives buttons the default cursor. Clickable chrome
    (search, copy, code and preview tabs, legacy buttons) gets the pointer that
    the components' own style map rules give them. Component previews are left

@@ -3,13 +3,13 @@
   /* A raised surface on its own; inside a dialog or popover it takes the
      host's surface. */
   .cn-command {
-    @apply bg-surface-3 text-popover-foreground rounded-xl! in-data-[slot=dialog-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent;
+    @apply bg-surface-3 text-popover-foreground rounded-(--radius-surface)! [--fluid-hover-radius:var(--radius-nested)] in-data-[slot=dialog-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent;
   }
 
   /* Anchored by its top, unlike other dialogs, so it stays put while the
      results grow and shrink under the search. */
   .cn-command-dialog {
-    @apply rounded-xl! top-[20%]! bottom-auto! mt-0!;
+    @apply rounded-(--radius-surface)! top-[20%]! bottom-auto! mt-0!;
   }
 
   .cn-command-input-wrapper {
@@ -51,7 +51,7 @@
      data-selected="true"; inside the fluid list the glide highlight paints
      it. Checked rows are foreground and semibold. */
   .cn-command-item {
-    @apply cursor-pointer text-muted-foreground relative flex h-(--density-36) items-center gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) outline-hidden transition-colors duration-feedback select-none [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-selected:bg-hover data-selected:text-foreground data-selected:[&_svg]:stroke-2 in-data-[fluid-hover]:data-selected:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[checked=true]:text-foreground data-[checked=true]:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative flex h-(--density-36) items-center gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-(length:--density-text-13) outline-hidden transition-colors duration-feedback select-none [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-selected:bg-hover data-selected:text-foreground data-selected:[&_svg]:stroke-2 in-data-[fluid-hover]:data-selected:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[checked=true]:text-foreground data-[checked=true]:font-semibold;
   }
 
   .cn-command-item-aria {

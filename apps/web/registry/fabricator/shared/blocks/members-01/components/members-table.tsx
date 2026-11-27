@@ -115,7 +115,7 @@ function MembersTableRow({
           <button
             type="button"
             onClick={() => onOpen(row.id)}
-            className="flex min-h-(--density-40) min-w-0 flex-1 cursor-pointer flex-col items-start justify-center gap-(--density-2) rounded-md text-start outline-none focus-visible:ring-1 focus-visible:ring-ring pointer-coarse:min-h-(--density-48)"
+            className="flex min-h-(--density-40) min-w-0 flex-1 cursor-pointer flex-col items-start justify-center gap-(--density-2) rounded-(--radius-inner) text-start outline-none focus-visible:ring-1 focus-visible:ring-ring pointer-coarse:min-h-(--density-48)"
           >
             <span className="flex max-w-full items-center gap-(--density-8)">
               <span className="min-w-0 truncate font-medium text-foreground">

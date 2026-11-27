@@ -1,11 +1,11 @@
 /* MARK: Toast */
 
-  /* Surface 5 with its shadow ring (no border), rounded-xl, 13pt. Applies to the
+  /* Surface 5 with its shadow ring (no border), the surface corner, 13pt. Applies to the
      toast root of both `toast` and `sonner`. As on the website, every toast
      has the same width, and its place, size and opacity follow the toast
      timing (ui/toast). */
   .cn-toast {
-    @apply bg-surface-5 shadow-surface-5 rounded-xl;
+    @apply bg-surface-5 shadow-surface-5 rounded-(--radius-surface) corner-curve;
   }
 
   .cn-toast-text {
@@ -13,7 +13,7 @@
   }
 
   .cn-toast-clip {
-    @apply rounded-xl;
+    @apply rounded-(--radius-surface) corner-curve;
   }
 
   /* The website's 10px above a line of text, in two steps: the text keeps the
@@ -43,7 +43,7 @@
 
   /* A quiet fill rather than a second edge. */
   .cn-toast-action {
-    @apply bg-foreground/8 my-(--density-4) h-(--density-28) rounded-md px-(--density-10);
+    @apply bg-foreground/8 my-(--density-4) h-(--density-28) rounded-(--radius-inner) px-(--density-10) corner-curve;
   }
 
   /* On the corner, as on the website, where touch always shows it. */

@@ -114,14 +114,14 @@ export default function SignUpPage() {
         By continuing you agree to the{" "}
         <a
           href="/terms"
-          className="rounded-sm underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+          className="rounded-(--radius-mark) underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
         >
           Terms
         </a>{" "}
         and{" "}
         <a
           href="/privacy"
-          className="rounded-sm underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+          className="rounded-(--radius-mark) underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
         >
           Privacy Policy
         </a>

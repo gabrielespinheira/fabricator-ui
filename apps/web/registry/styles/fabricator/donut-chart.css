@@ -37,7 +37,7 @@
   /* Rows light up with their slice, on the pointer, on focus or from the
      slice itself. */
   .cn-donut-chart-list-item {
-    @apply gap-(--density-6) rounded-md px-(--density-8) py-(--density-6) text-(length:--density-text-13) transition-colors duration-feedback ease-feedback data-active:bg-hover focus-visible:ring-1 focus-visible:ring-ring;
+    @apply gap-(--density-6) rounded-(--radius-inner) px-(--density-8) py-(--density-6) text-(length:--density-text-13) transition-colors duration-feedback ease-feedback data-active:bg-hover focus-visible:ring-1 focus-visible:ring-ring;
   }
 
   .cn-donut-chart-list-row {

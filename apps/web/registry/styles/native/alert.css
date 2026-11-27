@@ -1,9 +1,9 @@
 /* MARK: Alert */
 
-  /* Borderless: a hover-tinted panel, rounded-xl, 13pt body. High contrast draws
+  /* Borderless: a hover-tinted panel, the surface corner, 13pt body. High contrast draws
      a hairline: a border here, because a Tailwind ring doesn't reach React Native. */
   .cn-alert {
-    @apply gap-(--density-10) rounded-xl border p-(--density-16) data-[action=true]:pe-18;
+    @apply gap-(--density-10) rounded-(--radius-surface) border p-(--density-16) data-[action=true]:pe-18 corner-curve;
   }
 
   .cn-alert-text {

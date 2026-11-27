@@ -133,7 +133,7 @@ export function BillingNextInvoiceCard({
           />
         )}
         {canTry && (
-          <div className="mt-auto grid grid-cols-1 gap-(--density-16) rounded-lg bg-hover p-(--density-12) @2xl:grid-cols-2">
+          <div className="mt-auto grid grid-cols-1 gap-(--density-16) rounded-(--radius-control) bg-hover p-(--density-12) @2xl:grid-cols-2">
             <Field>
               <FieldLabel id={`${id}-seats-label`} htmlFor={`${id}-seats`}>
                 Seats

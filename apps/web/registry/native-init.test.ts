@@ -64,7 +64,8 @@ describe("buildNativeInit", () => {
 
   it("writes the look into the theme", () => {
     const pill = buildNativeInit({ ...DEFAULT_NATIVE_LOOK, radius: "pill" })
-    expect(pill.files?.[0]?.content).toContain("--radius: 20px;")
+    expect(pill.files?.[0]?.content).toContain("--radius: 12px;")
+    expect(pill.files?.[0]?.content).toContain("--radius-control: 18px;")
     expect(item.files?.[0]?.content).toContain("--radius: 8px;")
   })
 })

@@ -24,7 +24,7 @@ export function SettingsIndex({
               href={`#${item.id}`}
               aria-current={item.id === currentId ? "location" : undefined}
               className={cn(
-                "flex min-h-(--density-28) items-center rounded-md text-(length:--density-text-13) text-muted-foreground outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring",
+                "flex min-h-(--density-28) items-center rounded-(--radius-inner) text-(length:--density-text-13) text-muted-foreground outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring",
                 item.id === currentId && "font-medium text-foreground"
               )}
             >

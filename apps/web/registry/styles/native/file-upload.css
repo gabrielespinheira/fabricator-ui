@@ -1,7 +1,7 @@
 /* MARK: file-upload */
 .cn-file-upload { @apply gap-(--density-12); }
 .cn-file-upload-description { @apply text-muted-foreground text-(length:--density-text-13); }
-.cn-file-upload-dropzone { @apply rounded-xl bg-muted p-(--density-24); }
+.cn-file-upload-dropzone { @apply rounded-(--radius-surface) bg-muted p-(--density-24) corner-curve; }
 .cn-file-upload-field { @apply relative; }
 .cn-file-upload-item { @apply w-full; }
 .cn-file-upload-item-delete { @apply relative; }

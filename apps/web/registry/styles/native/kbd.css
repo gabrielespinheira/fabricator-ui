@@ -2,7 +2,7 @@
 
   /* A quiet 20pt keycap: hover fill, 11pt muted text. */
   .cn-kbd {
-    @apply bg-hover h-(--density-20) min-w-(--density-20) gap-1 rounded-[5px] px-1;
+    @apply bg-hover h-(--density-20) min-w-(--density-20) gap-1 rounded-(--radius-mark) px-1 corner-curve;
   }
 
   .cn-kbd-text {

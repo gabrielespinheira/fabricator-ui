@@ -148,7 +148,7 @@ function AgendaRow({
       aria-current={isSelected || undefined}
       onClick={onOpen}
       className={cn(
-        "flex min-h-(--density-40) w-full min-w-0 cursor-pointer items-center gap-(--density-12) rounded-lg px-(--density-8) py-(--density-8) text-start text-(length:--density-text-13) transition-colors duration-feedback ease-feedback outline-none hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset @max-2xl:-mx-(--density-8) @max-2xl:w-[calc(100%+2*var(--density-8))]",
+        "flex min-h-(--density-40) w-full min-w-0 cursor-pointer items-center gap-(--density-12) rounded-(--radius-control) px-(--density-8) py-(--density-8) text-start text-(length:--density-text-13) transition-colors duration-feedback ease-feedback outline-none hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset @max-2xl:-mx-(--density-8) @max-2xl:w-[calc(100%+2*var(--density-8))]",
         isSelected && "bg-active"
       )}
     >

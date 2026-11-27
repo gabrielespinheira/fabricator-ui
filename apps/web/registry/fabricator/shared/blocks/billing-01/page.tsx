@@ -304,7 +304,7 @@ function BillingScreen({
           setDraft(null)
         }}
       >
-        <ul className="flex flex-col gap-(--density-8) rounded-lg bg-hover p-(--density-12) [&_svg]:mt-0.5 [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0">
+        <ul className="flex flex-col gap-(--density-8) rounded-(--radius-control) bg-hover p-(--density-12) [&_svg]:mt-0.5 [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0">
           <li className="flex gap-(--density-8)">
             <IconPlaceholder
               lucide="CheckIcon"

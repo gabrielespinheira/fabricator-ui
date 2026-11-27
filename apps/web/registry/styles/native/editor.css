@@ -1,10 +1,10 @@
 /* MARK: Editor */
 
-  /* A card-like frame (the card's fill with a hairline edge, rounded-xl)
+  /* A card-like frame (the card's fill with a hairline edge, the surface corner)
      that darkens its edge while the document has focus, like a text field.
      Pass a className to drop the frame for a full-page document. */
   .cn-editor {
-    @apply bg-card border-border/70 overflow-hidden rounded-xl border data-[focused=true]:border-foreground/25;
+    @apply bg-card border-border/70 overflow-hidden rounded-(--radius-surface) border data-[focused=true]:border-foreground/25 corner-curve;
   }
 
   /* The document's padding, 1em by 0.75em of the Document role's body. The
@@ -66,11 +66,11 @@
      On and pressed are one fill under the icon. On the keyboard bar's capsule
      they're pills, nested in its round ends. */
   .cn-editor-toolbar-button {
-    @apply h-(--density-36) min-w-(--density-36) shrink-0 gap-(--density-6) rounded-lg px-(--density-10) disabled:opacity-40 data-[bar=keyboard]:h-(--density-40) data-[bar=keyboard]:min-w-(--density-40) data-[bar=keyboard]:rounded-full;
+    @apply h-(--density-36) min-w-(--density-36) shrink-0 gap-(--density-6) rounded-(--radius-control) px-(--density-10) disabled:opacity-40 data-[bar=keyboard]:h-(--density-40) data-[bar=keyboard]:min-w-(--density-40) data-[bar=keyboard]:rounded-full corner-curve;
   }
 
   .cn-editor-toolbar-button-fill {
-    @apply bg-active rounded-lg;
+    @apply bg-active rounded-(--radius-control) corner-curve;
   }
 
   .cn-editor-keyboard-bar-button-fill {
@@ -140,7 +140,7 @@
      code block's sheet: Copy code, then the languages, the current one
      checked. */
   .cn-editor-code-block {
-    @apply bg-surface-2 border-border/60 rounded-xl border;
+    @apply bg-surface-2 border-border/60 rounded-(--radius-surface) border corner-curve;
   }
 
   .cn-editor-code-sheet {

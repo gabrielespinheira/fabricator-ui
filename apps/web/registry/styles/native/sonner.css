@@ -7,7 +7,7 @@
   }
 
   .cn-sonner-cancel {
-    @apply my-(--density-4) h-(--density-28) rounded-md px-(--density-10);
+    @apply my-(--density-4) h-(--density-28) rounded-(--radius-inner) px-(--density-10) corner-curve;
   }
 
   .cn-sonner-custom {

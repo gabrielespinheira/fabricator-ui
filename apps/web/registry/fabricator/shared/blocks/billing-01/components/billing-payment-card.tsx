@@ -79,7 +79,7 @@ export function BillingPaymentCard({
       <CardContent className="flex items-center gap-(--density-12)">
         <span
           className={cn(
-            "flex h-(--density-32) w-(--density-48) shrink-0 items-center justify-center rounded-lg bg-hover",
+            "flex h-(--density-32) w-(--density-48) shrink-0 items-center justify-center rounded-(--radius-control) bg-hover",
             !card && "text-muted-foreground"
           )}
         >

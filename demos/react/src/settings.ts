@@ -1,10 +1,15 @@
 import { useEffect, useState, useSyncExternalStore } from "react"
 import { z } from "zod"
 
+import {
+  DEFAULT_RADIUS_SHAPE,
+  RADIUS_SHAPES,
+} from "@/registry/fabricator/radius"
+
 export const settingsSchema = z.object({
   density: z.enum(["auto", "compact", "default", "spacious"]),
   motion: z.enum(["smooth", "default", "snappy", "instant", "off"]),
-  radius: z.enum(["rounded", "pill"]),
+  radius: z.enum(RADIUS_SHAPES),
   surface: z.enum(["neutral", "slate", "stone"]),
   sounds: z.boolean(),
 })
@@ -67,10 +72,9 @@ export function useSettings() {
     const root = document.documentElement
     root.dataset.motion = settings.motion
     root.dataset.density = density
-    root.style.setProperty(
-      "--radius",
-      settings.radius === "pill" ? "1.25rem" : "0.5rem"
-    )
+    // The site's shape blocks (app/fabricator.css) key on data-radius.
+    if (settings.radius === DEFAULT_RADIUS_SHAPE) delete root.dataset.radius
+    else root.dataset.radius = settings.radius
     root.style.setProperty(
       "--surface-hue",
       settings.surface === "slate"

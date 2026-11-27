@@ -102,7 +102,7 @@ export function CalendarAppSidebar({
       >
         <span
           aria-hidden
-          className="flex size-(--density-24) shrink-0 items-center justify-center rounded-lg bg-primary text-(length:--density-text-12) text-primary-foreground weight-semibold"
+          className="flex size-(--density-24) shrink-0 items-center justify-center rounded-(--radius-control) bg-primary text-(length:--density-text-12) text-primary-foreground weight-semibold"
         >
           A
         </span>
@@ -131,7 +131,7 @@ export function CalendarAppSidebar({
               <EventCalendarSources
                 calendar={group.calendar}
                 aria-label={group.label}
-                className="gap-0 *:h-(--density-30) *:rounded-lg *:px-(--density-8) *:hover:bg-hover **:data-[slot=field-label]:my-0 **:data-[slot=field-label]:flex-1 **:data-[slot=field-label]:py-0 **:data-[slot=field-label]:leading-(--density-30) pointer-coarse:*:h-11 pointer-coarse:**:data-[slot=field-label]:leading-11"
+                className="gap-0 *:h-(--density-30) *:rounded-(--radius-control) *:px-(--density-8) *:hover:bg-hover **:data-[slot=field-label]:my-0 **:data-[slot=field-label]:flex-1 **:data-[slot=field-label]:py-0 **:data-[slot=field-label]:leading-(--density-30) pointer-coarse:*:h-11 pointer-coarse:**:data-[slot=field-label]:leading-11"
               />
               {group.id === "other" && colleagues.length > 0 ? (
                 <SidebarMenu>

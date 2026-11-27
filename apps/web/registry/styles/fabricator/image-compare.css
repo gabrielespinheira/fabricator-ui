@@ -5,7 +5,7 @@
      anywhere glides the line there. Focus shows the 1px ring outside the
      frame. Disabled dims it and takes no pointer. */
   .cn-image-compare {
-    @apply aspect-3/2 cursor-ew-resize rounded-xl bg-muted focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:opacity-50;
+    @apply aspect-3/2 cursor-ew-resize rounded-(--radius-surface) bg-muted focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:opacity-50;
   }
 
   /* The labels sit in the top corners on dark glass, white whatever the

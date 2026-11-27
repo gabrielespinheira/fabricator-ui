@@ -1,11 +1,11 @@
 /* MARK: Editor */
 
-  /* A card-like frame (surface 1 with a hairline ring, rounded-xl) that
+  /* A card-like frame (surface 1 with a hairline ring, the surface corner) that
      lifts its ring while the document has focus, like a text field. It clips
      its corners without becoming a scroller, so a toolbar made sticky follows
      the page. Pass a className to drop the frame for a full-page document. */
   .cn-editor {
-    @apply bg-card ring-border/70 has-data-focused:ring-foreground/25 overflow-clip rounded-xl ring-1 transition-shadow duration-feedback ease-feedback;
+    @apply bg-card ring-border/70 has-data-focused:ring-foreground/25 overflow-clip rounded-(--radius-surface) ring-1 transition-shadow duration-feedback ease-feedback;
   }
 
   /* The document itself uses Markdown's typography (cn-markdown), so what
@@ -23,15 +23,15 @@
   /* Dividers, images and tables can't be typed into; they take the
      selection's colour when selected as a whole. */
   .cn-editor-void {
-    @apply rounded-md select-none;
+    @apply rounded-(--radius-inner) select-none;
   }
 
   /* A code block is Syntax Highlight's panel (surface 2, a hairline ring,
-     rounded-xl) and colours around editable code: a 36px strip with the
+     the surface corner) and colours around editable code: a 36px strip with the
      language picker and Copy, then the code in mono at Syntax Highlight's
      14px, scrolling sideways instead of wrapping. */
   .cn-editor-code-block {
-    @apply bg-surface-2 ring-border/60 overflow-hidden rounded-xl ring-1;
+    @apply bg-surface-2 ring-border/60 overflow-hidden rounded-(--radius-surface) ring-1;
   }
 
   .cn-editor-code-header {
@@ -71,7 +71,7 @@
   }
 
   .cn-editor-table-toolbar {
-    @apply bg-surface-5 shadow-surface-5 sticky top-(--density-6) z-10 max-w-full flex-wrap gap-0.5 self-start rounded-lg p-(--density-4);
+    @apply bg-surface-5 shadow-surface-5 sticky top-(--density-6) z-10 max-w-full flex-wrap gap-0.5 self-start rounded-(--radius-control) p-(--density-4);
   }
 
   .cn-editor-table-action {
@@ -140,7 +140,7 @@
      as Chat Input's menus do, or in dark they'd melt into the document. The
      top layer starts from the system's text colour, so it's set again. */
   .cn-editor-bubble-menu {
-    @apply bg-surface-5 text-foreground shadow-surface-5 gap-0.5 rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+    @apply bg-surface-5 text-foreground shadow-surface-5 gap-0.5 rounded-(--radius-control) p-(--density-4) motion-popup animate-in fade-in-0;
   }
 
   /* Turn into: the block type as a labelled toggle with a chevron, and its
@@ -157,11 +157,11 @@
   }
 
   .cn-editor-block-type-menu {
-    @apply bg-surface-5 shadow-surface-5 text-foreground max-h-[min(24rem,60vh)] min-w-52 overflow-y-auto rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+    @apply bg-surface-5 shadow-surface-5 text-foreground max-h-[min(24rem,60vh)] min-w-52 overflow-y-auto rounded-(--radius-control) p-(--density-4) motion-popup animate-in fade-in-0;
   }
 
   .cn-editor-block-type-item {
-    @apply text-muted-foreground h-(--density-32) gap-(--density-8) rounded-md px-(--density-8) text-(length:--density-text-13) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-checked:text-foreground aria-checked:font-medium disabled:pointer-events-none disabled:opacity-40 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply text-muted-foreground h-(--density-32) gap-(--density-8) rounded-(--radius-inner) px-(--density-8) text-(length:--density-text-13) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-checked:text-foreground aria-checked:font-medium disabled:pointer-events-none disabled:opacity-40 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-editor-menu-separator {
@@ -179,7 +179,7 @@
 
   /* As wide as the editor up to a comfortable address. */
   .cn-editor-link {
-    @apply bg-surface-5 shadow-surface-5 text-foreground gap-(--density-4) w-[min(22rem,max(16rem,var(--editor-room,22rem)))] rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+    @apply bg-surface-5 shadow-surface-5 text-foreground gap-(--density-4) w-[min(22rem,max(16rem,var(--editor-room,22rem)))] rounded-(--radius-control) p-(--density-4) motion-popup animate-in fade-in-0;
   }
 
   .cn-editor-link-input {

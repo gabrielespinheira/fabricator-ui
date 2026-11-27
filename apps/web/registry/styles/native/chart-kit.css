@@ -56,7 +56,7 @@
   }
 
   .cn-chart-band-mark {
-    @apply bg-hover rounded-md;
+    @apply bg-hover rounded-(--radius-inner) corner-curve;
   }
 
   /* The tooltip sits over the finger, two steps over the card a chart
@@ -67,7 +67,7 @@
   }
 
   .cn-chart-tooltip-content {
-    @apply bg-surface-5 shadow-surface-5 min-w-36 gap-(--density-4) rounded-lg px-(--density-10) py-(--density-8);
+    @apply bg-surface-5 shadow-surface-5 min-w-36 gap-(--density-4) rounded-(--radius-control) px-(--density-10) py-(--density-8) corner-curve;
   }
 
   .cn-chart-tooltip-title {
@@ -104,7 +104,7 @@
   /* Each toggle keeps a 32pt row; a hidden series greys out with a hollow
      key. */
   .cn-chart-legend-item {
-    @apply h-(--density-32) gap-(--density-6) rounded-md px-(--density-6) active:bg-active;
+    @apply h-(--density-32) gap-(--density-6) rounded-(--radius-inner) px-(--density-6) active:bg-active corner-curve;
   }
 
   .cn-chart-legend-key {
@@ -116,7 +116,7 @@
   }
 
   .cn-chart-inspector {
-    @apply rounded-md;
+    @apply rounded-(--radius-inner) corner-curve;
   }
 
   .cn-chart-empty {

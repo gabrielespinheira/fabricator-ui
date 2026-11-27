@@ -7,12 +7,12 @@
   /* The highlight draws under the items; their tiles are a wash, so it shows
      through, as on the website where it sits over them. */
   .cn-accordion-highlight {
-    @apply rounded-lg;
+    @apply rounded-(--radius-control) corner-curve;
   }
 
   /* Each item is a tile, a 6% wash of the foreground over whatever it sits
      on. Closed neighbours join into one card; an open item parts from both
-     by --density-8 and rounds every corner. The gap and the rounded-xl
+     by --density-8 and rounds every corner. The gap and the the surface corner
      corners spring there from the item's animated style (accordion-model);
      closing, the gap settles without the spring, so the tiles never overlap.
      An open item's trigger isn't lit; holding it tints the whole card. */
@@ -20,11 +20,11 @@
     @apply bg-foreground/6 p-(--density-4) data-[pressed=true]:bg-foreground/9;
   }
 
-  /* Triggers: rounded-lg rows inside the tile. The root's Fluid Hover paints
+  /* Triggers: the control corner rows inside the tile. The root's Fluid Hover paints
      the pressed row through the tile: a press fades its highlight in, and
      another before it has faded glides there. */
   .cn-accordion-trigger {
-    @apply gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8);
+    @apply gap-(--density-8) rounded-(--radius-control) px-(--density-12) py-(--density-8) corner-curve;
   }
 
   /* 14pt medium in foreground/80 at rest; the lit and the open trigger turn

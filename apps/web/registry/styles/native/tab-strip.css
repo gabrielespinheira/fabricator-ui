@@ -19,18 +19,18 @@
   }
 
   .cn-tab-strip-selection {
-    @apply bg-surface-4 shadow-surface-4 rounded-lg;
+    @apply bg-surface-4 shadow-surface-4 rounded-(--radius-control) corner-curve;
   }
 
   .cn-tab-strip-highlight {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   /* Tabs: 176pt on a phone (the website shrinks to 144 before it scrolls; a
      phone's strip is always there), 192pt from the sm breakpoint. Pinned tabs are
      their icon. */
   .cn-tab-strip-tab {
-    @apply h-full w-44 rounded-lg data-[pinned=true]:w-auto sm:w-48;
+    @apply h-full w-44 rounded-(--radius-control) data-[pinned=true]:w-auto sm:w-48 corner-curve;
   }
 
   /* 13pt, muted at rest; the active tab is foreground and semibold. */
@@ -47,7 +47,7 @@
   }
 
   .cn-tab-strip-trigger {
-    @apply h-full gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-4) data-[pinned=true]:justify-center data-[pinned=true]:px-(--density-10);
+    @apply h-full gap-(--density-6) rounded-(--radius-control) ps-(--density-10) pe-(--density-4) data-[pinned=true]:justify-center data-[pinned=true]:px-(--density-10) corner-curve;
   }
 
   /* A preview tab is italic. */
@@ -63,7 +63,7 @@
   }
 
   .cn-tab-strip-close {
-    @apply active:bg-hover size-(--density-20) rounded-md;
+    @apply active:bg-hover size-(--density-20) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-tab-strip-dirty {
@@ -83,7 +83,7 @@
   }
 
   .cn-tab-strip-rename {
-    @apply font-sans bg-card border-ring text-foreground h-(--density-24) rounded-md border px-(--density-6) text-(length:--density-text-13);
+    @apply font-sans bg-card border-ring text-foreground h-(--density-24) rounded-(--radius-inner) border px-(--density-6) text-(length:--density-text-13) corner-curve;
   }
 
   .cn-tab-strip-new {
@@ -109,7 +109,7 @@
      count of open tabs at its end: a press shows them all. The chip's own box
      is the end's inset, so the end takes less padding to look even. */
   .cn-tab-strip-compact-tab {
-    @apply bg-surface-4 shadow-surface-4 my-(--density-4) gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-8);
+    @apply bg-surface-4 shadow-surface-4 my-(--density-4) gap-(--density-6) rounded-(--radius-control) ps-(--density-10) pe-(--density-8) corner-curve;
   }
 
   .cn-tab-strip-compact-text {
@@ -118,7 +118,7 @@
 
   /* The count, a soft chip as wide as its digits. */
   .cn-tab-strip-count {
-    @apply bg-muted h-(--density-20) min-w-(--density-20) rounded-md px-(--density-6);
+    @apply bg-muted h-(--density-20) min-w-(--density-20) rounded-(--radius-inner) px-(--density-6) corner-curve;
   }
 
   .cn-tab-strip-count-text {
@@ -137,7 +137,7 @@
 
   /* A card one step above the sheet. The active tab's is ringed in primary. */
   .cn-tab-strip-card {
-    @apply bg-surface-4 shadow-surface-2 data-[active=true]:border-primary min-h-24 gap-(--density-12) rounded-xl border-2 border-transparent p-(--density-12);
+    @apply bg-surface-4 shadow-surface-2 data-[active=true]:border-primary min-h-24 gap-(--density-12) rounded-(--radius-surface) border-2 border-transparent p-(--density-12) corner-curve;
   }
 
   .cn-tab-strip-card-text {

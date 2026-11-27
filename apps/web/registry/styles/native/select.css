@@ -4,7 +4,7 @@
      and 13pt at the default density; size sm pins it to compact. Invalid turns the
      frame destructive. */
   .cn-select-trigger {
-    @apply border-border active:bg-muted/50 data-[invalid=true]:border-destructive/50 data-[invalid=true]:active:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg border bg-transparent py-0 pr-(--density-8) pl-(--density-10);
+    @apply border-border active:bg-muted/50 data-[invalid=true]:border-destructive/50 data-[invalid=true]:active:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-(--radius-control) border bg-transparent py-0 pr-(--density-8) pl-(--density-10) corner-curve;
   }
 
   .cn-select-trigger-text {
@@ -23,11 +23,11 @@
     @apply text-muted-foreground;
   }
 
-  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1, on the
+  /* Popup: surface 3 with its shadow ring (no border), the surface corner, p-1, on the
      popup motion. On a phone it opens as a sheet on the sheet motion, its square
      edge on the screen's, with the rows in reach of a thumb. */
   .cn-select-content {
-    @apply bg-surface-3 shadow-surface-3 rounded-xl p-1 data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8);
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) p-1 data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8) corner-curve;
   }
 
   /* On the website this holds the motion, which is useSurfaceAnimation here. It
@@ -57,7 +57,7 @@
      row (Fluid Hover). A multiple select has no one row to slide to, so each
      chosen row fills itself. */
   .cn-select-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[multiple=true]:data-[selected=true]:bg-active;
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[multiple=true]:data-[selected=true]:bg-active corner-curve;
   }
 
   .cn-select-item-label {

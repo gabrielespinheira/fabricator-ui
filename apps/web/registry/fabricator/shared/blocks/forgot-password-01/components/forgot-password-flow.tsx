@@ -138,7 +138,7 @@ export function ForgotPasswordFlow({
         <FieldGroup>
           <Field>
             <FieldTitle>Account</FieldTitle>
-            <p className="min-h-(--density-36) rounded-lg bg-hover px-(--density-10) py-(--density-8) text-(length:--density-text-13) wrap-anywhere">
+            <p className="min-h-(--density-36) rounded-(--radius-control) bg-hover px-(--density-10) py-(--density-8) text-(length:--density-text-13) wrap-anywhere">
               {email}
             </p>
           </Field>

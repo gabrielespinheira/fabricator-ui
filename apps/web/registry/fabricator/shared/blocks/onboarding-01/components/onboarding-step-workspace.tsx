@@ -73,7 +73,7 @@ export function OnboardingStepWorkspace({
             <OnboardingMark
               name={answers.name || "A"}
               color={answers.color}
-              className="size-(--density-24) rounded-md text-(length:--density-text-12)"
+              className="size-(--density-24) rounded-(--radius-inner) text-(length:--density-text-12)"
             />
           </InputGroupAddon>
         </InputGroup>

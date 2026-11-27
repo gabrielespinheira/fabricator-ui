@@ -164,7 +164,7 @@ export function SignUpForm({
                       {failure.message}{" "}
                       <a
                         href={signInHref}
-                        className="rounded-sm underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="rounded-(--radius-mark) underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       >
                         Sign in
                       </a>

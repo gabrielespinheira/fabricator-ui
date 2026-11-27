@@ -101,7 +101,7 @@ export function AssistantNewChat({
                 type="button"
                 data-slot="assistant-suggestion"
                 onClick={() => onPick(suggestion.prompt)}
-                className="flex min-h-(--density-36) w-full cursor-pointer items-center gap-(--density-12) rounded-lg px-(--density-16) py-(--density-8) text-start text-(length:--density-text-13) outline-none focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:min-h-11 [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:text-muted-foreground"
+                className="flex min-h-(--density-36) w-full cursor-pointer items-center gap-(--density-12) rounded-(--radius-control) px-(--density-16) py-(--density-8) text-start text-(length:--density-text-13) outline-none focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:min-h-11 [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:text-muted-foreground"
               >
                 {SUGGESTION_ICONS[suggestion.id]}
                 <span className="min-w-0 flex-1">{suggestion.prompt}</span>

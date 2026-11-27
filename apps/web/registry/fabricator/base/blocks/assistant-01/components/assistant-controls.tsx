@@ -158,7 +158,7 @@ export function AssistantDisclosure({
         className={cn(
           // The hover wash reaches past the text by its padding, so the text
           // stays on the message's start edge.
-          "group/disclosure -mx-(--density-8) w-fit max-w-[calc(100%+var(--density-16))] rounded-lg px-(--density-8) text-start outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:min-h-11",
+          "group/disclosure -mx-(--density-8) w-fit max-w-[calc(100%+var(--density-16))] rounded-(--radius-control) px-(--density-8) text-start outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:min-h-11",
           triggerClassName
         )}
       >

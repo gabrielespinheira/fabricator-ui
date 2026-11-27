@@ -1,7 +1,7 @@
 /* MARK: Empty */
 
   .cn-empty {
-    @apply border-border gap-(--density-16) rounded-xl border-dashed p-(--density-24);
+    @apply border-border gap-(--density-16) rounded-(--radius-surface) border-dashed p-(--density-24);
   }
 
   .cn-empty-header {
@@ -19,7 +19,7 @@
   /* A raised tile: surface 4 with its shadow ring (one step above the card
      it usually sits on), no border. */
   .cn-empty-media-icon {
-    @apply bg-surface-4 shadow-surface-4 text-foreground flex size-(--density-40) shrink-0 items-center justify-center rounded-xl [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-20);
+    @apply bg-surface-4 shadow-surface-4 text-foreground flex size-(--density-40) shrink-0 items-center justify-center rounded-(--radius-surface) [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-20);
   }
 
   .cn-empty-title {

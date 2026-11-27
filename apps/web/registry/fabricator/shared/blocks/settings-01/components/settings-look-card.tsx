@@ -142,15 +142,15 @@ function LookPreview({
     <div
       role="img"
       aria-label={`An invitation to ${name} in ${color}`}
-      className="flex min-h-72 items-center justify-center rounded-lg bg-hover p-(--density-20)"
+      className="flex min-h-72 items-center justify-center rounded-(--radius-control) bg-hover p-(--density-20)"
     >
       <DensityProvider density={density}>
         <div
           inert
-          className="flex w-full max-w-72 flex-col items-start gap-(--density-16) rounded-xl bg-surface-3 p-(--density-20) shadow-surface-3"
+          className="flex w-full max-w-72 flex-col items-start gap-(--density-16) rounded-(--radius-surface) bg-surface-3 p-(--density-20) shadow-surface-3"
           style={brand}
         >
-          <span className="size-(--density-36) rounded-lg text-(length:--density-text-14)">
+          <span className="size-(--density-36) rounded-(--radius-control) text-(length:--density-text-14)">
             <SettingsLogo name={name} logo={logo} color={color} />
           </span>
           <span className="flex flex-col gap-(--density-4)">

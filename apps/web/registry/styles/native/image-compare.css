@@ -3,7 +3,7 @@
   /* A 3:2 frame rounded like a card, on the muted fill while the pictures
      load. Disabled dims it; the gestures are off. */
   .cn-image-compare {
-    @apply aspect-3/2 rounded-xl bg-muted data-[disabled=true]:opacity-50;
+    @apply aspect-3/2 rounded-(--radius-surface) bg-muted data-[disabled=true]:opacity-50 corner-curve;
   }
 
   /* The labels sit in the top corners on dark glass, white whatever the

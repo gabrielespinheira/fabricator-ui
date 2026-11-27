@@ -38,7 +38,7 @@ Get started exposes package setup in development. Enable it for a production bui
 
 - `config.registries` writes `@fabricator` into the project's `components.json`; `config.style` is always a valid upstream id (contract 2).
 - Defaults to Fabricator Icons. `iconLibrary=<name>` or a shadcn preset code opts out (`usesFabricatorIcons`); `config.iconLibrary` stays a real shadcn library either way.
-- Takes a look (`registry/fabricator/look.ts`): `surface`, the six colour roles as `<hue>_<chroma>`, `shape=pill`, `motion=<speed>`, `density=<compact|spacious>`, `loader=blueprint` (`registry/fabricator/loader.ts`), layered on the Fabricator palette.
+- Takes a look (`registry/fabricator/look.ts`): `surface`, the six colour roles as `<hue>_<chroma>`, `shape=<squircle|pill>` (`registry/fabricator/radius.ts`), `motion=<speed>`, `density=<compact|spacious>`, `loader=blueprint` (`registry/fabricator/loader.ts`), layered on the Fabricator palette.
 
 ## `/init/app-shell`
 

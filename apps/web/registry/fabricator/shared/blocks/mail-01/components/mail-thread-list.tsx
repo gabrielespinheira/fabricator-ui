@@ -144,7 +144,7 @@ function ThreadRow({
       data-open={isOpen}
       data-checked={isChecked ? "" : undefined}
       data-unread={thread.isUnread ? "" : undefined}
-      className="group/row relative flex scroll-my-(--density-12) items-center gap-(--density-10) rounded-lg py-(--density-8) ps-(--density-10) pe-(--density-10) data-checked:bg-hover"
+      className="group/row relative flex scroll-my-(--density-12) items-center gap-(--density-10) rounded-(--radius-control) py-(--density-8) ps-(--density-10) pe-(--density-10) data-checked:bg-hover"
     >
       {thread.isUnread && (
         <span
@@ -173,7 +173,7 @@ function ThreadRow({
         tabIndex={isTabStop ? 0 : -1}
         aria-current={isOpen ? "true" : undefined}
         onClick={() => onOpen(thread.id)}
-        className="flex min-w-0 flex-1 cursor-pointer flex-col gap-(--density-2) text-start text-(length:--density-text-13) outline-none after:absolute after:inset-0 after:rounded-lg focus-visible:after:ring-2 focus-visible:after:ring-ring focus-visible:after:ring-inset"
+        className="flex min-w-0 flex-1 cursor-pointer flex-col gap-(--density-2) text-start text-(length:--density-text-13) outline-none after:absolute after:inset-0 after:rounded-(--radius-control) focus-visible:after:ring-2 focus-visible:after:ring-ring focus-visible:after:ring-inset"
       >
         <span className="flex w-full min-w-0 items-center gap-(--density-6)">
           {thread.isUnread && <span className="sr-only">Unread, </span>}
@@ -372,7 +372,10 @@ export function MailThreadListSkeleton() {
       className="flex flex-col gap-(--density-8) px-(--density-10) py-(--density-4)"
     >
       {Array.from({ length: SKELETON_ROWS }, (_, index) => (
-        <Skeleton key={index} className="h-(--density-48) rounded-lg" />
+        <Skeleton
+          key={index}
+          className="h-(--density-48) rounded-(--radius-control)"
+        />
       ))}
     </div>
   )

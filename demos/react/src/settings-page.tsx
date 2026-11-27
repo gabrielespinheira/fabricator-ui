@@ -106,6 +106,7 @@ function SettingsPage({
               }}
             >
               <ToggleGroupItem value="rounded">Rounded</ToggleGroupItem>
+              <ToggleGroupItem value="squircle">Squircle</ToggleGroupItem>
               <ToggleGroupItem value="pill">Pill</ToggleGroupItem>
             </ToggleGroup>
           </Field>

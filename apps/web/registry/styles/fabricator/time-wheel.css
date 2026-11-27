@@ -9,13 +9,13 @@
 
   /* The band the value sits on, across every column. */
   .cn-time-wheel-band {
-    @apply bg-active h-(--density-36) rounded-lg;
+    @apply bg-active h-(--density-36) rounded-(--radius-control);
   }
 
   /* A column is as wide as AM/PM in the wheel's figures; its rows don't size
      it (contain-size), so it takes the wheel's height. It turns under a drag. */
   .cn-time-wheel-column {
-    @apply contain-size w-[calc(var(--density-28)*2)] cursor-grab rounded-lg active:cursor-grabbing focus-visible:ring-1 focus-visible:ring-focus-ring;
+    @apply contain-size w-[calc(var(--density-28)*2)] cursor-grab rounded-(--radius-control) active:cursor-grabbing focus-visible:ring-1 focus-visible:ring-focus-ring;
   }
 
   /* The drum, seen from far enough away that its rows keep their size at the

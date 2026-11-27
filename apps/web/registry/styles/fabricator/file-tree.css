@@ -11,15 +11,15 @@
    rows join into one block. Selection is quieter while the tree is blurred,
    as in a desktop explorer. */
 .cn-file-tree-item {
-  @apply h-(--density-28) cursor-default rounded-md ps-(--density-4) pe-(--density-8) hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent group-data-[selection-mode=multiple]/file-tree:aria-selected:bg-hover group-data-[selection-mode=multiple]/file-tree:group-focus-within/file-tree:aria-selected:bg-active aria-selected:[[aria-selected=true]+&]:rounded-t-none aria-selected:has-[+[aria-selected=true]]:rounded-b-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-focus-ring data-disabled:pointer-events-none data-disabled:opacity-50 data-muted:text-muted-foreground;
+  @apply h-(--density-28) cursor-default rounded-(--radius-inner) ps-(--density-4) pe-(--density-8) hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent group-data-[selection-mode=multiple]/file-tree:aria-selected:bg-hover group-data-[selection-mode=multiple]/file-tree:group-focus-within/file-tree:aria-selected:bg-active aria-selected:[[aria-selected=true]+&]:rounded-t-none aria-selected:has-[+[aria-selected=true]]:rounded-b-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-focus-ring data-disabled:pointer-events-none data-disabled:opacity-50 data-muted:text-muted-foreground;
 }
 
 .cn-file-tree-highlight {
-  @apply rounded-md;
+  @apply rounded-(--radius-inner);
 }
 
 .cn-file-tree-selection {
-  @apply rounded-md bg-hover group-focus-within/file-tree:bg-active;
+  @apply rounded-(--radius-inner) bg-hover group-focus-within/file-tree:bg-active;
 }
 
 /* One guide per ancestor, centred under that ancestor's chevron. They show

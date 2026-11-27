@@ -143,7 +143,7 @@ function LogoRow({
         data-invalid={error !== null || undefined}
         className="items-center! gap-(--density-12)"
       >
-        <span className="size-(--density-48) shrink-0 rounded-xl text-(length:--density-text-16)">
+        <span className="size-(--density-48) shrink-0 rounded-(--radius-surface) text-(length:--density-text-16)">
           <SettingsLogo name={name} logo={logo} color={color} />
         </span>
         <FieldContent>

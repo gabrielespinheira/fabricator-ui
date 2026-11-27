@@ -23,6 +23,14 @@ import {
 } from "@/registry/fabricator/foundation-tokens"
 import { LOADER_CSS } from "@/registry/fabricator/loader"
 import { MOTION_CSS } from "@/registry/fabricator/motion"
+import {
+  DEFAULT_RADIUS_SHAPE,
+  RADIUS_BASE_CSS,
+  RADIUS_SHAPES,
+  RADIUS_SUPPORTS_CSS,
+  SHAPE_ROOT_RADIUS,
+  toChangedShapeVars,
+} from "@/registry/fabricator/radius"
 
 export type { CssObject }
 export { FABRICATOR_PALETTE, PALETTE_LINKS, SURFACE_PALETTE_LINKS }
@@ -95,7 +103,11 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
           "--motion-press-scale": "1 !important",
         },
       },
+      // The look's corner shape for every element (radius.ts).
+      ...RADIUS_BASE_CSS,
     },
+    // The squircle scale, where the browser draws `corner-shape`.
+    ...RADIUS_SUPPORTS_CSS,
     // Speeds (data-motion) and the motion utilities (motion-popup, …).
     ...MOTION_CSS,
     // Densities (data-density) and the density-* utilities.
@@ -163,6 +175,11 @@ export function toFabricatorStylesheet({
     `${light} {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.light, ...FABRICATOR_PALETTE.light, ...PALETTE_LINKS.light })}\n}`,
     `${dark} {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.dark, ...FABRICATOR_PALETTE.dark, ...PALETTE_LINKS.dark })}\n}`,
     `@theme inline {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.theme, ...FABRICATOR_PALETTE.theme })}\n}`,
+    // The site's shape setting (data-radius, lib/site-settings.ts).
+    ...RADIUS_SHAPES.filter((shape) => shape !== DEFAULT_RADIUS_SHAPE).map(
+      (shape) =>
+        `html[data-radius="${shape}"]:root {\n${vars({ ...toChangedShapeVars(shape), radius: SHAPE_ROOT_RADIUS[shape] })}\n}`
+    ),
     serializeCss(FABRICATOR_FOUNDATIONS.css),
     "",
   ].join("\n\n")

@@ -6,7 +6,7 @@
      hover. Inset, so the group is exactly its height and joins a button group
      on one hairline. */
   .cn-input-group {
-    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 has-disabled:bg-transparent h-(--density-36) rounded-lg border-0 bg-transparent ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-(--density-12) has-[>[data-align=block-start]]:[&>input]:pb-(--density-12) has-[>[data-align=inline-end]]:[&>input]:pr-(--density-6) has-[>[data-align=inline-start]]:[&>input]:pl-(--density-6);
+    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 has-disabled:bg-transparent h-(--density-36) rounded-(--radius-control) border-0 bg-transparent ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-(--density-12) has-[>[data-align=block-start]]:[&>input]:pb-(--density-12) has-[>[data-align=inline-end]]:[&>input]:pr-(--density-6) has-[>[data-align=inline-start]]:[&>input]:pl-(--density-6);
   }
 
   /* Addons: muted 13px text and 16px icons at stroke 1.5; they wake to
@@ -14,7 +14,7 @@
      input's line height (1.5), so a prefix such as https:// and the value
      share one baseline instead of rounding a pixel apart. */
   .cn-input-group-addon {
-    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-(--density-8) py-(--density-6) text-(length:--density-text-13) leading-normal font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-(--density-8) py-(--density-6) text-(length:--density-text-13) leading-normal font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-(--radius-mark) [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   /* Inline addons sit as far from the side as their content sits from the
@@ -42,19 +42,19 @@
   }
 
   .cn-input-group-button-size-xs {
-    @apply h-(--density-24) gap-1 rounded-md px-(--density-8) text-(length:--density-text-12) [&>svg:not([class*='size-'])]:size-(--density-icon-14);
+    @apply h-(--density-24) gap-1 rounded-[max(var(--radius-mark),calc(var(--radius-control)-var(--density-6)))] px-(--density-8) text-(length:--density-text-12) [&>svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-input-group-button-size-sm {
-    @apply h-(--density-28) gap-1 rounded-md px-(--density-10) text-(length:--density-text-12) [&>svg:not([class*='size-'])]:size-(--density-icon-14);
+    @apply h-(--density-28) gap-1 rounded-(--radius-inner) px-(--density-10) text-(length:--density-text-12) [&>svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-input-group-button-size-icon-xs {
-    @apply size-(--density-24) rounded-md p-0 has-[>svg]:p-0 [&>svg:not([class*='size-'])]:size-(--density-icon-14);
+    @apply size-(--density-24) rounded-[max(var(--radius-mark),calc(var(--radius-control)-var(--density-6)))] p-0 has-[>svg]:p-0 [&>svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-input-group-button-size-icon-sm {
-    @apply size-(--density-28) rounded-md p-0 has-[>svg]:p-0;
+    @apply size-(--density-28) rounded-(--radius-inner) p-0 has-[>svg]:p-0;
   }
 
   .cn-input-group-text {

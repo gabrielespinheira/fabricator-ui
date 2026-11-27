@@ -325,21 +325,3 @@ export function DensityPinned() {
     </DemoFrame>
   )
 }
-
-/** Concentric corners: rounded-lg items inside rounded-xl containers. */
-export function ShapeDemo() {
-  return (
-    <DemoFrame caption="Containers are rounded-xl (12px) with 4px of padding, so the rounded-lg (8px) items inside them share the same curve.">
-      <div className="flex w-56 flex-col gap-1 rounded-xl bg-surface-3 p-1 shadow-surface-3">
-        <div className="flex h-9 items-center justify-between rounded-lg bg-hover px-3 text-[13px] text-foreground">
-          Rounded large
-          <Badge variant="secondary">8px</Badge>
-        </div>
-        <div className="flex h-9 items-center justify-between rounded-lg px-3 text-[13px] text-muted-foreground">
-          Inside rounded extra large
-          <Badge variant="secondary">12px</Badge>
-        </div>
-      </div>
-    </DemoFrame>
-  )
-}

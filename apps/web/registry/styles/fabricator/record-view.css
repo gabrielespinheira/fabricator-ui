@@ -4,7 +4,7 @@
      window, over a board that stays live. Centre and page are the same surface
      grown. On phones every mode is the whole screen. */
   .cn-record-view {
-    @apply inset-0 m-auto bg-surface-5 text-popover-foreground text-(length:--density-text-13) motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 data-[mode=side]:bg-surface-4 data-[mode=side]:motion-sheet sm:rounded-xl sm:shadow-surface-5 sm:data-[mode=center]:h-[min(46rem,calc(100dvh-4rem))] sm:data-[mode=center]:w-[min(48rem,calc(100vw-4rem))] sm:data-[mode=side]:inset-y-(--density-12) sm:data-[mode=side]:start-auto sm:data-[mode=side]:end-(--density-12) sm:data-[mode=side]:m-0 sm:data-[mode=side]:w-[min(28rem,calc(100vw-1.5rem))] sm:data-[mode=side]:shadow-surface-4 sm:data-[mode=side]:data-open:slide-in-from-right-8 sm:data-[mode=side]:data-closed:slide-out-to-right-8 sm:data-[mode=side]:data-entering:slide-in-from-right-8 data-[mode=page]:rounded-none data-[mode=page]:bg-background data-[mode=page]:shadow-none;
+    @apply inset-0 m-auto bg-surface-5 text-popover-foreground text-(length:--density-text-13) motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 data-[mode=side]:bg-surface-4 data-[mode=side]:motion-sheet sm:rounded-(--radius-surface) sm:shadow-surface-5 sm:data-[mode=center]:h-[min(46rem,calc(100dvh-4rem))] sm:data-[mode=center]:w-[min(48rem,calc(100vw-4rem))] sm:data-[mode=side]:inset-y-(--density-12) sm:data-[mode=side]:start-auto sm:data-[mode=side]:end-(--density-12) sm:data-[mode=side]:m-0 sm:data-[mode=side]:w-[min(28rem,calc(100vw-1.5rem))] sm:data-[mode=side]:shadow-surface-4 sm:data-[mode=side]:data-open:slide-in-from-right-8 sm:data-[mode=side]:data-closed:slide-out-to-right-8 sm:data-[mode=side]:data-entering:slide-in-from-right-8 data-[mode=page]:rounded-none data-[mode=page]:bg-background data-[mode=page]:shadow-none;
   }
 
   /* A page covers everything, so it needs no scrim behind it. */
@@ -31,7 +31,7 @@
   }
 
   .cn-record-view-badge {
-    @apply inline-flex h-(--density-20) items-center rounded-md bg-hover px-(--density-6) text-(length:--density-text-12);
+    @apply inline-flex h-(--density-20) items-center rounded-(--radius-inner) bg-hover px-(--density-6) text-(length:--density-text-12);
   }
 
   .cn-record-view-actions {
@@ -59,7 +59,7 @@
   /* The focal point. Pulled out by its own padding, so its text sits on the
      same edge as the rows below. */
   .cn-record-view-title {
-    @apply -mx-(--density-8) block rounded-lg px-(--density-8) py-(--density-4) text-lg leading-snug font-semibold text-balance text-foreground transition-colors duration-feedback ease-feedback hover:[&:is(textarea)]:bg-hover focus-visible:bg-hover focus-visible:ring-1 focus-visible:ring-foreground/25 @3xl/record-view:text-2xl;
+    @apply -mx-(--density-8) block rounded-(--radius-control) px-(--density-8) py-(--density-4) text-lg leading-snug font-semibold text-balance text-foreground transition-colors duration-feedback ease-feedback hover:[&:is(textarea)]:bg-hover focus-visible:bg-hover focus-visible:ring-1 focus-visible:ring-foreground/25 @3xl/record-view:text-2xl;
   }
 
   /* Properties under the title; with room for two columns, beside the work. */
@@ -96,15 +96,15 @@
   }
 
   .cn-record-view-skeleton-label {
-    @apply h-(--density-12) w-24 rounded-md;
+    @apply h-(--density-12) w-24 rounded-(--radius-inner);
   }
 
   .cn-record-view-skeleton-value {
-    @apply h-(--density-12) w-40 rounded-md;
+    @apply h-(--density-12) w-40 rounded-(--radius-inner);
   }
 
   .cn-record-view-skeleton-block {
-    @apply mt-(--density-12) h-28 rounded-xl;
+    @apply mt-(--density-12) h-28 rounded-(--radius-surface);
   }
 
   .cn-record-view-message {

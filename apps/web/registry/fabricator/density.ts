@@ -17,6 +17,7 @@
 // control sizes in the style maps.
 
 import type { CssObject } from "@/registry/fabricator/css-object"
+import { RADIUS_ROLE_VARS } from "@/registry/fabricator/radius"
 
 export const DENSITY_NAMES = ["compact", "default", "spacious"] as const
 
@@ -154,6 +155,11 @@ const vars = (entries: Record<string, string>) =>
     Object.entries(entries).map(([name, value]) => [`--${name}`, value])
   )
 
+// A scope's tokens plus the corner roles, which derive from its control
+// height and must be declared again where it changes (radius.ts).
+const scopeVars = (name: DensityName) =>
+  vars({ ...toDensityVars(DENSITIES[name]), ...RADIUS_ROLE_VARS })
+
 /**
  * Density switches and utilities, in the shape of a registry item's `css`
  * field. The selectors are one notch more specific than :root, so they win
@@ -163,14 +169,11 @@ export const DENSITY_CSS: CssObject = {
   ...Object.fromEntries(
     DENSITY_NAMES.map((name) => [
       `:root[data-density="${name}"], [data-density="${name}"]`,
-      vars(toDensityVars(DENSITIES[name])),
+      scopeVars(name),
     ])
   ),
   ...Object.fromEntries(
-    DENSITY_NAMES.map((name) => [
-      `@utility density-${name}`,
-      vars(toDensityVars(DENSITIES[name])),
-    ])
+    DENSITY_NAMES.map((name) => [`@utility density-${name}`, scopeVars(name)])
   ),
 }
 

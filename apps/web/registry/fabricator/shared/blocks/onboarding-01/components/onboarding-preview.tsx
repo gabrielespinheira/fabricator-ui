@@ -86,7 +86,7 @@ function NavRow({
   return (
     <span
       className={cn(
-        "flex h-(--density-32) items-center gap-(--density-8) rounded-lg px-(--density-8) text-muted-foreground [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0",
+        "flex h-(--density-32) items-center gap-(--density-8) rounded-(--radius-control) px-(--density-8) text-muted-foreground [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0",
         isActive && "bg-active text-foreground",
         className
       )}
@@ -122,7 +122,7 @@ export function OnboardingPreview({
       aria-hidden="true"
       inert
       className={cn(
-        "@container/preview relative overflow-hidden rounded-xl transition-colors duration-move ease-move select-none",
+        "@container/preview relative overflow-hidden rounded-(--radius-surface) transition-colors duration-move ease-move select-none",
         className
       )}
       style={{
@@ -132,7 +132,7 @@ export function OnboardingPreview({
       {/* The App Shell's frame color, which only exists inside a shell. */}
       <DensityProvider
         density={isCompact ? "compact" : "default"}
-        className="absolute start-(--density-32) top-(--density-32) bottom-0 flex w-[max(calc(100%-var(--density-32)),52rem)] flex-col overflow-hidden rounded-tl-xl bg-(--app-shell-frame) text-(length:--density-text-13) text-foreground shadow-surface-3 [--app-shell-frame:color-mix(in_oklab,var(--surface-1),black_4%)] dark:[--app-shell-frame:color-mix(in_oklab,var(--surface-1),black_30%)]"
+        className="absolute start-(--density-32) top-(--density-32) bottom-0 flex w-[max(calc(100%-var(--density-32)),52rem)] flex-col overflow-hidden rounded-tl-(--radius-surface) bg-(--app-shell-frame) text-(length:--density-text-13) text-foreground shadow-surface-3 [--app-shell-frame:color-mix(in_oklab,var(--surface-1),black_4%)] dark:[--app-shell-frame:color-mix(in_oklab,var(--surface-1),black_30%)]"
       >
         <span className="flex h-(--density-40) shrink-0 items-center gap-(--density-6) px-(--density-16) text-muted-foreground">
           <IconPlaceholder
@@ -204,7 +204,7 @@ export function OnboardingPreview({
               <span className="truncate">{ONBOARDING_OWNER.name}</span>
             </span>
           </div>
-          <div className="flex min-w-0 flex-1 flex-col gap-(--density-16) rounded-tl-xl bg-background p-(--density-24) shadow-surface-2">
+          <div className="flex min-w-0 flex-1 flex-col gap-(--density-16) rounded-tl-(--radius-surface) bg-background p-(--density-24) shadow-surface-2">
             {preview.view && answers.use ? (
               <>
                 <span className="flex items-center gap-(--density-12)">
@@ -221,7 +221,7 @@ export function OnboardingPreview({
                     ))}
                   </span>
                   <span
-                    className="flex h-(--density-32) items-center gap-(--density-6) rounded-lg px-(--density-12) font-medium transition-colors duration-move ease-move"
+                    className="flex h-(--density-32) items-center gap-(--density-6) rounded-(--radius-control) px-(--density-12) font-medium transition-colors duration-move ease-move"
                     style={{
                       background: preview.color,
                       color: getReadableColor(preview.color),

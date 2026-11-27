@@ -36,7 +36,7 @@
      states colour the ring with their role and carry an icon in the header;
      skipped dims. A change waiting on the server fades and shows progress. */
   .cn-canvas-node {
-    @apply max-w-[calc(var(--density-36)*9)] min-w-[calc(var(--density-36)*5)] gap-(--density-8) rounded-xl bg-surface-3 p-(--density-12) text-start shadow-surface-3 transition-[box-shadow,scale,opacity] duration-feedback ease-feedback hover:shadow-surface-4 outline-hidden focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid data-selected:shadow-surface-4 data-selected:ring-[1.5px] data-selected:ring-primary data-dragging:scale-[1.01] data-dragging:shadow-surface-5 data-dragging:duration-settle-spring data-dragging:ease-settle-spring data-pending:cursor-progress data-pending:opacity-60 data-invalid:ring-1 data-invalid:ring-destructive/50 data-[status=error]:ring-1 data-[status=error]:ring-destructive-border data-[status=running]:ring-1 data-[status=running]:ring-info-border data-[status=skipped]:opacity-50 data-[status=success]:ring-1 data-[status=success]:ring-success-border data-[status=warning]:ring-1 data-[status=warning]:ring-warning-border data-selected:data-[status]:ring-primary data-[variant=group]:size-full data-[variant=group]:max-w-none data-[variant=group]:min-w-0 data-[variant=group]:bg-hover data-[variant=group]:p-0 data-[variant=group]:shadow-none data-[variant=note]:size-full data-[variant=note]:max-w-none data-[variant=note]:min-w-0 data-[variant=note]:bg-warning-surface-1 data-[variant=note]:shadow-surface-2 dark:data-[variant=note]:bg-warning-surface-3 data-[variant=placeholder]:flex-row data-[variant=placeholder]:items-center data-[variant=placeholder]:justify-center data-[variant=placeholder]:bg-transparent data-[variant=placeholder]:text-muted-foreground data-[variant=placeholder]:shadow-none data-[variant=placeholder]:outline-1 data-[variant=placeholder]:outline-foreground/20 data-[variant=placeholder]:outline-dashed data-[variant=placeholder]:[&_svg]:size-(--density-icon-16);
+    @apply max-w-[calc(var(--density-36)*9)] min-w-[calc(var(--density-36)*5)] gap-(--density-8) rounded-(--radius-surface) bg-surface-3 p-(--density-12) text-start shadow-surface-3 transition-[box-shadow,scale,opacity] duration-feedback ease-feedback hover:shadow-surface-4 outline-hidden focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid data-selected:shadow-surface-4 data-selected:ring-[1.5px] data-selected:ring-primary data-dragging:scale-[1.01] data-dragging:shadow-surface-5 data-dragging:duration-settle-spring data-dragging:ease-settle-spring data-pending:cursor-progress data-pending:opacity-60 data-invalid:ring-1 data-invalid:ring-destructive/50 data-[status=error]:ring-1 data-[status=error]:ring-destructive-border data-[status=running]:ring-1 data-[status=running]:ring-info-border data-[status=skipped]:opacity-50 data-[status=success]:ring-1 data-[status=success]:ring-success-border data-[status=warning]:ring-1 data-[status=warning]:ring-warning-border data-selected:data-[status]:ring-primary data-[variant=group]:size-full data-[variant=group]:max-w-none data-[variant=group]:min-w-0 data-[variant=group]:bg-hover data-[variant=group]:p-0 data-[variant=group]:shadow-none data-[variant=note]:size-full data-[variant=note]:max-w-none data-[variant=note]:min-w-0 data-[variant=note]:bg-warning-surface-1 data-[variant=note]:shadow-surface-2 dark:data-[variant=note]:bg-warning-surface-3 data-[variant=placeholder]:flex-row data-[variant=placeholder]:items-center data-[variant=placeholder]:justify-center data-[variant=placeholder]:bg-transparent data-[variant=placeholder]:text-muted-foreground data-[variant=placeholder]:shadow-none data-[variant=placeholder]:outline-1 data-[variant=placeholder]:outline-foreground/20 data-[variant=placeholder]:outline-dashed data-[variant=placeholder]:[&_svg]:size-(--density-icon-16);
   }
 
   /* The header is one control row: icon tile, title, status. */
@@ -47,7 +47,7 @@
   /* A tile in the node's palette colour (or muted) that names its kind at a
      glance, even zoomed out. */
   .cn-canvas-node-icon {
-    @apply size-(--density-28) rounded-lg bg-muted text-muted-foreground in-data-colored:bg-[color-mix(in_oklab,var(--palette-light)_16%,transparent)] in-data-colored:text-(--palette-light) dark:in-data-colored:bg-[color-mix(in_oklab,var(--palette-dark)_22%,transparent)] dark:in-data-colored:text-(--palette-dark) [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+    @apply size-(--density-28) rounded-(--radius-control) bg-muted text-muted-foreground in-data-colored:bg-[color-mix(in_oklab,var(--palette-light)_16%,transparent)] in-data-colored:text-(--palette-light) dark:in-data-colored:bg-[color-mix(in_oklab,var(--palette-dark)_22%,transparent)] dark:in-data-colored:text-(--palette-dark) [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
   }
 
   /* Subtitle size: the node's name is what a person scans the graph for. */
@@ -114,7 +114,7 @@
 
   /* Actions over the selected node: a small raised bar like a menu. */
   .cn-canvas-node-toolbar {
-    @apply gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply gap-(--density-4) rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3;
   }
 
   /* Resize: a hairline in the primary colour and square grips on the page. */
@@ -123,7 +123,7 @@
   }
 
   .cn-canvas-node-resizer-handle {
-    @apply size-(--density-8) rounded-sm border-0 bg-background ring-1 ring-primary;
+    @apply size-(--density-8) rounded-(--radius-mark) border-0 bg-background ring-1 ring-primary;
   }
 
   /* MARK: Canvas edge */
@@ -145,7 +145,7 @@
   /* A label is a small badge on the raised surface, caption size, muted until
      its edge is selected. */
   .cn-canvas-edge-label {
-    @apply h-(--density-20) rounded-md bg-surface-3 px-(--density-6) text-(length:--density-text-12) leading-(--density-20) text-muted-foreground shadow-surface-3 group-data-selected/canvas-edge-label:text-foreground;
+    @apply h-(--density-20) rounded-(--radius-inner) bg-surface-3 px-(--density-6) text-(length:--density-text-12) leading-(--density-20) text-muted-foreground shadow-surface-3 group-data-selected/canvas-edge-label:text-foreground;
   }
 
   /* The insert button appears on the selected edge, its label hovered or
@@ -178,7 +178,7 @@
 
   /* The controls are one raised bar of ghost buttons, grouped by hairlines. */
   .cn-canvas-controls {
-    @apply gap-px rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply gap-px rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3;
   }
 
   .cn-canvas-controls-separator {
@@ -198,7 +198,7 @@
 
   /* The minimap is a raised card in the corner; a narrow canvas leaves it out. */
   .cn-canvas-minimap {
-    @apply m-(--density-12) overflow-hidden rounded-xl shadow-surface-3 @max-xl/canvas:hidden;
+    @apply m-(--density-12) overflow-hidden rounded-(--radius-surface) shadow-surface-3 @max-xl/canvas:hidden;
   }
 
   .cn-canvas-minimap-node {
@@ -210,11 +210,11 @@
   /* A raised panel of node kinds: a search field and rows like a menu's. Rows
      drag onto the canvas, so they show the grab cursor. */
   .cn-canvas-library {
-    @apply max-h-full w-[calc(var(--density-36)*7)] gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply max-h-full w-[calc(var(--density-36)*7)] gap-(--density-4) rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3;
   }
 
   .cn-canvas-library-search {
-    @apply h-(--density-32) rounded-lg bg-transparent px-(--density-8) text-base outline-none placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-foreground/25 md:text-(length:--density-text-13);
+    @apply h-(--density-32) rounded-(--radius-control) bg-transparent px-(--density-8) text-base outline-none placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-foreground/25 md:text-(length:--density-text-13);
   }
 
   .cn-canvas-library-list {
@@ -226,11 +226,11 @@
   }
 
   .cn-canvas-library-item {
-    @apply min-h-(--density-36) cursor-grab gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring active:cursor-grabbing disabled:cursor-not-allowed disabled:opacity-50;
+    @apply min-h-(--density-36) cursor-grab gap-(--density-8) rounded-(--radius-control) px-(--density-8) py-(--density-6) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring active:cursor-grabbing disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .cn-canvas-library-icon {
-    @apply size-(--density-28) rounded-lg bg-muted text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+    @apply size-(--density-28) rounded-(--radius-control) bg-muted text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
   }
 
   .cn-canvas-library-description {
@@ -250,7 +250,7 @@
   }
 
   .cn-canvas-outline-node {
-    @apply min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-lg px-(--density-8) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring;
+    @apply min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-(--radius-control) px-(--density-8) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring;
   }
 
   .cn-canvas-outline-status {
@@ -269,7 +269,7 @@
 
   /* A raised list of nodes with a problem, each leading with the error icon. */
   .cn-canvas-issues {
-    @apply max-w-[calc(var(--density-36)*8)] gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply max-w-[calc(var(--density-36)*8)] gap-(--density-4) rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3;
   }
 
   .cn-canvas-issues-title {
@@ -277,7 +277,7 @@
   }
 
   .cn-canvas-issue {
-    @apply cursor-pointer gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:text-destructive;
+    @apply cursor-pointer gap-(--density-8) rounded-(--radius-control) px-(--density-8) py-(--density-6) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:text-destructive;
   }
 
   .cn-canvas-issue-message {
@@ -298,7 +298,7 @@
   }
 
   .cn-canvas-loading-node {
-    @apply h-(--density-48) w-[calc(var(--density-36)*4.5)] rounded-xl data-[index=1]:translate-y-(--density-24) data-[index=3]:col-start-1 data-[index=4]:col-start-3;
+    @apply h-(--density-48) w-[calc(var(--density-36)*4.5)] rounded-(--radius-surface) data-[index=1]:translate-y-(--density-24) data-[index=3]:col-start-1 data-[index=4]:col-start-3;
   }
 
   .cn-canvas-error {

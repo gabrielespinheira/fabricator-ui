@@ -3,20 +3,20 @@
   /* A card 336px wide at the default density (295 compact, 377 spacious:
      text shrinks less than the spacing, so the width follows both), wide
      enough for the format, three fields and the eyedropper in one row.
-     Surface 2 with its shadow ring, rounded-xl, 12px inset.
+     Surface 2 with its shadow ring, the surface corner, 12px inset.
      Inside a popover the popup is the card, so the panel drops its own.
      --color-picker-checker paints the squares behind translucent colors:
      the foreground at 14% over the surface, so it follows the theme. */
   .cn-color-picker {
-    @apply bg-card text-card-foreground shadow-surface-2 w-[calc(152px+var(--density-36)*5.125)] gap-(--density-8) rounded-xl p-(--density-12) text-(length:--density-text-13) [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)] data-[size=lg]:density-spacious data-[size=sm]:density-compact in-data-[slot=popover-content]:w-[calc(152px+var(--density-36)*5.125-var(--density-12)*2)] in-data-[slot=popover-content]:bg-transparent in-data-[slot=popover-content]:p-0 in-data-[slot=popover-content]:shadow-none;
+    @apply bg-card text-card-foreground shadow-surface-2 w-[calc(152px+var(--density-36)*5.125)] gap-(--density-8) rounded-(--radius-surface) p-(--density-12) text-(length:--density-text-13) [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)] data-[size=lg]:density-spacious data-[size=sm]:density-compact in-data-[slot=popover-content]:w-[calc(152px+var(--density-36)*5.125-var(--density-12)*2)] in-data-[slot=popover-content]:bg-transparent in-data-[slot=popover-content]:p-0 in-data-[slot=popover-content]:shadow-none;
   }
 
   /* The HSV plane at the current hue: black rising over white to the pure
-     hue. rounded-lg, like the fields and the select below it (the card's
+     hue. the control corner, like the fields and the select below it (the card's
      radius less its inset left only 2px). The pointer hides; a hollow ring
      previews where a press lands. */
   .cn-color-picker-area {
-    @apply aspect-[8/5] cursor-none rounded-lg bg-[linear-gradient(to_top,#000,transparent),linear-gradient(to_right,#fff,var(--color-picker-hue))] focus-visible:ring-2 focus-visible:ring-focus-ring;
+    @apply aspect-[8/5] cursor-none rounded-(--radius-control) bg-[linear-gradient(to_top,#000,transparent),linear-gradient(to_right,#fff,var(--color-picker-hue))] focus-visible:ring-2 focus-visible:ring-focus-ring;
   }
 
   /* The thumb is the color itself, ringed white then black, so it reads on
@@ -115,18 +115,18 @@
   /* A cell 4px around its swatch. Selected, a foreground band 2px in frames
      the swatch, so no swatch color can hide the selection. */
   .cn-color-picker-swatch {
-    @apply size-(--density-32) cursor-pointer rounded-lg p-(--density-4) before:absolute before:inset-0.5 before:rounded-[calc(var(--radius-lg)_-_2px)] before:bg-foreground before:opacity-0 before:transition-opacity before:duration-feedback before:ease-feedback focus-visible:ring-1 focus-visible:ring-focus-ring aria-pressed:before:opacity-100 [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)];
+    @apply size-(--density-32) cursor-pointer rounded-(--radius-control) p-(--density-4) before:absolute before:inset-0.5 before:rounded-[calc(var(--radius-control)-2px)] before:bg-foreground before:opacity-0 before:transition-opacity before:duration-feedback before:ease-feedback focus-visible:ring-1 focus-visible:ring-focus-ring aria-pressed:before:opacity-100 [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)];
   }
 
   /* The color over the checker, with a hairline so white and near-clear
      swatches keep an edge. */
   .cn-color-picker-swatch-color {
-    @apply size-full rounded-[calc(var(--radius-lg)_-_4px)] bg-[linear-gradient(var(--color-tile),var(--color-tile)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] bg-size-[100%_100%,8px_8px] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_15%,transparent)];
+    @apply size-full rounded-(--radius-inner) bg-[linear-gradient(var(--color-tile),var(--color-tile)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] bg-size-[100%_100%,8px_8px] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_15%,transparent)];
   }
 
   /* A small color square, alpha shown over the checker. */
   .cn-color-tile {
-    @apply size-(--density-icon-16) rounded-sm bg-[linear-gradient(var(--color-tile),var(--color-tile)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] bg-size-[100%_100%,8px_8px] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_15%,transparent)] [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)];
+    @apply size-(--density-icon-16) rounded-(--radius-mark) bg-[linear-gradient(var(--color-tile),var(--color-tile)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] bg-size-[100%_100%,8px_8px] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_15%,transparent)] [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)];
   }
 
   /* The popover's trigger: an outline button with the tile, the hex value

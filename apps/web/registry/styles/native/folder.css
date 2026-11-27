@@ -5,7 +5,7 @@
      share of the folder's mark, mixed by lib/folder-colors as the website's
      style map mixes them, so the tile itself has no fill. */
   .cn-folder {
-    @apply gap-(--density-8) overflow-hidden rounded-xl px-(--density-8) pt-(--density-20) pb-(--density-12);
+    @apply gap-(--density-8) overflow-hidden rounded-(--radius-surface) px-(--density-8) pt-(--density-20) pb-(--density-12) corner-curve;
   }
 
   /* Solid and glass differ in the front panel's fill, which folder-colors
@@ -35,11 +35,11 @@
      hover wash; pressed, the pressed one. Both ease on the feedback
      timing. */
   .cn-folder-wash-open {
-    @apply rounded-xl bg-hover;
+    @apply rounded-(--radius-surface) bg-hover corner-curve;
   }
 
   .cn-folder-wash-pressed {
-    @apply rounded-xl bg-active;
+    @apply rounded-(--radius-surface) bg-active corner-curve;
   }
 
   /* The drawing, 4:3, sized in shares of its width from folder-model. */

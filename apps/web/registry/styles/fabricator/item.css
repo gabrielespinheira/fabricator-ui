@@ -1,10 +1,10 @@
 /* MARK: Item */
 
-  /* 13px rows, rounded-lg. Linked items get the hover fill. Focus is the
+  /* 13px rows, the control corner. Linked items get the hover fill. Focus is the
      1px blue edge: the inline focus border turns blue and its 3px halo is
      switched off. */
   .cn-item {
-    @apply [a&]:cursor-pointer [button&]:cursor-pointer [a]:hover:bg-hover rounded-lg border text-(length:--density-text-13) focus-visible:ring-0! duration-feedback! ease-feedback!;
+    @apply [a&]:cursor-pointer [button&]:cursor-pointer [a]:hover:bg-hover rounded-(--radius-control) border text-(length:--density-text-13) focus-visible:ring-0! duration-feedback! ease-feedback!;
   }
 
   .cn-item-variant-default {
@@ -44,7 +44,7 @@
   }
 
   .cn-item-media-variant-image {
-    @apply size-(--density-40) overflow-hidden rounded-lg group-data-[size=sm]/item:size-(--density-32) group-data-[size=xs]/item:size-(--density-24) group-data-[size=xs]/item:rounded-md [&_img]:size-full [&_img]:object-cover;
+    @apply size-(--density-40) overflow-hidden rounded-(--radius-control) group-data-[size=sm]/item:size-(--density-32) group-data-[size=xs]/item:size-(--density-24) group-data-[size=xs]/item:rounded-(--radius-inner) [&_img]:size-full [&_img]:object-cover;
   }
 
   .cn-item-content {

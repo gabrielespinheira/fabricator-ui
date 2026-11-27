@@ -1,10 +1,10 @@
 /* MARK: Combobox */
 
-  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, on the
+  /* Popup: surface 3 with its shadow ring (no border), the surface corner, on the
      popup motion. A search field inside the popup sits in its own row above
      the list. */
   .cn-combobox-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-(--density-36) *:data-[slot=input-group]:shadow-none;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-(--radius-surface) [--fluid-hover-radius:var(--radius-nested)] motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-(--density-36) *:data-[slot=input-group]:shadow-none;
   }
 
   .cn-combobox-content-logical {
@@ -19,7 +19,7 @@
      rows are foreground and semibold with a check; in single selection
      their bg-active fill slides between rows inside the fluid list. */
   .cn-combobox-item {
-    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent;
   }
 
   .cn-combobox-item-aria {
@@ -58,11 +58,11 @@
   /* Chips field: the input recipe (1px ring-border frame, light fill on
      hover, card fill while focused). */
   .cn-combobox-chips {
-    @apply cursor-text ring-border hover:bg-muted/50 focus-within:bg-card has-aria-invalid:ring-destructive/50 has-aria-invalid:hover:bg-destructive/5 flex min-h-(--density-36) flex-wrap items-center gap-1 rounded-lg bg-transparent px-(--density-10) py-1 text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback has-data-[slot=combobox-chip]:px-1;
+    @apply cursor-text ring-border hover:bg-muted/50 focus-within:bg-card has-aria-invalid:ring-destructive/50 has-aria-invalid:hover:bg-destructive/5 flex min-h-(--density-36) flex-wrap items-center gap-1 rounded-(--radius-control) bg-transparent px-(--density-10) py-1 text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback has-data-[slot=combobox-chip]:px-1;
   }
 
   .cn-combobox-chip {
-    @apply bg-active text-foreground flex h-(--density-24) w-fit items-center justify-center gap-1 rounded-md px-(--density-8) text-(length:--density-text-12) font-medium whitespace-nowrap has-data-[slot=combobox-chip-remove]:pr-0;
+    @apply bg-active text-foreground flex h-(--density-24) w-fit items-center justify-center gap-1 rounded-(--radius-inner) px-(--density-8) text-(length:--density-text-12) font-medium whitespace-nowrap has-data-[slot=combobox-chip-remove]:pr-0;
   }
 
   .cn-combobox-chip-remove {
@@ -71,5 +71,5 @@
 
   /* React Aria */
   .cn-combobox-content-aria {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-(--density-36) *:data-[slot=input-group]:shadow-none;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-(--radius-surface) [--fluid-hover-radius:var(--radius-nested)] motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-(--density-36) *:data-[slot=input-group]:shadow-none;
   }

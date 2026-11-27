@@ -148,11 +148,11 @@ export default function Page() {
         <AppShellContent className="flex flex-col gap-4 p-4">
           <h1 className="sr-only">Dashboard</h1>
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-(--radius-surface) bg-muted/50" />
+            <div className="aspect-video rounded-(--radius-surface) bg-muted/50" />
+            <div className="aspect-video rounded-(--radius-surface) bg-muted/50" />
           </div>
-          <div className="min-h-[60vh] rounded-xl bg-muted/50" />
+          <div className="min-h-[60vh] rounded-(--radius-surface) bg-muted/50" />
         </AppShellContent>
       </AppShellMain>
     </AppShell>

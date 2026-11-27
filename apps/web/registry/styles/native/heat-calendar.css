@@ -31,7 +31,7 @@
 
   /* Raised off the grid with a soft shadow. */
   .cn-heat-calendar-lift-mark {
-    @apply shadow-surface-2 rounded-sm;
+    @apply shadow-surface-2 rounded-(--radius-mark) corner-curve;
   }
 
   /* The 2pt surface ring every mark keeps where it overlaps others. */

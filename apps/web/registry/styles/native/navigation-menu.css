@@ -16,7 +16,7 @@
      between them (Fluid Hover). An open trigger keeps the hover fill while its panel
      shows. */
   .cn-navigation-menu-trigger {
-    @apply h-(--density-36) gap-1 rounded-lg px-(--density-12) data-[state=open]:bg-hover disabled:opacity-50;
+    @apply h-(--density-36) gap-1 rounded-(--radius-control) px-(--density-12) data-[state=open]:bg-hover disabled:opacity-50 corner-curve;
   }
 
   .cn-navigation-menu-trigger-text {
@@ -34,10 +34,10 @@
     @apply -mr-(--density-4) size-(--density-icon-14);
   }
 
-  /* Panel links: rounded-lg rows, lit by the panel's own highlight (Fluid Hover).
+  /* Panel links: the control corner rows, lit by the panel's own highlight (Fluid Hover).
      The current page's link is foreground on a bg-active fill. */
   .cn-navigation-menu-link {
-    @apply gap-(--density-8) rounded-lg p-(--density-8) data-[active=true]:bg-active;
+    @apply gap-(--density-8) rounded-(--radius-nested) p-(--density-8) data-[active=true]:bg-active corner-curve;
   }
 
   .cn-navigation-menu-link-text {
@@ -56,7 +56,7 @@
   /* The popover a panel opens in: surface 3 on the popup motion. On a phone the
      panel is a sheet from the bottom instead. */
   .cn-navigation-menu-popup {
-    @apply bg-surface-3 shadow-surface-3 rounded-xl data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8);
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8) corner-curve;
   }
 
   .cn-navigation-menu-popup-text {
@@ -81,5 +81,5 @@
   }
 
   .cn-navigation-menu-indicator-arrow {
-    @apply bg-border top-[60%] size-2 rotate-45 rounded-tl-sm;
+    @apply bg-border top-[60%] size-2 rotate-45 rounded-tl-(--radius-mark) corner-curve;
   }

@@ -76,7 +76,7 @@
 
   /* Content: the grid's frame, a card unless the calendar is flat. */
   .cn-event-calendar-content {
-    @apply overflow-hidden group-data-[variant=card]/event-calendar:rounded-xl group-data-[variant=card]/event-calendar:bg-card group-data-[variant=card]/event-calendar:shadow-surface-2;
+    @apply overflow-hidden group-data-[variant=card]/event-calendar:rounded-(--radius-surface) group-data-[variant=card]/event-calendar:bg-card group-data-[variant=card]/event-calendar:shadow-surface-2;
   }
 
   /* Loading: the Data Table's primary sweep along the top edge, after a
@@ -156,7 +156,7 @@
   }
 
   .cn-event-calendar-day-header-inner {
-    @apply rounded-lg outline-none focus-visible:ring-1 focus-visible:ring-ring;
+    @apply rounded-(--radius-control) outline-none focus-visible:ring-1 focus-visible:ring-ring;
   }
 
   .cn-event-calendar-day-header-content {
@@ -299,11 +299,11 @@
   }
 
   .cn-event-calendar-nav-link {
-    @apply cursor-pointer rounded-md outline-none focus-visible:ring-1 focus-visible:ring-ring;
+    @apply cursor-pointer rounded-(--radius-inner) outline-none focus-visible:ring-1 focus-visible:ring-ring;
   }
 
   .cn-event-calendar-more-link {
-    @apply mx-px mb-px rounded-md text-muted-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring;
+    @apply mx-px mb-px rounded-(--radius-inner) text-muted-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring;
   }
 
   .cn-event-calendar-more-link-inner {
@@ -321,11 +321,11 @@
 
   /* FullCalendar's "+N more" day popover: the library's popover surface. */
   .cn-event-calendar-popover {
-    @apply pointer-events-auto m-(--density-4) min-w-56 overflow-hidden rounded-xl bg-surface-3 text-foreground shadow-surface-3;
+    @apply pointer-events-auto m-(--density-4) min-w-56 overflow-hidden rounded-(--radius-surface) bg-surface-3 text-foreground shadow-surface-3;
   }
 
   .cn-event-calendar-popover-close {
-    @apply absolute end-(--density-8) top-(--density-8) flex size-(--density-24) items-center justify-center rounded-md text-muted-foreground transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring;
+    @apply absolute end-(--density-8) top-(--density-8) flex size-(--density-24) items-center justify-center rounded-(--radius-inner) text-muted-foreground transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring;
   }
 
   .cn-event-calendar-popover-close-icon {
@@ -343,7 +343,7 @@
   /* FullCalendar's event element only frames the chip: no fill of its own,
      the focus ring, room between neighbours. */
   .cn-event-calendar-fc-event {
-    @apply rounded-[calc(var(--radius)-2px)] outline-none focus-visible:ring-1 focus-visible:ring-ring;
+    @apply rounded-(--radius-mark) outline-none focus-visible:ring-1 focus-visible:ring-ring;
   }
 
   .cn-event-calendar-fc-event-inner {
@@ -395,7 +395,7 @@
      so it stands apart from the events it overlaps. The six inline colour
      variables become one set per mode here. */
   .cn-event-calendar-event {
-    @apply [--event-calendar-fill:var(--event-calendar-fill-light)] [--event-calendar-text:var(--event-calendar-text-light)] [--event-calendar-foreground:var(--event-calendar-foreground-light)] dark:[--event-calendar-fill:var(--event-calendar-fill-dark)] dark:[--event-calendar-text:var(--event-calendar-text-dark)] dark:[--event-calendar-foreground:var(--event-calendar-foreground-dark)] [--event-calendar-wash:22%] hover:[--event-calendar-wash:26%] data-past:[--event-calendar-wash:12%] dark:[--event-calendar-wash:32%] dark:hover:[--event-calendar-wash:36%] dark:data-past:[--event-calendar-wash:18%] cursor-pointer gap-x-(--density-4) rounded-[calc(var(--radius)-2px)] bg-(--event-calendar-fill)/(--event-calendar-wash) text-(length:--density-text-12) leading-snug text-(--event-calendar-text) backdrop-blur-md in-data-dense:bg-[color-mix(in_srgb,var(--event-calendar-fill)_var(--event-calendar-wash),var(--event-calendar-surface))] in-data-dense:backdrop-blur-none select-none transition-[background-color,opacity,box-shadow] duration-feedback ease-feedback data-[variant=block]:flex-col data-[variant=block]:border-s-[3px] data-[variant=block]:border-(--event-calendar-fill) data-[variant=block]:px-(--density-6) data-[variant=block]:pt-(--density-6) data-[variant=block]:pb-(--density-4) data-short:data-[variant=block]:flex-row data-short:data-[variant=block]:items-center data-short:data-[variant=block]:py-0 data-[variant=row]:items-center data-[variant=row]:px-(--density-6) data-[variant=row]:py-px data-[variant=dot]:items-center data-[variant=dot]:bg-transparent data-[variant=dot]:px-(--density-4) data-[variant=dot]:py-px data-[variant=dot]:text-foreground data-[variant=dot]:backdrop-blur-none data-[variant=dot]:hover:bg-hover data-[variant=dot]:data-past:text-muted-foreground data-pending:cursor-progress data-pending:opacity-60 data-selected:bg-(--event-calendar-fill) data-selected:text-(--event-calendar-foreground) data-selected:shadow-surface-3 data-selected:ring-2 data-selected:ring-(--event-calendar-surface) data-dragging:bg-(--event-calendar-fill) data-dragging:text-(--event-calendar-foreground) data-dragging:shadow-surface-4 data-draft:bg-(--event-calendar-fill) data-draft:text-(--event-calendar-foreground) data-draft:shadow-surface-3 data-[status=tentative]:bg-(--event-calendar-surface) data-[status=tentative]:ring-1 data-[status=tentative]:ring-(--event-calendar-fill)/50 data-[status=tentative]:ring-inset;
+    @apply [--event-calendar-fill:var(--event-calendar-fill-light)] [--event-calendar-text:var(--event-calendar-text-light)] [--event-calendar-foreground:var(--event-calendar-foreground-light)] dark:[--event-calendar-fill:var(--event-calendar-fill-dark)] dark:[--event-calendar-text:var(--event-calendar-text-dark)] dark:[--event-calendar-foreground:var(--event-calendar-foreground-dark)] [--event-calendar-wash:22%] hover:[--event-calendar-wash:26%] data-past:[--event-calendar-wash:12%] dark:[--event-calendar-wash:32%] dark:hover:[--event-calendar-wash:36%] dark:data-past:[--event-calendar-wash:18%] cursor-pointer gap-x-(--density-4) rounded-(--radius-mark) bg-(--event-calendar-fill)/(--event-calendar-wash) text-(length:--density-text-12) leading-snug text-(--event-calendar-text) backdrop-blur-md in-data-dense:bg-[color-mix(in_srgb,var(--event-calendar-fill)_var(--event-calendar-wash),var(--event-calendar-surface))] in-data-dense:backdrop-blur-none select-none transition-[background-color,opacity,box-shadow] duration-feedback ease-feedback data-[variant=block]:flex-col data-[variant=block]:border-s-[3px] data-[variant=block]:border-(--event-calendar-fill) data-[variant=block]:px-(--density-6) data-[variant=block]:pt-(--density-6) data-[variant=block]:pb-(--density-4) data-short:data-[variant=block]:flex-row data-short:data-[variant=block]:items-center data-short:data-[variant=block]:py-0 data-[variant=row]:items-center data-[variant=row]:px-(--density-6) data-[variant=row]:py-px data-[variant=dot]:items-center data-[variant=dot]:bg-transparent data-[variant=dot]:px-(--density-4) data-[variant=dot]:py-px data-[variant=dot]:text-foreground data-[variant=dot]:backdrop-blur-none data-[variant=dot]:hover:bg-hover data-[variant=dot]:data-past:text-muted-foreground data-pending:cursor-progress data-pending:opacity-60 data-selected:bg-(--event-calendar-fill) data-selected:text-(--event-calendar-foreground) data-selected:shadow-surface-3 data-selected:ring-2 data-selected:ring-(--event-calendar-surface) data-dragging:bg-(--event-calendar-fill) data-dragging:text-(--event-calendar-foreground) data-dragging:shadow-surface-4 data-draft:bg-(--event-calendar-fill) data-draft:text-(--event-calendar-foreground) data-draft:shadow-surface-3 data-[status=tentative]:bg-(--event-calendar-surface) data-[status=tentative]:ring-1 data-[status=tentative]:ring-(--event-calendar-fill)/50 data-[status=tentative]:ring-inset;
   }
 
   .cn-event-calendar-event-title {
@@ -442,7 +442,7 @@
   }
 
   .cn-event-calendar-event-details-swatch {
-    @apply mt-(--density-6) size-3.5 rounded-sm bg-(--event-calendar-fill);
+    @apply mt-(--density-6) size-3.5 rounded-(--radius-mark) bg-(--event-calendar-fill);
   }
 
   .cn-event-calendar-event-details-title {
@@ -532,7 +532,7 @@
   }
 
   .cn-event-calendar-agenda-event {
-    @apply [--event-calendar-fill:var(--event-calendar-fill-light)] dark:[--event-calendar-fill:var(--event-calendar-fill-dark)] cursor-pointer gap-(--density-12) rounded-lg px-(--density-8) py-(--density-6) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-pending:opacity-60;
+    @apply [--event-calendar-fill:var(--event-calendar-fill-light)] dark:[--event-calendar-fill:var(--event-calendar-fill-dark)] cursor-pointer gap-(--density-12) rounded-(--radius-control) px-(--density-8) py-(--density-6) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-pending:opacity-60;
   }
 
   .cn-event-calendar-agenda-event-dot {

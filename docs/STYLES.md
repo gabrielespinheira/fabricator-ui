@@ -11,6 +11,7 @@ How the Fabricator foundations are made: the token modules, the colour, motion a
 | Colour roles                             | `registry/fabricator/color-roles.ts`                                                           |
 | Motion                                   | `registry/fabricator/motion.ts`                                                                |
 | Density                                  | `registry/fabricator/density.ts`                                                               |
+| Radius and shapes                        | `registry/fabricator/radius.ts`                                                                |
 | Loader                                   | `registry/fabricator/loader.ts`                                                                |
 | Code colours                             | `registry/fabricator/syntax-colors.ts`                                                         |
 | Overrides (behaviour)                    | `registry/fabricator/<base>/ui/<component>.tsx`, shared files in `registry/fabricator/shared/` |
@@ -58,6 +59,16 @@ How placeholders look while content loads: `skeleton` (default) or `blueprint`. 
 - The look writes the blueprint tokens into `:root` (`loader=blueprint`); the site sets `data-loader` on `<html>` from its settings.
 - React Native skips the tokens (`native-css-variables.test.ts`) and keeps the skeleton; see `parity-exceptions.json`.
 
+## Radius
+
+How components use the roles is in [COMPONENTS.md](../COMPONENTS.md#shape).
+
+- `radius.ts` gives each shape a ratio and a base per role (control, surface, panel, mark): a corner is `--density-36 × ratio + base`. Rounded: 8px controls, 12px surfaces, 16px panels, 4px marks. Squircle: a quarter of the control height, 14px, 20px, 5px. Pill: half the control height (a capsule), half plus 4px for surfaces (so a `p-1` popup's capsule rows are concentric), half plus 8px for panels, 6px marks.
+- The roles (`--radius-control`, `--radius-nested`, `--radius-inner`, `--radius-wrap`, …) are formulas declared on `:root` and again in every density switch and `density-*` utility, because a variable resolves where it is declared; a scope's corners follow its control height.
+- Squircle sets `--corner-shape` to a superellipse, which a base-layer rule hands to every element except `rounded-full` ones. Where `corner-shape` is supported (Chromium 139+, Electron) an `@supports` rule draws `superellipse(1.5)` and scales the roles by `SQUIRCLE_CORNER_SCALE` (1.35), because a superellipse reads tighter than a circle of the same radius; elsewhere the base radii draw round, a slightly softer Rounded. Insets are never scaled.
+- shadcn's `--radius` and its `--radius-sm` … `--radius-4xl` keep their names and meaning (contract 4) for a project's own classes: 0.5rem, 0.625rem and 0.75rem per shape.
+- `__tests__/radius.test.ts` pins the values and the concentric rows; `__tests__/radius-usage.test.ts` fails on Tailwind's rungs and literal radii in the style maps.
+
 ## The look
 
 A project installs with a look (`look.ts`): the settings on `/create`, carried in the init URL and turned into cssVars by `/init` on top of the palette. Only values that differ from the defaults are written, and `config.style` stays a valid upstream id (contract 2).
@@ -66,7 +77,7 @@ A project installs with a look (`look.ts`): the settings on `/create`, carried i
 | ------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------- |
 | `surface`                 | `<hue>_<chroma>` (chroma 0–0.04)             | `--surface-hue`, `--surface-chroma`, and links the palette to the surfaces   |
 | `primary` … `destructive` | `<hue>_<chroma>`, statuses clamped to family | `--<role>-hue`, `--<role>-chroma`; links changed shadcn tokens to the recipe |
-| `shape`                   | `pill`                                       | `--radius: 1.25rem`                                                          |
+| `shape`                   | `squircle`, `pill`                           | That shape's radius ratios and bases, `--corner-shape`, shadcn's `--radius`  |
 | `motion`                  | `smooth`, `snappy`, `instant`, `off`         | That speed's tokens in `:root` (`off`: `--motion-scale: 0`)                  |
 | `density`                 | `compact`, `spacious`                        | That density's tokens in `:root`                                             |
 
@@ -80,8 +91,8 @@ The preview loops (live CSS, compiled styles, native) are in [COMPONENTS.md](../
 
 ## Done when
 
-- [ ] The coverage lint, contrast check and the motion and density usage tests pass.
-- [ ] The change was seen in the site in light and dark, at each density and motion speed it affects.
+- [ ] The coverage lint, contrast check and the motion, density and radius usage tests pass.
+- [ ] The change was seen in the site in light and dark, at each density, motion speed and shape it affects.
 - [ ] `native-theme.ts` follows a token or radius change ([PLATFORMS.md](PLATFORMS.md#theme)).
 - [ ] Visible changes are recaptured: `bun run registry:capture --force && bun run pages:capture` in `apps/web`, dev server running.
 - [ ] `bun run test:parity` passes when an upstream style map changed.

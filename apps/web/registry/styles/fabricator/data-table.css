@@ -21,7 +21,7 @@
      While a column resizes or moves, the whole table shows that cursor and
      nothing under the pointer lights up or selects. */
   .cn-data-table-content {
-    @apply overflow-hidden data-[variant=card]:rounded-xl data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2 data-column-dragging:cursor-grabbing data-column-dragging:select-none data-column-dragging:**:pointer-events-none data-resizing:cursor-col-resize data-resizing:select-none data-resizing:**:pointer-events-none;
+    @apply overflow-hidden data-[variant=card]:rounded-(--radius-surface) data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2 data-column-dragging:cursor-grabbing data-column-dragging:select-none data-column-dragging:**:pointer-events-none data-resizing:cursor-col-resize data-resizing:select-none data-resizing:**:pointer-events-none;
   }
 
   /* The system's scrollbars give way to the table's own for a mouse or
@@ -77,7 +77,7 @@
   /* Sort: the label and the type icon, which turns into the direction arrow
      on the move timing (and turns over for descending). */
   .cn-data-table-sort {
-    @apply -mx-(--density-4) h-(--density-28) flex-1 gap-(--density-6) rounded-md px-(--density-4) font-medium enabled:cursor-pointer transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring;
+    @apply -mx-(--density-4) h-(--density-28) flex-1 gap-(--density-6) rounded-(--radius-inner) px-(--density-4) font-medium enabled:cursor-pointer transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring;
   }
 
   .cn-data-table-sort-icon {
@@ -153,7 +153,7 @@
   }
 
   .cn-data-table-skeleton {
-    @apply h-(--density-12) rounded-sm;
+    @apply h-(--density-12) rounded-(--radius-mark);
   }
 
   /* Footer: sticky, a hairline above, one calculation per column. */
@@ -168,7 +168,7 @@
   /* A calculation: its name muted, its value in the foreground. An unset
      one ("Calculate") shows while its cell is lit. */
   .cn-data-table-aggregate {
-    @apply h-(--density-28) cursor-pointer gap-(--density-6) rounded-md px-(--density-4) text-(length:--density-text-12) transition-[background-color,opacity] duration-feedback ease-feedback in-data-[align=center]:justify-center in-data-[align=end]:justify-end hover:bg-hover focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring data-focus-visible:opacity-100 data-focus-visible:ring-1 data-focus-visible:ring-ring data-empty:opacity-0 data-popup-open:bg-hover data-popup-open:opacity-100 data-[state=open]:bg-hover data-[state=open]:opacity-100 aria-expanded:bg-hover aria-expanded:opacity-100 in-[td:hover]:opacity-100 pointer-coarse:opacity-100;
+    @apply h-(--density-28) cursor-pointer gap-(--density-6) rounded-(--radius-inner) px-(--density-4) text-(length:--density-text-12) transition-[background-color,opacity] duration-feedback ease-feedback in-data-[align=center]:justify-center in-data-[align=end]:justify-end hover:bg-hover focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring data-focus-visible:opacity-100 data-focus-visible:ring-1 data-focus-visible:ring-ring data-empty:opacity-0 data-popup-open:bg-hover data-popup-open:opacity-100 data-[state=open]:bg-hover data-[state=open]:opacity-100 aria-expanded:bg-hover aria-expanded:opacity-100 in-[td:hover]:opacity-100 pointer-coarse:opacity-100;
   }
 
   .cn-data-table-aggregate-label {
@@ -211,7 +211,7 @@
      border in dark. It rises over the table's bottom edge, above the
      footer, on the move timing. */
   .cn-data-table-selection-bar {
-    @apply bottom-(--density-12) gap-(--density-8) rounded-xl bg-(--data-table-ink) p-(--density-4) ps-(--density-12) text-(length:--density-text-13) text-(--data-table-paper) shadow-surface-6 [--active:color-mix(in_oklab,var(--data-table-paper)_18%,transparent)] [--border:color-mix(in_oklab,var(--data-table-paper)_20%,transparent)] [--foreground:var(--data-table-paper)] [--hover:color-mix(in_oklab,var(--data-table-paper)_12%,transparent)] [--muted-foreground:color-mix(in_oklab,var(--data-table-paper)_72%,transparent)] in-data-footer:bottom-[calc(var(--density-36)+var(--density-12))] dark:border dark:border-border dark:bg-surface-6 dark:text-foreground dark:[--active:inherit] dark:[--border:inherit] dark:[--foreground:inherit] dark:[--hover:inherit] dark:[--muted-foreground:inherit] transition-[opacity,translate,scale] duration-move ease-enter data-[state=closed]:pointer-events-none data-[state=closed]:translate-y-2 data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=closed]:duration-move-exit data-[state=closed]:ease-exit motion-reduce:transition-none;
+    @apply bottom-(--density-12) gap-(--density-8) rounded-(--radius-surface) bg-(--data-table-ink) p-(--density-4) ps-(--density-12) text-(length:--density-text-13) text-(--data-table-paper) shadow-surface-6 [--active:color-mix(in_oklab,var(--data-table-paper)_18%,transparent)] [--border:color-mix(in_oklab,var(--data-table-paper)_20%,transparent)] [--foreground:var(--data-table-paper)] [--hover:color-mix(in_oklab,var(--data-table-paper)_12%,transparent)] [--muted-foreground:color-mix(in_oklab,var(--data-table-paper)_72%,transparent)] in-data-footer:bottom-[calc(var(--density-36)+var(--density-12))] dark:border dark:border-border dark:bg-surface-6 dark:text-foreground dark:[--active:inherit] dark:[--border:inherit] dark:[--foreground:inherit] dark:[--hover:inherit] dark:[--muted-foreground:inherit] transition-[opacity,translate,scale] duration-move ease-enter data-[state=closed]:pointer-events-none data-[state=closed]:translate-y-2 data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=closed]:duration-move-exit data-[state=closed]:ease-exit motion-reduce:transition-none;
   }
 
   .cn-data-table-selection-count {
@@ -287,7 +287,7 @@
   }
 
   .cn-data-table-link {
-    @apply inline-flex max-w-full items-center gap-(--density-4) text-primary-text underline-offset-4 outline-none hover:underline focus-visible:rounded-sm focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:opacity-60;
+    @apply inline-flex max-w-full items-center gap-(--density-4) text-primary-text underline-offset-4 outline-none hover:underline focus-visible:rounded-(--radius-mark) focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:opacity-60;
   }
 
   .cn-data-table-boolean {
@@ -357,7 +357,7 @@
   }
 
   .cn-data-table-setting {
-    @apply -mx-(--density-6) min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-lg px-(--density-6) transition-colors duration-feedback ease-feedback hover:bg-hover;
+    @apply -mx-(--density-6) min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-(--radius-control) px-(--density-6) transition-colors duration-feedback ease-feedback hover:bg-hover;
   }
 
   /* Columns: a list in the table's order. Each row has a grip, quiet until
@@ -368,11 +368,11 @@
   }
 
   .cn-data-table-column-row {
-    @apply gap-px rounded-lg data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
+    @apply gap-px rounded-(--radius-control) data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
   }
 
   .cn-data-table-column-handle {
-    @apply cursor-grab rounded-md p-1 text-muted-foreground/0 transition-colors duration-feedback ease-feedback in-[li:hover]:text-muted-foreground/60 in-[li:focus-within]:text-muted-foreground/60 in-data-dragging:text-foreground hover:text-foreground! active:cursor-grabbing pointer-coarse:text-muted-foreground/60 [&_svg]:size-(--density-icon-14);
+    @apply cursor-grab rounded-(--radius-inner) p-1 text-muted-foreground/0 transition-colors duration-feedback ease-feedback in-[li:hover]:text-muted-foreground/60 in-[li:focus-within]:text-muted-foreground/60 in-data-dragging:text-foreground hover:text-foreground! active:cursor-grabbing pointer-coarse:text-muted-foreground/60 [&_svg]:size-(--density-icon-14);
   }
 
   .cn-data-table-column-item {
@@ -383,7 +383,7 @@
      follows the pointer, the column dims under a wash of the table's
      surface, and a primary line marks the gap it lands in. */
   .cn-data-table-drag-overlay {
-    @apply cursor-grabbing gap-(--density-6) rounded-lg bg-surface-5 px-(--density-12) text-(length:--density-text-13) font-medium text-foreground shadow-surface-5 ring-1 ring-foreground/10;
+    @apply cursor-grabbing gap-(--density-6) rounded-(--radius-control) bg-surface-5 px-(--density-12) text-(length:--density-text-13) font-medium text-foreground shadow-surface-5 ring-1 ring-foreground/10;
   }
 
   .cn-data-table-drag-shade {
@@ -436,7 +436,7 @@
   }
 
   .cn-data-table-option {
-    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-lg px-(--density-6) transition-colors duration-feedback ease-feedback hover:bg-hover;
+    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-(--radius-control) px-(--density-6) transition-colors duration-feedback ease-feedback hover:bg-hover;
   }
 
   .cn-data-table-option-count {
@@ -454,7 +454,7 @@
   }
 
   .cn-data-table-edit-link {
-    @apply absolute inset-y-0 end-(--density-6) my-auto grid size-(--density-24) place-items-center rounded-md text-muted-foreground opacity-0 transition-opacity duration-feedback ease-feedback in-[td:hover]:opacity-100 hover:bg-hover hover:text-foreground focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-14);
+    @apply absolute inset-y-0 end-(--density-6) my-auto grid size-(--density-24) place-items-center rounded-(--radius-inner) text-muted-foreground opacity-0 transition-opacity duration-feedback ease-feedback in-[td:hover]:opacity-100 hover:bg-hover hover:text-foreground focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-14);
   }
 
   .cn-data-table-picker {
@@ -466,7 +466,7 @@
   }
 
   .cn-data-table-picker-option {
-    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-lg px-(--density-6) text-start outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0;
+    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-(--radius-control) px-(--density-6) text-start outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0;
   }
 
   /* Tags sit on one line; those that don't fit fade out at the end. The

@@ -34,7 +34,7 @@
 
   /* A held row lights up with its slice. */
   .cn-donut-chart-list-item {
-    @apply gap-(--density-6) rounded-md px-(--density-8) py-(--density-6) data-[active=true]:bg-hover;
+    @apply gap-(--density-6) rounded-(--radius-inner) px-(--density-8) py-(--density-6) data-[active=true]:bg-hover corner-curve;
   }
 
   .cn-donut-chart-list-row {

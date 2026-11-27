@@ -6,7 +6,7 @@
   }
 
   .cn-preview-rail-list {
-    @apply rounded-lg;
+    @apply rounded-(--radius-control) corner-curve;
   }
 
   /* A tick's box fills its step: a 24-step along the rail, a 40-step across,
@@ -34,11 +34,11 @@
     @apply data-[side=bottom]:pt-(--density-8) data-[side=left]:pe-(--density-8) data-[side=right]:ps-(--density-8) data-[side=top]:pb-(--density-8);
   }
 
-  /* The hover card's recipe: surface 3 with its shadow ring, rounded-xl,
+  /* The hover card's recipe: surface 3 with its shadow ring, the surface corner,
      p12, w-64. It grows from the rail on the popup motion
      (useSurfaceAnimation). */
   .cn-preview-rail-card {
-    @apply w-64 rounded-xl bg-surface-3 p-(--density-12) shadow-surface-3;
+    @apply w-64 rounded-(--radius-surface) bg-surface-3 p-(--density-12) shadow-surface-3 corner-curve;
   }
 
   /* Each item's content fades in as the card reaches it, on the feedback

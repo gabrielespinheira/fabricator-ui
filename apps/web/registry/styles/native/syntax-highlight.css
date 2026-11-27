@@ -1,10 +1,10 @@
 /* MARK: Syntax Highlight */
 
-  /* The website's raised panel: surface 2 with a hairline edge, rounded-xl.
+  /* The website's raised panel: surface 2 with a hairline edge, the surface corner.
      The colours are the same --syntax-* tokens, resolved for the look by
      native-theme.ts. */
   .cn-syntax-highlight {
-    @apply bg-surface-2 border-border/60 rounded-xl border;
+    @apply bg-surface-2 border-border/60 rounded-(--radius-surface) border corner-curve;
   }
 
   .cn-syntax-highlight-header {

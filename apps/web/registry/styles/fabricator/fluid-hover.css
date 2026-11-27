@@ -6,11 +6,11 @@
      which lib/fluid-hover steps; only the fade is CSS. Reduced motion keeps
      the fade and drops the travel. */
   .cn-fluid-hover-highlight {
-    @apply bg-hover rounded-lg transition-opacity duration-glide ease-linear starting:opacity-0;
+    @apply bg-hover rounded-[var(--fluid-hover-radius,var(--radius-control))] transition-opacity duration-glide ease-linear starting:opacity-0;
   }
 
   /* The selected item's background, stretching from one selection to the
      next on the same springs. */
   .cn-fluid-hover-selection {
-    @apply bg-active rounded-lg transition-opacity duration-glide ease-linear;
+    @apply bg-active rounded-[var(--fluid-hover-radius,var(--radius-control))] transition-opacity duration-glide ease-linear;
   }

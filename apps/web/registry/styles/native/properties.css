@@ -20,7 +20,7 @@
   }
 
   .cn-properties-label-trigger {
-    @apply rounded-lg px-(--density-8) active:bg-hover;
+    @apply rounded-(--radius-control) px-(--density-8) active:bg-hover corner-curve;
   }
 
   .cn-properties-label-text {
@@ -33,11 +33,11 @@
 
   /* The value is the button: no frame at rest, the neutral wash while pressed. */
   .cn-properties-trigger {
-    @apply min-h-(--density-36) rounded-lg px-(--density-8) py-(--density-4) active:bg-hover;
+    @apply min-h-(--density-36) rounded-(--radius-control) px-(--density-8) py-(--density-4) active:bg-hover corner-curve;
   }
 
   .cn-properties-input {
-    @apply min-h-(--density-36) rounded-lg px-(--density-8) py-(--density-8) font-sans text-(length:--density-text-13) text-foreground focus:bg-hover;
+    @apply min-h-(--density-36) rounded-(--radius-control) px-(--density-8) py-(--density-8) font-sans text-(length:--density-text-13) text-foreground focus:bg-hover corner-curve;
   }
 
   .cn-properties-option-input {
@@ -84,7 +84,7 @@
 
   /* Neutral chips with the option's colour in its mark. */
   .cn-properties-chip {
-    @apply h-(--density-24) gap-(--density-6) rounded-md bg-hover px-(--density-6);
+    @apply h-(--density-24) gap-(--density-6) rounded-(--radius-inner) bg-hover px-(--density-6) corner-curve;
   }
 
   .cn-properties-chip-text {
@@ -120,7 +120,7 @@
   }
 
   .cn-properties-swatch {
-    @apply size-(--density-16) rounded-sm;
+    @apply size-(--density-16) rounded-(--radius-mark) corner-curve;
   }
 
   .cn-properties-date-actions {
@@ -150,7 +150,7 @@
   }
 
   .cn-properties-file {
-    @apply h-(--density-48) justify-center rounded-lg bg-hover active:opacity-80;
+    @apply h-(--density-48) justify-center rounded-(--radius-control) bg-hover active:opacity-80 corner-curve;
   }
 
   .cn-properties-file-image {
@@ -162,7 +162,7 @@
   }
 
   .cn-properties-file-mark {
-    @apply size-(--density-20) rounded-sm;
+    @apply size-(--density-20) rounded-(--radius-mark) corner-curve;
   }
 
   .cn-properties-file-add {
@@ -178,7 +178,7 @@
   }
 
   .cn-properties-file-preview {
-    @apply aspect-video rounded-lg bg-hover;
+    @apply aspect-video rounded-(--radius-control) bg-hover corner-curve;
   }
 
   .cn-properties-file-actions {
@@ -269,11 +269,11 @@
   }
 
   .cn-properties-preview {
-    @apply gap-(--density-8) rounded-lg bg-hover p-(--density-12);
+    @apply gap-(--density-8) rounded-(--radius-control) bg-hover p-(--density-12) corner-curve;
   }
 
   .cn-properties-option-list {
-    @apply rounded-lg;
+    @apply rounded-(--radius-control) corner-curve;
   }
 
   .cn-properties-option-row {

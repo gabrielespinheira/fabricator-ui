@@ -10,13 +10,13 @@
   }
 
   /* Panel: surface 3 whose shadow ring is the edge (no border); the edge
-     that meets the screen is square, the free edge rounded-xl. */
+     that meets the screen is square, the free edge the surface corner. */
   .cn-drawer-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex h-auto flex-col text-(length:--density-text-13) data-[vaul-drawer-direction=bottom]:rounded-t-xl data-[vaul-drawer-direction=left]:rounded-r-xl data-[vaul-drawer-direction=right]:rounded-l-xl data-[vaul-drawer-direction=top]:rounded-b-xl md:data-[vaul-drawer-direction=bottom]:mx-auto md:data-[vaul-drawer-direction=bottom]:max-w-xl md:data-[vaul-drawer-direction=top]:mx-auto md:data-[vaul-drawer-direction=top]:max-w-xl;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex h-auto flex-col text-(length:--density-text-13) data-[vaul-drawer-direction=bottom]:rounded-t-(--radius-surface) data-[vaul-drawer-direction=left]:rounded-r-(--radius-surface) data-[vaul-drawer-direction=right]:rounded-l-(--radius-surface) data-[vaul-drawer-direction=top]:rounded-b-(--radius-surface) md:data-[vaul-drawer-direction=bottom]:mx-auto md:data-[vaul-drawer-direction=bottom]:max-w-xl md:data-[vaul-drawer-direction=top]:mx-auto md:data-[vaul-drawer-direction=top]:max-w-xl;
   }
 
   .cn-drawer-popup {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground text-(length:--density-text-13) data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl duration-sheet! ease-drawer! data-ending-style:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-swiping:duration-0! data-nested-drawer-swiping:duration-0! data-ending-style:data-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-ending-style:data-nested-drawer-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! md:data-[swipe-axis=y]:inset-x-(--drawer-inset,0px) md:data-[swipe-axis=y]:mx-auto md:data-[swipe-axis=y]:max-w-xl;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground text-(length:--density-text-13) data-[swipe-direction=down]:rounded-t-(--radius-surface) data-[swipe-direction=left]:rounded-r-(--radius-surface) data-[swipe-direction=right]:rounded-l-(--radius-surface) data-[swipe-direction=up]:rounded-b-(--radius-surface) duration-sheet! ease-drawer! data-ending-style:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-swiping:duration-0! data-nested-drawer-swiping:duration-0! data-ending-style:data-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-ending-style:data-nested-drawer-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! md:data-[swipe-axis=y]:inset-x-(--drawer-inset,0px) md:data-[swipe-axis=y]:mx-auto md:data-[swipe-axis=y]:max-w-xl;
   }
 
   /* The panel's content fades while a nested drawer covers it, on the

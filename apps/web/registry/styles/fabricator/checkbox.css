@@ -1,13 +1,13 @@
 /* MARK: Checkbox */
 
-  /* 18px, rounded-[6px], a quiet 1.5px outline that firms up on hover. Checked
+  /* 18px, the mark corner, a quiet 1.5px outline that firms up on hover. Checked
      fills with the primary role (the foreground while neutral) and the check
      pops in in its foreground. Fill and border change on the feedback
      timing, with a press give (scale 0.9); letting go pops the box back on
      the pop spring, so the click lands with a bounce. Focus is the 1px ring,
      offset. */
   .cn-checkbox {
-    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px] border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-[calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-spring-pop-duration)*var(--motion-scale,1))] ease-[var(--motion-ease-feedback),var(--motion-ease-feedback),var(--motion-ease-feedback),var(--motion-ease-pop-spring)] active:duration-feedback active:ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-[6px] text-primary-foreground data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary group-has-disabled/field:opacity-50;
+    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px] border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-[calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-spring-pop-duration)*var(--motion-scale,1))] ease-[var(--motion-ease-feedback),var(--motion-ease-feedback),var(--motion-ease-feedback),var(--motion-ease-pop-spring)] active:duration-feedback active:ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-(--radius-mark) text-primary-foreground data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary group-has-disabled/field:opacity-50;
   }
 
   .cn-checkbox-aria {

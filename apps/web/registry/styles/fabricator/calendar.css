@@ -1,11 +1,11 @@
 /* MARK: Calendar */
 
-  /* 32px day cells with rounded-lg highlights, 13px numerals. Today is the
+  /* 32px day cells with control-corner highlights, 13px numerals. Today is the
      active step (bg-active) instead of muted, and so is a range's middle, so
      both read in dark mode too; these use `!` because the component sets
      bg-muted inline on those cells. */
   .cn-calendar {
-    @apply p-(--density-12) text-(length:--density-text-13) [--cell-radius:var(--radius-lg)] [--cell-size:var(--density-32)] **:[.rdp-today]:bg-active! **:[.rdp-range\_start]:bg-active! **:[.rdp-range\_start]:after:bg-active! **:[.rdp-range\_end]:bg-active! **:[.rdp-range\_end]:after:bg-active! **:data-[range-middle=true]:bg-active! **:data-today:bg-active!;
+    @apply p-(--density-12) text-(length:--density-text-13) [--cell-radius:var(--radius-control)] [--cell-size:var(--density-32)] **:[.rdp-today]:bg-active! **:[.rdp-range\_start]:bg-active! **:[.rdp-range\_start]:after:bg-active! **:[.rdp-range\_end]:bg-active! **:[.rdp-range\_end]:after:bg-active! **:data-[range-middle=true]:bg-active! **:data-today:bg-active!;
   }
 
   /* Month/year dropdowns: framed like an input, no blue halo. */

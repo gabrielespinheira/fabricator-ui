@@ -25,7 +25,7 @@ import {
 // the loader's placeholder (gradients and a CSS animation), web only for now
 // (parity-exceptions.json).
 const INPUT_TOKEN =
-  /^(shadow-color|overlay|dm-.*|.*-hue|.*-chroma|motion-popup-blur|motion-ease-.*|motion-spring-.*|loader.*)$/
+  /^(shadow-color|overlay|dm-.*|.*-hue|.*-chroma|motion-popup-blur|motion-ease-.*|motion-spring-.*|loader.*|radius-.*-(?:ratio|base)|corner-shape)$/
 
 const look = (overrides: Partial<FabricatorLook>): FabricatorLook => ({
   ...DEFAULT_LOOK,
@@ -152,7 +152,7 @@ describe("getNativeCssVariables", () => {
     expect(dark).toMatch(/^inset 0 0 0 1px #[0-9a-f]{8}, 0 1px 2px #0000003d$/)
   })
 
-  it("sets the radius scale, with Pill at 20", () => {
+  it("sets shadcn's radius scale, with Pill at 12", () => {
     expect(getNativeCssVariables("light", DEFAULT_LOOK)).toMatchObject({
       "--radius": 8,
       "--radius-lg": 8,
@@ -160,7 +160,28 @@ describe("getNativeCssVariables", () => {
     })
     expect(
       getNativeCssVariables("light", look({ radius: "pill" }))
-    ).toMatchObject({ "--radius": 20, "--radius-lg": 20, "--radius-xl": 28 })
+    ).toMatchObject({ "--radius": 12, "--radius-lg": 12 })
+  })
+
+  it("sets the corner roles for the look's density", () => {
+    expect(getNativeCssVariables("light", DEFAULT_LOOK)).toMatchObject({
+      "--radius-control": 8,
+      "--radius-surface": 12,
+      "--radius-nested": 8,
+      "--corner-curve": "circular",
+    })
+    expect(
+      getNativeCssVariables(
+        "light",
+        look({ radius: "pill", density: "spacious" })
+      )
+    ).toMatchObject({ "--radius-control": 22, "--radius-nested": 22 })
+  })
+
+  it("draws continuous corners for Squircle", () => {
+    expect(
+      getNativeCssVariables("light", look({ radius: "squircle" }))
+    ).toMatchObject({ "--radius-surface": 14, "--corner-curve": "continuous" })
   })
 
   it("sets the density's sizes as numbers", () => {
@@ -230,7 +251,15 @@ describe("toNativeStylesheet", () => {
     }
   })
 
+  it("draws corners with the look's curve", () => {
+    expect(css).toContain("--corner-curve: circular;")
+    expect(css).toContain(
+      "@utility corner-curve {\n  border-curve: var(--corner-curve);\n}"
+    )
+  })
+
   it("writes sizes in pixels and the radius scale per mode", () => {
+    expect(css).toContain("--radius-control: 8px;")
     expect(css).toContain("--radius: 8px;")
     expect(css).toContain("--radius-lg: 8px;")
     expect(css).toContain("--density-text-13: 13px;")

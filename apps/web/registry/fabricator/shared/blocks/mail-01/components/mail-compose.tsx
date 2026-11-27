@@ -218,7 +218,7 @@ export function MailCompose({
                   <section
                     aria-label="Forwarded message"
                     tabIndex={0}
-                    className="max-h-40 overflow-y-auto rounded-lg bg-hover px-(--density-12) py-(--density-10) text-foreground/70 outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    className="max-h-40 overflow-y-auto rounded-(--radius-control) bg-hover px-(--density-12) py-(--density-10) text-foreground/70 outline-none focus-visible:ring-1 focus-visible:ring-ring"
                   >
                     <Markdown size="sm" className="text-inherit">
                       {toMailMarkdown(splitQuote(draft.quote).quote ?? "")}

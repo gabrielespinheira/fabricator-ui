@@ -3,7 +3,7 @@
   /* A button: its density, radius and type. Pressing gives to the press
      scale; the cursor is a hand. Focus is the 1px ring, offset. */
   .cn-hold-button {
-    @apply cursor-pointer h-(--density-36) gap-(--density-6) rounded-lg px-(--density-16) text-(length:--density-text-13) font-medium transition-[scale,background-color] duration-feedback ease-feedback motion-press focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50;
+    @apply cursor-pointer h-(--density-36) gap-(--density-6) rounded-(--radius-control) px-(--density-16) text-(length:--density-text-13) font-medium transition-[scale,background-color] duration-feedback ease-feedback motion-press focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50;
   }
 
   /* At rest the secondary fill; holding pours the primary fill over it. */

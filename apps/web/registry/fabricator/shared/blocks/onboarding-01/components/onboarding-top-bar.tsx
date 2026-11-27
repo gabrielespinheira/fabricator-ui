@@ -19,7 +19,7 @@ export function OnboardingTopBar({
       <a
         href="/"
         aria-label="Home"
-        className="flex size-(--density-32) shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex size-(--density-32) shrink-0 items-center justify-center rounded-(--radius-control) bg-primary text-primary-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <IconPlaceholder
           lucide="GalleryVerticalEndIcon"

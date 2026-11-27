@@ -18,10 +18,10 @@
     @apply border-border z-10 data-[edge=left]:border-r data-[edge=right]:border-l data-[side=left]:left-0 data-[side=right]:right-0 data-[variant=floating]:px-(--density-8);
   }
 
-  /* The panel is surface 2 (bg-sidebar). Floating: a rounded-xl surface whose
+  /* The panel is surface 2 (bg-sidebar). Floating: a the surface corner surface whose
      shadow ring is its edge. */
   .cn-sidebar-inner {
-    @apply bg-sidebar data-[variant=floating]:shadow-surface-2 data-[variant=floating]:overflow-hidden data-[variant=floating]:rounded-xl;
+    @apply bg-sidebar data-[variant=floating]:shadow-surface-2 data-[variant=floating]:overflow-hidden data-[variant=floating]:rounded-(--radius-surface) corner-curve;
   }
 
   .cn-sidebar-text {
@@ -67,7 +67,7 @@
 
   /* Pressed is the next interaction step, as on a ghost button. */
   .cn-sidebar-trigger-wash {
-    @apply -inset-px rounded-lg bg-active;
+    @apply -inset-px rounded-(--radius-control) bg-active corner-curve;
   }
 
   /* What the content's edges fade to: the sidebar's own colour. */
@@ -75,11 +75,11 @@
     @apply text-sidebar;
   }
 
-  /* The page. Inset main area: surface 2 with its shadow ring, rounded-xl. While
+  /* The page. Inset main area: surface 2 with its shadow ring, the surface corner. While
      the phone sidebar is revealed it moves aside and shrinks towards the sidebar's
      edge on the sheet's timing, and its corners and shadow leave last. */
   .cn-sidebar-inset {
-    @apply bg-background data-[aside=true]:shadow-surface-6 data-[layout=card]:bg-surface-2 data-[layout=card]:shadow-surface-2 data-[aside=true]:overflow-hidden data-[layout=card]:overflow-hidden data-[aside=true]:rounded-[48px] ios:border-continuous data-[layout=card]:rounded-xl data-[reveal=true]:z-10;
+    @apply bg-background data-[aside=true]:shadow-surface-6 data-[layout=card]:bg-surface-2 data-[layout=card]:shadow-surface-2 data-[aside=true]:overflow-hidden data-[layout=card]:overflow-hidden data-[aside=true]:rounded-[48px] ios:border-continuous data-[layout=card]:rounded-(--radius-surface) data-[reveal=true]:z-10 corner-curve;
   }
 
   /* The revealed sidebar: behind the page, drifting a little as it uncovers. */
@@ -139,7 +139,7 @@
   /* Group labels: a 24pt header 4pt above the rows, 12pt medium, muted (full
      muted-foreground, not /70, to keep 4.5:1 on surface 2). Gone on the rail. */
   .cn-sidebar-group-label {
-    @apply mb-(--density-4) h-(--density-24) gap-0.5 rounded-md px-(--density-8) data-[collapsible=icon]:hidden;
+    @apply mb-(--density-4) h-(--density-24) gap-0.5 rounded-(--radius-inner) px-(--density-8) data-[collapsible=icon]:hidden corner-curve;
   }
 
   .cn-sidebar-group-label-text {
@@ -155,7 +155,7 @@
   /* Header actions: 24pt boxes on the axis of the rows' actions and badges, over
      the group's padding or at the end of a collapsible group's header. */
   .cn-sidebar-group-action {
-    @apply size-(--density-24) rounded-md active:bg-hover data-[place=group]:top-(--density-8) data-[place=group]:right-[calc(var(--density-8)+var(--density-6))] data-[place=header]:top-0 data-[place=header]:right-(--density-6);
+    @apply size-(--density-24) rounded-(--radius-inner) active:bg-hover data-[place=group]:top-(--density-8) data-[place=group]:right-[calc(var(--density-8)+var(--density-6))] data-[place=header]:top-0 data-[place=header]:right-(--density-6) corner-curve;
   }
 
   .cn-sidebar-group-action-text {
@@ -170,13 +170,13 @@
     @apply min-w-0;
   }
 
-  /* Rows: 30pt, gap-2, rounded-lg, 13pt: the label at foreground/80 and the icon
+  /* Rows: 30pt, gap-2, the control corner, 13pt: the label at foreground/80 and the icon
      muted at rest. The lit row turns foreground; the active row is foreground on a
      raised bg-active. The menu's highlight and selection paint those fills, so a
      row paints them itself only outside a menu, and while a drag has the selection
      hidden. On the rail a row is a 32pt square with only its icon. */
   .cn-sidebar-menu-button {
-    @apply gap-(--density-8) rounded-lg pr-(--density-8) pl-(--density-8) disabled:opacity-50 data-[active=true]:data-[fluid=false]:bg-active data-[active=true]:data-[fluid=false]:shadow-surface-2 data-[collapsible=icon]:size-(--density-32) data-[collapsible=icon]:justify-center data-[collapsible=icon]:pr-0 data-[collapsible=icon]:pl-0;
+    @apply gap-(--density-8) rounded-(--radius-control) pr-(--density-8) pl-(--density-8) disabled:opacity-50 data-[active=true]:data-[fluid=false]:bg-active data-[active=true]:data-[fluid=false]:shadow-surface-2 data-[collapsible=icon]:size-(--density-32) data-[collapsible=icon]:justify-center data-[collapsible=icon]:pr-0 data-[collapsible=icon]:pl-0 corner-curve;
   }
 
   .cn-sidebar-menu-button-variant-default {
@@ -237,7 +237,7 @@
   /* Row actions: 24pt boxes centred on the row, each placed by what else its row
      holds (lib/sidebar-layout-model). In a cluster they flow in its row. */
   .cn-sidebar-menu-action {
-    @apply data-[shown=false]:opacity-0 size-(--density-24) rounded-md active:bg-hover data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)];
+    @apply data-[shown=false]:opacity-0 size-(--density-24) rounded-(--radius-inner) active:bg-hover data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)] corner-curve;
   }
 
   .cn-sidebar-menu-action-text {
@@ -254,7 +254,7 @@
   }
 
   .cn-sidebar-menu-badge {
-    @apply h-(--density-20) min-w-(--density-20) rounded-md px-1 data-[row-size=default]:top-[calc((var(--density-30)-var(--density-20))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-20))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-20))/2)];
+    @apply h-(--density-20) min-w-(--density-20) rounded-(--radius-inner) px-1 data-[row-size=default]:top-[calc((var(--density-30)-var(--density-20))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-20))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-20))/2)] corner-curve;
   }
 
   .cn-sidebar-menu-badge-text {
@@ -266,11 +266,11 @@
   }
 
   .cn-sidebar-menu-skeleton {
-    @apply h-(--density-30) gap-(--density-8) rounded-lg px-(--density-8);
+    @apply h-(--density-30) gap-(--density-8) rounded-(--radius-control) px-(--density-8) corner-curve;
   }
 
   .cn-sidebar-menu-skeleton-icon {
-    @apply size-(--density-icon-16) rounded-md;
+    @apply size-(--density-icon-16) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-sidebar-menu-skeleton-text {
@@ -288,7 +288,7 @@
      the top-level rows. The current one sits on a quiet wash (half the hover fill)
      instead of the raised selection, which marks its top-level row. */
   .cn-sidebar-menu-sub-button {
-    @apply h-(--density-30) gap-(--density-8) rounded-lg data-[fluid=false]:active:bg-hover disabled:opacity-50 data-[active=true]:bg-hover/50 data-[collapsible=icon]:hidden data-[size=sm]:h-(--density-24);
+    @apply h-(--density-30) gap-(--density-8) rounded-(--radius-control) data-[fluid=false]:active:bg-hover disabled:opacity-50 data-[active=true]:bg-hover/50 data-[collapsible=icon]:hidden data-[size=sm]:h-(--density-24) corner-curve;
   }
 
   .cn-sidebar-menu-sub-button-text {

@@ -483,7 +483,7 @@ function SeatsWell({
   }
 
   return (
-    <div className="flex flex-col gap-(--density-10) rounded-lg bg-hover p-(--density-12)">
+    <div className="flex flex-col gap-(--density-10) rounded-(--radius-control) bg-hover p-(--density-12)">
       <div className="flex items-baseline justify-between gap-(--density-8) text-(length:--density-text-13)">
         <span className="font-medium text-foreground">Seats</span>
         <span className="text-foreground/70 tabular-nums">

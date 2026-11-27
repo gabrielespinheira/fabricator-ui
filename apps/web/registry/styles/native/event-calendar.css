@@ -76,7 +76,7 @@
 
   /* Content: the grid's frame, a card unless the calendar is flat. */
   .cn-event-calendar-content {
-    @apply overflow-hidden data-[variant=card]:rounded-xl data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2 data-[variant=flat]:bg-background;
+    @apply overflow-hidden data-[variant=card]:rounded-(--radius-surface) data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2 data-[variant=flat]:bg-background corner-curve;
   }
 
   /* Loading: the Data Table's primary line along the top edge. */
@@ -166,7 +166,7 @@
   }
 
   .cn-event-calendar-highlight {
-    @apply rounded-md bg-active;
+    @apply rounded-(--radius-inner) bg-active corner-curve;
   }
 
   .cn-event-calendar-more-link-inner {
@@ -175,7 +175,7 @@
 
   /* The engine's "+N more" day list. */
   .cn-event-calendar-popover {
-    @apply rounded-xl bg-surface-3 p-(--density-8) shadow-surface-3;
+    @apply rounded-(--radius-surface) bg-surface-3 p-(--density-8) shadow-surface-3 corner-curve;
   }
 
   /* MARK: Events */
@@ -194,7 +194,7 @@
      line of text (timed events in month). The colours are inline, from the
      shared model's recipe for the scheme; this sets the shape. */
   .cn-event-calendar-event {
-    @apply gap-x-(--density-4) rounded-md border-transparent data-[variant=block]:flex-col data-[variant=block]:border-s-[3px] data-[variant=block]:px-(--density-6) data-[variant=block]:pt-(--density-6) data-[variant=block]:pb-(--density-4) data-[selected=true]:shadow-surface-3 data-[short=true]:flex-row data-[short=true]:items-center data-[short=true]:py-0 data-[variant=row]:flex-row data-[variant=row]:items-center data-[variant=row]:px-(--density-6) data-[variant=row]:py-px data-[variant=dot]:flex-row data-[variant=dot]:items-center data-[variant=dot]:px-(--density-4) data-[variant=dot]:py-px data-[pending=true]:opacity-60 data-[dragging=true]:shadow-surface-4 data-[draft=true]:shadow-surface-3 data-[status=tentative]:border;
+    @apply gap-x-(--density-4) rounded-(--radius-inner) border-transparent data-[variant=block]:flex-col data-[variant=block]:border-s-[3px] data-[variant=block]:px-(--density-6) data-[variant=block]:pt-(--density-6) data-[variant=block]:pb-(--density-4) data-[selected=true]:shadow-surface-3 data-[short=true]:flex-row data-[short=true]:items-center data-[short=true]:py-0 data-[variant=row]:flex-row data-[variant=row]:items-center data-[variant=row]:px-(--density-6) data-[variant=row]:py-px data-[variant=dot]:flex-row data-[variant=dot]:items-center data-[variant=dot]:px-(--density-4) data-[variant=dot]:py-px data-[pending=true]:opacity-60 data-[dragging=true]:shadow-surface-4 data-[draft=true]:shadow-surface-3 data-[status=tentative]:border corner-curve;
   }
 
   /* Text a dot row leaves uncoloured is foreground, grey once past. */
@@ -239,7 +239,7 @@
   }
 
   .cn-event-calendar-event-details-swatch {
-    @apply mt-(--density-6) size-3.5 rounded-sm bg-primary;
+    @apply mt-(--density-6) size-3.5 rounded-(--radius-mark) bg-primary corner-curve;
   }
 
   .cn-event-calendar-event-details-title {
@@ -326,11 +326,11 @@
   }
 
   .cn-event-calendar-agenda-event {
-    @apply min-h-(--density-36) gap-(--density-12) rounded-lg px-(--density-8) py-(--density-6) data-[pending=true]:opacity-60;
+    @apply min-h-(--density-36) gap-(--density-12) rounded-(--radius-control) px-(--density-8) py-(--density-6) data-[pending=true]:opacity-60 corner-curve;
   }
 
   .cn-event-calendar-agenda-event-wash {
-    @apply rounded-lg bg-hover;
+    @apply rounded-(--radius-control) bg-hover corner-curve;
   }
 
   .cn-event-calendar-agenda-event-dot {
@@ -362,11 +362,11 @@
   }
 
   .cn-event-calendar-mini-month-in-view-start {
-    @apply rounded-l-lg;
+    @apply rounded-l-(--radius-control) corner-curve;
   }
 
   .cn-event-calendar-mini-month-in-view-end {
-    @apply rounded-r-lg;
+    @apply rounded-r-(--radius-control) corner-curve;
   }
 
   .cn-event-calendar-sources {

@@ -3,7 +3,7 @@
 // The setup page (/create) writes them into the init URL, and /init turns
 // them into the payload's cssVars. Values are `<hue>_<chroma>` for colours
 // (no characters that need encoding, so the URL in a command stays readable),
-// `shape=pill`, `motion=<speed>`, `density=<compact|spacious>` and
+// `shape=squircle|pill`, `motion=<speed>`, `density=<compact|spacious>` and
 // `loader=blueprint`. Only values that differ from the defaults are written.
 
 import {
@@ -36,6 +36,13 @@ import {
   toMotionVars,
 } from "@/registry/fabricator/motion"
 import {
+  DEFAULT_RADIUS_SHAPE,
+  RADIUS_SHAPES,
+  SHAPE_ROOT_RADIUS,
+  toChangedShapeVars,
+  type RadiusShape,
+} from "@/registry/fabricator/radius"
+import {
   isNeutralTint,
   NEUTRAL_TINT,
   normalizeTint,
@@ -43,8 +50,8 @@ import {
   type SurfaceTint,
 } from "@/registry/fabricator/surface-tint"
 
-export const LOOK_SHAPES = ["rounded", "pill"] as const
-export type LookShape = (typeof LOOK_SHAPES)[number]
+export const LOOK_SHAPES = RADIUS_SHAPES
+export type LookShape = RadiusShape
 
 export const LOOK_MOTIONS = [...MOTION_SPEED_NAMES, "off"] as const
 export type LookMotion = (typeof LOOK_MOTIONS)[number]
@@ -61,7 +68,7 @@ export type FabricatorLook = {
 export const DEFAULT_LOOK: FabricatorLook = {
   surface: NEUTRAL_TINT,
   colors: ROLE_DEFAULTS,
-  radius: "rounded",
+  radius: DEFAULT_RADIUS_SHAPE,
   motion: DEFAULT_MOTION_SPEED,
   density: DEFAULT_DENSITY,
   loader: DEFAULT_LOADER,
@@ -76,9 +83,6 @@ export const LOOK_PARAM_NAMES = [
   "density",
   "loader",
 ] as const
-
-/** The radius Pill sets (the website's Pill setting uses the same value). */
-export const PILL_RADIUS = "1.25rem"
 
 // The roles whose shadcn tokens (primary, secondary, destructive) the
 // Fabricator palette writes as literals; changing one relinks them.
@@ -225,7 +229,11 @@ export function lookCssVars(look: FabricatorLook) {
     Object.assign(dark, ROLE_PALETTE_LINKS.dark)
   }
 
-  if (look.radius === "pill") light.radius = PILL_RADIUS
+  if (look.radius !== DEFAULT_RADIUS_SHAPE) {
+    Object.assign(light, toChangedShapeVars(look.radius), {
+      radius: SHAPE_ROOT_RADIUS[look.radius],
+    })
+  }
 
   if (look.motion === "off") {
     light["motion-scale"] = "0"

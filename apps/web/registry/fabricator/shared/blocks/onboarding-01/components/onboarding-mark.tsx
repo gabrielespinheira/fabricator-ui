@@ -16,7 +16,7 @@ export function OnboardingMark({
     <span
       aria-hidden="true"
       className={cn(
-        "flex size-(--density-28) shrink-0 items-center justify-center rounded-lg transition-colors duration-move ease-move weight-semibold",
+        "flex size-(--density-28) shrink-0 items-center justify-center rounded-(--radius-control) transition-colors duration-move ease-move weight-semibold",
         className
       )}
       style={{ background: color, color: getReadableColor(color) }}

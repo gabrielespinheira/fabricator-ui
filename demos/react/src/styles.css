@@ -61,7 +61,7 @@ body {
   align-items: center;
   justify-content: center;
   overflow: auto;
-  border-radius: calc(var(--radius) * 1.4);
+  border-radius: var(--radius-surface);
   background: var(--card);
   padding: var(--density-24);
   box-shadow: var(--shadow-surface-2);
@@ -74,7 +74,7 @@ body {
   width: 100%;
   height: max(36rem, calc(100dvh - 10rem));
   border: 0;
-  border-radius: var(--radius);
+  border-radius: var(--radius-surface);
   background: var(--background);
   box-shadow: var(--shadow-surface-2);
 }

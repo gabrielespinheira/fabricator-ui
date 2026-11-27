@@ -181,7 +181,7 @@ export function MessengerMessage({
             })
           )
         }}
-        className="rounded-lg outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        className="rounded-(--radius-control) outline-none focus-visible:ring-1 focus-visible:ring-ring"
       >
         {showsSender && (
           <MessageAvatar

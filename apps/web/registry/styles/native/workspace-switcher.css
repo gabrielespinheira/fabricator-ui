@@ -2,12 +2,12 @@
 
   /* The mark (data-workspace-switcher="mark") is the logo alone as a 36pt button. */
   .cn-workspace-switcher-trigger {
-    @apply data-[state=open]:bg-hover data-[workspace-switcher=mark]:size-(--density-36) data-[workspace-switcher=mark]:rounded-lg data-[workspace-switcher=mark]:active:bg-hover;
+    @apply data-[state=open]:bg-hover data-[workspace-switcher=mark]:size-(--density-36) data-[workspace-switcher=mark]:rounded-(--radius-control) data-[workspace-switcher=mark]:active:bg-hover corner-curve;
   }
 
   /* The logo: a 32pt rounded square in the primary colour, or the image. */
   .cn-workspace-switcher-logo {
-    @apply bg-primary size-(--density-32) rounded-lg;
+    @apply bg-primary size-(--density-32) rounded-(--radius-control) corner-curve;
   }
 
   .cn-workspace-switcher-logo-text {
@@ -15,7 +15,7 @@
   }
 
   .cn-workspace-switcher-logo-sm {
-    @apply size-(--density-24) rounded-md;
+    @apply size-(--density-24) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-workspace-switcher-logo-sm-text {
@@ -66,7 +66,7 @@
   }
 
   .cn-workspace-switcher-overlay-logo {
-    @apply size-(--density-48) rounded-xl;
+    @apply size-(--density-48) rounded-(--radius-surface) corner-curve;
   }
 
   .cn-workspace-switcher-overlay-logo-text {

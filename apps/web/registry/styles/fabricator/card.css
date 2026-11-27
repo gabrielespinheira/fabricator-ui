@@ -1,14 +1,14 @@
 /* MARK: Card */
 
   /* Light, visible container: bg-card on surface 2's shadow ring (no
-     border or ring), rounded-xl. 16px rhythm (12px for size="sm"). The
+     border or ring), the surface corner. 16px rhythm (12px for size="sm"). The
      footer has no muted bar, so the card keeps its bottom padding. */
   .cn-card {
-    @apply bg-card text-card-foreground shadow-surface-2 gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-(length:--density-text-13) [--card-spacing:var(--density-16)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:var(--density-12)] *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl;
+    @apply bg-card text-card-foreground shadow-surface-2 gap-(--card-spacing) overflow-hidden rounded-(--radius-surface) py-(--card-spacing) text-(length:--density-text-13) [--card-spacing:var(--density-16)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:var(--density-12)] *:[img:first-child]:rounded-t-(--radius-surface) *:[img:last-child]:rounded-b-(--radius-surface);
   }
 
   .cn-card-header {
-    @apply gap-1 rounded-t-xl px-(--card-spacing) [.border-b]:border-border/60 [.border-b]:pb-(--card-spacing);
+    @apply gap-1 rounded-t-(--radius-surface) px-(--card-spacing) [.border-b]:border-border/60 [.border-b]:pb-(--card-spacing);
   }
 
   .cn-card-title {
@@ -24,5 +24,5 @@
   }
 
   .cn-card-footer {
-    @apply gap-(--density-8) rounded-b-xl px-(--card-spacing) [.border-t]:border-border/60 [.border-t]:pt-(--card-spacing);
+    @apply gap-(--density-8) rounded-b-(--radius-surface) px-(--card-spacing) [.border-t]:border-border/60 [.border-t]:pt-(--card-spacing);
   }

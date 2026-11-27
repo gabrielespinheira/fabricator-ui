@@ -1,17 +1,17 @@
 /* MARK: Button */
 
-  /* 36pt controls at the default density, 13pt medium text, rounded-lg.
+  /* 36pt controls at the default density, 13pt medium text, the control corner.
      Pressed is a wash under the label plus the press scale (usePressScale),
      both easing on the feedback timing. Icons draw at stroke 1.5, set in the
      source: a class can't reach them. */
   .cn-button {
-    @apply rounded-lg border border-transparent;
+    @apply rounded-(--radius-control) border border-transparent corner-curve;
   }
 
   /* The wash fills the border box and follows the button's corners. Each step
      matches the website's: the fill at 80%, or the next interaction token. */
   .cn-button-wash {
-    @apply -inset-px rounded-lg;
+    @apply -inset-px rounded-(--radius-control) corner-curve;
   }
 
   /* In a button group the wash squares the corners its button squares. */

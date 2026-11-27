@@ -1,6 +1,6 @@
 /* MARK: Calendar */
 
-  /* 32pt day cells with rounded-lg highlights, 13pt numerals. A cell grows past
+  /* 32pt day cells with the control corner highlights, 13pt numerals. A cell grows past
      32pt when the calendar is given a wider box: on a phone, `w-full` makes the
      days finger-sized. */
   .cn-calendar {
@@ -19,7 +19,7 @@
   }
 
   .cn-calendar-nav-button {
-    @apply size-(--density-32) rounded-lg;
+    @apply size-(--density-32) rounded-(--radius-control) corner-curve;
   }
 
   .cn-calendar-month-caption {
@@ -32,7 +32,7 @@
   }
 
   .cn-calendar-dropdown-root {
-    @apply border-border active:bg-active rounded-lg border;
+    @apply border-border active:bg-active rounded-(--radius-control) border corner-curve;
   }
 
   .cn-calendar-caption-label {
@@ -70,28 +70,28 @@
   /* Today, and a range's middle and ends, are the active step: they read in dark
      mode too. The range runs edge to edge between its rounded ends. */
   .cn-calendar-day {
-    @apply md:data-[stretched=true]:max-h-(--density-48) min-w-(--density-32) rounded-lg data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none;
+    @apply md:data-[stretched=true]:max-h-(--density-48) min-w-(--density-32) rounded-(--radius-control) data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none corner-curve;
   }
 
   .cn-calendar-day-button {
-    @apply md:aspect-auto md:h-full h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[range-start=true]:bg-primary data-[range-end=true]:bg-primary data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
+    @apply md:aspect-auto md:h-full h-auto min-w-(--density-32) gap-1 rounded-(--radius-control) border-0 data-[selected-single=true]:bg-primary data-[range-start=true]:bg-primary data-[range-end=true]:bg-primary data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none corner-curve;
   }
 
   /* Pressed, under the numeral and easing in and out: the next interaction step, as
      on a ghost button. */
   .cn-calendar-day-wash {
-    @apply rounded-lg bg-active;
+    @apply rounded-(--radius-control) bg-active corner-curve;
   }
 
   /* A selected day's fill goes to 80%, as a primary button's does: the interaction
      step wouldn't show on it. */
   .cn-calendar-filled-day-wash {
-    @apply rounded-lg bg-background/20;
+    @apply rounded-(--radius-control) bg-background/20 corner-curve;
   }
 
   /* The month buttons keep Button's border, so theirs fills the border box. */
   .cn-calendar-nav-wash {
-    @apply -inset-px rounded-lg bg-active;
+    @apply -inset-px rounded-(--radius-control) bg-active corner-curve;
   }
 
   /* Numerals: foreground, muted outside the month and when disabled, in the

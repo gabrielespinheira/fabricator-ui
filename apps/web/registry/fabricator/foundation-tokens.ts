@@ -13,6 +13,11 @@ import { DENSITY_ROOT_VARS } from "@/registry/fabricator/density"
 import { LOADER_ROOT_VARS } from "@/registry/fabricator/loader"
 import { MOTION_ROOT_VARS, MOTION_THEME } from "@/registry/fabricator/motion"
 import {
+  DEFAULT_RADIUS_SHAPE,
+  RADIUS_ROLE_VARS,
+  toShapeVars,
+} from "@/registry/fabricator/radius"
+import {
   MUTED_FOREGROUND_STEP,
   NEUTRAL_TINT,
   SURFACE_BASE_STEP,
@@ -119,6 +124,10 @@ export const FABRICATOR_TOKENS: CssVars = {
     ...MOTION_ROOT_VARS,
     // The default density; the others switch with data-density.
     ...DENSITY_ROOT_VARS,
+    // The default shape (a look sets another) and the corner roles, which
+    // every density scope declares again (radius.ts).
+    ...toShapeVars(DEFAULT_RADIUS_SHAPE),
+    ...RADIUS_ROLE_VARS,
     // The default loader; the other switches with data-loader.
     ...LOADER_ROOT_VARS,
     "surface-0": tintedCss(SURFACE_BASE_STEP.light),

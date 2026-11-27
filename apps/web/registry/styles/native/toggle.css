@@ -2,13 +2,13 @@
 
   /* Ghost look. The press scale comes from usePressScale. */
   .cn-toggle {
-    @apply gap-(--density-6) rounded-lg;
+    @apply gap-(--density-6) rounded-(--radius-control) corner-curve;
   }
 
   /* On and pressed are one fill, as on the website: a layer under the content,
      easing on the feedback timing. */
   .cn-toggle-fill {
-    @apply bg-active rounded-lg;
+    @apply bg-active rounded-(--radius-control) corner-curve;
   }
 
   /* 13pt medium, muted at rest and foreground when on. The icon's stroke follows:

@@ -1,9 +1,9 @@
 /* MARK: Dropdown Menu */
 
-  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1. Enters on
+  /* Popup: surface 3 with its shadow ring (no border), the surface corner, p-1. Enters on
      the popup motion (useSurfaceAnimation). */
   .cn-dropdown-menu-content {
-    @apply bg-surface-3 shadow-surface-3 rounded-xl p-1;
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) p-1 corner-curve;
   }
 
   /* On the website this holds the motion, which is useSurfaceAnimation here. It
@@ -20,7 +20,7 @@
      glides under the finger (Fluid Hover). Touch has no resting highlight, so a
      row is lit only while the finger is on it. */
   .cn-dropdown-menu-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] corner-curve;
   }
 
   .cn-dropdown-menu-item-text {
@@ -54,11 +54,11 @@
   }
 
   .cn-dropdown-menu-checkbox-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] corner-curve;
   }
 
   .cn-dropdown-menu-radio-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] corner-curve;
   }
 
   .cn-dropdown-menu-item-indicator {
@@ -85,7 +85,7 @@
   /* An open sub-trigger keeps a fill while its submenu shows below it, and gives
      way to the highlight while it's lit, so the two never stack. */
   .cn-dropdown-menu-sub-trigger {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover;
+    @apply h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover corner-curve;
   }
 
   /* A submenu expands inline, indented under a hairline: a phone has no room

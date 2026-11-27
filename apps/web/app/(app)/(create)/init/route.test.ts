@@ -52,7 +52,8 @@ describe("GET /init?platform=native", () => {
   it("takes a look", async () => {
     const response = await GET(nativeRequest("&shape=pill"))
     const json = await response.json()
-    expect(json.files[0].content).toContain("--radius: 20px;")
+    expect(json.files[0].content).toContain("--radius: 12px;")
+    expect(json.files[0].content).toContain("--radius-control: 18px;")
   })
 
   it("rejects a bad look", async () => {
@@ -207,7 +208,8 @@ describe("GET /init", () => {
 
     expect(response.status).toBe(200)
     expect(json.cssVars.light).toMatchObject({
-      radius: "1.25rem",
+      radius: "0.75rem",
+      "radius-control-ratio": "0.5",
       "surface-hue": "145",
       "primary-hue": "260",
       "primary-chroma": "0.15",

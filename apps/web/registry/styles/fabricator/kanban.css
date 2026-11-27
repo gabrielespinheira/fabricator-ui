@@ -66,7 +66,7 @@
   /* One object: a quiet button until it filters, then a pill that says what it
      is on. Its parts scroll under a fade when they don't all fit. */
   .cn-kanban-filter {
-    @apply h-(--density-36) @max-4xl/kanban-toolbar:shrink-0 rounded-lg transition-colors duration-feedback ease-feedback data-active:bg-hover data-active:ring-1 data-active:ring-foreground/8 data-active:ring-inset;
+    @apply h-(--density-36) @max-4xl/kanban-toolbar:shrink-0 rounded-(--radius-control) transition-colors duration-feedback ease-feedback data-active:bg-hover data-active:ring-1 data-active:ring-foreground/8 data-active:ring-inset;
   }
 
   .cn-kanban-filter-trigger {
@@ -165,7 +165,7 @@
   }
 
   .cn-kanban-lane-title {
-    @apply h-(--density-32) cursor-pointer gap-(--density-6) rounded-lg px-(--density-8) font-medium outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-14) [&_svg]:text-muted-foreground [&_svg]:transition-[rotate] [&_svg]:duration-move [&_svg]:ease-move aria-[expanded=false]:[&_svg]:-rotate-90;
+    @apply h-(--density-32) cursor-pointer gap-(--density-6) rounded-(--radius-control) px-(--density-8) font-medium outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-14) [&_svg]:text-muted-foreground [&_svg]:transition-[rotate] [&_svg]:duration-move [&_svg]:ease-move aria-[expanded=false]:[&_svg]:-rotate-90;
   }
 
   .cn-kanban-track {
@@ -180,7 +180,7 @@
      tinted whole. In dark its colour is darkened first, so the track gains hue
      without rising to the cards' lightness. */
   .cn-kanban-column {
-    @apply [--muted-foreground:color-mix(in_oklab,var(--foreground)_64%,var(--background))] w-[min(calc(var(--density-36)*8),84vw)] rounded-xl bg-[color-mix(in_oklab,var(--foreground)_3%,transparent)] ring-1 ring-transparent transition-[background-color,box-shadow] duration-feedback ease-feedback ring-inset data-collapsed:w-(--density-48) data-drop-target:bg-[color-mix(in_oklab,var(--foreground)_4.5%,transparent)] data-drop-target:ring-foreground/12 data-tinted:bg-[color-mix(in_oklab,var(--palette-light)_14%,transparent)] data-tinted:data-drop-target:bg-[color-mix(in_oklab,var(--palette-light)_19%,transparent)] dark:data-tinted:bg-[color-mix(in_oklab,color-mix(in_oklab,var(--palette-dark)_45%,black)_42%,transparent)] dark:data-tinted:data-drop-target:bg-[color-mix(in_oklab,color-mix(in_oklab,var(--palette-dark)_50%,black)_48%,transparent)] data-blocked:cursor-not-allowed data-blocked:bg-warning/8! data-blocked:ring-warning/25;
+    @apply [--muted-foreground:color-mix(in_oklab,var(--foreground)_64%,var(--background))] w-[min(calc(var(--density-36)*8),84vw)] rounded-(--radius-surface) bg-[color-mix(in_oklab,var(--foreground)_3%,transparent)] ring-1 ring-transparent transition-[background-color,box-shadow] duration-feedback ease-feedback ring-inset data-collapsed:w-(--density-48) data-drop-target:bg-[color-mix(in_oklab,var(--foreground)_4.5%,transparent)] data-drop-target:ring-foreground/12 data-tinted:bg-[color-mix(in_oklab,var(--palette-light)_14%,transparent)] data-tinted:data-drop-target:bg-[color-mix(in_oklab,var(--palette-light)_19%,transparent)] dark:data-tinted:bg-[color-mix(in_oklab,color-mix(in_oklab,var(--palette-dark)_45%,black)_42%,transparent)] dark:data-tinted:data-drop-target:bg-[color-mix(in_oklab,color-mix(in_oklab,var(--palette-dark)_50%,black)_48%,transparent)] data-blocked:cursor-not-allowed data-blocked:bg-warning/8! data-blocked:ring-warning/25;
   }
 
   /* The header spans the cards: its glyph starts on their edge, less the air
@@ -199,7 +199,7 @@
 
   /* Holds the count's place, a line of its text tall, until the total is known. */
   .cn-kanban-count-skeleton {
-    @apply h-(--density-12) w-(--density-24) rounded-md;
+    @apply h-(--density-12) w-(--density-24) rounded-(--radius-inner);
   }
 
   .cn-kanban-column-lock {
@@ -229,7 +229,7 @@
 
   /* A collapsed column is a rail with its name turned, still a drop target. */
   .cn-kanban-rail {
-    @apply min-h-40 cursor-pointer gap-(--density-8) rounded-xl py-(--density-16) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring;
+    @apply min-h-40 cursor-pointer gap-(--density-8) rounded-(--radius-surface) py-(--density-16) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring;
   }
 
   .cn-kanban-rail-name {
@@ -251,7 +251,7 @@
      whole card because its title fills it. Neighbours slide on the move timing
      only while a card is held, so nothing plays on the drop. */
   .cn-kanban-card {
-    @apply overflow-hidden rounded-lg bg-card bg-[image:linear-gradient(var(--kanban-card-wash,transparent),var(--kanban-card-wash,transparent))] shadow-surface-2 outline-none hover:[--kanban-card-wash:var(--hover)] data-open:[--kanban-card-wash:var(--active)] data-open:ring-1 data-open:ring-foreground/25 data-selected:[--kanban-card-wash:var(--hover)] data-selected:ring-1 data-selected:ring-foreground/40 data-pending:opacity-70 data-dragging:opacity-0 in-data-sliding:transition-transform in-data-sliding:duration-move in-data-sliding:ease-move in-data-sliding:hover:[--kanban-card-wash:transparent];
+    @apply overflow-hidden rounded-(--radius-control) bg-card bg-[image:linear-gradient(var(--kanban-card-wash,transparent),var(--kanban-card-wash,transparent))] shadow-surface-2 outline-none hover:[--kanban-card-wash:var(--hover)] data-open:[--kanban-card-wash:var(--active)] data-open:ring-1 data-open:ring-foreground/25 data-selected:[--kanban-card-wash:var(--hover)] data-selected:ring-1 data-selected:ring-foreground/40 data-pending:opacity-70 data-dragging:opacity-0 in-data-sliding:transition-transform in-data-sliding:duration-move in-data-sliding:ease-move in-data-sliding:hover:[--kanban-card-wash:transparent];
   }
 
   .cn-kanban-card-lifted {
@@ -276,11 +276,11 @@
 
   /* The title opens the card from anywhere on it: its hit area is the card. */
   .cn-kanban-card-title {
-    @apply line-clamp-3 cursor-pointer text-(length:--density-text-13) leading-snug font-medium wrap-break-word text-foreground outline-none after:absolute after:inset-0 after:rounded-lg focus-visible:after:ring-1 focus-visible:after:ring-ring focus-visible:after:ring-inset in-data-[slot=kanban-drag-overlay]:after:hidden;
+    @apply line-clamp-3 cursor-pointer text-(length:--density-text-13) leading-snug font-medium wrap-break-word text-foreground outline-none after:absolute after:inset-0 after:rounded-(--radius-control) focus-visible:after:ring-1 focus-visible:after:ring-ring focus-visible:after:ring-inset in-data-[slot=kanban-drag-overlay]:after:hidden;
   }
 
   .cn-kanban-card-hit {
-    @apply cursor-pointer rounded-lg outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
+    @apply cursor-pointer rounded-(--radius-control) outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
   }
 
   .cn-kanban-card-actions {
@@ -289,7 +289,7 @@
 
   /* Comes forward with the card, and stays on touch, where nothing hovers. */
   .cn-kanban-card-more {
-    @apply z-10 -my-0.5 size-(--density-24) cursor-pointer rounded-md text-muted-foreground opacity-0 outline-none transition-[opacity,background-color,color] duration-feedback ease-feedback group-hover/kanban-card:opacity-100 hover:bg-active hover:text-foreground focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring in-data-open:opacity-100 pointer-coarse:opacity-100 [&_svg]:size-(--density-icon-16);
+    @apply z-10 -my-0.5 size-(--density-24) cursor-pointer rounded-(--radius-inner) text-muted-foreground opacity-0 outline-none transition-[opacity,background-color,color] duration-feedback ease-feedback group-hover/kanban-card:opacity-100 hover:bg-active hover:text-foreground focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring in-data-open:opacity-100 pointer-coarse:opacity-100 [&_svg]:size-(--density-icon-16);
   }
 
   .cn-kanban-card-properties {
@@ -311,11 +311,11 @@
   }
 
   .cn-kanban-skeleton-line {
-    @apply h-(--density-12) rounded-md;
+    @apply h-(--density-12) rounded-(--radius-inner);
   }
 
   .cn-kanban-skeleton-chip {
-    @apply h-(--density-20) rounded-md;
+    @apply h-(--density-20) rounded-(--radius-inner);
   }
 
   /* Under cards it keeps the list's gap; in an empty column it starts where the
@@ -336,7 +336,7 @@
   }
 
   .cn-kanban-composer {
-    @apply my-(--density-8) flex flex-col gap-(--density-4) rounded-lg bg-card p-(--density-12) shadow-surface-2 first:mt-0;
+    @apply my-(--density-8) flex flex-col gap-(--density-4) rounded-(--radius-control) bg-card p-(--density-12) shadow-surface-2 first:mt-0;
   }
 
   .cn-kanban-composer-field {
@@ -355,7 +355,7 @@
 
   /* Where the card will land: a well the card's own size. */
   .cn-kanban-drop-slot {
-    @apply rounded-lg bg-[color-mix(in_oklab,var(--foreground)_5%,transparent)] ring-1 ring-foreground/12 ring-inset;
+    @apply rounded-(--radius-control) bg-[color-mix(in_oklab,var(--foreground)_5%,transparent)] ring-1 ring-foreground/12 ring-inset;
   }
 
   /* The held card lifts a little and its surface lets the board through, so the
@@ -363,7 +363,7 @@
      softens so the two don't mix. The landing takes both back. Several cards lift as a
      stack; the second edge is the ones underneath. */
   .cn-kanban-drag-overlay {
-    @apply scale-[1.02] cursor-grabbing text-(length:--density-text-13) transition-[scale] duration-move ease-move starting:scale-100 motion-reduce:scale-100 data-stacked:before:absolute data-stacked:before:inset-x-2 data-stacked:before:top-full data-stacked:before:h-1.5 data-stacked:before:rounded-b-lg data-stacked:before:bg-surface-3 data-stacked:before:shadow-surface-3;
+    @apply scale-[1.02] cursor-grabbing text-(length:--density-text-13) transition-[scale] duration-move ease-move starting:scale-100 motion-reduce:scale-100 data-stacked:before:absolute data-stacked:before:inset-x-2 data-stacked:before:top-full data-stacked:before:h-1.5 data-stacked:before:rounded-b-(--radius-control) data-stacked:before:bg-surface-3 data-stacked:before:shadow-surface-3;
   }
 
   .cn-kanban-drag-count {
@@ -404,7 +404,7 @@
   }
 
   .cn-kanban-float {
-    @apply pointer-events-auto rounded-xl bg-surface-5 text-(length:--density-text-13) text-popover-foreground shadow-surface-5 motion-popup animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:slide-in-from-bottom-0;
+    @apply pointer-events-auto rounded-(--radius-surface) bg-surface-5 text-(length:--density-text-13) text-popover-foreground shadow-surface-5 motion-popup animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:slide-in-from-bottom-0;
   }
 
   .cn-kanban-selection-bar {

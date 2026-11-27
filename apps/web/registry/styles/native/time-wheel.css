@@ -2,7 +2,7 @@
 /* Seven rows tall, the band across the middle; the rows sit on a drum drawn
    from the scroll position, as on the website. */
 .cn-time-wheel { @apply gap-(--density-4) px-(--density-8) min-w-56; }
-.cn-time-wheel-band { @apply bg-active rounded-lg; }
+.cn-time-wheel-band { @apply bg-active rounded-(--radius-control) corner-curve; }
 .cn-time-wheel-column { @apply w-14; }
 .cn-time-wheel-spacer { @apply shrink-0; }
 .cn-time-wheel-item { @apply px-(--density-4); }

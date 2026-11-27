@@ -3,7 +3,7 @@
   /* A raised surface on its own; inside a dialog or popover pass `bg-transparent`
      and it takes the host's: React Native has no `in-data-*`. */
   .cn-command {
-    @apply bg-surface-3 rounded-xl;
+    @apply bg-surface-3 rounded-(--radius-surface) corner-curve;
   }
 
   .cn-command-text {
@@ -11,7 +11,7 @@
   }
 
   .cn-command-dialog {
-    @apply gap-0 rounded-xl sm:max-w-[400px];
+    @apply gap-0 rounded-(--radius-surface) sm:max-w-[400px] corner-curve;
   }
 
   .cn-command-input-wrapper {
@@ -61,7 +61,7 @@
      while it's lit, so the two never stack. Checked rows are foreground and
      semibold. */
   .cn-command-item {
-    @apply data-[selected=true]:data-[lit=false]:bg-hover h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8);
+    @apply data-[selected=true]:data-[lit=false]:bg-hover h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) corner-curve;
   }
 
   .cn-command-item-text {

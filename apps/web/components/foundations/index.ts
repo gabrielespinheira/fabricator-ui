@@ -5,7 +5,6 @@ import {
   DensityDashboardHeader,
   DensityLanding,
   DensityPinned,
-  ShapeDemo,
 } from "@/components/foundations/density-demos"
 import {
   FluidHoverAxes,
@@ -17,6 +16,7 @@ import {
   MotionSpeeds,
   MotionSurfaces,
 } from "@/components/foundations/motion-demos"
+import { RadiusCompare, ShapeDemo } from "@/components/foundations/radius-demos"
 import { ScrollbarsDemo } from "@/components/foundations/scrollbar-demos"
 import {
   SoundCatalog,
@@ -45,6 +45,7 @@ export const foundationsMdxComponents = {
   MotionExit,
   MotionSpeeds,
   MotionSurfaces,
+  RadiusCompare,
   ScrollbarsDemo,
   ShapeDemo,
   SoundCatalog,

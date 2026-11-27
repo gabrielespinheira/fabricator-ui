@@ -78,7 +78,7 @@
   }
 
   .cn-app-shell-breadcrumb-fold {
-    @apply rounded-md active:opacity-70;
+    @apply rounded-(--radius-inner) active:opacity-70 corner-curve;
   }
 
   /* A phone's trail: the page's name beside the way up, once its heading is gone. */
@@ -141,7 +141,7 @@
      column's edge; otherwise a hairline parts them. On phones, `swap` makes the
      panel the screen. */
   .cn-app-shell-panel {
-    @apply bg-app-shell-panel border-border data-[edge=left]:border-l data-[edge=right]:border-r data-[layout=card]:shadow-app-shell-card data-[layout=card]:overflow-hidden data-[layout=card]:rounded-xl data-[placement=swap]:h-full data-[placement=swap]:pt-safe;
+    @apply bg-app-shell-panel border-border data-[edge=left]:border-l data-[edge=right]:border-r data-[layout=card]:shadow-app-shell-card data-[layout=card]:overflow-hidden data-[layout=card]:rounded-(--radius-surface) data-[placement=swap]:h-full data-[placement=swap]:pt-safe corner-curve;
   }
 
   .cn-app-shell-panel-text {
@@ -249,7 +249,7 @@
   }
 
   .cn-app-shell-bottom-nav-highlight {
-    @apply rounded-lg data-[variant=floating]:bg-hover/60 data-[variant=floating]:rounded-full;
+    @apply rounded-(--radius-control) data-[variant=floating]:bg-hover/60 data-[variant=floating]:rounded-full corner-curve;
   }
 
   .cn-app-shell-bottom-nav-text {

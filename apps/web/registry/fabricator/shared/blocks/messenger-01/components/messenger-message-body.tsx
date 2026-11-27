@@ -36,12 +36,18 @@ export type Photo = { src: string; alt: string; caption?: string }
 // the side the run hangs from.
 const JOINED_CORNERS: Record<RunPosition, { mine: string; theirs: string }> = {
   only: { mine: "", theirs: "" },
-  first: { mine: "rounded-ee-sm", theirs: "rounded-es-sm" },
-  middle: {
-    mine: "rounded-ee-sm rounded-se-sm",
-    theirs: "rounded-es-sm rounded-ss-sm",
+  first: {
+    mine: "rounded-ee-(--radius-mark)",
+    theirs: "rounded-es-(--radius-mark)",
   },
-  last: { mine: "rounded-se-sm", theirs: "rounded-ss-sm" },
+  middle: {
+    mine: "rounded-ee-(--radius-mark) rounded-se-(--radius-mark)",
+    theirs: "rounded-es-(--radius-mark) rounded-ss-(--radius-mark)",
+  },
+  last: {
+    mine: "rounded-se-(--radius-mark)",
+    theirs: "rounded-ss-(--radius-mark)",
+  },
 }
 
 // Files and voice messages are drawn on the bubble's own fill. Their captions
@@ -100,7 +106,7 @@ function Quote({
 }) {
   if (!original) {
     return (
-      <p className="-mx-(--density-6) mb-(--density-6) rounded-lg bg-hover px-(--density-8) py-(--density-6) text-(length:--density-text-12) text-foreground/70">
+      <p className="-mx-(--density-6) mb-(--density-6) rounded-(--radius-control) bg-hover px-(--density-8) py-(--density-6) text-(length:--density-text-12) text-foreground/70">
         This message was deleted
       </p>
     )
@@ -110,7 +116,7 @@ function Quote({
     <button
       type="button"
       onClick={() => onShow(original.id)}
-      className="-mx-(--density-6) mb-(--density-6) flex w-[calc(100%+var(--density-12))] cursor-pointer flex-col rounded-lg bg-hover px-(--density-8) py-(--density-6) text-start text-(length:--density-text-12) outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-ring"
+      className="-mx-(--density-6) mb-(--density-6) flex w-[calc(100%+var(--density-12))] cursor-pointer flex-col rounded-(--radius-control) bg-hover px-(--density-8) py-(--density-6) text-start text-(length:--density-text-12) outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-ring"
     >
       <span className="sr-only">Show the message this answers:</span>
       <span className="font-medium">
@@ -220,7 +226,7 @@ export function MessengerMessageBody({
   const isMine = message.senderId === ME
   const hasReactions = (message.reactions?.length ?? 0) > 0
   const shape = cn(
-    "rounded-xl",
+    "rounded-(--radius-surface)",
     JOINED_CORNERS[position][isMine ? "mine" : "theirs"]
   )
 

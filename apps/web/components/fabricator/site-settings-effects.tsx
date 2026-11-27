@@ -7,6 +7,7 @@ import {
   applySurfaceTint,
   useSiteSettings,
 } from "@/lib/site-settings"
+import { DEFAULT_RADIUS_SHAPE } from "@/registry/fabricator/radius"
 import { getSpinnerVariables } from "@/registry/fabricator/shared/lib/spinner-model"
 import { SoundEffects } from "@/styles/base-fabricator/components/sound-effects"
 
@@ -17,10 +18,10 @@ export function SiteSettingsEffects() {
 
   React.useEffect(() => {
     const root = document.documentElement
-    if (radius === "pill") {
-      root.dataset.radius = "pill"
-    } else {
+    if (radius === DEFAULT_RADIUS_SHAPE) {
       delete root.dataset.radius
+    } else {
+      root.dataset.radius = radius
     }
   }, [radius])
 

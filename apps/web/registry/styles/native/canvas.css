@@ -26,7 +26,7 @@
      to the dialog level. Run states colour the ring with their role and
      carry an icon; skipped dims. A change waiting on the server fades. */
   .cn-canvas-node {
-    @apply w-[calc(var(--density-36)*5)] gap-(--density-8) rounded-xl bg-surface-3 p-(--density-12) shadow-surface-3 data-[dragging=true]:shadow-surface-5 data-[invalid=true]:border data-[invalid=true]:border-destructive/50 data-[pending=true]:opacity-60 data-[selected=true]:border-[1.5px] data-[selected=true]:border-primary data-[selected=true]:shadow-surface-4 data-[status=error]:border data-[status=error]:border-destructive-border data-[status=running]:border data-[status=running]:border-info-border data-[status=skipped]:opacity-50 data-[status=success]:border data-[status=success]:border-success-border data-[status=warning]:border data-[status=warning]:border-warning-border data-[variant=group]:size-full data-[variant=group]:bg-hover data-[variant=group]:p-0 data-[variant=group]:shadow-none data-[variant=note]:size-full data-[variant=note]:bg-warning-surface-1 data-[variant=note]:shadow-surface-2 dark:data-[variant=note]:bg-warning-surface-3 data-[variant=placeholder]:flex-row data-[variant=placeholder]:items-center data-[variant=placeholder]:justify-center data-[variant=placeholder]:border data-[variant=placeholder]:border-dashed data-[variant=placeholder]:border-foreground/20 data-[variant=placeholder]:bg-transparent data-[variant=placeholder]:shadow-none;
+    @apply w-[calc(var(--density-36)*5)] gap-(--density-8) rounded-(--radius-surface) bg-surface-3 p-(--density-12) shadow-surface-3 data-[dragging=true]:shadow-surface-5 data-[invalid=true]:border data-[invalid=true]:border-destructive/50 data-[pending=true]:opacity-60 data-[selected=true]:border-[1.5px] data-[selected=true]:border-primary data-[selected=true]:shadow-surface-4 data-[status=error]:border data-[status=error]:border-destructive-border data-[status=running]:border data-[status=running]:border-info-border data-[status=skipped]:opacity-50 data-[status=success]:border data-[status=success]:border-success-border data-[status=warning]:border data-[status=warning]:border-warning-border data-[variant=group]:size-full data-[variant=group]:bg-hover data-[variant=group]:p-0 data-[variant=group]:shadow-none data-[variant=note]:size-full data-[variant=note]:bg-warning-surface-1 data-[variant=note]:shadow-surface-2 dark:data-[variant=note]:bg-warning-surface-3 data-[variant=placeholder]:flex-row data-[variant=placeholder]:items-center data-[variant=placeholder]:justify-center data-[variant=placeholder]:border data-[variant=placeholder]:border-dashed data-[variant=placeholder]:border-foreground/20 data-[variant=placeholder]:bg-transparent data-[variant=placeholder]:shadow-none corner-curve;
   }
 
   .cn-canvas-node-header {
@@ -35,7 +35,7 @@
 
   /* A tile in the node's palette colour (or muted): its kind at a glance. */
   .cn-canvas-node-icon {
-    @apply size-(--density-28) rounded-lg bg-muted data-[colored=true]:bg-transparent;
+    @apply size-(--density-28) rounded-(--radius-control) bg-muted data-[colored=true]:bg-transparent corner-curve;
   }
 
   .cn-canvas-node-icon-text {
@@ -107,16 +107,16 @@
   /* MARK: Canvas node toolbar */
 
   .cn-canvas-node-toolbar {
-    @apply bottom-full mb-(--density-8) gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply bottom-full mb-(--density-8) gap-(--density-4) rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3 corner-curve;
   }
 
   /* Resize: a hairline in the primary colour and a square grip. */
   .cn-canvas-node-resizer-line {
-    @apply rounded-xl border border-primary/50;
+    @apply rounded-(--radius-surface) border border-primary/50 corner-curve;
   }
 
   .cn-canvas-node-resizer-handle {
-    @apply size-(--density-12) rounded-sm border border-primary bg-background;
+    @apply size-(--density-12) rounded-(--radius-mark) border border-primary bg-background corner-curve;
   }
 
   /* MARK: Canvas edge */
@@ -137,7 +137,7 @@
 
   /* A label is a small badge on the raised surface, caption size. */
   .cn-canvas-edge-label {
-    @apply h-(--density-20) rounded-md bg-surface-3 px-(--density-6) shadow-surface-3;
+    @apply h-(--density-20) rounded-(--radius-inner) bg-surface-3 px-(--density-6) shadow-surface-3 corner-curve;
   }
 
   .cn-canvas-edge-label-text {
@@ -174,7 +174,7 @@
 
   /* One raised bar of ghost buttons, grouped by hairlines. */
   .cn-canvas-controls {
-    @apply gap-px rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply gap-px rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3 corner-curve;
   }
 
   .cn-canvas-controls-separator {
@@ -186,12 +186,12 @@
   }
 
   .cn-canvas-search {
-    @apply rounded-xl bg-surface-3 shadow-surface-3;
+    @apply rounded-(--radius-surface) bg-surface-3 shadow-surface-3 corner-curve;
   }
 
   /* The minimap: a raised card in the corner, on tablets. */
   .cn-canvas-minimap {
-    @apply m-(--density-12) rounded-xl bg-surface-3 shadow-surface-3;
+    @apply m-(--density-12) rounded-(--radius-surface) bg-surface-3 shadow-surface-3 corner-curve;
   }
 
   .cn-canvas-minimap-node {
@@ -205,7 +205,7 @@
   /* MARK: Canvas library */
 
   .cn-canvas-library {
-    @apply max-h-96 w-[calc(var(--density-36)*7)] gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply max-h-96 w-[calc(var(--density-36)*7)] gap-(--density-4) rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3 corner-curve;
   }
 
   .cn-canvas-library-search {
@@ -221,11 +221,11 @@
   }
 
   .cn-canvas-library-item {
-    @apply min-h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) active:bg-hover disabled:opacity-50;
+    @apply min-h-(--density-36) gap-(--density-8) rounded-(--radius-control) px-(--density-8) py-(--density-6) active:bg-hover disabled:opacity-50 corner-curve;
   }
 
   .cn-canvas-library-icon {
-    @apply size-(--density-28) rounded-lg bg-muted;
+    @apply size-(--density-28) rounded-(--radius-control) bg-muted corner-curve;
   }
 
   .cn-canvas-library-icon-text {
@@ -251,7 +251,7 @@
   }
 
   .cn-canvas-outline-node {
-    @apply min-h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover;
+    @apply min-h-(--density-36) gap-(--density-8) rounded-(--radius-control) px-(--density-8) active:bg-hover corner-curve;
   }
 
   .cn-canvas-outline-status {
@@ -269,7 +269,7 @@
   /* MARK: Canvas issues */
 
   .cn-canvas-issues {
-    @apply gap-(--density-4) rounded-xl bg-surface-3 p-(--density-4) shadow-surface-3;
+    @apply gap-(--density-4) rounded-(--radius-surface) bg-surface-3 p-(--density-4) shadow-surface-3 corner-curve;
   }
 
   .cn-canvas-issues-title {
@@ -277,7 +277,7 @@
   }
 
   .cn-canvas-issue {
-    @apply gap-(--density-8) rounded-lg px-(--density-8) py-(--density-6) active:bg-hover;
+    @apply gap-(--density-8) rounded-(--radius-control) px-(--density-8) py-(--density-6) active:bg-hover corner-curve;
   }
 
   .cn-canvas-issue-icon {
@@ -299,7 +299,7 @@
   }
 
   .cn-canvas-loading-node {
-    @apply h-(--density-48) w-[calc(var(--density-36)*4)] rounded-xl;
+    @apply h-(--density-48) w-[calc(var(--density-36)*4)] rounded-(--radius-surface) corner-curve;
   }
 
   .cn-canvas-error {

@@ -14,7 +14,7 @@ function StepBar({ step }: { step: BillingWaterfallStep }) {
   return (
     <span
       className={cn(
-        "absolute inset-y-0 min-w-0.5 rounded-sm transition-[inset-inline] duration-move ease-move @md/lines:inset-y-[calc(50%-var(--density-10)/2)]",
+        "absolute inset-y-0 min-w-0.5 rounded-(--radius-mark) transition-[inset-inline] duration-move ease-move @md/lines:inset-y-[calc(50%-var(--density-10)/2)]",
         step.isTotal && "bg-primary",
         !step.isTotal && !step.isCredit && "bg-(--chart-series-1)",
         // A credit takes away, so it is drawn as the part that is missing.

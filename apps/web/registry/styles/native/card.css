@@ -1,9 +1,9 @@
 /* MARK: Card */
 
-  /* The card colour with surface 2's shadow ring, rounded-xl. py-(--density-16) with
+  /* The card colour with surface 2's shadow ring, the surface corner. py-(--density-16) with
      px on the parts; sm tightens through the same parts. */
   .cn-card {
-    @apply bg-card shadow-surface-2 gap-(--density-16) rounded-xl py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12);
+    @apply bg-card shadow-surface-2 gap-(--density-16) rounded-(--radius-surface) py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12) corner-curve;
   }
 
   .cn-card-text {

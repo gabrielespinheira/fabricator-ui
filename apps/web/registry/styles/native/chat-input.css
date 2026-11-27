@@ -8,17 +8,17 @@
      26pt-round around the round send as the stacked pill grows; the large
      card has 16pt corners. */
   .cn-chat-input {
-    @apply bg-surface-3 shadow-surface-3 rounded-2xl data-[focused=true]:shadow-surface-4 data-[disabled=true]:opacity-60;
+    @apply bg-surface-3 shadow-surface-3 rounded-(--radius-surface) data-[focused=true]:shadow-surface-4 data-[disabled=true]:opacity-60 corner-curve;
   }
 
   /* Invalid draws a red hairline over the card's edge. */
   .cn-chat-input-invalid {
-    @apply border-destructive/50 rounded-2xl;
+    @apply border-destructive/50 rounded-(--radius-surface) corner-curve;
   }
 
   /* What the card holds, clipped to its corners while its height eases. */
   .cn-chat-input-clip {
-    @apply rounded-2xl;
+    @apply rounded-(--radius-surface) corner-curve;
   }
 
   .cn-chat-input-content {
@@ -84,7 +84,7 @@
      with its icon and name. Uploading dims the image under a spinner (the
      dimming is in the source, easing on the move timing). */
   .cn-chat-input-attachment-tile {
-    @apply bg-surface-2 border-border h-(--density-48) rounded-lg border data-[layout=default]:h-(--density-40) data-[layout=default]:rounded-2xl data-[layout=inline]:h-(--density-36) data-[layout=inline]:rounded-xl data-[kind=image]:aspect-square data-[kind=file]:max-w-48 data-[kind=file]:gap-(--density-8) data-[kind=file]:px-(--density-12);
+    @apply bg-surface-2 border-border h-(--density-48) rounded-(--radius-control) border data-[layout=default]:h-(--density-40) data-[layout=default]:rounded-(--radius-surface) data-[layout=inline]:h-(--density-36) data-[layout=inline]:rounded-(--radius-surface) data-[kind=image]:aspect-square data-[kind=file]:max-w-48 data-[kind=file]:gap-(--density-8) data-[kind=file]:px-(--density-12) corner-curve;
   }
 
   .cn-chat-input-attachment-image {
@@ -138,7 +138,7 @@
      artifacts ($) warning, cards (#) success, any other sigil the primary
      role. */
   .cn-chat-input-mention {
-    @apply text-(length:--density-text-14) rounded-sm;
+    @apply text-(length:--density-text-14) rounded-(--radius-mark) corner-curve;
   }
 
   .cn-chat-input-mention-file {
@@ -185,7 +185,7 @@
      leads. A toggle that's on holds the active fill. A size you pass keeps
      the Button's own. */
   .cn-chat-input-button {
-    @apply data-[pressed=true]:bg-active data-[shape=square]:size-(--density-32) data-[shape=pill]:h-(--density-32) data-[shape=pill]:w-auto data-[shape=pill]:gap-(--density-6) data-[shape=pill]:px-(--density-8) data-[place=pill]:rounded-full data-[place=pill]:data-[shape=square]:size-(--density-36) data-[place=pill]:data-[shape=pill]:h-(--density-36) data-[place=pill]:data-[shape=pill]:px-(--density-10) data-[place=tray]:rounded-md data-[place=tray]:data-[shape=square]:size-(--density-24) data-[place=tray]:data-[shape=pill]:h-(--density-24) data-[place=tray]:data-[shape=pill]:gap-(--density-4) data-[place=tray]:data-[shape=pill]:px-(--density-6);
+    @apply data-[pressed=true]:bg-active data-[shape=square]:size-(--density-32) data-[shape=pill]:h-(--density-32) data-[shape=pill]:w-auto data-[shape=pill]:gap-(--density-6) data-[shape=pill]:px-(--density-8) data-[place=pill]:rounded-full data-[place=pill]:data-[shape=square]:size-(--density-36) data-[place=pill]:data-[shape=pill]:h-(--density-36) data-[place=pill]:data-[shape=pill]:px-(--density-10) data-[place=tray]:rounded-(--radius-inner) data-[place=tray]:data-[shape=square]:size-(--density-24) data-[place=tray]:data-[shape=pill]:h-(--density-24) data-[place=tray]:data-[shape=pill]:gap-(--density-4) data-[place=tray]:data-[shape=pill]:px-(--density-6) corner-curve;
   }
 
   .cn-chat-input-button-wash {
@@ -197,7 +197,7 @@
   }
 
   .cn-chat-input-button-wash-tray {
-    @apply rounded-md;
+    @apply rounded-(--radius-inner) corner-curve;
   }
 
   .cn-chat-input-button-text-tray {
@@ -289,11 +289,11 @@
   }
 
   .cn-chat-input-option {
-    @apply gap-(--density-10) rounded-lg px-(--density-10) py-(--density-8);
+    @apply gap-(--density-10) rounded-(--radius-control) px-(--density-10) py-(--density-8) corner-curve;
   }
 
   .cn-chat-input-option-wash {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   .cn-chat-input-option-text {
@@ -326,7 +326,7 @@
      lists the keys; rows are menu rows, muted until lit, the first (the
      return key's pick) on the hover fill. */
   .cn-chat-input-commands {
-    @apply bg-surface-5 shadow-surface-5 mb-(--density-8) rounded-xl;
+    @apply bg-surface-5 shadow-surface-5 mb-(--density-8) rounded-(--radius-surface) corner-curve;
   }
 
   .cn-chat-input-commands-header {
@@ -358,7 +358,7 @@
   }
 
   .cn-chat-input-command {
-    @apply min-h-(--density-36) gap-(--density-10) rounded-lg px-(--density-8) data-[active=true]:data-[lit=false]:bg-hover;
+    @apply min-h-(--density-36) gap-(--density-10) rounded-(--radius-control) px-(--density-8) data-[active=true]:data-[lit=false]:bg-hover corner-curve;
   }
 
   .cn-chat-input-command-text {
@@ -392,7 +392,7 @@
   }
 
   .cn-chat-input-command-badge {
-    @apply bg-active rounded-md px-(--density-6);
+    @apply bg-active rounded-(--radius-inner) px-(--density-6) corner-curve;
   }
 
   .cn-chat-input-command-badge-text {
@@ -405,7 +405,7 @@
      overlaps the stack. They rise into place on the move timing (in the
      source). */
   .cn-chat-input-tray {
-    @apply border-border/60 -mb-(--density-16) rounded-t-2xl border px-(--density-4) pt-(--density-4) pb-(--density-20) data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36);
+    @apply border-border/60 -mb-(--density-16) rounded-t-(--radius-surface) border px-(--density-4) pt-(--density-4) pb-(--density-20) data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36) corner-curve;
   }
 
   /* A folding stack. */
@@ -421,12 +421,12 @@
   }
 
   .cn-chat-input-trays-edges {
-    @apply rounded-t-2xl;
+    @apply rounded-t-(--radius-surface) corner-curve;
   }
 
   /* Opened, Show less folds the stack again: quiet 12pt text over its end. */
   .cn-chat-input-trays-less {
-    @apply mb-(--density-6) h-(--density-24) gap-(--density-4) rounded-md px-(--density-6);
+    @apply mb-(--density-6) h-(--density-24) gap-(--density-4) rounded-(--radius-inner) px-(--density-6) corner-curve;
   }
 
   .cn-chat-input-trays-less-text {
@@ -440,7 +440,7 @@
   /* Rows of 13pt text with a muted icon (in the source) and ghost actions at
      the end. */
   .cn-chat-input-tray-item {
-    @apply h-(--density-30) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) data-[trigger=true]:ps-0;
+    @apply h-(--density-30) gap-(--density-8) rounded-(--radius-control) ps-(--density-8) pe-(--density-4) data-[trigger=true]:ps-0 corner-curve;
   }
 
   .cn-chat-input-tray-item-text {
@@ -450,11 +450,11 @@
   /* The row's text as a button that opens its content: the hover fill while
      pressed, a chevron at the end that turns while open. */
   .cn-chat-input-tray-trigger {
-    @apply gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-6);
+    @apply gap-(--density-8) rounded-(--radius-control) ps-(--density-8) pe-(--density-6) corner-curve;
   }
 
   .cn-chat-input-tray-trigger-wash {
-    @apply bg-hover rounded-lg;
+    @apply bg-hover rounded-(--radius-control) corner-curve;
   }
 
   .cn-chat-input-tray-chevron {

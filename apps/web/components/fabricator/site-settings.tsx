@@ -8,6 +8,7 @@ import {
   MoonIcon,
   Settings2Icon,
   SquareIcon,
+  SquircleIcon,
   SunIcon,
   Volume2Icon,
   VolumeXIcon,
@@ -219,6 +220,11 @@ const RADII: { value: SiteRadius; label: string; icon: React.ReactNode }[] = [
     value: "rounded",
     label: "Rounded",
     icon: <SquareIcon className="text-muted-foreground" />,
+  },
+  {
+    value: "squircle",
+    label: "Squircle",
+    icon: <SquircleIcon className="text-muted-foreground" />,
   },
   {
     value: "pill",

@@ -9,7 +9,7 @@
      `containerClassName`, which the style build never replaces, so groups and
      separators space themselves from whatever comes before them. */
   .cn-input-otp-group {
-    @apply gap-(--density-6) rounded-lg [[data-slot]+&]:ms-(--density-8);
+    @apply gap-(--density-6) rounded-(--radius-control) [[data-slot]+&]:ms-(--density-8);
   }
 
   /* 36px slots framed by an inset ring-border; the active slot lifts to the
@@ -18,7 +18,7 @@
      glance. Invalid slots turn the ring red. Ring and fill ease on the
      feedback timing as the caret moves. */
   .cn-input-otp-slot {
-    @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive data-[filled=true]:not-data-[active=true]:not-aria-invalid:ring-foreground/15 size-(--density-36) rounded-lg bg-transparent text-(length:--density-text-14) tabular-nums ring-1 ring-inset transition-[background-color,box-shadow] duration-feedback ease-feedback outline-none;
+    @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive data-[filled=true]:not-data-[active=true]:not-aria-invalid:ring-foreground/15 size-(--density-36) rounded-(--radius-control) bg-transparent text-(length:--density-text-14) tabular-nums ring-1 ring-inset transition-[background-color,box-shadow] duration-feedback ease-feedback outline-none;
   }
 
   /* A typed character drops into its slot and lands with a small bounce on

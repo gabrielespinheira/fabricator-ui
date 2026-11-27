@@ -11,7 +11,7 @@
   /* A value shorter than the row (a custom editor's buttons) centres on the
      label; taller ones grow down from it. */
   .cn-properties-row {
-    @apply grid-cols-[minmax(6.5rem,0.36fr)_minmax(0,1fr)] items-start gap-(--density-8) rounded-lg data-dragging:bg-surface-6 data-dragging:shadow-surface-6 [&>dd]:flex [&>dd]:min-h-(--density-32) [&>dd]:flex-col [&>dd]:justify-center;
+    @apply grid-cols-[minmax(6.5rem,0.36fr)_minmax(0,1fr)] items-start gap-(--density-8) rounded-(--radius-control) data-dragging:bg-surface-6 data-dragging:shadow-surface-6 [&>dd]:flex [&>dd]:min-h-(--density-32) [&>dd]:flex-col [&>dd]:justify-center;
   }
 
   /* Grey, with the type's icon: the value is what people came to read. */
@@ -28,7 +28,7 @@
   }
 
   .cn-properties-label-trigger {
-    @apply h-(--density-32)! justify-start rounded-lg px-(--density-8)! font-normal text-muted-foreground hover:text-foreground aria-expanded:bg-hover aria-expanded:text-foreground;
+    @apply h-(--density-32)! justify-start rounded-(--radius-control) px-(--density-8)! font-normal text-muted-foreground hover:text-foreground aria-expanded:bg-hover aria-expanded:text-foreground;
   }
 
   /* A value that can't be pressed keeps a pressable one's height and inset. */
@@ -39,7 +39,7 @@
   /* The value is the button: no frame at rest, the neutral wash on hover. Its
      text starts where every other row's does. */
   .cn-properties-trigger {
-    @apply h-auto! min-h-(--density-32) w-full justify-start rounded-lg px-(--density-8)! py-(--density-4) text-start font-normal text-foreground whitespace-normal aria-expanded:bg-hover;
+    @apply h-auto! min-h-(--density-32) w-full justify-start rounded-(--radius-control) px-(--density-8)! py-(--density-4) text-start font-normal text-foreground whitespace-normal aria-expanded:bg-hover;
   }
 
   /* Text edits in place, on the same inset and the same wash. */
@@ -83,7 +83,7 @@
   }
 
   .cn-properties-open {
-    @apply inline-flex size-(--density-28) items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-16);
+    @apply inline-flex size-(--density-28) items-center justify-center rounded-(--radius-control) text-muted-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-16);
   }
 
   /* Empty is a word in the label's grey, so a blank row still says it can be
@@ -105,7 +105,7 @@
   /* Neutral chips with the option's colour in its mark: ten labels on a board
      stay readable, and colour still tells them apart. */
   .cn-properties-chip {
-    @apply h-(--density-20) gap-(--density-6) rounded-md bg-hover px-(--density-6) text-(length:--density-text-12) text-foreground/80;
+    @apply h-(--density-20) gap-(--density-6) rounded-(--radius-inner) bg-hover px-(--density-6) text-(length:--density-text-12) text-foreground/80;
   }
 
   .cn-properties-mark {
@@ -143,7 +143,7 @@
   }
 
   .cn-properties-swatch {
-    @apply size-(--density-14) rounded-sm ring-1 ring-foreground/15 ring-inset;
+    @apply size-(--density-14) rounded-(--radius-mark) ring-1 ring-foreground/15 ring-inset;
   }
 
   .cn-properties-date {
@@ -170,7 +170,7 @@
 
   /* Over the row, a drop is taken: the row says so before it lands. */
   .cn-properties-files-editor {
-    @apply rounded-lg transition-[background-color,box-shadow] duration-feedback ease-feedback data-over:bg-hover data-over:ring-1 data-over:ring-ring data-over:ring-inset;
+    @apply rounded-(--radius-control) transition-[background-color,box-shadow] duration-feedback ease-feedback data-over:bg-hover data-over:ring-1 data-over:ring-ring data-over:ring-inset;
   }
 
   .cn-properties-files {
@@ -179,11 +179,11 @@
 
   /* A picture is its own thumbnail; any other file is its name beside an icon. */
   .cn-properties-file {
-    @apply my-(--density-4) h-(--density-48) max-w-full rounded-lg bg-hover in-data-[display=list]:my-0 in-data-[display=list]:h-(--density-32) in-data-[display=list]:bg-transparent;
+    @apply my-(--density-4) h-(--density-48) max-w-full rounded-(--radius-control) bg-hover in-data-[display=list]:my-0 in-data-[display=list]:h-(--density-32) in-data-[display=list]:bg-transparent;
   }
 
   .cn-properties-file-trigger {
-    @apply h-full! max-w-full justify-start overflow-hidden rounded-lg p-0! font-normal text-foreground after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-foreground/10 after:ring-inset in-data-[display=list]:w-full in-data-[display=list]:after:hidden hover:after:bg-hover;
+    @apply h-full! max-w-full justify-start overflow-hidden rounded-(--radius-control) p-0! font-normal text-foreground after:pointer-events-none after:absolute after:inset-0 after:rounded-(--radius-control) after:ring-1 after:ring-foreground/10 after:ring-inset in-data-[display=list]:w-full in-data-[display=list]:after:hidden hover:after:bg-hover;
   }
 
   .cn-properties-file-image {
@@ -195,7 +195,7 @@
   }
 
   .cn-properties-file-mark {
-    @apply size-(--density-20) rounded-sm;
+    @apply size-(--density-20) rounded-(--radius-mark);
   }
 
   .cn-properties-file-icon {
@@ -249,7 +249,7 @@
 
   /* A row of a panel that does something. */
   .cn-properties-action {
-    @apply h-(--density-32)! justify-start gap-(--density-8) rounded-lg px-(--density-8)! text-(length:--density-text-13) font-normal text-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-destructive:text-destructive-text data-destructive:hover:text-destructive-text [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground data-destructive:[&_svg]:text-current;
+    @apply h-(--density-32)! justify-start gap-(--density-8) rounded-(--radius-control) px-(--density-8)! text-(length:--density-text-13) font-normal text-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-destructive:text-destructive-text data-destructive:hover:text-destructive-text [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground data-destructive:[&_svg]:text-current;
   }
 
   /* MARK: Property popups */
@@ -310,11 +310,11 @@
   }
 
   .cn-properties-manager-row {
-    @apply gap-(--density-4) rounded-lg bg-transparent data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
+    @apply gap-(--density-4) rounded-(--radius-control) bg-transparent data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
   }
 
   .cn-properties-handle {
-    @apply cursor-grab rounded-md p-1 text-muted-foreground/60 transition-colors duration-feedback ease-feedback hover:text-foreground active:cursor-grabbing [&_svg]:size-(--density-icon-14);
+    @apply cursor-grab rounded-(--radius-inner) p-1 text-muted-foreground/60 transition-colors duration-feedback ease-feedback hover:text-foreground active:cursor-grabbing [&_svg]:size-(--density-icon-14);
   }
 
   .cn-properties-manager-trigger {
@@ -366,7 +366,7 @@
   /* MARK: Property settings */
 
   .cn-properties-settings {
-    @apply max-h-[min(38rem,var(--available-height,var(--radix-popover-content-available-height,80dvh)))] overflow-y-auto overscroll-contain rounded-xl;
+    @apply max-h-[min(38rem,var(--available-height,var(--radix-popover-content-available-height,80dvh)))] overflow-y-auto overscroll-contain rounded-(--radius-surface);
   }
 
   .cn-properties-identity {
@@ -387,7 +387,7 @@
   }
 
   .cn-properties-setting {
-    @apply h-(--density-32) justify-start gap-(--density-8) rounded-lg border border-transparent px-(--density-8) text-(length:--density-text-13) font-normal text-foreground [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground;
+    @apply h-(--density-32) justify-start gap-(--density-8) rounded-(--radius-control) border border-transparent px-(--density-8) text-(length:--density-text-13) font-normal text-foreground [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground;
   }
 
   .cn-properties-setting-value {
@@ -424,7 +424,7 @@
 
   /* What a type change would do, said before it is done. */
   .cn-properties-preview {
-    @apply gap-(--density-8) rounded-lg bg-hover p-(--density-10) text-(length:--density-text-12) text-muted-foreground in-data-[panel=remove]:mx-(--density-8) in-data-[panel=remove]:mb-(--density-8);
+    @apply gap-(--density-8) rounded-(--radius-control) bg-hover p-(--density-10) text-(length:--density-text-12) text-muted-foreground in-data-[panel=remove]:mx-(--density-8) in-data-[panel=remove]:mb-(--density-8);
   }
 
   .cn-properties-option-list {
@@ -432,5 +432,5 @@
   }
 
   .cn-properties-option-row {
-    @apply gap-(--density-4) rounded-lg data-archived:opacity-55 data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
+    @apply gap-(--density-4) rounded-(--radius-control) data-archived:opacity-55 data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
   }

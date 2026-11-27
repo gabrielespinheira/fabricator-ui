@@ -3,14 +3,14 @@ import * as React from "react"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 const textLinkClassName =
-  "rounded-sm font-medium text-foreground underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
+  "rounded-(--radius-mark) font-medium text-foreground underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
 
 // A caption-sized link, with a thumb-sized area around it on touch.
 export const captionLinkClassName =
-  "relative rounded-sm underline-offset-4 outline-none hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:after:absolute pointer-coarse:after:-inset-x-(--density-8) pointer-coarse:after:-inset-y-(--density-12)"
+  "relative rounded-(--radius-mark) underline-offset-4 outline-none hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:after:absolute pointer-coarse:after:-inset-x-(--density-8) pointer-coarse:after:-inset-y-(--density-12)"
 
 const footerLinkClassName =
-  "rounded-sm py-(--density-8) underline-offset-4 outline-none hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring"
+  "rounded-(--radius-mark) py-(--density-8) underline-offset-4 outline-none hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring"
 
 // Sign in, sign up and the password reset share these classes, so the mark,
 // the title and the first field keep their place from page to page. The column
@@ -30,9 +30,9 @@ export function ForgotPasswordFrame({
         <a
           href="/"
           aria-label="Acme home"
-          className="flex items-center gap-(--density-8) rounded-lg text-(length:--density-text-14) leading-(--density-32) outline-none weight-semibold focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex items-center gap-(--density-8) rounded-(--radius-control) text-(length:--density-text-14) leading-(--density-32) outline-none weight-semibold focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <span className="flex size-(--density-32) items-center justify-center rounded-lg bg-primary text-primary-foreground">
+          <span className="flex size-(--density-32) items-center justify-center rounded-(--radius-control) bg-primary text-primary-foreground">
             <IconPlaceholder
               lucide="GalleryVerticalEndIcon"
               tabler="IconLayoutRows"

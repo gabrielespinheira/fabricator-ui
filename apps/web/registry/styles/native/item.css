@@ -1,9 +1,9 @@
 /* MARK: Item */
 
-  /* 13pt rows, rounded-lg. An item rendered as a Pressable gets the hover fill
+  /* 13pt rows, the control corner. An item rendered as a Pressable gets the hover fill
      when pressed. */
   .cn-item {
-    @apply active:bg-hover rounded-lg border;
+    @apply active:bg-hover rounded-(--radius-control) border corner-curve;
   }
 
   .cn-item-text {
@@ -47,7 +47,7 @@
   }
 
   .cn-item-media-variant-image {
-    @apply size-(--density-40) overflow-hidden rounded-lg data-[size=sm]:size-(--density-32) data-[size=xs]:size-(--density-24) data-[size=xs]:rounded-md;
+    @apply size-(--density-40) overflow-hidden rounded-(--radius-control) data-[size=sm]:size-(--density-32) data-[size=xs]:size-(--density-24) data-[size=xs]:rounded-(--radius-inner) corner-curve;
   }
 
   .cn-item-content {

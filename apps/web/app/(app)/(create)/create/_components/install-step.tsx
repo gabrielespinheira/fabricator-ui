@@ -22,6 +22,7 @@ import {
   DENSITY_OPTIONS,
   ICON_LIBRARIES,
   MOTION_SPEEDS,
+  RADIUS_OPTIONS,
   SURFACE_PRESETS,
 } from "@/lib/site-settings"
 import { usePackageManager } from "@/hooks/use-package-manager"
@@ -472,7 +473,7 @@ export function SetupSummary({
             {surface}
           </SummaryRow>
           <SummaryRow label="Radius">
-            {look.radius === "pill" ? "Pill" : "Rounded"}
+            {RADIUS_OPTIONS.find(({ value }) => value === look.radius)?.label}
           </SummaryRow>
           <SummaryRow label="Density">
             {DENSITY_OPTIONS.find(({ value }) => value === look.density)?.label}

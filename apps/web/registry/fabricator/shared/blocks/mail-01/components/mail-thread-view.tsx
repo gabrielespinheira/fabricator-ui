@@ -41,7 +41,7 @@ function ClosedThreadNote({
   onAction: () => void
 }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-(--density-8) rounded-lg bg-hover py-(--density-8) ps-(--density-16) pe-(--density-8) text-(length:--density-text-13) text-foreground/70 @md/thread:ms-[calc(var(--density-32)+var(--density-10))]">
+    <div className="flex flex-wrap items-center justify-between gap-(--density-8) rounded-(--radius-control) bg-hover py-(--density-8) ps-(--density-16) pe-(--density-8) text-(length:--density-text-13) text-foreground/70 @md/thread:ms-[calc(var(--density-32)+var(--density-10))]">
       {text}
       <Button variant="outline" size="sm" onClick={onAction}>
         {action}

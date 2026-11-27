@@ -2,6 +2,7 @@
 title: Unreleased
 description: Changes merged since the last release. They ship in the next version.
 new:
+  - /docs/foundations/radius
   - blueprint
   - canvas
   - text-motion
@@ -17,6 +18,25 @@ new:
   - segmented-meter
   - bottom-nav
 updated:
+  - button
+  - badge
+  - card
+  - popover
+  - dialog
+  - alert
+  - attachment
+  - chat-input
+  - accordion
+  - calendar
+  - color-picker
+  - file-upload
+  - kbd
+  - multi-select
+  - navigation-menu
+  - video-player
+  - textarea
+  - item
+  - hover-card
   - skeleton
   - time-input
   - input-group
@@ -99,6 +119,8 @@ These changes are merged and ship in the next version.
 **SwiftUI and Kotlin Compose previews retired.** The CLI and hosted registry no longer install or update SwiftUI and Compose items. Existing apps can continue using the source they copied. The preview source is available in the `fabricator-ui@0.9.0` release.
 
 ## Components
+
+**Three shapes, and corners that line up.** The look's radius setting offers Rounded, Squircle and Pill. Each component's corner now comes from its role (a control, a container, a large panel or a small mark) instead of one multiplier, and a control's corner follows its height, so small and large sizes and every density stay in proportion. Layers are concentric: rows in a menu, buttons in an input group, media in an attachment and the large Chat Input around its send button take the outer corner minus the gap between them. Pill keeps capsule controls with moderate containers (22px instead of 28px). Squircle draws Apple's continuous corners in Chromium browsers and Electron with CSS `corner-shape`, and on iOS with `borderCurve`; elsewhere it falls back to round corners. Pick it on Get started, with `shape=squircle` in `init`, or with `add radius-squircle`; a project already on Pill runs `npx fabricator-ui@latest add radius-pill` again to get the new corners. On web and React Native. [Radius](/docs/foundations/radius).
 
 **Search is an input again.** `InputSearch`, new in Input Group, is a search field framed like every other input: the search icon at the start and a clear button once there is text. The button and Escape clear the text and keep the focus in the field; Escape on an empty field reaches the dialog around it. It works controlled or uncontrolled and takes more addons, such as a keycap. The Data Table, Kanban, Mail, Members and Messenger toolbars use it; where the Kanban toolbar has no room, a search button opens the field. The Search component, a round button that sprang open into a pill, is removed: replace `<Search collapsible={false} label="…" />` with `<InputSearch aria-label="…" />`. On web and React Native. [Search](/docs/components/base/input#search).
 

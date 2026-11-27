@@ -174,7 +174,7 @@ export function MessengerDetails({
                   type="button"
                   aria-label={`Open photo: ${body.alt}`}
                   onClick={() => onOpenPhoto(body)}
-                  className="cursor-pointer overflow-hidden rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="cursor-pointer overflow-hidden rounded-(--radius-control) outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <AspectRatio ratio={1}>
                     <img

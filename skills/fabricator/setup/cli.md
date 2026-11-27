@@ -32,10 +32,10 @@ Creates the app, installs the look and components, adds the App Shell and sounds
 | `--base <base>`                    | `-b`  | `base` (default), `radix` or `aria`                                                                         |
 | `--no-monorepo`                    |       | One app in one folder. The default is a monorepo: `apps/web` and `packages/ui`                              |
 | `--no-web`                         |       | No website. `--mobile` alone is a plain Expo project; `--desktop` alone keeps `apps/web` as the window's UI |
-| `--mobile-runtime <runtime>` | | Enable mobile with `expo` or `tauri`. Tauri uses a Vite monorepo. |
+| `--mobile-runtime <runtime>`       |       | Enable mobile with `expo` or `tauri`. Tauri uses a Vite monorepo.                                           |
 | `--mobile`                         |       | Add `apps/mobile`: React Native with Expo                                                                   |
 | `--desktop <runtime>`              |       | Add `apps/desktop`: `electron` or `tauri`                                                                   |
-| `--look <values>`                  |       | `key=value` pairs: `primary=260_0.2,shape=pill,loader=blueprint`                                            |
+| `--look <values>`                  |       | `key=value` pairs: `primary=260_0.2,shape=squircle,loader=blueprint` (`shape` is `squircle` or `pill`)      |
 | `--shell [options]` / `--no-shell` |       | The App Shell, with `key=value` options: `variant=floating,tabs=main`                                       |
 | `--icons <library>`                |       | An icon library other than Fabricator's                                                                     |
 | `--no-sounds`                      |       | Skip the interface sounds                                                                                   |
@@ -79,14 +79,14 @@ Sets up Fabricator UI in an existing project, or creates a new project when `--t
 
 | Flag                                     | Short | Description                                                                       | Default                  |
 | ---------------------------------------- | ----- | --------------------------------------------------------------------------------- | ------------------------ |
-| `--template <template>`                  | `-t`  | Create a new project: `next`, `start`, `vite`, `react-router`, `laravel`, `astro` | none                      |
+| `--template <template>`                  | `-t`  | Create a new project: `next`, `start`, `vite`, `react-router`, `laravel`, `astro` | none                     |
 | `--base <base>`                          | `-b`  | Component library: `base`, `radix`, or `aria`                                     | `base`, or the project's |
 | `--preset <preset>`                      | `-p`  | Preset name, preset code, or init URL                                             | `fabricator`             |
 | `--monorepo` / `--no-monorepo`           |       | Scaffold a monorepo project / skip the monorepo prompt                            | prompt                   |
-| `--rtl` / `--no-rtl`                     |       | Enable / disable RTL support                                                      | none                      |
+| `--rtl` / `--no-rtl`                     |       | Enable / disable RTL support                                                      | none                     |
 | `--pointer`                              |       | Use a pointer cursor for buttons                                                  | `false`                  |
 | `--css-variables` / `--no-css-variables` |       | Theme with CSS variables / inline utility colors                                  | CSS variables            |
-| `--reinstall` / `--no-reinstall`         |       | Re-install / keep existing UI components                                          | none                      |
+| `--reinstall` / `--no-reinstall`         |       | Re-install / keep existing UI components                                          | none                     |
 | `--yes`                                  | `-y`  | Skip confirmation prompts                                                         | `false`                  |
 | `--force`                                | `-f`  | Force overwrite of an existing `components.json`                                  | `false`                  |
 | `--cwd <cwd>`                            | `-c`  | Working directory                                                                 | current                  |
@@ -111,7 +111,7 @@ Applies a preset (default `fabricator`) to an existing project: theme, fonts, an
 
 | Flag             | Short | Description                                                                               | Default       |
 | ---------------- | ----- | ----------------------------------------------------------------------------------------- | ------------- |
-| `--only <parts>` |       | Apply only parts of the preset: `theme`, `font` (comma-separated); no component reinstall | none           |
+| `--only <parts>` |       | Apply only parts of the preset: `theme`, `font` (comma-separated); no component reinstall | none          |
 | `--base <base>`  | `-b`  | Component library: `base`, `radix`, or `aria`                                             | the project's |
 | `--yes`          | `-y`  | Skip confirmation prompt                                                                  | `false`       |
 | `--cwd <cwd>`    | `-c`  | Working directory                                                                         | current       |
@@ -135,11 +135,11 @@ Bare names resolve to the `@fabricator` registry (`button` → `@fabricator/butt
 | `--overwrite`   | `-o`  | Overwrite existing files                                                                                             | `false` |
 | `--cwd <cwd>`   | `-c`  | Working directory                                                                                                    | current |
 | `--all`         | `-a`  | Add all Fabricator UI components                                                                                     | `false` |
-| `--path <path>` | `-p`  | Target path for the component                                                                                        | none     |
+| `--path <path>` | `-p`  | Target path for the component                                                                                        | none    |
 | `--silent`      | `-s`  | Mute output                                                                                                          | `false` |
 | `--dry-run`     |       | Preview all changes without writing files                                                                            | `false` |
-| `--diff [path]` |       | Show diffs. Without a path, shows the first 5 files. With a path, shows that file only (implies `--dry-run`)         | none     |
-| `--view [path]` |       | Show file contents. Without a path, shows the first 5 files. With a path, shows that file only (implies `--dry-run`) | none     |
+| `--diff [path]` |       | Show diffs. Without a path, shows the first 5 files. With a path, shows that file only (implies `--dry-run`)         | none    |
+| `--view [path]` |       | Show file contents. Without a path, shows the first 5 files. With a path, shows that file only (implies `--dry-run`) | none    |
 | `--upstream`    |       | Keep bare names as-is and install the upstream registry item instead of `@fabricator`                                | `false` |
 
 #### Dry-Run Mode
@@ -200,9 +200,9 @@ Fuzzy search over `@fabricator` items. Also aliased as `npx fabricator-ui@latest
 
 | Flag                | Short | Description                                                       | Default |
 | ------------------- | ----- | ----------------------------------------------------------------- | ------- |
-| `--query <query>`   | `-q`  | Search query (same as the positional `[query]`)                   | none     |
-| `--type <type>`     | `-t`  | Filter by item type (e.g. `ui`, `block`, `hook`); comma-separated | none     |
-| `--limit <number>`  | `-l`  | Max items to display                                              | none     |
+| `--query <query>`   | `-q`  | Search query (same as the positional `[query]`)                   | none    |
+| `--type <type>`     | `-t`  | Filter by item type (e.g. `ui`, `block`, `hook`); comma-separated | none    |
+| `--limit <number>`  | `-l`  | Max items to display                                              | none    |
 | `--offset <number>` | `-o`  | Items to skip                                                     | `0`     |
 | `--json`            |       | Output as JSON                                                    | `false` |
 | `--cwd <cwd>`       | `-c`  | Working directory                                                 | current |
@@ -280,21 +280,21 @@ Displays project info, `components.json` configuration, and installed components
 
 **`config` fields (from `components.json`):**
 
-| Field                | Type      | Meaning                                                                                                                                                                                                  |
-| -------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `style`              | `string`  | `<base>-<style>`, e.g. `base-nova`                                                                                                                                                                       |
+| Field                | Type      | Meaning                                                                                                                                                                                                 |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `style`              | `string`  | `<base>-<style>`, e.g. `base-nova`                                                                                                                                                                      |
 | `base`               | `string`  | Primitive library (`base`, `radix`, or `aria`); determines component APIs and props                                                                                                                     |
-| `rsc`                | `boolean` | RSC flag from config                                                                                                                                                                                     |
-| `typescript`         | `boolean` | TypeScript flag                                                                                                                                                                                          |
+| `rsc`                | `boolean` | RSC flag from config                                                                                                                                                                                    |
+| `typescript`         | `boolean` | TypeScript flag                                                                                                                                                                                         |
 | `iconLibrary`        | `string`  | Icon library: determines icon import package (e.g. `lucide-react`, `@tabler/icons-react`), unless the `@fabricator` registry entry has `params.icons: "fabricator"`, which means `@fabricator-ui/icons` |
-| `rtl`                | `boolean` | Whether RTL support is enabled                                                                                                                                                                           |
-| `aliases.components` | `string`  | Component import alias (e.g. `@/components`)                                                                                                                                                             |
-| `aliases.utils`      | `string`  | Utils import alias (e.g. `@/lib/utils`)                                                                                                                                                                  |
-| `aliases.ui`         | `string`  | UI component alias (e.g. `@/components/ui`)                                                                                                                                                              |
-| `aliases.lib`        | `string`  | Lib alias (e.g. `@/lib`)                                                                                                                                                                                 |
-| `aliases.hooks`      | `string`  | Hooks alias (e.g. `@/hooks`)                                                                                                                                                                             |
-| `resolvedPaths`      | `object`  | Absolute file-system paths for each alias, plus `tailwindCss`                                                                                                                                            |
-| `registries`         | `object`  | Configured registries, including `@fabricator`                                                                                                                                                           |
+| `rtl`                | `boolean` | Whether RTL support is enabled                                                                                                                                                                          |
+| `aliases.components` | `string`  | Component import alias (e.g. `@/components`)                                                                                                                                                            |
+| `aliases.utils`      | `string`  | Utils import alias (e.g. `@/lib/utils`)                                                                                                                                                                 |
+| `aliases.ui`         | `string`  | UI component alias (e.g. `@/components/ui`)                                                                                                                                                             |
+| `aliases.lib`        | `string`  | Lib alias (e.g. `@/lib`)                                                                                                                                                                                |
+| `aliases.hooks`      | `string`  | Hooks alias (e.g. `@/hooks`)                                                                                                                                                                            |
+| `resolvedPaths`      | `object`  | Absolute file-system paths for each alias, plus `tailwindCss`                                                                                                                                           |
+| `registries`         | `object`  | Configured registries, including `@fabricator`                                                                                                                                                          |
 
 **`components`:** array of installed component names.
 

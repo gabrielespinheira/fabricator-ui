@@ -190,7 +190,7 @@ describe("getNativeTheme with a look", () => {
   it("follows the radius", () => {
     expect(
       getNativeTheme("light", look({ radius: "pill" })).radius
-    ).toMatchObject({ md: 16, lg: 20, xl: 28 })
+    ).toMatchObject({ lg: 12, control: 18, surface: 22 })
   })
 
   it("follows the motion speed, off included", () => {

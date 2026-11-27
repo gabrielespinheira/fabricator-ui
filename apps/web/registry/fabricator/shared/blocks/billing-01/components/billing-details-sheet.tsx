@@ -50,7 +50,7 @@ function TaxEffect({
   return (
     <div
       aria-live="polite"
-      className="flex flex-col gap-(--density-4) rounded-lg bg-hover p-(--density-12) tabular-nums"
+      className="flex flex-col gap-(--density-4) rounded-(--radius-control) bg-hover p-(--density-12) tabular-nums"
     >
       <span className="flex justify-between gap-(--density-8)">
         Next invoice

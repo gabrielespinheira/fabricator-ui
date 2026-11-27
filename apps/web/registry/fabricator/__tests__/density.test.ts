@@ -12,6 +12,7 @@ import {
   isDensityName,
   toDensityVars,
 } from "@/registry/fabricator/density"
+import { RADIUS_ROLE_VARS } from "@/registry/fabricator/radius"
 
 const ORDER = ["compact", "default", "spacious"] as const
 
@@ -122,11 +123,13 @@ describe("density tokens", () => {
 
   it("switches with data-density and the density-* utilities", () => {
     for (const name of DENSITY_NAMES) {
+      // The corner roles are declared again, so they follow the scope's
+      // control height.
       const vars = Object.fromEntries(
-        Object.entries(toDensityVars(DENSITIES[name])).map(([key, value]) => [
-          `--${key}`,
-          value,
-        ])
+        Object.entries({
+          ...toDensityVars(DENSITIES[name]),
+          ...RADIUS_ROLE_VARS,
+        }).map(([key, value]) => [`--${key}`, value])
       )
       expect(
         DENSITY_CSS[`:root[data-density="${name}"], [data-density="${name}"]`]
