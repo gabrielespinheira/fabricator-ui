@@ -505,7 +505,7 @@ const SOURCES: CatalogSource[] = [
     slug: "blueprint",
     title: "Blueprint",
     height: "lg",
-    load: () => import("@/examples/__styles__/base-fabricator/blueprint-group"),
+    load: () => import("@/examples/__styles__/base-fabricator/blueprint-demo"),
   },
   {
     slug: "text-motion",

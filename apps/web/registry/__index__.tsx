@@ -12676,6 +12676,11 @@ export const Index: Record<string, Record<string, any>> = {
           target: "",
         },
         {
+          path: "styles/base-fabricator/blocks/finance-01/components/finance-overview.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
           path: "styles/base-fabricator/blocks/finance-01/components/finance-sidebar.tsx",
           type: "registry:component",
           target: "",
@@ -13504,6 +13509,11 @@ export const Index: Record<string, Record<string, any>> = {
         },
         {
           path: "styles/base-fabricator/blocks/settings-01/components/settings-data-card.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/base-fabricator/blocks/settings-01/components/settings-general.tsx",
           type: "registry:component",
           target: "",
         },
@@ -15635,6 +15645,11 @@ export const Index: Record<string, Record<string, any>> = {
           target: "",
         },
         {
+          path: "styles/radix-fabricator/blocks/finance-01/components/finance-overview.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
           path: "styles/radix-fabricator/blocks/finance-01/components/finance-sidebar.tsx",
           type: "registry:component",
           target: "",
@@ -16463,6 +16478,11 @@ export const Index: Record<string, Record<string, any>> = {
         },
         {
           path: "styles/radix-fabricator/blocks/settings-01/components/settings-data-card.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/radix-fabricator/blocks/settings-01/components/settings-general.tsx",
           type: "registry:component",
           target: "",
         },
@@ -18605,6 +18625,11 @@ export const Index: Record<string, Record<string, any>> = {
           target: "",
         },
         {
+          path: "styles/aria-fabricator/blocks/finance-01/components/finance-overview.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
           path: "styles/aria-fabricator/blocks/finance-01/components/finance-sidebar.tsx",
           type: "registry:component",
           target: "",
@@ -19433,6 +19458,11 @@ export const Index: Record<string, Record<string, any>> = {
         },
         {
           path: "styles/aria-fabricator/blocks/settings-01/components/settings-data-card.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/settings-01/components/settings-general.tsx",
           type: "registry:component",
           target: "",
         },

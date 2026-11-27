@@ -211,9 +211,13 @@ All seven are on the web for every base; their React Native ports follow.
 
 **Project board.** Add `board-01` for a ticket board that fills the page: projects and saved views in the sidebar, filters, people and rows over tinted columns, a new ticket form on `C`, and each ticket beside the board with its properties, sub-tasks, comments and history.
 
+**Blocks inside your own shell.** `finance-01` exports `FinanceOverview` and `settings-01` exports `SettingsGeneral`: each page's content without its App Shell, so you can place it in your app's `AppShellContent`. The block pages render them as before.
+
 **Assistant upgrades.** If you previously installed `assistant-01`, its old `assistant-tool-call.tsx` can be removed after updating. The revised transcript uses grouped work steps.
 
 ## Docs
+
+**Get started previews real blocks.** The Look step shows the Dashboard, Board, Mail, Calendar, Assistant, Settings and Sign in blocks on the primitives you picked, and every look change applies as you make it. The Shell step's sample pages are the Finance and Settings blocks, drawn at a desktop's width.
 
 **Advanced component references.** Expand any component under Advanced to find focused examples for its parts, hooks, configuration, and controls.
 

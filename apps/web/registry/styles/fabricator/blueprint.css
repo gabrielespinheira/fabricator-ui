@@ -1,0 +1,24 @@
+/* MARK: Blueprint */
+
+  /* The drawing is one faint ink, a third of the muted foreground, so it
+     reads as pencil under the content rather than as content, on any surface
+     in both themes; the pen and lit dots are a third of the foreground, the
+     brightest marks on the sheet but still well below the text. Labels are
+     mono, smaller than any text (dimensions on a plan, not copy). Strokes are round-capped dots (zero-length dashes), so the stroke
+     width is the dot size. The dot field is a canvas that paints with its own
+     colour (the ink) and fill (the pen). */
+  .cn-blueprint {
+    @apply [--blueprint-ink:color-mix(in_oklab,var(--muted-foreground)_38%,transparent)] [--blueprint-pen:color-mix(in_oklab,var(--foreground)_34%,transparent)];
+  }
+
+  /* Hidden until it plays and while the sketch takes over its opacity, so it
+     never flashes, but only where scripts run: without them the content
+     shows as it is. Reduce Motion and a speed of off skip the drawing: the
+     content fades in on the reveal timing instead. */
+  .cn-blueprint-content {
+    @apply [@media(scripting:enabled)]:data-[state=idle]:opacity-0 data-[state=playing]:opacity-0 data-[state=done]:transition-opacity data-[state=done]:duration-reveal data-[state=done]:ease-enter;
+  }
+
+  .cn-blueprint-overlay {
+    @apply fill-none font-mono text-[calc(var(--density-text-11)*0.85)] [&_[data-slot=blueprint-field]]:fill-(--blueprint-pen) [&_[data-slot=blueprint-field]]:text-(--blueprint-ink) [&_[data-slot=blueprint-guide]]:stroke-(--blueprint-ink) [&_[data-slot=blueprint-guide]]:[stroke-linecap:round] [&_[data-slot=blueprint-guide]]:[stroke-width:1.1] [&_[data-slot=blueprint-handle]]:fill-background [&_[data-slot=blueprint-handle]]:stroke-(--blueprint-pen) [&_[data-slot=blueprint-handle]]:[stroke-width:1] [&_[data-slot=blueprint-head]]:fill-(--blueprint-pen) [&_[data-slot=blueprint-label]]:fill-(--blueprint-ink) [&_[data-slot=blueprint-label][data-size=sm]]:text-[0.85em] [&_[data-slot=blueprint-probe]]:stroke-(--blueprint-ink) [&_[data-slot=blueprint-probe]]:[stroke-dasharray:2_4] [&_[data-slot=blueprint-probe]]:[stroke-width:1] [&_[data-slot=blueprint-reticle]]:stroke-(--blueprint-pen) [&_[data-slot=blueprint-reticle]]:[stroke-width:1.2] [&_[data-slot=blueprint-wire]]:fill-none [&_[data-slot=blueprint-wire]]:stroke-(--blueprint-ink) [&_[data-slot=blueprint-wire]]:[stroke-linecap:round] [&_[data-slot=blueprint-wire]]:[stroke-width:calc(1.8/var(--blueprint-scale,1))];
+  }

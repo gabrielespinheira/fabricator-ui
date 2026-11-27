@@ -1,0 +1,181 @@
+---
+title: Blueprint
+description: Sketches a component into place. A dot field, guides and a dotted outline draw it, each part is traced, then the real content fades in over the drawing.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="blueprint-demo"
+  previewClassName="h-auto"
+/>
+
+Blueprint wraps any component and draws it before it appears, like a plan being sketched. A dot field ripples out, a probe sweeps across, guides and a dotted outline draw the frame with its size and a running clock, then every box, line of text and icon inside is traced under a reticle. The content fades in over the drawing as it clears.
+
+It reads the layout from what you wrap, so there is nothing to configure: a card, a form, a stat or a whole panel each get their own drawing. With `loading`, the sketch holds and keeps scanning until the content is ready, so it doubles as a loading state.
+
+Every time comes from the reveal motion role, so the project's speed and a `data-motion` region retime it, and Reduce Motion skips the drawing.
+
+Blueprint is part of the Fabricator style. It's built on HTML, SVG and a canvas, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add blueprint
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/blueprint-model.ts"
+  title="lib/blueprint-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/blueprint.tsx"
+  title="components/ui/blueprint.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Blueprint, BlueprintGroup } from "@/components/ui/blueprint"
+```
+
+Wrap the component you want drawn. Blueprint renders a `div`, so give it the layout classes the component had, such as a width or a grid span.
+
+```tsx
+<Blueprint className="w-full max-w-sm">
+  <Card>…</Card>
+</Blueprint>
+```
+
+Put several in a `BlueprintGroup` to play them one after another, in the order they appear, when the group comes into view.
+
+```tsx
+<BlueprintGroup className="grid gap-6 sm:grid-cols-3">
+  {features.map((feature) => (
+    <Blueprint key={feature.title}>
+      <FeatureCard {...feature} />
+    </Blueprint>
+  ))}
+</BlueprintGroup>
+```
+
+## Composition
+
+```text
+BlueprintGroup              data-slot="blueprint-group" data-state="idle | playing"
+└── Blueprint               data-slot="blueprint" data-state="idle | playing | done"
+    ├── div                 data-slot="blueprint-overlay", only while it plays
+    │   ├── canvas          data-slot="blueprint-field", the dots
+    │   └── svg             guides, outline, parts, handles and labels
+    └── div                 data-slot="blueprint-content" data-state, your component
+```
+
+## Examples
+
+### Group
+
+`BlueprintGroup` starts each Blueprint inside it a beat after the one before, in document order, on one trigger. A feature grid or a row of stats reads as one gesture.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="blueprint-group"
+  previewClassName="h-auto"
+/>
+
+### Loading
+
+Pass `loading` while the data is on its way. The sketch draws whatever is there (a skeleton is ideal, its shapes are traced like any part), then waits with every part drawn: the probe keeps sweeping, the reticle hops from part to part and the clock keeps counting. When `loading` turns false, the content fades in. A fast response that arrives before the drawing finishes never makes it wait.
+
+```tsx
+<Blueprint loading={isPending}>
+  <Card>{data ? <Project data={data} /> : <ProjectSkeleton />}</Card>
+</Blueprint>
+```
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="blueprint-loading"
+  previewClassName="h-auto"
+/>
+
+## What it draws
+
+Blueprint reads what it wraps once, as it starts:
+
+- **The frame**: the wrapped element's box and corner radius, drawn as two dotted halves from the top centre with its size and a clock.
+- **Boxes**: elements with a background, a border or a background image, and every button, input, image, canvas and video. Up to four become keys, controls first and then the largest, with their own guides, corner handles and size.
+- **Text**: one stroke per line of text, at the line's length.
+- **Icons**: SVGs up to 120px are traced path by path.
+
+Add `data-blueprint-skip` to any element to leave it and everything inside it out of the drawing.
+
+The drawing reaches 44px past the element to show the field and the guides, but never past the scroll area around it, so a sketch at the edge of a page or a panel doesn't add a scrollbar.
+
+## Motion
+
+One sketch lasts 2.3 times the reveal role: 1.6s at the default speed, 2.3s smooth and 1.1s snappy. The frame draws in the first 40%, the parts by 75%, and the content then fades in through a 3px blur while the drawing clears. In a group, each Blueprint starts 7% of a sketch after the one before. `instant` and `off` show the content at once, and `--motion-scale` stretches every time.
+
+Reduce Motion skips the drawing and fades the content in. Without JavaScript, the content shows as it is.
+
+The drawing is one faint ink, so it reads as pencil under the content. To tune it, set the variables on the component or any element around it:
+
+| Variable          | Default                          | What                                         |
+| ----------------- | -------------------------------- | -------------------------------------------- |
+| `--blueprint-ink` | `var(--muted-foreground)` at 38% | Dots, guides, outlines, traced parts, labels |
+| `--blueprint-pen` | `var(--foreground)` at 34%       | The pen, lit dots, the reticle and handles   |
+
+## API Reference
+
+### Blueprint
+
+| Prop         | Type                | Default  |
+| ------------ | ------------------- | -------- |
+| `children`   | `React.ReactNode`   | (none)   |
+| `loading`    | `boolean`           | `false`  |
+| `trigger`    | `"view" \| "mount"` | `"view"` |
+| `order`      | `number`            | `0`      |
+| `onComplete` | `() => void`        | (none)   |
+
+The root is a `div` and takes its props and `ref`. `view` plays once the element is well inside the screen; `mount` plays as soon as it's on the page. `order` delays it by that many beats when you stagger Blueprints by hand. Inside a `BlueprintGroup`, the group's trigger and the document order apply. Blueprint plays once; to play it again, give it a new `key`.
+
+### BlueprintGroup
+
+| Prop      | Type                | Default  |
+| --------- | ------------------- | -------- |
+| `trigger` | `"view" \| "mount"` | `"view"` |
+
+The root is a `div` and takes its props and `ref`.
+
+## Accessibility
+
+The drawing is decoration, hidden from screen readers. The content stays in the page the whole time, so it's read as it is, and it can be focused while it fades in. While `loading` is on, the Blueprint sets `aria-busy`.
+
+Keep it for moments that earn it: a landing page, the first load of a dashboard, a panel that fetches. A screen people return to many times a day should show its content in place ([Motion](/docs/foundations/motion)).

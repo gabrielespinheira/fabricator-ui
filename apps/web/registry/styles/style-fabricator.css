@@ -892,12 +892,12 @@
     @apply [--blueprint-ink:color-mix(in_oklab,var(--muted-foreground)_38%,transparent)] [--blueprint-pen:color-mix(in_oklab,var(--foreground)_34%,transparent)];
   }
 
-  /* Hidden until it plays, so it never flashes before the sketch, but only
-     where scripts run: without them the content shows as it is. Reduce
-     Motion and a speed of off skip the drawing: the content fades in on the
-     reveal timing instead. */
+  /* Hidden until it plays and while the sketch takes over its opacity, so it
+     never flashes, but only where scripts run: without them the content
+     shows as it is. Reduce Motion and a speed of off skip the drawing: the
+     content fades in on the reveal timing instead. */
   .cn-blueprint-content {
-    @apply [@media(scripting:enabled)]:data-[state=idle]:opacity-0 data-[state=done]:transition-opacity data-[state=done]:duration-reveal data-[state=done]:ease-enter;
+    @apply [@media(scripting:enabled)]:data-[state=idle]:opacity-0 data-[state=playing]:opacity-0 data-[state=done]:transition-opacity data-[state=done]:duration-reveal data-[state=done]:ease-enter;
   }
 
   .cn-blueprint-overlay {
