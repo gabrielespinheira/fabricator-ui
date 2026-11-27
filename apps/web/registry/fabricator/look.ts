@@ -3,8 +3,8 @@
 // The setup page (/create) writes them into the init URL, and /init turns
 // them into the payload's cssVars. Values are `<hue>_<chroma>` for colours
 // (no characters that need encoding, so the URL in a command stays readable),
-// `shape=pill`, `motion=<speed>` and `density=<compact|spacious>`. Only values
-// that differ from the defaults are written.
+// `shape=pill`, `motion=<speed>`, `density=<compact|spacious>` and
+// `loader=blueprint`. Only values that differ from the defaults are written.
 
 import {
   COLOR_ROLES,
@@ -23,6 +23,12 @@ import {
   type DensityName,
 } from "@/registry/fabricator/density"
 import { SURFACE_PALETTE_LINKS } from "@/registry/fabricator/foundation-tokens"
+import {
+  DEFAULT_LOADER,
+  LOADER_NAMES,
+  LOADERS,
+  type LoaderName,
+} from "@/registry/fabricator/loader"
 import {
   DEFAULT_MOTION_SPEED,
   MOTION_SPEED_NAMES,
@@ -49,6 +55,7 @@ export type FabricatorLook = {
   radius: LookShape
   motion: LookMotion
   density: DensityName
+  loader: LoaderName
 }
 
 export const DEFAULT_LOOK: FabricatorLook = {
@@ -57,6 +64,7 @@ export const DEFAULT_LOOK: FabricatorLook = {
   radius: "rounded",
   motion: DEFAULT_MOTION_SPEED,
   density: DEFAULT_DENSITY,
+  loader: DEFAULT_LOADER,
 }
 
 /** Every param the look reads and writes. */
@@ -66,6 +74,7 @@ export const LOOK_PARAM_NAMES = [
   "shape",
   "motion",
   "density",
+  "loader",
 ] as const
 
 /** The radius Pill sets (the website's Pill setting uses the same value). */
@@ -109,6 +118,7 @@ export function lookToSearchParams(look: FabricatorLook) {
   if (look.density !== DEFAULT_LOOK.density) {
     params.set("density", look.density)
   }
+  if (look.loader !== DEFAULT_LOOK.loader) params.set("loader", look.loader)
   return params
 }
 
@@ -170,9 +180,17 @@ export function parseLook(searchParams: URLSearchParams): ParseResult {
     }
   }
 
+  const loader = searchParams.get("loader") ?? DEFAULT_LOOK.loader
+  if (!isOneOf(LOADER_NAMES, loader)) {
+    return {
+      success: false,
+      error: `Invalid "loader": ${loader}. Use one of: ${LOADER_NAMES.join(", ")}.`,
+    }
+  }
+
   return {
     success: true,
-    look: { surface, colors, radius: shape, motion, density },
+    look: { surface, colors, radius: shape, motion, density, loader },
   }
 }
 
@@ -220,6 +238,9 @@ export function lookCssVars(look: FabricatorLook) {
   if (look.density !== DEFAULT_DENSITY) {
     Object.assign(light, toDensityVars(DENSITIES[look.density]))
   }
+
+  // Likewise the loader: data-loader still switches any part of the page.
+  if (look.loader !== DEFAULT_LOADER) Object.assign(light, LOADERS[look.loader])
 
   return { light, dark }
 }

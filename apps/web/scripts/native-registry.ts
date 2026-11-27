@@ -13,6 +13,7 @@ const TOKEN_MODULES: Record<string, string> = {
   density: "density-scale",
   "density-variables": "density-variables",
   motion: "motion-speeds",
+  loader: "loaders",
   "foundation-tokens": "foundation-tokens",
   look: "look",
   "native-theme": "native-theme",

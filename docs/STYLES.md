@@ -11,6 +11,7 @@ How the Fabricator foundations are made: the token modules, the colour, motion a
 | Colour roles                             | `registry/fabricator/color-roles.ts`                                                           |
 | Motion                                   | `registry/fabricator/motion.ts`                                                                |
 | Density                                  | `registry/fabricator/density.ts`                                                               |
+| Loader                                   | `registry/fabricator/loader.ts`                                                                |
 | Code colours                             | `registry/fabricator/syntax-colors.ts`                                                         |
 | Overrides (behaviour)                    | `registry/fabricator/<base>/ui/<component>.tsx`, shared files in `registry/fabricator/shared/` |
 | Extra items, overrides' deps, exclusions | `registry/fabricator/registry.ts`                                                              |
@@ -48,6 +49,14 @@ Sizes come from the density, never fixed pixels; the token table and how a compo
 - `density.ts` defines the three scales, each token named after its default value. They are CSS variables rather than theme keys because class merging only knows arbitrary values.
 - React Native resolves its own rungs per device (`registry/native/lib/density-scale.ts`): a phone's default is the spacious scale, a tablet's 40pt controls with phone text.
 - `__tests__/density-usage.test.ts` fails on fixed control heights, text sizes and icon sizes.
+
+## Loader
+
+How placeholders look while content loads: `skeleton` (default) or `blueprint`. Plan: [`plans/blueprint-loader.md`](plans/blueprint-loader.md).
+
+- `loader.ts` defines both as the same set of `--loader-*` tokens, the `data-loader` switches, `loader-<name>` utilities, the pen's `@property` angles and the trace's keyframes. A token can't hold the trace's mask: `var()` in a custom property resolves where it is defined, so the conic mask lives in the style maps, on the element the angles animate. A placeholder reads the tokens (`cn-skeleton`, `cn-chart-plot` under `data-loading`); it never asks which loader is on. Code that must know reads `--loader`.
+- The look writes the blueprint tokens into `:root` (`loader=blueprint`); the site sets `data-loader` on `<html>` from its settings.
+- React Native skips the tokens (`native-css-variables.test.ts`) and keeps the skeleton; see `parity-exceptions.json`.
 
 ## The look
 

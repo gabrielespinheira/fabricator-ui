@@ -734,6 +734,8 @@ The layout is settled before the data arrives. Everything whose size is already 
 | An image, a map, a video                        | Its `AspectRatio` box on the muted fill until it loads                   |
 | Under about 300ms                               | Nothing                                                                  |
 
+The project's [loader](https://fabricator-ui.vercel.app/docs/foundations/loader) decides how every placeholder looks: `skeleton` (the default, a quiet pulse) for product screens, `blueprint` (each placeholder's own dotted outline, traced by a pen, as Blueprint draws) for websites and showcases that should feel built in front of you. Set it once with the look (`loader=blueprint`) and, where one region differs, with `data-loader` on its container; one view uses one loader.
+
 ### Skeletons fill boxes
 
 A skeleton fills a box whose size is settled before the data arrives (a card, a row, a plot), never the shape of the text inside it.

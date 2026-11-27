@@ -89,6 +89,15 @@ html:root {
   --density-text-16: 16px;
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
+  --loader: skeleton;
+  --loader-fill: var(--hover);
+  --loader-outline: transparent;
+  --loader-outline-width: 0px;
+  --loader-animation: var(--animate-pulse);
+  --loader-pen: transparent;
+  --loader-trace: none;
+  --loader-dim: 0.5;
+  --loader-reveal: calc(var(--motion-feedback) * var(--motion-scale, 1));
   --surface-0: oklch(calc(1 - var(--surface-chroma) * 0.45) calc(var(--surface-chroma) * 0.2) var(--surface-hue));
   --surface-1: oklch(calc(0.985 - var(--surface-chroma) * 0.575) calc(var(--surface-chroma) * 0.44) var(--surface-hue));
   --shadow-1: 0 0 0 1px var(--shadow-color);
@@ -1165,6 +1174,74 @@ html.dark {
   --density-text-16: 18px;
   --density-icon-14: 1rem;
   --density-icon-16: 1.125rem;
+}
+:root[data-loader="skeleton"], [data-loader="skeleton"] {
+  --loader: skeleton;
+  --loader-fill: var(--hover);
+  --loader-outline: transparent;
+  --loader-outline-width: 0px;
+  --loader-animation: var(--animate-pulse);
+  --loader-pen: transparent;
+  --loader-trace: none;
+  --loader-dim: 0.5;
+  --loader-reveal: calc(var(--motion-feedback) * var(--motion-scale, 1));
+}
+:root[data-loader="blueprint"], [data-loader="blueprint"] {
+  --loader: blueprint;
+  --loader-fill: transparent;
+  --loader-outline: color-mix(in oklab, var(--muted-foreground) 38%, transparent);
+  --loader-outline-width: 1.5px;
+  --loader-animation: none;
+  --loader-pen: color-mix(in oklab, var(--foreground) 34%, transparent);
+  --loader-trace: fabricator-loader-trace calc(var(--motion-reveal) * 3 * var(--motion-scale, 1)) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  --loader-dim: 0;
+  --loader-reveal: calc(var(--motion-reveal) * var(--motion-scale, 1));
+}
+@utility loader-skeleton {
+  --loader: skeleton;
+  --loader-fill: var(--hover);
+  --loader-outline: transparent;
+  --loader-outline-width: 0px;
+  --loader-animation: var(--animate-pulse);
+  --loader-pen: transparent;
+  --loader-trace: none;
+  --loader-dim: 0.5;
+  --loader-reveal: calc(var(--motion-feedback) * var(--motion-scale, 1));
+}
+@utility loader-blueprint {
+  --loader: blueprint;
+  --loader-fill: transparent;
+  --loader-outline: color-mix(in oklab, var(--muted-foreground) 38%, transparent);
+  --loader-outline-width: 1.5px;
+  --loader-animation: none;
+  --loader-pen: color-mix(in oklab, var(--foreground) 34%, transparent);
+  --loader-trace: fabricator-loader-trace calc(var(--motion-reveal) * 3 * var(--motion-scale, 1)) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  --loader-dim: 0;
+  --loader-reveal: calc(var(--motion-reveal) * var(--motion-scale, 1));
+}
+@property --loader-head {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --loader-tail {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes fabricator-loader-trace {
+  0% {
+    --loader-head: 0deg;
+    --loader-tail: 0deg;
+  }
+  50% {
+    --loader-head: 180deg;
+    --loader-tail: 0deg;
+  }
+  100% {
+    --loader-head: 180deg;
+    --loader-tail: 180deg;
+  }
 }
 @utility scrollbar-hide {
   -ms-overflow-style: none;

@@ -6,6 +6,7 @@ import {
 } from "@/registry/fabricator/color-roles"
 import { DENSITIES, toDensityVars } from "@/registry/fabricator/density"
 import { SURFACE_PALETTE_LINKS } from "@/registry/fabricator/foundations"
+import { LOADERS } from "@/registry/fabricator/loader"
 import {
   DEFAULT_LOOK,
   lookCssVars,
@@ -25,6 +26,7 @@ const CUSTOM_LOOK: FabricatorLook = {
   radius: "pill",
   motion: "snappy",
   density: "spacious",
+  loader: "blueprint",
 }
 
 describe("lookToSearchParams", () => {
@@ -40,6 +42,7 @@ describe("lookToSearchParams", () => {
       shape: "pill",
       motion: "snappy",
       density: "spacious",
+      loader: "blueprint",
     })
   })
 
@@ -91,6 +94,7 @@ describe("parseLook", () => {
     ["shape=square", "shape"],
     ["motion=fast", "motion"],
     ["density=comfortable", "density"],
+    ["loader=spinner", "loader"],
   ])("rejects %s", (query, param) => {
     const result = parseLook(new URLSearchParams(query))
     expect(result.success).toBe(false)
@@ -148,6 +152,12 @@ describe("lookCssVars", () => {
   it("sets the density's tokens", () => {
     expect(lookCssVars({ ...DEFAULT_LOOK, density: "compact" }).light).toEqual(
       toDensityVars(DENSITIES.compact)
+    )
+  })
+
+  it("sets the loader's tokens", () => {
+    expect(lookCssVars({ ...DEFAULT_LOOK, loader: "blueprint" }).light).toEqual(
+      LOADERS.blueprint
     )
   })
 

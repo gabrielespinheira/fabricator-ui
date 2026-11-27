@@ -21,6 +21,7 @@ import {
   SURFACE_PALETTE_LINKS,
   type CssVars,
 } from "@/registry/fabricator/foundation-tokens"
+import { LOADER_CSS } from "@/registry/fabricator/loader"
 import { MOTION_CSS } from "@/registry/fabricator/motion"
 
 export type { CssObject }
@@ -99,6 +100,8 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
     ...MOTION_CSS,
     // Densities (data-density) and the density-* utilities.
     ...DENSITY_CSS,
+    // Loaders (data-loader), the loader-* utilities and the blueprint sweep.
+    ...LOADER_CSS,
     "@utility scrollbar-hide": {
       "-ms-overflow-style": "none",
       "scrollbar-width": "none",

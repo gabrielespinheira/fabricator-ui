@@ -112,7 +112,7 @@ BlueprintGroup              data-slot="blueprint-group" data-state="idle | playi
 
 ### Loading
 
-Pass `loading` while the data is on its way. The sketch draws whatever is there (a skeleton is ideal, its shapes are traced like any part), then waits with every part drawn: the probe keeps sweeping, the reticle hops from part to part and the clock keeps counting. When `loading` turns false, the content fades in. A fast response that arrives before the drawing finishes never makes it wait.
+Pass `loading` while the data is on its way. The sketch draws whatever is there (a skeleton is ideal, its shapes are traced like any part), then waits with every part drawn: the reticle hops from part to part, the probe keeps sweeping on a component, and the clock keeps counting. When `loading` turns false, the content fades in. A fast response that arrives before the drawing finishes never makes it wait.
 
 ```tsx
 <Blueprint loading={isPending}>
@@ -126,6 +126,10 @@ Pass `loading` while the data is on its way. The sketch draws whatever is there 
   previewClassName="h-auto"
 />
 
+### As the project's loader
+
+Blueprint sketches a component you wrap. To make every placeholder in the project look like its drawing (Skeleton, the charts' loading plots, Data Table's first rows), pick the Blueprint [loader](/docs/foundations/loader) on Get started or with `--look loader=blueprint`. The two work together: a `Blueprint` with `loading` around a card that shows Skeletons while it fetches sketches the card and its placeholders alike.
+
 ## What it draws
 
 Blueprint reads what it wraps once, as it starts:
@@ -134,6 +138,10 @@ Blueprint reads what it wraps once, as it starts:
 - **Boxes**: elements with a background, a border or a background image, and every button, input, image, canvas and video. Up to four become keys, controls first and then the largest, with their own guides, corner handles and size.
 - **Text**: one stroke per line of text, at the line's length.
 - **Icons**: SVGs up to 120px are traced path by path.
+
+The dot field fills a component up to about the size of a card. A large block or a whole layout keeps its inside clear and has no probe, so its traced parts carry the drawing and it never reads as one patterned surface.
+
+If the content's size changes while it plays (fonts arriving, a container settling, the data landing while it holds), the drawing is measured and built again, and the clock carries on.
 
 Add `data-blueprint-skip` to any element to leave it and everything inside it out of the drawing.
 

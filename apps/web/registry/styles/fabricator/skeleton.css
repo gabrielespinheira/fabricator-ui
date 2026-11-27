@@ -1,6 +1,13 @@
 /* MARK: Skeleton */
 
-  /* The hover fill, so it reads on any surface in both themes. */
+  /* The loader decides (loader.ts): by default the hover fill, so it reads
+     on any surface in both themes, pulsing; with the blueprint loader no
+     fill, just the placeholder's own dotted outline in the Blueprint
+     drawing's ink, and its pen (the after element, the same outline in the
+     pen colour) tracing it from the top centre round both sides and erasing
+     it again. A whole page of placeholders reads as parts being drawn. The
+     loader's animation replaces upstream's pulse; Reduce Motion holds both
+     still and leaves the outline. */
   .cn-skeleton {
-    @apply bg-hover rounded-md;
+    @apply relative rounded-md bg-(--loader-fill) outline-(--loader-outline) outline-dotted [outline-width:var(--loader-outline-width)] [outline-offset:calc(var(--loader-outline-width)*-1)] animate-(--loader-animation)! after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:outline-(--loader-pen) after:outline-dotted after:[outline-width:var(--loader-outline-width)] after:[outline-offset:calc(var(--loader-outline-width)*-1)] after:[mask-image:conic-gradient(transparent_var(--loader-tail),#000_var(--loader-tail)_var(--loader-head),transparent_var(--loader-head)_calc(360deg_-_var(--loader-head)),#000_calc(360deg_-_var(--loader-head))_calc(360deg_-_var(--loader-tail)),transparent_calc(360deg_-_var(--loader-tail)))] after:animate-(--loader-trace) motion-reduce:animate-none! motion-reduce:after:animate-none;
   }

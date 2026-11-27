@@ -43,7 +43,7 @@ export function addSetupOptions(command: Command) {
     )
     .option(
       "--look <values>",
-      "your look, as key=value pairs: primary=260_0.2,shape=pill"
+      "your look, as key=value pairs: primary=260_0.2,shape=pill,loader=blueprint"
     )
     .option("--shell [options]", "the App Shell, with key=value options")
     .option("--no-shell", "skip the App Shell")

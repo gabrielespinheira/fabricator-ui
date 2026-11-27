@@ -57,6 +57,8 @@ export const BLUEPRINT_GEOMETRY = {
   keyOvershoot: 16,
   reticlePadding: 5,
   contentBlur: 3,
+  /** The largest element, in px², the dot field still fills: about a card. */
+  fieldMaxArea: 480 * 360,
 } as const
 
 /** The corners' handles, clockwise from the top left, and when each pops. */
@@ -239,6 +241,16 @@ export function getDottedDashArray(
 /** How far along the path the pen is: on the last dot drawn. */
 export function getPenDistance(length: number, gap: number, progress: number) {
   return Math.floor((length * clamp(progress)) / gap) * gap
+}
+
+/**
+ * Whether the dot field fills the element as well as its margin. A component
+ * (a tile, a card, a form) is drawn on the field; a large block or a whole
+ * layout isn't, or it reads as one patterned surface: its traced parts
+ * carry it.
+ */
+export function hasFieldInside(width: number, height: number) {
+  return width * height <= BLUEPRINT_GEOMETRY.fieldMaxArea
 }
 
 export type FieldDot = {

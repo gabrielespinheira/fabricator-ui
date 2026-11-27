@@ -5524,6 +5524,16 @@ export const Components: Record<string, any> = {
       ) || "skeleton-form"
     return { default: mod.default || mod[exportName] }
   }),
+  "skeleton-loader": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/skeleton-loader"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "skeleton-loader"
+    return { default: mod.default || mod[exportName] }
+  }),
   "skeleton-table": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/aria-fabricator/skeleton-table"

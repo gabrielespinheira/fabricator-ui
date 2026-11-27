@@ -5,8 +5,10 @@ import Link from "next/link"
 
 import { COMPONENT_GROUPS, getComponentGroup } from "@/lib/component-groups"
 import { ArrowUpRightIcon } from "@/lib/site-icons"
+import { useSiteSettings } from "@/lib/site-settings"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/styles/base-fabricator/ui/badge"
+import { Blueprint } from "@/styles/base-fabricator/ui/blueprint"
 import { Button } from "@/styles/base-fabricator/ui/button"
 import {
   Select,
@@ -16,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/styles/base-fabricator/ui/select"
+import { Skeleton } from "@/styles/base-fabricator/ui/skeleton"
 import {
   Tabs,
   TabsContent,
@@ -365,7 +368,13 @@ function GalleryCard({ item }: { item: GalleryItem }) {
         <ArrowUpRightIcon />
       </Button>
       <div className="flex w-full max-w-full min-w-0 items-center justify-center">
-        {item.Demo ? <item.Demo /> : <LazyDemo entry={item.entry} />}
+        {item.Demo ? (
+          <SketchIn slug={item.slug}>
+            <item.Demo />
+          </SketchIn>
+        ) : (
+          <LazyDemo slug={item.slug} entry={item.entry} />
+        )}
       </div>
       {/* Tall demos start at the top and fade out at the bottom edge. */}
       <div
@@ -380,7 +389,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
  * Mounts a catalog demo once its card comes near the viewport, so the page
  * downloads each demo's code only when it is about to be seen.
  */
-function LazyDemo({ entry }: { entry: CatalogEntry }) {
+function LazyDemo({ slug, entry }: { slug: string; entry: CatalogEntry }) {
   const ref = React.useRef<HTMLDivElement>(null)
   const [visible, setVisible] = React.useState(false)
 
@@ -402,10 +411,7 @@ function LazyDemo({ entry }: { entry: CatalogEntry }) {
 
   const { Demo } = entry
   const placeholder = (
-    <div
-      aria-hidden
-      className="h-24 w-full max-w-64 animate-pulse rounded-xl bg-foreground/[0.04]"
-    />
+    <Skeleton aria-hidden className="h-24 w-full max-w-64 rounded-xl" />
   )
 
   return (
@@ -416,13 +422,35 @@ function LazyDemo({ entry }: { entry: CatalogEntry }) {
       {visible ? (
         <DemoBoundary fallback={placeholder}>
           <React.Suspense fallback={placeholder}>
-            <Demo />
+            <SketchIn slug={slug}>
+              <Demo />
+            </SketchIn>
           </React.Suspense>
         </DemoBoundary>
       ) : (
         placeholder
       )}
     </div>
+  )
+}
+
+/**
+ * With the Blueprint loader, a card's demo is sketched in as it comes into
+ * view, once its code has loaded. The Blueprint card shows its own.
+ */
+function SketchIn({
+  slug,
+  children,
+}: {
+  slug: string
+  children: React.ReactNode
+}) {
+  const { loader } = useSiteSettings()
+  if (loader !== "blueprint" || slug === "blueprint") return children
+  return (
+    <Blueprint className="w-full min-w-0 *:data-[slot=blueprint-content]:flex *:data-[slot=blueprint-content]:w-full *:data-[slot=blueprint-content]:min-w-0 *:data-[slot=blueprint-content]:items-center *:data-[slot=blueprint-content]:justify-center">
+      {children}
+    </Blueprint>
   )
 }
 

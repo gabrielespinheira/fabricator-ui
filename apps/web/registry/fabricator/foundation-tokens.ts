@@ -10,6 +10,7 @@ import {
   rolePalette,
 } from "@/registry/fabricator/color-roles"
 import { DENSITY_ROOT_VARS } from "@/registry/fabricator/density"
+import { LOADER_ROOT_VARS } from "@/registry/fabricator/loader"
 import { MOTION_ROOT_VARS, MOTION_THEME } from "@/registry/fabricator/motion"
 import {
   MUTED_FOREGROUND_STEP,
@@ -118,6 +119,8 @@ export const FABRICATOR_TOKENS: CssVars = {
     ...MOTION_ROOT_VARS,
     // The default density; the others switch with data-density.
     ...DENSITY_ROOT_VARS,
+    // The default loader; the other switches with data-loader.
+    ...LOADER_ROOT_VARS,
     "surface-0": tintedCss(SURFACE_BASE_STEP.light),
     ...Object.fromEntries(
       SURFACE_LEVELS.flatMap((level) => [

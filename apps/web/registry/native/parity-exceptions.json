@@ -1475,5 +1475,12 @@
     "name": "blueprint",
     "reason": "New web component that measures the DOM and draws on SVG and a canvas. The native port measures parts with onLayout and draws the same blueprint-model timeline with react-native-svg; it follows in its own change.",
     "date": "2026-11-27"
+  },
+  {
+    "item": "skeleton",
+    "kind": "look",
+    "name": "loader",
+    "reason": "The blueprint loader (dotted outline, dot field and a sweeping probe from the loader tokens) is web only. Native Skeleton and chart loading keep the skeleton look until the native port draws the field with react-native-svg on the same tokens.",
+    "date": "2026-11-27"
   }
 ]

@@ -14,6 +14,11 @@ import {
   type DensityName,
 } from "@/registry/fabricator/density"
 import {
+  DEFAULT_LOADER,
+  isLoaderName,
+  type LoaderName,
+} from "@/registry/fabricator/loader"
+import {
   DENSITY_OPTIONS,
   MOTION_OPTIONS,
   ROLE_PRESETS,
@@ -40,6 +45,8 @@ import {
  * - radius: "rounded" (--radius 0.5rem) or "pill" (--radius 1.25rem).
  * - motion: the motion speed, data-motion on <html> (smooth to instant, or off).
  * - density: compact, default or spacious, data-density on <html>.
+ * - loader: skeleton or blueprint, how placeholders look while content
+ *   loads; data-loader on <html>.
  * - surface: the surface tint, --surface-hue and --surface-chroma on <html>.
  * - colors: each colour role's hue and chroma, --<role>-hue and
  *   --<role>-chroma on <html>.
@@ -69,6 +76,7 @@ export type SiteSettings = {
   radius: SiteRadius
   motion: SiteMotion
   density: DensityName
+  loader: LoaderName
   surface: SurfaceTint
   colors: Record<ColorRole, RoleColor>
 }
@@ -82,6 +90,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   radius: "rounded",
   motion: "default",
   density: DEFAULT_DENSITY,
+  loader: DEFAULT_LOADER,
   surface: NEUTRAL_TINT,
   colors: ROLE_DEFAULTS,
 }
@@ -137,6 +146,9 @@ function read(): SiteSettings {
     density: isDensityName(stored.density)
       ? stored.density
       : DEFAULT_SITE_SETTINGS.density,
+    loader: isLoaderName(stored.loader)
+      ? stored.loader
+      : DEFAULT_SITE_SETTINGS.loader,
     surface: normalizeTint(stored.surface),
     colors: normalizeColors(stored.colors),
   }
@@ -234,13 +246,13 @@ export function applyColorRoles(colors: Record<ColorRole, RoleColor>) {
 
 /**
  * Runs before paint (inlined in <head>) so a stored Pill radius, motion
- * speed, density, surface tint or colour role doesn't flash the defaults
+ * speed, density, loader, surface tint or colour role doesn't flash the defaults
  * first. Keep
  * in step with the rules in app/fabricator-site.css, applySurfaceTint and
  * applyColorRoles.
  */
 export const SITE_SETTINGS_SCRIPT = `try{var s=JSON.parse(localStorage.getItem(${JSON.stringify(
   SITE_SETTINGS_STORAGE_KEY
-)})||"{}"),r=document.documentElement,d=r.dataset,t=s.surface;if(s.radius==="pill")d.radius="pill";if(s.motion&&s.motion!=="default")d.motion=s.motion;if(s.density==="compact"||s.density==="spacious")d.density=s.density;if(t&&isFinite(t.hue)&&t.chroma>0&&t.chroma<=${SURFACE_MAX_CHROMA}){r.style.setProperty("--surface-hue",t.hue);r.style.setProperty("--surface-chroma",t.chroma)}var c=s.colors||{},k=${JSON.stringify(
+)})||"{}"),r=document.documentElement,d=r.dataset,t=s.surface;if(s.radius==="pill")d.radius="pill";if(s.motion&&s.motion!=="default")d.motion=s.motion;if(s.density==="compact"||s.density==="spacious")d.density=s.density;if(s.loader==="blueprint")d.loader=s.loader;if(t&&isFinite(t.hue)&&t.chroma>0&&t.chroma<=${SURFACE_MAX_CHROMA}){r.style.setProperty("--surface-hue",t.hue);r.style.setProperty("--surface-chroma",t.chroma)}var c=s.colors||{},k=${JSON.stringify(
   COLOR_ROLES
 )};for(var i=0;i<k.length;i++){var v=c[k[i]];if(v&&isFinite(v.hue)&&isFinite(v.chroma)&&v.chroma>=0&&v.chroma<=0.4){r.style.setProperty("--"+k[i]+"-hue",v.hue);r.style.setProperty("--"+k[i]+"-chroma",v.chroma)}}}catch(e){}`

@@ -35,7 +35,7 @@ Creates the app, installs the look and components, adds the App Shell and sounds
 | `--mobile-runtime <runtime>` | | Enable mobile with `expo` or `tauri`. Tauri uses a Vite monorepo. |
 | `--mobile`                         |       | Add `apps/mobile`: React Native with Expo                                                                   |
 | `--desktop <runtime>`              |       | Add `apps/desktop`: `electron` or `tauri`                                                                   |
-| `--look <values>`                  |       | `key=value` pairs: `primary=260_0.2,shape=pill`                                                             |
+| `--look <values>`                  |       | `key=value` pairs: `primary=260_0.2,shape=pill,loader=blueprint`                                            |
 | `--shell [options]` / `--no-shell` |       | The App Shell, with `key=value` options: `variant=floating,tabs=main`                                       |
 | `--icons <library>`                |       | An icon library other than Fabricator's                                                                     |
 | `--no-sounds`                      |       | Skip the interface sounds                                                                                   |

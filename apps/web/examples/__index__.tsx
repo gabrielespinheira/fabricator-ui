@@ -2561,6 +2561,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "skeleton-form",
       filePath: "examples/base/skeleton-form.tsx",
     },
+    "skeleton-loader": {
+      name: "skeleton-loader",
+      filePath: "examples/base/skeleton-loader.tsx",
+    },
     "skeleton-rtl": {
       name: "skeleton-rtl",
       filePath: "examples/base/skeleton-rtl.tsx",
@@ -5546,6 +5550,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "skeleton-form": {
       name: "skeleton-form",
       filePath: "examples/aria/skeleton-form.tsx",
+    },
+    "skeleton-loader": {
+      name: "skeleton-loader",
+      filePath: "examples/aria/skeleton-loader.tsx",
     },
     "skeleton-rtl": {
       name: "skeleton-rtl",
@@ -8541,6 +8549,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "skeleton-form",
       filePath: "examples/radix/skeleton-form.tsx",
     },
+    "skeleton-loader": {
+      name: "skeleton-loader",
+      filePath: "examples/radix/skeleton-loader.tsx",
+    },
     "skeleton-rtl": {
       name: "skeleton-rtl",
       filePath: "examples/radix/skeleton-rtl.tsx",
@@ -11499,6 +11511,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "skeleton-form",
       filePath: "examples/__styles__/base-fabricator/skeleton-form.tsx",
     },
+    "skeleton-loader": {
+      name: "skeleton-loader",
+      filePath: "examples/__styles__/base-fabricator/skeleton-loader.tsx",
+    },
     "skeleton-table": {
       name: "skeleton-table",
       filePath: "examples/__styles__/base-fabricator/skeleton-table.tsx",
@@ -14304,6 +14320,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "skeleton-form": {
       name: "skeleton-form",
       filePath: "examples/__styles__/aria-fabricator/skeleton-form.tsx",
+    },
+    "skeleton-loader": {
+      name: "skeleton-loader",
+      filePath: "examples/__styles__/aria-fabricator/skeleton-loader.tsx",
     },
     "skeleton-table": {
       name: "skeleton-table",
@@ -17137,6 +17157,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "skeleton-form": {
       name: "skeleton-form",
       filePath: "examples/__styles__/radix-fabricator/skeleton-form.tsx",
+    },
+    "skeleton-loader": {
+      name: "skeleton-loader",
+      filePath: "examples/__styles__/radix-fabricator/skeleton-loader.tsx",
     },
     "skeleton-table": {
       name: "skeleton-table",

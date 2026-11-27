@@ -31,6 +31,7 @@ import {
   type RoleColor,
 } from "@/registry/fabricator/color-roles"
 import type { DensityName } from "@/registry/fabricator/density"
+import type { LoaderName } from "@/registry/fabricator/loader"
 import {
   SPINNERS,
   type SpinnerVariant,
@@ -55,6 +56,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/styles/base-fabricator/ui/select"
+import { Skeleton } from "@/styles/base-fabricator/ui/skeleton"
 import { Spinner } from "@/styles/base-fabricator/ui/spinner"
 import {
   ToggleGroup,
@@ -205,6 +207,12 @@ function SettingSelect<T extends string>({
     </Select>
   )
 }
+
+// How placeholders look while content loads (registry/fabricator/loader.ts).
+const LOADERS: { value: LoaderName; label: string }[] = [
+  { value: "skeleton", label: "Skeleton" },
+  { value: "blueprint", label: "Blueprint" },
+]
 
 const RADII: { value: SiteRadius; label: string; icon: React.ReactNode }[] = [
   {
@@ -393,8 +401,8 @@ function isThemeSetting(value: unknown): value is ThemeSetting {
 }
 
 /**
- * Theme, sound, icons, radius, density, motion, surface and primary colour:
- * the settings menu rows.
+ * Theme, sound, icons, radius, density, motion, loader, surface and primary
+ * colour: the settings menu rows.
  */
 export function SiteSettingsFields({
   className,
@@ -411,6 +419,7 @@ export function SiteSettingsFields({
   const [radius, setRadius] = useSiteSetting("radius")
   const [motion, setMotion] = useSiteSetting("motion")
   const [density, setDensity] = useSiteSetting("density")
+  const [loader, setLoader] = useSiteSetting("loader")
 
   return (
     <div className={cn("flex flex-col", className)}>
@@ -486,6 +495,26 @@ export function SiteSettingsFields({
           value={motion}
           onValueChange={setMotion}
           options={MOTION_SPEEDS.map(({ value, label }) => ({ value, label }))}
+        />
+      </SettingRow>
+      <SettingRow label="Loader">
+        <SettingSelect<LoaderName>
+          label="Loader"
+          value={loader}
+          onValueChange={setLoader}
+          options={LOADERS.map(({ value, label }) => ({
+            value,
+            label,
+            icon: (
+              <Skeleton
+                aria-hidden="true"
+                className={cn(
+                  "size-3.5 rounded-[3px]",
+                  value === "blueprint" ? "loader-blueprint" : "loader-skeleton"
+                )}
+              />
+            ),
+          }))}
         />
       </SettingRow>
       <SettingRow label="Surface">

@@ -19,6 +19,7 @@ import {
   getOverlayInsets,
   getPartWindows,
   getRoundedRectPath,
+  hasFieldInside,
   selectBlueprintParts,
   type BlueprintPartInput,
 } from "./blueprint-model"
@@ -294,5 +295,17 @@ describe("getOverlayInsets", () => {
         44
       )
     ).toEqual({ left: 10, top: 0, right: 20, bottom: 44 })
+  })
+})
+
+describe("hasFieldInside", () => {
+  it("fills a component with the dot field", () => {
+    expect(hasFieldInside(130, 130)).toBe(true)
+    expect(hasFieldInside(384, 200)).toBe(true)
+  })
+
+  it("leaves a large block or a whole layout empty, so its parts carry it", () => {
+    expect(hasFieldInside(1280, 720)).toBe(false)
+    expect(hasFieldInside(640, 480)).toBe(false)
   })
 })

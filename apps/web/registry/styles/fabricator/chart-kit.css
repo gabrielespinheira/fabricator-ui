@@ -1,10 +1,14 @@
 /* MARK: Chart Kit */
 
   /* The plot: its font size is the axis labels', which the layout measures
-     against. Under Reduce Motion its SVG fades in on mount: the draw-in
-     without the sweep. */
+     against. While loading, its marks dim to the loader's level (half with
+     the skeleton, gone with the blueprint) and, with the blueprint, the
+     plot's box is drawn as a placeholder: its dotted outline and the pen
+     tracing it (Skeleton's recipe). The marks come back on the loader's
+     reveal timing; tooltips stay at full strength. Under Reduce Motion its
+     SVG fades in on mount: the draw-in without the sweep. */
   .cn-chart-plot {
-    @apply text-(length:--density-text-11) transition-opacity duration-feedback ease-feedback in-data-loading:opacity-50 motion-reduce:[&_svg]:animate-in motion-reduce:[&_svg]:fade-in-0 motion-reduce:[&_svg]:duration-tooltip motion-reduce:[&_svg]:ease-enter;
+    @apply text-(length:--density-text-11) rounded-md [&>svg]:transition-opacity [&>svg]:duration-(--loader-reveal) [&>svg]:ease-enter in-data-loading:[&>svg]:opacity-(--loader-dim) in-data-loading:outline-(--loader-outline) in-data-loading:outline-dotted in-data-loading:[outline-width:var(--loader-outline-width)] in-data-loading:after:pointer-events-none in-data-loading:after:absolute in-data-loading:after:inset-0 in-data-loading:after:rounded-[inherit] in-data-loading:after:outline-(--loader-pen) in-data-loading:after:outline-dotted in-data-loading:after:[outline-width:var(--loader-outline-width)] in-data-loading:after:[mask-image:conic-gradient(transparent_var(--loader-tail),#000_var(--loader-tail)_var(--loader-head),transparent_var(--loader-head)_calc(360deg_-_var(--loader-head)),#000_calc(360deg_-_var(--loader-head))_calc(360deg_-_var(--loader-tail)),transparent_calc(360deg_-_var(--loader-tail)))] in-data-loading:after:animate-(--loader-trace) motion-reduce:in-data-loading:after:animate-none motion-reduce:[&_svg]:animate-in motion-reduce:[&_svg]:fade-in-0 motion-reduce:[&_svg]:duration-tooltip motion-reduce:[&_svg]:ease-enter;
   }
 
   /* A series dims while another is spotlit from the legend. One being

@@ -47,6 +47,7 @@ import {
   getReticle,
   getRoundedRectPath,
   getStrokeProgress,
+  hasFieldInside,
   mix,
   selectBlueprintParts,
   type BlueprintFrame,
@@ -75,6 +76,8 @@ type MeasuredPart = BlueprintPartInput & {
 type OverlayInsets = ReturnType<typeof getOverlayInsets>
 
 type Measurement = {
+  /** Screen px per element px: 1 unless a container scales it. */
+  scale: number
   width: number
   height: number
   radius: number
@@ -125,13 +128,16 @@ function getPartName(element: Element) {
 /** Reads the parts worth drawing from the rendered content, relative to it. */
 function measureContent(root: HTMLElement): Measurement {
   const origin = root.getBoundingClientRect()
+  // Rects come in screen px; the drawing is in the element's own px, which
+  // differ inside a scaled container (a zoomed preview, a scaled frame).
+  const scale = root.offsetWidth ? origin.width / root.offsetWidth : 1
   const area = origin.width * origin.height
   const parts: MeasuredPart[] = []
   const toRect = (rect: DOMRect): BlueprintRect => ({
-    x: rect.left - origin.left,
-    y: rect.top - origin.top,
-    width: rect.width,
-    height: rect.height,
+    x: (rect.left - origin.left) / scale,
+    y: (rect.top - origin.top) / scale,
+    width: rect.width / scale,
+    height: rect.height / scale,
   })
   let radius = parseFloat(getComputedStyle(root).borderTopLeftRadius) || 0
 
@@ -162,12 +168,12 @@ function measureContent(root: HTMLElement): Measurement {
               {
                 element: shape,
                 matrix: new DOMMatrix([
-                  matrix.a,
-                  matrix.b,
-                  matrix.c,
-                  matrix.d,
-                  matrix.e - origin.left,
-                  matrix.f - origin.top,
+                  matrix.a / scale,
+                  matrix.b / scale,
+                  matrix.c / scale,
+                  matrix.d / scale,
+                  (matrix.e - origin.left) / scale,
+                  (matrix.f - origin.top) / scale,
                 ]),
               },
             ]
@@ -239,9 +245,14 @@ function measureContent(root: HTMLElement): Measurement {
   }
   walk(root)
   return {
-    width: origin.width,
-    height: origin.height,
-    radius: Math.min(radius, origin.width / 2, origin.height / 2),
+    width: origin.width / scale,
+    height: origin.height / scale,
+    radius: Math.min(
+      radius,
+      origin.width / scale / 2,
+      origin.height / scale / 2
+    ),
+    scale,
     parts,
   }
 }
@@ -450,9 +461,12 @@ function buildDrawing(
     seed,
   })
   const { maxDistance } = fieldDots
-  // Dots past a cut-back side would never show, so they aren't drawn.
+  // Dots past a cut-back side would never show, so they aren't drawn, and a
+  // large element keeps its inside clear (hasFieldInside).
+  const isFieldInside = hasFieldInside(width, height)
   const dots = fieldDots.dots.filter(
     (dot) =>
+      (isFieldInside || !dot.isInside) &&
       dot.x >= -left &&
       dot.x <= width + right &&
       dot.y >= -top &&
@@ -663,10 +677,15 @@ function buildDrawing(
     // isn't waiting: the probe then sweeps on a loop and the reticle hops.
     return (frame, holdElapsed) => {
       const { e, elapsed, duration } = frame
-      const scan =
-        holdElapsed === null
-          ? frame
-          : { ...frame, ...getHoldScan(holdElapsed, duration) }
+      // The probe sweeps a component; across a large block it would be one
+      // line through the whole page, so there the reticle alone carries it.
+      const sweep =
+        holdElapsed === null ? frame : getHoldScan(holdElapsed, duration)
+      const scan = {
+        ...frame,
+        probe: sweep.probe,
+        probeOpacity: isFieldInside ? sweep.probeOpacity : 0,
+      }
       const probeX = mix(-margin, width + margin, scan.probe)
       setAttribute(probe, "transform", `translate(${probeX.toFixed(2)} 0)`)
       setAttribute(probe, "opacity", scan.probeOpacity.toFixed(2))
@@ -977,12 +996,23 @@ function Blueprint({
       finish()
       return
     }
-    const measurement = measureContent(content)
-    const insets = getOverlayInsets(
-      toViewportRect(content.getBoundingClientRect()),
-      getScrollBounds(root),
-      BLUEPRINT_GEOMETRY.margin
-    )
+    const measure = () => {
+      const measurement = measureContent(content)
+      const room = getOverlayInsets(
+        toViewportRect(content.getBoundingClientRect()),
+        getScrollBounds(root),
+        BLUEPRINT_GEOMETRY.margin * measurement.scale
+      )
+      return {
+        measurement,
+        insets: {
+          left: room.left / measurement.scale,
+          top: room.top / measurement.scale,
+          right: room.right / measurement.scale,
+          bottom: room.bottom / measurement.scale,
+        },
+      }
+    }
     const seed = nextSeed++
     const delay = (order ?? getGroupOrder(root)) * BLUEPRINT_STAGGER * duration
     const holdAt = BLUEPRINT_HOLD * duration
@@ -999,48 +1029,74 @@ function Blueprint({
     let timeline = 0
     let holdElapsed: number | null = null
     let request = 0
-    const play = (draw: DrawFrame) => {
-      const tick = (now: number) => {
-        const frameStep =
-          clock === null ? 0 : Math.min(MAX_FRAME_STEP, now - last)
-        last = now
-        clock = (clock ?? 0) + frameStep
-        const step = Math.max(0, Math.min(frameStep, clock - delay))
-        if (loadingRef.current && timeline + step >= holdAt) {
-          holdElapsed =
-            (holdElapsed ?? 0) + step - Math.max(0, holdAt - timeline)
-          timeline = holdAt
-        } else {
-          timeline += step
-          holdElapsed = null
-        }
-        const frame = getBlueprintFrame(
-          timeline / duration,
-          Math.max(0, clock - delay),
-          duration
-        )
-        draw(frame, holdElapsed)
-        setStyle(content, "opacity", frame.contentOpacity.toFixed(2))
-        setStyle(
-          content,
-          "filter",
-          frame.contentBlur ? `blur(${frame.contentBlur.toFixed(2)}px)` : ""
-        )
-        if (timeline >= length) {
-          finish()
-          return
-        }
-        request = requestAnimationFrame(tick)
+    let isRunning = false
+    let drawFrame: DrawFrame = () => {}
+    const tick = (now: number) => {
+      const frameStep =
+        clock === null ? 0 : Math.min(MAX_FRAME_STEP, now - last)
+      last = now
+      clock = (clock ?? 0) + frameStep
+      const step = Math.max(0, Math.min(frameStep, clock - delay))
+      if (loadingRef.current && timeline + step >= holdAt) {
+        holdElapsed = (holdElapsed ?? 0) + step - Math.max(0, holdAt - timeline)
+        timeline = holdAt
+      } else {
+        timeline += step
+        holdElapsed = null
+      }
+      const frame = getBlueprintFrame(
+        timeline / duration,
+        Math.max(0, clock - delay),
+        duration
+      )
+      drawFrame(frame, holdElapsed)
+      setStyle(content, "opacity", frame.contentOpacity.toFixed(2))
+      setStyle(
+        content,
+        "filter",
+        frame.contentBlur ? `blur(${frame.contentBlur.toFixed(2)}px)` : ""
+      )
+      if (timeline >= length) {
+        finish()
+        return
       }
       request = requestAnimationFrame(tick)
     }
     // Measured now, with every Blueprint that starts in this commit, and
-    // built on the next frame together with them.
-    const cancelBuild = scheduleBuild(() => {
-      const read = buildDrawing(overlay, measurement, insets, seed)
-      return () => play(read())
+    // built on the next frame together with them. The clock starts with the
+    // first drawing.
+    const build = () => {
+      const { measurement, insets } = measure()
+      return scheduleBuild(() => {
+        const read = buildDrawing(overlay, measurement, insets, seed)
+        return () => {
+          drawFrame = read()
+          if (isRunning) return
+          isRunning = true
+          request = requestAnimationFrame(tick)
+        }
+      })
+    }
+    let cancelBuild = build()
+    // If the content's layout changes mid-sketch (fonts arrive, a container
+    // settles its size, the data lands while it holds), the drawing is
+    // measured and built again; the clock carries on.
+    let size = { width: content.offsetWidth, height: content.offsetHeight }
+    const observer = new ResizeObserver(() => {
+      const next = { width: content.offsetWidth, height: content.offsetHeight }
+      if (
+        Math.abs(next.width - size.width) < 1 &&
+        Math.abs(next.height - size.height) < 1
+      ) {
+        return
+      }
+      size = next
+      cancelBuild()
+      cancelBuild = build()
     })
+    observer.observe(content)
     return () => {
+      observer.disconnect()
       cancelBuild()
       cancelAnimationFrame(request)
       content.style.opacity = ""

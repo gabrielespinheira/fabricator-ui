@@ -56,6 +56,7 @@ export function buildSettingsCommands(
           radius: settings.radius,
           motion: settings.motion,
           density: settings.density,
+          loader: settings.loader,
         },
       },
       packageManager

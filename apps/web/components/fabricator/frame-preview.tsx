@@ -3,6 +3,8 @@
 import * as React from "react"
 
 import { getFrameScale, isFrameReadyMessage } from "@/lib/frame-preview-model"
+import { useSiteSettings } from "@/lib/site-settings"
+import { Blueprint } from "@/styles/base-fabricator/ui/blueprint"
 
 /** Sent by a demo in a fitted frame (FrameHeight) with its height. */
 export const FRAME_HEIGHT_MESSAGE = "fabricator-frame-height"
@@ -58,6 +60,7 @@ export function FramePreview({
   const [isReady, setReady] = React.useState(false)
   // A new element each render; the effects only care whether there is one.
   const hasPlaceholder = placeholder != null
+  const { loader } = useSiteSettings()
 
   React.useEffect(() => {
     if (!hasPlaceholder) return
@@ -143,7 +146,20 @@ export function FramePreview({
             data-ready={isReady ? "" : undefined}
             className="absolute inset-0 transition-opacity duration-move ease-move data-ready:pointer-events-none data-ready:opacity-0"
           >
-            {placeholder}
+            {/* With the Blueprint loader, the page's outline is sketched and
+                held, scanning, until the page is ready; then it fades into
+                it as the placeholder always does. */}
+            {loader === "blueprint" ? (
+              <Blueprint
+                loading={!isReady}
+                trigger="mount"
+                className="size-full *:data-[slot=blueprint-content]:size-full"
+              >
+                {placeholder}
+              </Blueprint>
+            ) : (
+              placeholder
+            )}
           </div>
         )}
       </div>
