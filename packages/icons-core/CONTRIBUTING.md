@@ -10,7 +10,7 @@
 | `sources/outline/`              | Custom icons, Fabricator's own: `<name>.svg` + `<name>.json`      | you                         |
 | `sources/brands/allowlist.json` | Which brand marks ship, where each comes from, held marks and why | you                         |
 | `sources/brands/*.svg, *.json`  | Imported marks                                                    | `bun run icons:brands` only |
-| `sources/duotone/`              | Duotone icons: the outline icon plus `<g id="secondary">`         | you                         |
+| `sources/rounded/`              | Canonical drawing overrides: `<name>-<weight>.svg`                | you                         |
 | `fixtures/sharpos-brands.json`  | SharpOS's brand set, for the parity test                          | exported once               |
 
 ## Updating Lucide
@@ -42,14 +42,14 @@ Fabricator's own icons form the Custom category. Every icon in `sources/outline/
 
 Marks are never redrawn: the only change allowed is the uniform scale.
 
+## UI drawing weights
+
+The generator keeps the vendored name inventory. The drawings use five optical proportion profiles for directions, controls, panels, portraits and objects. Closed primitives use continuous shoulders, and the directional and heading glyphs share authored geometry across each family. The authored SVGs take precedence. The default Outline and Duotone stroke is 1.5 on a 24 × 24 canvas. Fill uses enclosed faces with transparent cutouts for details, or heavier strokes for open glyphs. Duotone keeps the outline drawing and uses a 20% secondary face or stroke.
+
+Use `sources/rounded/<name>-outline.svg`, `<name>-fill.svg`, and `<name>-duotone.svg` for hand-drawn overrides. The authored Duotone file uses the Outline drawing and a group named `secondary`. Keep details readable at 14, 16 and 24 px in both themes. Existing `sources/duotone/` files can still supply authored secondary layers.
+
 ## Animated icons
 
-Don't edit `sources/animated/`: it's vendored from [lucide-animated](https://lucide-animated.com). To update it:
+Each canonical UI icon has a motion recipe in the web package. It uses the same static data at rest and accepts `variant="outline"`, `"fill"`, or `"duotone"`. Assign motion by family in `src/ui-icons.ts` and keep the shared recipes in the web renderer.
 
-1. Run `bun run icons:animated --ref <sha>`, then `bun run icons:check`.
-2. A new upstream icon must take a Lucide name. If its name isn't one, add it to `renames` in `sources/animated.json`, or to `excluded` with the reason.
-3. Run `bun run icons:audit`. It opens every icon in Chrome and fails when hover or a ref does nothing, an icon doesn't return to rest, reduced motion is ignored, or an icon at rest differs from the outline icon without being listed in `olderDrawings`. It also runs after a Lucide upgrade, since the generator gives each icon our current geometry where the parts line up.
-
-## Duotone
-
-Add `sources/duotone/<name>.svg`: the outline icon unchanged, plus one `<g id="secondary">` of closed shapes inset from the outline by at least half a stroke. The icon must still read with the layer hidden. `bun run icons:check` enforces the structure.
+Run `bun run icons:audit` to verify motion, rest geometry, hover, and reduced motion in Chrome. `sources/animated/` remains the pinned upstream animation reference. Update it only through `bun run icons:animated`.
