@@ -126,6 +126,56 @@
         "types": "./dist/cjs/generated/files/*.d.ts",
         "default": "./dist/cjs/generated/files/*.js"
       }
+    },
+    "./fill": {
+      "import": {
+        "types": "./dist/esm/fill.d.ts",
+        "default": "./dist/esm/fill.js"
+      },
+      "require": {
+        "types": "./dist/cjs/fill.d.ts",
+        "default": "./dist/cjs/fill.js"
+      }
+    },
+    "./fill/*": {
+      "import": {
+        "types": "./dist/esm/generated/fill/*.d.ts",
+        "default": "./dist/esm/generated/fill/*.js"
+      },
+      "require": {
+        "types": "./dist/cjs/generated/fill/*.d.ts",
+        "default": "./dist/cjs/generated/fill/*.js"
+      }
+    },
+    "./duotone/*": {
+      "import": {
+        "types": "./dist/esm/generated/duotone/*.d.ts",
+        "default": "./dist/esm/generated/duotone/*.js"
+      },
+      "require": {
+        "types": "./dist/cjs/generated/duotone/*.d.ts",
+        "default": "./dist/cjs/generated/duotone/*.js"
+      }
+    },
+    "./animated/*": {
+      "import": {
+        "types": "./dist/esm/generated/animated/*.d.ts",
+        "default": "./dist/esm/generated/animated/*.js"
+      },
+      "require": {
+        "types": "./dist/cjs/generated/animated/*.d.ts",
+        "default": "./dist/cjs/generated/animated/*.js"
+      }
+    },
+    "./animated/preview": {
+      "import": {
+        "types": "./dist/esm/create-animated-icon.d.ts",
+        "default": "./dist/esm/create-animated-icon.js"
+      },
+      "require": {
+        "types": "./dist/cjs/create-animated-icon.d.ts",
+        "default": "./dist/cjs/create-animated-icon.js"
+      }
     }
   },
   "files": [

@@ -1,29 +1,28 @@
 import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { loadOutlineIcons, LUCIDE_SOURCES } from "@fabricator-ui/icons-core"
+import { loadUiIcons, parseSvg } from "@fabricator-ui/icons-core"
 import { describe, expect, it } from "vitest"
 
 import { Home, House } from "./index"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-const outline = loadOutlineIcons()
-const lucide = outline.filter((icon) => icon.origin === "lucide")
+const outline = loadUiIcons()
 
 describe("static outputs", () => {
-  it("write every Lucide icon byte for byte as Lucide ships it", () => {
-    const different = lucide.filter(
-      (icon) =>
-        fs.readFileSync(
-          path.join(root, "icons", `${icon.name}.svg`),
-          "utf8"
-        ) !==
-        fs.readFileSync(
-          path.join(LUCIDE_SOURCES, "icons", `${icon.name}.svg`),
-          "utf8"
-        )
-    )
-    expect(different.map((icon) => icon.name)).toEqual([])
+  it("writes each canonical name at all three weights with matching source geometry", () => {
+    for (const directory of ["icons", "fill", "duotone"]) {
+      expect(fs.readdirSync(path.join(root, directory)).sort()).toEqual(
+        outline.map(({ name }) => `${name}.svg`).sort()
+      )
+    }
+    const data = outline.find(({ name }) => name === "bookmark")
+    for (const directory of ["icons", "duotone"]) {
+      const drawing = parseSvg(
+        fs.readFileSync(path.join(root, directory, "bookmark.svg"), "utf8")
+      )
+      expect(drawing.node.at(-1)).toEqual(data?.node.at(-1))
+    }
   })
 
   it("put one symbol per icon in the sprite", () => {

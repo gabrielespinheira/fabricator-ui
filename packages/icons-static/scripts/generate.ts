@@ -10,7 +10,7 @@ import {
   licenseText,
   loadBrands,
   loadFileIcons,
-  loadOutlineIcons,
+  loadUiIcons,
   OUTLINE_ROOT_ATTRIBUTES,
   prefixGradientFills,
   readRuntimeFiles,
@@ -18,24 +18,28 @@ import {
   renderGradients,
   renderSvg,
   renderSvgInline,
+  renderUiSvg,
   toPascalCase,
+  UI_STROKE_WIDTH,
   withGeneratedHeader,
   writeGeneratedDirectory,
   writeGeneratedFile,
   type BrandIcon,
+  type IconData,
   type OutlineIcon,
 } from "@fabricator-ui/icons-core"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 
 function sprite(icons: OutlineIcon[]) {
-  const {
-    xmlns: _xmlns,
-    width: _width,
-    height: _height,
-    ...symbolAttributes
-  } = OUTLINE_ROOT_ATTRIBUTES
-  const attributes = Object.entries(symbolAttributes)
+  const symbolAttributes = Object.entries(OUTLINE_ROOT_ATTRIBUTES)
+    .filter(([name]) => !["xmlns", "width", "height"].includes(name))
+    .map(([name, value]) => [
+      name,
+      name === "stroke-width" ? String(UI_STROKE_WIDTH) : value,
+    ])
+
+  const attributes = symbolAttributes
     .map(([name, value]) => `${name}="${value}"`)
     .join(" ")
   const symbols = icons.map((icon) => {
@@ -48,7 +52,7 @@ function sprite(icons: OutlineIcon[]) {
   return `<svg xmlns="http://www.w3.org/2000/svg">\n${symbols.join("\n")}\n</svg>\n`
 }
 
-function stringBarrel(icons: OutlineIcon[]) {
+function stringBarrel(icons: OutlineIcon[], folder = "icons") {
   const lines = icons.map((icon) => {
     const names = [
       ...new Set(
@@ -57,7 +61,7 @@ function stringBarrel(icons: OutlineIcon[]) {
         )
       ),
     ]
-    return `export { ${names.map((name) => `default as ${name}`).join(", ")} } from "./icons/${icon.name}.js"`
+    return `export { ${names.map((name) => `default as ${name}`).join(", ")} } from "./${folder}/${icon.name}.js"`
   })
   return withGeneratedHeader(`${lines.join("\n")}\n`)
 }
@@ -99,14 +103,18 @@ function brandSprite(brands: BrandIcon[]) {
   return `<svg xmlns="http://www.w3.org/2000/svg">\n${symbols.join("\n")}\n</svg>\n`
 }
 
-const icons = loadOutlineIcons()
+const icons = loadUiIcons()
 const brands = loadBrands()
 const filePack = loadFileIcons()
 
 const generated = new Map<string, string>()
 const svgs = new Map<string, string>()
+const weights = {
+  fill: new Map<string, IconData>(),
+  duotone: new Map<string, IconData>(),
+}
 for (const icon of icons) {
-  const svg = renderSvg(OUTLINE_ROOT_ATTRIBUTES, icon.node)
+  const svg = renderUiSvg({ name: icon.name, node: icon.node })
   svgs.set(`${icon.name}.svg`, svg)
   generated.set(
     `icons/${icon.name}.ts`,
@@ -114,6 +122,39 @@ for (const icon of icons) {
   )
 }
 generated.set("outline.ts", stringBarrel(icons))
+for (const icon of icons) {
+  weights.fill.set(icon.name, {
+    name: icon.name,
+    node: icon.fill.node,
+    paint: "fill",
+    ...(icon.fill.cutout.length > 0 && { cutout: icon.fill.cutout }),
+  })
+  weights.duotone.set(icon.name, {
+    name: icon.name,
+    node: icon.node,
+    secondary: icon.duotone.secondary,
+  })
+}
+for (const weight of ["fill", "duotone"] as const) {
+  const variantFiles = new Map<string, string>()
+  for (const [name, data] of weights[weight]) {
+    const svg = renderUiSvg(data)
+    variantFiles.set(`${name}.svg`, svg)
+    generated.set(
+      `${weight}/${name}.ts`,
+      withGeneratedHeader(`export default ${JSON.stringify(svg)}\n`)
+    )
+  }
+  generated.set(`${weight}.ts`, stringBarrel(icons, weight))
+  writeGeneratedDirectory(path.join(root, weight), variantFiles)
+}
+generated.set(
+  "variant-nodes.ts",
+  withGeneratedHeader(`import type { IconData } from "./runtime/types.js"
+export const fillNodes: Record<string, IconData> = ${JSON.stringify(Object.fromEntries(weights.fill))}
+export const duotoneNodes: Record<string, IconData> = ${JSON.stringify(Object.fromEntries(weights.duotone))}
+`)
+)
 for (const [file, content] of readRuntimeFiles())
   generated.set(`runtime/${file}`, content)
 

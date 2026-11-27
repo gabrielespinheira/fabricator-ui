@@ -1,12 +1,24 @@
 # @fabricator-ui/icons
 
-Fabricator Icons for React: every [Lucide](https://lucide.dev) icon under its Lucide name, with identical geometry, Fabricator's own Custom icons, and 145 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
+Fabricator Icons for React: every [Lucide](https://lucide.dev) icon under its Lucide name, with rounded Outline, Fill, Duotone and Animated variants, Fabricator’s own Custom icons, and 145 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
 
 ```sh
 npm install @fabricator-ui/icons
 ```
 
 React 19 or later. Icons are plain server-renderable components: no context, no `"use client"`.
+
+## UI icon weights
+
+```tsx
+import { BellIcon } from "@fabricator-ui/icons/animated"
+import { PencilIcon } from "@fabricator-ui/icons/duotone"
+import { BookmarkIcon } from "@fabricator-ui/icons/fill"
+
+;<BellIcon variant="duotone" />
+```
+
+Each variant uses the same canonical names and aliases. Outline and Duotone default to a 1.5 stroke.
 
 ## Outline icons
 

@@ -5,6 +5,7 @@ import type {
   BrandCatalogEntry,
   FileCatalogEntry,
   OutlineCatalogEntry,
+  VariantCatalogEntry,
 } from "@fabricator-ui/icons/catalog"
 import { FileIcon, type FileIconData } from "@fabricator-ui/icons/files"
 
@@ -21,6 +22,12 @@ export type LoadedIcon =
   | {
       set: "outline"
       entry: OutlineCatalogEntry
+      data: IconData
+      source: PreviewIcon
+    }
+  | {
+      set: "fill" | "duotone"
+      entry: VariantCatalogEntry
       data: IconData
       source: PreviewIcon
     }

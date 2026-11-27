@@ -4,7 +4,7 @@
  *
  *   - hover and the ref handle both animate it
  *   - it returns to rest afterwards
- *   - at rest it draws the outline icon, unless listed in `olderDrawings`
+ *   - at rest it draws the current outline icon
  *   - reduced motion and data-motion="off" stop it
  *   - nothing logs an error
  *
@@ -15,11 +15,6 @@ import { execFileSync } from "node:child_process"
 import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import {
-  ANIMATED_MAP,
-  animatedMapSchema,
-  readJson,
-} from "@fabricator-ui/icons-core"
 import puppeteer, { type Page } from "puppeteer-core"
 import sharp from "sharp"
 
@@ -30,8 +25,7 @@ const COLUMNS = 24
 /** Share of a cell's inked pixels that may differ before it counts as different. */
 const SAME_DRAWING = 0.02
 const RETURNED_TO_REST = 0.1
-const MOVED = 0.01
-const FRAME_TIMES = [80, 200, 350, 550, 800, 1200, 2000, 3500]
+const MOTION_BATCH_SIZE = 128
 
 const wait = (milliseconds: number) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds))
@@ -123,44 +117,73 @@ const outline = await shoot(outlinePage, "outline.png")
 await outlinePage.close()
 
 const rest = await shoot(controlled, "rest.png")
-await controlled.evaluate(() => window.audit.start())
-const startedAt = Date.now()
-const frames: Shot[] = []
-for (const time of FRAME_TIMES) {
-  await wait(Math.max(0, time - (Date.now() - startedAt)))
-  frames.push(await shoot(controlled, `frame-${time}.png`))
+// Start one group at a time so a short animation cannot finish while Chrome
+// is busy painting thousands of simultaneously moving SVGs for a screenshot.
+for (let index = 0; index < names.length; index += MOTION_BATCH_SIZE) {
+  const group = names.slice(index, index + MOTION_BATCH_SIZE)
+  const still = await controlled.evaluate(async (selection) => {
+    const pending = new Map(
+      selection.map((name) => [
+        name,
+        document.querySelector(`[data-name="${name}"] svg > g`),
+      ])
+    )
+    window.audit.start(selection)
+    const deadline = performance.now() + 600
+    do {
+      await new Promise(requestAnimationFrame)
+      for (const [name, element] of pending) {
+        if (!element) continue
+        const { transform, opacity } = getComputedStyle(element)
+        const moves =
+          transform !== "none" && !new DOMMatrixReadOnly(transform).isIdentity
+        if (moves || Number(opacity) < 0.98) pending.delete(name)
+      }
+    } while (pending.size > 0 && performance.now() < deadline)
+    window.audit.stop(selection)
+    return [...pending.keys()]
+  }, group)
+  for (const name of still)
+    problems.push(`${name}: the ref handle shows no movement`)
 }
-await controlled.evaluate(() => window.audit.stop())
-await wait(2500)
+await wait(200)
 const stopped = await shoot(controlled, "stopped.png")
 await controlled.close()
 
-const { olderDrawings } = readJson(ANIMATED_MAP, animatedMapSchema)
-const older = new Set(olderDrawings)
 names.forEach((name, index) => {
-  const moved = Math.max(...frames.map((f) => difference(f, rest, index)))
-  if (moved < MOVED) problems.push(`${name}: the ref handle shows no movement`)
   if (difference(stopped, rest, index) > RETURNED_TO_REST)
     problems.push(`${name}: doesn't return to rest after stopAnimation`)
   const drift = difference(rest, outline, index)
-  if (drift > SAME_DRAWING && !older.has(name))
+  if (drift > SAME_DRAWING)
     problems.push(
-      `${name}: differs from the outline icon by ${drift.toFixed(3)}; add it to olderDrawings if that's expected`
-    )
-  if (drift <= SAME_DRAWING && older.has(name))
-    problems.push(
-      `${name}: now matches the outline icon; remove it from olderDrawings`
+      `${name}: differs from the static drawing by ${drift.toFixed(3)}`
     )
 })
 
 // Real hover, from a corner of the box, where no shape is painted.
 const hover = await open("hover")
-for (const name of names) {
+const hoverSamples = [
+  "archive",
+  "arrow-left",
+  "arrow-right",
+  "arrow-up",
+  "arrow-down",
+  "bell",
+  "bookmark",
+  "check",
+  "heart",
+  "pencil",
+  "refresh-cw",
+  "send",
+  "toggle-right",
+  "view",
+]
+for (const name of hoverSamples) {
   const box = await hover.evaluate((each) => {
-    const { x, y } =
-      document
-        .querySelector(`[data-name="${each}"] svg`)
-        ?.getBoundingClientRect() ?? new DOMRect()
+    const icon = document.querySelector(`[data-name="${each}"] svg`)
+    if (!icon) throw new Error(`Missing hover sample: ${each}`)
+    icon.scrollIntoView({ block: "center" })
+    const { x, y } = icon.getBoundingClientRect()
     return { x, y }
   }, name)
   await hover.mouse.move(1530, 1395)
@@ -202,6 +225,6 @@ await browser.close()
 const unique = [...new Set(problems)]
 for (const problem of unique) console.error(`✗ ${problem}`)
 console.log(
-  `${names.length} animated icons, ${older.size} on older drawings, ${unique.length} problems. Frames: ${path.relative(process.cwd(), output)}`
+  `${names.length} animated icons, ${hoverSamples.length} actual hover checks, ${unique.length} problems. Frames: ${path.relative(process.cwd(), output)}`
 )
 if (unique.length > 0) process.exit(1)

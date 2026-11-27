@@ -1,4 +1,5 @@
-import type { IconElement } from "@fabricator-ui/icons"
+import type { IconData, IconElement } from "@fabricator-ui/icons"
+import { renderUiSvg } from "@fabricator-ui/icons-static/svg"
 import {
   getBrandViewBox,
   prefixGradientFills,
@@ -17,7 +18,7 @@ import {
 } from "@fabricator-ui/icons/files"
 
 export const DEFAULT_SIZE = 24
-export const DEFAULT_STROKE_WIDTH = 2
+export const DEFAULT_STROKE_WIDTH = 1.5
 
 /** `arrow-up-0-1` → `ArrowUp01Icon`, as the packages export it. */
 export function toComponentName(name: string) {
@@ -32,6 +33,8 @@ const IMPORT_PATHS: Record<IconSet, string> = {
   outline: "@fabricator-ui/icons",
   brands: "@fabricator-ui/icons/brands",
   animated: "@fabricator-ui/icons/animated",
+  fill: "@fabricator-ui/icons/fill",
+  duotone: "@fabricator-ui/icons/duotone",
   files: "@fabricator-ui/icons/files",
 }
 
@@ -40,11 +43,9 @@ export function getIconDescription(entry: CatalogEntry) {
   if (entry.set === "files")
     return "Charmed Icons file and folder artwork, by Littensy (MIT)."
   if (entry.set === "brands") return `${entry.title}, a trademark of its owner.`
-  if (entry.categories.includes("custom"))
-    return `Fabricator's ${entry.name} icon, drawn to Lucide's rules.`
-  return entry.set === "animated"
-    ? `Lucide's ${entry.name} icon, animated.`
-    : `Lucide's ${entry.name} icon.`
+  if (entry.set === "animated")
+    return `Fabricator’s ${entry.name} icon, animated.`
+  return `Fabricator’s ${entry.name} icon in ${entry.set}.`
 }
 
 export function getImportLine(entry: CatalogEntry) {
@@ -72,6 +73,7 @@ export function getJsxSnippet(
   const props = [
     size !== (entry.set === "files" ? 16 : DEFAULT_SIZE) && `size={${size}}`,
     entry.set !== "brands" &&
+      entry.set !== "fill" &&
       entry.set !== "files" &&
       strokeWidth !== DEFAULT_STROKE_WIDTH &&
       `strokeWidth={${strokeWidth}}`,
@@ -82,6 +84,8 @@ export function getJsxSnippet(
 
 export type PreviewIcon =
   | { set: "outline"; node: IconElement[] }
+  | { set: "fill"; data: IconData }
+  | { set: "duotone"; data: IconData }
   | { set: "brands"; name: string; data: Omit<BrandIconData, "name"> }
   | { set: "files"; data: FileIconData; palette: FilePalette }
 
@@ -134,6 +138,8 @@ export function buildSvgMarkup(
     const fill = color === "currentColor" ? undefined : color
     return `<svg ${attributes(root)}>${shapes(icon.node, fill)}</svg>`
   }
+  if (icon.set === "fill" || icon.set === "duotone")
+    return renderUiSvg(icon.data, { size, strokeWidth, color })
   const { data } = icon
   const art = brandColor ? data.art : undefined
   const viewBox = getBrandViewBox(

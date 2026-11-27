@@ -4,7 +4,12 @@ import { afterEach, describe, expect, it, vi } from "vitest"
 
 import * as Animated from "./animated"
 import { composeHandlers, isMotionOff } from "./animated-icon"
-import { animatedCatalog, getIconEntry, searchIcons } from "./catalog"
+import {
+  animatedCatalog,
+  getIconEntry,
+  outlineCatalog,
+  searchIcons,
+} from "./catalog"
 import * as Outline from "./index"
 
 const render = (component: ComponentType, props = {}) =>
@@ -13,7 +18,7 @@ const render = (component: ComponentType, props = {}) =>
 describe("animated icons", () => {
   it("exports every catalog entry under Lucide's names", () => {
     const exported = new Set(Object.keys(Animated))
-    expect(animatedCatalog.length).toBeGreaterThan(400)
+    expect(animatedCatalog).toHaveLength(outlineCatalog.length)
     for (const { name, aliases } of animatedCatalog) {
       for (const each of [name, ...aliases]) {
         const pascal = each
@@ -34,7 +39,7 @@ describe("animated icons", () => {
 
   it("render a real svg with Lucide's attributes, like an outline icon", () => {
     expect(render(Animated.BellIcon)).toMatch(
-      /^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fab-icon fab-icon-bell" aria-hidden="true"/
+      /^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="fab-icon fab-icon-bell" aria-hidden="true"/
     )
     expect(render(Animated.BellIcon)).not.toContain("<div")
   })
@@ -82,13 +87,23 @@ describe("the catalog", () => {
     expect(getIconEntry("home", "animated")?.name).toBe("house")
   })
 
-  it("flags the icons that animate an older drawing", () => {
+  it("uses the same rest geometry for all three animated weights", async () => {
+    const { BookmarkIcon: Fill } = await import("./fill")
+    const { BookmarkIcon: Duotone } = await import("./duotone")
+    const getPaths = (markup: string) => markup.match(/<path [^>]+>/g)
+    for (const [variant, Icon] of [
+      ["outline", Outline.BookmarkIcon],
+      ["fill", Fill],
+      ["duotone", Duotone],
+    ] as const) {
+      expect(getPaths(render(Animated.BookmarkIcon, { variant }))).toEqual(
+        getPaths(render(Icon))
+      )
+    }
     expect(getIconEntry("arrow-big-up", "animated")).toMatchObject({
-      isOlderDrawing: true,
+      motion: "up",
     })
-    expect(getIconEntry("house", "animated")).not.toHaveProperty(
-      "isOlderDrawing"
-    )
+    expect(animatedCatalog.every((entry) => !entry.isOlderDrawing)).toBe(true)
   })
 })
 

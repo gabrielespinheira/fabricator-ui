@@ -12,13 +12,44 @@ export type IconTag =
 
 export type IconElement = [tag: IconTag, attributes: Record<string, string>]
 
-/** Outline and duotone icons: stroke paint. */
+/** UI icons share the same geometry format across renderers. */
 export type IconData = {
   name: string
   node: IconElement[]
+  paint?: "fill"
+  strokeWidth?: number
+  /** Fill only: line work that punches transparent detail out of a solid face. */
+  cutout?: IconElement[]
   /** Duotone only: filled, translucent shapes drawn under the outline. */
   secondary?: IconElement[]
 }
+
+export type IconWeight = "outline" | "fill" | "duotone"
+export type IconMotion =
+  | "left"
+  | "right"
+  | "up"
+  | "down"
+  | "bookmark"
+  | "pencil"
+  | "bell"
+  | "toggle"
+  | "turn"
+  | "open"
+  | "pulse"
+  | "mark"
+  | "lift"
+  | "settle"
+  | "press"
+  | "scan"
+  | "swing"
+  | "sweep"
+  | "widen"
+  | "rise"
+  | "spark"
+  | "hop"
+  | "nod"
+  | "lean"
 
 export type BrandColors = {
   /** Achromatic marks follow `currentColor` instead of a hex. */
@@ -95,12 +126,18 @@ export type IconCategory = {
 /** A Lucide icon with an animated version in `/animated`, under the same name. */
 export type AnimatedCatalogEntry = Omit<OutlineCatalogEntry, "set"> & {
   set: "animated"
+  motion?: IconMotion
   /** It animates an older Lucide drawing, so at rest it differs from the outline icon. */
   isOlderDrawing?: boolean
 }
 
+export type VariantCatalogEntry = Omit<OutlineCatalogEntry, "set"> & {
+  set: "fill" | "duotone"
+}
+
 export type CatalogEntry =
   | OutlineCatalogEntry
+  | VariantCatalogEntry
   | BrandCatalogEntry
   | AnimatedCatalogEntry
   | FileCatalogEntry

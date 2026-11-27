@@ -9,11 +9,16 @@ import { loadFileIcons } from "./file-icons"
 import { getBounds, type Bounds } from "./geometry"
 import { isKebabCase } from "./names"
 import { loadOutlineIcons, readBrandStopwords, readCategories } from "./outline"
-import { DUOTONE_SOURCES, OUTLINE_SOURCES } from "./paths"
+import { DUOTONE_SOURCES, OUTLINE_SOURCES, ROUNDED_SOURCES } from "./paths"
 import { iconMetadataSchema, readJson } from "./schemas"
 import { parseSvg } from "./svg"
 import type { BrandGradient, IconElement } from "./types"
-import { validateElements, validateOutlineSvg } from "./validate"
+import { loadUiIcons, UI_STROKE_WIDTH } from "./ui-icons"
+import {
+  validateElements,
+  validateOutlineSvg,
+  validatePrecision,
+} from "./validate"
 
 function isClosed([tag, attributes]: IconElement) {
   if (tag === "path") return /z\s*$/i.test(attributes.d ?? "")
@@ -190,12 +195,76 @@ export function checkAnimated() {
   }
 }
 
+function checkUiDrawings() {
+  const catalog = new Map(loadUiIcons().map((icon) => [icon.name, icon]))
+  const errors: string[] = []
+  for (const [name, icon] of catalog) {
+    if (
+      !icon.node.length ||
+      !icon.fill.node.length ||
+      !icon.duotone.secondary.length
+    ) {
+      errors.push(`rounded/${name}: every weight must contain visible geometry`)
+    }
+  }
+  if (!fs.existsSync(ROUNDED_SOURCES)) return errors
+  for (const file of fs.readdirSync(ROUNDED_SOURCES)) {
+    const report = (message: string) =>
+      errors.push(`rounded/${file}: ${message}`)
+    const match = /^(.*)-(outline|fill|duotone)\.svg$/.exec(file)
+    const icon = catalog.get(match?.[1] ?? "")
+    const weight = match?.[2]
+    if (!icon || !weight) {
+      report("use the canonical name and a weight")
+      continue
+    }
+    const drawing = parseSvg(
+      fs.readFileSync(path.join(ROUNDED_SOURCES, file), "utf8")
+    )
+    if (drawing.attributes.viewBox !== "0 0 24 24") report("use a 24 × 24 grid")
+    if (
+      weight === "fill"
+        ? drawing.attributes.fill !== "currentColor"
+        : Number(drawing.attributes["stroke-width"]) !== UI_STROKE_WIDTH
+    )
+      report("use the weight’s default paint")
+    for (const error of [
+      ...validateElements(drawing.node, weight === "fill" ? ["fill-rule"] : []),
+      ...validatePrecision(drawing.node),
+    ])
+      report(error)
+    if (weight === "duotone") {
+      const [secondary] = drawing.groups
+      if (
+        drawing.groups.length !== 1 ||
+        secondary?.attributes.id !== "secondary"
+      ) {
+        report("use one secondary group")
+      } else {
+        for (const error of [
+          ...validateElements(secondary.node, ["fill-rule"]),
+          ...validatePrecision(secondary.node),
+        ])
+          report(error)
+        if (!secondary.node.length || !secondary.node.every(isClosed))
+          report("use closed shapes for the secondary paint")
+      }
+      if (JSON.stringify(drawing.node) !== JSON.stringify(icon.node))
+        report("the stroke geometry must match the outline")
+    } else if (drawing.groups.length) {
+      report("groups are only available for secondary paint")
+    }
+  }
+  return errors
+}
+
 export function checkSources() {
   loadFileIcons()
   return [
     ...checkOriginals(),
     ...checkBrands(),
     ...checkDuotone(),
+    ...checkUiDrawings(),
     ...checkAnimated(),
   ]
 }

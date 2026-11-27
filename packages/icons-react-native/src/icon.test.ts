@@ -38,7 +38,7 @@ beforeEach(() => {
 describe("outline icons", () => {
   it("draw with Lucide's attributes in the scheme's foreground", () => {
     expect(render(createElement(HouseIcon))).toMatch(
-      /^<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d=/
+      /^<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d=/
     )
   })
 
@@ -80,9 +80,7 @@ describe("outline icons", () => {
         secondaryColor: "#2563eb",
       })
     )
-    expect(markup).toContain(
-      '<rect stroke="none" fill="#2563eb" fill-opacity="0.2" x="5"'
-    )
+    expect(markup).toContain('stroke="none" fill="#2563eb" fill-opacity="0.2"')
   })
 })
 

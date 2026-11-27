@@ -7,12 +7,13 @@ description: Every Lucide icon under its Lucide name, our own custom icons, bran
 
 Fabricator Icons is the icon set of Fabricator UI:
 
-- **Outline icons.** All 2,055 [Lucide](https://lucide.dev) icons, from Lucide 1.73.0, with Lucide's names and the same shapes. Code written for `lucide-react` moves over by changing the import path.
-- **Custom icons.** Fabricator's own icons, drawn to the same rules so they sit beside Lucide's. Find them under the Custom category on the [Icons](/icons) page.
+- **Outline icons.** Rounded 24 × 24 drawings with a 1.5 stroke and the existing [Lucide](https://lucide.dev) names and aliases.
+- **Custom icons.** Fabricator's own icons, with the same variants as the rest of the UI catalog. Find them under the Custom category on the [Icons](/icons) page.
 - **Brand marks.** 143 logos, from social networks to developer tools, drawn as their owners publish them. They render in one colour, or in the brand's own colours with `color="brand"`. See [Brands](/docs/icons/brands).
-- **Animated icons.** 447 Lucide icons that animate on hover, with the same names and props as the outline icons, for the web. See [Animated](/docs/icons/animated).
+- **Animated icons.** All UI icons animate on the web with the same names and three drawing weights. See [Animated](/docs/icons/animated).
 - **File icons.** 249 colour file and folder drawings with filename associations and light and dark palettes. See [Files](/docs/icons/files).
-- **Duotone.** A translucent second layer for outline icons. The packages render it today; the first duotone icons are still being drawn.
+- **Duotone.** Every UI icon has a translucent second layer under the outline. Import from `@fabricator-ui/icons/duotone`.
+- **Fill.** Every UI icon has a solid drawing. Import from `@fabricator-ui/icons/fill`.
 
 Search, preview and copy every icon on the [Icons](/icons) page.
 
@@ -37,7 +38,7 @@ An existing project keeps the icons it has. To move one over, set its registry e
 }
 ```
 
-`iconLibrary` stays `lucide` in both cases, because the shadcn CLI only knows its five libraries. The outline icons have Lucide's names and shapes, so nothing changes on screen.
+`iconLibrary` stays `lucide` in both cases, because the shadcn CLI only knows its five libraries. Fabricator's outlines keep Lucide's names and draw with the rounded geometry.
 
 ## Packages
 
@@ -86,11 +87,11 @@ Three things differ:
 
 ## Icons in Fabricator UI components
 
-Components from the registry draw their icons with the icon library in your `components.json` (`iconLibrary`), Lucide by default. The outline set is Lucide's, so those icons and `@fabricator-ui/icons` look identical side by side. Fabricator components draw icons at 14, 16 or 18px, following the [density](/docs/foundations/density), with a 1.5 stroke that turns 2 on hover.
+Components from the registry draw their icons with the icon library in your `components.json` (`iconLibrary`), Lucide by default. The Fabricator set adds the rounded drawings and the other weights. Fabricator components draw icons at 14, 16 or 18px, following the [density](/docs/foundations/density), with a 1.5 stroke that turns 2 on hover.
 
 ## How the icons are drawn
 
-The outline icons follow Lucide's [design rules](https://lucide.dev/contribute/icons/specification): a 24 × 24 canvas, 2px strokes with round caps and joins, at least 1px from the edge, and at least 2px between shapes. Icons Fabricator adds are drawn to the same rules, reviewed at 14 to 24px and stroke 1.5 and 2, and checked by a script before they ship.
+The outlines use a 24 × 24 canvas, 1.5-unit round strokes, and rounded corners. Fill and Duotone use the same silhouettes. Review all three weights at 14 to 24px in light and dark.
 
 Brand marks keep their owners' shapes. The only change is a uniform scale, so a mark that reaches the corners of its box doesn't look larger than its neighbours.
 

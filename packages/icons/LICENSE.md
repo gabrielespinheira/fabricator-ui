@@ -22,7 +22,7 @@ SOFTWARE.
 
 ---
 
-The outline icons come from Lucide 1.73.0 (https://lucide.dev), used under
+The rounded UI icon catalog is based on Lucide 1.73.0 (https://lucide.dev), used under
 its licence, reproduced below. The Custom icons are Fabricator's own, under the
 MIT licence above. Brand marks are not covered by either licence: see BRANDS.md.
 
@@ -85,7 +85,7 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 
 ---
 
-The animations in the `/animated` entry come from lucide-animated
+The vendored animation references come from lucide-animated
 (https://lucide-animated.com, 4662fff), used under its licence, reproduced
 below.
 

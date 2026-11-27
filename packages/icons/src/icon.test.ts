@@ -18,7 +18,7 @@ const duotone: IconData = {
 describe("outline icons", () => {
   it("render Lucide's root attributes, hidden from assistive tech", () => {
     expect(render(createElement(HouseIcon))).toMatch(
-      /^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fab-icon fab-icon-house" aria-hidden="true"><path /
+      /^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="fab-icon fab-icon-house" aria-hidden="true"><path /
     )
   })
 
@@ -38,7 +38,7 @@ describe("outline icons", () => {
   it("keep the stroke's pixel width with absoluteStrokeWidth", () => {
     expect(
       render(createElement(HouseIcon, { size: 48, absoluteStrokeWidth: true }))
-    ).toContain('stroke-width="1"')
+    ).toContain('stroke-width="0.75"')
   })
 
   it("add a non-scaling stroke to every shape when asked", () => {

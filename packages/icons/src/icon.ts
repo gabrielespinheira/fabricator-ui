@@ -1,4 +1,10 @@
-import { createElement, type ReactElement, type SVGProps } from "react"
+import {
+  createElement,
+  useId,
+  type ReactElement,
+  type ReactNode,
+  type SVGProps,
+} from "react"
 
 import {
   getStrokeWidth,
@@ -7,6 +13,7 @@ import {
   mergeClasses,
 } from "./generated/runtime/attributes.js"
 import type { IconData, IconElement } from "./generated/runtime/types.js"
+import { getCutoutMask, resolveUiPaint } from "./generated/runtime/ui-paint.js"
 
 export type IconProps = SVGProps<SVGSVGElement> & {
   /** Width and height. Defaults to 24. */
@@ -25,14 +32,36 @@ export type IconComponent = ((props: IconProps) => ReactElement) & {
   displayName?: string
 }
 
-const SECONDARY_STYLE = {
-  fill: "var(--icon-secondary-color, currentColor)",
-  fillOpacity: "var(--icon-secondary-opacity, 0.2)",
+function renderShapes(
+  node: IconElement[],
+  extra: Record<string, unknown>,
+  layer = "outline"
+) {
+  return node.map(([tag, attributes], index) =>
+    createElement(tag, { key: `${layer}-${index}`, ...extra, ...attributes })
+  )
 }
 
-function renderShapes(node: IconElement[], extra: Record<string, unknown>) {
+function renderSecondary(node: IconElement[], paint: string) {
+  const color = `var(--icon-secondary-color, ${paint})`
+  const opacity = "var(--icon-secondary-opacity, 0.2)"
   return node.map(([tag, attributes], index) =>
-    createElement(tag, { key: index, ...extra, ...attributes })
+    createElement(
+      tag,
+      attributes.stroke
+        ? {
+            ...attributes,
+            key: `tonal-${index}`,
+            fill: "none",
+            style: { stroke: color, strokeOpacity: opacity },
+          }
+        : {
+            key: `tonal-${index}`,
+            stroke: "none",
+            style: { fill: color, fillOpacity: opacity },
+            ...attributes,
+          }
+    )
   )
 }
 
@@ -53,7 +82,11 @@ export function renderIcon(
     style,
     children,
     ...rest
-  }: IconProps
+  }: IconProps,
+  options: {
+    maskId?: string
+    wrapArtwork?: (artwork: ReactNode) => ReactNode
+  } = {}
 ) {
   const isLabelled = Boolean(children) || hasA11yProp(rest)
   const shapeAttributes = nonScalingStroke
@@ -69,6 +102,36 @@ export function renderIcon(
   }
   const hasStyle = style !== undefined || Object.keys(variables).length > 0
 
+  const paint = color ?? "currentColor"
+  const artwork = [
+    ...renderSecondary(data.secondary ?? [], paint),
+    ...renderShapes(resolveUiPaint(data.node, color), shapeAttributes),
+  ]
+  const maskId = options.maskId && `fab-cutout-${options.maskId}`
+  const body =
+    data.cutout?.length && maskId
+      ? [
+          createElement(
+            "mask",
+            {
+              key: "mask",
+              id: maskId,
+              maskUnits: "userSpaceOnUse",
+              x: 0,
+              y: 0,
+              width: 24,
+              height: 24,
+            },
+            ...renderShapes(getCutoutMask(data.cutout), {})
+          ),
+          createElement(
+            "g",
+            { key: "artwork", mask: `url(#${maskId})` },
+            ...artwork
+          ),
+        ]
+      : artwork
+
   return createElement(
     "svg",
     {
@@ -76,10 +139,10 @@ export function renderIcon(
       width: width ?? size ?? ICON_SIZE,
       height: height ?? size ?? ICON_SIZE,
       viewBox: `0 0 ${ICON_SIZE} ${ICON_SIZE}`,
-      fill: "none",
-      stroke: color ?? "currentColor",
+      fill: data.paint === "fill" ? paint : "none",
+      stroke: data.paint === "fill" ? "none" : paint,
       strokeWidth: getStrokeWidth({
-        strokeWidth,
+        strokeWidth: strokeWidth ?? data.strokeWidth,
         absoluteStrokeWidth,
         size: size ?? width,
       }),
@@ -90,15 +153,12 @@ export function renderIcon(
       ...(hasStyle && { style: { ...variables, ...style } }),
       ...rest,
     },
-    ...(data.secondary
-      ? renderShapes(data.secondary, { stroke: "none", style: SECONDARY_STYLE })
-      : []),
-    ...renderShapes(data.node, shapeAttributes),
+    options.wrapArtwork ? options.wrapArtwork(body) : body,
     children
   )
 }
 
 /** Renders any icon data: `<Icon data={myIcon} />`. */
 export function Icon({ data, ...props }: IconProps & { data: IconData }) {
-  return renderIcon(data, props)
+  return renderIcon(data, props, { maskId: useId() })
 }

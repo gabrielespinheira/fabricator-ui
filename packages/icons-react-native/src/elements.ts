@@ -24,11 +24,12 @@ const ELEMENTS = {
 /** Maps icon data onto react-native-svg's shape components. */
 export function renderShapes(
   node: IconElement[],
-  extra: Record<string, unknown> = {}
+  extra: Record<string, unknown> = {},
+  layer = "outline"
 ) {
   return node.map(([tag, attributes], index) =>
     createElement(ELEMENTS[tag] as typeof Path, {
-      key: index,
+      key: `${layer}-${index}`,
       ...extra,
       ...attributes,
     })

@@ -82,14 +82,14 @@ The native tree (`apps/web/registry/native/`) holds the React Native version of 
 
 ## Fabricator Icons
 
-Every Lucide icon under its Lucide name with identical geometry, plus Fabricator's Custom icons, brand marks, duotone, animated and Charmed file icons. Moving from `lucide-react` is an import change.
+The UI catalog preserves the Lucide and Fabricator names, aliases and search metadata. Every UI icon has a rounded Outline, Fill and Duotone drawing, and a web animation that uses those same drawings. Brand marks and Charmed file icons have their own sets.
 
-| Package                             | For                               | Sets                                                                            |
-| ----------------------------------- | --------------------------------- | ------------------------------------------------------------------------------- |
-| `@fabricator-ui/icons`              | React (web, desktop)              | outline, brands, duotone, animated (Motion), files, dynamic, catalog            |
-| `@fabricator-ui/icons-react-native` | React Native (`react-native-svg`) | outline, brands, duotone, files                                                 |
-| `@fabricator-ui/icons-static`       | Anything                          | SVG files, sprites, JSON nodes, a PNG exporter for tray and menu icons          |
-| `packages/icons-core` (private)     | Sources, checks, generators       | Lucide, lucide-animated and Charmed vendored; Custom originals; brand allowlist |
+| Package                             | For                               | Sets                                                                                        |
+| ----------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------- |
+| `@fabricator-ui/icons`              | React (web, desktop)              | outline, fill, duotone, animated (Motion), brands, files, dynamic, catalog                  |
+| `@fabricator-ui/icons-react-native` | React Native (`react-native-svg`) | outline, fill, duotone, brands, files                                                       |
+| `@fabricator-ui/icons-static`       | Anything                          | Outline, Fill and Duotone SVGs, sprites, JSON nodes, a PNG exporter for tray and menu icons |
+| `packages/icons-core` (private)     | Sources, checks, generators       | Lucide, lucide-animated and Charmed vendored; Custom originals; brand allowlist             |
 
 - Adding or importing icons: [`packages/icons-core/CONTRIBUTING.md`](../packages/icons-core/CONTRIBUTING.md). Plans: [`plans/icon-pack.md`](plans/icon-pack.md), [`plans/icon-pack-expansion.md`](plans/icon-pack-expansion.md).
 - Vendored sources (`sources/lucide/`, `sources/animated/`, imported brands) are written only by `icons:sync`, `icons:animated` and `icons:brands`. `src/generated/`, `dist/` and the static outputs are gitignored.

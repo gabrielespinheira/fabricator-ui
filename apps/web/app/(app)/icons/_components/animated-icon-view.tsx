@@ -2,32 +2,23 @@
 
 import * as React from "react"
 import type { AnimatedIconHandle } from "@fabricator-ui/icons/animated"
-import type * as Animated from "@fabricator-ui/icons/animated"
+import type { AnimatedArtworkIcon } from "@fabricator-ui/icons/animated/preview"
 
-export type AnimatedComponent = typeof Animated.BellIcon
+export type AnimatedRenderer = typeof AnimatedArtworkIcon
 
-/** The animated icons by export name, which load only once their tab opens. */
-export type AnimatedComponents = Map<string, AnimatedComponent>
-
-export function useAnimatedComponents(isNeeded: boolean) {
-  const [components, setComponents] = React.useState<AnimatedComponents | null>(
-    null
-  )
+export function useAnimatedRenderer(isNeeded: boolean) {
+  const [renderer, setRenderer] = React.useState<AnimatedRenderer | null>(null)
   React.useEffect(() => {
-    if (!isNeeded || components) return
+    if (!isNeeded || renderer) return
     let isCurrent = true
-    void import("@fabricator-ui/icons/animated").then((module) => {
-      if (!isCurrent) return
-      const icons = Object.entries(module).filter(
-        (entry): entry is [string, AnimatedComponent] => entry[0] !== "default"
-      )
-      setComponents(new Map(icons))
+    void import("@fabricator-ui/icons/animated/preview").then((module) => {
+      if (isCurrent) setRenderer(() => module.AnimatedArtworkIcon)
     })
     return () => {
       isCurrent = false
     }
-  }, [isNeeded, components])
-  return components
+  }, [isNeeded, renderer])
+  return renderer
 }
 
 /**
@@ -39,12 +30,14 @@ export function AnimatedIconView({
   isPlaying,
   size,
   strokeWidth,
+  data,
+  recipe,
 }: {
-  component: AnimatedComponent
+  component: AnimatedRenderer
   isPlaying: boolean
   size: number
   strokeWidth: number
-}) {
+} & Pick<React.ComponentProps<AnimatedRenderer>, "data" | "recipe">) {
   const handle = React.useRef<AnimatedIconHandle>(null)
   const wasPlaying = React.useRef(false)
   React.useEffect(() => {
@@ -53,5 +46,13 @@ export function AnimatedIconView({
     if (isPlaying) handle.current?.startAnimation()
     else handle.current?.stopAnimation()
   }, [isPlaying])
-  return <Component ref={handle} size={size} strokeWidth={strokeWidth} />
+  return (
+    <Component
+      data={data}
+      recipe={recipe}
+      ref={handle}
+      size={size}
+      strokeWidth={strokeWidth}
+    />
+  )
 }

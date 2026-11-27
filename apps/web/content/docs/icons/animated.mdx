@@ -1,6 +1,6 @@
 ---
 title: Animated
-description: 447 Lucide icons that animate on hover, with the same names and props as the outline icons, built on Motion.
+description: Every Fabricator UI icon animates in Outline, Fill and Duotone on the web.
 ---
 
 <IconsAnimated />
@@ -60,7 +60,7 @@ export function UploadButton() {
 }
 ```
 
-Some animations loop until `stopAnimation()`, and some hold their last frame until then, so always pair the two.
+Each animation plays once and settles at rest. Call `stopAnimation()` to reset it early.
 
 ## Reduced motion
 
@@ -68,23 +68,17 @@ With `prefers-reduced-motion: reduce`, or `data-motion="off"` on `<html>`, icons
 
 ## Size
 
-One animated icon costs about 1.5 KB, minified and gzipped. Motion adds about 47 KB once per page, or nothing more if your app already uses it.
+One animated icon costs about 3 KB, minified and gzipped. Motion adds about 50 KB once per page, or nothing more if your app already uses it.
 
-## The icons
+## Weights
 
-The animations come from [lucide-animated](https://lucide-animated.com), MIT licensed, vendored at a pinned commit. They differ from the originals in a few ways:
+Pass `variant="fill"` or `variant="duotone"` to animate that weight. The default is `outline`.
 
-- The root is an `<svg>`, not an `<svg>` inside a `<div>`, and the default size is 24, not 28.
-- Icons take Lucide's current names, so upstream's `home` is `HouseIcon`, with `HomeIcon` as its alias.
-- Your `onMouseEnter` and `onMouseLeave` always run, with or without a `ref`.
-- Reduced motion is honoured.
+```tsx
+import { BookmarkIcon, PencilIcon } from "@fabricator-ui/icons/animated"
 
-When an icon has the same parts as the Lucide icon we ship, it takes our current geometry, so at rest it draws what the outline icon draws. 35 icons animate parts that don't line up with the current drawing and keep an older one, so they differ slightly at rest. Their panels on the [Icons](/icons?set=animated) page say so.
+<BookmarkIcon variant="fill" />
+<PencilIcon variant="duotone" />
+```
 
-A few upstream icons rest as a different Lucide icon than their name says, and take the name of what they draw. Upstream's `delete` is a bin, so it's `TrashIcon`. Its `volume` rests muted, so it's `VolumeXIcon`. Its `clipboard-check` rests empty and draws the check on hover, so it's `ClipboardIcon`.
-
-## Left out
-
-- **Brand logos.** GitHub, Instagram, YouTube and nine others are stroked redraws. [Brands](/docs/icons/brands) draws those marks as their owners publish them.
-- **Not Lucide icons.** `connect` and `clap` have no Lucide icon, and `flask` and `syringe` are filled drawings on another grid.
-- **Icons that don't work.** `concierge-bell` ignores hover, `hard-drive-download` shows no movement and doesn't return to rest, `log-in` and `log-out` stay shifted after hover, and `folder-root` rests faded with a pulse that's hard to see.
+Motion is shared by icon family, and each variant settles to the same drawing its static component uses. Browse the [Animated set](/icons?set=animated) to replay the motions.

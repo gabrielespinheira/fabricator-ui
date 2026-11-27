@@ -1,10 +1,17 @@
 import { createElement } from "react"
-import { loadOutlineIcons, readLock } from "@fabricator-ui/icons-core"
+import {
+  loadOutlineIcons,
+  loadUiIcons,
+  readLock,
+} from "@fabricator-ui/icons-core"
 import { icons as lucideData } from "@lucide/icons"
 import * as lucideReact from "lucide-react-parity"
 import { renderToStaticMarkup } from "react-dom/server"
 import { describe, expect, it } from "vitest"
 
+import * as Animated from "./animated"
+import * as Duotone from "./duotone"
+import * as Fill from "./fill"
 import { outlineImports } from "./generated/dynamic-imports"
 import * as fabricator from "./index"
 
@@ -24,10 +31,6 @@ function withoutKeys(
   })
 }
 
-function withoutClass(markup: string) {
-  return markup.replace(/ class="[^"]*"/, "")
-}
-
 describe("Lucide parity", () => {
   it("vendors the same Lucide release the parity packages come from", () => {
     expect(readLock().lucide?.tag).toBe("1.73.0")
@@ -39,7 +42,7 @@ describe("Lucide parity", () => {
     )
   })
 
-  it("has the same shapes as @lucide/icons for every icon", () => {
+  it("keeps the vendored geometry as the compatibility fixture", () => {
     const mismatches = lucideIcons.filter((icon) => {
       const theirs = published.get(icon.name)
       return (
@@ -50,25 +53,34 @@ describe("Lucide parity", () => {
     expect(mismatches.map((icon) => icon.name)).toEqual([])
   })
 
-  it("renders the same markup as lucide-react for every icon, apart from class names", async () => {
-    const props = { size: 20, strokeWidth: 1.5, "data-slot": "icon" }
-    const mismatches: string[] = []
-    for (const icon of lucideIcons) {
-      const load = outlineImports[icon.name]
-      const theirs = published.get(icon.name)
-      if (!load || !theirs) {
-        mismatches.push(icon.name)
-        continue
-      }
-      const { default: ours } = await load()
-      const oursMarkup = renderToStaticMarkup(createElement(ours, props))
-      const theirsMarkup = renderToStaticMarkup(
-        createElement(lucideReact.Icon, { ...props, icon: theirs })
-      )
-      if (withoutClass(oursMarkup) !== withoutClass(theirsMarkup))
-        mismatches.push(icon.name)
+  it("renders the rounded drawing, preserving size, stroke and SVG props", async () => {
+    const outline = loadUiIcons().find(({ name }) => name === "bookmark")
+    const load = outlineImports.bookmark
+    if (!outline || !load) throw new Error("Bookmark is missing")
+    const { default: Bookmark } = await load()
+    const props = { size: 20, strokeWidth: 2, "data-slot": "icon" }
+    const markup = renderToStaticMarkup(createElement(Bookmark, props))
+    expect(markup).toContain('width="20"')
+    expect(markup).toContain('stroke-width="2"')
+    expect(markup).toContain('data-slot="icon"')
+    expect(markup).toContain(outline.node[0]?.[1].d)
+  })
+
+  it("exports the same canonical components and aliases at every weight", () => {
+    const names = Object.keys(fabricator).filter(
+      (name) =>
+        name.endsWith("Icon") &&
+        !["Icon", "createIcon", "renderIcon"].includes(name)
+    )
+    for (const variant of [Fill, Duotone, Animated]) {
+      expect(
+        Object.keys(variant)
+          .filter((name) => name.endsWith("Icon"))
+          .sort()
+      ).toEqual(names.sort())
     }
-    expect(mismatches).toEqual([])
+    expect(Fill.HomeIcon).toBe(Fill.HouseIcon)
+    expect(Duotone.HomeIcon).toBe(Duotone.HouseIcon)
   })
 
   it("exports every name lucide-react exports, except its Lucide-prefixed forms", () => {

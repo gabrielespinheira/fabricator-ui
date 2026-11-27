@@ -10,13 +10,13 @@ import {
 import { useAnimation as useMotionAnimation } from "motion/react"
 
 import { hasA11yProp } from "./generated/runtime/attributes.js"
+import type { IconWeight } from "./generated/runtime/types.js"
 import { renderIcon, type IconProps } from "./icon.js"
 
 /** The same props as an outline icon. */
-export type AnimatedIconProps = Omit<
-  IconProps,
-  "nonScalingStroke" | "secondaryColor" | "secondaryOpacity"
->
+export type AnimatedIconProps = Omit<IconProps, "nonScalingStroke" | "ref"> & {
+  variant?: IconWeight
+}
 
 /** Passing a `ref` takes over from hover: start and stop the animation yourself. */
 export type AnimatedIconHandle = {
@@ -88,6 +88,7 @@ export function composeHandlers(
 /** The root every animated icon renders: an `<svg>` like any outline icon's. */
 export function AnimatedSvg({
   name,
+  variant: _variant,
   ...props
 }: AnimatedIconProps & { name: string }) {
   return renderIcon(

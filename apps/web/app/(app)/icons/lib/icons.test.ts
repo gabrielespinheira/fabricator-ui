@@ -72,17 +72,17 @@ describe("getIconDescription", () => {
       { value: "files", label: "Files", count: 1 },
     ])
   })
-  it("credits Lucide for Lucide's icons, animated or not", () => {
-    expect(getIconDescription(bell)).toBe("Lucide's bell icon.")
+  it("describes the shipped Fabricator drawings", () => {
+    expect(getIconDescription(bell)).toBe("Fabricator’s bell icon in outline.")
     expect(getIconDescription(animatedBell)).toBe(
-      "Lucide's bell icon, animated."
+      "Fabricator’s bell icon, animated."
     )
   })
 
   it("names a custom icon as Fabricator's own", () => {
     expect(
       getIconDescription({ ...bell, name: "ui-dialog", categories: ["custom"] })
-    ).toBe("Fabricator's ui-dialog icon, drawn to Lucide's rules.")
+    ).toBe("Fabricator’s ui-dialog icon in outline.")
   })
 
   it("names a brand's owner", () => {
@@ -104,7 +104,7 @@ describe("animated icons", () => {
         strokeWidth: 1.5,
         brandColor: true,
       })
-    ).toBe("<BellIcon size={16} strokeWidth={1.5} />")
+    ).toBe("<BellIcon size={16} />")
   })
 
   it("need Motion installed, which the other sets don't", () => {
@@ -142,10 +142,10 @@ describe("snippets", () => {
   it("writes only the props that differ from the defaults", () => {
     expect(
       getJsxSnippet(house, { size: 24, strokeWidth: 2, brandColor: false })
-    ).toBe("<HouseIcon />")
+    ).toBe("<HouseIcon strokeWidth={2} />")
     expect(
       getJsxSnippet(house, { size: 16, strokeWidth: 1.5, brandColor: false })
-    ).toBe("<HouseIcon size={16} strokeWidth={1.5} />")
+    ).toBe("<HouseIcon size={16} />")
     expect(
       getJsxSnippet(github, { size: 24, strokeWidth: 1.5, brandColor: true })
     ).toBe('<GithubIcon color="brand" />')

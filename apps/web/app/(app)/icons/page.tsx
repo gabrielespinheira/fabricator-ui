@@ -7,7 +7,7 @@ import { InstallCommand } from "./_components/install-command"
 
 const title = "Icons"
 const description =
-  "Fabricator UI Icons for web, mobile and desktop: outline icons, brand marks, file and folder icons, plus animated icons for web and desktop apps."
+  "Fabricator UI Icons for web, mobile and desktop: outline, fill and duotone icons, plus animated icons for web and desktop, brand marks and file icons."
 
 const ogImage = `/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`
 
@@ -30,9 +30,9 @@ export default function IconsPage() {
           Fabricator UI Icons
         </h1>
         <p className="max-w-[560px] text-[15px] leading-normal text-balance text-muted-foreground">
-          Outline icons, brand marks, and file and folder icons for web, mobile
-          and desktop. Use them in React and React Native, or as plain SVGs.
-          Animated icons are available for web and desktop apps.
+          Outline, fill, and duotone icons, brand marks, and file icons for web,
+          mobile and desktop. Use them in React and React Native, or as plain
+          SVGs. Animated icons are available for web and desktop apps.
         </p>
         <div className="flex w-full max-w-md flex-col gap-2 text-start">
           <InstallCommand packages={["@fabricator-ui/icons"]} />

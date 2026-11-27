@@ -9,8 +9,8 @@ import { getExportNames } from "../src/generated/runtime/names.js"
 
 export type AuditPage = {
   names: string[]
-  start: () => void
-  stop: () => void
+  start: (names?: string[]) => void
+  stop: (names?: string[]) => void
   /** Records everything that changes from now on, in one cell or the whole page. */
   watch: (name?: string) => void
   /** DOM changes since `watch`, plus animations running now: Motion runs opacity and transforms through the Web Animations API, which changes no DOM. */
@@ -53,7 +53,7 @@ function Cell({ name }: { name: string }) {
       ) : (
         <Moving
           size={48}
-          ref={(handle) => {
+          ref={(handle: AnimatedIconHandle | null) => {
             if (handle) handles.set(name, handle)
           }}
         />
@@ -68,8 +68,10 @@ let observer: MutationObserver | undefined
 
 window.audit = {
   names,
-  start: () => handles.forEach((handle) => handle.startAnimation()),
-  stop: () => handles.forEach((handle) => handle.stopAnimation()),
+  start: (selection = names) =>
+    selection.forEach((name) => handles.get(name)?.startAnimation()),
+  stop: (selection = names) =>
+    selection.forEach((name) => handles.get(name)?.stopAnimation()),
   watch: (name) => {
     observer?.disconnect()
     changes = 0

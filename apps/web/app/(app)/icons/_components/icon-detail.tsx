@@ -27,11 +27,7 @@ import {
   getPackages,
   toComponentName,
 } from "../lib/icons"
-import {
-  AnimatedIconView,
-  type AnimatedComponent,
-  type AnimatedComponents,
-} from "./animated-icon-view"
+import { AnimatedIconView, type AnimatedRenderer } from "./animated-icon-view"
 import {
   IconPreview,
   type LoadedIcon,
@@ -114,8 +110,10 @@ const PLAY_MILLISECONDS = 1800
 function AnimatedDetailPreview({
   component,
   strokeWidth,
-}: {
-  component: AnimatedComponent
+  data,
+  recipe,
+}: Pick<React.ComponentProps<AnimatedRenderer>, "data" | "recipe"> & {
+  component: AnimatedRenderer
   strokeWidth: number
 }) {
   const [isHovered, setIsHovered] = React.useState(false)
@@ -135,6 +133,8 @@ function AnimatedDetailPreview({
       >
         <AnimatedIconView
           component={component}
+          data={data}
+          recipe={recipe}
           isPlaying={isPlaying}
           size={96}
           strokeWidth={strokeWidth}
@@ -147,6 +147,8 @@ function AnimatedDetailPreview({
             <AnimatedIconView
               key={size}
               component={component}
+              data={data}
+              recipe={recipe}
               isPlaying={isPlaying}
               size={size}
               strokeWidth={strokeWidth}
@@ -178,7 +180,7 @@ export function IconDetail({
   /** Category titles by name, from the catalog. */
   categoryTitles: Map<string, string>
   /** The animated icons, once loaded. */
-  animated: AnimatedComponents | null
+  animated: AnimatedRenderer | null
 }) {
   const previewRef = React.useRef<HTMLDivElement>(null)
   const { resolvedTheme } = useTheme()
@@ -191,10 +193,7 @@ export function IconDetail({
     color: "currentColor",
     scheme,
   })
-  const moving =
-    entry.set === "animated"
-      ? animated?.get(toComponentName(entry.name))
-      : undefined
+  const recipe = entry.set === "animated" ? entry.motion : undefined
 
   const downloadPng = async () => {
     // A standalone PNG can't follow the text colour: paint it with the
@@ -224,9 +223,11 @@ export function IconDetail({
         ref={previewRef}
         className="flex flex-col items-center gap-5 rounded-xl bg-surface-2 py-8 text-foreground shadow-surface-2"
       >
-        {moving ? (
+        {animated && recipe && icon.set === "animated" ? (
           <AnimatedDetailPreview
-            component={moving}
+            component={animated}
+            data={icon.data}
+            recipe={recipe}
             strokeWidth={options.strokeWidth}
           />
         ) : (
@@ -299,25 +300,6 @@ export function IconDetail({
         )}
         {entry.set !== "brands" ? (
           <>
-            {entry.set === "animated" && (
-              <Fact label="Animation">
-                <a
-                  href="https://lucide-animated.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 underline underline-offset-4"
-                >
-                  lucide-animated, MIT
-                  <ArrowUpRightIcon className="size-3.5" />
-                </a>
-              </Fact>
-            )}
-            {entry.set === "animated" && entry.isOlderDrawing && (
-              <Fact label="Drawing">
-                Animates an older Lucide drawing, so at rest it differs slightly
-                from the outline icon.
-              </Fact>
-            )}
             {entry.aliases.length > 0 && (
               <Fact label="Also exported as">
                 {entry.aliases.map((alias) => (

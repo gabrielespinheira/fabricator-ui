@@ -9,9 +9,9 @@ import fs from "node:fs"
 import path from "node:path"
 import { Resvg } from "@resvg/resvg-js"
 
-import { loadOutlineIcons } from "../src/outline"
 import { PACKAGE_ROOT } from "../src/paths"
 import { renderSvgInline } from "../src/svg"
+import { loadUiIcons } from "../src/ui-icons"
 
 const SIZES = [14, 16, 18, 24]
 const STROKES = [1.5, 2]
@@ -28,7 +28,7 @@ if (names.length === 0) {
   process.exit(1)
 }
 
-const icons = new Map(loadOutlineIcons().map((icon) => [icon.name, icon]))
+const icons = new Map(loadUiIcons().map((icon) => [icon.name, icon]))
 const rows = [...names, "circle", "square"].map((name) => {
   const icon = icons.get(name)
   if (!icon) throw new Error(`There is no outline icon named ${name}`)

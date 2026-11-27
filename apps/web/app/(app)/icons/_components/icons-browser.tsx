@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import type * as Nodes from "@fabricator-ui/icons-static/nodes"
+import type * as Variants from "@fabricator-ui/icons-static/variants"
 import type * as Catalog from "@fabricator-ui/icons/catalog"
 import {
   parseAsNumberLiteral,
@@ -41,13 +42,12 @@ import {
 import {
   filterByCategory,
   getCategoryOptions,
-  toComponentName,
   toReactAttributes,
 } from "../lib/icons"
 import {
   AnimatedIconView,
-  useAnimatedComponents,
-  type AnimatedComponents,
+  useAnimatedRenderer,
+  type AnimatedRenderer,
 } from "./animated-icon-view"
 import { IconDetail } from "./icon-detail"
 import {
@@ -56,13 +56,19 @@ import {
   type PreviewOptions,
 } from "./icon-preview"
 
-const SETS = ["outline", "brands", "files", "animated"] as const
+const SETS = [
+  "outline",
+  "fill",
+  "duotone",
+  "animated",
+  "brands",
+  "files",
+] as const
 const SIZES = [16, 20, 24] as const
 const STROKES = [1.5, 2] as const
 const COLORS = ["mono", "brand"] as const
 const ALL = "all"
-// The three tabs and their counts need 332px: under that, the labels alone fit.
-const TAB_COUNT_CLASS = "tabular-nums max-[479px]:hidden"
+const TAB_COUNT_CLASS = "tabular-nums max-[639px]:hidden"
 
 const iconParsers = {
   q: parseAsString.withDefault(""),
@@ -70,7 +76,7 @@ const iconParsers = {
   category: parseAsString,
   icon: parseAsString,
   size: parseAsNumberLiteral(SIZES).withDefault(24),
-  stroke: parseAsNumberLiteral(STROKES).withDefault(2),
+  stroke: parseAsNumberLiteral(STROKES).withDefault(1.5),
   color: parseAsStringLiteral(COLORS).withDefault("mono"),
 }
 
@@ -89,7 +95,11 @@ class MissingShapesError extends Error {
 }
 
 /** Joins the catalog with the shape data, once, for the grid and the detail panel. */
-function joinLibrary(catalog: typeof Catalog, nodes: typeof Nodes): Library {
+function joinLibrary(
+  catalog: typeof Catalog,
+  nodes: typeof Nodes,
+  variants: typeof Variants
+): Library {
   const icons = new Map<string, LoadedIcon>()
   for (const entry of catalog.outlineCatalog) {
     const node = nodes.outlineNodes[entry.name]
@@ -101,6 +111,29 @@ function joinLibrary(catalog: typeof Catalog, nodes: typeof Nodes): Library {
       data: { name: entry.name, node: toReactAttributes(node) },
       source: { set: "outline", node },
     })
+  }
+  for (const [entries, drawings] of [
+    [catalog.fillCatalog, variants.fillNodes],
+    [catalog.duotoneCatalog, variants.duotoneNodes],
+  ] as const) {
+    for (const entry of entries) {
+      const data = drawings[entry.name]
+      if (!data)
+        throw new MissingShapesError(`No ${entry.set} shapes for ${entry.name}`)
+      icons.set(key(entry.set, entry.name), {
+        set: entry.set,
+        entry,
+        source: { set: entry.set, data },
+        data: {
+          ...data,
+          node: toReactAttributes(data.node),
+          ...(data.cutout && { cutout: toReactAttributes(data.cutout) }),
+          ...(data.secondary && {
+            secondary: toReactAttributes(data.secondary),
+          }),
+        },
+      })
+    }
   }
   for (const entry of catalog.brandCatalog) {
     const brand = nodes.brandNodes[entry.name]
@@ -174,8 +207,9 @@ function useLibrary() {
     void Promise.all([
       import("@fabricator-ui/icons/catalog"),
       import("@fabricator-ui/icons-static/nodes"),
-    ]).then(([catalog, nodes]) => {
-      if (isCurrent) setLibrary(joinLibrary(catalog, nodes))
+      import("@fabricator-ui/icons-static/variants"),
+    ]).then(([catalog, nodes, variants]) => {
+      if (isCurrent) setLibrary(joinLibrary(catalog, nodes, variants))
     })
     return () => {
       isCurrent = false
@@ -194,14 +228,11 @@ const IconCell = React.memo(function IconCell({
   options: PreviewOptions
   onSelect: (name: string) => void
   /** Empty until the animated icons load; the outline drawing stands in. */
-  animated?: AnimatedComponents | null
+  animated?: AnimatedRenderer | null
 }) {
   const [isActive, setIsActive] = React.useState(false)
   const label = icon.set === "brands" ? icon.entry.title : icon.entry.name
-  const moving =
-    icon.set === "animated"
-      ? animated?.get(toComponentName(icon.entry.name))
-      : undefined
+  const recipe = icon.set === "animated" ? icon.entry.motion : undefined
   return (
     <li className="[contain-intrinsic-size:auto_96px] [content-visibility:auto]">
       <button
@@ -213,9 +244,11 @@ const IconCell = React.memo(function IconCell({
         onBlur={() => setIsActive(false)}
         className="flex h-24 w-full flex-col items-center justify-center gap-2.5 rounded-xl px-1 text-foreground outline-none hover:bg-hover focus-visible:ring-1 focus-visible:ring-focus-ring active:bg-active"
       >
-        {moving ? (
+        {animated && recipe && icon.set === "animated" ? (
           <AnimatedIconView
-            component={moving}
+            component={animated}
+            data={icon.data}
+            recipe={recipe}
             isPlaying={isActive}
             size={options.size}
             strokeWidth={options.strokeWidth}
@@ -275,7 +308,7 @@ function NumberToggle<Value extends number>({
 export function IconsBrowser() {
   const library = useLibrary()
   const [params, setParams] = useQueryStates(iconParsers)
-  const animated = useAnimatedComponents(params.set === "animated")
+  const animated = useAnimatedRenderer(params.set === "animated")
   const options: PreviewOptions = {
     size: params.size,
     strokeWidth: params.stroke,
@@ -316,6 +349,8 @@ export function IconsBrowser() {
   const counts = library
     ? {
         outline: library.catalog.outlineCatalog.length,
+        fill: library.catalog.fillCatalog.length,
+        duotone: library.catalog.duotoneCatalog.length,
         brands: library.catalog.brandCatalog.length,
         animated: library.catalog.animatedCatalog.length,
         files: library.catalog.fileCatalog.length,
@@ -354,35 +389,21 @@ export function IconsBrowser() {
               : "Search icons"
           }
         />
-        <TabsList
-          // The sliding selection measures its items once: remount it when
-          // the counts arrive and widen them.
-          key={counts ? "counted" : "loading"}
-          aria-label="Icon set"
-        >
-          <TabsTrigger value="outline">
-            Outline
-            {counts && (
-              <span className={TAB_COUNT_CLASS}>
-                {counts.outline.toLocaleString("en")}
-              </span>
-            )}
-          </TabsTrigger>
-          <TabsTrigger value="brands">
-            Brands
-            {counts && <span className={TAB_COUNT_CLASS}>{counts.brands}</span>}
-          </TabsTrigger>
-          <TabsTrigger value="animated">
-            Animated
-            {counts && (
-              <span className={TAB_COUNT_CLASS}>{counts.animated}</span>
-            )}
-          </TabsTrigger>
-          <TabsTrigger value="files">
-            Files
-            {counts && <span className={TAB_COUNT_CLASS}>{counts.files}</span>}
-          </TabsTrigger>
-        </TabsList>
+        <div className="max-w-full overflow-x-auto">
+          <TabsList key={counts ? "counted" : "loading"} aria-label="Icon set">
+            {SETS.map((set) => (
+              <TabsTrigger key={set} value={set}>
+                {set[0]?.toUpperCase()}
+                {set.slice(1)}
+                {counts && (
+                  <span className={TAB_COUNT_CLASS}>
+                    {counts[set].toLocaleString("en")}
+                  </span>
+                )}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
         <Select
           items={categoryItems}
           value={params.category ?? ALL}
@@ -412,7 +433,9 @@ export function IconsBrowser() {
             onValueChange={(size) => void setParams({ size })}
             format={(size) => `${size}px`}
           />
-          {params.set !== "brands" && params.set !== "files" ? (
+          {params.set !== "brands" &&
+          params.set !== "files" &&
+          params.set !== "fill" ? (
             <NumberToggle
               label="Stroke width"
               values={STROKES}

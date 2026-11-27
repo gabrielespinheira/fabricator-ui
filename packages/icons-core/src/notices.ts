@@ -43,7 +43,7 @@ export function licenseText({ animated = false } = {}) {
 
 ---
 
-The outline icons come from Lucide ${lucideLock?.tag ?? "unknown"} (https://lucide.dev), used under
+The rounded UI icon catalog is based on Lucide ${lucideLock?.tag ?? "unknown"} (https://lucide.dev), used under
 its licence, reproduced below. The Custom icons are Fabricator's own, under the
 MIT licence above. Brand marks are not covered by either licence: see BRANDS.md.
 
@@ -63,7 +63,7 @@ ${fs.readFileSync(path.join(FILE_SOURCES, "LICENSE"), "utf8").trim()}
   return `${notice}
 ---
 
-The animations in the \`/animated\` entry come from lucide-animated
+The vendored animation references come from lucide-animated
 (https://lucide-animated.com, ${animatedLock?.sha.slice(0, 7) ?? "unknown"}), used under its licence, reproduced
 below.
 

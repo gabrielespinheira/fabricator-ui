@@ -1,5 +1,5 @@
-import { createElement, type ReactElement, type ReactNode } from "react"
-import { Svg, type SvgProps } from "react-native-svg"
+import { createElement, useId, type ReactElement, type ReactNode } from "react"
+import { G, Mask, Svg, type SvgProps } from "react-native-svg"
 
 import { useIconDefaults, type ResolvedIconDefaults } from "./context.js"
 import { renderShapes } from "./elements.js"
@@ -9,6 +9,7 @@ import {
   ICON_SIZE,
 } from "./generated/runtime/attributes.js"
 import type { IconData } from "./generated/runtime/types.js"
+import { getCutoutMask, resolveUiPaint } from "./generated/runtime/ui-paint.js"
 
 export type IconProps = Omit<SvgProps, "color"> & {
   /** Width and height. Defaults to the provider's size, then 24. */
@@ -46,22 +47,72 @@ export function renderIcon(
     children,
     ...rest
   }: IconProps,
-  defaults: ResolvedIconDefaults
+  defaults: ResolvedIconDefaults,
+  identifier?: string
 ) {
   const resolvedSize = size ?? defaults.size ?? ICON_SIZE
   const stroke = color ?? defaults.foreground
   const isLabelled = Boolean(children) || hasA11yProp(rest)
 
+  const secondaryPaint = secondaryColor ?? stroke
+  const opacity = secondaryOpacity ?? 0.2
+  const artwork = [
+    ...renderShapes(
+      resolveUiPaint(data.secondary ?? [], secondaryPaint).map(
+        ([tag, attributes]) => [
+          tag,
+          attributes.stroke
+            ? { ...attributes, fill: "none", strokeOpacity: String(opacity) }
+            : {
+                ...attributes,
+                stroke: "none",
+                fill: secondaryPaint,
+                fillOpacity: String(opacity),
+              },
+        ]
+      ),
+      {},
+      "tonal"
+    ),
+    ...renderShapes(
+      resolveUiPaint(data.node, stroke),
+      nonScalingStroke ? { vectorEffect: "non-scaling-stroke" } : {}
+    ),
+  ]
+  const maskId = identifier && `fab-cutout-${identifier}`
+  const body =
+    data.cutout?.length && maskId
+      ? [
+          createElement(
+            Mask,
+            {
+              key: "mask",
+              id: maskId,
+              maskUnits: "userSpaceOnUse",
+              x: 0,
+              y: 0,
+              width: 24,
+              height: 24,
+            },
+            ...renderShapes(getCutoutMask(data.cutout))
+          ),
+          createElement(
+            G,
+            { key: "artwork", mask: `url(#${maskId})` },
+            ...artwork
+          ),
+        ]
+      : artwork
   return createElement(
     Svg,
     {
       width: width ?? resolvedSize,
       height: height ?? resolvedSize,
       viewBox: `0 0 ${ICON_SIZE} ${ICON_SIZE}`,
-      fill: "none",
-      stroke,
+      fill: data.paint === "fill" ? stroke : "none",
+      stroke: data.paint === "fill" ? "none" : stroke,
       strokeWidth: getStrokeWidth({
-        strokeWidth: strokeWidth ?? defaults.strokeWidth,
+        strokeWidth: strokeWidth ?? defaults.strokeWidth ?? data.strokeWidth,
         absoluteStrokeWidth:
           absoluteStrokeWidth ?? defaults.absoluteStrokeWidth,
         size: resolvedSize,
@@ -71,29 +122,12 @@ export function renderIcon(
       ...(!isLabelled && { "aria-hidden": true }),
       ...rest,
     },
-    ...(data.secondary
-      ? renderShapes(data.secondary, {
-          stroke: "none",
-          fill: secondaryColor ?? stroke,
-          fillOpacity: secondaryOpacity ?? 0.2,
-        })
-      : []),
-    ...renderShapes(
-      // Lucide draws a few dots with fill="currentColor"; React Native has no
-      // currentColor inheritance, so they take the stroke colour.
-      data.node.map(([tag, attributes]) => [
-        tag,
-        attributes.fill === "currentColor"
-          ? { ...attributes, fill: stroke }
-          : attributes,
-      ]),
-      nonScalingStroke ? { vectorEffect: "non-scaling-stroke" } : {}
-    ),
+    ...body,
     children
   )
 }
 
 /** Renders any icon data: `<Icon data={myIcon} />`. */
 export function Icon({ data, ...props }: IconProps & { data: IconData }) {
-  return renderIcon(data, props, useIconDefaults())
+  return renderIcon(data, props, useIconDefaults(), useId())
 }
