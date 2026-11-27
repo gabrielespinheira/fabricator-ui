@@ -265,6 +265,7 @@ import {
   SquarePenIcon as FabricatorSquarePenIcon,
   SquareTerminal as FabricatorSquareTerminal,
   SquareTerminalIcon as FabricatorSquareTerminalIcon,
+  SquircleIcon as FabricatorSquircleIcon,
   StarIcon as FabricatorStarIcon,
   StickyNoteIcon as FabricatorStickyNoteIcon,
   StrikethroughIcon as FabricatorStrikethroughIcon,
@@ -2123,6 +2124,9 @@ export const SquareTerminalIcon = createSiteIcon(FabricatorSquareTerminalIcon, {
   hugeicons: "ComputerTerminal01Icon",
   phosphor: "TerminalWindowIcon",
   remixicon: "RiTerminalBoxLine",
+})
+export const SquircleIcon = createSiteIcon(FabricatorSquircleIcon, {
+  lucide: "SquircleIcon",
 })
 export const StarIcon = createSiteIcon(FabricatorStarIcon, {
   lucide: "StarIcon",
