@@ -17,13 +17,15 @@
     @apply ps-[calc(var(--slide-thumb)/2)] text-foreground/75 opacity-[calc(1-var(--slide-progress)*1.4)];
   }
 
-  /* The ink the thumb leaves: the inverted fill cut off at the thumb's
-     centre, with the label in its own colour on top, so the words turn over
-     as the thumb passes them. It follows the thumb at once while dragged and
-     springs with it on the settle spring otherwise. Confirming and done it
-     fills the track; done, it turns the success colour. */
+  /* The ink the thumb leaves: the inverted fill reaching past the thumb by
+     the track's inset, so its rounded end wraps the thumb concentrically and
+     the thumb always sits inside it. The label sits on it in its own
+     colour, so the words turn over as the thumb passes them. It follows the
+     thumb at once while dragged and springs with it on the settle spring
+     otherwise. Confirming and done it fills the track; done, it turns the
+     success colour. */
   .cn-slide-to-confirm-ink {
-    @apply rounded-full bg-foreground text-background opacity-[calc(var(--slide-progress)*12)] [clip-path:inset(0_calc(100%-var(--slide-centre))_0_0_round_9999px)] transition-[clip-path,background-color,color] duration-settle-spring ease-settle-spring group-data-[state=dragging]/slide-to-confirm:transition-[background-color,color] group-data-[state=confirming]/slide-to-confirm:[clip-path:inset(0_round_9999px)] group-data-[state=confirmed]/slide-to-confirm:[clip-path:inset(0_round_9999px)] group-data-[state=confirmed]/slide-to-confirm:bg-success group-data-[state=confirmed]/slide-to-confirm:text-success-foreground motion-reduce:transition-[background-color,color];
+    @apply rounded-full bg-foreground text-background opacity-[calc(var(--slide-progress)*12)] [clip-path:inset(0_calc(100%-var(--slide-centre)-var(--slide-thumb)/2-var(--spacing))_0_0_round_9999px)] transition-[clip-path,background-color,color] duration-settle-spring ease-settle-spring group-data-[state=dragging]/slide-to-confirm:transition-[background-color,color] group-data-[state=confirming]/slide-to-confirm:[clip-path:inset(0_round_9999px)] group-data-[state=confirmed]/slide-to-confirm:[clip-path:inset(0_round_9999px)] group-data-[state=confirmed]/slide-to-confirm:bg-success group-data-[state=confirmed]/slide-to-confirm:text-success-foreground motion-reduce:transition-[background-color,color];
   }
 
   /* While idle or dragged the ink's label lines up with the track's; once
