@@ -53,16 +53,23 @@ const APP_SHELL_REFERENCES = [
   "icon-slot",
 ]
 
-const GUIDE_SECTIONS = [
+// A section lists its pages in prefix order. A page under one of its
+// `parents` (a framework guide) nests under that page.
+const GUIDE_SECTIONS: {
+  label: string
+  prefixes: string[]
+  parents?: string[]
+}[] = [
   {
     label: "Get started",
     prefixes: [
       "/docs/installation",
       "/docs/dark-mode",
-      "/docs/monorepo",
       "/docs/components-json",
       "/docs/package-imports",
+      "/docs/monorepo",
     ],
+    parents: ["/docs/installation", "/docs/dark-mode"],
   },
   { label: "Foundations", prefixes: ["/docs/foundations/"] },
   { label: "Icons", prefixes: ["/docs/icons"] },
@@ -168,13 +175,15 @@ export function getDocsExplorerGroups(
       id: "guides",
       label: "Documentation",
       items: GUIDE_SECTIONS.flatMap((section) => {
-        const sectionPages = guidePages.filter((page) =>
-          section.prefixes.some((prefix) => page.url.startsWith(prefix))
-        )
+        const getPrefixIndex = (page: ExplorerPage) =>
+          section.prefixes.findIndex((prefix) => page.url.startsWith(prefix))
+        const sectionPages = guidePages
+          .filter((page) => getPrefixIndex(page) !== -1)
+          .sort((a, b) => getPrefixIndex(a) - getPrefixIndex(b))
         const children =
           section.label === "Changelog"
             ? getChangelogItems(sectionPages)
-            : sectionPages.map(getPageItem)
+            : getNestedPageItems(sectionPages, section.parents ?? [])
         return children.length
           ? [{ id: section.label, label: section.label, children }]
           : []
@@ -218,6 +227,29 @@ function addReleaseBadges(
 
 function getPageItem(page: ExplorerPage): NavItem<undefined> {
   return { id: page.url, label: page.title, href: page.url }
+}
+
+// Subpages follow their parent page, sorted by title like Advanced references.
+function getNestedPageItems(
+  pages: ExplorerPage[],
+  parents: string[]
+): NavItem<undefined>[] {
+  const presentParents = parents.filter((url) =>
+    pages.some((page) => page.url === url)
+  )
+  const getParent = (page: ExplorerPage) =>
+    presentParents.find((url) => page.url.startsWith(`${url}/`))
+  return pages
+    .filter((page) => !getParent(page))
+    .map((page) => {
+      const children = pages
+        .filter((child) => getParent(child) === page.url)
+        .map(getPageItem)
+        .sort((a, b) => a.label.localeCompare(b.label))
+      return children.length
+        ? { ...getPageItem(page), children }
+        : getPageItem(page)
+    })
 }
 
 // The overview, unreleased changes, then releases newest first with their

@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest"
 
-import { getDocsExplorerGroups, getDocsNeighbours } from "./docs-explorer"
+import {
+  getDocsExplorerGroups,
+  getDocsNeighbours,
+  type ExplorerPage,
+} from "./docs-explorer"
 
 describe("docs explorer", () => {
   it("nests shared Advanced references under the selected base's component", () => {
@@ -110,6 +114,75 @@ describe("docs explorer", () => {
     expect(
       getDocsNeighbours(pages, "/docs/components/radix/sidebar").next
     ).toEqual({ url: "/docs/app-shell/main", title: "AppShellMain" })
+  })
+})
+
+describe("docs explorer get started", () => {
+  const pages = [
+    { url: "/docs/components-json", title: "components.json" },
+    { url: "/docs/monorepo", title: "Monorepo" },
+    { url: "/docs/package-imports", title: "Package Imports" },
+    { url: "/docs/dark-mode/vite", title: "Vite" },
+    { url: "/docs/dark-mode", title: "Dark Mode" },
+    { url: "/docs/dark-mode/astro", title: "Astro" },
+    { url: "/docs/installation/astro", title: "Astro" },
+    { url: "/docs/installation", title: "Installation" },
+    { url: "/docs/installation/next", title: "Next.js", release: "new" },
+  ] satisfies ExplorerPage[]
+
+  it("nests framework guides under the page they belong to", () => {
+    const getStarted = getDocsExplorerGroups(pages, "base")
+      .flatMap((group) => group.items)
+      .find((item) => item.id === "Get started")
+    expect(getStarted?.children).toEqual([
+      {
+        id: "/docs/installation",
+        label: "Installation",
+        href: "/docs/installation",
+        children: [
+          {
+            id: "/docs/installation/astro",
+            label: "Astro",
+            href: "/docs/installation/astro",
+          },
+          {
+            id: "/docs/installation/next",
+            label: "Next.js",
+            href: "/docs/installation/next",
+            badge: "New",
+          },
+        ],
+      },
+      {
+        id: "/docs/dark-mode",
+        label: "Dark Mode",
+        href: "/docs/dark-mode",
+        children: [
+          {
+            id: "/docs/dark-mode/astro",
+            label: "Astro",
+            href: "/docs/dark-mode/astro",
+          },
+          {
+            id: "/docs/dark-mode/vite",
+            label: "Vite",
+            href: "/docs/dark-mode/vite",
+          },
+        ],
+      },
+      expect.objectContaining({ href: "/docs/components-json" }),
+      expect.objectContaining({ href: "/docs/package-imports" }),
+      expect.objectContaining({ href: "/docs/monorepo" }),
+    ])
+  })
+
+  it("paginates from a guide through its framework pages", () => {
+    expect(getDocsNeighbours(pages, "/docs/installation").next?.url).toBe(
+      "/docs/installation/astro"
+    )
+    expect(getDocsNeighbours(pages, "/docs/installation/next").next?.url).toBe(
+      "/docs/dark-mode"
+    )
   })
 })
 
