@@ -68,6 +68,9 @@ const SIDEBAR_COLLAPSE_SLOP = 56
 /** Hover-peek intent and leave delays (ms). */
 const SIDEBAR_PEEK_DELAY = 150
 const SIDEBAR_PEEK_DISMISS_DELAY = 250
+/** The pointer crosses the rail on its way to the page, so its tooltip waits
+ * longer than a button's before it opens (ms). */
+const SIDEBAR_RAIL_TOOLTIP_DELAY = 900
 
 // Fabricator: rows take a ref (App Nav's drag handle).
 type SidebarButtonProps =
@@ -1107,7 +1110,7 @@ function SidebarRail({
 
   return (
     <TooltipTrigger
-      delay={600}
+      delay={SIDEBAR_RAIL_TOOLTIP_DELAY}
       isOpen={!dragging && tooltipOpen}
       onOpenChange={setTooltipOpen}
     >

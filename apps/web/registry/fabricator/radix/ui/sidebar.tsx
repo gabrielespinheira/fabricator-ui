@@ -69,6 +69,9 @@ const SIDEBAR_COLLAPSE_SLOP = 56
 /** Hover-peek intent and leave delays (ms). */
 const SIDEBAR_PEEK_DELAY = 150
 const SIDEBAR_PEEK_DISMISS_DELAY = 250
+/** The pointer crosses the rail on its way to the page, so its tooltip waits
+ * longer than a button's before it opens (ms). */
+const SIDEBAR_RAIL_TOOLTIP_DELAY = 900
 
 /** A press on the page moves this far before it counts as a drag (px). */
 const REVEAL_DRAG_SLOP = 4
@@ -1100,7 +1103,7 @@ function SidebarRail({
   }
 
   return (
-    <TooltipProvider delayDuration={600}>
+    <TooltipProvider delayDuration={SIDEBAR_RAIL_TOOLTIP_DELAY}>
       <Tooltip open={!dragging && tooltipOpen} onOpenChange={setTooltipOpen}>
         <TooltipTrigger asChild>
           <button
