@@ -127,7 +127,11 @@ export function ShellDemo({
   initialTabs: TabStripState
   isPanelOpenByDefault?: boolean
   bottomNavClassName?: string
-  renderPage: (page: { isHome: boolean; title: string }) => React.ReactNode
+  renderPage: (page: {
+    pathname: string
+    isHome: boolean
+    title: string
+  }) => React.ReactNode
 }) {
   const [pathname, setPathname] = React.useState(HOME_HREF)
   const [openDocuments, setOpenDocuments] = React.useState(documents)
@@ -263,7 +267,11 @@ export function ShellDemo({
         }
       >
         <AppShellContent size={options.contentSize}>
-          {renderPage({ isHome: pathname === HOME_HREF, title: pageTitle })}
+          {renderPage({
+            pathname,
+            isHome: pathname === HOME_HREF,
+            title: pageTitle,
+          })}
         </AppShellContent>
       </OptionShell>
       <WindowControls shellWindow={shellWindow} />

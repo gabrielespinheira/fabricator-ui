@@ -1,5 +1,5 @@
-// Sample content for the App Shell preview on /create: the studio the dashboard
-// belongs to.
+// Sample content for the App Shell preview on /create: the company the blocks
+// it shows belong to, with the same person signed in.
 
 import {
   BoxIcon,
@@ -17,11 +17,11 @@ import {
 import type { AppNavGroup } from "@/styles/base-fabricator/ui/app-nav"
 
 export const PREVIEW_WORKSPACES = [
-  { id: "northwind", name: "Northwind", description: "Studio plan" },
-  { id: "personal", name: "Personal", description: "Free plan" },
+  { id: "acme", name: "Acme Inc", description: "Business plan" },
+  { id: "acme-labs", name: "Acme Labs Ltd", description: "UK entity" },
 ]
 
-export const PREVIEW_USER = { name: "Ada Park", email: "ada@northwind.io" }
+export const PREVIEW_USER = { name: "Ada Lovelace", email: "ada@acme.com" }
 
 export function getPreviewNavGroups({
   reorderable,

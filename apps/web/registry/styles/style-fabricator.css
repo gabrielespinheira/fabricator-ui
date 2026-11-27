@@ -1698,10 +1698,14 @@
 /* MARK: Chart Kit */
 
   /* The plot: its font size is the axis labels', which the layout measures
-     against. Under Reduce Motion its SVG fades in on mount: the draw-in
-     without the sweep. */
+     against. While loading, its marks dim to the loader's level (half with
+     the skeleton, gone with the blueprint) and the plot's box shows the
+     loader's placeholder (nothing with the skeleton); the marks come back on
+     the loader's reveal timing. Tooltips stay at full strength.
+     Under Reduce Motion its SVG fades in on mount: the draw-in without the
+     sweep. */
   .cn-chart-plot {
-    @apply text-(length:--density-text-11) transition-opacity duration-feedback ease-feedback in-data-loading:opacity-50 motion-reduce:[&_svg]:animate-in motion-reduce:[&_svg]:fade-in-0 motion-reduce:[&_svg]:duration-tooltip motion-reduce:[&_svg]:ease-enter;
+    @apply text-(length:--density-text-11) rounded-md [&>svg]:transition-opacity [&>svg]:duration-(--loader-reveal) [&>svg]:ease-enter in-data-loading:[&>svg]:opacity-(--loader-dim) in-data-loading:bg-(image:--loader-image) in-data-loading:bg-(size:--loader-image-size) in-data-loading:bg-(position:--loader-image-position) in-data-loading:[background-repeat:var(--loader-image-repeat)] in-data-loading:outline-(--loader-outline) in-data-loading:outline-dotted in-data-loading:[outline-width:var(--loader-outline-width)] in-data-loading:animate-(--loader-sweep) motion-reduce:in-data-loading:animate-none motion-reduce:[&_svg]:animate-in motion-reduce:[&_svg]:fade-in-0 motion-reduce:[&_svg]:duration-tooltip motion-reduce:[&_svg]:ease-enter;
   }
 
   /* A series dims while another is spotlit from the legend. One being
@@ -7616,9 +7620,13 @@
 
 /* MARK: Skeleton */
 
-  /* The hover fill, so it reads on any surface in both themes. */
+  /* The loader decides (loader.ts): by default the hover fill, so it reads
+     on any surface in both themes, pulsing; with the blueprint loader a
+     dotted outline over a dot field with a probe sweeping across, the
+     Blueprint drawing's ink. The loader's animation replaces upstream's
+     pulse, and Reduce Motion holds it still. */
   .cn-skeleton {
-    @apply bg-hover rounded-md;
+    @apply rounded-md bg-(--loader-fill) bg-(image:--loader-image) bg-(size:--loader-image-size) bg-(position:--loader-image-position) [background-repeat:var(--loader-image-repeat)] outline-(--loader-outline) outline-dotted [outline-width:var(--loader-outline-width)] [outline-offset:calc(var(--loader-outline-width)*-1)] animate-(--loader-animation)! motion-reduce:animate-none!;
   }
 
 /* MARK: Slide to Confirm */

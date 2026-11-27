@@ -182,12 +182,41 @@ export function ShellPreviewFrame({
     >
       {/* Takes the scaled size in the layout; a transform doesn't. */}
       <div
-        className={cn("shrink-0", stageSize.width === 0 && "invisible")}
+        className={cn(
+          "relative shrink-0",
+          stageSize.width === 0 && "invisible"
+        )}
         style={{
           width: layout.frame.width * layout.scale,
           height: layout.frame.height * layout.scale,
         }}
       >
+        {/* Outside the scaled frame, so it reads at the page's size. */}
+        {!isReady ? (
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 text-[13px]">
+            <p role="status" className="flex items-center gap-2">
+              {hasTimedOut ? (
+                "Preview did not load."
+              ) : (
+                <>
+                  <Spinner /> Loading preview
+                </>
+              )}
+            </p>
+            {hasTimedOut ? (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  setHasTimedOut(false)
+                  setAttempt((current) => current + 1)
+                }}
+              >
+                Retry preview
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
         <div
           className={cn(
             "relative flex origin-top-left flex-col",
@@ -217,31 +246,6 @@ export function ShellPreviewFrame({
               <div className="flex h-8 shrink-0 items-center justify-between border-b border-border bg-surface-2 ps-3 text-xs">
                 {windowTitle}
                 <WindowsCaptionButtons className="h-full" />
-              </div>
-            ) : null}
-            {!isReady ? (
-              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 text-[13px]">
-                <p role="status" className="flex items-center gap-2">
-                  {hasTimedOut ? (
-                    "Preview did not load."
-                  ) : (
-                    <>
-                      <Spinner /> Loading preview
-                    </>
-                  )}
-                </p>
-                {hasTimedOut ? (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => {
-                      setHasTimedOut(false)
-                      setAttempt((current) => current + 1)
-                    }}
-                  >
-                    Retry preview
-                  </Button>
-                ) : null}
               </div>
             ) : null}
             <iframe

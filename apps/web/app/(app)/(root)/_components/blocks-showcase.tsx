@@ -3,7 +3,6 @@
 import * as React from "react"
 import Link from "next/link"
 
-import { getBlockLayout, getBlockPageRoute } from "@/lib/block-page"
 import {
   ArrowRightIcon,
   CalendarIcon,
@@ -14,13 +13,9 @@ import {
   UserIcon,
 } from "@/lib/site-icons"
 import { SITE_BLOCK_STYLE } from "@/lib/site-style"
-import { BlockSkeleton } from "@/components/fabricator/block-skeleton"
-import { BrowserWindow } from "@/components/fabricator/browser-window"
-import { FramePreview } from "@/components/fabricator/frame-preview"
-import { fabricatorBlocks } from "@/registry/fabricator/blocks"
+import { BlockBrowser } from "@/components/fabricator/block-browser"
 
-// Whole screens from /blocks, one per tab of a Safari-like window. The tabs are
-// plain buttons styled after Safari's, not the library's Tabs.
+// Whole screens from /blocks, one per tab of a Safari-like window.
 const SHOWCASE = [
   {
     name: "finance-01",
@@ -50,105 +45,27 @@ const SHOWCASE = [
   { name: "sign-in-01", label: "Sign in", noun: "sign-in", icon: UserIcon },
 ] as const
 
-const LAST_INDEX = SHOWCASE.length - 1
-
-// Arrow keys move between tabs and open them, as WAI-ARIA's tabs pattern does.
-const KEY_TARGETS: Record<string, (index: number) => number> = {
-  ArrowLeft: (index) => (index === 0 ? LAST_INDEX : index - 1),
-  ArrowRight: (index) => (index === LAST_INDEX ? 0 : index + 1),
-  Home: () => 0,
-  End: () => LAST_INDEX,
-}
-
-function getDeclaration(name: string) {
-  return fabricatorBlocks.find((block) => block.name === name)
-}
-
 export function BlocksShowcase() {
-  const id = React.useId()
-  const tabRefs = React.useRef<(HTMLButtonElement | null)[]>([])
-  const [activeIndex, setActiveIndex] = React.useState(0)
-  const [frameKey, setFrameKey] = React.useState(0)
-  const activeBlock = SHOWCASE[activeIndex]
-  const declaration = getDeclaration(activeBlock.name)
-
-  function handleTabKeyDown(
-    event: React.KeyboardEvent<HTMLButtonElement>,
-    index: number
-  ) {
-    const getTarget = KEY_TARGETS[event.key]
-    if (!getTarget) return
-    event.preventDefault()
-    const target = getTarget(index)
-    setActiveIndex(target)
-    tabRefs.current[target]?.focus()
-  }
+  const [activeName, setActiveName] = React.useState<string>(SHOWCASE[0].name)
+  const activeBlock =
+    SHOWCASE.find(({ name }) => name === activeName) ?? SHOWCASE[0]
 
   return (
     <section
       aria-label="Blocks built with Fabricator UI"
       className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 pb-16 sm:px-6"
     >
-      <BrowserWindow
-        path={getBlockPageRoute(declaration?.files ?? [])}
-        href={`/view/${SITE_BLOCK_STYLE}/${activeBlock.name}`}
-        onReload={() => setFrameKey((key) => key + 1)}
+      {/* A 16:9 box from 640px wide: the first fold at 1280 by 720, whole, at
+          every width. */}
+      <BlockBrowser
+        blocks={SHOWCASE}
+        value={activeBlock.name}
+        onValueChange={setActiveName}
+        blockStyle={SITE_BLOCK_STYLE}
+        label="Blocks"
         className="w-full"
-        tabs={
-          <div
-            role="tablist"
-            aria-label="Blocks"
-            className="homepage-browser-tabs"
-          >
-            {SHOWCASE.map(({ name, label, icon: Icon }, index) => {
-              const isActive = index === activeIndex
-              return (
-                <button
-                  key={name}
-                  ref={(element) => {
-                    tabRefs.current[index] = element
-                  }}
-                  type="button"
-                  role="tab"
-                  id={`${id}-tab-${name}`}
-                  aria-selected={isActive}
-                  aria-controls={isActive ? `${id}-panel` : undefined}
-                  tabIndex={isActive ? 0 : -1}
-                  onClick={() => setActiveIndex(index)}
-                  onKeyDown={(event) => handleTabKeyDown(event, index)}
-                >
-                  <Icon aria-hidden="true" />
-                  <span className="truncate">{label}</span>
-                </button>
-              )
-            })}
-          </div>
-        }
-      >
-        {/* Only the open tab mounts its frame, so the homepage loads a single
-            block. From 640px wide it renders the block at 1280px and scales it
-            to fit, in a 16:9 box: the first fold at 1280 by 720, whole, at
-            every width. A phone shows the block's own phone layout. */}
-        <div
-          role="tabpanel"
-          id={`${id}-panel`}
-          aria-labelledby={`${id}-tab-${activeBlock.name}`}
-          className="h-[32rem] w-full @[40rem]/browser-window:aspect-video @[40rem]/browser-window:h-auto"
-        >
-          <FramePreview
-            key={`${activeBlock.name}-${frameKey}`}
-            src={`/view/${SITE_BLOCK_STYLE}/${activeBlock.name}`}
-            title={`${activeBlock.label} block`}
-            minWidth={1280}
-            scaleFrom={640}
-            placeholder={
-              <BlockSkeleton
-                layout={getBlockLayout(declaration?.categories ?? [])}
-              />
-            }
-          />
-        </div>
-      </BrowserWindow>
+        panelClassName="h-[32rem] w-full @[40rem]/browser-window:aspect-video @[40rem]/browser-window:h-auto"
+      />
       <Link
         href={`/blocks/${activeBlock.name}`}
         className="flex items-center gap-1.5 self-center rounded-sm text-[13px] text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring [&_svg]:size-3.5"

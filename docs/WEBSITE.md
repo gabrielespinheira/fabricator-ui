@@ -51,7 +51,7 @@ Run `bun run --cwd apps/web blocks:check` for the browser and accessibility chec
 
 A new block needs its declaration, a category in `BLOCK_CATEGORIES`, a summary and its pictures. Import both pictures in `_lib/block-previews.ts` so the image cache uses a new URL when a picture changes.
 
-The homepage hero links to `/blocks` and shows six blocks in the tab row inside one `BrowserWindow` (`_components/blocks-showcase.tsx`). Switching tabs updates the address and the link to the block's page. Only the selected tab mounts its frame, a 16:9 box that renders the block at 1280px and scales it to the column, so the first fold at 1280 by 720 shows whole; phones show the block's phone layout.
+The homepage hero links to `/blocks` and shows six blocks in the tab row inside one `BrowserWindow` (`_components/blocks-showcase.tsx`, through `BlockBrowser` in `components/fabricator/block-browser.tsx`, which the Get started page's Look step shares). Switching tabs updates the address and the link to the block's page. Only the selected tab mounts its frame, a 16:9 box that renders the block at 1280px and scales it to the column, so the first fold at 1280 by 720 shows whole; phones show the block's phone layout.
 
 ## Settings
 

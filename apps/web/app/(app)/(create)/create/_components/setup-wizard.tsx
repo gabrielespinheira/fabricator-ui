@@ -40,6 +40,7 @@ import {
 
 import { ExtrasControls } from "./extras-step"
 import { InstallStep, SetupSummary } from "./install-step"
+import { LookPreview } from "./look-preview"
 import { LookControls } from "./look-step"
 import { PlanList } from "./plan-list"
 import { ProjectControls } from "./project-step"
@@ -81,6 +82,7 @@ function useSettingsFromShareLink() {
       radius: look.radius,
       motion: look.motion,
       density: look.density,
+      loader: look.loader,
     })
     for (const name of SETTINGS_PARAMS) url.searchParams.delete(name)
     window.history.replaceState(window.history.state, "", url)
@@ -109,11 +111,22 @@ function useOldShareLink() {
   }, [setChoices])
 }
 
-function describePreview({ hasWeb, hasDesktop, hasMobile }: ShellProject) {
-  if (hasMobile && !hasWeb && !hasDesktop) {
+function isMobileOnly({ hasWeb, hasDesktop, hasMobile }: ShellProject) {
+  return hasMobile && !hasWeb && !hasDesktop
+}
+
+function describeLookPreview(project: ShellProject) {
+  if (isMobileOnly(project)) {
+    return "Web blocks at a phone's width. Your React Native app takes the same look."
+  }
+  return "Blocks from Fabricator UI, drawn with your look as you change it."
+}
+
+function describeShellPreview(project: ShellProject) {
+  if (isMobileOnly(project)) {
     return "Drawn with the web shell at a phone's size. Your app follows the same options, in React Native."
   }
-  return "Sample content. Your project starts with an empty Home."
+  return "Sample pages from the Finance and Settings blocks. Your project starts with an empty Home."
 }
 
 export function SetupWizard({
@@ -146,6 +159,7 @@ export function SetupWizard({
       radius: settings.radius,
       motion: settings.motion,
       density: settings.density,
+      loader: settings.loader,
     },
   }
 
@@ -189,7 +203,8 @@ export function SetupWizard({
   const installError = mobileError ?? (isPackage ? packageError : null)
   const isInvalid = Boolean(installError)
   const showDistribution = isPackage || enablePackage
-  const hasShellPreview = step === "look" || step === "shell"
+  const hasLookPreview = step === "look"
+  const hasShellPreview = step === "shell"
   const hasProjectPreview = step === "project" || step === "extras"
   const projectSetup = toProjectSetup(setup)
   const buttonImport = isPackage
@@ -319,7 +334,7 @@ export function SetupWizard({
               aria-label="Preview"
               className={cn(
                 "flex flex-col gap-3",
-                !hasShellPreview && "hidden"
+                !hasLookPreview && !hasShellPreview && "hidden"
               )}
             >
               {canSwitchPreview ? (
@@ -347,10 +362,17 @@ export function SetupWizard({
                 </div>
               ) : null}
               <p className="text-[13px] text-muted-foreground">
-                {isTauriMobile && size === "phone"
-                  ? "The Vite App Shell in a phone-sized WebView."
-                  : describePreview(project)}
+                {hasLookPreview
+                  ? describeLookPreview(project)
+                  : isTauriMobile && size === "phone"
+                    ? "The Vite App Shell in a phone-sized WebView."
+                    : describeShellPreview(project)}
               </p>
+              {/* Mounted on its step only, so no other step keeps a block
+                  running. The shell's frame stays, to keep its state. */}
+              {hasLookPreview ? (
+                <LookPreview base={choices.base} isPhone={size === "phone"} />
+              ) : null}
               <ShellPreviewFrame
                 options={previewOptions}
                 size={size}
@@ -359,6 +381,7 @@ export function SetupWizard({
                   project.hasMobile && !isTauriMobile && size === "phone"
                 }
                 windowTitle={projectName(projectSetup)}
+                className={hasShellPreview ? undefined : "hidden"}
               />
             </section>
           ) : null}

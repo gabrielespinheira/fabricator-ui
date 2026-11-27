@@ -38,7 +38,7 @@ Get started exposes package setup in development. Enable it for a production bui
 
 - `config.registries` writes `@fabricator` into the project's `components.json`; `config.style` is always a valid upstream id (contract 2).
 - Defaults to Fabricator Icons. `iconLibrary=<name>` or a shadcn preset code opts out (`usesFabricatorIcons`); `config.iconLibrary` stays a real shadcn library either way.
-- Takes a look (`registry/fabricator/look.ts`): `surface`, the six colour roles as `<hue>_<chroma>`, `shape=pill`, `motion=<speed>`, `density=<compact|spacious>`, layered on the Fabricator palette.
+- Takes a look (`registry/fabricator/look.ts`): `surface`, the six colour roles as `<hue>_<chroma>`, `shape=pill`, `motion=<speed>`, `density=<compact|spacious>`, `loader=blueprint` (`registry/fabricator/loader.ts`), layered on the Fabricator palette.
 
 ## `/init/app-shell`
 
@@ -56,7 +56,8 @@ The Get started page (`app/(app)/(create)/create/`): project, look, App Shell an
 
 - Choices are URL state (`setupParsers` in `(create)/lib/setup.ts`, `playgroundParsers` for the shell); the look lives in the site settings.
 - `toProjectSetup` turns them into a `@fabricator-ui/setup` setup: `toCliArgs` writes the command, `planSetup` the steps, `getAgentPrompt` the prompt for an AI agent to finish setup. A new manual step after the command goes in the prompt too.
-- The shell preview is an iframe (`/create/preview`, `(create)/lib/shell-preview.ts`) drawn at the size the project leads with (`getPreviewSize`) and scaled into the column (`getPreviewLayout`).
+- The Look step previews real blocks (`create/_components/look-preview.tsx`) through `BlockBrowser`, the homepage showcase's window, at `/view/<base>-fabricator/<block>` for the project's base. The open block is URL state (`block`). The blocks follow the site settings the step changes.
+- The shell preview is an iframe (`/create/preview`, `(create)/lib/shell-preview.ts`) drawn at the size the project leads with (`getPreviewSize`) and scaled into the column (`getPreviewLayout`); a browser draws at 1280px unless the column is phone-wide. Its Overview and Settings pages are `FinanceOverview` and `SettingsGeneral` from the compiled blocks (`create/preview/_components/preview-pages.tsx`); the other pages are placeholders.
 - What the Shell step offers follows the project: `getHiddenShellOptions`, `getShellOptionNotes`.
 - `packages/cli/src/setup/flags.test.ts` parses every written command with the real program, so the site and the flags can't drift.
 

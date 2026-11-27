@@ -6,7 +6,7 @@
 /* Safari's tab bar: a recessed strip of equal tabs under the toolbar. The open
    tab takes the toolbar's colour so it reads as part of it; hairlines split
    the others and give way beside the open or hovered tab. */
-.homepage-browser-tabs {
+.block-browser-tabs {
   display: flex;
   height: var(--density-32);
   padding: var(--density-4) var(--density-6);

@@ -10,6 +10,7 @@ import {
 } from "nuqs/server"
 import { z } from "zod"
 
+import { getFrameScale } from "@/lib/frame-preview-model"
 import {
   playgroundParsers,
   type PlaygroundOptions,
@@ -52,6 +53,10 @@ const WINDOW_MARGIN = 12
 // Narrower than this, a desktop app's window draws as it never does in practice.
 const WINDOW_MIN_WIDTH = 1100
 
+// A browser draws the shell at a desktop's width, as the block previews do,
+// unless the stage itself is phone-wide.
+const BROWSER_SCALE = { minWidth: 1280, scaleFrom: 640 }
+
 // A 390 by 844 phone, with its bezel.
 const PHONE_FRAME = { width: 410, height: 864 }
 
@@ -63,7 +68,13 @@ export function getPreviewLayout(
   size: PreviewSize,
   stage: Size
 ): { frame: Size; scale: number } {
-  if (size === "browser") return { frame: stage, scale: 1 }
+  if (size === "browser") {
+    const scale = getFrameScale(stage.width, BROWSER_SCALE)
+    return {
+      frame: { width: stage.width / scale, height: stage.height / scale },
+      scale,
+    }
+  }
   if (size === "phone") {
     const frame = PHONE_FRAME
     if (stage.width === 0) return { frame, scale: 1 }

@@ -9,12 +9,8 @@ import {
   SHELL_PREVIEW_READY,
   shellPreviewParsers,
 } from "@/app/(app)/(create)/lib/shell-preview"
-import {
-  PlaceholderPage,
-  ShellDemo,
-} from "@/app/(view)/app-shell/_components/shell-demo"
+import { ShellDemo } from "@/app/(view)/app-shell/_components/shell-demo"
 
-import { DashboardOverview } from "./dashboard-panels"
 import {
   getPreviewNavGroups,
   PREVIEW_DOCUMENTS,
@@ -22,6 +18,7 @@ import {
   PREVIEW_USER,
   PREVIEW_WORKSPACES,
 } from "./preview-data"
+import { PreviewPage } from "./preview-pages"
 
 /**
  * Stands in for a React Native app's tab bar, whose styles the web's doesn't have.
@@ -77,18 +74,11 @@ export function ShellPreviewApp() {
       groups={groups}
       documents={PREVIEW_DOCUMENTS}
       initialTabs={PREVIEW_TABS}
-      // The dashboard is what this preview shows; the panel opens on demand.
+      // The page is what this preview shows; the panel opens on demand.
       isPanelOpenByDefault={false}
-      renderPage={({ isHome, title }) =>
-        isHome ? (
-          <DashboardOverview />
-        ) : (
-          <PlaceholderPage title={title}>
-            A page of your own goes here. Press F6 to move between the sidebar,
-            the page and the panel.
-          </PlaceholderPage>
-        )
-      }
+      renderPage={({ pathname, title }) => (
+        <PreviewPage pathname={pathname} title={title} />
+      )}
     />
   )
 }

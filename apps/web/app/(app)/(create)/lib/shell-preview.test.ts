@@ -96,9 +96,22 @@ describe("the messages between the page and the preview", () => {
 describe("getPreviewLayout", () => {
   const stage = { width: 825, height: 625 }
 
-  it("fills the stage in a browser, at full size", () => {
-    expect(getPreviewLayout("browser", stage)).toEqual({
-      frame: stage,
+  it("draws a browser at a desktop's width, scaled to fill the stage", () => {
+    const { frame, scale } = getPreviewLayout("browser", stage)
+    expect(frame.width).toBe(1280)
+    expect(frame.width * scale).toBeCloseTo(stage.width)
+    expect(frame.height * scale).toBeCloseTo(stage.height)
+  })
+
+  it("fills a wide stage with a browser at full size", () => {
+    const wide = { width: 1500, height: 900 }
+    expect(getPreviewLayout("browser", wide)).toEqual({ frame: wide, scale: 1 })
+  })
+
+  it("keeps a phone-wide stage's own width, so a browser shows the phone layout", () => {
+    const narrow = { width: 390, height: 700 }
+    expect(getPreviewLayout("browser", narrow)).toEqual({
+      frame: narrow,
       scale: 1,
     })
   })
