@@ -96,6 +96,9 @@ export default async function Page(props: {
         page.url
       )
   const raw = replaceComponentsList(await page.data.getText("raw"))
+  // On /docs the overview above holds the page title and lead, so the
+  // introduction reads as one more section of the page.
+  const isOverview = page.url === "/docs"
 
   return (
     <div
@@ -104,7 +107,12 @@ export default async function Page(props: {
       className="flex items-start"
     >
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="mx-auto flex w-full min-w-0 flex-1 flex-col gap-8 pb-16 text-foreground">
+        <div
+          className={cn(
+            "mx-auto flex w-full min-w-0 flex-1 flex-col gap-8 pb-16 text-foreground",
+            isOverview && "gap-3"
+          )}
+        >
           <header className="flex flex-col gap-2">
             {changelogDate && (
               <time
@@ -114,15 +122,25 @@ export default async function Page(props: {
                 {formatChangelogDate(changelogDate)}
               </time>
             )}
-            <div className="flex items-start justify-between gap-4">
-              {page.url === "/docs" ? (
-                <h2 className="text-2xl font-semibold tracking-tight">
+            <div
+              className={cn(
+                "flex items-start justify-between gap-4",
+                isOverview && "items-center"
+              )}
+            >
+              {isOverview ? (
+                <h2 className="text-base font-semibold tracking-tight">
                   {doc.title}
                 </h2>
               ) : (
                 <AppShellPageTitle>{doc.title}</AppShellPageTitle>
               )}
-              <div className="docs-nav flex shrink-0 items-center gap-1 pt-1">
+              <div
+                className={cn(
+                  "docs-nav flex shrink-0 items-center gap-1 pt-1",
+                  isOverview && "pt-0"
+                )}
+              >
                 <div className="hidden sm:block">
                   <DocsCopyPage page={raw} url={absoluteUrl(page.url)} />
                 </div>
@@ -143,7 +161,7 @@ export default async function Page(props: {
                 )}
               </div>
             </div>
-            {doc.description && (
+            {doc.description && !isOverview && (
               <p className="max-w-[85%] text-[14px] text-balance text-muted-foreground">
                 {doc.description}
               </p>

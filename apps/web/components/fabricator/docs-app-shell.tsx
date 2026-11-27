@@ -14,6 +14,7 @@ import {
   getDocsExplorerGroups,
   type ExplorerPage,
 } from "@/lib/docs-explorer"
+import { getDocsOverviewGroups, getLatestRelease } from "@/lib/docs-overview"
 import { isWideDocsPage } from "@/lib/docs-wide-pages"
 import { EXPLORER_ICONS } from "@/lib/explorer-icons"
 import { getCurrentBase } from "@/lib/page-tree"
@@ -21,24 +22,13 @@ import { getReleaseBadgeFromLabel } from "@/lib/release-badges"
 import { AppWindowIcon, HomeIcon } from "@/lib/site-icons"
 import type { source } from "@/lib/source"
 import { CommandMenu } from "@/components/command-menu"
+import { DocsOverview } from "@/components/fabricator/docs-overview"
 import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
-import {
-  AppShellContent,
-  AppShellPageTitle,
-} from "@/styles/base-fabricator/ui/app-shell"
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemTitle,
-} from "@/styles/base-fabricator/ui/item"
+import { AppShellContent } from "@/styles/base-fabricator/ui/app-shell"
 import { OptionShell } from "@/app/(view)/app-shell/_components/option-shell"
-import { SetupCards } from "@/app/(view)/app-shell/_components/options-card"
 import {
-  DEFAULT_DOCS_EXPLORER_OPTIONS,
   explorerParsers,
   getDocsExplorerOptions,
-  getHiddenDocsExplorerOptions,
 } from "@/app/(view)/desktop/_lib/explorer-options"
 
 const COMPONENT_GROUP_ICONS = new Map([
@@ -64,7 +54,7 @@ export function DocsAppShell({
   const searchParams = useSearchParams()
   const getHref = (href: string) =>
     searchParams.size ? `${href}?${searchParams}` : href
-  const [urlOptions, setOptions] = useQueryStates(explorerParsers)
+  const [urlOptions] = useQueryStates(explorerParsers)
   const options = getDocsExplorerOptions(urlOptions)
   const groups = React.useMemo(
     () =>
@@ -83,11 +73,15 @@ export function DocsAppShell({
   )
   const componentGroups =
     groups.find((group) => group.id === "components")?.items ?? []
+  const componentPageCount = componentGroups.reduce(
+    (count, group) =>
+      count + (group.href ? 1 : 0) + (group.children?.length ?? 0),
+    0
+  )
   const title =
     pathname === "/docs"
       ? "Overview"
       : (pages.find((page) => page.url === pathname)?.title ?? "Documentation")
-  const hidden = React.useMemo(() => getHiddenDocsExplorerOptions(), [])
   return (
     <div data-slot="docs-shell" className="w-full">
       <OptionShell
@@ -137,14 +131,7 @@ export function DocsAppShell({
         status={
           <>
             <span>Website · Documentation</span>
-            <span>
-              {componentGroups.reduce(
-                (count, group) =>
-                  count + (group.href ? 1 : 0) + (group.children?.length ?? 0),
-                0
-              )}{" "}
-              component pages
-            </span>
+            <span>{componentPageCount} component pages</span>
             <div className="ms-auto">
               <SiteSettingsMenu size="icon-sm" />
             </div>
@@ -155,47 +142,12 @@ export function DocsAppShell({
           size={isWideDocsPage(pathname) ? "lg" : options.contentSize}
         >
           {pathname === "/docs" && (
-            <div className="flex flex-col gap-6 pb-10">
-              <div className="flex flex-col gap-2">
-                <AppShellPageTitle>Fabricator UI</AppShellPageTitle>
-                <p className="text-muted-foreground">
-                  Explore the components, their variants and properties. Adjust
-                  the settings to try the same design across web, desktop and
-                  mobile.
-                </p>
-              </div>
-              <SetupCards
-                options={options}
-                setOptions={setOptions}
-                defaults={DEFAULT_DOCS_EXPLORER_OPTIONS}
-                hidden={hidden}
-              />
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {componentGroups.map((group) => (
-                  <Item
-                    key={group.id}
-                    variant="muted"
-                    render={
-                      <Link
-                        href={getHref(
-                          group.href ?? group.children?.[0]?.href ?? "/docs"
-                        )}
-                      />
-                    }
-                  >
-                    <ItemContent>
-                      <ItemTitle>{group.label}</ItemTitle>
-                      <ItemDescription>
-                        {group.children?.length}{" "}
-                        {group.id === APP_SHELL_NAV_ID
-                          ? "subpages"
-                          : "components"}
-                      </ItemDescription>
-                    </ItemContent>
-                  </Item>
-                ))}
-              </div>
-            </div>
+            <DocsOverview
+              groups={getDocsOverviewGroups(componentGroups)}
+              pageCount={componentPageCount}
+              latestRelease={getLatestRelease(pages)}
+              getHref={getHref}
+            />
           )}
           {children}
         </AppShellContent>

@@ -1,76 +1,64 @@
 ---
 title: Introduction
-description: Fabricator UI is the foundation for your design system. Accessible components, three primitive bases, its own design language. Open Source. Open Code.
+description: Fabricator UI is an open-source library of accessible components for React, React Native and desktop. The CLI copies their source into your project, so you own every file.
 ---
 
-**Fabricator UI is a component registry you copy into your project, not a package you install.**
+Fabricator UI is a registry of components, blocks and themes. The CLI copies each component's source into your project, where you read it, change it and ship it like the rest of your code.
 
-Every component is delivered as source code through the Fabricator CLI, so you own it, read it and change it like any other file in your app. Fabricator UI gives you a complete set of accessible components, extra components on top of that set and, over time, its own design language.
+## Open code
 
-Fabricator UI is built around the following principles:
-
-- **Open Code:** You get the component source, not a compiled package.
-- **Drop-in Compatible:** Works in existing projects. Same `components.json`, same tokens, same component APIs.
-- **Three Bases:** Every component is available for Base UI, Radix and React Aria.
-- **React Native:** Every component also has a [React Native](/docs/installation/react-native) version under the same name, with the same variants and tokens.
-- **Styles:** Components compile into the visual style you pick.
-- **Registry:** Everything is distributed through the `@fabricator` registry.
-- **AI-Ready:** Plain source and consistent APIs that LLMs can read and extend.
-
-## Open Code
-
-Fabricator UI hands you the actual component code. You have full control to customize and extend the components to your needs:
-
-- **Full Transparency:** You see exactly how each component is built.
-- **Easy Customization:** Modify any part of a component to fit your design and functionality requirements.
-- **No Wrappers:** To change a button, you edit the button. You do not override styles or wrap a library component.
+Every component arrives as a plain TypeScript file styled with Tailwind. To change a button, you edit the button: there is no wrapper to override and no compiled package to work around.
 
 <Accordion type="single" collapsible>
   <AccordionItem value="faq-1" className="border-none">
     <AccordionTrigger>How do I get updates if I own the code?</AccordionTrigger>
     <AccordionContent className="flex flex-col gap-4">
       <p>
-        Behavior lives in the primitives your components are built on, such as
-        @base-ui/react, radix-ui or react-aria-components. You get fixes there
+        Behaviour lives in the primitives your components are built on, such as
+        @base-ui/react, radix-ui or react-aria-components. You get their fixes
         by updating your dependencies.
       </p>
       <p>
         For the component layer itself, run{" "}
-        <code>npx fabricator-ui@latest diff</code> to compare your local files
-        with the latest version in the registry.
+        <code>npx fabricator-ui@latest diff</code> to compare your files with
+        the latest version in the registry.
       </p>
     </AccordionContent>
   </AccordionItem>
 </Accordion>
 
-## Works with existing shadcn/ui projects
+## Three bases, one look
 
-- **Superset:** A Fabricator component that replaces a shadcn/ui component keeps its name, file path, exports, props, variants and `data-slot` attributes. It only adds.
-- **Same tokens:** Components use the same CSS variables (`--background`, `--primary`, `--radius`, …), so your theme carries over.
-- **Same tooling:** Run `npx fabricator-ui@latest init` to add the `@fabricator` registry next to the components you already have. See [Registry](/docs/registry).
+Each web component is written against a primitive library, called a base. Pick one when you create a project and the CLI installs the matching source.
 
-## Three Bases
+| Base       | Built on                | Id      |
+| ---------- | ----------------------- | ------- |
+| Base UI    | `@base-ui/react`        | `base`  |
+| Radix UI   | `radix-ui`              | `radix` |
+| React Aria | `react-aria-components` | `aria`  |
 
-Each component is written against a primitive library, called a base:
+Base UI is the default. A component looks and behaves the same in every base, so the choice is about the primitives you already know.
 
-- **Base UI** (`base`): the default.
-- **Radix UI** (`radix`).
-- **React Aria** (`aria`).
+## Web, mobile and desktop
 
-The same component looks and behaves the same in every base. Pick the base when you create a project, and the CLI installs the matching source.
+Every component has a [React Native](/docs/installation/react-native) version under the same name, with the same variants and tokens. On the desktop, Electron and Tauri load the same React app as the web, and the [App Shell](/docs/components/base/app-shell) lays out the window like a native app, with the sidebar beside the traffic lights. See [install methods](/docs/installation/install-methods) for each platform.
 
-## Style
+## Works with shadcn/ui
 
-Every component ships in one visual style: the Fabricator design you see in these docs. Components are written with semantic classes and compiled into that style at build time, so the code you install is plain Tailwind. Colours, radius and fonts come from your theme's CSS variables.
+Fabricator UI keeps the shadcn/ui API, so it drops into an existing project:
 
-## Registry
+- A component that replaces a shadcn/ui component keeps its name, file path, exports, props, variants and `data-slot` attributes, and only adds to them.
+- Components read the same CSS variables (`--background`, `--primary`, `--radius`, …), so your theme carries over.
+- `npx fabricator-ui@latest init` adds the `@fabricator` [registry](/docs/registry) next to the components you already have.
 
-Fabricator UI is distributed as a [registry](/docs/registry). It serves components, blocks, themes and an init payload, compiled in the Fabricator style for your base.
+## One style
 
-## AI-Ready
+Components ship in the Fabricator style, the look you see in these docs. They are written with semantic classes and compiled into that style at build time, so the code you install is plain Tailwind. Colours, radius and fonts come from your theme's CSS variables.
 
-Open code and a consistent API make components easy for AI tools to read, understand and generate. Every docs page is also available as Markdown (append `.md` to the URL), the site publishes an [llms.txt](/llms.txt), and the [Fabricator MCP server](/docs/mcp) can browse and install from `@fabricator`.
+## Ready for AI tools
+
+Plain source and consistent APIs are easy for AI tools to read and extend. Every docs page has a Markdown version (add `.md` to its URL), the site publishes an [llms.txt](/llms.txt), the [MCP server](/docs/mcp) browses and installs from `@fabricator`, and the [agent skill](/docs/skills) teaches your agent to design with the library.
 
 ## Acknowledgements
 
-Fabricator UI is built on [shadcn/ui](https://github.com/shadcn-ui/ui) by [shadcn](https://github.com/shadcn), released under the MIT license. The original copyright notice is kept in the repository.
+Fabricator UI is built on [shadcn/ui](https://github.com/shadcn-ui/ui) by [shadcn](https://github.com/shadcn), released under the MIT license. The repository keeps the original copyright notice.

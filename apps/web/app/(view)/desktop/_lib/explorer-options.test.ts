@@ -6,7 +6,6 @@ import {
   DEFAULT_EXPLORER_OPTIONS,
   explorerParsers,
   getDocsExplorerOptions,
-  getHiddenDocsExplorerOptions,
   getHiddenExplorerOptions,
 } from "./explorer-options"
 
@@ -23,10 +22,6 @@ describe("explorer options", () => {
       panel: false,
       contentSize: "lg",
     })
-    const hidden = getHiddenDocsExplorerOptions()
-    expect(hidden.has("tabs")).toBe(true)
-    expect(hidden.has("panel")).toBe(true)
-    expect(hidden.has("panelMobile")).toBe(true)
     expect(DEFAULT_EXPLORER_OPTIONS).toMatchObject({
       tabs: "main",
       panel: true,

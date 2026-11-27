@@ -6,7 +6,7 @@ The full documentation is also available as a single file: [llms-full.txt](https
 
 ## Overview
 
-- [Introduction](https://fabricator-ui.vercel.app/docs.md): Fabricator UI is the foundation for your design system. Accessible components, three primitive bases, its own design language. Open Source. Open Code.
+- [Introduction](https://fabricator-ui.vercel.app/docs.md): Fabricator UI is an open-source library of accessible components for React, React Native and desktop. The CLI copies their source into your project, so you own every file.
 - [components.json](https://fabricator-ui.vercel.app/docs/components-json.md): Configuration for your project.
 - [Package Imports](https://fabricator-ui.vercel.app/docs/package-imports.md): Configure Fabricator UI with package.json imports.
 - [Monorepo](https://fabricator-ui.vercel.app/docs/monorepo.md): Using Fabricator UI components and the CLI in a monorepo.

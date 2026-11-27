@@ -359,7 +359,7 @@ function OptionsCard({
 }
 
 /** The website's settings, and what sets a project up with them. */
-function SettingsCard() {
+export function SettingsCard() {
   const settings = useSiteSettings()
   const { packageManager } = usePackageManager()
   return (
@@ -367,7 +367,8 @@ function SettingsCard() {
       <CardHeader>
         <CardTitle>Settings</CardTitle>
         <CardDescription>
-          The same settings as the website; everything here follows them.
+          Theme, icons, shape, motion and colour. Every page on this site
+          follows them.
         </CardDescription>
       </CardHeader>
       <CardContent className="@container">
