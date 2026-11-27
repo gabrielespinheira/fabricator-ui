@@ -41,7 +41,6 @@ export const UI_COMPONENTS = [
   "kbd",
   "label",
   "marker",
-  "menubar",
   "message",
   "message-scroller",
   "native-select",

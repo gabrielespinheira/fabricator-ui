@@ -1,50 +1,34 @@
 "use client"
 
 import * as React from "react"
-import { SearchIcon, XIcon } from "lucide-react"
 
-import { Field, FieldLabel } from "@/styles/aria-nova/ui/field"
 import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/styles/aria-nova/ui/input-group"
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/styles/aria-fabricator/ui/field"
+import { InputSearch } from "@/styles/aria-fabricator/ui/input-group"
 
-export function InputSearch() {
+const COMPONENTS = ["Button", "Checkbox", "Input", "Select", "Slider", "Switch"]
+
+export function InputSearchField() {
   const [query, setQuery] = React.useState("")
-  const inputRef = React.useRef<HTMLInputElement>(null)
+  const matches = COMPONENTS.filter((name) =>
+    name.toLowerCase().includes(query.trim().toLowerCase())
+  )
 
   return (
     <Field>
       <FieldLabel htmlFor="input-search">Search</FieldLabel>
-      <InputGroup>
-        <InputGroupInput
-          ref={inputRef}
-          id="input-search"
-          type="search"
-          placeholder="Search components..."
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-        <InputGroupAddon>
-          <SearchIcon />
-        </InputGroupAddon>
-        {query && (
-          <InputGroupAddon align="inline-end">
-            <InputGroupButton
-              size="icon-xs"
-              aria-label="Clear search"
-              onClick={() => {
-                setQuery("")
-                inputRef.current?.focus()
-              }}
-            >
-              <XIcon />
-            </InputGroupButton>
-          </InputGroupAddon>
-        )}
-      </InputGroup>
+      <InputSearch
+        id="input-search"
+        placeholder="Search components..."
+        value={query}
+        onValueChange={setQuery}
+      />
+      <FieldDescription aria-live="polite">
+        {matches.length === 0 ? "No components match." : matches.join(", ")}
+      </FieldDescription>
     </Field>
   )
 }

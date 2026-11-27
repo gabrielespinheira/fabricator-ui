@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import { SearchIcon } from "@/lib/site-icons"
 import { Checkbox } from "@/styles/base-fabricator/ui/checkbox"
 import {
   Field,
@@ -14,9 +13,8 @@ import {
 } from "@/styles/base-fabricator/ui/field"
 import { Input } from "@/styles/base-fabricator/ui/input"
 import {
-  InputGroup,
   InputGroupAddon,
-  InputGroupInput,
+  InputSearch,
 } from "@/styles/base-fabricator/ui/input-group"
 import {
   InputOTP,
@@ -30,7 +28,6 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@/styles/base-fabricator/ui/radio-group"
-import { Search } from "@/styles/base-fabricator/ui/search"
 import { Slider } from "@/styles/base-fabricator/ui/slider"
 import { Switch } from "@/styles/base-fabricator/ui/switch"
 
@@ -229,24 +226,20 @@ export function InputOTPDemo() {
 }
 
 export function SearchDemo() {
+  const [query, setQuery] = React.useState("")
   return (
-    <InputGroup className="w-[280px]">
-      <InputGroupAddon>
-        <SearchIcon />
-      </InputGroupAddon>
-      <InputGroupInput placeholder="Search components" />
-      <InputGroupAddon align="inline-end">
-        <Kbd>⌘K</Kbd>
-      </InputGroupAddon>
-    </InputGroup>
-  )
-}
-
-/** Search: a round button that opens into the field. */
-export function SearchFieldDemo() {
-  return (
-    <div className="flex w-[280px] justify-center">
-      <Search size="lg" width="280px" placeholder="Search components" />
-    </div>
+    <InputSearch
+      className="w-[280px]"
+      aria-label="Search components"
+      placeholder="Search components"
+      value={query}
+      onValueChange={setQuery}
+    >
+      {query === "" && (
+        <InputGroupAddon align="inline-end">
+          <Kbd>⌘K</Kbd>
+        </InputGroupAddon>
+      )}
+    </InputSearch>
   )
 }

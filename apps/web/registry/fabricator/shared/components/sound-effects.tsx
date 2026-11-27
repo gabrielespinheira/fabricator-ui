@@ -203,8 +203,6 @@ const POPUP_SLOTS = [
   "dropdown-menu-sub-content",
   "context-menu-content",
   "context-menu-sub-content",
-  "menubar-content",
-  "menubar-sub-content",
   "select-content",
   "combobox-content",
   "hover-card-content",

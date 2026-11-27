@@ -44,10 +44,15 @@
     @apply text-(length:--density-text-12) text-muted-foreground @max-2xl/kanban-toolbar:sr-only;
   }
 
-  /* The corners of the controls beside it. Where it is a button it takes the
-     whole line when it opens. */
+  /* An input like any other, as wide as the controls need beside it. Where
+     there is no room it is a button, and the field takes the whole line when
+     it opens. */
   .cn-kanban-search {
-    @apply rounded-lg not-data-open:bg-transparent not-data-open:ring-0 [&_[data-slot=search-trigger]]:rounded-lg not-data-open:[&_[data-slot=search-trigger]]:text-muted-foreground not-data-open:[&_[data-slot=search-trigger]]:hover:text-foreground in-data-searching:@max-2xl/kanban-toolbar:w-full!;
+    @apply w-50 min-w-0 in-data-searching:@max-2xl/kanban-toolbar:w-full;
+  }
+
+  .cn-kanban-search-trigger {
+    @apply text-muted-foreground hover:text-foreground;
   }
 
   /* Reads as its current choice, so the toolbar also says how the board is

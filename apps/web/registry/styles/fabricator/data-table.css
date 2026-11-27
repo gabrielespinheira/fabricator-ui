@@ -11,8 +11,10 @@
     @apply gap-(--density-8);
   }
 
+  /* The search keeps the width it had as a toolbar field (20rem) and gives
+     way when the toolbar is narrower. */
   .cn-data-table-search {
-    @apply min-w-0;
+    @apply w-80 max-w-full min-w-0;
   }
 
   /* Frame: a card (surface 3 on the card shadow, rounded) or nothing.

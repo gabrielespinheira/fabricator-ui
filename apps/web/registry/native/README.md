@@ -22,7 +22,7 @@ Read, in order: `registry/fabricator/base/ui/<name>.tsx` (or `registry/fabricato
   - A part whose text colour follows its state adds `eases`: `<TextStyle eases className={…}>`. The colour then moves on the feedback timing, as the website's `transition-colors` does. Leave it off text that never changes: each eased `Text` is an animated view.
 - **Parent state:** `group-*`, `has-*`, `in-data-*` and `peer-*` don't exist. Pass state through React context (see `CardContext`) and set a `data-*` prop on each part.
 - **Composition:** `render` and `asChild` both work: `renderSlot` for a plain part (see `Button`), `resolveRender` for a primitive with `asChild` (see `DialogTrigger`).
-- **Primitives:** `@rn-primitives/*` for overlays and anything with real behaviour (dialog, alert-dialog, dropdown-menu, context-menu, popover, hover-card, tooltip, select, menubar, navigation-menu, accordion, collapsible, tabs). Plain views for the rest. Hold state with `useControllableState` from `@rn-primitives/hooks`.
+- **Primitives:** `@rn-primitives/*` for overlays and anything with real behaviour (dialog, alert-dialog, dropdown-menu, context-menu, popover, hover-card, tooltip, select, navigation-menu, accordion, collapsible, tabs). Plain views for the rest. Hold state with `useControllableState` from `@rn-primitives/hooks`.
 - **Pure logic** (filtering, positions, date grids) goes in `lib/*.ts` with no React Native imports and a colocated `*.test.ts`, written first. `apps/web`'s Vitest runs them.
 
 ## Placeholders and style maps

@@ -868,6 +868,16 @@ export const Components: Record<string, any> = {
       ) || "bot-face-states"
     return { default: mod.default || mod[exportName] }
   }),
+  "bottom-nav-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/bottom-nav-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bottom-nav-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
   "breadcrumb-basic": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/breadcrumb-basic"
@@ -3136,6 +3146,26 @@ export const Components: Record<string, any> = {
       ) || "heat-calendar-weeks"
     return { default: mod.default || mod[exportName] }
   }),
+  "hold-button-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/hold-button-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "hold-button-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "hold-button-variants": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/hold-button-variants"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "hold-button-variants"
+    return { default: mod.default || mod[exportName] }
+  }),
   "hover-card-demo": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/hover-card-demo"
@@ -4038,56 +4068,6 @@ export const Components: Record<string, any> = {
       ) || "marker-variants"
     return { default: mod.default || mod[exportName] }
   }),
-  "menubar-checkbox": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/menubar-checkbox"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "menubar-checkbox"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "menubar-demo": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/menubar-demo"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "menubar-demo"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "menubar-icons": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/menubar-icons"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "menubar-icons"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "menubar-radio": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/menubar-radio"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "menubar-radio"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "menubar-submenu": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/menubar-submenu"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "menubar-submenu"
-    return { default: mod.default || mod[exportName] }
-  }),
   "message-actions": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/message-actions"
@@ -4506,6 +4486,16 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "pagination-simple"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "password-strength-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/password-strength-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "password-strength-demo"
     return { default: mod.default || mod[exportName] }
   }),
   "pie-chart-demo": React.lazy(async () => {
@@ -5158,54 +5148,14 @@ export const Components: Record<string, any> = {
       ) || "scroll-fade-size"
     return { default: mod.default || mod[exportName] }
   }),
-  "search-always-open": React.lazy(async () => {
+  "segmented-meter-demo": React.lazy(async () => {
     const mod = await import(
-      "@/examples/__styles__/base-fabricator/search-always-open"
+      "@/examples/__styles__/base-fabricator/segmented-meter-demo"
     )
     const exportName =
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "search-always-open"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "search-controlled": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/search-controlled"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "search-controlled"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "search-demo": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/search-demo"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "search-demo"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "search-outline": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/search-outline"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "search-outline"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "search-sizes": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/search-sizes"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "search-sizes"
+      ) || "segmented-meter-demo"
     return { default: mod.default || mod[exportName] }
   }),
   "select-align-item": React.lazy(async () => {
@@ -5684,6 +5634,26 @@ export const Components: Record<string, any> = {
       ) || "skeleton-text"
     return { default: mod.default || mod[exportName] }
   }),
+  "slide-to-confirm-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/slide-to-confirm-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "slide-to-confirm-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "slide-to-confirm-disabled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/slide-to-confirm-disabled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "slide-to-confirm-disabled"
+    return { default: mod.default || mod[exportName] }
+  }),
   "slider-controlled": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/slider-controlled"
@@ -5862,6 +5832,26 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "status-bar-maintenance"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "status-island-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/status-island-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "status-island-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "stepper-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/stepper-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "stepper-demo"
     return { default: mod.default || mod[exportName] }
   }),
   "switch-choice-card": React.lazy(async () => {

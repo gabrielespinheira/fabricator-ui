@@ -72,20 +72,20 @@ import { Input } from "@/components/ui/input"
 looks and moves like the rest of the library in light and dark. Every other
 input type has a component of its own, built on the same frame. The preview at the top of this page shows each one:
 
-| Type                          | Use                                                                                                                                                |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `text`, `email`, `tel`, `url` | `Input`                                                                                                                                            |
-| `password`                    | `Input` in an [Input Group](/docs/components/base/input-group) with a show button ([Password](#password))                                          |
-| `search`                      | An [Input Group](/docs/components/base/input-group) with a clear button ([Search](#search)), or [Search](/docs/components/base/search) in toolbars |
-| `number`                      | [Number Field](/docs/components/base/number-field)                                                                                                 |
-| `date`                        | [Date Picker](/docs/components/base/date-picker)                                                                                                   |
-| `time`                        | [Time Input](/docs/components/base/time-input)                                                                                                     |
-| `datetime-local`              | [Date Picker](/docs/components/base/date-picker) with `hasTime`                                                                                    |
-| `month`                       | [Date Picker](/docs/components/base/date-picker#month-and-year) with `granularity="month"`                                                         |
-| `color`                       | [Color Picker](/docs/components/base/color-picker)                                                                                                 |
-| `file`                        | [File Upload](/docs/components/base/file-upload)                                                                                                   |
-| `range`                       | [Slider](/docs/components/base/slider)                                                                                                             |
-| `checkbox`, `radio`           | [Checkbox](/docs/components/base/checkbox), [Radio Group](/docs/components/base/radio-group)                                                       |
+| Type                          | Use                                                                                                       |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `text`, `email`, `tel`, `url` | `Input`                                                                                                   |
+| `password`                    | `Input` in an [Input Group](/docs/components/base/input-group) with a show button ([Password](#password)) |
+| `search`                      | [`InputSearch`](#search), from [Input Group](/docs/components/base/input-group)                           |
+| `number`                      | [Number Field](/docs/components/base/number-field)                                                        |
+| `date`                        | [Date Picker](/docs/components/base/date-picker)                                                          |
+| `time`                        | [Time Input](/docs/components/base/time-input)                                                            |
+| `datetime-local`              | [Date Picker](/docs/components/base/date-picker) with `hasTime`                                           |
+| `month`                       | [Date Picker](/docs/components/base/date-picker#month-and-year) with `granularity="month"`                |
+| `color`                       | [Color Picker](/docs/components/base/color-picker)                                                        |
+| `file`                        | [File Upload](/docs/components/base/file-upload)                                                          |
+| `range`                       | [Slider](/docs/components/base/slider)                                                                    |
+| `checkbox`, `radio`           | [Checkbox](/docs/components/base/checkbox), [Radio Group](/docs/components/base/radio-group)              |
 
 ## Password
 
@@ -101,14 +101,26 @@ never shows.
 
 ## Search
 
-`type="search"` without the browser's clear button: add your own, which
-appears once there's text and puts the focus back in the field.
+`InputSearch` is a search field framed like every other input, from Input
+Group: the search icon at the start and a clear button once there is text.
+Clearing, with the button or Escape, empties the field and keeps the focus in
+it. Escape on an empty field reaches what is around it, so a dialog still
+closes. It works controlled (`value` and `onValueChange`) or uncontrolled
+(`defaultValue`).
 
 <ComponentPreview
   styleName="base-nova"
   name="input-search"
   previewClassName="*:max-w-xs"
 />
+
+```tsx
+import { InputSearch } from "@/components/ui/input-group"
+
+const [query, setQuery] = React.useState("")
+
+<InputSearch aria-label="Search tasks" value={query} onValueChange={setQuery} />
+```
 
 ## Sizes
 
@@ -289,6 +301,20 @@ A full form example with multiple inputs, a select, and a button.
 | `aria-invalid` | `boolean` | -        | Turns the frame red. Pair with `data-invalid` on the `Field`.       |
 | `disabled`     | `boolean` | `false`  | Dims the input and blocks interaction.                              |
 | `className`    | `string`  | -        | Merged last, for layout such as width.                              |
+
+### InputSearch
+
+`InputSearch` takes the props of `input` except `type`, and adds:
+
+| Prop            | Type                      | Default          | Description                                                                  |
+| --------------- | ------------------------- | ---------------- | ---------------------------------------------------------------------------- |
+| `value`         | `string`                  | -                | The search text, controlled.                                                 |
+| `defaultValue`  | `string`                  | `""`             | The search text on first render, uncontrolled.                               |
+| `onValueChange` | `(value: string) => void` | -                | Called on typing and on clearing.                                            |
+| `clearLabel`    | `string`                  | `"Clear search"` | Accessible name of the clear button.                                         |
+| `className`     | `string`                  | -                | Styles the frame, for layout such as width.                                  |
+| `groupProps`    | `InputGroup` props        | -                | Props for the frame.                                                         |
+| `children`      | `ReactNode`               | -                | More addons after the clear button, such as a `Kbd` in an `InputGroupAddon`. |
 
 ## Accessibility
 

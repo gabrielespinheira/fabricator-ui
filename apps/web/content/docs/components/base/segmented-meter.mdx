@@ -1,0 +1,104 @@
+---
+title: Segmented Meter
+description: Parts of one total in a single bar, with a legend.
+base: base
+component: true
+---
+
+<ComponentPreview styleName="base-nova" name="segmented-meter-demo" />
+
+A segmented meter shows how one total splits into parts, such as storage by kind or a budget by team. Each part takes a chart series colour, in order, and the legend names it with its value. When a value changes, its part springs to the new size and the parts after it slide over.
+
+Segmented Meter is part of the Fabricator style. It's built on HTML, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add segmented-meter
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/segmented-meter-model.ts"
+  title="lib/segmented-meter-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/segmented-meter.tsx"
+  title="components/ui/segmented-meter.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { SegmentedMeter } from "@/components/ui/segmented-meter"
+```
+
+```tsx
+<SegmentedMeter
+  label="Storage"
+  max={128}
+  segments={[
+    { label: "Photos", value: 31.4 },
+    { label: "Apps", value: 22.6 },
+  ]}
+  formatValue={(value) => `${value} GB`}
+/>
+```
+
+## Composition
+
+```text
+SegmentedMeter           data-slot="segmented-meter"
+├── div                  (label and total)
+├── div                  role="meter"
+│   └── span             data-slot="segmented-meter-segment"
+└── ul                   (legend)
+    └── li               data-slot="segmented-meter-legend-item"
+```
+
+Parts take `--chart-series-1` to `--chart-series-8` in order. Parts that would add up past `max` are cut to the room left.
+
+## Motion
+
+A part that changes size springs on the soft spring, and the parts after it slide over on the same curve. Reduce Motion resizes at once.
+
+## API Reference
+
+| Prop          | Type                                 | Default  |
+| ------------- | ------------------------------------ | -------- |
+| `segments`    | `{ label: string; value: number }[]` |          |
+| `max`         | `number`                             |          |
+| `label`       | `ReactNode`                          |          |
+| `formatValue` | `(value: number) => string`          | `String` |
+
+The root is a `div` and takes its props.
+
+## Accessibility
+
+The bar is a meter named by the label, with the total as its value text ("74.2 GB of 128 GB"). The legend reads every part by name and value, so colour never carries a part alone.

@@ -256,28 +256,4 @@ export const navigationItems: Registry["items"] = [
     files: [{ path: "ui/navigation-menu.tsx", type: "registry:ui" }],
     meta: docs("navigation-menu"),
   },
-  {
-    name: "menubar",
-    type: "registry:ui",
-    title: "Menubar",
-    description:
-      "A row of menu triggers that scrolls, each opening its menu in a popover or a sheet.",
-    dependencies: [
-      "@fabricator-ui/icons-react-native",
-      "@rn-primitives/dropdown-menu",
-      "@rn-primitives/hooks",
-      "class-variance-authority",
-      "cn",
-    ],
-    registryDependencies: [
-      "@fabricator/dropdown-menu",
-      "@fabricator/feedback",
-      "@fabricator/fluid-hover",
-      "@fabricator/menu-sheet",
-      "@fabricator/text",
-      "@fabricator/use-mobile",
-    ],
-    files: [{ path: "ui/menubar.tsx", type: "registry:ui" }],
-    meta: docs("menubar"),
-  },
 ]

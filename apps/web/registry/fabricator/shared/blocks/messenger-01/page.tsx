@@ -51,7 +51,7 @@ import {
   useShellPanel,
 } from "@/registry/bases/__base__/ui/app-shell"
 import { Button } from "@/registry/bases/__base__/ui/button"
-import { Search } from "@/registry/bases/__base__/ui/search"
+import { InputSearch } from "@/registry/bases/__base__/ui/input-group"
 import { SidebarTrigger } from "@/registry/bases/__base__/ui/sidebar"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
@@ -271,11 +271,11 @@ function Messenger() {
               ?.focus()
           }}
         >
-          <Search
+          <InputSearch
             ref={searchRef}
-            collapsible={false}
-            width="100%"
-            label={isPickingPerson ? "Search people" : "Search conversations"}
+            aria-label={
+              isPickingPerson ? "Search people" : "Search conversations"
+            }
             placeholder={isPickingPerson ? "Who to" : "Search"}
             value={query}
             onValueChange={setQuery}

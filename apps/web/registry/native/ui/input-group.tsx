@@ -1,12 +1,20 @@
 import * as React from "react"
-import { IconProvider } from "@fabricator-ui/icons-react-native"
-import { useComposedRefs } from "@rn-primitives/hooks"
+import {
+  IconProvider,
+  SearchIcon,
+  XIcon,
+} from "@fabricator-ui/icons-react-native"
+import { useComposedRefs, useControllableState } from "@rn-primitives/hooks"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { Pressable, TextInput, View } from "react-native"
 import { useCSSVariable } from "uniwind"
 
 import { useFieldControl } from "@/registry/native/lib/field-model"
+import {
+  canClearSearch,
+  getSearchKeyAction,
+} from "@/registry/native/lib/input-search-model"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { Button, ButtonJoinedContext } from "@/registry/native/ui/button"
 import { Input } from "@/registry/native/ui/input"
@@ -376,6 +384,96 @@ function InputGroupTextarea({
   )
 }
 
+/**
+ * A search field framed like every other input: the search icon at the start,
+ * and a clear button once there is text. Clearing (the button or Escape on a
+ * hardware keyboard) empties the field and keeps the focus in it.
+ */
+function InputSearch({
+  className,
+  value: valueProp,
+  defaultValue = "",
+  onValueChange,
+  onChangeText,
+  onKeyPress,
+  editable = true,
+  readOnly = false,
+  clearLabel = "Clear search",
+  groupProps,
+  children,
+  ref,
+  ...props
+}: Omit<
+  React.ComponentProps<typeof InputGroupInput>,
+  "value" | "defaultValue" | "children"
+> & {
+  /** The search text. Controlled. */
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  /** Accessible name of the clear button. Default "Clear search". */
+  clearLabel?: string
+  /** Props for the frame; `className` styles it too. */
+  groupProps?: React.ComponentProps<typeof InputGroup>
+  /** More addons, after the clear button (a keycap, a filter). */
+  children?: React.ReactNode
+}) {
+  const inputRef = React.useRef<TextInputRef>(null)
+  const composedRef = useComposedRefs(inputRef, ref)
+  const [value = "", setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValue,
+    onChange: onValueChange,
+  })
+  const state = { value, isDisabled: !editable, isReadOnly: readOnly }
+  return (
+    <InputGroup
+      data-slot="input-search"
+      {...groupProps}
+      className={cn("cn-input-search", className, groupProps?.className)}
+    >
+      <InputGroupInput
+        ref={composedRef}
+        returnKeyType="search"
+        autoCorrect={false}
+        autoCapitalize="none"
+        editable={editable}
+        readOnly={readOnly}
+        value={value}
+        onChangeText={(text) => {
+          onChangeText?.(text)
+          setValue(text)
+        }}
+        onKeyPress={(event) => {
+          onKeyPress?.(event)
+          if (getSearchKeyAction(event.nativeEvent.key, state) === "clear")
+            setValue("")
+        }}
+        {...props}
+      />
+      <InputGroupAddon>
+        <SearchIcon aria-hidden />
+      </InputGroupAddon>
+      {canClearSearch(state) ? (
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton
+            data-slot="input-search-clear"
+            size="icon-xs"
+            aria-label={clearLabel}
+            onPress={() => {
+              setValue("")
+              inputRef.current?.focus()
+            }}
+          >
+            <XIcon aria-hidden />
+          </InputGroupButton>
+        </InputGroupAddon>
+      ) : null}
+      {children}
+    </InputGroup>
+  )
+}
+
 export {
   InputGroup,
   InputGroupAddon,
@@ -383,4 +481,5 @@ export {
   InputGroupInput,
   InputGroupText,
   InputGroupTextarea,
+  InputSearch,
 }

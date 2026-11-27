@@ -58,7 +58,7 @@ View first, then search and filters; the count ends it. Filters are outline menu
       <TabsTrigger value="risk">At risk</TabsTrigger>
       <TabsTrigger value="trial">Trials</TabsTrigger>
     </TabsList>
-    <Search collapsible={false} width="11rem" placeholder="Search customers" value={query} onValueChange={setQuery} />
+    <InputSearch className="w-44" aria-label="Search customers" placeholder="Search customers" value={query} onValueChange={setQuery} />
     <DropdownMenu>
       <DropdownMenuTrigger render={<Button variant="outline" />}>
         <ListFilterIcon data-icon="inline-start" />

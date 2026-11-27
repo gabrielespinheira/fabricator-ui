@@ -230,14 +230,6 @@ export const Components: Record<string, any> = {
       ) || "label"
     return { default: mod.default || mod[exportName] }
   }),
-  menubar: React.lazy(async () => {
-    const mod = await import("@/styles/radix-fabricator/ui/menubar")
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "menubar"
-    return { default: mod.default || mod[exportName] }
-  }),
   "navigation-menu": React.lazy(async () => {
     const mod = await import("@/styles/radix-fabricator/ui/navigation-menu")
     const exportName =

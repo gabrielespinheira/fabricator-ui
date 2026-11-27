@@ -377,6 +377,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "bot-face-states",
       filePath: "examples/base/bot-face-states.tsx",
     },
+    "bottom-nav-demo": {
+      name: "bottom-nav-demo",
+      filePath: "examples/base/bottom-nav-demo.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/base/breadcrumb-basic.tsx",
@@ -1397,6 +1401,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "heat-calendar-weeks",
       filePath: "examples/base/heat-calendar-weeks.tsx",
     },
+    "hold-button-demo": {
+      name: "hold-button-demo",
+      filePath: "examples/base/hold-button-demo.tsx",
+    },
+    "hold-button-variants": {
+      name: "hold-button-variants",
+      filePath: "examples/base/hold-button-variants.tsx",
+    },
     "hover-card-demo": {
       name: "hover-card-demo",
       filePath: "examples/base/hover-card-demo.tsx",
@@ -1797,30 +1809,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "marker-variants",
       filePath: "examples/base/marker-variants.tsx",
     },
-    "menubar-checkbox": {
-      name: "menubar-checkbox",
-      filePath: "examples/base/menubar-checkbox.tsx",
-    },
-    "menubar-demo": {
-      name: "menubar-demo",
-      filePath: "examples/base/menubar-demo.tsx",
-    },
-    "menubar-icons": {
-      name: "menubar-icons",
-      filePath: "examples/base/menubar-icons.tsx",
-    },
-    "menubar-radio": {
-      name: "menubar-radio",
-      filePath: "examples/base/menubar-radio.tsx",
-    },
-    "menubar-rtl": {
-      name: "menubar-rtl",
-      filePath: "examples/base/menubar-rtl.tsx",
-    },
-    "menubar-submenu": {
-      name: "menubar-submenu",
-      filePath: "examples/base/menubar-submenu.tsx",
-    },
     "message-actions": {
       name: "message-actions",
       filePath: "examples/base/message-actions.tsx",
@@ -2016,6 +2004,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "pagination-simple": {
       name: "pagination-simple",
       filePath: "examples/base/pagination-simple.tsx",
+    },
+    "password-strength-demo": {
+      name: "password-strength-demo",
+      filePath: "examples/base/password-strength-demo.tsx",
     },
     "pie-chart-demo": {
       name: "pie-chart-demo",
@@ -2301,25 +2293,9 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/base/scroll-fade-size.tsx",
     },
-    "search-always-open": {
-      name: "search-always-open",
-      filePath: "examples/base/search-always-open.tsx",
-    },
-    "search-controlled": {
-      name: "search-controlled",
-      filePath: "examples/base/search-controlled.tsx",
-    },
-    "search-demo": {
-      name: "search-demo",
-      filePath: "examples/base/search-demo.tsx",
-    },
-    "search-outline": {
-      name: "search-outline",
-      filePath: "examples/base/search-outline.tsx",
-    },
-    "search-sizes": {
-      name: "search-sizes",
-      filePath: "examples/base/search-sizes.tsx",
+    "segmented-meter-demo": {
+      name: "segmented-meter-demo",
+      filePath: "examples/base/segmented-meter-demo.tsx",
     },
     "select-align-item": {
       name: "select-align-item",
@@ -2537,6 +2513,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "skeleton-text",
       filePath: "examples/base/skeleton-text.tsx",
     },
+    "slide-to-confirm-demo": {
+      name: "slide-to-confirm-demo",
+      filePath: "examples/base/slide-to-confirm-demo.tsx",
+    },
+    "slide-to-confirm-disabled": {
+      name: "slide-to-confirm-disabled",
+      filePath: "examples/base/slide-to-confirm-disabled.tsx",
+    },
     "slider-controlled": {
       name: "slider-controlled",
       filePath: "examples/base/slider-controlled.tsx",
@@ -2616,6 +2600,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "status-bar-maintenance": {
       name: "status-bar-maintenance",
       filePath: "examples/base/status-bar-maintenance.tsx",
+    },
+    "status-island-demo": {
+      name: "status-island-demo",
+      filePath: "examples/base/status-island-demo.tsx",
+    },
+    "stepper-demo": {
+      name: "stepper-demo",
+      filePath: "examples/base/stepper-demo.tsx",
     },
     "switch-choice-card": {
       name: "switch-choice-card",
@@ -3338,6 +3330,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bot-face-states": {
       name: "bot-face-states",
       filePath: "examples/aria/bot-face-states.tsx",
+    },
+    "bottom-nav-demo": {
+      name: "bottom-nav-demo",
+      filePath: "examples/aria/bottom-nav-demo.tsx",
     },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
@@ -4347,6 +4343,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "heat-calendar-weeks",
       filePath: "examples/aria/heat-calendar-weeks.tsx",
     },
+    "hold-button-demo": {
+      name: "hold-button-demo",
+      filePath: "examples/aria/hold-button-demo.tsx",
+    },
+    "hold-button-variants": {
+      name: "hold-button-variants",
+      filePath: "examples/aria/hold-button-variants.tsx",
+    },
     "hover-card-demo": {
       name: "hover-card-demo",
       filePath: "examples/aria/hover-card-demo.tsx",
@@ -4931,6 +4935,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "pagination-simple",
       filePath: "examples/aria/pagination-simple.tsx",
     },
+    "password-strength-demo": {
+      name: "password-strength-demo",
+      filePath: "examples/aria/password-strength-demo.tsx",
+    },
     "pie-chart-demo": {
       name: "pie-chart-demo",
       filePath: "examples/aria/pie-chart-demo.tsx",
@@ -5215,25 +5223,9 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/aria/scroll-fade-size.tsx",
     },
-    "search-always-open": {
-      name: "search-always-open",
-      filePath: "examples/aria/search-always-open.tsx",
-    },
-    "search-controlled": {
-      name: "search-controlled",
-      filePath: "examples/aria/search-controlled.tsx",
-    },
-    "search-demo": {
-      name: "search-demo",
-      filePath: "examples/aria/search-demo.tsx",
-    },
-    "search-outline": {
-      name: "search-outline",
-      filePath: "examples/aria/search-outline.tsx",
-    },
-    "search-sizes": {
-      name: "search-sizes",
-      filePath: "examples/aria/search-sizes.tsx",
+    "segmented-meter-demo": {
+      name: "segmented-meter-demo",
+      filePath: "examples/aria/segmented-meter-demo.tsx",
     },
     "select-autocomplete": {
       name: "select-autocomplete",
@@ -5451,6 +5443,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "skeleton-text",
       filePath: "examples/aria/skeleton-text.tsx",
     },
+    "slide-to-confirm-demo": {
+      name: "slide-to-confirm-demo",
+      filePath: "examples/aria/slide-to-confirm-demo.tsx",
+    },
+    "slide-to-confirm-disabled": {
+      name: "slide-to-confirm-disabled",
+      filePath: "examples/aria/slide-to-confirm-disabled.tsx",
+    },
     "slider-controlled": {
       name: "slider-controlled",
       filePath: "examples/aria/slider-controlled.tsx",
@@ -5562,6 +5562,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "status-bar-maintenance": {
       name: "status-bar-maintenance",
       filePath: "examples/aria/status-bar-maintenance.tsx",
+    },
+    "status-island-demo": {
+      name: "status-island-demo",
+      filePath: "examples/aria/status-island-demo.tsx",
+    },
+    "stepper-demo": {
+      name: "stepper-demo",
+      filePath: "examples/aria/stepper-demo.tsx",
     },
     "switch-choice-card": {
       name: "switch-choice-card",
@@ -6256,6 +6264,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bot-face-states": {
       name: "bot-face-states",
       filePath: "examples/radix/bot-face-states.tsx",
+    },
+    "bottom-nav-demo": {
+      name: "bottom-nav-demo",
+      filePath: "examples/radix/bottom-nav-demo.tsx",
     },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
@@ -7265,6 +7277,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "heat-calendar-weeks",
       filePath: "examples/radix/heat-calendar-weeks.tsx",
     },
+    "hold-button-demo": {
+      name: "hold-button-demo",
+      filePath: "examples/radix/hold-button-demo.tsx",
+    },
+    "hold-button-variants": {
+      name: "hold-button-variants",
+      filePath: "examples/radix/hold-button-variants.tsx",
+    },
     "hover-card-demo": {
       name: "hover-card-demo",
       filePath: "examples/radix/hover-card-demo.tsx",
@@ -7661,30 +7681,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "marker-variants",
       filePath: "examples/radix/marker-variants.tsx",
     },
-    "menubar-checkbox": {
-      name: "menubar-checkbox",
-      filePath: "examples/radix/menubar-checkbox.tsx",
-    },
-    "menubar-demo": {
-      name: "menubar-demo",
-      filePath: "examples/radix/menubar-demo.tsx",
-    },
-    "menubar-icons": {
-      name: "menubar-icons",
-      filePath: "examples/radix/menubar-icons.tsx",
-    },
-    "menubar-radio": {
-      name: "menubar-radio",
-      filePath: "examples/radix/menubar-radio.tsx",
-    },
-    "menubar-rtl": {
-      name: "menubar-rtl",
-      filePath: "examples/radix/menubar-rtl.tsx",
-    },
-    "menubar-submenu": {
-      name: "menubar-submenu",
-      filePath: "examples/radix/menubar-submenu.tsx",
-    },
     "message-actions": {
       name: "message-actions",
       filePath: "examples/radix/message-actions.tsx",
@@ -7876,6 +7872,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "pagination-simple": {
       name: "pagination-simple",
       filePath: "examples/radix/pagination-simple.tsx",
+    },
+    "password-strength-demo": {
+      name: "password-strength-demo",
+      filePath: "examples/radix/password-strength-demo.tsx",
     },
     "pie-chart-demo": {
       name: "pie-chart-demo",
@@ -8161,25 +8161,9 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/radix/scroll-fade-size.tsx",
     },
-    "search-always-open": {
-      name: "search-always-open",
-      filePath: "examples/radix/search-always-open.tsx",
-    },
-    "search-controlled": {
-      name: "search-controlled",
-      filePath: "examples/radix/search-controlled.tsx",
-    },
-    "search-demo": {
-      name: "search-demo",
-      filePath: "examples/radix/search-demo.tsx",
-    },
-    "search-outline": {
-      name: "search-outline",
-      filePath: "examples/radix/search-outline.tsx",
-    },
-    "search-sizes": {
-      name: "search-sizes",
-      filePath: "examples/radix/search-sizes.tsx",
+    "segmented-meter-demo": {
+      name: "segmented-meter-demo",
+      filePath: "examples/radix/segmented-meter-demo.tsx",
     },
     "select-align-item": {
       name: "select-align-item",
@@ -8397,6 +8381,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "skeleton-text",
       filePath: "examples/radix/skeleton-text.tsx",
     },
+    "slide-to-confirm-demo": {
+      name: "slide-to-confirm-demo",
+      filePath: "examples/radix/slide-to-confirm-demo.tsx",
+    },
+    "slide-to-confirm-disabled": {
+      name: "slide-to-confirm-disabled",
+      filePath: "examples/radix/slide-to-confirm-disabled.tsx",
+    },
     "slider-controlled": {
       name: "slider-controlled",
       filePath: "examples/radix/slider-controlled.tsx",
@@ -8508,6 +8500,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "status-bar-maintenance": {
       name: "status-bar-maintenance",
       filePath: "examples/radix/status-bar-maintenance.tsx",
+    },
+    "status-island-demo": {
+      name: "status-island-demo",
+      filePath: "examples/radix/status-island-demo.tsx",
+    },
+    "stepper-demo": {
+      name: "stepper-demo",
+      filePath: "examples/radix/stepper-demo.tsx",
     },
     "switch-choice-card": {
       name: "switch-choice-card",
@@ -9277,6 +9277,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bot-face-states": {
       name: "bot-face-states",
       filePath: "examples/__styles__/base-fabricator/bot-face-states.tsx",
+    },
+    "bottom-nav-demo": {
+      name: "bottom-nav-demo",
+      filePath: "examples/__styles__/base-fabricator/bottom-nav-demo.tsx",
     },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
@@ -10223,6 +10227,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "heat-calendar-weeks",
       filePath: "examples/__styles__/base-fabricator/heat-calendar-weeks.tsx",
     },
+    "hold-button-demo": {
+      name: "hold-button-demo",
+      filePath: "examples/__styles__/base-fabricator/hold-button-demo.tsx",
+    },
+    "hold-button-variants": {
+      name: "hold-button-variants",
+      filePath: "examples/__styles__/base-fabricator/hold-button-variants.tsx",
+    },
     "hover-card-demo": {
       name: "hover-card-demo",
       filePath: "examples/__styles__/base-fabricator/hover-card-demo.tsx",
@@ -10606,26 +10618,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "marker-variants",
       filePath: "examples/__styles__/base-fabricator/marker-variants.tsx",
     },
-    "menubar-checkbox": {
-      name: "menubar-checkbox",
-      filePath: "examples/__styles__/base-fabricator/menubar-checkbox.tsx",
-    },
-    "menubar-demo": {
-      name: "menubar-demo",
-      filePath: "examples/__styles__/base-fabricator/menubar-demo.tsx",
-    },
-    "menubar-icons": {
-      name: "menubar-icons",
-      filePath: "examples/__styles__/base-fabricator/menubar-icons.tsx",
-    },
-    "menubar-radio": {
-      name: "menubar-radio",
-      filePath: "examples/__styles__/base-fabricator/menubar-radio.tsx",
-    },
-    "menubar-submenu": {
-      name: "menubar-submenu",
-      filePath: "examples/__styles__/base-fabricator/menubar-submenu.tsx",
-    },
     "message-actions": {
       name: "message-actions",
       filePath: "examples/__styles__/base-fabricator/message-actions.tsx",
@@ -10807,6 +10799,11 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "pagination-simple": {
       name: "pagination-simple",
       filePath: "examples/__styles__/base-fabricator/pagination-simple.tsx",
+    },
+    "password-strength-demo": {
+      name: "password-strength-demo",
+      filePath:
+        "examples/__styles__/base-fabricator/password-strength-demo.tsx",
     },
     "pie-chart-demo": {
       name: "pie-chart-demo",
@@ -11083,25 +11080,9 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/__styles__/base-fabricator/scroll-fade-size.tsx",
     },
-    "search-always-open": {
-      name: "search-always-open",
-      filePath: "examples/__styles__/base-fabricator/search-always-open.tsx",
-    },
-    "search-controlled": {
-      name: "search-controlled",
-      filePath: "examples/__styles__/base-fabricator/search-controlled.tsx",
-    },
-    "search-demo": {
-      name: "search-demo",
-      filePath: "examples/__styles__/base-fabricator/search-demo.tsx",
-    },
-    "search-outline": {
-      name: "search-outline",
-      filePath: "examples/__styles__/base-fabricator/search-outline.tsx",
-    },
-    "search-sizes": {
-      name: "search-sizes",
-      filePath: "examples/__styles__/base-fabricator/search-sizes.tsx",
+    "segmented-meter-demo": {
+      name: "segmented-meter-demo",
+      filePath: "examples/__styles__/base-fabricator/segmented-meter-demo.tsx",
     },
     "select-align-item": {
       name: "select-align-item",
@@ -11297,6 +11278,15 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "skeleton-text",
       filePath: "examples/__styles__/base-fabricator/skeleton-text.tsx",
     },
+    "slide-to-confirm-demo": {
+      name: "slide-to-confirm-demo",
+      filePath: "examples/__styles__/base-fabricator/slide-to-confirm-demo.tsx",
+    },
+    "slide-to-confirm-disabled": {
+      name: "slide-to-confirm-disabled",
+      filePath:
+        "examples/__styles__/base-fabricator/slide-to-confirm-disabled.tsx",
+    },
     "slider-controlled": {
       name: "slider-controlled",
       filePath: "examples/__styles__/base-fabricator/slider-controlled.tsx",
@@ -11369,6 +11359,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "status-bar-maintenance",
       filePath:
         "examples/__styles__/base-fabricator/status-bar-maintenance.tsx",
+    },
+    "status-island-demo": {
+      name: "status-island-demo",
+      filePath: "examples/__styles__/base-fabricator/status-island-demo.tsx",
+    },
+    "stepper-demo": {
+      name: "stepper-demo",
+      filePath: "examples/__styles__/base-fabricator/stepper-demo.tsx",
     },
     "switch-choice-card": {
       name: "switch-choice-card",
@@ -12049,6 +12047,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bot-face-states": {
       name: "bot-face-states",
       filePath: "examples/__styles__/aria-fabricator/bot-face-states.tsx",
+    },
+    "bottom-nav-demo": {
+      name: "bottom-nav-demo",
+      filePath: "examples/__styles__/aria-fabricator/bottom-nav-demo.tsx",
     },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
@@ -12982,6 +12984,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "heat-calendar-weeks",
       filePath: "examples/__styles__/aria-fabricator/heat-calendar-weeks.tsx",
     },
+    "hold-button-demo": {
+      name: "hold-button-demo",
+      filePath: "examples/__styles__/aria-fabricator/hold-button-demo.tsx",
+    },
+    "hold-button-variants": {
+      name: "hold-button-variants",
+      filePath: "examples/__styles__/aria-fabricator/hold-button-variants.tsx",
+    },
     "hover-card-demo": {
       name: "hover-card-demo",
       filePath: "examples/__styles__/aria-fabricator/hover-card-demo.tsx",
@@ -13539,6 +13549,11 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "pagination-simple",
       filePath: "examples/__styles__/aria-fabricator/pagination-simple.tsx",
     },
+    "password-strength-demo": {
+      name: "password-strength-demo",
+      filePath:
+        "examples/__styles__/aria-fabricator/password-strength-demo.tsx",
+    },
     "pie-chart-demo": {
       name: "pie-chart-demo",
       filePath: "examples/__styles__/aria-fabricator/pie-chart-demo.tsx",
@@ -13814,25 +13829,9 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/__styles__/aria-fabricator/scroll-fade-size.tsx",
     },
-    "search-always-open": {
-      name: "search-always-open",
-      filePath: "examples/__styles__/aria-fabricator/search-always-open.tsx",
-    },
-    "search-controlled": {
-      name: "search-controlled",
-      filePath: "examples/__styles__/aria-fabricator/search-controlled.tsx",
-    },
-    "search-demo": {
-      name: "search-demo",
-      filePath: "examples/__styles__/aria-fabricator/search-demo.tsx",
-    },
-    "search-outline": {
-      name: "search-outline",
-      filePath: "examples/__styles__/aria-fabricator/search-outline.tsx",
-    },
-    "search-sizes": {
-      name: "search-sizes",
-      filePath: "examples/__styles__/aria-fabricator/search-sizes.tsx",
+    "segmented-meter-demo": {
+      name: "segmented-meter-demo",
+      filePath: "examples/__styles__/aria-fabricator/segmented-meter-demo.tsx",
     },
     "select-autocomplete": {
       name: "select-autocomplete",
@@ -14028,6 +14027,15 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "skeleton-text",
       filePath: "examples/__styles__/aria-fabricator/skeleton-text.tsx",
     },
+    "slide-to-confirm-demo": {
+      name: "slide-to-confirm-demo",
+      filePath: "examples/__styles__/aria-fabricator/slide-to-confirm-demo.tsx",
+    },
+    "slide-to-confirm-disabled": {
+      name: "slide-to-confirm-disabled",
+      filePath:
+        "examples/__styles__/aria-fabricator/slide-to-confirm-disabled.tsx",
+    },
     "slider-controlled": {
       name: "slider-controlled",
       filePath: "examples/__styles__/aria-fabricator/slider-controlled.tsx",
@@ -14132,6 +14140,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "status-bar-maintenance",
       filePath:
         "examples/__styles__/aria-fabricator/status-bar-maintenance.tsx",
+    },
+    "status-island-demo": {
+      name: "status-island-demo",
+      filePath: "examples/__styles__/aria-fabricator/status-island-demo.tsx",
+    },
+    "stepper-demo": {
+      name: "stepper-demo",
+      filePath: "examples/__styles__/aria-fabricator/stepper-demo.tsx",
     },
     "switch-choice-card": {
       name: "switch-choice-card",
@@ -14786,6 +14802,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bot-face-states": {
       name: "bot-face-states",
       filePath: "examples/__styles__/radix-fabricator/bot-face-states.tsx",
+    },
+    "bottom-nav-demo": {
+      name: "bottom-nav-demo",
+      filePath: "examples/__styles__/radix-fabricator/bottom-nav-demo.tsx",
     },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
@@ -15731,6 +15751,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "heat-calendar-weeks",
       filePath: "examples/__styles__/radix-fabricator/heat-calendar-weeks.tsx",
     },
+    "hold-button-demo": {
+      name: "hold-button-demo",
+      filePath: "examples/__styles__/radix-fabricator/hold-button-demo.tsx",
+    },
+    "hold-button-variants": {
+      name: "hold-button-variants",
+      filePath: "examples/__styles__/radix-fabricator/hold-button-variants.tsx",
+    },
     "hover-card-demo": {
       name: "hover-card-demo",
       filePath: "examples/__styles__/radix-fabricator/hover-card-demo.tsx",
@@ -16113,26 +16141,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "marker-variants",
       filePath: "examples/__styles__/radix-fabricator/marker-variants.tsx",
     },
-    "menubar-checkbox": {
-      name: "menubar-checkbox",
-      filePath: "examples/__styles__/radix-fabricator/menubar-checkbox.tsx",
-    },
-    "menubar-demo": {
-      name: "menubar-demo",
-      filePath: "examples/__styles__/radix-fabricator/menubar-demo.tsx",
-    },
-    "menubar-icons": {
-      name: "menubar-icons",
-      filePath: "examples/__styles__/radix-fabricator/menubar-icons.tsx",
-    },
-    "menubar-radio": {
-      name: "menubar-radio",
-      filePath: "examples/__styles__/radix-fabricator/menubar-radio.tsx",
-    },
-    "menubar-submenu": {
-      name: "menubar-submenu",
-      filePath: "examples/__styles__/radix-fabricator/menubar-submenu.tsx",
-    },
     "message-actions": {
       name: "message-actions",
       filePath: "examples/__styles__/radix-fabricator/message-actions.tsx",
@@ -16314,6 +16322,11 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "pagination-simple": {
       name: "pagination-simple",
       filePath: "examples/__styles__/radix-fabricator/pagination-simple.tsx",
+    },
+    "password-strength-demo": {
+      name: "password-strength-demo",
+      filePath:
+        "examples/__styles__/radix-fabricator/password-strength-demo.tsx",
     },
     "pie-chart-demo": {
       name: "pie-chart-demo",
@@ -16591,25 +16604,9 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/__styles__/radix-fabricator/scroll-fade-size.tsx",
     },
-    "search-always-open": {
-      name: "search-always-open",
-      filePath: "examples/__styles__/radix-fabricator/search-always-open.tsx",
-    },
-    "search-controlled": {
-      name: "search-controlled",
-      filePath: "examples/__styles__/radix-fabricator/search-controlled.tsx",
-    },
-    "search-demo": {
-      name: "search-demo",
-      filePath: "examples/__styles__/radix-fabricator/search-demo.tsx",
-    },
-    "search-outline": {
-      name: "search-outline",
-      filePath: "examples/__styles__/radix-fabricator/search-outline.tsx",
-    },
-    "search-sizes": {
-      name: "search-sizes",
-      filePath: "examples/__styles__/radix-fabricator/search-sizes.tsx",
+    "segmented-meter-demo": {
+      name: "segmented-meter-demo",
+      filePath: "examples/__styles__/radix-fabricator/segmented-meter-demo.tsx",
     },
     "select-align-item": {
       name: "select-align-item",
@@ -16806,6 +16803,16 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "skeleton-text",
       filePath: "examples/__styles__/radix-fabricator/skeleton-text.tsx",
     },
+    "slide-to-confirm-demo": {
+      name: "slide-to-confirm-demo",
+      filePath:
+        "examples/__styles__/radix-fabricator/slide-to-confirm-demo.tsx",
+    },
+    "slide-to-confirm-disabled": {
+      name: "slide-to-confirm-disabled",
+      filePath:
+        "examples/__styles__/radix-fabricator/slide-to-confirm-disabled.tsx",
+    },
     "slider-controlled": {
       name: "slider-controlled",
       filePath: "examples/__styles__/radix-fabricator/slider-controlled.tsx",
@@ -16910,6 +16917,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "status-bar-maintenance",
       filePath:
         "examples/__styles__/radix-fabricator/status-bar-maintenance.tsx",
+    },
+    "status-island-demo": {
+      name: "status-island-demo",
+      filePath: "examples/__styles__/radix-fabricator/status-island-demo.tsx",
+    },
+    "stepper-demo": {
+      name: "stepper-demo",
+      filePath: "examples/__styles__/radix-fabricator/stepper-demo.tsx",
     },
     "switch-choice-card": {
       name: "switch-choice-card",

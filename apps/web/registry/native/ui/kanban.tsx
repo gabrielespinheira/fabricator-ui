@@ -18,6 +18,7 @@ import {
   MinusIcon,
   PencilIcon,
   PlusIcon,
+  SearchIcon,
   SlidersHorizontalIcon,
   SquareCheckIcon,
   SquarePenIcon,
@@ -85,13 +86,13 @@ import { Button } from "@/registry/native/ui/button"
 import { DensityScope } from "@/registry/native/ui/density"
 import { Drawer, DrawerContent, DrawerTitle } from "@/registry/native/ui/drawer"
 import { Input } from "@/registry/native/ui/input"
+import { InputSearch } from "@/registry/native/ui/input-group"
 import {
   PropertyAvatar,
   PropertyIcon,
   PropertyMark,
   PropertyValue,
 } from "@/registry/native/ui/properties"
-import { Search } from "@/registry/native/ui/search"
 import { Skeleton } from "@/registry/native/ui/skeleton"
 import { Switch } from "@/registry/native/ui/switch"
 import { Text } from "@/registry/native/ui/text"
@@ -328,19 +329,32 @@ function KanbanSearch<Item>({
   /** Takes the whole line while it is open. */
   isFilling?: boolean
 }) {
+  const value = board.view.search ?? ""
+  if (collapsible && !open)
+    return (
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        accessibilityLabel={placeholder}
+        aria-expanded={false}
+        onPress={() => onOpenChange?.(true)}
+      >
+        <SearchIcon />
+      </Button>
+    )
   return (
-    <Search
-      size="sm"
-      variant={open || !collapsible ? "outline" : "default"}
-      label={placeholder}
+    <InputSearch
+      accessibilityLabel={placeholder}
       placeholder={placeholder}
-      className="cn-kanban-search"
-      width={isFilling ? "100%" : 200}
-      collapsible={collapsible}
-      open={open}
-      onOpenChange={onOpenChange}
-      value={board.view.search ?? ""}
+      className={cn("cn-kanban-search", isFilling && "flex-1")}
+      groupProps={{ style: isFilling ? undefined : { width: 200 } }}
+      // Opened from its button, the field takes the focus.
+      autoFocus={collapsible}
+      value={value}
       onValueChange={(search) => board.setView({ ...board.view, search })}
+      onBlur={() => {
+        if (collapsible && !value) onOpenChange?.(false)
+      }}
     />
   )
 }

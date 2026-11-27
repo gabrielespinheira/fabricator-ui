@@ -134,7 +134,9 @@ function useKanbanKeys<Item>({
         ?.querySelector<HTMLElement>("[data-kanban-search]")
       if (search) {
         event.preventDefault()
-        search.focus()
+        // Where there is no room, the search is a button that opens it.
+        if (search instanceof HTMLButtonElement) search.click()
+        else search.focus()
       }
       return
     }

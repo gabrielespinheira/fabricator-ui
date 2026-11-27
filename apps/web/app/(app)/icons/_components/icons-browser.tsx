@@ -16,7 +16,7 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/styles/base-fabricator/ui/empty"
-import { Search } from "@/styles/base-fabricator/ui/search"
+import { InputSearch } from "@/styles/base-fabricator/ui/input-group"
 import {
   Select,
   SelectContent,
@@ -343,18 +343,16 @@ export function IconsBrowser() {
       className="gap-4 px-4 pb-4 sm:px-5"
     >
       <div className="sticky top-0 z-10 -mx-4 flex flex-wrap items-center gap-2 bg-background/90 px-4 py-3 backdrop-blur sm:-mx-5 sm:px-5">
-        <Search
-          collapsible={false}
+        <InputSearch
+          className="min-w-0 flex-1 basis-60 sm:max-w-sm"
           value={params.q}
           onValueChange={(q) => void setParams({ q: q || null })}
-          label="Search icons"
+          aria-label="Search icons"
           placeholder={
             counts
               ? `Search ${counts[params.set].toLocaleString("en")} icons`
               : "Search icons"
           }
-          width="100%"
-          rootProps={{ className: "min-w-0 flex-1 basis-60 sm:max-w-sm" }}
         />
         <TabsList
           // The sliding selection measures its items once: remount it when

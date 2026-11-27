@@ -26,6 +26,8 @@ How these fit together, and what breaks them: [app-shell.md](app-shell.md).
 | `pagination` | Pages of results with a known count | Records people work through load on scroll in `data-table` instead |
 | `preview-rail` | Jumping through a long page or sequence | A compact rail whose names wait for the pointer |
 | `command` | The ⌘K palette | `CommandDialog`; groups Navigation, Actions, Recent; list shortcuts from `useShellShortcuts()` |
+| `stepper` | A flow done in steps: checkout, onboarding, a setup | `value` is the current step from 1; `StepperItem step` > `StepperIndicator` + `StepperContent` (title, description) + `StepperSeparator` (leave it off the last). Shows progress; the flow's own Back and Next move it |
+| `bottom-nav` | The tab bar of an app on a phone, on the web | `BottomNavLink` (pages) or `BottomNavItem` (views) with `label`, `icon`, `active`; the current tab opens into a named pill. Place it yourself. In the App Shell, `AppNavBottomBar` already does this |
 
 ## Acting
 
@@ -36,8 +38,9 @@ How these fit together, and what breaks them: [app-shell.md](app-shell.md).
 | `toggle`, `toggle-group` | Short settings, formatting and tool states | Single-select for one value, multi-select for independent choices |
 | `dropdown-menu` | The rest of the actions on one thing | Every action leads with its icon; destructive last, alone; "…" when it opens something; checkbox and radio items for view options |
 | `context-menu` | The same actions on right click | Mirrors the row's "More" menu. A long press on touch |
-| `menubar` | A desktop app's menus | Desktop windows only; not in React Aria |
 | `kbd` | Showing a shortcut | In tooltips, menu rows (`DropdownMenuShortcut`) and search |
+| `hold-button` | One action worth a second thought, without a dialog: delete, publish, pay | Press and hold for `duration` (1200ms); `onHoldComplete`; `variant="destructive"`. Never the only way: keep the action in a menu with a confirm dialog for people who can't hold a key |
+| `slide-to-confirm` | A commit on a touch screen that a stray tap mustn't set off | `onConfirm`, `confirmedLabel`; Enter confirms from the keyboard. Stays confirmed: change its `key` to reset |
 
 ## Choosing and entering
 
@@ -62,10 +65,10 @@ Start at [asking.md](asking.md): most values should never reach this table.
 | `color-picker` | A colour | `ColorPickerPopover` with `triggerLabel`, swatches first |
 | `file-upload` | Files | `FileUploadDropzone`, `FileUploadField` (input-sized), `FileUploadTrigger` (a button); rejections carry a reason |
 | `input-otp` | A one-time code | Pastes and autofills |
-| `search` | Filtering or searching | `collapsible={false}` in a toolbar; closed it is one round button |
+| `password-strength` | Choosing a new password | Under the field in the same `Field`: `value` is the password; a word says how strong. The server keeps its own rules |
 | `input`, `textarea` | What only the person can write | Last resort; see the ladder |
 | `properties` | Define, show and edit typed fields | Use `PropertyList` for record values and `PropertyManager` for schemas |
-| `input-group` | A fixed part, a unit, a button in a field | `InputGroupInput` first, then `InputGroupAddon align`, `InputGroupButton`, `InputGroupText` |
+| `input-group` | A fixed part, a unit, a button in a field; a search field | `InputGroupInput` first, then `InputGroupAddon align`, `InputGroupButton`, `InputGroupText`. `InputSearch` is the search field: icon, clear button, Escape clears; `value` and `onValueChange` |
 | `field` | Around every control | `FieldGroup` > `Field` > `FieldLabel`, control, `FieldDescription`, `FieldError`; `FieldSet` + `FieldLegend` for a group |
 | `label` | A lone label | Inside a form, `FieldLabel` |
 | `questionnaire` | One decision per step, with skip and review | Single, multiple and free answers, shortcuts, progress; `advanceOnSelect`. Not only for chat |
@@ -118,6 +121,7 @@ Every chart takes `data`, a `config` naming the series (or `nameKey`/`valueKey`)
 | What is it made of? | `donut-chart` with its list (about 560px), `pie-chart` for two to four parts, `treemap` for a hierarchy |
 | Where do people drop out? Where does it flow? | `funnel-chart`; `sankey-chart` |
 | How close to the goal? | `progress` for one; `radial-chart` for a few (`shape="half"` for a gauge) |
+| How is one limit used up? | `segmented-meter`: storage by kind, a budget by team, seats by plan; `segments`, `max`, `formatValue` |
 | When does it happen? | `heat-calendar` |
 | Has it been up? | `status-bar`, one pill per day, one bar per service. In a table of services: `legend={false}` on each, one shared legend under the table. Pills stop at 4px and older days drop off, and the uptime counts only what is shown, so pass a window that fits the narrowest cell (30 days on a phone) and name it once |
 | Who leads, over time? | `bump-chart` |
@@ -155,6 +159,7 @@ One headline number is type (`Metric` role) with a delta `Badge`, not a chart.
 | `alert` | A message that stays: `info`, `success`, `warning`, `error`; `contrast="high"` for the one that must be dealt with; `AlertAction` |
 | `toast`, `sonner` | A result just now. Base UI uses `toast`; Radix and React Aria use Sonner |
 | `empty` | Nothing here, and what to do about it |
+| `status-island` | One live activity that changes: a timer, a call, an upload, a save | `StatusIslandContent key={state}` per state; it reshapes around the content. A status region: keep it short |
 | `skeleton` | A box whose size is known before its data |
 | `spinner` | In the control that started a wait; 22 variants, one per product |
 | `progress` | Known length, a goal, a limit |

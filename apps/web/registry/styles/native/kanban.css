@@ -31,8 +31,9 @@
   }
 
   /* Closed it is one of the toolbar's quiet buttons. */
+  /* An input like any other; where there is no room, a button opens it. */
   .cn-kanban-search {
-    @apply rounded-lg data-[open=false]:bg-transparent;
+    @apply min-w-0;
   }
 
   .cn-kanban-control {

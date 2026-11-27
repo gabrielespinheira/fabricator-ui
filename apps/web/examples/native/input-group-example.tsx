@@ -14,6 +14,7 @@ import {
   InputGroupInput,
   InputGroupText,
   InputGroupTextarea,
+  InputSearch,
 } from "@/registry/native/ui/input-group"
 import { Text } from "@/registry/native/ui/text"
 
@@ -29,6 +30,13 @@ function InputGroupExample() {
           </InputGroupAddon>
           <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
         </InputGroup>
+      </Example>
+      <Example title="Search">
+        <InputSearch
+          accessibilityLabel="Search components"
+          placeholder="Search components"
+          defaultValue="Button"
+        />
       </Example>
       <Example title="Text">
         <InputGroup>

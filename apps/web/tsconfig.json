@@ -94,6 +94,26 @@
       "@/registry/bases/*/hooks/use-radio-glide": [
         "./registry/fabricator/shared/hooks/use-radio-glide"
       ],
+      "@/registry/bases/*/lib/number-roll-model": [
+        "./registry/fabricator/shared/lib/number-roll-model"
+      ],
+      "@/registry/bases/*/hooks/use-number-roll": [
+        "./registry/fabricator/shared/hooks/use-number-roll"
+      ],
+      "@/registry/bases/*/lib/tooltip-travel-model": [
+        "./registry/fabricator/shared/lib/tooltip-travel-model"
+      ],
+      "@/registry/bases/*/hooks/use-tooltip-travel": [
+        "./registry/fabricator/shared/hooks/use-tooltip-travel"
+      ],
+      "@/registry/bases/*/lib/input-search-model": [
+        "./registry/fabricator/shared/lib/input-search-model"
+      ],
+      // Every base overrides Input Group; blocks and the Data Table use its
+      // InputSearch addition.
+      "@/registry/bases/*/ui/input-group": [
+        "./registry/fabricator/*/ui/input-group"
+      ],
       "@/registry/bases/*/lib/accordion-model": [
         "./registry/fabricator/shared/lib/accordion-model"
       ],
@@ -129,9 +149,6 @@
       ],
       "@/registry/bases/*/ui/data-table-cells": [
         "./registry/fabricator/shared/ui/data-table-cells"
-      ],
-      "@/registry/bases/*/ui/search": [
-        "./registry/fabricator/shared/ui/search"
       ],
       "@/registry/bases/*/ui/data-table": [
         "./registry/fabricator/*/ui/data-table"

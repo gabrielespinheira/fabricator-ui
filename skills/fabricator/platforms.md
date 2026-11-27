@@ -19,7 +19,7 @@ A monorepo usually has several. Ask which ones the feature ships on only when th
 | --- | --- | --- | --- | --- |
 | Navigation | Three to five `mobile: "tab"` items in `AppNavBottomBar`; the rest behind the sidebar trigger | Icon rail or docked sidebar | Docked sidebar, ⌘K | Toggle by the window controls, `TabStrip` |
 | Breadcrumb | The current page, with a menu of its parents | Full | Full | The only way back, so always there |
-| Page actions | One menu, the primary as a floating button (automatic) | Buttons | Buttons | Also in `Menubar` and shortcuts |
+| Page actions | One menu, the primary as a floating button (automatic) | Buttons | Buttons | Also in shortcuts |
 | Table | Identity, status and one number per row; the rest folds under the name or into the detail | Two or three more columns | All columns, `DataTable` when worked | Denser |
 | Detail of a record | The whole screen (`mobile="swap"`) or a drawer | Sheet over the list | `AppShellPanel` docked beside the list | Wider, resizable |
 | A queue: list and item | One at a time, with a way back | Side by side, sidebar as a rail | Side by side, context in a panel | The same; keys to act and advance |

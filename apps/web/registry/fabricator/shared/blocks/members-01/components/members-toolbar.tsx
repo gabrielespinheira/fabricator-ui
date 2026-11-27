@@ -12,7 +12,7 @@ import {
   type MemberRole,
   type MembersFilter,
 } from "@/registry/bases/__base__/blocks/members-01/lib/members-model"
-import { Search } from "@/registry/bases/__base__/ui/search"
+import { InputSearch } from "@/registry/bases/__base__/ui/input-group"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 /** What the list shows, and how much of it. */
@@ -37,10 +37,9 @@ export function MembersToolbar({
   return (
     <div className="flex min-h-(--density-36) flex-wrap items-center gap-(--density-8)">
       <MembersViewList />
-      <Search
-        collapsible={false}
-        width="13rem"
-        label="Search members"
+      <InputSearch
+        className="w-52 max-w-full"
+        aria-label="Search members"
         placeholder="Name, email or team"
         value={filter.query}
         onValueChange={(query) => onFilterChange({ ...filter, query })}

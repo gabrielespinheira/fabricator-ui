@@ -29,7 +29,6 @@ import {
   InputOTPDemo,
   RadioGroupDemo,
   SearchDemo,
-  SearchFieldDemo,
   SliderDemo,
   SwitchDemo,
 } from "./demos-forms"
@@ -190,13 +189,6 @@ const ITEMS: GalleryItem[] = [
     title: "Alert Dialog",
     height: "sm",
     Demo: AlertDialogDemo,
-  },
-  {
-    slug: "search",
-    title: "Search",
-    height: "sm",
-    isNew: true,
-    Demo: SearchFieldDemo,
   },
   {
     slug: "input-group",

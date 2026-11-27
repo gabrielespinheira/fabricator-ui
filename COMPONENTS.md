@@ -81,7 +81,7 @@ git -C <scratch>/shadcn sparse-checkout set apps/v4/registry apps/v4/examples pa
 - **Base UI first,** then Radix with the same behaviour, then React Aria. A Fabricator-only component writes Radix and Aria versions when their primitive differs; otherwise the item falls back to Base UI, recorded in its `meta` and on its docs page. A pure-HTML component keeps one identical source in every tree, usually in `shared/ui/`.
 - Shared files import base-specific code through `@/registry/bases/__base__/…`, which the build resolves per base.
 - Typechecking resolves `@/registry/bases/<base>/ui/<name>` to the upstream tree, so an overlay-only component, or overlay code using an override's additions, needs a path alias in `apps/web/tsconfig.json` (see the App Shell entries).
-- React Aria has no `Menubar` or `NavigationMenu`; upstream ships neither for that base.
+- React Aria has no `NavigationMenu`; upstream ships none for that base. Menubar is left out of every base (`FABRICATOR_EXCLUDED_ITEMS`).
 
 ## Source
 
@@ -265,17 +265,20 @@ Inter with its optical-size axis; `font-medium` is 450 and `font-semibold` 550.
 
 By role, never milliseconds. Every animation belongs to a role whose tokens the speed retimes.
 
-| Role                                 | Covers                                                      | Use                                |
-| ------------------------------------ | ----------------------------------------------------------- | ---------------------------------- |
-| feedback                             | Hover, colour, focus, icon stroke, weight                   | `duration-feedback ease-feedback`  |
-| press                                | Buttons and toggles while held (to 0.97)                    | `motion-press`                     |
-| glide                                | The fluid hover highlight                                   | `duration-glide ease-enter`        |
-| move                                 | Indicators, thumbs, selection, checkmarks, progress, widths | `duration-move ease-move`          |
-| tooltip, popup, dialog, sheet, toast | Each surface's whole enter and exit recipe                  | `motion-<surface>`, `motion-scrim` |
-| disclosure                           | Collapsible panels                                          | `motion-disclosure`                |
-| bounce                               | Layout that should feel physical (accordion items)          | `motion-bounce`, `ease-bounce`     |
-| settle                               | Layout that follows the pointer without a wobble            | `duration-settle ease-settle`      |
-| reveal                               | Charts and Text Motion playing in, once                     | read from `--motion-reveal`        |
+| Role                                 | Covers                                             | Use                                         |
+| ------------------------------------ | -------------------------------------------------- | ------------------------------------------- |
+| feedback                             | Hover, colour, focus, icon stroke, weight          | `duration-feedback ease-feedback`           |
+| press                                | Buttons and toggles while held (to 0.97)           | `motion-press`                              |
+| glide                                | The fluid hover highlight's fade                   | `duration-glide ease-enter`                 |
+| move                                 | Indicators, thumbs, checkmarks, progress, widths   | `duration-move ease-move`                   |
+| tooltip, popup, dialog, sheet, toast | Each surface's whole enter and exit recipe         | `motion-<surface>`, `motion-scrim`          |
+| disclosure                           | Collapsible panels                                 | `motion-disclosure`                         |
+| bounce                               | Layout that should feel physical (accordion items) | `motion-bounce`, `ease-bounce`              |
+| settle                               | Layout that follows the pointer without a wobble   | `duration-settle ease-settle`               |
+| reveal                               | Charts and Text Motion playing in, once            | read from `--motion-reveal`                 |
+| springs                              | What follows the pointer or can be interrupted     | `--motion-spring-<name>`, `spring-model`    |
+| spring in CSS                        | A transition that only starts and lands            | `duration-<name>-spring ease-<name>-spring` |
+| stagger                              | Menu rows entering one after another               | `motion-stagger`                            |
 
 - Speeds `smooth`, `default`, `snappy`, `instant` via `data-motion` on any element; `off` stops motion; `--motion-scale` multiplies every duration. A JavaScript tween reads the tokens from its element so a scoped speed retimes it.
 - Ease-out for what enters or leaves, ease-in-out for what moves, plain `ease` for colour. Exits are about 30% quicker (`duration-<role>-exit`). Popups grow from their trigger (`origin-(--transform-origin)`), dialogs from the centre, nothing from below 0.9.
@@ -286,7 +289,7 @@ By role, never milliseconds. Every animation belongs to a role whose tokens the 
 
 ### Fluid hover
 
-One `bg-hover` highlight glides to the item nearest the pointer (no dead zones; a click in a gap goes to the lit item), and a `bg-active` selection slides between selected items. The primitive's keyboard highlight moves the same highlight. Any list of alternatives uses it: menus, select, combobox, command, tabs, tab strip, toggle groups, sidebar, accordion triggers, table rows, file tree. Skip it where items are far apart or a wrong click would hurt.
+One `bg-hover` highlight glides to the item nearest the pointer (no dead zones; a click in a gap goes to the lit item), and a `bg-active` selection slides between selected items. Both travel on the `lead` and `trail` springs, one per edge, so they stretch toward the next item and keep their velocity when the target changes. The primitive's keyboard highlight moves the same highlight. Any list of alternatives uses it: menus, select, combobox, command, tabs, tab strip, toggle groups, sidebar, accordion triggers, table rows, file tree. Skip it where items are far apart or a wrong click would hurt.
 
 ```tsx
 import { FluidHoverHighlight, FluidHoverSelection, useFluidHover, useMergedRef } from "@/registry/bases/<base>/lib/fluid-hover"
@@ -415,4 +418,4 @@ Report each applicable line as passed, or name what wasn't run and why.
 - [ ] The native item follows, or a dated `parity-exceptions.json` entry explains why; `bun run native:parity` passes and the demo was checked on the iOS Simulator and Android Emulator ([PLATFORMS.md](docs/PLATFORMS.md#done-when)).
 - [ ] A new component has a group and, unless the homepage leaves its kind out, a catalog card ([COMPONENT-GROUPS.md](docs/COMPONENT-GROUPS.md#adding-a-component)).
 - [ ] A new component or variant appears where [`DESIGN.md`](DESIGN.md) chooses between components, keeping it within one agent read (about 25,000 tokens).
-- [ ] A changed foundation rule is updated in this file; a user-visible change has a section in `apps/web/content/docs/changelog/unreleased.mdx`.
+- [ ] A changed foundation rule is updated in this file; a user-visible change has a section in `apps/web/content/docs/changelog/unreleased.mdx` and its slug in that page's `new` or `updated` frontmatter.

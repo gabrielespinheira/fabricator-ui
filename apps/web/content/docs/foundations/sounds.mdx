@@ -58,28 +58,28 @@ Sounds are on by default. Set `enabled` to `false`, or call `setSoundsEnabled(fa
 
 ## What plays when
 
-| Component                                                                        | Sound                                              |
-| -------------------------------------------------------------------------------- | -------------------------------------------------- |
-| Primary button                                                                   | `press`                                            |
-| Outline, secondary or ghost button                                               | `tap`                                              |
-| Destructive button                                                               | `thud`                                             |
-| Link button, menu item, sidebar and navigation link, breadcrumb, tree item       | `tick`                                             |
-| Checkbox, menu checkbox                                                          | `check` on, `uncheck` off                          |
-| Switch                                                                           | `toggle-on` on, `toggle-off` off                   |
-| Toggle, toggle group item                                                        | `latch` pressed, `unlatch` released                |
-| Radio, select and combobox option, command item, menu radio, calendar day        | `pick`                                             |
-| Tab                                                                              | `note`, one chord tone per position                |
-| Pagination, calendar month buttons                                               | `page`, higher for next, lower for previous        |
-| Carousel previous and next                                                       | `whisk`                                            |
-| Accordion, collapsible, `<details>`                                              | `expand` and `collapse`                            |
-| Dropdown, context menu, menubar, popover, select, combobox, hover card, nav menu | `pop` and `dismiss`                                |
-| Dialog, command palette, Search                                                  | `open` and `close`                                 |
-| Alert dialog                                                                     | `alert` and `close`                                |
-| Sheet, drawer                                                                    | `slide-in` and `slide-out`                         |
-| Toast                                                                            | `notify`, `success`, `warning` or `error`, by type |
-| Slider                                                                           | `notch`, pitched by the value                      |
-| Resizable handle                                                                 | `grab` and `drop`                                  |
-| A control with `aria-disabled="true"`                                            | `deny`                                             |
+| Component                                                                  | Sound                                              |
+| -------------------------------------------------------------------------- | -------------------------------------------------- |
+| Primary button                                                             | `press`                                            |
+| Outline, secondary or ghost button                                         | `tap`                                              |
+| Destructive button                                                         | `thud`                                             |
+| Link button, menu item, sidebar and navigation link, breadcrumb, tree item | `tick`                                             |
+| Checkbox, menu checkbox                                                    | `check` on, `uncheck` off                          |
+| Switch                                                                     | `toggle-on` on, `toggle-off` off                   |
+| Toggle, toggle group item                                                  | `latch` pressed, `unlatch` released                |
+| Radio, select and combobox option, command item, menu radio, calendar day  | `pick`                                             |
+| Tab                                                                        | `note`, one chord tone per position                |
+| Pagination, calendar month buttons                                         | `page`, higher for next, lower for previous        |
+| Carousel previous and next                                                 | `whisk`                                            |
+| Accordion, collapsible, `<details>`                                        | `expand` and `collapse`                            |
+| Dropdown, context menu, popover, select, combobox, hover card, nav menu    | `pop` and `dismiss`                                |
+| Dialog, command palette, Search                                            | `open` and `close`                                 |
+| Alert dialog                                                               | `alert` and `close`                                |
+| Sheet, drawer                                                              | `slide-in` and `slide-out`                         |
+| Toast                                                                      | `notify`, `success`, `warning` or `error`, by type |
+| Slider                                                                     | `notch`, pitched by the value                      |
+| Resizable handle                                                           | `grab` and `drop`                                  |
+| A control with `aria-disabled="true"`                                      | `deny`                                             |
 
 Small buttons sound slightly higher and large ones slightly lower. Base UI's Button doesn't set `data-variant`, so the variant is read from the classes every style gives it.
 

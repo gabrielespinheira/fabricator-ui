@@ -151,6 +151,28 @@ const nextConfig = {
         destination: "/docs/components/aria/field",
         permanent: true,
       },
+      // Search became Input Group's InputSearch, shown on the Input page.
+      {
+        source: "/docs/components/:base(base|radix|aria|native)/search",
+        destination: "/docs/components/:base/input#search",
+        permanent: true,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria|native)/search.md",
+        destination: "/docs/components/:base/input.md",
+        permanent: true,
+      },
+      // Menubar left the library; menus are Dropdown Menus.
+      {
+        source: "/docs/components/:base(base|radix|aria|native)/menubar",
+        destination: "/docs/components/:base/dropdown-menu",
+        permanent: true,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria|native)/menubar.md",
+        destination: "/docs/components/:base/dropdown-menu.md",
+        permanent: true,
+      },
       // Date Input became the Date Picker component.
       {
         source: "/docs/components/:base(base|radix|aria|native)/date-input",

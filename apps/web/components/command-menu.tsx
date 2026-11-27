@@ -31,7 +31,6 @@ import {
   CommandShortcut,
 } from "@/styles/base-fabricator/ui/command"
 import { Kbd, KbdGroup } from "@/styles/base-fabricator/ui/kbd"
-import { Search } from "@/styles/base-fabricator/ui/search"
 import { Separator } from "@/styles/base-fabricator/ui/separator"
 import { Spinner } from "@/styles/base-fabricator/ui/spinner"
 
@@ -65,7 +64,7 @@ export function CommandMenu({
    * sidebar: the docs sidebar row. search: the
    * top bar's collapsible Search field, which hands its text to the dialog.
    */
-  trigger?: "default" | "pill" | "sidebar" | "search" | "icon"
+  trigger?: "default" | "pill" | "sidebar" | "icon"
 }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -73,10 +72,7 @@ export function CommandMenu({
   const currentBase = getCurrentBase(pathname)
   const [open, setOpen] = React.useState(false)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
-  const searchRootRef = React.useRef<HTMLDivElement>(null)
   const [inputValue, setInputValue] = React.useState("")
-  const [fieldValue, setFieldValue] = React.useState("")
-  const [isFieldOpen, setFieldOpen] = React.useState(false)
   const [renderDelayedGroups, setRenderDelayedGroups] = React.useState(false)
   const [highlighted, setHighlighted] = React.useState("")
 
@@ -210,26 +206,12 @@ export function CommandMenu({
 
   const action = actions.get(highlighted) ?? PAGE_ACTION
 
-  // Closing the dialog empties the top bar's field, which then collapses.
+  // Closing the dialog empties its input.
   const changeOpen = React.useCallback((next: boolean) => {
     setOpen(next)
     if (next) return
     setInputValue("")
-    setFieldValue("")
-    setFieldOpen(false)
   }, [])
-
-  // The top bar's field hands what is typed to the dialog's input.
-  const searchFromField = React.useCallback(
-    (text: string) => {
-      setFieldValue(text)
-      if (!text) return
-      setInputValue(text)
-      handleSearchChange(text)
-      setOpen(true)
-    },
-    [handleSearchChange]
-  )
 
   const runCommand = React.useCallback(
     (command: () => unknown) => {
@@ -332,8 +314,7 @@ export function CommandMenu({
         }
 
         // Pages mount one menu per breakpoint; only the visible one opens.
-        const visibleTrigger = triggerRef.current ?? searchRootRef.current
-        if (!open && !visibleTrigger?.checkVisibility()) {
+        if (!open && !triggerRef.current?.checkVisibility()) {
           return
         }
 
@@ -391,17 +372,6 @@ export function CommandMenu({
           <span className="hidden xl:inline-flex">Search documentation...</span>
           <span className="inline-flex xl:hidden">Search...</span>
         </Button>
-      ) : trigger === "search" ? (
-        <Search
-          rootProps={{ ref: searchRootRef }}
-          open={isFieldOpen}
-          onOpenChange={setFieldOpen}
-          value={fieldValue}
-          onValueChange={searchFromField}
-          label="Search documentation"
-          placeholder="Search documentation"
-          width="240px"
-        />
       ) : (
         <button
           type="button"

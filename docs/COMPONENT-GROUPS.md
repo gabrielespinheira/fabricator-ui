@@ -10,29 +10,29 @@ Each Advanced component row also links to its overview and expands to show its r
 
 In this order:
 
-| Group         | Holds                                                                             | For example                                                               |
-| ------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| **Basics**    | The building blocks other components are made of: one control or atom             | `button`, `input`, `checkbox`, `badge`, `avatar`, `separator`, `skeleton` |
-| **Forms**     | Composed inputs and pickers for entering a value                                  | `field`, `properties`, `input-group`, `select`, `combobox`, `date-picker`, `search`     |
-| **Overlays**  | Surfaces that open above the page from a trigger or a shortcut                    | `dialog`, `record-view`, `sheet`, `popover`, `tooltip`, `dropdown-menu`, `command`       |
-| **Structure** | The frame of an app and the arrangement of a page: navigation, layout, containers | `app-shell`, `sidebar`, `tabs`, `breadcrumb`, `accordion`, `card`, `item` |
-| **Content**   | Showing data, media and the result of an action                                   | `table`, `alert`, `toast`, `progress`, `empty`, `markdown`                |
-| **Charts**    | Numbers drawn as marks: lines, bars, areas, arcs, cells and flows                 | `area-chart`, `bar-chart`, `donut-chart`, `treemap`, `heat-calendar`      |
-| **Chat**      | Parts made for a conversation with a person or an assistant                       | `chat-input`, `message`, `bubble`, `model-picker`, `questionnaire`        |
-| **Advanced**  | Large, self-contained components that are a small product of their own            | `data-table`, `event-calendar`, `kanban`, `editor`, `file-tree`, `video-player`     |
+| Group         | Holds                                                                             | For example                                                                        |
+| ------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Basics**    | The building blocks other components are made of: atoms and feedback              | `button`, `badge`, `avatar`, `separator`, `skeleton`, `alert`, `toast`, `empty`    |
+| **Forms**     | Every control for entering a value, single or composed, and pickers               | `input`, `checkbox`, `switch`, `field`, `input-group`, `select`, `date-picker`     |
+| **Overlays**  | Surfaces that open above the page from a trigger or a shortcut                    | `dialog`, `record-view`, `sheet`, `popover`, `tooltip`, `dropdown-menu`, `command` |
+| **Structure** | The frame of an app and the arrangement of a page: navigation, layout, containers | `app-shell`, `sidebar`, `tabs`, `breadcrumb`, `accordion`, `card`, `item`          |
+| **Content**   | Showing data, text and media                                                      | `table`, `typography`, `text-motion`, `progress`, `markdown`, `folder`             |
+| **Charts**    | Numbers drawn as marks: lines, bars, areas, arcs, cells and flows                 | `area-chart`, `bar-chart`, `donut-chart`, `treemap`, `heat-calendar`               |
+| **Chat**      | Parts made for a conversation with a person or an assistant                       | `chat-input`, `message`, `bubble`, `model-picker`, `questionnaire`                 |
+| **Advanced**  | Large, self-contained components that are a small product of their own            | `data-table`, `event-calendar`, `kanban`, `editor`, `file-tree`, `video-player`    |
 
 ## Choosing a group
 
 Pick the group a reader would look in when building the screen, in this order:
 
-1. **Advanced** when it is a complete tool rather than a part, with its own state model and controls (`data-table`, `editor`, `file-tree`, `syntax-highlight`, `image-compare`, `video-player`, `audio-player`, `text-motion`). The Data Table is one: it loads, sorts, filters, edits and lays itself out. Text Motion is one too: its own engine that splits, sequences and times text across effects. A component that is merely large but still one part of a screen (`app-shell`) stays in its own group.
+1. **Advanced** when it is a complete tool rather than a part, with its own state model and controls (`data-table`, `editor`, `file-tree`, `syntax-highlight`, `image-compare`, `video-player`, `audio-player`). The Data Table is one: it loads, sorts, filters, edits and lays itself out. A component that is merely large but still one part of a screen (`app-shell`) stays in its own group, and so does one that presents text however much engine it has (`text-motion` is Content).
 2. **Charts** when the component draws numbers as marks (lines, bars, areas, arcs, cells, flows) with a scale, a legend or a tooltip. A table of numbers stays Content; a single `Progress` bar stays Content.
 3. **Chat** when the component exists for conversations. A general component that chat also uses (`markdown`, `avatar`) stays in its own group.
 4. **Overlays** when its main surface floats above the page. A header navigation that stays in place (`navigation-menu`) is Structure.
-5. **Basics** when it is one element other components are built from, whatever it shows: a single control (`input`, `toggle`), a label or mark (`badge`, `kbd`, `avatar`), a placeholder (`skeleton`, `spinner`) or a primitive container (`scroll-area`, `aspect-ratio`).
-6. **Forms** when it composes controls: a set of them (`button-group`, `toggle-group`) or a way of entering a value (`input-group`, `field`, `search`, and every picker: `select`, `date-picker`, `color-picker`).
+5. **Forms** when the person enters a value with it: a single control (`input`, `textarea`, `checkbox`, `radio-group`, `switch`, `slider`, `rating`) and its `label`, a set of controls (`button-group`, `toggle-group`), a framed field (`input-group`, `field`) or a picker (`select`, `date-picker`, `color-picker`). A search field is `InputSearch` from `input-group`.
+6. **Basics** when it is one element other components are built from, whatever it shows: an action (`button`, `toggle`), a label or mark (`badge`, `kbd`, `avatar`), a placeholder (`skeleton`, `spinner`), a primitive container (`scroll-area`, `aspect-ratio`), or feedback in place (`alert`, `toast`, `empty`).
 7. **Structure** when it frames or arranges other components: app frames, navigation, disclosure, cards, items, carousels, resizable panes.
-8. **Content** when it presents data, media, status or the result of an action. Reading a document is Content (`markdown`); writing one is Advanced (`editor`).
+8. **Content** when it presents data, text, media or progress (`table`, `typography`, `text-motion`, `progress`). Reading a document is Content (`markdown`); writing one is Advanced (`editor`).
 
 When two groups still fit, follow the closest neighbour already in `GROUP_BY_SLUG`. A native-only component (`text`, `fabricator-root`) takes a group like any other.
 

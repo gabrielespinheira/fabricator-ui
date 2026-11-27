@@ -98,12 +98,12 @@ import {
   EmptyTitle,
 } from "@/registry/bases/radix/ui/empty"
 import { Input } from "@/registry/bases/radix/ui/input"
+import { InputSearch } from "@/registry/bases/radix/ui/input-group"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/registry/bases/radix/ui/popover"
-import { Search } from "@/registry/bases/radix/ui/search"
 import {
   Select,
   SelectContent,
@@ -423,9 +423,13 @@ function DataTableSearch<TData extends RowData>({
   className,
   ...props
 }: Omit<
-  React.ComponentProps<typeof Search>,
+  React.ComponentProps<typeof InputSearch>,
   "value" | "defaultValue" | "onValueChange"
-> & { table: DataTableTable<TData> }) {
+> & {
+  table: DataTableTable<TData>
+  /** Accessible name of the field. Default "Search". */
+  label?: string
+}) {
   const external = String(table.state.globalFilter ?? "")
   const [query, setQuery] = React.useState(external)
   const [synced, setSynced] = React.useState(external)
@@ -436,9 +440,8 @@ function DataTableSearch<TData extends RowData>({
   }
 
   return (
-    <Search
-      collapsible={false}
-      label={label}
+    <InputSearch
+      aria-label={label}
       placeholder={placeholder ?? `${label}…`}
       value={query}
       onValueChange={(value) => {

@@ -1,0 +1,117 @@
+---
+title: Hold Button
+description: A button that confirms only when held for its whole duration, for actions worth a second thought.
+base: base
+component: true
+---
+
+<ComponentPreview styleName="base-nova" name="hold-button-demo" />
+
+Press and hold: the button fills from its start edge, its label turning over under the fill. Let go early and the fill springs back with a little shake; hold to the end and it calls `onHoldComplete` and shows a check. Use it for an action worth a second thought, such as deleting a project or publishing a release, where a confirm dialog would be one step too many.
+
+Hold Button is part of the Fabricator style. It's built on HTML, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add hold-button
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/fluid-hover.tsx"
+  title="lib/fluid-hover.tsx"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/spring-model.ts"
+  title="lib/spring-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/hold-button-model.ts"
+  title="lib/hold-button-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/hold-button.tsx"
+  title="components/ui/hold-button.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { HoldButton } from "@/components/ui/hold-button"
+```
+
+```tsx
+<HoldButton variant="destructive" onHoldComplete={deleteProject}>
+  <TrashIcon />
+  Delete project
+</HoldButton>
+```
+
+## Composition
+
+```text
+HoldButton               data-slot="hold-button" data-state data-variant data-size
+├── span                 data-slot="hold-button-label"
+├── span                 data-slot="hold-button-fill" (the label, turned over)
+└── span                 data-slot="hold-button-check"
+```
+
+`data-state` is `idle`, `holding` or `complete`. Give it an icon and a label as you would a Button; the fill repeats them in its own colours.
+
+## Examples
+
+### Variants and sizes
+
+`default` pours the primary fill over the secondary one; `destructive` fills the soft destructive wash solid. `sm` and `lg` pin the compact and spacious density, and `duration` sets how long a press has to last.
+
+<ComponentPreview styleName="base-nova" name="hold-button-variants" />
+
+## Motion
+
+Holding, the fill uncovers in a straight line over `duration`, so it reads as progress, under Reduce Motion too. Let go early, it springs back on the settle spring and the button shakes no. Complete, the check pops in on the pop spring and the button is ready again after a moment. Motion off keeps the fill and drops the spring and the shake.
+
+## API Reference
+
+| Prop             | Type                         | Default     |
+| ---------------- | ---------------------------- | ----------- |
+| `variant`        | `"default" \| "destructive"` | `"default"` |
+| `size`           | `"sm" \| "default" \| "lg"`  | `"default"` |
+| `duration`       | `number` (milliseconds)      | `1200`      |
+| `onHoldComplete` | `() => void`                 |             |
+
+It renders a `button` and takes its props, except `onClick`: a click alone does nothing.
+
+## Accessibility
+
+It is a button, reached with Tab and named by its label. Its description says to press and hold. Space and Enter hold it as they press a button: keep the key down for the whole duration. Completion is announced as "Confirmed". It never fires on a click, so a screen reader user who can't hold a key needs another way to do the same thing, such as a menu item with a dialog.

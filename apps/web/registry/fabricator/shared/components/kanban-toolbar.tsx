@@ -36,7 +36,7 @@ import {
   DrawerContent,
   DrawerTitle,
 } from "@/registry/bases/__base__/ui/drawer"
-import { Search } from "@/registry/bases/__base__/ui/search"
+import { InputSearch } from "@/registry/bases/__base__/ui/input-group"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 type KanbanPartProps<Item> = { board: KanbanController<Item> }
@@ -159,21 +159,44 @@ function KanbanSearch<Item>({
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }) {
+  const value = board.view.search ?? ""
+  if (collapsible && !open)
+    return (
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        aria-label={placeholder}
+        aria-expanded={false}
+        data-kanban-search=""
+        className="cn-kanban-search-trigger"
+        onClick={() => onOpenChange?.(true)}
+      >
+        <IconPlaceholder
+          lucide="SearchIcon"
+          tabler="IconSearch"
+          hugeicons="SearchIcon"
+          phosphor="MagnifyingGlassIcon"
+          remixicon="RiSearchLine"
+        />
+      </Button>
+    )
   return (
-    <Search
-      size="sm"
-      variant="outline"
-      label={placeholder}
+    <InputSearch
+      aria-label={placeholder}
       placeholder={placeholder}
       data-kanban-search=""
       className="cn-kanban-search"
-      width="200px"
-      collapsible={collapsible}
-      open={open}
-      onOpenChange={onOpenChange}
-      value={board.view.search ?? ""}
+      // Opened from its button, the field takes the focus.
+      autoFocus={collapsible}
+      value={value}
       onValueChange={(search) => board.setView({ ...board.view, search })}
-      onFocus={() => onOpenChange?.(true)}
+      onKeyDown={(event) => {
+        if (!collapsible || event.key !== "Escape" || value) return
+        onOpenChange?.(false)
+      }}
+      onBlur={() => {
+        if (collapsible && !value) onOpenChange?.(false)
+      }}
     />
   )
 }

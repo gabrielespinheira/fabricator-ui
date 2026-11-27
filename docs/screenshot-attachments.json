@@ -423,10 +423,6 @@
     "url": "https://github.com/user-attachments/assets/bcd6023e-853a-4936-a5a3-4103a8a6ee20",
     "sha256": "e88c61b889f04b8c61205f217f1f68df8c0686eac89de3803a63e3e6249af803"
   },
-  "apps/web/public/images/native/menubar.jpg": {
-    "url": "https://github.com/user-attachments/assets/820ffb0e-832b-4d96-81b7-7bc7a7360d5a",
-    "sha256": "6b0ddc994bd03170a421585bb24b69151e82437dc323dfb3842a051f3493f661"
-  },
   "apps/web/public/images/native/message-scroller.jpg": {
     "url": "https://github.com/user-attachments/assets/b079256b-8845-4284-9c5c-ecf30b131a69",
     "sha256": "3c0a1eaafd78c0b84bf015cd0879f5b2605397a9ad9de992b50682369c275509"
@@ -466,10 +462,6 @@
   "apps/web/public/images/native/scroll-area.jpg": {
     "url": "https://github.com/user-attachments/assets/2fb05143-c312-436c-adac-dd29ba59656b",
     "sha256": "afd93cd33e03c66760478d351a9af2e97a385f229d9e99965aec4835a3f0331d"
-  },
-  "apps/web/public/images/native/search.jpg": {
-    "url": "https://github.com/user-attachments/assets/4a2b8e3b-4a08-440e-9ef3-5bd9c448732b",
-    "sha256": "c97e8532a8db7c78ee136e188681b94c49d65c5e4797e41f685b8dd9cb9241cf"
   },
   "apps/web/public/images/native/select.jpg": {
     "url": "https://github.com/user-attachments/assets/97b97df4-3183-4d48-b449-d5c8f9fa3123",

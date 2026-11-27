@@ -14,8 +14,11 @@ import {
   type MailThreadMove,
   type SnoozeOption,
 } from "@/registry/bases/__base__/blocks/mail-01/lib/mail-model"
+import {
+  InputGroupAddon,
+  InputSearch,
+} from "@/registry/bases/__base__/ui/input-group"
 import { Kbd } from "@/registry/bases/__base__/ui/kbd"
-import { Search } from "@/registry/bases/__base__/ui/search"
 
 export type MailBulkAction =
   | "archive"
@@ -165,26 +168,24 @@ export function MailListToolbar({
         if (event.key === "Escape" && isInside) selection?.onClearSelection()
       }}
     >
-      <form
-        role="search"
-        className="relative"
-        onSubmit={(event) => event.preventDefault()}
-      >
-        <Search
+      <form role="search" onSubmit={(event) => event.preventDefault()}>
+        <InputSearch
           ref={searchRef}
-          collapsible={false}
-          width="100%"
-          label="Search mail"
+          aria-label="Search mail"
           placeholder="Search mail"
           aria-keyshortcuts="/"
           value={query}
           onValueChange={onQueryChange}
-        />
-        {query === "" && (
-          <Kbd className="absolute end-(--density-12) top-1/2 -translate-y-1/2 in-data-[size=phone]:hidden">
-            /
-          </Kbd>
-        )}
+        >
+          {query === "" && (
+            <InputGroupAddon
+              align="inline-end"
+              className="in-data-[size=phone]:hidden"
+            >
+              <Kbd>/</Kbd>
+            </InputGroupAddon>
+          )}
+        </InputSearch>
       </form>
       <div className="flex h-(--density-36) items-center gap-(--density-10)">
         <div hidden={selection !== null}>

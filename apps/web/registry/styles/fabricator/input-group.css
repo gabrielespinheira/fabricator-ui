@@ -69,3 +69,16 @@
   .cn-input-group-textarea {
     @apply rounded-none border-0 bg-transparent py-(--density-8) shadow-none ring-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 aria-invalid:hover:bg-transparent aria-invalid:focus-visible:bg-transparent;
   }
+
+/* MARK: Input Search */
+
+  /* A search field is an input group like any other: the same frame, height
+     and focus. The icon is a quiet addon at the start; the clear button
+     scales in once there is text and leaves at once. */
+  .cn-input-search {
+    @apply [&_[data-slot=input-search-icon]]:pointer-events-none;
+  }
+
+  .cn-input-search-clear {
+    @apply text-muted-foreground hover:text-foreground animate-in fade-in-0 zoom-in-75 duration-feedback ease-enter motion-reduce:zoom-in-100;
+  }

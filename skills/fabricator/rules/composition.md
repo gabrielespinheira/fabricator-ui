@@ -48,7 +48,6 @@ This applies to all group-based components:
 | ---------------------------------------------------------- | ------------------------ |
 | `SelectItem`, `SelectLabel`                                | `SelectGroup`            |
 | `DropdownMenuItem`, `DropdownMenuLabel`, `DropdownMenuSub` | `DropdownMenuGroup`      |
-| `MenubarItem`                                              | `MenubarGroup`           |
 | `ContextMenuItem`                                          | `ContextMenuGroup`       |
 | `CommandItem`                                              | `CommandGroup`           |
 | `MessageScrollerItem`                                      | `MessageScrollerContent` |

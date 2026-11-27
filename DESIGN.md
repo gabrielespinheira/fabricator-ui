@@ -460,7 +460,7 @@ Every text field is a question the person must answer from memory. Replace it wh
 | ---------------------------------------- | -------------------------------------------------------------------- |
 | On or off, applied at once               | `Switch`                                                             |
 | Yes or no, sent with a form              | `Checkbox`                                                           |
-| One of two to four values on one line   | Single-select `ToggleGroup` with a shared track                                   |
+| One of two to four values on one line    | Single-select `ToggleGroup` with a shared track                      |
 | One of a few that need a sentence each   | Choice cards: a `RadioGroup` of horizontal `Field`s                  |
 | Five or more, or labels that do not fit  | `Select`                                                             |
 | One of many, or found by typing          | `Combobox`                                                           |
@@ -536,12 +536,12 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 
 ### Choosing a component
 
-- **Actions:** `Button`, `ButtonGroup`, `Toggle`; `DropdownMenu`, `ContextMenu`, `Menubar` in desktop apps; `Command` in a `CommandDialog`; `Search`.
+- **Actions:** `Button`, `ButtonGroup`, `Toggle`; `DropdownMenu`, `ContextMenu`; `Command` in a `CommandDialog`; `HoldButton` for one action worth a second thought without a dialog, `SlideToConfirm` for a commit on a touch screen.
 - **Overlays:** `Dialog`, `AlertDialog`, `Sheet`, `Drawer` on phones, `Popover`, `HoverCard`, `Tooltip`.
-- **Frame:** `AppShell`, `AppNav`, `Sidebar`, `TabStrip`, `WorkspaceSwitcher`, `UserMenu`, `NavigationMenu` on websites, `Breadcrumb`, `Pagination`, `PreviewRail`.
+- **Frame:** `AppShell`, `AppNav`, `Sidebar`, `TabStrip`, `WorkspaceSwitcher`, `UserMenu`, `NavigationMenu` on websites, `Breadcrumb`, `Pagination`, `PreviewRail`, `Stepper` for a flow done in steps, `BottomNav` for a phone web app outside the App Shell.
 - **Records:** `Card`, `ItemGroup`, `Table`, `DataTable`, `EventCalendar`, `FileTree`, `Folder`, `Badge`, `Avatar`, `AvatarGroup`, `Kbd`, `SyntaxHighlight`.
 - **Charts:** [Choosing a widget](#choosing-a-widget), plus `PieChart`, `RadarChart`, `Treemap`, `CandlestickChart`, `BumpChart`, `SankeyChart`.
-- **Feedback and structure:** `Alert`, toasts, `Progress`, `Spinner`, `Skeleton`, `Empty`, `Accordion`, `Collapsible`, `Resizable`, `ScrollArea`.
+- **Feedback and structure:** `Alert`, toasts, `Progress`, `SegmentedMeter` for one limit split into parts, `StatusIsland` for one live activity, `PasswordStrength` under a new password, `Spinner`, `Skeleton`, `Empty`, `Accordion`, `Collapsible`, `Resizable`, `ScrollArea`.
 - **Media and chat:** `AudioPlayer`, `VideoPlayer`, `ImageCompare`, `AspectRatio`, `Carousel`; `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`, `ModelPicker`, `Questionnaire`, `BotFace`.
 - **Words in motion:** `TextMotion` for a website headline that plays in, `TextMotionGroup` for a headline and lead in sequence, `TextMotionRotate` for a word that cycles.
 
@@ -560,7 +560,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 ### Menus and commands
 
 - Group items by how often they are used, label groups when it helps, put the destructive item last and alone, show shortcuts, and end an item that opens a dialog with "…" ("Rename…"). A menu holds actions and view toggles; a `Select` holds a value.
-- **Every item leads with an icon** in a `DropdownMenu`, `ContextMenu` or `Menubar`: the icon names the action before the label is read and gives the labels one edge. One icon per action across the product; a person, workspace or file leads with its avatar, logo or file icon. Checkbox items and sub-menu triggers keep theirs, with the check or chevron at the end. A sub-menu of values ("Every 5 minutes") is a choice list without icons; an action with no fitting icon takes `inset` to stay on the labels' edge.
+- **Every item leads with an icon** in a `DropdownMenu` or `ContextMenu`: the icon names the action before the label is read and gives the labels one edge. One icon per action across the product; a person, workspace or file leads with its avatar, logo or file icon. Checkbox items and sub-menu triggers keep theirs, with the check or chevron at the end. A sub-menu of values ("Every 5 minutes") is a choice list without icons; an action with no fitting icon takes `inset` to stay on the labels' edge.
 - The command palette opens on ⌘K, grouped (Navigation, Actions, Recent), each item with its icon, shortcut and synonyms.
 
 ### Navigation
@@ -594,7 +594,7 @@ The cursor says what a press will do, on the web and in desktop windows. Compone
 
 ### Platforms
 
-- Base UI, Radix and React Aria look and behave the same; read the docs for the project's base (React Aria has no `Menubar` or `NavigationMenu`). React Native shares the components and rules; not there yet: `DataTable`, `TextMotion` (its text shows at rest), and the time in `DatePicker`. Touch turns hover and right-click into a long press.
+- Base UI, Radix and React Aria look and behave the same; read the docs for the project's base (React Aria has no `NavigationMenu`). React Native shares the components and rules; not there yet: `DataTable`, `TextMotion` (its text shows at rest), and the time in `DatePicker`. Touch turns hover and right-click into a long press.
 
 ## Patterns
 
@@ -605,7 +605,7 @@ Start from the closest pattern, install its block when there is one, and remove 
 
 ### List
 
-- **Header:** the breadcrumb and the primary action. **Toolbar:** `Search`, filters, a view switch, the count at the end; active filters stay visible with one way to clear them.
+- **Header:** the breadcrumb and the primary action. **Toolbar:** `InputSearch`, filters, a view switch, the count at the end; active filters stay visible with one way to clear them.
 - **Body:** `Table` or `DataTable` to compare, `Item`s to read one by one, `Card`s to recognise by picture. A checkbox column selects; the toolbar then shows the count and bulk actions.
 - Filters, sort and page live in the URL. First use shows an `Empty` with the primary action; no results, one that clears the filters.
 
@@ -674,7 +674,7 @@ A `Table` of members (avatar, name, email, a role `Select` admins change in plac
 
 ### Integrations
 
-A grid of connection cards (thirds) grouped by kind, with `Search` and a category picker. Each card has the logo, the name, one line and "Connect", or once connected a `Switch` and "Manage"; it changes in place with a toast.
+A grid of connection cards (thirds) grouped by kind, with `InputSearch` and a category picker. Each card has the logo, the name, one line and "Connect", or once connected a `Switch` and "Manage"; it changes in place with a toast.
 
 ### API keys and webhooks
 

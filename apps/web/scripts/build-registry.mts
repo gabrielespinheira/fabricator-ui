@@ -1278,7 +1278,15 @@ async function buildFabricatorStyleMap() {
     )
   )
   const fabricator = createStyleMap(content)
-  const missing = Object.keys(reference).filter((key) => !(key in fabricator))
+  // Items the library leaves out ship no Fabricator look, so their
+  // placeholders need no rule.
+  const isExcludedPlaceholder = (key: string) =>
+    Object.keys(FABRICATOR_EXCLUDED_ITEMS).some(
+      (name) => key === `cn-${name}` || key.startsWith(`cn-${name}-`)
+    )
+  const missing = Object.keys(reference).filter(
+    (key) => !(key in fabricator) && !isExcludedPlaceholder(key)
+  )
   if (missing.length > 0) {
     throw new Error(
       `style-fabricator is missing rules for ${missing.length} placeholders (add them under registry/styles/fabricator/): ${missing.join(", ")}`

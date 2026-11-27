@@ -31,16 +31,39 @@ describe("getComponentGroup", () => {
   })
 
   it.each([
-    ["checkbox", "Basics"],
     ["spinner", "Basics"],
     ["button-group", "Forms"],
     ["dropdown-menu", "Overlays"],
     ["app-shell", "Structure"],
-    ["alert", "Content"],
+    ["markdown", "Content"],
     ["attachment", "Chat"],
     ["bot-face", "Chat"],
   ])("keeps %s in its existing category", (slug, group) => {
     expect(getComponentGroup(slug)).toBe(group)
+  })
+
+  it.each([
+    "input",
+    "textarea",
+    "label",
+    "checkbox",
+    "radio-group",
+    "switch",
+    "slider",
+    "rating",
+  ])("puts the single control %s in Forms", (slug) => {
+    expect(getComponentGroup(slug)).toBe("Forms")
+  })
+
+  it.each(["alert", "toast", "sonner", "empty"])(
+    "puts the feedback atom %s in Basics",
+    (slug) => {
+      expect(getComponentGroup(slug)).toBe("Basics")
+    }
+  )
+
+  it.each(["typography", "text-motion"])("puts %s in Content", (slug) => {
+    expect(getComponentGroup(slug)).toBe("Content")
   })
 
   it.each([

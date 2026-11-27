@@ -84,3 +84,12 @@
   .cn-input-group-textarea {
     @apply focus:border-0 focus:bg-transparent rounded-none border-0 bg-transparent py-(--density-8) data-[stacked=true]:flex-none;
   }
+
+/* MARK: Input Search */
+
+  /* A search field is an input group like any other: the same frame, height
+     and focus, with the search icon at the start and a clear button once
+     there is text. */
+  .cn-input-search {
+    @apply min-w-0;
+  }
