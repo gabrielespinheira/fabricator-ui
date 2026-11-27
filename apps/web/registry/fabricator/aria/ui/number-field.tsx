@@ -13,6 +13,8 @@ import {
   type NumberFieldProps as NumberFieldPrimitiveProps,
 } from "react-aria-components"
 
+import { useNumberRoll } from "@/registry/bases/aria/hooks/use-number-roll"
+import { useMergedRef } from "@/registry/bases/aria/lib/fluid-hover"
 import {
   InputGroup,
   InputGroupAddon,
@@ -56,12 +58,17 @@ function NumberFieldGroup({
   )
 }
 
+// The value rolls into place when it steps (use-number-roll).
 function NumberFieldInput({
   className,
+  ref,
   ...props
 }: React.ComponentProps<typeof InputGroupInput>) {
+  const rollRef = useNumberRoll()
+  const mergedRef = useMergedRef(rollRef, ref)
   return (
     <InputGroupInput
+      ref={mergedRef}
       data-slot="number-field-input"
       className={cn(
         "cn-number-field-input [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",

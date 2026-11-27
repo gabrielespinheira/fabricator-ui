@@ -114,7 +114,7 @@ Two corners: controls and rows `rounded-lg` (8px), containers `rounded-xl`. A co
 
 ## Motion
 
-It ships with the components: hover fades, presses, one highlight that glides between rows, selections that slide, popups that grow from their trigger, charts that draw in and morph. Pick a speed per product (`data-motion` on `<html>`: `smooth` websites, default, `snappy` all-day apps, `instant` dense tools) and write none yourself.
+It ships with the components: hover fades, presses, one highlight that stretches between rows on springs, selections that stretch the same way, popups that grow from their trigger, charts that draw in and morph. Pick a speed per product (`data-motion` on `<html>`: `smooth` websites, default, `snappy` all-day apps, `instant` dense tools) and write none yourself.
 
 App content appears in place. Something you animate uses a role: `duration-feedback ease-feedback` for colour, `duration-move ease-move` for things that travel, `motion-popup`, `motion-disclosure`. Reduced motion is handled.
 

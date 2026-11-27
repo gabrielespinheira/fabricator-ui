@@ -5846,8 +5846,9 @@
   }
 
   /* A phone has no hover to reveal a frame, so a number keeps the field's. */
+  /* As wide as the other values. */
   .cn-properties-number-field {
-    @apply max-w-60;
+    @apply min-w-0;
   }
 
   .cn-properties-number-group {
@@ -5923,7 +5924,7 @@
     @apply size-(--density-16) rounded-sm;
   }
 
-  .cn-properties-presets {
+  .cn-properties-date-actions {
     @apply gap-(--density-4);
   }
 

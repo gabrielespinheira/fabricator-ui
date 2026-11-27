@@ -53,6 +53,8 @@ export const foundationItems: Registry["items"] = [
       { path: "lib/press-wash.tsx", type: "registry:lib" },
       tokenFile("css-object"),
       tokenFile("motion"),
+      // The motion tokens retime their springs with it.
+      { path: "lib/spring-model.ts", type: "registry:lib" },
     ],
   },
   {
@@ -68,6 +70,7 @@ export const foundationItems: Registry["items"] = [
         type: "registry:lib" as const,
       })),
       { path: "lib/apply-look.ts", type: "registry:lib" },
+      { path: "lib/spring-model.ts", type: "registry:lib" },
     ],
   },
   {

@@ -1,0 +1,40 @@
+/* MARK: Bottom Nav */
+
+  /* A floating bar of tabs: surface 3 with its shadow, a full pill around a
+     6px inset, the tabs 4px apart. */
+  .cn-bottom-nav {
+    @apply w-fit gap-1 rounded-full bg-surface-3 p-1.5 shadow-surface-3;
+  }
+
+  /* The current tab's pill: one bg-active pill that slides between tabs on
+     the selection springs and stretches as it goes. */
+  .cn-bottom-nav-selection {
+    @apply rounded-full;
+  }
+
+  /* A tab: a pill the height of a large control, at least as wide as it is
+     tall so an icon alone sits in a circle. Muted at rest, foreground on
+     hover and when current. Focus is the 1px ring. */
+  .cn-bottom-nav-item {
+    @apply cursor-pointer h-(--density-40) min-w-(--density-40) justify-center rounded-full px-(--density-12) text-muted-foreground transition-colors duration-feedback ease-feedback hover:text-foreground data-active:text-foreground focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  /* A 20px icon. Pressing squashes it; letting go pops it back on the pop
+     spring, so picking a tab lands with a bounce. The current tab's icon is
+     drawn heavier. */
+  .cn-bottom-nav-icon {
+    @apply transition-[scale] duration-pop-spring ease-pop-spring group-active/bottom-nav-item:scale-85 group-active/bottom-nav-item:duration-feedback group-active/bottom-nav-item:ease-feedback motion-reduce:scale-100 [&_svg:not([class*='size-'])]:size-[calc(var(--density-icon-16)+4px)] [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] group-data-active/bottom-nav-item:[&_svg]:stroke-2;
+  }
+
+  /* The name opens to its width on the soft spring as the tab becomes
+     current, and closes as another does, so the tabs trade room. It stays in
+     the page for screen readers while closed. */
+  .cn-bottom-nav-label-frame {
+    @apply grid-cols-[0fr] opacity-0 transition-[grid-template-columns,opacity,margin] duration-soft-spring ease-soft-spring group-data-active/bottom-nav-item:ms-(--density-8) group-data-active/bottom-nav-item:grid-cols-[1fr] group-data-active/bottom-nav-item:opacity-100 motion-reduce:transition-none;
+  }
+
+  /* 14px medium, trimmed to its cap height so it centres on the icon rather
+     than riding on its line box. */
+  .cn-bottom-nav-label {
+    @apply min-w-0 text-(length:--density-text-14) leading-none font-medium [text-box:trim-both_cap_alphabetic];
+  }

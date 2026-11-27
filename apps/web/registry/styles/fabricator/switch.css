@@ -13,12 +13,14 @@
     @apply cursor-pointer not-data-selected:bg-accent data-selected:bg-primary data-hovered:not-data-selected:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-hovered:data-selected:bg-primary/90 data-focus-visible:ring-ring data-invalid:ring-destructive/50 data-focus-visible:ring-1 data-focus-visible:ring-offset-2 data-invalid:ring-1 data-invalid:ring-offset-2;
   }
 
-  /* The thumb element only travels (move timing); its ::before draws the
-     knob, white and the primary foreground when on, so the knob can change shape without fighting the inline
-     transition-transform. Hover stretches it 2px into a pill toward the
-     centre of the track; press stretches it further and squashes it. */
+  /* The thumb element only travels, on the settle spring, so it lands with a
+     small overshoot; its ::before draws the knob, white and the primary
+     foreground when on, so the knob can change shape without fighting the
+     inline transition-transform. Hover stretches it 2px into a pill toward
+     the centre of the track; press stretches it further and squashes it, and
+     letting go rounds it back up on the pop spring, with a wobble. */
   .cn-switch-thumb {
-    @apply relative rounded-full bg-transparent duration-move ease-move before:absolute before:inset-0 before:rounded-full before:bg-white data-checked:before:bg-primary-foreground before:shadow-[0_1px_2px_rgb(0_0_0/0.15),0_0_0_0.5px_rgb(0_0_0/0.04)] before:transition-[inset,background-color] before:duration-move before:ease-move size-[calc(var(--density-20)-4px)] data-checked:translate-x-(--density-14) data-unchecked:translate-x-0 group-hover/switch:data-unchecked:before:-right-0.5 group-hover/switch:data-checked:before:-left-0.5 group-active/switch:data-unchecked:before:-right-1 group-active/switch:data-checked:before:-left-1 group-active/switch:before:inset-y-0.5 motion-reduce:before:transition-none;
+    @apply relative rounded-full bg-transparent duration-settle-spring ease-settle-spring before:absolute before:inset-0 before:rounded-full before:bg-white data-checked:before:bg-primary-foreground before:shadow-[0_1px_2px_rgb(0_0_0/0.15),0_0_0_0.5px_rgb(0_0_0/0.04)] before:transition-[inset,background-color] before:duration-pop-spring before:ease-pop-spring size-[calc(var(--density-20)-4px)] data-checked:translate-x-(--density-14) data-unchecked:translate-x-0 group-hover/switch:data-unchecked:before:-right-0.5 group-hover/switch:data-checked:before:-left-0.5 group-active/switch:data-unchecked:before:-right-1 group-active/switch:data-checked:before:-left-1 group-active/switch:before:inset-y-0.5 motion-reduce:before:transition-none;
   }
 
   .cn-switch-thumb-aria {

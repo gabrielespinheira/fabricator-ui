@@ -14,18 +14,19 @@
   /* Rows: 36px, 13px, muted at rest; the lit row (fluid highlight, or the
      primitive's highlight where there is no fluid container; React Aria
      marks it data-focused) turns foreground and thickens its icon.
-     Destructive rows stay destructive when lit. */
+     Destructive rows stay destructive when lit. Rows fall in one
+     after another as the menu opens (motion-stagger). */
   .cn-context-menu-item {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive;
   }
 
   /* Checked rows are foreground and semibold, with a foreground check. */
   .cn-context-menu-checkbox-item {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-context-menu-radio-item {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-context-menu-item-indicator {
@@ -33,7 +34,7 @@
   }
 
   .cn-context-menu-label {
-    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply motion-stagger text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-context-menu-separator {
@@ -46,7 +47,7 @@
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-context-menu-sub-trigger {
-    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-context-menu-sub-content {

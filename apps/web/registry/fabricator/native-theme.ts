@@ -268,7 +268,8 @@ function getMotionVariables(motion: FabricatorLook["motion"]): NativeVariables {
     ),
     "--motion-scale": isOff ? 0 : 1,
     // Uniwind's compiler can't hold a cubic-bezier() in a variable, so the
-    // theme names the speed and lib/motion reads its curves from motion.ts.
+    // theme names the speed and lib/motion reads its curves and springs from
+    // motion.ts.
     "--motion-speed": MOTION_SPEED_NAMES.indexOf(
       isOff ? DEFAULT_MOTION_SPEED : motion
     ),
@@ -278,6 +279,7 @@ function getMotionVariables(motion: FabricatorLook["motion"]): NativeVariables {
     "--motion-dialog-scale": speed.scales.dialog,
     "--motion-tooltip-travel": speed.travel.tooltip,
     "--motion-popup-travel": speed.travel.popup,
+    "--motion-stagger": isOff ? 0 : speed.stagger,
   }
 }
 

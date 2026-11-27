@@ -1,0 +1,52 @@
+/* MARK: Stepper */
+
+  /* Steps share the row; each takes the room up to the next, where its line
+     runs. The last one takes only its own width. */
+  .cn-stepper {
+    @apply w-full gap-(--density-8);
+  }
+
+  .cn-stepper-item {
+    @apply flex-1 items-center gap-(--density-8) last:flex-none;
+  }
+
+  /* A round mark the height of a small control. Upcoming: a hairline ring
+     and the muted step number, a little smaller. Current: the primary ring
+     around the number, popping up to size on the pop spring. Complete: the
+     primary fill, the number giving way to a check that draws itself just
+     after the fill lands. Colours change on the feedback timing. */
+  .cn-stepper-indicator {
+    @apply size-(--density-28) rounded-full text-(length:--density-text-12) font-medium tabular-nums text-muted-foreground ring-1 ring-border ring-inset scale-90 transition-[background-color,color,box-shadow,scale] duration-[calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1)),calc(var(--motion-spring-pop-duration)*var(--motion-scale,1))] ease-[var(--motion-ease-feedback),var(--motion-ease-feedback),var(--motion-ease-feedback),var(--motion-ease-pop-spring)] group-data-[state=current]/stepper-item:scale-100 group-data-[state=current]/stepper-item:text-foreground group-data-[state=current]/stepper-item:ring-2 group-data-[state=current]/stepper-item:ring-primary group-data-[state=complete]/stepper-item:scale-100 group-data-[state=complete]/stepper-item:bg-primary group-data-[state=complete]/stepper-item:text-primary-foreground group-data-[state=complete]/stepper-item:ring-0 motion-reduce:scale-100;
+  }
+
+  .cn-stepper-number {
+    @apply transition-opacity duration-feedback ease-feedback group-data-[state=complete]/stepper-item:opacity-0;
+  }
+
+  /* The check's path has pathLength 1: a 1-long dash and a 2-long gap,
+     offset by 1, hide it; offset 0 draws it from its start. */
+  .cn-stepper-check {
+    @apply size-(--density-icon-14) stroke-[3] [&_path]:[stroke-dasharray:1_2] [&_path]:[stroke-dashoffset:1] [&_path]:transition-[stroke-dashoffset] [&_path]:duration-move [&_path]:ease-enter group-data-[state=complete]/stepper-item:[&_path]:[stroke-dashoffset:0] group-data-[state=complete]/stepper-item:[&_path]:delay-feedback motion-reduce:[&_path]:transition-none;
+  }
+
+  .cn-stepper-content {
+    @apply gap-0.5;
+  }
+
+  .cn-stepper-title {
+    @apply truncate text-(length:--density-text-13) font-medium text-muted-foreground transition-colors duration-feedback ease-feedback group-data-[state=current]/stepper-item:text-foreground group-data-[state=complete]/stepper-item:text-foreground;
+  }
+
+  .cn-stepper-description {
+    @apply truncate text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  /* The line to the next step: a hairline track that fills with the primary
+     colour from its start on the soft spring once the step is complete. */
+  .cn-stepper-separator {
+    @apply h-0.5 min-w-(--density-16) flex-1 rounded-full bg-border;
+  }
+
+  .cn-stepper-separator-fill {
+    @apply origin-left scale-x-0 rounded-full bg-primary transition-[scale] duration-soft-spring ease-soft-spring group-data-[state=complete]/stepper-item:scale-x-100 motion-reduce:transition-none;
+  }

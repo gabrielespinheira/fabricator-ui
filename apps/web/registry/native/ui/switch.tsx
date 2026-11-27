@@ -6,13 +6,14 @@ import Animated, {
   ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
+  withSpring,
   withTiming,
 } from "react-native-reanimated"
 import { useCSSVariable } from "uniwind"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { useFieldControl } from "@/registry/native/lib/field-model"
-import { useMotion } from "@/registry/native/lib/motion"
+import { useMotion, useMotionSprings } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { DensityScope, useControlSize } from "@/registry/native/ui/density"
 
@@ -71,18 +72,21 @@ function SwitchControl({
   const slide = useSharedValue(isChecked ? 1 : 0)
   const fill = useSharedValue(isChecked ? 1 : 0)
   const press = useSharedValue(0)
+  // The thumb lands on the settle spring and the knob rounds back up on the
+  // pop spring, as on the website; motion off jumps.
+  const { springs } = useMotionSprings()
   React.useEffect(() => {
-    slide.value = withTiming(isChecked ? 1 : 0, {
-      duration: slideMotion.enterMs,
-      easing: slideMotion.moveEasing,
-    })
+    const target = isChecked ? 1 : 0
+    slide.value = springs
+      ? withSpring(target, { ...springs.settle, mass: 1 })
+      : target
     // A fade: Reduce Motion keeps it, and Reanimated would jump it to the end.
     fill.value = withTiming(isChecked ? 1 : 0, {
       duration: colorMotion.enterMs,
       easing: colorMotion.feedbackEasing,
       reduceMotion: ReduceMotion.Never,
     })
-  }, [colorMotion, fill, isChecked, slide, slideMotion])
+  }, [colorMotion, fill, isChecked, slide, springs])
 
   const fillStyle = useAnimatedStyle(() => ({ opacity: fill.value }))
   // The knob's colour turns as it travels, on the move timing.
@@ -128,10 +132,7 @@ function SwitchControl({
         onPressIn?.(event)
       }}
       onPressOut={(event) => {
-        press.value = withTiming(0, {
-          duration: slideMotion.exitMs,
-          easing: slideMotion.moveEasing,
-        })
+        press.value = springs ? withSpring(0, { ...springs.pop, mass: 1 }) : 0
         onPressOut?.(event)
       }}
       {...props}

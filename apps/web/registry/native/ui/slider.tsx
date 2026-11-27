@@ -12,6 +12,7 @@ import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
+  withSpring,
   withTiming,
   type SharedValue,
 } from "react-native-reanimated"
@@ -19,7 +20,7 @@ import { useCSSVariable } from "uniwind"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { useFieldControl } from "@/registry/native/lib/field-model"
-import { useMotion } from "@/registry/native/lib/motion"
+import { useMotion, useMotionSprings } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import {
   getClosestThumb,
@@ -232,17 +233,17 @@ function SliderControl({
   const held = useSharedValue(0)
 
   // What's drawn: under a drag it's the finger, and anything else (a tap on the
-  // track, a screen reader's step, a new `value`) moves there on the move timing.
+  // track, a screen reader's step, a new `value`) glides there on the fade
+  // spring, as the website's does: it answers the tap at once and lands
+  // without a visible overshoot. Motion off jumps.
   const shown = useSharedValue(values)
-  // Ease-out, as the website's glide: it answers the tap at once and settles.
-  const { enterMs: moveMs, enterEasing: glideEasing } = useMotion("move")
+  const { springs } = useMotionSprings()
+  const glide = springs ? { ...springs.fade, mass: 1 } : null
   useAnimatedReaction(
     () => live.value,
     (next, previous) => {
       if (previous === null) return
-      shown.value = isDragging.value
-        ? next
-        : withTiming(next, { duration: moveMs, easing: glideEasing })
+      shown.value = isDragging.value || !glide ? next : withSpring(next, glide)
     }
   )
 

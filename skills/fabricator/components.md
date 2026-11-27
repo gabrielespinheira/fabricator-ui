@@ -40,7 +40,7 @@ How these fit together, and what breaks them: [app-shell.md](app-shell.md).
 | `context-menu` | The same actions on right click | Mirrors the row's "More" menu. A long press on touch |
 | `kbd` | Showing a shortcut | In tooltips, menu rows (`DropdownMenuShortcut`) and search |
 | `hold-button` | One action worth a second thought, without a dialog: delete, publish, pay | Press and hold for `duration` (1200ms); `onHoldComplete`; `variant="destructive"`. Never the only way: keep the action in a menu with a confirm dialog for people who can't hold a key |
-| `slide-to-confirm` | A commit on a touch screen that a stray tap mustn't set off | `onConfirm`, `confirmedLabel`; Enter confirms from the keyboard. Stays confirmed: change its `key` to reset |
+| `slide-to-confirm` | A commit on a touch screen that a stray tap mustn't set off | `onConfirm` (return a promise for the working state), `confirmingLabel`, `confirmedLabel`; Enter confirms from the keyboard. Stays confirmed: change its `key` to reset |
 
 ## Choosing and entering
 
@@ -65,7 +65,7 @@ Start at [asking.md](asking.md): most values should never reach this table.
 | `color-picker` | A colour | `ColorPickerPopover` with `triggerLabel`, swatches first |
 | `file-upload` | Files | `FileUploadDropzone`, `FileUploadField` (input-sized), `FileUploadTrigger` (a button); rejections carry a reason |
 | `input-otp` | A one-time code | Pastes and autofills |
-| `password-strength` | Choosing a new password | Under the field in the same `Field`: `value` is the password; a word says how strong. The server keeps its own rules |
+| `password-strength` | Choosing a new password | Under the field in the same `Field`: `value` is the password; a word says how strong. `PasswordToggle` in the field's end addon shows and hides it. The server keeps its own rules |
 | `input`, `textarea` | What only the person can write | Last resort; see the ladder |
 | `properties` | Define, show and edit typed fields | Use `PropertyList` for record values and `PropertyManager` for schemas |
 | `input-group` | A fixed part, a unit, a button in a field; a search field | `InputGroupInput` first, then `InputGroupAddon align`, `InputGroupButton`, `InputGroupText`. `InputSearch` is the search field: icon, clear button, Escape clears; `value` and `onValueChange` |
@@ -159,7 +159,7 @@ One headline number is type (`Metric` role) with a delta `Badge`, not a chart.
 | `alert` | A message that stays: `info`, `success`, `warning`, `error`; `contrast="high"` for the one that must be dealt with; `AlertAction` |
 | `toast`, `sonner` | A result just now. Base UI uses `toast`; Radix and React Aria use Sonner |
 | `empty` | Nothing here, and what to do about it |
-| `status-island` | One live activity that changes: a timer, a call, an upload, a save | `StatusIslandContent key={state}` per state; it reshapes around the content. A status region: keep it short |
+| `morph-island` | One live activity that changes: a timer, a call, an upload, a save | `MorphIsland value` with one `MorphIslandContent value` per state, all mounted; it morphs to the current one's size. A status region: keep each state short |
 | `skeleton` | A box whose size is known before its data |
 | `spinner` | In the control that started a wait; 22 variants, one per product |
 | `progress` | Known length, a goal, a limit |

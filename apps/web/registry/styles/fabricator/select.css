@@ -36,14 +36,15 @@
   }
 
   .cn-select-label {
-    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
+    @apply motion-stagger text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
   }
 
   /* Rows: 36px, 13px, muted at rest; the lit row turns foreground. The
      selected row is foreground and semibold on a bg-active fill, which
-     slides between rows inside a fluid container. */
+     slides between rows inside a fluid container. Rows fall in one
+     after another as the menu opens (motion-stagger). */
   .cn-select-item {
-    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-(--density-8);
+    @apply motion-stagger cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-(--density-8);
   }
 
   .cn-select-item-aria {

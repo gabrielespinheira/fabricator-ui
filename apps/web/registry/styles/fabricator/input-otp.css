@@ -21,10 +21,11 @@
     @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive data-[filled=true]:not-data-[active=true]:not-aria-invalid:ring-foreground/15 size-(--density-36) rounded-lg bg-transparent text-(length:--density-text-14) tabular-nums ring-1 ring-inset transition-[background-color,box-shadow] duration-feedback ease-feedback outline-none;
   }
 
-  /* A typed character rises into its slot and fades in; a replaced one does
-     it again. Placeholder characters stay muted. */
+  /* A typed character drops into its slot and lands with a small bounce on
+     the pop spring; a replaced one does it again. Placeholder characters
+     stay muted. */
   .cn-input-otp-char {
-    @apply animate-in fade-in-0 slide-in-from-bottom-1 duration-feedback ease-enter motion-reduce:animate-none;
+    @apply animate-in fade-in-0 slide-in-from-top-2 duration-pop-spring ease-pop-spring motion-reduce:animate-none;
   }
 
   .cn-input-otp-placeholder {

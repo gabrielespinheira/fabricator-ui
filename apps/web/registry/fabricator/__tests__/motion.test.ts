@@ -7,6 +7,7 @@ import {
   MOTION_ROLES,
   MOTION_SPEED_NAMES,
   MOTION_SPEEDS,
+  MOTION_SPRING_NAMES,
   MOTION_THEME,
   toMotionVars,
   toSpringEasing,
@@ -58,6 +59,72 @@ describe("MOTION_SPEEDS", () => {
     const { durations, scales } = MOTION_SPEEDS.instant
     expect(durations.tooltip).toEqual({ enter: 0, exit: 0 })
     expect(scales).toEqual({ press: 1, tooltip: 1, popup: 1, dialog: 1 })
+  })
+})
+
+describe("springs", () => {
+  const ratio = ({
+    stiffness,
+    damping,
+  }: {
+    stiffness: number
+    damping: number
+  }) => damping / (2 * Math.sqrt(stiffness))
+
+  it("keeps the Motion Studies presets at the default speed", () => {
+    expect(MOTION_SPEEDS.default.springs).toEqual({
+      follow: { stiffness: 900, damping: 50 },
+      settle: { stiffness: 280, damping: 22 },
+      soft: { stiffness: 260, damping: 24 },
+      lead: { stiffness: 620, damping: 36 },
+      trail: { stiffness: 190, damping: 19 },
+      pop: { stiffness: 520, damping: 16 },
+      fade: { stiffness: 420, damping: 32 },
+    })
+    expect(MOTION_SPEEDS.default.stagger).toBe(45)
+  })
+
+  it("gets stiffer from smooth to instant and keeps each spring's feel", () => {
+    for (const name of MOTION_SPRING_NAMES) {
+      const stiffness = SLOWEST_FIRST.map(
+        (speed) => MOTION_SPEEDS[speed].springs[name].stiffness
+      )
+      expect(stiffness).toEqual([...stiffness].sort((a, b) => a - b))
+      for (const speed of ["smooth", "snappy"] as const) {
+        expect(ratio(MOTION_SPEEDS[speed].springs[name])).toBeCloseTo(
+          ratio(MOTION_SPEEDS.default.springs[name]),
+          1
+        )
+      }
+    }
+  })
+
+  it("never overshoots at instant", () => {
+    for (const name of MOTION_SPRING_NAMES) {
+      expect(ratio(MOTION_SPEEDS.instant.springs[name])).toBeGreaterThanOrEqual(
+        0.99
+      )
+    }
+    expect(MOTION_SPEEDS.instant.stagger).toBe(0)
+  })
+
+  it("writes each spring as a 'stiffness damping' token", () => {
+    const vars = toMotionVars(MOTION_SPEEDS.default)
+    expect(vars["motion-spring-lead"]).toBe("620 36")
+    expect(vars["motion-spring-trail"]).toBe("190 19")
+    expect(vars["motion-stagger"]).toBe("45ms")
+  })
+
+  it("gives each spring a CSS curve and the time it takes to settle", () => {
+    const vars = toMotionVars(MOTION_SPEEDS.default)
+    expect(vars["motion-spring-settle-duration"]).toMatch(/^\d+ms$/)
+    expect(vars["motion-ease-pop-spring"]).toMatch(/^linear\(0, [\d., ]+, 1\)$/)
+    expect(MOTION_THEME["transition-duration-pop-spring"]).toBe(
+      "calc(var(--motion-spring-pop-duration) * var(--motion-scale, 1))"
+    )
+    expect(MOTION_THEME["ease-pop-spring"]).toBe(
+      "var(--motion-ease-pop-spring)"
+    )
   })
 })
 
@@ -128,6 +195,7 @@ describe("MOTION_CSS", () => {
       "bounce",
       "toast",
       "press",
+      "stagger",
     ]) {
       expect(MOTION_CSS[`@utility motion-${name}`]).toBeDefined()
     }

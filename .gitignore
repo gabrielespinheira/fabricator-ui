@@ -52,3 +52,6 @@ tmp/
 /apps/web/public/examples/*.webp
 /apps/web/public/images/blocks/
 /apps/web/public/images/native/
+
+# reanimate captures and evidence
+.reanimate/

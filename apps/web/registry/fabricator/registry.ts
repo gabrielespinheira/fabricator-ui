@@ -370,19 +370,23 @@ export const fabricatorItems = [
     },
   },
   {
-    name: "status-island",
+    name: "morph-island",
     type: "registry:ui",
-    title: "Status Island",
+    title: "Morph Island",
     description:
-      "One pill that changes shape to hold what it shows: width springs before height, so a change lands sideways and then drops, and new content fades in through a blur.",
-    files: [{ path: "ui/status-island.tsx", type: "registry:ui" }],
+      "One pill that morphs between live activities: a timer, an upload, a call. Width springs before height, so a change lands sideways and then drops, the island keeps its volume and gives a small squash, and the states cross-fade through a blur.",
+    files: [
+      { path: "ui/morph-island.tsx", type: "registry:ui" },
+      { path: "lib/morph-island-model.ts", type: "registry:lib" },
+    ],
+    registryDependencies: ["spring-model"],
     categories: ["basics"],
     meta: {
       fabricator: true,
       links: {
-        docs: "https://fabricator-ui.vercel.app/docs/components/base/status-island",
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/morph-island",
         examples:
-          "https://fabricator-ui.vercel.app/docs/components/base/status-island#examples",
+          "https://fabricator-ui.vercel.app/docs/components/base/morph-island#examples",
       },
     },
   },
@@ -431,8 +435,9 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Bottom Nav",
     description:
-      "A phone app's tab bar: the current tab opens into a pill with its name, the others close to their icons, and the icon pops as it is picked.",
+      "A phone app's tab bar: the current tab opens to show its name on a pill that slides between tabs, the others close to their icons, and the icon pops as it is picked.",
     files: [{ path: "ui/bottom-nav.tsx", type: "registry:ui" }],
+    registryDependencies: ["fluid-hover"],
     categories: ["navigation"],
     meta: {
       fabricator: true,

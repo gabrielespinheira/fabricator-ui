@@ -161,7 +161,8 @@ function Checkbox({
     opacity: visible.value,
     transform: [{ scale: 0.6 + 0.4 * visible.value }],
   }))
-  const press = usePressScale()
+  // Letting go pops the box back on the pop spring, as on the website.
+  const press = usePressScale({ releaseSpring: "pop" })
   const isFlat = feedbackMotion.isReduced || feedbackMotion.isOff
   const pressStyle = useAnimatedStyle(() => ({
     transform: [{ scale: isFlat ? 1 : 1 - PRESS_GIVE * press.progress.value }],

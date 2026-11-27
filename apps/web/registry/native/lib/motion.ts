@@ -7,6 +7,7 @@ import {
   ReduceMotion,
   useReducedMotion,
   useSharedValue,
+  withSpring,
   withTiming,
 } from "react-native-reanimated"
 import { useCSSVariable } from "uniwind"
@@ -16,8 +17,14 @@ import {
   getSpringSamples,
   MOTION_SPEED_NAMES,
   MOTION_SPEEDS,
+  MOTION_SPRING_NAMES,
   type MotionSpeedName,
+  type MotionSpringName,
 } from "@/registry/fabricator/motion"
+import {
+  retimeSpring,
+  type SpringConfig,
+} from "@/registry/fabricator/shared/lib/spring-model"
 import {
   getSurfaceFrom,
   getSurfaceOrigin,
@@ -102,6 +109,31 @@ function useMotion(role: MotionRole) {
       ...getEasings(name ?? DEFAULT_MOTION_SPEED),
     }
   }, [enter, exit, scale, speed, isReduced])
+}
+
+/**
+ * The speed's springs, stretched by `--motion-scale`, as Reanimated's
+ * `withSpring` takes them (mass 1). Null when motion is off; `isReduced` tells
+ * a caller to drop travel, as the website does.
+ */
+function useMotionSprings() {
+  const [scale, speed] = useCSSVariable(["--motion-scale", "--motion-speed"])
+  const isReduced = useReducedMotion()
+  return React.useMemo(() => {
+    const multiplier = parseNumber(scale, 1)
+    const name =
+      MOTION_SPEED_NAMES[parseNumber(speed, 1)] ?? DEFAULT_MOTION_SPEED
+    const springs =
+      multiplier === 0
+        ? null
+        : (Object.fromEntries(
+            MOTION_SPRING_NAMES.map((spring) => [
+              spring,
+              retimeSpring(MOTION_SPEEDS[name].springs[spring], multiplier),
+            ])
+          ) as Record<MotionSpringName, SpringConfig>)
+    return { isReduced, springs }
+  }, [scale, speed, isReduced])
 }
 
 type SurfaceFrom = {
@@ -209,8 +241,17 @@ function useSurfaceAnimation(role: MotionRole, from: SurfaceFrom = {}) {
  * class could only snap. `isHeld` keeps the wash on while the control's popup is
  * open, as the website's `aria-expanded` step does.
  */
-function usePressScale({ isHeld = false }: { isHeld?: boolean } = {}) {
+function usePressScale({
+  isHeld = false,
+  releaseSpring,
+}: {
+  isHeld?: boolean
+  /** Letting go springs back on this spring instead of the feedback timing. */
+  releaseSpring?: MotionSpringName
+} = {}) {
   const motion = useMotion("feedback")
+  const { springs } = useMotionSprings()
+  const release = releaseSpring && springs ? springs[releaseSpring] : null
   const pressScale = parseNumber(useCSSVariable("--motion-press-scale"), 1)
   const scale = useSharedValue(1)
   const progress = useSharedValue(isHeld ? 1 : 0)
@@ -231,10 +272,21 @@ function usePressScale({ isHeld = false }: { isHeld?: boolean } = {}) {
     progress.set(withTiming(1, config))
   }, [config, progress, scale, target])
   const onPressOut = React.useCallback(() => {
+    if (release && !isHeld) {
+      scale.set(withSpring(1, { ...release, mass: 1 }))
+      progress.set(withSpring(0, { ...release, mass: 1 }))
+      return
+    }
     scale.set(withTiming(1, config))
     progress.set(withTiming(isHeld ? 1 : 0, config))
-  }, [config, isHeld, progress, scale])
+  }, [config, isHeld, progress, release, scale])
   return { scale, progress, onPressIn, onPressOut }
 }
 
-export { useMotion, usePressScale, useSurfaceAnimation, type MotionRole }
+export {
+  useMotion,
+  useMotionSprings,
+  usePressScale,
+  useSurfaceAnimation,
+  type MotionRole,
+}

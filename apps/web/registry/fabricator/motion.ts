@@ -14,6 +14,12 @@
 // under 0.9 scale.
 
 import type { CssObject } from "@/registry/fabricator/css-object"
+import {
+  getCriticalSpring,
+  retimeSpring,
+  sampleSpring,
+  type SpringConfig,
+} from "@/registry/fabricator/shared/lib/spring-model"
 
 export const MOTION_ROLES = [
   // Hover, colour, focus, icon stroke and weight changes.
@@ -60,6 +66,59 @@ export type MotionSpeedName = (typeof MOTION_SPEED_NAMES)[number]
 
 export const DEFAULT_MOTION_SPEED: MotionSpeedName = "default"
 
+// Springs for what moves under the pointer or can be interrupted: they keep
+// their velocity when the target changes, so motion bends instead of
+// restarting. Named by job, as "stiffness damping" with mass 1. The default
+// speed's values come from the Motion Studies at designbookmark.com/motion.
+export const MOTION_SPRING_NAMES = [
+  // Something held by the pointer: no overshoot, no lag.
+  "follow",
+  // Letting go, landing on a value: one small overshoot.
+  "settle",
+  // Large moves: panels, sheets, a whole component shifting.
+  "soft",
+  // A stretchy highlight's edge that faces the move.
+  "lead",
+  // The edge that lags behind it, which makes the stretch.
+  "trail",
+  // An icon, chip or number popping on select.
+  "pop",
+  // Opacity and small slides.
+  "fade",
+] as const
+
+export type MotionSpringName = (typeof MOTION_SPRING_NAMES)[number]
+
+const DEFAULT_SPRINGS: Record<MotionSpringName, SpringConfig> = {
+  follow: { stiffness: 900, damping: 50 },
+  settle: { stiffness: 280, damping: 22 },
+  soft: { stiffness: 260, damping: 24 },
+  lead: { stiffness: 620, damping: 36 },
+  trail: { stiffness: 190, damping: 19 },
+  pop: { stiffness: 520, damping: 16 },
+  fade: { stiffness: 420, damping: 32 },
+}
+
+// A speed plays the default springs `timeScale` times as long, with the same
+// overshoot; `isCritical` takes the overshoot out (instant).
+function getSpeedSprings(timeScale: number, isCritical = false) {
+  return Object.fromEntries(
+    MOTION_SPRING_NAMES.map((name) => {
+      const spring = retimeSpring(DEFAULT_SPRINGS[name], timeScale)
+      const rounded = {
+        stiffness: Math.round(spring.stiffness),
+        damping: Math.round(spring.damping * 10) / 10,
+      }
+      if (!isCritical) return [name, rounded]
+      const critical = getCriticalSpring(rounded)
+      return [
+        name,
+        { ...rounded, damping: Math.round(critical.damping * 10) / 10 },
+      ]
+    })
+  ) as Record<MotionSpringName, SpringConfig>
+}
+
 type Timing = { enter: number; exit: number }
 
 export type MotionSpeed = {
@@ -88,6 +147,10 @@ export type MotionSpeed = {
   bounce: number
   /** The settle role's spring: low enough that it never visibly overshoots. */
   settle: number
+  /** Springs by job, for motion that follows the pointer or is interrupted. */
+  springs: Record<MotionSpringName, SpringConfig>
+  /** Milliseconds between items entering one after another. */
+  stagger: number
 }
 
 const EASE_OUT = "cubic-bezier(0.23, 1, 0.32, 1)"
@@ -131,6 +194,8 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     popupBlur: 2,
     bounce: 0.3,
     settle: 0.16,
+    springs: getSpeedSprings(1.3),
+    stagger: 55,
   },
   // Emil Kowalski's timings: tooltips 125ms, popups 180ms, dialogs 250ms.
   default: {
@@ -163,6 +228,8 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     bounce: 0.35,
     // A damping ratio of 0.84, as in beUI's avatar group.
     settle: 0.16,
+    springs: getSpeedSprings(1),
+    stagger: 45,
   },
   // Apps people use all day: the same shapes, about a quarter quicker and
   // smaller.
@@ -195,6 +262,8 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     popupBlur: 0,
     bounce: 0.25,
     settle: 0.12,
+    springs: getSpeedSprings(0.75),
+    stagger: 35,
   },
   // Dense dashboards and power tools: fades only, no scale or press, tooltips
   // appear at once, and moves end on ease-out so nothing waits to start.
@@ -227,6 +296,8 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     popupBlur: 0,
     bounce: 0,
     settle: 0,
+    springs: getSpeedSprings(0.6, true),
+    stagger: 0,
   },
 }
 
@@ -292,6 +363,20 @@ export function toMotionVars(speed: MotionSpeed): Record<string, string> {
     "motion-tooltip-travel": toPx(speed.travel.tooltip),
     "motion-popup-travel": toPx(speed.travel.popup),
     "motion-popup-blur": toPx(speed.popupBlur),
+    ...Object.fromEntries(
+      MOTION_SPRING_NAMES.flatMap((name) => {
+        const spring = speed.springs[name]
+        const { duration, samples } = sampleSpring(spring)
+        return [
+          [`motion-spring-${name}`, `${spring.stiffness} ${spring.damping}`],
+          // The same spring for CSS: the time it takes to settle and its
+          // curve, for transitions that only start and land.
+          [`motion-spring-${name}-duration`, toMs(duration)],
+          [`motion-ease-${name}-spring`, `linear(${samples.join(", ")})`],
+        ]
+      })
+    ),
+    "motion-stagger": toMs(speed.stagger),
   }
 }
 
@@ -333,6 +418,13 @@ export const MOTION_THEME: Record<string, string> = {
   "ease-drawer": "var(--motion-ease-drawer)",
   "ease-theme": "var(--motion-ease-theme)",
   "ease-bounce": "var(--motion-ease-bounce)",
+  // Springs as CSS transitions: `duration-pop-spring ease-pop-spring`.
+  ...Object.fromEntries(
+    MOTION_SPRING_NAMES.flatMap((name) => [
+      [`transition-duration-${name}-spring`, scaled(`spring-${name}-duration`)],
+      [`ease-${name}-spring`, `var(--motion-ease-${name}-spring)`],
+    ])
+  ),
   "ease-settle": "var(--motion-ease-settle)",
   // The old spring curves, now the entrance curve.
   "ease-spring": "var(--motion-ease-enter)",
@@ -445,6 +537,20 @@ export const MOTION_CSS: CssObject = {
   "@utility motion-toast": timing("toast"),
   // Accordion items: heights, gaps and corners spring both ways.
   "@utility motion-bounce": timing("bounce", "var(--motion-ease-bounce)"),
+  // A menu's rows entering one after another as it opens: each fades and
+  // drops in on the fade spring, --motion-stagger after the row before it, up
+  // to the tenth. sibling-index() is the row's place; a browser without it
+  // drops the delay and the rows come in together. Reduce Motion skips it.
+  "@utility motion-stagger": {
+    "@media (prefers-reduced-motion: no-preference)": {
+      animation:
+        "enter calc(var(--motion-spring-fade-duration) * var(--motion-scale, 1)) var(--motion-ease-fade-spring) both",
+      "animation-delay":
+        "calc(min(sibling-index() - 1, 10) * var(--motion-stagger) * var(--motion-scale, 1))",
+      "--tw-enter-opacity": "0",
+      "--tw-enter-translate-y": "calc(var(--spacing) * -1)",
+    },
+  },
   // Buttons and toggles give a little while held. They already transition
   // every property, `scale` included. Joined groups stay flat.
   "@utility motion-press": {

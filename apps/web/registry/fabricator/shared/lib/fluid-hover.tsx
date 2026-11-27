@@ -4,11 +4,25 @@
 // a selection background that slides between selected items.
 //
 // Items are found by selector inside a positioned container, so a component
-// only wires its container. Motion is CSS (transform, width, height, opacity)
-// on the Fabricator spring easings; no animation library is needed.
+// only wires its container. The overlays fade in CSS and travel on two springs
+// per axis: the edge facing the move is stiff and the one behind it soft, so
+// they stretch toward the next item and gather as they land, and a new target
+// mid-flight bends the motion instead of restarting it.
 import * as React from "react"
 import { useComposedRefs } from "@radix-ui/react-compose-refs"
 import { cn } from "cn"
+
+import {
+  createRectMotion,
+  getRectEdgeSprings,
+  isRectMotionAtRest,
+  readRectMotion,
+  resolveSpring,
+  stepRectMotion,
+  type EdgeRect,
+  type RectEdgeSprings,
+  type RectMotion,
+} from "@/registry/bases/__base__/lib/spring-model"
 
 type Rect = { top: number; left: number; width: number; height: number }
 
@@ -400,30 +414,125 @@ type OverlayProps = {
   className?: string
 } & Omit<React.ComponentProps<"span">, "children">
 
+const toEdges = (rect: Rect): EdgeRect => ({
+  left: rect.left,
+  top: rect.top,
+  right: rect.left + rect.width,
+  bottom: rect.top + rect.height,
+})
+
+function drawOverlay(element: HTMLElement, rect: Rect) {
+  element.style.transform = `translate(${rect.left}px, ${rect.top}px)`
+  element.style.width = `${rect.width}px`
+  element.style.height = `${rect.height}px`
+}
+
+// The lead and trail springs as the region sets them; null jumps instead:
+// motion off, or Reduce Motion, which keeps the fade and drops the travel.
+function readEdgeSprings(element: HTMLElement) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return null
+  const style = getComputedStyle(element)
+  const scale = style.getPropertyValue("--motion-scale")
+  const lead = resolveSpring(
+    style.getPropertyValue("--motion-spring-lead"),
+    scale
+  )
+  const trail = resolveSpring(
+    style.getPropertyValue("--motion-spring-trail"),
+    scale
+  )
+  return lead && trail ? { lead, trail } : null
+}
+
+// Places the overlay on its rect: at once when it appears, on the edge springs
+// when it moves. Geometry is written straight to the element, one frame at a
+// time, so React renders only when the target changes.
+function useOverlayMotion(
+  element: React.RefObject<HTMLSpanElement | null>,
+  { rect, animate }: Overlay
+) {
+  const motion = React.useRef<RectMotion | null>(null)
+  const target = React.useRef<EdgeRect | null>(null)
+  const springs = React.useRef<RectEdgeSprings | null>(null)
+  const frame = React.useRef<number | null>(null)
+  const lastTime = React.useRef(0)
+
+  React.useLayoutEffect(() => {
+    const node = element.current
+    if (!node || !rect) return
+    const to = toEdges(rect)
+    const edgeSprings = animate && motion.current ? readEdgeSprings(node) : null
+    if (!edgeSprings || !motion.current) {
+      if (frame.current !== null) cancelAnimationFrame(frame.current)
+      frame.current = null
+      motion.current = createRectMotion(to)
+      drawOverlay(node, rect)
+      return
+    }
+    const current = motion.current
+    springs.current = getRectEdgeSprings(
+      {
+        left: current.left.value,
+        top: current.top.value,
+        right: current.right.value,
+        bottom: current.bottom.value,
+      },
+      to,
+      edgeSprings.lead,
+      edgeSprings.trail
+    )
+    target.current = to
+    if (frame.current !== null) return
+    const tick = (time: number) => {
+      const elapsed = (time - lastTime.current) / 1000
+      lastTime.current = time
+      if (!motion.current || !target.current || !springs.current) return
+      motion.current = stepRectMotion(
+        motion.current,
+        target.current,
+        springs.current,
+        elapsed
+      )
+      if (isRectMotionAtRest(motion.current, target.current)) {
+        motion.current = createRectMotion(target.current)
+        frame.current = null
+      } else {
+        frame.current = requestAnimationFrame(tick)
+      }
+      drawOverlay(node, readRectMotion(motion.current))
+    }
+    lastTime.current = performance.now()
+    frame.current = requestAnimationFrame(tick)
+  }, [element, rect, animate])
+
+  React.useEffect(
+    () => () => {
+      if (frame.current !== null) cancelAnimationFrame(frame.current)
+      frame.current = null
+    },
+    []
+  )
+}
+
 function FluidHoverOverlay({
   overlay,
   className,
-  style,
+  ref,
   ...props
 }: OverlayProps) {
-  const { rect, animate } = overlay
+  const element = React.useRef<HTMLSpanElement | null>(null)
+  const mergedRef = useComposedRefs(element, ref)
+  useOverlayMotion(element, overlay)
   return (
     <span
+      ref={mergedRef}
       aria-hidden
-      data-visible={rect ? "" : undefined}
-      data-animate={animate ? "" : undefined}
+      data-visible={overlay.rect ? "" : undefined}
+      data-animate={overlay.animate ? "" : undefined}
       className={cn(
         "pointer-events-none absolute top-0 left-0 -z-10 opacity-0 data-visible:opacity-100",
         className
       )}
-      style={{
-        ...(rect && {
-          transform: `translate(${rect.left}px, ${rect.top}px)`,
-          width: rect.width,
-          height: rect.height,
-        }),
-        ...style,
-      }}
       {...props}
     />
   )

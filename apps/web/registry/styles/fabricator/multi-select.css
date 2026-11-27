@@ -53,7 +53,7 @@
      bg-active and gives it the press scale, easing both ways on the glide
      timing. */
   .cn-multi-select-list {
-    @apply no-scrollbar max-h-[min(--spacing(72),var(--available-height,--spacing(72)))] scroll-py-1 p-1 data-empty:p-0 [&>[data-slot=fluid-hover-highlight]]:transition-[opacity,background-color,scale] [&>[data-slot=fluid-hover-highlight][data-animate]]:transition-[transform,width,height,opacity,background-color,scale] [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:bg-active [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-(--motion-press-scale) motion-reduce:[&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-100;
+    @apply no-scrollbar max-h-[min(--spacing(72),var(--available-height,--spacing(72)))] scroll-py-1 p-1 data-empty:p-0 [&>[data-slot=fluid-hover-highlight]]:transition-[opacity,background-color,scale] [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:bg-active [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-(--motion-press-scale) motion-reduce:[&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-100;
   }
 
   .cn-multi-select-label {

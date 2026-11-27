@@ -1,0 +1,58 @@
+/* MARK: Slide to Confirm */
+
+  /* A pill track the height of a large control: the muted wash framed by a
+     hairline, a 4px inset around the thumb so their curves stay concentric.
+     --slide-thumb is the thumb's size and the track is an inline-size
+     container, so the thumb's travel is 100cqw (the inner width) less the
+     thumb, and its centre sits at --slide-centre. Focus is the 1px ring,
+     offset. */
+  .cn-slide-to-confirm {
+    @apply cursor-default @container w-full max-w-sm h-(--density-48) rounded-full bg-muted p-1 inset-ring inset-ring-border text-(length:--density-text-13) font-medium [--slide-thumb:calc(var(--density-48)-var(--spacing)*2)] [--slide-centre:calc(var(--spacing)+var(--slide-thumb)/2+var(--slide-progress)*(100cqw-var(--slide-thumb)))] focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50;
+  }
+
+  /* The label on the bare track, centred in the room beside the thumb. It is
+     the foreground at 75% (muted text doesn't hold 4.5:1 on the muted
+     wash) and fades as the thumb passes over it. */
+  .cn-slide-to-confirm-label {
+    @apply ps-[calc(var(--slide-thumb)/2)] text-foreground/75 opacity-[calc(1-var(--slide-progress)*1.4)];
+  }
+
+  /* The ink the thumb leaves: the inverted fill cut off at the thumb's
+     centre, with the label in its own colour on top, so the words turn over
+     as the thumb passes them. It follows the thumb at once while dragged and
+     springs with it on the settle spring otherwise. Confirming and done it
+     fills the track; done, it turns the success colour. */
+  .cn-slide-to-confirm-ink {
+    @apply rounded-full bg-foreground text-background opacity-[calc(var(--slide-progress)*12)] [clip-path:inset(0_calc(100%-var(--slide-centre))_0_0_round_9999px)] transition-[clip-path,background-color,color] duration-settle-spring ease-settle-spring group-data-[state=dragging]/slide-to-confirm:transition-[background-color,color] group-data-[state=confirming]/slide-to-confirm:[clip-path:inset(0_round_9999px)] group-data-[state=confirmed]/slide-to-confirm:[clip-path:inset(0_round_9999px)] group-data-[state=confirmed]/slide-to-confirm:bg-success group-data-[state=confirmed]/slide-to-confirm:text-success-foreground motion-reduce:transition-[background-color,color];
+  }
+
+  /* While idle or dragged the ink's label lines up with the track's; once
+     confirming it centres in the room beside the thumb at the end. A new
+     label rises in out of a small blur. */
+  .cn-slide-to-confirm-ink-label {
+    @apply ps-[calc(var(--slide-thumb)/2)] animate-in fade-in-0 slide-in-from-bottom-2 blur-in-[2px] duration-move ease-enter group-data-[state=confirming]/slide-to-confirm:ps-0 group-data-[state=confirming]/slide-to-confirm:pe-[calc(var(--slide-thumb)/2)] group-data-[state=confirmed]/slide-to-confirm:ps-0 group-data-[state=confirmed]/slide-to-confirm:pe-[calc(var(--slide-thumb)/2)] motion-reduce:slide-in-from-bottom-0 motion-reduce:blur-in-0;
+  }
+
+  /* The thumb: a raised round knob, concentric with the track. It travels by
+     --slide-progress, following the finger with no transition and springing
+     back, or on to the end, on the settle spring. */
+  .cn-slide-to-confirm-thumb {
+    @apply cursor-grab size-(--slide-thumb) rounded-full bg-surface-4 text-foreground shadow-surface-4 translate-x-[calc(var(--slide-progress)*(100cqw-var(--slide-thumb)))] transition-[translate] duration-settle-spring ease-settle-spring group-data-[state=dragging]/slide-to-confirm:cursor-grabbing group-data-[state=dragging]/slide-to-confirm:transition-none motion-reduce:transition-none [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+  /* The arrow nudges forward once letting go would confirm, and slips away
+     into a blur when the thumb starts working. */
+  .cn-slide-to-confirm-arrow {
+    @apply transition-[opacity,translate,filter] duration-feedback ease-enter group-data-armed/slide-to-confirm:translate-x-0.5 group-data-[state=confirming]/slide-to-confirm:translate-x-1.5 group-data-[state=confirming]/slide-to-confirm:opacity-0 group-data-[state=confirming]/slide-to-confirm:blur-[2px] group-data-[state=confirmed]/slide-to-confirm:opacity-0;
+  }
+
+  /* A ring that spins while onConfirm's promise runs: a faint track and a
+     short arc in the foreground. */
+  .cn-slide-to-confirm-spinner {
+    @apply size-(--density-icon-16) animate-spin opacity-0 transition-opacity duration-feedback [&_circle:first-child]:stroke-foreground/15 [&_circle:last-child]:stroke-current group-data-[state=confirming]/slide-to-confirm:opacity-100 motion-reduce:animate-none;
+  }
+
+  /* Done, a check in the success colour pops in on the pop spring. */
+  .cn-slide-to-confirm-check {
+    @apply scale-50 text-success-text opacity-0 transition-[scale,opacity] duration-pop-spring ease-pop-spring group-data-[state=confirmed]/slide-to-confirm:scale-100 group-data-[state=confirmed]/slide-to-confirm:opacity-100 motion-reduce:scale-100 [&_svg]:stroke-[2.5];
+  }

@@ -9,6 +9,8 @@ import {
   TooltipTrigger as TooltipTriggerPrimitive,
 } from "react-aria-components"
 
+import { useTooltipTravel } from "@/registry/bases/aria/hooks/use-tooltip-travel"
+import { useMergedRef } from "@/registry/bases/aria/lib/fluid-hover"
 import { useDensity } from "@/registry/bases/aria/ui/density"
 
 // Fabricator override of the upstream tooltip: the content takes the density of
@@ -42,6 +44,7 @@ function Tooltip({
   offset = 4,
   crossOffset = 0,
   children,
+  ref,
   ...props
 }: Omit<
   React.ComponentProps<typeof TooltipPrimitive>,
@@ -51,9 +54,13 @@ function Tooltip({
   children?: React.ReactNode
 }) {
   const density = useDensity()
+  // Moving between triggers, the tooltip travels instead of reappearing.
+  const travelRef = useTooltipTravel()
+  const mergedRef = useMergedRef(travelRef, ref)
 
   return (
     <TooltipPrimitive
+      ref={mergedRef}
       data-slot="tooltip-content"
       data-density={density}
       placement={placement}

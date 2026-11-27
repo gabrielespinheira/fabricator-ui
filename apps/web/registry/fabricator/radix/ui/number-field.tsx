@@ -9,6 +9,8 @@
 import { NumberField as NumberFieldPrimitive } from "@base-ui/react/number-field"
 import { cn } from "cn"
 
+import { useNumberRoll } from "@/registry/bases/radix/hooks/use-number-roll"
+import { useMergedRef } from "@/registry/bases/radix/lib/fluid-hover"
 import {
   InputGroup,
   InputGroupAddon,
@@ -45,12 +47,17 @@ function NumberFieldGroup({
   )
 }
 
+// The value rolls into place when it steps (use-number-roll).
 function NumberFieldInput({
   className,
+  ref,
   ...props
 }: NumberFieldPrimitive.Input.Props) {
+  const rollRef = useNumberRoll()
+  const mergedRef = useMergedRef(rollRef, ref)
   return (
     <NumberFieldPrimitive.Input
+      ref={mergedRef}
       data-slot="number-field-input"
       render={<InputGroupInput />}
       className={cn(

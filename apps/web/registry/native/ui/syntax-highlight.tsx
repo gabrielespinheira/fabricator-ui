@@ -9,6 +9,11 @@ import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import * as Clipboard from "expo-clipboard"
 import { AccessibilityInfo, Platform, ScrollView, View } from "react-native"
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated"
 
 import {
   getCodeLanguage,
@@ -21,6 +26,7 @@ import {
   type SyntaxToken,
   type SyntaxTokenKind,
 } from "@/registry/fabricator/shared/lib/syntax-highlight-model"
+import { useMotion, useMotionSprings } from "@/registry/native/lib/motion"
 import { Button } from "@/registry/native/ui/button"
 import { Text, TextStyle } from "@/registry/native/ui/text"
 
@@ -198,6 +204,28 @@ type SyntaxHighlightCopyProps = Omit<
   onCopied?: (value: string) => void
 }
 
+// The icon turns in from a quarter turn back and pops to size on the pop
+// spring, as on the website; its parent keys it, so each swap plays again.
+// Reduce Motion and motion off show it at once.
+function CopyIconSwap({ children }: { children: React.ReactNode }) {
+  const motion = useMotion("feedback")
+  const { springs } = useMotionSprings()
+  const shouldAnimate = !motion.isReduced && springs !== null
+  const progress = useSharedValue(shouldAnimate ? 0 : 1)
+  React.useEffect(() => {
+    if (!shouldAnimate || !springs) return
+    progress.value = withSpring(1, { ...springs.pop, mass: 1 })
+  }, [progress, shouldAnimate, springs])
+  const style = useAnimatedStyle(() => ({
+    opacity: Math.min(progress.value, 1),
+    transform: [
+      { scale: 0.75 + 0.25 * progress.value },
+      { rotate: `${(progress.value - 1) * 30}deg` },
+    ],
+  }))
+  return <Animated.View style={style}>{children}</Animated.View>
+}
+
 function SyntaxHighlightCopy({
   value,
   onCopied,
@@ -240,7 +268,9 @@ function SyntaxHighlightCopy({
         className={isCopied ? copiedIconClassName() : copyIconClassName()}
         eases
       >
-        {isCopied ? <CheckIcon /> : <CopyIcon />}
+        <CopyIconSwap key={isCopied ? "copied" : "copy"}>
+          {isCopied ? <CheckIcon /> : <CopyIcon />}
+        </CopyIconSwap>
       </TextStyle>
     </Button>
   )

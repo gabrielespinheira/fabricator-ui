@@ -11,6 +11,7 @@ import Animated, {
   withDelay,
   withRepeat,
   withSequence,
+  withSpring,
   withTiming,
 } from "react-native-reanimated"
 
@@ -26,7 +27,7 @@ import {
   REGEXP_ONLY_DIGITS_AND_CHARS,
   type OtpPattern,
 } from "@/registry/native/lib/input-otp-model"
-import { useMotion } from "@/registry/native/lib/motion"
+import { useMotion, useMotionSprings } from "@/registry/native/lib/motion"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 
 const InputOTPContext = React.createContext<{
@@ -203,20 +204,21 @@ function InputOTPCaret() {
   )
 }
 
-// A typed character rises into its slot and fades in, on the feedback timing.
-// Its parent keys it by character, so a replaced one rises again.
+// A typed character drops into its slot and lands with a small bounce on the
+// pop spring, as on the website. Its parent keys it by character, so a
+// replaced one drops again.
 function InputOTPChar({ char }: { char: string }) {
   const motion = useMotion("feedback")
-  const shouldAnimate = !motion.isOff && !motion.isReduced
+  const { springs } = useMotionSprings()
+  const shouldAnimate = !motion.isReduced && springs !== null
   const progress = useSharedValue(shouldAnimate ? 0 : 1)
-  const { enterMs, enterEasing } = motion
   React.useEffect(() => {
-    if (!shouldAnimate) return
-    progress.value = withTiming(1, { duration: enterMs, easing: enterEasing })
-  }, [enterEasing, enterMs, progress, shouldAnimate])
+    if (!shouldAnimate || !springs) return
+    progress.value = withSpring(1, { ...springs.pop, mass: 1 })
+  }, [progress, shouldAnimate, springs])
   const riseStyle = useAnimatedStyle(() => ({
-    opacity: progress.value,
-    transform: [{ translateY: (1 - progress.value) * 4 }],
+    opacity: Math.min(progress.value, 1),
+    transform: [{ translateY: (progress.value - 1) * 8 }],
   }))
   return (
     <Animated.View style={riseStyle}>

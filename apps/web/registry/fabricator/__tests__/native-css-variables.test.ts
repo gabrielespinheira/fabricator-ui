@@ -21,9 +21,9 @@ import {
 } from "@/registry/fabricator/native-theme"
 
 // A recipe's inputs and a shadow's parts; the popup blur, which React Native
-// can't animate; and the curves, which come from --motion-speed.
+// can't animate; and the curves and springs, which come from --motion-speed.
 const INPUT_TOKEN =
-  /^(shadow-color|overlay|dm-.*|.*-hue|.*-chroma|motion-popup-blur|motion-ease-.*)$/
+  /^(shadow-color|overlay|dm-.*|.*-hue|.*-chroma|motion-popup-blur|motion-ease-.*|motion-spring-.*)$/
 
 const look = (overrides: Partial<FabricatorLook>): FabricatorLook => ({
   ...DEFAULT_LOOK,

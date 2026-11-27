@@ -1398,5 +1398,54 @@
     "name": "text-motion",
     "reason": "New web component on CSS keyframes. Nested Text on React Native cannot be moved, scaled or blurred piece by piece, so the port draws each piece as its own Reanimated view in a wrapping row, on the same text-motion-model; it follows in its own change.",
     "date": "2026-11-26"
+  },
+  {
+    "item": "hold-button",
+    "kind": "component",
+    "name": "hold-button",
+    "reason": "New web component. The native port holds on Pressable's long press with the fill on a Reanimated timing and the release on the settle spring; it follows in its own change, with haptics at the end of the hold.",
+    "date": "2026-11-26"
+  },
+  {
+    "item": "slide-to-confirm",
+    "kind": "component",
+    "name": "slide-to-confirm",
+    "reason": "New web component. The native port drags the thumb with a Gesture Handler pan on the same slide-to-confirm-model and springs it with withSpring; it follows in its own change.",
+    "date": "2026-11-26"
+  },
+  {
+    "item": "stepper",
+    "kind": "component",
+    "name": "stepper",
+    "reason": "New web component. The native port draws the same parts as views with the check path in react-native-svg; it follows in its own change.",
+    "date": "2026-11-26"
+  },
+  {
+    "item": "morph-island",
+    "kind": "component",
+    "name": "morph-island",
+    "reason": "New web component. The native port measures each state with onLayout and drives width, height and the squash with withSpring on the same morph-island-model; it follows in its own change.",
+    "date": "2026-11-26"
+  },
+  {
+    "item": "password-strength",
+    "kind": "component",
+    "name": "password-strength",
+    "reason": "New web component. The native port draws the bars as Reanimated views on the same password-strength-model; it follows in its own change.",
+    "date": "2026-11-26"
+  },
+  {
+    "item": "segmented-meter",
+    "kind": "component",
+    "name": "segmented-meter",
+    "reason": "New web component. The native port draws the parts as flex views with animated widths on the same segmented-meter-model; it follows in its own change.",
+    "date": "2026-11-26"
+  },
+  {
+    "item": "bottom-nav",
+    "kind": "component",
+    "name": "bottom-nav",
+    "reason": "A phone web app's tab bar. React Native apps already get theirs from the App Shell's bottom bar (lib/bottom-bar), so there is no separate native item.",
+    "date": "2026-11-26"
   }
 ]

@@ -45,6 +45,28 @@ html:root {
   --motion-tooltip-travel: 0px;
   --motion-popup-travel: 0px;
   --motion-popup-blur: 0px;
+  --motion-spring-follow: 900 50;
+  --motion-spring-follow-duration: 158ms;
+  --motion-ease-follow-spring: linear(0, 0.016, 0.043, 0.08, 0.124, 0.172, 0.223, 0.276, 0.329, 0.381, 0.432, 0.432, 0.482, 0.529, 0.574, 0.616, 0.655, 0.691, 0.725, 0.756, 0.785, 0.81, 0.834, 0.855, 0.874, 0.891, 0.906, 0.919, 0.931, 0.942, 0.951, 0.951, 0.959, 0.966, 0.972, 0.978, 0.982, 0.986, 0.989, 0.992, 1);
+  --motion-spring-settle: 280 22;
+  --motion-spring-settle-duration: 396ms;
+  --motion-ease-settle-spring: linear(0, 0.014, 0.064, 0.111, 0.197, 0.261, 0.327, 0.427, 0.493, 0.556, 0.646, 0.701, 0.776, 0.821, 0.861, 0.913, 0.942, 0.967, 0.998, 1.014, 1.033, 1.042, 1.049, 1.055, 1.057, 1.057, 1.056, 1.054, 1.05, 1.047, 1.043, 1.038, 1.034, 1.03, 1.025, 1.021, 1.016, 1.013, 1.011, 1.007, 1);
+  --motion-spring-soft: 260 24;
+  --motion-spring-soft-duration: 433ms;
+  --motion-ease-soft-spring: linear(0, 0.025, 0.059, 0.126, 0.18, 0.266, 0.356, 0.416, 0.503, 0.558, 0.635, 0.704, 0.746, 0.802, 0.835, 0.878, 0.914, 0.934, 0.96, 0.973, 0.99, 1.003, 1.009, 1.016, 1.019, 1.023, 1.024, 1.024, 1.024, 1.023, 1.022, 1.02, 1.018, 1.016, 1.015, 1.012, 1.01, 1.009, 1.007, 1.006, 1);
+  --motion-spring-lead: 620 36;
+  --motion-spring-lead-duration: 275ms;
+  --motion-ease-lead-spring: linear(0, 0.031, 0.058, 0.129, 0.215, 0.262, 0.356, 0.45, 0.496, 0.583, 0.662, 0.698, 0.765, 0.794, 0.847, 0.891, 0.91, 0.943, 0.969, 0.979, 0.996, 1.009, 1.014, 1.021, 1.025, 1.027, 1.028, 1.027, 1.027, 1.025, 1.023, 1.022, 1.019, 1.018, 1.015, 1.013, 1.012, 1.01, 1.008, 1.007, 1);
+  --motion-spring-trail: 190 19;
+  --motion-spring-trail-duration: 492ms;
+  --motion-ease-trail-spring: linear(0, 0.019, 0.06, 0.118, 0.188, 0.264, 0.344, 0.424, 0.502, 0.577, 0.647, 0.691, 0.751, 0.805, 0.852, 0.893, 0.928, 0.957, 0.981, 1.001, 1.016, 1.027, 1.035, 1.04, 1.043, 1.045, 1.044, 1.043, 1.041, 1.038, 1.034, 1.032, 1.029, 1.025, 1.022, 1.018, 1.015, 1.012, 1.01, 1.008, 1);
+  --motion-spring-pop: 520 16;
+  --motion-spring-pop-duration: 621ms;
+  --motion-ease-pop-spring: linear(0, 0.083, 0.213, 0.437, 0.68, 0.905, 1.048, 1.19, 1.274, 1.302, 1.292, 1.249, 1.184, 1.129, 1.058, 0.996, 0.95, 0.927, 0.911, 0.911, 0.922, 0.935, 0.957, 0.979, 0.993, 1.01, 1.021, 1.026, 1.027, 1.025, 1.021, 1.016, 1.009, 1.003, 0.998, 0.995, 0.993, 0.992, 0.992, 0.993, 1);
+  --motion-spring-fade: 420 32;
+  --motion-spring-fade-duration: 333ms;
+  --motion-ease-fade-spring: linear(0, 0.021, 0.063, 0.12, 0.187, 0.259, 0.334, 0.408, 0.48, 0.548, 0.611, 0.669, 0.722, 0.769, 0.811, 0.847, 0.878, 0.905, 0.928, 0.947, 0.963, 0.976, 0.986, 0.994, 1.001, 1.005, 1.009, 1.011, 1.012, 1.013, 1.013, 1.013, 1.013, 1.012, 1.011, 1.01, 1.009, 1.008, 1.007, 1.006, 1);
+  --motion-stagger: 45ms;
   --density-4: 0.25rem;
   --density-6: 0.375rem;
   --density-8: 0.5rem;
@@ -536,6 +558,20 @@ html.dark {
   --ease-drawer: var(--motion-ease-drawer);
   --ease-theme: var(--motion-ease-theme);
   --ease-bounce: var(--motion-ease-bounce);
+  --transition-duration-follow-spring: calc(var(--motion-spring-follow-duration) * var(--motion-scale, 1));
+  --ease-follow-spring: var(--motion-ease-follow-spring);
+  --transition-duration-settle-spring: calc(var(--motion-spring-settle-duration) * var(--motion-scale, 1));
+  --ease-settle-spring: var(--motion-ease-settle-spring);
+  --transition-duration-soft-spring: calc(var(--motion-spring-soft-duration) * var(--motion-scale, 1));
+  --ease-soft-spring: var(--motion-ease-soft-spring);
+  --transition-duration-lead-spring: calc(var(--motion-spring-lead-duration) * var(--motion-scale, 1));
+  --ease-lead-spring: var(--motion-ease-lead-spring);
+  --transition-duration-trail-spring: calc(var(--motion-spring-trail-duration) * var(--motion-scale, 1));
+  --ease-trail-spring: var(--motion-ease-trail-spring);
+  --transition-duration-pop-spring: calc(var(--motion-spring-pop-duration) * var(--motion-scale, 1));
+  --ease-pop-spring: var(--motion-ease-pop-spring);
+  --transition-duration-fade-spring: calc(var(--motion-spring-fade-duration) * var(--motion-scale, 1));
+  --ease-fade-spring: var(--motion-ease-fade-spring);
   --ease-settle: var(--motion-ease-settle);
   --ease-spring: var(--motion-ease-enter);
   --ease-spring-bounce: var(--motion-ease-enter);
@@ -646,6 +682,28 @@ html.dark {
   --motion-tooltip-travel: 4px;
   --motion-popup-travel: 6px;
   --motion-popup-blur: 2px;
+  --motion-spring-follow: 533 38.5;
+  --motion-spring-follow-duration: 200ms;
+  --motion-ease-follow-spring: linear(0, 0.009, 0.026, 0.078, 0.11, 0.145, 0.183, 0.222, 0.303, 0.343, 0.383, 0.422, 0.461, 0.534, 0.568, 0.601, 0.632, 0.662, 0.716, 0.741, 0.765, 0.786, 0.806, 0.842, 0.858, 0.873, 0.887, 0.899, 0.921, 0.93, 0.939, 0.947, 0.954, 0.966, 0.971, 0.975, 0.979, 0.983, 0.989, 0.991, 1);
+  --motion-spring-settle: 166 16.9;
+  --motion-spring-settle-duration: 517ms;
+  --motion-ease-settle-spring: linear(0, 0.016, 0.053, 0.106, 0.17, 0.266, 0.342, 0.419, 0.495, 0.568, 0.637, 0.702, 0.761, 0.814, 0.861, 0.914, 0.948, 0.976, 1, 1.018, 1.033, 1.044, 1.051, 1.056, 1.059, 1.06, 1.058, 1.056, 1.052, 1.048, 1.044, 1.04, 1.035, 1.03, 1.026, 1.021, 1.017, 1.013, 1.01, 1.008, 1);
+  --motion-spring-soft: 154 18.5;
+  --motion-spring-soft-duration: 567ms;
+  --motion-ease-soft-spring: linear(0, 0.015, 0.064, 0.115, 0.196, 0.263, 0.332, 0.424, 0.491, 0.575, 0.633, 0.688, 0.753, 0.796, 0.846, 0.879, 0.907, 0.939, 0.958, 0.979, 0.991, 1.001, 1.011, 1.017, 1.022, 1.024, 1.025, 1.025, 1.025, 1.024, 1.022, 1.021, 1.018, 1.017, 1.014, 1.013, 1.011, 1.009, 1.008, 1.006, 1);
+  --motion-spring-lead: 367 27.7;
+  --motion-spring-lead-duration: 358ms;
+  --motion-ease-lead-spring: linear(0, 0.018, 0.056, 0.108, 0.204, 0.275, 0.348, 0.42, 0.491, 0.558, 0.652, 0.708, 0.759, 0.804, 0.845, 0.88, 0.911, 0.948, 0.968, 0.984, 0.998, 1.008, 1.016, 1.022, 1.027, 1.029, 1.03, 1.03, 1.029, 1.028, 1.025, 1.023, 1.021, 1.019, 1.017, 1.014, 1.012, 1.01, 1.008, 1.007, 1);
+  --motion-spring-trail: 112 14.6;
+  --motion-spring-trail-duration: 646ms;
+  --motion-ease-trail-spring: linear(0, 0.018, 0.06, 0.12, 0.191, 0.249, 0.33, 0.412, 0.492, 0.569, 0.641, 0.708, 0.767, 0.808, 0.856, 0.897, 0.933, 0.962, 0.986, 1.005, 1.019, 1.028, 1.036, 1.042, 1.045, 1.046, 1.045, 1.044, 1.041, 1.039, 1.036, 1.032, 1.028, 1.024, 1.021, 1.017, 1.014, 1.012, 1.01, 1.007, 1);
+  --motion-spring-pop: 308 12.3;
+  --motion-spring-pop-duration: 813ms;
+  --motion-ease-pop-spring: linear(0, 0.074, 0.241, 0.461, 0.693, 0.869, 1.054, 1.19, 1.272, 1.303, 1.29, 1.246, 1.182, 1.126, 1.057, 0.997, 0.952, 0.922, 0.909, 0.91, 0.921, 0.935, 0.956, 0.977, 0.996, 1.011, 1.022, 1.027, 1.028, 1.026, 1.021, 1.015, 1.009, 1.003, 0.998, 0.994, 0.992, 0.992, 0.992, 0.993, 1);
+  --motion-spring-fade: 249 24.6;
+  --motion-spring-fade-duration: 442ms;
+  --motion-ease-fade-spring: linear(0, 0.024, 0.056, 0.121, 0.198, 0.253, 0.339, 0.424, 0.479, 0.557, 0.629, 0.673, 0.733, 0.769, 0.817, 0.859, 0.882, 0.913, 0.938, 0.952, 0.97, 0.983, 0.991, 0.999, 1.006, 1.009, 1.012, 1.014, 1.015, 1.015, 1.015, 1.014, 1.013, 1.013, 1.011, 1.01, 1.009, 1.008, 1.007, 1.006, 1);
+  --motion-stagger: 55ms;
 }
 :root[data-motion="default"], [data-motion="default"] {
   --motion-feedback: 150ms;
@@ -689,6 +747,28 @@ html.dark {
   --motion-tooltip-travel: 0px;
   --motion-popup-travel: 0px;
   --motion-popup-blur: 0px;
+  --motion-spring-follow: 900 50;
+  --motion-spring-follow-duration: 158ms;
+  --motion-ease-follow-spring: linear(0, 0.016, 0.043, 0.08, 0.124, 0.172, 0.223, 0.276, 0.329, 0.381, 0.432, 0.432, 0.482, 0.529, 0.574, 0.616, 0.655, 0.691, 0.725, 0.756, 0.785, 0.81, 0.834, 0.855, 0.874, 0.891, 0.906, 0.919, 0.931, 0.942, 0.951, 0.951, 0.959, 0.966, 0.972, 0.978, 0.982, 0.986, 0.989, 0.992, 1);
+  --motion-spring-settle: 280 22;
+  --motion-spring-settle-duration: 396ms;
+  --motion-ease-settle-spring: linear(0, 0.014, 0.064, 0.111, 0.197, 0.261, 0.327, 0.427, 0.493, 0.556, 0.646, 0.701, 0.776, 0.821, 0.861, 0.913, 0.942, 0.967, 0.998, 1.014, 1.033, 1.042, 1.049, 1.055, 1.057, 1.057, 1.056, 1.054, 1.05, 1.047, 1.043, 1.038, 1.034, 1.03, 1.025, 1.021, 1.016, 1.013, 1.011, 1.007, 1);
+  --motion-spring-soft: 260 24;
+  --motion-spring-soft-duration: 433ms;
+  --motion-ease-soft-spring: linear(0, 0.025, 0.059, 0.126, 0.18, 0.266, 0.356, 0.416, 0.503, 0.558, 0.635, 0.704, 0.746, 0.802, 0.835, 0.878, 0.914, 0.934, 0.96, 0.973, 0.99, 1.003, 1.009, 1.016, 1.019, 1.023, 1.024, 1.024, 1.024, 1.023, 1.022, 1.02, 1.018, 1.016, 1.015, 1.012, 1.01, 1.009, 1.007, 1.006, 1);
+  --motion-spring-lead: 620 36;
+  --motion-spring-lead-duration: 275ms;
+  --motion-ease-lead-spring: linear(0, 0.031, 0.058, 0.129, 0.215, 0.262, 0.356, 0.45, 0.496, 0.583, 0.662, 0.698, 0.765, 0.794, 0.847, 0.891, 0.91, 0.943, 0.969, 0.979, 0.996, 1.009, 1.014, 1.021, 1.025, 1.027, 1.028, 1.027, 1.027, 1.025, 1.023, 1.022, 1.019, 1.018, 1.015, 1.013, 1.012, 1.01, 1.008, 1.007, 1);
+  --motion-spring-trail: 190 19;
+  --motion-spring-trail-duration: 492ms;
+  --motion-ease-trail-spring: linear(0, 0.019, 0.06, 0.118, 0.188, 0.264, 0.344, 0.424, 0.502, 0.577, 0.647, 0.691, 0.751, 0.805, 0.852, 0.893, 0.928, 0.957, 0.981, 1.001, 1.016, 1.027, 1.035, 1.04, 1.043, 1.045, 1.044, 1.043, 1.041, 1.038, 1.034, 1.032, 1.029, 1.025, 1.022, 1.018, 1.015, 1.012, 1.01, 1.008, 1);
+  --motion-spring-pop: 520 16;
+  --motion-spring-pop-duration: 621ms;
+  --motion-ease-pop-spring: linear(0, 0.083, 0.213, 0.437, 0.68, 0.905, 1.048, 1.19, 1.274, 1.302, 1.292, 1.249, 1.184, 1.129, 1.058, 0.996, 0.95, 0.927, 0.911, 0.911, 0.922, 0.935, 0.957, 0.979, 0.993, 1.01, 1.021, 1.026, 1.027, 1.025, 1.021, 1.016, 1.009, 1.003, 0.998, 0.995, 0.993, 0.992, 0.992, 0.993, 1);
+  --motion-spring-fade: 420 32;
+  --motion-spring-fade-duration: 333ms;
+  --motion-ease-fade-spring: linear(0, 0.021, 0.063, 0.12, 0.187, 0.259, 0.334, 0.408, 0.48, 0.548, 0.611, 0.669, 0.722, 0.769, 0.811, 0.847, 0.878, 0.905, 0.928, 0.947, 0.963, 0.976, 0.986, 0.994, 1.001, 1.005, 1.009, 1.011, 1.012, 1.013, 1.013, 1.013, 1.013, 1.012, 1.011, 1.01, 1.009, 1.008, 1.007, 1.006, 1);
+  --motion-stagger: 45ms;
 }
 :root[data-motion="snappy"], [data-motion="snappy"] {
   --motion-feedback: 100ms;
@@ -732,6 +812,28 @@ html.dark {
   --motion-tooltip-travel: 0px;
   --motion-popup-travel: 0px;
   --motion-popup-blur: 0px;
+  --motion-spring-follow: 1600 66.7;
+  --motion-spring-follow-duration: 121ms;
+  --motion-ease-follow-spring: linear(0, 0.028, 0.028, 0.075, 0.135, 0.202, 0.202, 0.272, 0.344, 0.413, 0.413, 0.48, 0.542, 0.542, 0.6, 0.653, 0.701, 0.701, 0.744, 0.782, 0.815, 0.815, 0.845, 0.87, 0.87, 0.892, 0.911, 0.927, 0.927, 0.941, 0.952, 0.952, 0.962, 0.97, 0.977, 0.977, 0.982, 0.986, 0.99, 0.99, 1);
+  --motion-spring-settle: 498 29.3;
+  --motion-spring-settle-duration: 296ms;
+  --motion-ease-settle-spring: linear(0, 0.025, 0.076, 0.108, 0.184, 0.269, 0.358, 0.403, 0.491, 0.576, 0.655, 0.727, 0.76, 0.82, 0.873, 0.917, 0.937, 0.97, 0.997, 1.018, 1.033, 1.039, 1.048, 1.053, 1.055, 1.055, 1.054, 1.052, 1.048, 1.046, 1.042, 1.037, 1.032, 1.027, 1.025, 1.02, 1.016, 1.012, 1.011, 1.008, 1);
+  --motion-spring-soft: 462 32;
+  --motion-spring-soft-duration: 321ms;
+  --motion-ease-soft-spring: linear(0, 0.023, 0.069, 0.132, 0.205, 0.284, 0.364, 0.404, 0.482, 0.556, 0.625, 0.688, 0.745, 0.795, 0.839, 0.876, 0.908, 0.935, 0.957, 0.975, 0.989, 0.995, 1.005, 1.012, 1.017, 1.02, 1.022, 1.022, 1.022, 1.021, 1.02, 1.019, 1.017, 1.015, 1.014, 1.013, 1.011, 1.009, 1.008, 1.006, 1);
+  --motion-spring-lead: 1102 48;
+  --motion-spring-lead-duration: 200ms;
+  --motion-ease-lead-spring: linear(0, 0.019, 0.053, 0.152, 0.211, 0.274, 0.337, 0.401, 0.524, 0.581, 0.635, 0.685, 0.731, 0.811, 0.845, 0.875, 0.901, 0.925, 0.961, 0.976, 0.988, 0.998, 1.005, 1.016, 1.02, 1.022, 1.024, 1.024, 1.024, 1.023, 1.022, 1.021, 1.02, 1.017, 1.015, 1.014, 1.012, 1.011, 1.008, 1.007, 1);
+  --motion-spring-trail: 338 25.3;
+  --motion-spring-trail-duration: 367ms;
+  --motion-ease-trail-spring: linear(0, 0.017, 0.052, 0.13, 0.194, 0.262, 0.333, 0.405, 0.51, 0.577, 0.639, 0.697, 0.751, 0.821, 0.861, 0.897, 0.928, 0.954, 0.985, 1.001, 1.014, 1.025, 1.032, 1.039, 1.042, 1.043, 1.043, 1.042, 1.039, 1.037, 1.034, 1.031, 1.028, 1.023, 1.02, 1.017, 1.015, 1.012, 1.009, 1.007, 1);
+  --motion-spring-pop: 924 21.3;
+  --motion-spring-pop-duration: 462ms;
+  --motion-ease-pop-spring: linear(0, 0.089, 0.276, 0.43, 0.674, 0.902, 1.086, 1.179, 1.267, 1.3, 1.285, 1.237, 1.193, 1.12, 1.05, 0.99, 0.959, 0.926, 0.912, 0.912, 0.924, 0.936, 0.957, 0.979, 0.998, 1.008, 1.02, 1.026, 1.027, 1.025, 1.021, 1.015, 1.008, 1.002, 0.999, 0.995, 0.993, 0.992, 0.992, 0.993, 1);
+  --motion-spring-fade: 747 42.7;
+  --motion-spring-fade-duration: 246ms;
+  --motion-ease-fade-spring: linear(0, 0.013, 0.068, 0.106, 0.196, 0.244, 0.344, 0.394, 0.49, 0.535, 0.62, 0.658, 0.728, 0.76, 0.815, 0.839, 0.881, 0.899, 0.929, 0.942, 0.963, 0.971, 0.979, 0.99, 0.995, 1.002, 1.004, 1.008, 1.009, 1.011, 1.011, 1.011, 1.011, 1.01, 1.01, 1.009, 1.008, 1.007, 1.007, 1.006, 1);
+  --motion-stagger: 35ms;
 }
 :root[data-motion="instant"], [data-motion="instant"] {
   --motion-feedback: 50ms;
@@ -775,6 +877,28 @@ html.dark {
   --motion-tooltip-travel: 0px;
   --motion-popup-travel: 0px;
   --motion-popup-blur: 0px;
+  --motion-spring-follow: 2500 100;
+  --motion-spring-follow-duration: 163ms;
+  --motion-ease-follow-spring: linear(0, 0.043, 0.11, 0.188, 0.268, 0.347, 0.421, 0.49, 0.552, 0.608, 0.657, 0.701, 0.739, 0.773, 0.803, 0.828, 0.851, 0.871, 0.888, 0.902, 0.915, 0.915, 0.926, 0.936, 0.945, 0.952, 0.958, 0.964, 0.969, 0.973, 0.976, 0.98, 0.982, 0.985, 0.987, 0.988, 0.99, 0.991, 0.992, 0.993, 1);
+  --motion-spring-settle: 778 55.8;
+  --motion-spring-settle-duration: 283ms;
+  --motion-ease-settle-spring: linear(0, 0.037, 0.068, 0.145, 0.231, 0.318, 0.36, 0.441, 0.516, 0.55, 0.613, 0.669, 0.694, 0.739, 0.778, 0.811, 0.826, 0.853, 0.876, 0.886, 0.903, 0.918, 0.925, 0.937, 0.947, 0.955, 0.959, 0.965, 0.971, 0.973, 0.977, 0.981, 0.983, 0.985, 0.988, 0.99, 0.99, 0.992, 0.993, 0.994, 1);
+  --motion-spring-soft: 722 53.7;
+  --motion-spring-soft-duration: 292ms;
+  --motion-ease-soft-spring: linear(0, 0.035, 0.098, 0.136, 0.218, 0.302, 0.384, 0.423, 0.496, 0.563, 0.623, 0.65, 0.699, 0.742, 0.779, 0.796, 0.826, 0.852, 0.874, 0.884, 0.901, 0.916, 0.929, 0.935, 0.945, 0.953, 0.96, 0.963, 0.969, 0.974, 0.978, 0.98, 0.983, 0.985, 0.988, 0.989, 0.99, 0.992, 0.993, 0.994, 1);
+  --motion-spring-lead: 1722 83;
+  --motion-spring-lead-duration: 196ms;
+  --motion-ease-lead-spring: linear(0, 0.03, 0.078, 0.202, 0.268, 0.334, 0.396, 0.455, 0.51, 0.607, 0.649, 0.687, 0.721, 0.751, 0.779, 0.826, 0.845, 0.863, 0.878, 0.892, 0.915, 0.925, 0.933, 0.941, 0.948, 0.954, 0.964, 0.968, 0.971, 0.975, 0.978, 0.98, 0.984, 0.986, 0.988, 0.989, 0.99, 0.992, 0.993, 0.994, 1);
+  --motion-spring-trail: 528 46;
+  --motion-spring-trail-duration: 342ms;
+  --motion-ease-trail-spring: linear(0, 0.026, 0.075, 0.137, 0.207, 0.278, 0.349, 0.417, 0.48, 0.539, 0.617, 0.663, 0.705, 0.741, 0.774, 0.802, 0.828, 0.85, 0.87, 0.887, 0.901, 0.914, 0.926, 0.936, 0.944, 0.952, 0.958, 0.964, 0.969, 0.973, 0.978, 0.981, 0.984, 0.986, 0.988, 0.989, 0.991, 0.992, 0.993, 0.994, 1);
+  --motion-spring-pop: 1444 76;
+  --motion-spring-pop-duration: 213ms;
+  --motion-ease-pop-spring: linear(0, 0.025, 0.118, 0.176, 0.236, 0.296, 0.411, 0.464, 0.514, 0.56, 0.642, 0.678, 0.71, 0.766, 0.79, 0.812, 0.832, 0.865, 0.879, 0.892, 0.913, 0.923, 0.931, 0.938, 0.951, 0.956, 0.961, 0.965, 0.972, 0.975, 0.977, 0.982, 0.984, 0.986, 0.987, 0.99, 0.991, 0.992, 0.993, 0.994, 1);
+  --motion-spring-fade: 1167 68.3;
+  --motion-spring-fade-duration: 233ms;
+  --motion-ease-fade-spring: linear(0, 0.02, 0.098, 0.148, 0.255, 0.308, 0.361, 0.459, 0.504, 0.586, 0.623, 0.657, 0.717, 0.743, 0.789, 0.809, 0.827, 0.858, 0.872, 0.895, 0.905, 0.915, 0.93, 0.937, 0.949, 0.954, 0.958, 0.966, 0.969, 0.975, 0.977, 0.98, 0.983, 0.985, 0.988, 0.989, 0.99, 0.992, 0.993, 0.994, 1);
+  --motion-stagger: 0ms;
 }
 :root[data-motion="off"], [data-motion="off"] {
   --motion-scale: 0;
@@ -883,6 +1007,14 @@ html.dark {
   &:where([data-closed], [data-state="closed"], [data-exiting], [data-ending-style]) {
     --tw-duration: calc(var(--motion-bounce-exit) * var(--motion-scale, 1));
     --tw-ease: var(--motion-ease-bounce);
+  }
+}
+@utility motion-stagger {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: enter calc(var(--motion-spring-fade-duration) * var(--motion-scale, 1)) var(--motion-ease-fade-spring) both;
+    animation-delay: calc(min(sibling-index() - 1, 10) * var(--motion-stagger) * var(--motion-scale, 1));
+    --tw-enter-opacity: 0;
+    --tw-enter-translate-y: calc(var(--spacing) * -1);
   }
 }
 @utility motion-press {

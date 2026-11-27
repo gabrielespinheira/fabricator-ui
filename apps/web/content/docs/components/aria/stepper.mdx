@@ -1,0 +1,118 @@
+---
+title: Stepper
+description: The steps of a flow and where the person is in it.
+base: aria
+component: true
+---
+
+<ComponentPreview styleName="aria-nova" name="stepper-demo" />
+
+A stepper shows the steps of a flow, such as a checkout or an onboarding, and which one the person is on. Finished steps draw a check, the current one pops up, and the line to the next step fills as each is done. It shows progress; the flow's own buttons move it.
+
+Stepper is part of the Fabricator style. It's built on HTML, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add stepper
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/stepper-model.ts"
+  title="lib/stepper-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/stepper.tsx"
+  title="components/ui/stepper.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  Stepper,
+  StepperContent,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperSeparator,
+  StepperTitle,
+} from "@/components/ui/stepper"
+```
+
+```tsx
+<Stepper value={2}>
+  <StepperItem step={1}>
+    <StepperIndicator />
+    <StepperContent>
+      <StepperTitle>Cart</StepperTitle>
+      <StepperDescription>3 items</StepperDescription>
+    </StepperContent>
+    <StepperSeparator />
+  </StepperItem>
+  <StepperItem step={2}>
+    <StepperIndicator />
+    <StepperContent>
+      <StepperTitle>Payment</StepperTitle>
+    </StepperContent>
+  </StepperItem>
+</Stepper>
+```
+
+## Composition
+
+```text
+Stepper                  data-slot="stepper" (ol)
+└── StepperItem          data-slot="stepper-item" data-state [aria-current="step"] (li)
+    ├── StepperIndicator data-slot="stepper-indicator"
+    ├── StepperContent   data-slot="stepper-content"
+    │   ├── StepperTitle data-slot="stepper-title"
+    │   └── StepperDescription data-slot="stepper-description"
+    └── StepperSeparator data-slot="stepper-separator"
+```
+
+`value` is the current step, counting from 1; set it past the last step to finish them all. Each item's `data-state` is `complete`, `current` or `upcoming`. Leave out the last item's separator. On a phone, hide `StepperContent` and keep the indicators.
+
+## Motion
+
+The current step's mark pops up to size on the pop spring; a finished step fills with the primary colour and its check draws itself just after; the line to the next step fills from its start on the soft spring. Going back reverses each. Reduce Motion keeps the colour changes and drops the pop and the drawing.
+
+## API Reference
+
+| Component     | Prop    | Type     |
+| ------------- | ------- | -------- |
+| `Stepper`     | `value` | `number` |
+| `StepperItem` | `step`  | `number` |
+
+`Stepper` renders an `ol`, `StepperItem` an `li`, and every part takes its element's props. `StepperIndicator` shows the step number unless you give it children.
+
+## Accessibility
+
+The steps are an ordered list, and the current one is marked `aria-current="step"`. A finished step's indicator adds "done" for screen readers. The stepper isn't interactive; keep Back and Next buttons, or links, to move through the flow.

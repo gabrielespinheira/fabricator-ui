@@ -32,8 +32,10 @@
     @apply text-muted-foreground hover:text-foreground data-copied:text-success-text;
   }
 
+  /* Each icon turns in from a quarter turn back and pops to size on the pop
+     spring, so the check lands with a bounce. Reduced motion only fades. */
   .cn-syntax-highlight-copy-icon {
-    @apply animate-in fade-in-0 zoom-in-75 duration-feedback ease-enter motion-reduce:zoom-in-100;
+    @apply animate-in fade-in-0 zoom-in-75 -spin-in-30 duration-pop-spring ease-pop-spring motion-reduce:zoom-in-100 motion-reduce:spin-in-0;
   }
 
   /* The code scrolls both ways inside the panel and fades at the top and

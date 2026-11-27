@@ -1,0 +1,49 @@
+/* MARK: Segmented Meter */
+
+  .cn-segmented-meter {
+    @apply w-full gap-(--density-8);
+  }
+
+  .cn-segmented-meter-header {
+    @apply gap-(--density-8) text-(length:--density-text-13);
+  }
+
+  .cn-segmented-meter-label {
+    @apply font-medium text-foreground;
+  }
+
+  .cn-segmented-meter-total {
+    @apply text-muted-foreground tabular-nums;
+  }
+
+  /* A rounded track of the faint foreground; parts sit end to end with a
+     hairline cut between them. */
+  .cn-segmented-meter-bar {
+    @apply h-2 gap-0.5 rounded-full bg-foreground/8;
+  }
+
+  /* A part is its share of the bar in its series colour. A new size springs
+     on the soft spring and the parts after it slide over. */
+  .cn-segmented-meter-segment {
+    @apply w-(--segment-share) bg-(--segment-color) transition-[width] duration-soft-spring ease-soft-spring motion-reduce:transition-none;
+  }
+
+  .cn-segmented-meter-legend {
+    @apply gap-x-(--density-16) gap-y-(--density-4) text-(length:--density-text-12);
+  }
+
+  .cn-segmented-meter-legend-item {
+    @apply gap-(--density-6);
+  }
+
+  .cn-segmented-meter-dot {
+    @apply size-2 rounded-full bg-(--segment-color);
+  }
+
+  .cn-segmented-meter-legend-label {
+    @apply text-muted-foreground;
+  }
+
+  .cn-segmented-meter-legend-value {
+    @apply font-medium text-foreground tabular-nums;
+  }

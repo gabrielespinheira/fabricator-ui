@@ -1,0 +1,53 @@
+/* MARK: Hold Button */
+
+  /* A button: its density, radius and type. Pressing gives to the press
+     scale; the cursor is a hand. Focus is the 1px ring, offset. */
+  .cn-hold-button {
+    @apply cursor-pointer h-(--density-36) gap-(--density-6) rounded-lg px-(--density-16) text-(length:--density-text-13) font-medium transition-[scale,background-color] duration-feedback ease-feedback motion-press focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50;
+  }
+
+  /* At rest the secondary fill; holding pours the primary fill over it. */
+  .cn-hold-button-variant-default {
+    @apply bg-secondary text-secondary-foreground [&_[data-slot=hold-button-fill]]:bg-primary [&_[data-slot=hold-button-fill]]:text-primary-foreground [&_[data-slot=hold-button-check]]:text-primary-foreground;
+  }
+
+  /* For destroying something: the soft destructive wash, filling solid. */
+  .cn-hold-button-variant-destructive {
+    @apply bg-destructive/12 text-destructive-text [&_[data-slot=hold-button-fill]]:bg-destructive [&_[data-slot=hold-button-fill]]:text-destructive-foreground [&_[data-slot=hold-button-check]]:text-destructive-foreground;
+  }
+
+  /* Sizes pin a density, as the button's do; the default follows the
+     region. Icons take the density's icon size. */
+  .cn-hold-button-size-sm {
+    @apply density-compact [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:shrink-0;
+  }
+
+  .cn-hold-button-size-default {
+    @apply [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:shrink-0;
+  }
+
+  .cn-hold-button-size-lg {
+    @apply density-spacious [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:shrink-0;
+  }
+
+  .cn-hold-button-label {
+    @apply gap-(--density-6) transition-opacity duration-feedback ease-feedback group-data-[state=complete]/hold-button:opacity-0;
+  }
+
+  /* The fill: the same label in the turned-over colours, cut away from the
+     end edge. Held, it uncovers from the start edge in a straight line over
+     the hold (--hold-duration), so it reads as progress, under Reduce Motion
+     too. Let go early, it springs back on the settle spring. Complete, it
+     stays full under the check. */
+  .cn-hold-button-fill {
+    @apply [clip-path:inset(0_100%_0_0)] transition-[clip-path] duration-settle-spring ease-settle-spring group-data-[state=holding]/hold-button:[clip-path:inset(0_0_0_0)] group-data-[state=holding]/hold-button:duration-(--hold-duration) group-data-[state=holding]/hold-button:ease-linear group-data-[state=complete]/hold-button:[clip-path:inset(0_0_0_0)] motion-reduce:duration-0 motion-reduce:group-data-[state=holding]/hold-button:duration-(--hold-duration);
+  }
+
+  .cn-hold-button-fill-label {
+    @apply gap-(--density-6) transition-opacity duration-feedback ease-feedback group-data-[state=complete]/hold-button:opacity-0;
+  }
+
+  /* Complete, a check pops in on the pop spring where the label was. */
+  .cn-hold-button-check {
+    @apply scale-50 opacity-0 transition-[scale,opacity] duration-pop-spring ease-pop-spring group-data-[state=complete]/hold-button:scale-100 group-data-[state=complete]/hold-button:opacity-100 motion-reduce:scale-100;
+  }

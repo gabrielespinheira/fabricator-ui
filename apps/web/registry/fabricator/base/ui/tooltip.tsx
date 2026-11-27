@@ -3,6 +3,8 @@
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
 import { cn } from "cn"
 
+import { useTooltipTravel } from "@/registry/bases/base/hooks/use-tooltip-travel"
+import { useMergedRef } from "@/registry/bases/base/lib/fluid-hover"
 import { useDensity } from "@/registry/bases/base/ui/density"
 
 // Fabricator override of the upstream tooltip: the content takes the density of
@@ -37,6 +39,7 @@ function TooltipContent({
   align = "center",
   alignOffset = 0,
   children,
+  ref,
   ...props
 }: TooltipPrimitive.Popup.Props &
   Pick<
@@ -44,6 +47,9 @@ function TooltipContent({
     "align" | "alignOffset" | "side" | "sideOffset"
   >) {
   const density = useDensity()
+  // Moving between triggers, the tooltip travels instead of reappearing.
+  const travelRef = useTooltipTravel()
+  const mergedRef = useMergedRef(travelRef, ref)
 
   return (
     <TooltipPrimitive.Portal>
@@ -55,6 +61,7 @@ function TooltipContent({
         className="isolate z-50"
       >
         <TooltipPrimitive.Popup
+          ref={mergedRef}
           data-slot="tooltip-content"
           data-density={density}
           className={cn(

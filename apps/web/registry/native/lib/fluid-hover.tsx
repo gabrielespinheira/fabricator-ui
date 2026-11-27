@@ -6,6 +6,8 @@
 // pointer's place. A press fades the highlight in where it lands; another press
 // before it has faded glides there; and where `track` is set, dragging moves it
 // from row to row with a tick on each, and letting go activates the lit row.
+// Both overlays travel as the website's do: each edge on its own spring, the
+// edge facing the move stiff and the one behind it soft, so they stretch.
 import * as React from "react"
 import { useEffectEvent as useLatestCallback } from "@rn-primitives/hooks"
 import { cn } from "cn"
@@ -17,12 +19,16 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
+  withSpring,
   withTiming,
   type SharedValue,
-  type WithTimingConfig,
 } from "react-native-reanimated"
 import { scheduleOnRN } from "react-native-worklets"
 
+import {
+  getRectEdgeSprings,
+  type SpringConfig,
+} from "@/registry/fabricator/shared/lib/spring-model"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   createFluidHoverStore,
@@ -35,7 +41,7 @@ import {
   type FluidRow,
   type Rect,
 } from "@/registry/native/lib/fluid-hover-model"
-import { useMotion } from "@/registry/native/lib/motion"
+import { useMotion, useMotionSprings } from "@/registry/native/lib/motion"
 
 // A drag this far along the row's axis starts tracking, and across it gives way
 // to whatever is underneath, so a strip inside a list still scrolls.
@@ -55,8 +61,8 @@ const DIMMED_SELECTION = 0.85
 type OverlayValues = {
   x: SharedValue<number>
   y: SharedValue<number>
-  width: SharedValue<number>
-  height: SharedValue<number>
+  right: SharedValue<number>
+  bottom: SharedValue<number>
   opacity: SharedValue<number>
 }
 
@@ -77,32 +83,47 @@ function isMeasurable(target: unknown): target is MeasurableView {
 function useOverlayValues(): OverlayValues {
   const x = useSharedValue(0)
   const y = useSharedValue(0)
-  const width = useSharedValue(0)
-  const height = useSharedValue(0)
+  const right = useSharedValue(0)
+  const bottom = useSharedValue(0)
   const opacity = useSharedValue(0)
   return React.useMemo(
-    () => ({ x, y, width, height, opacity }),
-    [x, y, width, height, opacity]
+    () => ({ x, y, right, bottom, opacity }),
+    [x, y, right, bottom, opacity]
   )
 }
+
+type EdgeTravel = { lead: SpringConfig; trail: SpringConfig }
 
 function placeOverlay(
   overlay: OverlayValues,
   rect: Rect,
-  travel: WithTimingConfig | null
+  travel: EdgeTravel | null
 ) {
   "worklet"
+  const right = rect.left + rect.width
+  const bottom = rect.top + rect.height
   if (travel) {
-    overlay.x.set(withTiming(rect.left, travel))
-    overlay.y.set(withTiming(rect.top, travel))
-    overlay.width.set(withTiming(rect.width, travel))
-    overlay.height.set(withTiming(rect.height, travel))
+    const springs = getRectEdgeSprings(
+      {
+        left: overlay.x.get(),
+        top: overlay.y.get(),
+        right: overlay.right.get(),
+        bottom: overlay.bottom.get(),
+      },
+      { left: rect.left, top: rect.top, right, bottom },
+      travel.lead,
+      travel.trail
+    )
+    overlay.x.set(withSpring(rect.left, { ...springs.left, mass: 1 }))
+    overlay.y.set(withSpring(rect.top, { ...springs.top, mass: 1 }))
+    overlay.right.set(withSpring(right, { ...springs.right, mass: 1 }))
+    overlay.bottom.set(withSpring(bottom, { ...springs.bottom, mass: 1 }))
     return
   }
   overlay.x.set(rect.left)
   overlay.y.set(rect.top)
-  overlay.width.set(rect.width)
-  overlay.height.set(rect.height)
+  overlay.right.set(right)
+  overlay.bottom.set(bottom)
 }
 
 export type FluidHoverOptions = {
@@ -132,7 +153,6 @@ export function useFluidHover({
   previewsSelection = false,
 }: FluidHoverOptions = {}) {
   const glide = useMotion("glide")
-  const move = useMotion("move")
   const feedback = useFeedback()
   const container = React.useRef<MeasurableView | null>(null)
   const rects = React.useRef(new Map<string, Rect>())
@@ -156,12 +176,14 @@ export function useFluidHover({
     [litStore]
   )
 
-  const glideTravel = React.useMemo(
+  // Reduce Motion and motion off drop the travel; the fades stay.
+  const springs = useMotionSprings()
+  const edgeTravel = React.useMemo(
     () =>
-      glide.isReduced
+      springs.isReduced || !springs.springs
         ? null
-        : { duration: glide.enterMs, easing: glide.enterEasing },
-    [glide.enterEasing, glide.enterMs, glide.isReduced]
+        : { lead: springs.springs.lead, trail: springs.springs.trail },
+    [springs]
   )
   // Reduce Motion drops the travel and keeps the fade, which Reanimated would
   // otherwise jump to its end.
@@ -193,7 +215,7 @@ export function useFluidHover({
   }, [rows])
 
   // The selection appears at once, so a page never opens with its pill fading in,
-  // and slides between rows on the move timing.
+  // and stretches between rows on the edge springs.
   const syncSelection = useLatestCallback(
     (selectedKey: string | undefined = selected) => {
       const rect = selectedKey ? (rects.current.get(selectedKey) ?? null) : null
@@ -207,9 +229,7 @@ export function useFluidHover({
       placeOverlay(
         selection,
         rect,
-        shouldGlide(previous, rect) && !move.isReduced
-          ? { duration: move.enterMs, easing: move.moveEasing }
-          : null
+        shouldGlide(previous, rect) ? edgeTravel : null
       )
       selection.opacity.set(1)
     }
@@ -303,12 +323,12 @@ export function useFluidHover({
       pressedAt.current = Date.now()
       setLit(key)
       // Still fading from the last press: glide from there. Otherwise appear.
-      placeOverlay(hover, rect, hover.opacity.get() > 0.01 ? glideTravel : null)
+      placeOverlay(hover, rect, hover.opacity.get() > 0.01 ? edgeTravel : null)
       hover.opacity.set(
         withTiming(previewsSelection && key === selected ? 0 : 1, fadeIn)
       )
     },
-    [fadeIn, glideTravel, hover, previewsSelection, selected, setLit]
+    [fadeIn, edgeTravel, hover, previewsSelection, selected, setLit]
   )
 
   const release = React.useCallback(() => {
@@ -372,7 +392,7 @@ export function useFluidHover({
         hover.opacity.set(withTiming(0, fadeOut))
         return
       }
-      placeOverlay(hover, rect, hover.opacity.get() > 0.01 ? glideTravel : null)
+      placeOverlay(hover, rect, hover.opacity.get() > 0.01 ? edgeTravel : null)
       hover.opacity.set(
         withTiming(previewsSelection && next === selected ? 0 : 1, fadeIn)
       )
@@ -418,7 +438,7 @@ export function useFluidHover({
     axis,
     fadeIn,
     fadeOut,
-    glideTravel,
+    edgeTravel,
     handleTrackChange,
     hover,
     isTracking,
@@ -614,8 +634,8 @@ function FluidHoverOverlay({
 } & React.ComponentProps<typeof Animated.View>) {
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: overlay.opacity.value,
-    width: overlay.width.get(),
-    height: overlay.height.get(),
+    width: Math.max(0, overlay.right.get() - overlay.x.get()),
+    height: Math.max(0, overlay.bottom.get() - overlay.y.get()),
     transform: [
       { translateX: overlay.x.get() },
       { translateY: overlay.y.get() },

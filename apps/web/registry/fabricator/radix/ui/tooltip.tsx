@@ -4,6 +4,8 @@ import * as React from "react"
 import { cn } from "cn"
 import { Tooltip as TooltipPrimitive } from "radix-ui"
 
+import { useTooltipTravel } from "@/registry/bases/radix/hooks/use-tooltip-travel"
+import { useMergedRef } from "@/registry/bases/radix/lib/fluid-hover"
 import { useDensity } from "@/registry/bases/radix/ui/density"
 
 // Fabricator override of the upstream tooltip: the content takes the density of
@@ -39,13 +41,18 @@ function TooltipContent({
   className,
   sideOffset = 0,
   children,
+  ref,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Content>) {
   const density = useDensity()
+  // Moving between triggers, the tooltip travels instead of reappearing.
+  const travelRef = useTooltipTravel()
+  const mergedRef = useMergedRef(travelRef, ref)
 
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
+        ref={mergedRef}
         data-slot="tooltip-content"
         data-density={density}
         sideOffset={sideOffset}

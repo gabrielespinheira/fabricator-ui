@@ -28,7 +28,6 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   button: "Basics",
   "hold-button": "Basics",
   "slide-to-confirm": "Basics",
-  "status-island": "Basics",
   toggle: "Basics",
   badge: "Basics",
   avatar: "Basics",
@@ -144,6 +143,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   "file-tree": "Advanced",
   "syntax-highlight": "Advanced",
   "image-compare": "Advanced",
+  "morph-island": "Advanced",
   "video-player": "Advanced",
   "audio-player": "Advanced",
 }

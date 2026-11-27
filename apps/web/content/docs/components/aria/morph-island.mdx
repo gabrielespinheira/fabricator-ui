@@ -1,0 +1,109 @@
+---
+title: Morph Island
+description: One pill that morphs between live activities, such as a timer, an upload or a call.
+base: aria
+component: true
+---
+
+<ComponentPreview styleName="aria-nova" name="morph-island-demo" />
+
+A morph island is one floating pill for whatever is live right now: a focus timer, an upload, an incoming call. When the activity changes it doesn't swap boxes, it morphs: the width lands first, the height drops into place, the island keeps its volume and gives a small squash, and the old state blurs out while the new one settles in.
+
+Morph Island is part of the Fabricator style. It's built on HTML, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add morph-island
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/spring-model.ts"
+  title="lib/spring-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/morph-island-model.ts"
+  title="lib/morph-island-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/morph-island.tsx"
+  title="components/ui/morph-island.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { MorphIsland, MorphIslandContent } from "@/components/ui/morph-island"
+```
+
+```tsx
+<MorphIsland value={activity}>
+  <MorphIslandContent value="idle" />
+  <MorphIslandContent value="timer">
+    <TimerIcon />
+    Focus 04:59
+  </MorphIslandContent>
+  <MorphIslandContent value="call">
+    <Avatar />
+    Maya Collins
+    <Button aria-label="Accept">…</Button>
+  </MorphIslandContent>
+</MorphIsland>
+```
+
+## Composition
+
+```text
+MorphIsland              data-slot="morph-island" data-value role="status"
+└── MorphIslandContent   data-slot="morph-island-content" data-value [data-active]
+```
+
+Render every state at once, each a `MorphIslandContent` with its own `value`; `value` on the island picks the one that shows. The island takes that state's size, so give a state the width it needs (`w-72`) or let its content set it. An empty state is a short idle pill. States that aren't showing are hidden from screen readers and can't take focus, so buttons in them stay out of reach until they show.
+
+## Motion
+
+The island's width, height and squash are springs, from the Motion Studies' Morph Island: the width is stiffer than the height, so a change lands sideways first and then drops into place, and the height is stiffer again while it shrinks. While the height moves fast the width gives a little back, up to 5%, so the island keeps its volume. Every change, and every press, kicks a small squash. Corners stay a full pill while it is short and stop at three times your radius when tall.
+
+The leaving state fades into a small blur and shrinks to 90% on the popup's exit timing; the arriving one, a beat later, fades in and grows back on the entrance curve. The springs follow the project's speed and `--motion-scale`; Reduce Motion and motion off resize at once and keep the fades.
+
+## API Reference
+
+| Component            | Prop    | Type     |
+| -------------------- | ------- | -------- |
+| `MorphIsland`        | `value` | `string` |
+| `MorphIslandContent` | `value` | `string` |
+
+Both render a `div` and take its props.
+
+## Accessibility
+
+The island is a status region, so screen readers announce the state it changes to, politely, without moving focus. States that aren't showing are `inert` and hidden. Keep each state short, and put anything the person can act on (Accept, Decline, Stop) in it as a normal button with a name.
