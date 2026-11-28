@@ -18,7 +18,7 @@ import { BookmarkIcon } from "@fabricator-ui/icons/fill"
 ;<BellIcon variant="duotone" />
 ```
 
-Each variant uses the same canonical names and aliases. All UI strokes default to 1.75 units, including open paths and cutouts in Fill. Set `strokeWidth` to customize them.
+Each variant uses the same canonical names and aliases. All UI strokes are 1.75 units at 24px, including open paths and cutouts in Fill. With a numeric `size` and no `strokeWidth`, an icon picks a heavier stroke as it shrinks, so the line stays readable: 2.125 at 16px, 2.5 at 12px (`getAutoStrokeWidth`). Set `strokeWidth` to fix it.
 
 ## Outline icons
 
@@ -35,7 +35,7 @@ Each icon is exported with and without the `Icon` suffix, for example `HouseIcon
 | ------------------------------ | -------------- | -------------------------------------------------------- |
 | `size`                         | `24`           | Width and height                                         |
 | `color`                        | `currentColor` | Stroke colour                                            |
-| `strokeWidth`                  | `1.75`         |                                                          |
+| `strokeWidth`                  | By `size`      | 1.75 at 24px, heavier on smaller numeric sizes           |
 | `absoluteStrokeWidth`          | `false`        | Keeps the stroke's pixel width at any size               |
 | `nonScalingStroke`             | `false`        | Adds `vector-effect="non-scaling-stroke"` to every shape |
 | `className`, any SVG attribute |                | `className` is merged after `fab-icon fab-icon-<name>`   |

@@ -108,6 +108,7 @@ export const foundationItems: Registry["items"] = [
       { path: "lib/text-children.ts", type: "registry:lib" },
       { path: "lib/data-variants.ts", type: "registry:lib" },
       { path: "lib/motion-tokens.ts", type: "registry:lib" },
+      { path: "lib/icon-stroke.ts", type: "registry:lib" },
     ],
     meta: docs("text"),
   },

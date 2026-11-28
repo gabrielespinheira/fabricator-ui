@@ -74,6 +74,24 @@ describe("outline icons", () => {
     expect(override).toContain('stroke-width="0.875"')
   })
 
+  it("pick the stroke from a pixel size when none is given", () => {
+    expect(render(createElement(HouseIcon, { size: 16 }))).toContain(
+      'stroke-width="2.125"'
+    )
+    expect(render(createElement(HouseIcon, { size: "12" }))).toContain(
+      'stroke-width="2.5"'
+    )
+    expect(render(createElement(HouseIcon, { size: "1em" }))).toContain(
+      'stroke-width="1.75"'
+    )
+  })
+
+  it("keep a given stroke at any size", () => {
+    expect(
+      render(createElement(HouseIcon, { size: 16, strokeWidth: 1.75 }))
+    ).toContain('stroke-width="1.75"')
+  })
+
   it("add a non-scaling stroke to every shape when asked", () => {
     const markup = render(createElement(HouseIcon, { nonScalingStroke: true }))
     expect(markup.match(/vector-effect="non-scaling-stroke"/g)).toHaveLength(2)

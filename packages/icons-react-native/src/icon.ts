@@ -17,6 +17,10 @@ export type IconProps = Omit<SvgProps, "color"> & {
   size?: number
   /** Stroke colour. Defaults to the provider's colour, then the scheme's foreground. */
   color?: string
+  /**
+   * The stroke in grid units. Left out (here and on the provider), it follows
+   * the size: heavier as the icon shrinks (2.125 at 16), 1.75 at 24.
+   */
   strokeWidth?: number
   absoluteStrokeWidth?: boolean
   /** Adds `vectorEffect="non-scaling-stroke"` to every shape. */
@@ -113,7 +117,8 @@ export function renderIcon(
       fill: data.paint === "fill" ? stroke : "none",
       stroke: data.paint === "fill" ? "none" : stroke,
       strokeWidth: getStrokeWidth({
-        strokeWidth: strokeWidth ?? defaults.strokeWidth ?? data.strokeWidth,
+        strokeWidth: strokeWidth ?? defaults.strokeWidth,
+        baseStrokeWidth: data.strokeWidth,
         absoluteStrokeWidth:
           absoluteStrokeWidth ?? defaults.absoluteStrokeWidth,
         size: resolvedSize,

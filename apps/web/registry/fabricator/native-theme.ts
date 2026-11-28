@@ -432,7 +432,8 @@ export function getNativeCssVariables(
 }
 
 // Written with a unit in the stylesheet; Uniwind reads a bare number as one.
-const PIXEL_TOKEN = /^--(radius|density-|motion-.*-travel)/
+// Icon strokes are grid units, so they stay bare.
+const PIXEL_TOKEN = /^--(radius|density-(?!icon-stroke-)|motion-.*-travel)/
 
 function toCssBlock(variables: NativeVariables, indent: string): string {
   return Object.entries(variables)

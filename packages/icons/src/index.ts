@@ -7,3 +7,5 @@ export type {
   IconProps as LucideProps,
 } from "./icon.js"
 export type { IconData, IconElement } from "./generated/runtime/types.js"
+// The stroke an icon picks for its size when none is given.
+export { getAutoStrokeWidth } from "./generated/runtime/attributes.js"

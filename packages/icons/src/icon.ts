@@ -19,6 +19,11 @@ import { getCutoutMask, resolveUiPaint } from "./generated/runtime/ui-paint.js"
 export type IconProps = SVGProps<SVGSVGElement> & {
   /** Width and height. Defaults to 24. */
   size?: number | string
+  /**
+   * The stroke in grid units. Left out, it follows a pixel `size`: heavier
+   * as the icon shrinks (2.125 at 16px), 1.75 at 24px or with no size.
+   */
+  strokeWidth?: number | string
   /** Keeps the stroke's pixel width at any size (Lucide's prop). */
   absoluteStrokeWidth?: boolean
   /** Adds `vector-effect="non-scaling-stroke"` to every shape. */
@@ -34,12 +39,8 @@ export type IconComponent = ((props: IconProps) => ReactElement) & {
 }
 
 export type IconArtworkLayer = "primary" | "secondary" | "cutout"
-const animatedMaskArea = {
-  x: String(-ICON_SIZE),
-  y: String(-ICON_SIZE),
-  width: String(3 * ICON_SIZE),
-  height: String(3 * ICON_SIZE),
-}
+// Three grids wide, centred on the icon's (written out: it ships in every icon).
+const animatedMaskArea = { x: "-24", y: "-24", width: "72", height: "72" }
 
 type IconShape = ReactElement<SVGProps<SVGElement>>
 type WrapShape = (
@@ -118,8 +119,6 @@ export function renderIcon(
       "--icon-secondary-opacity": secondaryOpacity,
     }),
   }
-  const hasStyle = style !== undefined || Object.keys(variables).length > 0
-
   const paint = color ?? "currentColor"
   const { wrapShape } = options
   const artwork = [
@@ -172,7 +171,8 @@ export function renderIcon(
       fill: data.paint === "fill" ? paint : "none",
       stroke: data.paint === "fill" ? "none" : paint,
       strokeWidth: getStrokeWidth({
-        strokeWidth: strokeWidth ?? data.strokeWidth,
+        strokeWidth,
+        baseStrokeWidth: data.strokeWidth,
         absoluteStrokeWidth,
         size: size ?? width,
         opticalScale: rest.viewBox ? 1 : data.opticalScale,
@@ -181,7 +181,8 @@ export function renderIcon(
       strokeLinejoin: "round",
       className: mergeClasses("fab-icon", `fab-icon-${data.name}`, className),
       ...(!isLabelled && { "aria-hidden": "true" }),
-      ...(hasStyle && { style: { ...variables, ...style } }),
+      // React writes no attribute for an empty style.
+      style: { ...variables, ...style },
       ...(options.allowOverflow && { overflow: "visible" }),
       ...rest,
     },

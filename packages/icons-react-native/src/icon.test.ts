@@ -69,6 +69,18 @@ describe("outline icons", () => {
     expect(markup).toContain('stroke="#2563eb" stroke-width="1.5"')
   })
 
+  it("pick the stroke from the size when none is given", () => {
+    expect(render(createElement(HouseIcon, { size: 16 }))).toContain(
+      'stroke-width="2.125"'
+    )
+    expect(
+      render(
+        createElement(IconProvider, { size: 12 }, createElement(HouseIcon))
+      )
+    ).toContain('stroke-width="2.5"')
+    expect(render(createElement(HouseIcon))).toContain('stroke-width="1.75"')
+  })
+
   it("colour Lucide's filled dots like the stroke", () => {
     expect(render(createElement(VaultIcon, { color: "red" }))).not.toContain(
       "currentColor"

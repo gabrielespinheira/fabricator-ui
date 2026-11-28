@@ -51,13 +51,13 @@ Icons follow light and dark mode with no setup. Brand marks with `color="brand"`
 
 ## IconProvider
 
-| Prop                  | Type                | Description                                                      |
-| --------------------- | ------------------- | ---------------------------------------------------------------- |
-| `color`               | `string`            | Default colour for every icon below it.                          |
-| `size`                | `number`            | Default size. Icons fall back to 24.                             |
-| `strokeWidth`         | `number`            | Default stroke width for all UI variants. Falls back to 1.75.    |
-| `absoluteStrokeWidth` | `boolean`           | Keeps the stroke's pixel width at any size.                      |
-| `colorScheme`         | `"light" \| "dark"` | Overrides the device scheme, for apps that pick their own theme. |
+| Prop                  | Type                | Description                                                                                                     |
+| --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `color`               | `string`            | Default colour for every icon below it.                                                                         |
+| `size`                | `number`            | Default size. Icons fall back to 24.                                                                            |
+| `strokeWidth`         | `number`            | Default stroke width for all UI variants. Left out, each icon picks it from its size (2.125 at 16, 1.75 at 24). |
+| `absoluteStrokeWidth` | `boolean`           | Keeps the stroke's pixel width at any size.                                                                     |
+| `colorScheme`         | `"light" \| "dark"` | Overrides the device scheme, for apps that pick their own theme.                                                |
 
 Providers nest: an inner provider overrides only the props it sets.
 

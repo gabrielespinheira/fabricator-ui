@@ -31,16 +31,16 @@ Electron and Tauri apps render React in a webview, so this package covers their 
 
 ### Outline icons
 
-| Prop                  | Type               | Default        | Description                                               |
-| --------------------- | ------------------ | -------------- | --------------------------------------------------------- |
-| `size`                | `number \| string` | `24`           | Width and height.                                         |
-| `color`               | `string`           | `currentColor` | Stroke colour.                                            |
-| `strokeWidth`         | `number \| string` | `1.75`         | Stroke width in the 24 × 24 grid. Accepts decimals.       |
-| `absoluteStrokeWidth` | `boolean`          | `false`        | Keeps the stroke's pixel width at any size.               |
-| `nonScalingStroke`    | `boolean`          | `false`        | Adds `vector-effect="non-scaling-stroke"` to every shape. |
-| `className`           | `string`           |                | Merged after `fab-icon fab-icon-<name>`.                  |
-| `secondaryColor`      | `string`           | icon colour    | Duotone only: the secondary layer's colour.               |
-| `secondaryOpacity`    | `number \| string` | `0.2`          | Duotone only: the secondary layer's opacity.              |
+| Prop                  | Type               | Default        | Description                                                                                                |
+| --------------------- | ------------------ | -------------- | ---------------------------------------------------------------------------------------------------------- |
+| `size`                | `number \| string` | `24`           | Width and height.                                                                                          |
+| `color`               | `string`           | `currentColor` | Stroke colour.                                                                                             |
+| `strokeWidth`         | `number \| string` | By `size`      | Stroke width in the 24 × 24 grid. Left out, a numeric `size` picks it: 2.5 at 12, 2.125 at 16, 1.75 at 24. |
+| `absoluteStrokeWidth` | `boolean`          | `false`        | Keeps the stroke's pixel width at any size.                                                                |
+| `nonScalingStroke`    | `boolean`          | `false`        | Adds `vector-effect="non-scaling-stroke"` to every shape.                                                  |
+| `className`           | `string`           |                | Merged after `fab-icon fab-icon-<name>`.                                                                   |
+| `secondaryColor`      | `string`           | icon colour    | Duotone only: the secondary layer's colour.                                                                |
+| `secondaryOpacity`    | `number \| string` | `0.2`          | Duotone only: the secondary layer's opacity.                                                               |
 
 Any other SVG attribute passes through, and children render after the shapes.
 

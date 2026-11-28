@@ -7,7 +7,7 @@ description: Fabricator UI’s icon library for React, React Native and SVG, wit
 
 Fabricator maintains the catalog and designs new icons for its components and apps.
 
-- **Outline icons.** Rounded drawings on a 24 × 24 grid with a 1.75-unit stroke.
+- **Outline icons.** Rounded drawings on a 24 × 24 grid with a 1.75-unit stroke at 24px. Smaller icons draw a heavier stroke, so they stay readable: when you give a numeric `size` and no `strokeWidth`, the icon picks it (2.125 at 16px, 2.5 at 12px).
 - **Custom icons.** Original additions appear in the Custom category and their functional categories on the [Icons](/icons) page.
 - **Brand marks.** Logos, from social networks to developer tools, drawn as their owners publish them. They render in one colour, or in the brand's own colours with `color="brand"`. See [Brands](/docs/icons/brands).
 - **Animated icons.** All UI icons animate on the web with the same names and three drawing weights. See [Animated](/docs/icons/animated).
@@ -87,7 +87,7 @@ Three things differ:
 
 ## Component sizing
 
-Fabricator components draw icons at 14, 16 or 18 px, following the [density](/docs/foundations/density), with a 1.75-unit stroke that turns 2 on hover.
+Fabricator components draw icons at 14, 16 or 18 px, following the [density](/docs/foundations/density), with the stroke picked for that size (2.286, 2.125 or 2 units), a quarter unit heavier on hover.
 
 ## How the icons are drawn
 
