@@ -1,21 +1,21 @@
 ---
 title: Icons
-description: Every Lucide icon under its Lucide name, our own custom icons, brand marks in one colour or their own and animated icons, for React, React Native and plain SVG.
+description: Fabricator UI’s icon library for React, React Native and SVG, with rounded Outline, Fill and Duotone drawings, web animations, brand marks and file icons.
 ---
 
 <IconsShowcase />
 
-Fabricator Icons is the icon set of Fabricator UI:
+Fabricator maintains the catalog and designs new icons for its components and apps.
 
-- **Outline icons.** Rounded 24 × 24 drawings with a 1.5 stroke and the existing [Lucide](https://lucide.dev) names and aliases.
-- **Custom icons.** Fabricator's own icons, with the same variants as the rest of the UI catalog. Find them under the Custom category on the [Icons](/icons) page.
-- **Brand marks.** 143 logos, from social networks to developer tools, drawn as their owners publish them. They render in one colour, or in the brand's own colours with `color="brand"`. See [Brands](/docs/icons/brands).
+- **Outline icons.** Rounded drawings on a 24 × 24 grid with a 1.75-unit stroke.
+- **Custom icons.** Original additions appear in the Custom category and their functional categories on the [Icons](/icons) page.
+- **Brand marks.** Logos, from social networks to developer tools, drawn as their owners publish them. They render in one colour, or in the brand's own colours with `color="brand"`. See [Brands](/docs/icons/brands).
 - **Animated icons.** All UI icons animate on the web with the same names and three drawing weights. See [Animated](/docs/icons/animated).
 - **File icons.** 249 colour file and folder drawings with filename associations and light and dark palettes. See [Files](/docs/icons/files).
 - **Duotone.** Every UI icon has a translucent second layer under the outline. Import from `@fabricator-ui/icons/duotone`.
 - **Fill.** Every UI icon has a solid drawing. Import from `@fabricator-ui/icons/fill`.
 
-Search, preview and copy every icon on the [Icons](/icons) page.
+Set the gallery preview to 14, 16, 18, 20, 24, 32 or 48 px. The stroke slider previews widths from 0.5 to 3. Select an icon to compare sizes and copy JSX or SVG with the selected width. [Browse Icons](/icons).
 
 ## In Fabricator UI components
 
@@ -38,7 +38,7 @@ An existing project keeps the icons it has. To move one over, set its registry e
 }
 ```
 
-`iconLibrary` stays `lucide` in both cases, because the shadcn CLI only knows its five libraries. Fabricator's outlines keep Lucide's names and draw with the rounded geometry.
+For this configuration, keep `iconLibrary: "lucide"` for shadcn CLI compatibility. The registry's `icons` parameter selects Fabricator Icons.
 
 ## Packages
 
@@ -73,7 +73,7 @@ export function Toolbar() {
 
 ## Moving from lucide-react
 
-Every icon keeps its Lucide name, its `Icon`-suffixed form and Lucide's aliases, and takes Lucide's props, so moving is an import change. Replace `lucide-react` with `@fabricator-ui/icons`:
+Fabricator Icons preserves the names, aliases and common SVG props from its Lucide import. For those icons, switch the import to `@fabricator-ui/icons`.
 
 ```tsx
 import { HouseIcon, Settings } from "@fabricator-ui/icons"
@@ -85,16 +85,16 @@ Three things differ:
 - The `Lucide`-prefixed names (`LucideHouse`) aren't exported.
 - Icons carry the classes `fab-icon fab-icon-<name>` instead of `lucide lucide-<name>`.
 
-## Icons in Fabricator UI components
+## Component sizing
 
-Components from the registry draw their icons with the icon library in your `components.json` (`iconLibrary`), Lucide by default. The Fabricator set adds the rounded drawings and the other weights. Fabricator components draw icons at 14, 16 or 18px, following the [density](/docs/foundations/density), with a 1.5 stroke that turns 2 on hover.
+Fabricator components draw icons at 14, 16 or 18 px, following the [density](/docs/foundations/density), with a 1.75-unit stroke that turns 2 on hover.
 
 ## How the icons are drawn
 
-The outlines use a 24 × 24 canvas, 1.5-unit round strokes, and rounded corners. Fill and Duotone use the same silhouettes. Review all three weights at 14 to 24px in light and dark.
+The outlines use a 24 × 24 canvas, 1.75-unit round strokes, and generous curves. Common families share their outer shapes and give each state mark its own space. Fill and Duotone use the same silhouettes. Check details at 14–18 px and inspect the curves at 24–48 px in both themes.
 
 Brand marks keep their owners' shapes. The only change is a uniform scale, so a mark that reaches the corners of its box doesn't look larger than its neighbours.
 
 ## Licence
 
-The code and the Custom icons are MIT. The other outline icons are Lucide's, under the ISC licence. Brand marks are trademarks of their owners, covered by neither: read [Brands](/docs/icons/brands) before you use one.
+Fabricator's code and original icon artwork use the MIT licence. Each package's `LICENSE.md` includes the upstream notices for artwork derived from Lucide and Feather. Brand marks are trademarks of their owners. See [Brands](/docs/icons/brands).

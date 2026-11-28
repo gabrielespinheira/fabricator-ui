@@ -82,19 +82,20 @@ The native tree (`apps/web/registry/native/`) holds the React Native version of 
 
 ## Fabricator Icons
 
-The UI catalog preserves the Lucide and Fabricator names, aliases and search metadata. Every UI icon has a rounded Outline, Fill and Duotone drawing, and a web animation that uses those same drawings. Brand marks and Charmed file icons have their own sets.
+Fabricator maintains the UI icon catalog, including original additions and names and aliases carried over from its frozen import. Every UI icon shares the 24 × 24 optical grid across Outline, Fill, Duotone and web animation. Outline and Duotone use a 1.75-unit resting stroke, sized for the 14, 16 and 18 px density tokens. Brand marks and Charmed file icons have their own sets.
 
 | Package                             | For                               | Sets                                                                                        |
 | ----------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------- |
 | `@fabricator-ui/icons`              | React (web, desktop)              | outline, fill, duotone, animated (Motion), brands, files, dynamic, catalog                  |
-| `@fabricator-ui/icons-react-native` | React Native (`react-native-svg`) | outline, fill, duotone, brands, files                                                       |
+| `@fabricator-ui/icons-react-native` | React Native (`react-native-svg`) | outline, fill, duotone, brands, files, animated sidebar toggle                              |
 | `@fabricator-ui/icons-static`       | Anything                          | Outline, Fill and Duotone SVGs, sprites, JSON nodes, a PNG exporter for tray and menu icons |
-| `packages/icons-core` (private)     | Sources, checks, generators       | Lucide, lucide-animated and Charmed vendored; Custom originals; brand allowlist             |
+| `packages/icons-core` (private)     | Sources, checks, generators       | Fabricator catalog and drawings, attribution, file icons and brand allowlist                |
 
 - Adding or importing icons: [`packages/icons-core/CONTRIBUTING.md`](../packages/icons-core/CONTRIBUTING.md). Plans: [`plans/icon-pack.md`](plans/icon-pack.md), [`plans/icon-pack-expansion.md`](plans/icon-pack-expansion.md).
-- Vendored sources (`sources/lucide/`, `sources/animated/`, imported brands) are written only by `icons:sync`, `icons:animated` and `icons:brands`. `src/generated/`, `dist/` and the static outputs are gitignored.
+- Edit UI artwork in `sources/outline/` and `sources/rounded/`. Category labels live in `sources/categories.json`. The frozen import in `sources/lucide/` provides the compatibility baseline and attribution. `src/generated/`, `dist/` and the static outputs are gitignored.
 - Registry source uses `IconPlaceholder` on web and real imports from `icons-react-native` in the native tree. How the site renders icons: [WEBSITE.md](WEBSITE.md#icons).
-- `bun run icons:check` (part of `check`) validates every source; `bun run icons:sheet <names…>` makes the review PNG a new icon's PR attaches; `bun run icons:audit` checks every animated icon in Chrome after an animated or Lucide sync.
+- Sidebar and App Shell use the packaged `SidebarToggleIcon` on both platforms. The web subpath is `@fabricator-ui/icons/animated/sidebar-toggle`. React Native uses `@fabricator-ui/icons-react-native/animated` and the Reanimated UI thread.
+- `bun run icons:check` (part of `check`) validates sources. Use `bun run icons:sheet <names…>` for a review PNG and `bun run icons:audit` to check animations in Chrome after drawing or motion changes.
 
 ## editor-native
 

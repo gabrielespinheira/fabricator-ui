@@ -13,11 +13,11 @@ npm install @fabricator-ui/icons motion
 
 [Motion](https://motion.dev) is an optional peer dependency: nothing else in the package needs it, so the outline icons and brand marks don't load it. Motion 13 or later, React 19 or later.
 
-The animations render to the DOM, so they work in web apps and in the renderers of Electron and Tauri apps, but not in React Native.
+The full Animated set works in web apps and in the renderers of Electron and Tauri apps. The [sidebar toggle also has a React Native animation](/docs/icons/react-native#animated-sidebar-toggle).
 
 ## Usage
 
-Import from `/animated` and the icon plays while the pointer is over it:
+Import from `/animated` and the icon plays once when the pointer enters it:
 
 ```tsx
 import { BellIcon } from "@fabricator-ui/icons/animated"
@@ -62,13 +62,35 @@ export function UploadButton() {
 
 Each animation plays once and settles at rest. Call `stopAnimation()` to reset it early.
 
+## Loop playback
+
+Pass `loop` to replay the motion while the icon is hovered. The current gesture completes when the pointer leaves. If you start a loop through a ref, call `stopAnimation()` to stop it. You can preview a loop at every size in the [Animated gallery](/icons?set=animated).
+
+```tsx
+import { RefreshCwIcon } from "@fabricator-ui/icons/animated"
+
+;<RefreshCwIcon loop />
+```
+
+## Sidebar toggle
+
+Pass `open` to follow a sidebar or panel's state. Use `side="right"` for the mirrored right-panel glyph. Fabricator's Sidebar and App Shell use the Fill variant. The direct import has no Motion dependency.
+
+```tsx
+import { SidebarToggleIcon } from "@fabricator-ui/icons/animated/sidebar-toggle"
+
+;<SidebarToggleIcon variant="fill" open={isPanelOpen} side="right" />
+```
+
+The Animated `PanelLeftIcon` and `PanelRightIcon` also accept `open`. Their divider slides to widen the selected panel and stays there while `open` is true. Omit `open` whenever you want the hover preview.
+
 ## Reduced motion
 
-With `prefers-reduced-motion: reduce`, or `data-motion="off"` on `<html>`, icons stay at rest. The check runs each time an animation starts, so changing the setting needs no re-render.
+With `prefers-reduced-motion: reduce` or `data-motion="off"`, hover and ref playback stay idle. Controlled panels still show the current state immediately.
 
 ## Size
 
-One animated icon costs about 3 KB, minified and gzipped. Motion adds about 50 KB once per page, or nothing more if your app already uses it.
+Importing `BellIcon` from the Animated set adds about 8.3 KB, minified and gzipped. The shared Motion bundle adds about 58 KB if it is new to the page.
 
 ## Weights
 
@@ -81,4 +103,6 @@ import { BookmarkIcon, PencilIcon } from "@fabricator-ui/icons/animated"
 <PencilIcon variant="duotone" />
 ```
 
-Motion is shared by icon family, and each variant settles to the same drawing its static component uses. Browse the [Animated set](/icons?set=animated) to replay the motions.
+Motion follows the action of each family. Eyes blink by changing the eyelid paths, menu strokes fold into a close mark, and transfer arrows move inside a fixed frame. Where the drawing has no clear action, the strokes draw back into place. Each variant settles to the same drawing its static component uses.
+
+Animated glyphs can draw beyond the SVG viewport during playback. Give them room inside containers that clip their children, especially with a heavy stroke.

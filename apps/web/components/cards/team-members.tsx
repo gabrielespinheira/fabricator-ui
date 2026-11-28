@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronDownIcon } from "lucide-react"
+import { ChevronDownIcon } from "@fabricator-ui/icons"
 
 import {
   Avatar,

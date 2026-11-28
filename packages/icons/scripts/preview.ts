@@ -108,7 +108,7 @@ function mixedRow() {
 function panel(scheme: "light" | "dark") {
   return `<section class="panel ${scheme}">
   <h2>${scheme}</h2>
-  <h3>Outline (Lucide 1.66.0), sizes × strokes</h3>${outlineRows()}
+  <h3>Fabricator Outline, sizes × strokes</h3>${outlineRows()}
   <h3>Outline beside brands at 16px: outline · one colour · brand colour</h3><div class="row">${mixedRow()}</div>
   <h3>Brands: one colour · brand colour (${brandCatalog.length})</h3><div class="grid">${brandGrid()}</div>
 </section>`

@@ -9,6 +9,16 @@ description: The same icons and brand marks for React Native and Expo, drawn wit
 npx expo install @fabricator-ui/icons-react-native react-native-svg
 ```
 
+## Animated sidebar toggle
+
+The `/animated` entry point uses Reanimated 4.7 or later. Pass `open` to follow the panel state, and `side="right"` to mirror the left sidebar glyph.
+
+```tsx
+import { SidebarToggleIcon } from "@fabricator-ui/icons-react-native/animated"
+
+;<SidebarToggleIcon variant="fill" open={isPanelOpen} side="right" />
+```
+
 Outside Expo, install both packages with your package manager.
 
 ## Usage
@@ -45,7 +55,7 @@ Icons follow light and dark mode with no setup. Brand marks with `color="brand"`
 | --------------------- | ------------------- | ---------------------------------------------------------------- |
 | `color`               | `string`            | Default colour for every icon below it.                          |
 | `size`                | `number`            | Default size. Icons fall back to 24.                             |
-| `strokeWidth`         | `number`            | Default stroke width. Icons fall back to 2.                      |
+| `strokeWidth`         | `number`            | Default stroke width. Outline and Duotone fall back to 1.75.     |
 | `absoluteStrokeWidth` | `boolean`           | Keeps the stroke's pixel width at any size.                      |
 | `colorScheme`         | `"light" \| "dark"` | Overrides the device scheme, for apps that pick their own theme. |
 

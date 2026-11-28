@@ -31,12 +31,12 @@ function withoutKeys(
   })
 }
 
-describe("Lucide parity", () => {
-  it("vendors the same Lucide release the parity packages come from", () => {
+describe("Compatibility with the frozen import", () => {
+  it("records the release used by the compatibility fixtures", () => {
     expect(readLock().lucide?.tag).toBe("1.73.0")
   })
 
-  it("covers every icon @lucide/icons publishes", () => {
+  it("preserves the names from the imported release", () => {
     expect(lucideIcons.map((icon) => icon.name).sort()).toEqual(
       [...published.keys()].sort()
     )
@@ -83,7 +83,7 @@ describe("Lucide parity", () => {
     expect(Duotone.HomeIcon).toBe(Duotone.HouseIcon)
   })
 
-  it("exports every name lucide-react exports, except its Lucide-prefixed forms", () => {
+  it("preserves the non-prefixed React exports from the imported release", () => {
     const missing = Object.keys(lucideReact).filter(
       (name) =>
         !name.startsWith("Lucide") &&

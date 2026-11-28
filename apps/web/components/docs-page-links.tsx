@@ -1,6 +1,6 @@
 "use client"
 
-import { IconCheck, IconCopy } from "@tabler/icons-react"
+import { CheckIcon, CopyIcon } from "@fabricator-ui/icons"
 
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 
@@ -24,9 +24,9 @@ export function DocsPageLinks({ page, url }: { page: string; url: string }) {
             className="inline-flex items-center gap-2 transition-colors hover:text-foreground"
           >
             {isCopied ? (
-              <IconCheck className="size-4" />
+              <CheckIcon className="size-4" />
             ) : (
-              <IconCopy className="size-4" />
+              <CopyIcon className="size-4" />
             )}
             Copy page
           </button>

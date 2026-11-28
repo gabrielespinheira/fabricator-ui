@@ -1,10 +1,16 @@
 import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { loadUiIcons, parseSvg } from "@fabricator-ui/icons-core"
+import {
+  getArtworkViewBox,
+  getBrandArtworkViewBox,
+  loadUiIcons,
+  parseSvg,
+} from "@fabricator-ui/icons-core"
 import { describe, expect, it } from "vitest"
 
 import { Home, House } from "./index"
+import { brandNodes, outlineNodes, outlineScales } from "./nodes"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const outline = loadUiIcons()
@@ -28,12 +34,13 @@ describe("static outputs", () => {
   it("put one symbol per icon in the sprite", () => {
     const sprite = fs.readFileSync(path.join(root, "sprite.svg"), "utf8")
     expect(sprite.match(/<symbol /g)).toHaveLength(outline.length)
+    const viewBox = getArtworkViewBox(24, 24, outlineScales.house)
     expect(sprite).toContain(
-      '<symbol id="house" viewBox="0 0 24 24" fill="none" stroke="currentColor"'
+      `<symbol id="house" viewBox="${viewBox}" fill="none" stroke="currentColor"`
     )
   })
 
-  it("export SVG strings under Lucide's names and aliases", () => {
+  it("exports SVG strings under the catalog names and aliases", () => {
     expect(House).toBe(
       fs.readFileSync(path.join(root, "icons", "house.svg"), "utf8")
     )
@@ -51,7 +58,9 @@ describe("static outputs", () => {
 describe("static brand outputs", () => {
   it("write one-colour marks with their optical correction", () => {
     const x = fs.readFileSync(path.join(root, "brands", "x.svg"), "utf8")
-    expect(x).toContain('viewBox="-2.286 -2.286 28.571 28.571"')
+    const brand = brandNodes.x
+    if (!brand) throw new Error("Missing X artwork")
+    expect(x).toContain(`viewBox="${getBrandArtworkViewBox(brand)}"`)
     expect(x).toContain('fill="currentColor"')
   })
 
@@ -59,9 +68,11 @@ describe("static brand outputs", () => {
     expect(
       fs.readFileSync(path.join(root, "brands", "color", "spotify.svg"), "utf8")
     ).toContain('fill="#1ED760"')
+    const brand = brandNodes.google
+    if (!brand?.art) throw new Error("Missing Google artwork")
     expect(
       fs.readFileSync(path.join(root, "brands", "color", "google.svg"), "utf8")
-    ).toContain('viewBox="0 0 256 262"')
+    ).toContain(`viewBox="${getBrandArtworkViewBox(brand, brand.art)}"`)
   })
 
   it("export brand strings in both colour modes", async () => {
@@ -72,10 +83,13 @@ describe("static brand outputs", () => {
 })
 
 describe("typed shape data", () => {
-  it("exports every outline icon and brand mark", async () => {
-    const { brandNodes, outlineNodes } = await import("./nodes")
+  it("exports shapes and calibrated scales alongside the SVGs", () => {
     expect(outlineNodes.house?.length).toBeGreaterThan(0)
     expect(brandNodes.google?.art?.width).toBe(256)
+    const scales: unknown = JSON.parse(
+      fs.readFileSync(path.join(root, "icon-scales.json"), "utf8")
+    )
+    expect(scales).toEqual(outlineScales)
   })
 })
 

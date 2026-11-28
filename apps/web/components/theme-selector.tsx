@@ -4,7 +4,6 @@ import { cn } from "cn"
 
 import { THEMES } from "@/lib/themes"
 import { useThemeConfig } from "@/components/active-theme"
-import { Label } from "@/styles/base-nova/ui/label"
 import {
   Select,
   SelectContent,
@@ -13,7 +12,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/styles/base-nova/ui/select"
+} from "@/styles/base-fabricator/ui/select"
+import { Label } from "@/styles/base-nova/ui/label"
 
 import { CopyCodeButton } from "./theme-customizer"
 

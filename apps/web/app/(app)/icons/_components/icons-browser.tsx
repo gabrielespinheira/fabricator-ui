@@ -1,47 +1,46 @@
 "use client"
 
 import * as React from "react"
+import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
 import type * as Nodes from "@fabricator-ui/icons-static/nodes"
 import type * as Variants from "@fabricator-ui/icons-static/variants"
 import type * as Catalog from "@fabricator-ui/icons/catalog"
-import {
-  parseAsNumberLiteral,
-  parseAsString,
-  parseAsStringLiteral,
-  useQueryStates,
-} from "nuqs"
+import { cn } from "cn"
+import { useQueryStates } from "nuqs"
 
+import { Button } from "@/styles/base-fabricator/ui/button"
+import { Drawer, DrawerContent } from "@/styles/base-fabricator/ui/drawer"
 import {
   Empty,
+  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
 } from "@/styles/base-fabricator/ui/empty"
-import { InputSearch } from "@/styles/base-fabricator/ui/input-group"
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/styles/base-fabricator/ui/select"
-import { Sheet, SheetContent } from "@/styles/base-fabricator/ui/sheet"
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+} from "@/styles/base-fabricator/ui/pagination"
 import { Spinner } from "@/styles/base-fabricator/ui/spinner"
+import { Tabs, TabsContent } from "@/styles/base-fabricator/ui/tabs"
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/styles/base-fabricator/ui/tabs"
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/styles/base-fabricator/ui/toggle-group"
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/styles/base-fabricator/ui/tooltip"
 
+import {
+  DEFAULT_STROKE_WIDTH,
+  getPreviewSet,
+  ICON_TAB_LABELS,
+  ICON_TABS,
+  iconQueryParsers,
+} from "../lib/icon-query"
 import {
   filterByCategory,
   getCategoryOptions,
+  hasStrokeWidth,
   toReactAttributes,
 } from "../lib/icons"
 import {
@@ -49,6 +48,7 @@ import {
   useAnimatedRenderer,
   type AnimatedRenderer,
 } from "./animated-icon-view"
+import { IconBrowserToolbar } from "./icon-browser-toolbar"
 import { IconDetail } from "./icon-detail"
 import {
   IconPreview,
@@ -56,35 +56,13 @@ import {
   type PreviewOptions,
 } from "./icon-preview"
 
-const SETS = [
-  "outline",
-  "fill",
-  "duotone",
-  "animated",
-  "brands",
-  "files",
-] as const
-const SIZES = [16, 20, 24] as const
-const STROKES = [1.5, 2] as const
-const COLORS = ["mono", "brand"] as const
-const ALL = "all"
-const TAB_COUNT_CLASS = "tabular-nums max-[639px]:hidden"
-
-const iconParsers = {
-  q: parseAsString.withDefault(""),
-  set: parseAsStringLiteral(SETS).withDefault("outline"),
-  category: parseAsString,
-  icon: parseAsString,
-  size: parseAsNumberLiteral(SIZES).withDefault(24),
-  stroke: parseAsNumberLiteral(STROKES).withDefault(1.5),
-  color: parseAsStringLiteral(COLORS).withDefault("mono"),
-}
-
 type Library = {
   catalog: typeof Catalog
   icons: Map<string, LoadedIcon>
   categoryTitles: Map<string, string>
 }
+
+const ALL_PAGE_SIZE = 120
 
 function key(set: string, name: string) {
   return `${set}:${name}`
@@ -103,13 +81,14 @@ function joinLibrary(
   const icons = new Map<string, LoadedIcon>()
   for (const entry of catalog.outlineCatalog) {
     const node = nodes.outlineNodes[entry.name]
+    const opticalScale = nodes.outlineScales[entry.name]
     if (!node)
       throw new MissingShapesError(`No shapes for the ${entry.name} icon`)
     icons.set(key("outline", entry.name), {
       set: "outline",
       entry,
-      data: { name: entry.name, node: toReactAttributes(node) },
-      source: { set: "outline", node },
+      data: { name: entry.name, node: toReactAttributes(node), opticalScale },
+      source: { set: "outline", node, opticalScale },
     })
   }
   for (const [entries, drawings] of [
@@ -155,13 +134,14 @@ function joinLibrary(
   }
   for (const entry of catalog.animatedCatalog) {
     const node = nodes.outlineNodes[entry.name]
+    const opticalScale = nodes.outlineScales[entry.name]
     if (!node)
       throw new MissingShapesError(`No shapes for the ${entry.name} icon`)
     icons.set(key("animated", entry.name), {
       set: "animated",
       entry,
-      data: { name: entry.name, node: toReactAttributes(node) },
-      source: { set: "outline", node },
+      data: { name: entry.name, node: toReactAttributes(node), opticalScale },
+      source: { set: "outline", node, opticalScale },
     })
   }
   const categoryTitles = new Map(
@@ -221,108 +201,119 @@ function useLibrary() {
 const IconCell = React.memo(function IconCell({
   icon,
   options,
+  showSet,
   onSelect,
+  onAnimate,
   animated,
+  tooltip,
 }: {
   icon: LoadedIcon
   options: PreviewOptions
-  onSelect: (name: string) => void
+  showSet: boolean
+  onSelect: (entry: LoadedIcon["entry"], trigger: HTMLButtonElement) => void
+  onAnimate: () => void
   /** Empty until the animated icons load; the outline drawing stands in. */
   animated?: AnimatedRenderer | null
+  tooltip: ReturnType<typeof TooltipPrimitive.createHandle>
 }) {
-  const [isActive, setIsActive] = React.useState(false)
-  const label = icon.set === "brands" ? icon.entry.title : icon.entry.name
+  const [preview, setPreview] = React.useState<"idle" | "playing" | "played">(
+    "idle"
+  )
+  const name = icon.set === "brands" ? icon.entry.title : icon.entry.name
+  const label = showSet ? `${name}, ${ICON_TAB_LABELS[icon.set]}` : name
   const recipe = icon.set === "animated" ? icon.entry.motion : undefined
+  const animationEvents = recipe
+    ? {
+        onPointerEnter(event: React.PointerEvent) {
+          if (event.pointerType === "mouse") {
+            onAnimate()
+            setPreview("playing")
+          }
+        },
+        onPointerLeave(event: React.PointerEvent) {
+          if (!event.currentTarget.matches(":focus-visible"))
+            setPreview((state) => (state === "playing" ? "played" : state))
+        },
+        onFocus(event: React.FocusEvent) {
+          if (event.currentTarget.matches(":focus-visible")) {
+            onAnimate()
+            setPreview("playing")
+          }
+        },
+        onBlur(event: React.FocusEvent) {
+          if (!event.currentTarget.matches(":hover"))
+            setPreview((state) => (state === "playing" ? "played" : state))
+        },
+      }
+    : undefined
   return (
-    <li className="[contain-intrinsic-size:auto_96px] [content-visibility:auto]">
-      <button
+    <li
+      data-icon-stroke={hasStrokeWidth(icon.set) ? "" : undefined}
+      className="rounded-(--radius-surface) bg-surface-2 shadow-surface-2 transition-colors duration-feedback [contain-intrinsic-size:auto_var(--icon-tile-height)] [content-visibility:auto] hover:bg-surface-3 active:bg-active"
+    >
+      <TooltipTrigger
+        handle={tooltip}
+        payload={label}
         type="button"
-        onClick={() => onSelect(icon.entry.name)}
-        onMouseEnter={() => setIsActive(true)}
-        onMouseLeave={() => setIsActive(false)}
-        onFocus={() => setIsActive(true)}
-        onBlur={() => setIsActive(false)}
-        className="flex h-24 w-full flex-col items-center justify-center gap-2.5 rounded-xl px-1 text-foreground outline-none hover:bg-hover focus-visible:ring-1 focus-visible:ring-focus-ring active:bg-active"
+        aria-haspopup="dialog"
+        aria-label={label}
+        onClick={(event) => onSelect(icon.entry, event.currentTarget)}
+        className="grid h-(--icon-tile-height) w-full cursor-pointer place-items-center rounded-(--radius-surface) text-foreground outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-inset"
+        {...animationEvents}
       >
-        {animated && recipe && icon.set === "animated" ? (
-          <AnimatedIconView
-            component={animated}
-            data={icon.data}
-            recipe={recipe}
-            isPlaying={isActive}
-            size={options.size}
-            strokeWidth={options.strokeWidth}
-          />
-        ) : (
-          <IconPreview icon={icon} {...options} />
-        )}
-        <span className="w-full truncate text-center text-[11px] text-muted-foreground">
-          {label}
+        <span aria-hidden="true" className="pointer-events-none">
+          {preview !== "idle" &&
+          animated &&
+          recipe &&
+          icon.set === "animated" ? (
+            <AnimatedIconView
+              component={animated}
+              data={icon.data}
+              recipe={recipe}
+              isPlaying={preview === "playing"}
+              size={options.size}
+              strokeWidth={options.strokeWidth}
+            />
+          ) : (
+            <IconPreview icon={icon} {...options} />
+          )}
         </span>
-      </button>
+      </TooltipTrigger>
     </li>
   )
 })
 
-function NumberToggle<Value extends number>({
-  label,
-  values,
-  value,
-  onValueChange,
-  format,
-}: {
-  label: string
-  values: readonly Value[]
-  value: Value
-  onValueChange: (value: Value) => void
-  format: (value: Value) => string
-}) {
-  return (
-    <ToggleGroup
-      aria-label={label}
-      value={[String(value)]}
-      onValueChange={(next) => {
-        const selected = values.find(
-          (candidate) => String(candidate) === next[0]
-        )
-        if (selected !== undefined) onValueChange(selected)
-      }}
-      spacing={0.5}
-      size="sm"
-      className="rounded-lg p-0.5 [&_[data-slot^=fluid-hover]]:rounded-md"
-    >
-      {values.map((candidate) => (
-        <ToggleGroupItem
-          key={candidate}
-          value={String(candidate)}
-          className="h-7 rounded-md! px-2.5 text-[12px] text-muted-foreground tabular-nums aria-pressed:text-foreground"
-        >
-          {format(candidate)}
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroup>
-  )
-}
-
 /** The icon gallery: search, filters, a grid of every icon, and a detail panel. */
 export function IconsBrowser() {
   const library = useLibrary()
-  const [params, setParams] = useQueryStates(iconParsers)
-  const animated = useAnimatedRenderer(params.set === "animated")
-  const options: PreviewOptions = {
-    size: params.size,
-    strokeWidth: params.stroke,
-    brandColor: params.color === "brand",
-  }
+  const [params, setParams] = useQueryStates(iconQueryParsers)
+  const catalogSet = params.set === "all" ? undefined : params.set
+  const [tooltip] = React.useState(() => TooltipPrimitive.createHandle())
+  const searchInput = React.useRef<HTMLInputElement>(null)
+  const selectedTrigger = React.useRef<HTMLButtonElement>(null)
+  const search = params.q.trim()
+  const gridOptions = React.useMemo<PreviewOptions>(
+    () => ({
+      size: params.size,
+      strokeWidth: DEFAULT_STROKE_WIDTH,
+      brandColor: params.color === "brand",
+    }),
+    [params.size, params.color]
+  )
 
   const results = React.useMemo(() => {
     if (!library) return []
-    const matches = library.catalog.searchIcons(params.q, { set: params.set })
+    const matches = library.catalog.searchIcons(params.q, { set: catalogSet })
     return filterByCategory(matches, params.category).flatMap((entry) => {
       const icon = library.icons.get(key(entry.set, entry.name))
       return icon ? [icon] : []
     })
-  }, [library, params.q, params.set, params.category])
+  }, [library, params.q, catalogSet, params.category])
+
+  const pageCount = catalogSet
+    ? 1
+    : Math.max(1, Math.ceil(results.length / ALL_PAGE_SIZE))
+  const page = Math.min(Math.max(1, params.page), pageCount)
 
   const categories = React.useMemo(
     () =>
@@ -330,153 +321,102 @@ export function IconsBrowser() {
         ? getCategoryOptions(
             library.catalog.catalog,
             library.catalog.outlineCategories,
-            params.set
+            catalogSet
           )
         : [],
-    [library, params.set]
+    [library, catalogSet]
   )
 
   const selected =
     library && params.icon
-      ? library.icons.get(key(params.set, params.icon))
+      ? library.icons.get(key(getPreviewSet(params), params.icon))
       : undefined
+  const [isAnimationRequested, setAnimationRequested] = React.useState(false)
+  const animated = useAnimatedRenderer(
+    params.set === "animated" ||
+      selected?.set === "animated" ||
+      isAnimationRequested
+  )
+  const requestAnimation = React.useCallback(
+    () => setAnimationRequested(true),
+    []
+  )
+  const [lastSelected, setLastSelected] = React.useState<LoadedIcon>()
+  // Keep the content measured until the drawer's exit animation completes.
+  if (selected && selected !== lastSelected) setLastSelected(selected)
+  const detail = selected ?? lastSelected
 
   const select = React.useCallback(
-    (name: string) => void setParams({ icon: name }),
-    [setParams]
-  )
-
-  const counts = library
-    ? {
-        outline: library.catalog.outlineCatalog.length,
-        fill: library.catalog.fillCatalog.length,
-        duotone: library.catalog.duotoneCatalog.length,
-        brands: library.catalog.brandCatalog.length,
-        animated: library.catalog.animatedCatalog.length,
-        files: library.catalog.fileCatalog.length,
-      }
-    : undefined
-  const categoryItems = [
-    {
-      value: ALL,
-      label: params.set === "brands" ? "All groups" : "All categories",
+    (entry: LoadedIcon["entry"], trigger: HTMLButtonElement) => {
+      selectedTrigger.current = trigger
+      void setParams({
+        icon: entry.name,
+        iconSet: catalogSet ? null : entry.set,
+      })
     },
-    ...categories.map((category) => ({
-      value: category.value,
-      label: category.label,
-    })),
-  ]
+    [catalogSet, setParams]
+  )
+  const cells = React.useMemo(() => {
+    const start = (page - 1) * ALL_PAGE_SIZE
+    const visible = catalogSet
+      ? results
+      : results.slice(start, start + ALL_PAGE_SIZE)
+    return visible.map((icon) => (
+      <IconCell
+        key={key(icon.set, icon.entry.name)}
+        icon={icon}
+        options={gridOptions}
+        showSet={catalogSet === undefined}
+        onSelect={select}
+        onAnimate={requestAnimation}
+        animated={icon.set === "animated" ? animated : undefined}
+        tooltip={tooltip}
+      />
+    ))
+  }, [
+    results,
+    page,
+    gridOptions,
+    catalogSet,
+    select,
+    requestAnimation,
+    animated,
+    tooltip,
+  ])
+  // The slider repaints the full grid through one inherited value.
+  const gridStyle: React.CSSProperties & { "--icon-grid-stroke": number } = {
+    "--icon-grid-stroke": params.stroke,
+  }
 
   return (
     <Tabs
       render={<section aria-label="Icons" />}
       value={params.set}
       onValueChange={(next) => {
-        const set = SETS.find((candidate) => candidate === next)
-        if (set) void setParams({ set, category: null, icon: null })
+        const set = ICON_TABS.find((candidate) => candidate === next)
+        if (set)
+          void setParams({
+            set,
+            category: null,
+            icon: null,
+            iconSet: null,
+            page: null,
+          })
       }}
-      className="gap-4 px-4 pb-4 sm:px-5"
+      className="min-w-0 gap-4"
     >
-      <div className="sticky top-0 z-10 -mx-4 flex flex-wrap items-center gap-2 bg-background/90 px-4 py-3 backdrop-blur sm:-mx-5 sm:px-5">
-        <InputSearch
-          className="min-w-0 flex-1 basis-60 sm:max-w-sm"
-          value={params.q}
-          onValueChange={(q) => void setParams({ q: q || null })}
-          aria-label="Search icons"
-          placeholder={
-            counts
-              ? `Search ${counts[params.set].toLocaleString("en")} icons`
-              : "Search icons"
-          }
-        />
-        <div className="max-w-full overflow-x-auto">
-          <TabsList key={counts ? "counted" : "loading"} aria-label="Icon set">
-            {SETS.map((set) => (
-              <TabsTrigger key={set} value={set}>
-                {set[0]?.toUpperCase()}
-                {set.slice(1)}
-                {counts && (
-                  <span className={TAB_COUNT_CLASS}>
-                    {counts[set].toLocaleString("en")}
-                  </span>
-                )}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </div>
-        <Select
-          items={categoryItems}
-          value={params.category ?? ALL}
-          onValueChange={(value) => {
-            if (typeof value !== "string") return
-            void setParams({ category: value === ALL ? null : value })
-          }}
-        >
-          <SelectTrigger aria-label="Filter by category" className="min-w-44">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {categoryItems.map((item) => (
-                <SelectItem key={item.value} value={item.value}>
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <div className="flex flex-wrap items-center gap-2 lg:ms-auto">
-          <NumberToggle
-            label="Preview size"
-            values={SIZES}
-            value={params.size}
-            onValueChange={(size) => void setParams({ size })}
-            format={(size) => `${size}px`}
-          />
-          {params.set !== "brands" &&
-          params.set !== "files" &&
-          params.set !== "fill" ? (
-            <NumberToggle
-              label="Stroke width"
-              values={STROKES}
-              value={params.stroke}
-              onValueChange={(stroke) => void setParams({ stroke })}
-              format={(stroke) => `${stroke}`}
-            />
-          ) : params.set === "brands" ? (
-            <ToggleGroup
-              aria-label="Brand colours"
-              value={[params.color]}
-              onValueChange={(next) => {
-                const color = COLORS.find((candidate) => candidate === next[0])
-                if (color) void setParams({ color })
-              }}
-              spacing={0.5}
-              size="sm"
-              className="rounded-lg p-0.5 [&_[data-slot^=fluid-hover]]:rounded-md"
-            >
-              <ToggleGroupItem
-                value="mono"
-                className="h-7 rounded-md! px-2.5 text-[12px] text-muted-foreground aria-pressed:text-foreground"
-              >
-                One colour
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="brand"
-                className="h-7 rounded-md! px-2.5 text-[12px] text-muted-foreground aria-pressed:text-foreground"
-              >
-                Brand colour
-              </ToggleGroupItem>
-            </ToggleGroup>
-          ) : null}
-        </div>
-      </div>
+      <IconBrowserToolbar
+        params={params}
+        categories={categories}
+        searchInput={searchInput}
+        setParams={setParams}
+      />
 
       {/* The tiles are the tab stops here, so the panel isn't one itself. */}
       <TabsContent
         value={params.set}
         tabIndex={-1}
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-3"
       >
         {!library ? (
           <div
@@ -487,52 +427,125 @@ export function IconsBrowser() {
             <span className="sr-only">Loading icons</span>
           </div>
         ) : results.length === 0 ? (
-          <Empty>
+          <Empty className="py-16">
             <EmptyHeader>
-              <EmptyTitle>No icons match “{params.q}”</EmptyTitle>
-              <EmptyDescription>
-                Try another word, or search the other set.
+              <EmptyTitle>No icons found</EmptyTitle>
+              <EmptyDescription className="[overflow-wrap:anywhere]">
+                {search
+                  ? `No results for “${search}”.`
+                  : "No icons match the selected filter."}
               </EmptyDescription>
             </EmptyHeader>
+            <EmptyContent>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  void setParams({ q: null, category: null, page: null })
+                  searchInput.current?.focus()
+                }}
+              >
+                Clear filters
+              </Button>
+            </EmptyContent>
           </Empty>
         ) : (
           <>
-            <p className="text-[13px] text-muted-foreground" aria-live="polite">
-              {results.length.toLocaleString("en")}{" "}
-              {results.length === 1 ? "icon" : "icons"}
-            </p>
-            <ul className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-1">
-              {results.map((icon) => (
-                <IconCell
-                  key={key(icon.set, icon.entry.name)}
-                  icon={icon}
-                  options={options}
-                  onSelect={select}
-                  animated={icon.set === "animated" ? animated : undefined}
-                />
-              ))}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p
+                className="text-[13px] text-muted-foreground tabular-nums"
+                aria-live="polite"
+              >
+                {results.length.toLocaleString("en")}{" "}
+                {results.length === 1 ? "icon" : "icons"}
+              </p>
+              {pageCount > 1 && (
+                <Pagination
+                  aria-label="Icon results pages"
+                  className="mx-0 w-auto"
+                >
+                  <PaginationContent>
+                    <PaginationItem>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        disabled={page === 1}
+                        onClick={() => void setParams({ page: page - 1 })}
+                      >
+                        Previous
+                      </Button>
+                    </PaginationItem>
+                    <PaginationItem className="text-[13px] text-muted-foreground tabular-nums">
+                      <span aria-live="polite">
+                        Page {page} of {pageCount}
+                      </span>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        disabled={page === pageCount}
+                        onClick={() => void setParams({ page: page + 1 })}
+                      >
+                        Next
+                      </Button>
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              )}
+            </div>
+            <ul
+              style={gridStyle}
+              className={cn(
+                "grid gap-2 [&_[data-icon-stroke]_svg]:[stroke-width:var(--icon-grid-stroke)]",
+                params.size >= 32
+                  ? "grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] [--icon-tile-height:6rem]"
+                  : "grid-cols-[repeat(auto-fill,minmax(4.75rem,1fr))] [--icon-tile-height:4.75rem]"
+              )}
+            >
+              {cells}
             </ul>
+            <Tooltip handle={tooltip} disabled={selected !== undefined}>
+              {({ payload }) =>
+                typeof payload === "string" && (
+                  <TooltipContent className="[overflow-wrap:anywhere]">
+                    {payload}
+                  </TooltipContent>
+                )
+              }
+            </Tooltip>
           </>
         )}
       </TabsContent>
 
-      <Sheet
+      <Drawer
+        showSwipeHandle
         open={selected !== undefined}
         onOpenChange={(open) => {
-          if (!open) void setParams({ icon: null })
+          if (!open) void setParams({ icon: null, iconSet: null })
+        }}
+        onOpenChangeComplete={(open) => {
+          if (!open) setLastSelected(undefined)
         }}
       >
-        <SheetContent side="right" className="w-full sm:max-w-md">
-          {selected && library && (
+        <DrawerContent
+          className="data-[swipe-axis=y]:max-h-[calc(100dvh-2rem)] md:data-[swipe-axis=y]:max-w-[52rem]"
+          finalFocus={() =>
+            selectedTrigger.current?.isConnected
+              ? selectedTrigger.current
+              : searchInput.current
+          }
+        >
+          {detail && library && (
             <IconDetail
-              icon={selected}
-              options={options}
+              key={key(detail.set, detail.entry.name)}
+              icon={detail}
+              options={{ ...gridOptions, strokeWidth: params.stroke }}
               categoryTitles={library.categoryTitles}
               animated={animated}
             />
           )}
-        </SheetContent>
-      </Sheet>
+        </DrawerContent>
+      </Drawer>
     </Tabs>
   )
 }

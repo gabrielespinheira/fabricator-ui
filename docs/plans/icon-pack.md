@@ -1,5 +1,7 @@
 # Icon pack: plan
 
+Historical plan. The current catalog and drawing rules are in the [icon contribution guide](../../packages/icons-core/CONTRIBUTING.md).
+
 Status: approved (2026-11-03); every decision is answered in §11. Phases 1 and 2 are built as packages, plus the PNG exporter from Phase 3 and the duotone pipeline from Phase 5 (see Build status). Nothing is committed or published.
 
 ## Build status (2026-11-03)

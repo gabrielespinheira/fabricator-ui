@@ -1,7 +1,7 @@
 {
   "name": "@fabricator-ui/icons",
   "version": "0.9.0",
-  "description": "Fabricator Icons for React: every Lucide icon under its Lucide name, plus brand marks.",
+  "description": "Fabricator UI's rounded icon library for React, with Outline, Fill, Duotone and Animated icons, brand marks and file icons.",
   "license": "MIT",
   "type": "module",
   "homepage": "https://fabricator-ui.vercel.app/icons",
@@ -16,7 +16,7 @@
   "keywords": [
     "fabricator-ui",
     "icons",
-    "lucide",
+    "duotone",
     "brand-icons",
     "react",
     "svg"

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { IconFolderCode } from "@tabler/icons-react"
+import { FolderCodeIcon } from "@fabricator-ui/icons"
 import { ArrowUpRightIcon } from "lucide-react"
 
 import {
@@ -60,7 +60,7 @@ export function EmptyRtl() {
     <Empty dir={dir}>
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <IconFolderCode />
+          <FolderCodeIcon />
         </EmptyMedia>
         <EmptyTitle>{t.title}</EmptyTitle>
         <EmptyDescription>{t.description}</EmptyDescription>

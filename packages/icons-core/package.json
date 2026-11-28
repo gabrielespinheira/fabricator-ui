@@ -10,7 +10,7 @@
   },
   "scripts": {
     "lint": "bun ./scripts/check.ts",
-    "sync": "bun ./scripts/sync-lucide.ts",
+    "compare": "bun ./scripts/compare-lucide.ts",
     "brands": "bun ./scripts/import-brands.ts",
     "check:icons": "bun ./scripts/check.ts",
     "sheet": "bun ./scripts/sheet.ts",

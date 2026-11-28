@@ -1,6 +1,7 @@
 import type {
   AnimatedCatalogEntry,
   BrandCatalogEntry,
+  FileCatalogEntry,
   OutlineCatalogEntry,
 } from "@fabricator-ui/icons/catalog"
 import { describe, expect, it } from "vitest"
@@ -101,7 +102,7 @@ describe("animated icons", () => {
     expect(
       getJsxSnippet(animatedBell, {
         size: 16,
-        strokeWidth: 1.5,
+        strokeWidth: 1.75,
         brandColor: true,
       })
     ).toBe("<BellIcon size={16} />")
@@ -139,12 +140,28 @@ describe("snippets", () => {
     )
   })
 
+  it.each([0.125, 1.25, 3.75])(
+    "writes the requested stroke width of %d",
+    (strokeWidth) => {
+      const options = { size: 48, strokeWidth, brandColor: false }
+      expect(getJsxSnippet(house, options)).toBe(
+        `<HouseIcon size={48} strokeWidth={${strokeWidth}} />`
+      )
+      expect(
+        buildSvgMarkup(
+          { set: "outline", node: [["path", { d: "M4 12h16" }]] },
+          { ...options, color: "currentColor" }
+        )
+      ).toContain(`stroke-width="${strokeWidth}"`)
+    }
+  )
+
   it("writes only the props that differ from the defaults", () => {
     expect(
       getJsxSnippet(house, { size: 24, strokeWidth: 2, brandColor: false })
     ).toBe("<HouseIcon strokeWidth={2} />")
     expect(
-      getJsxSnippet(house, { size: 16, strokeWidth: 1.5, brandColor: false })
+      getJsxSnippet(house, { size: 16, strokeWidth: 1.75, brandColor: false })
     ).toBe("<HouseIcon size={16} />")
     expect(
       getJsxSnippet(github, { size: 24, strokeWidth: 1.5, brandColor: true })
@@ -283,6 +300,27 @@ describe("categories", () => {
     expect(getCategoryOptions([github], titles, "brands")).toEqual([
       { value: "Product & dev", label: "Product & dev", count: 1 },
     ])
+  })
+
+  it("includes UI categories, brand groups, and file types in All", () => {
+    const file: FileCatalogEntry = {
+      name: "file-github",
+      set: "files",
+      aliases: [],
+      categories: ["files"],
+      tags: ["github"],
+    }
+    const entries = [bell, animatedBell, github, file]
+    expect(getCategoryOptions(entries, titles)).toEqual([
+      { value: "notifications", label: "Notifications", count: 2 },
+      { value: "Product & dev", label: "Product & dev", count: 1 },
+      { value: "files", label: "Files", count: 1 },
+    ])
+    expect(filterByCategory(entries, "notifications")).toEqual([
+      bell,
+      animatedBell,
+    ])
+    expect(filterByCategory(entries, "files")).toEqual([file])
   })
 
   it("filters by category, or not at all", () => {

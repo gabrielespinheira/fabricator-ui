@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { GalleryHorizontalIcon } from "@fabricator-ui/icons"
 import { cn } from "cn"
-import { GalleryHorizontalIcon } from "lucide-react"
 
 import { trackEvent } from "@/lib/events"
 import { useLayout } from "@/hooks/use-layout"

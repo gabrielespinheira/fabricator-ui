@@ -34,6 +34,8 @@ export type OutlineIcon = {
   name: string
   origin: IconOrigin
   node: IconElement[]
+  /** Present on drawings authored at Fabricator's published stroke width. */
+  strokeWidth?: number
   aliases: IconAlias[]
   categories: string[]
   tags: string[]
@@ -64,6 +66,7 @@ export type BrandIcon = {
   node: IconElement[]
   art?: BrandArt
   scale?: number
+  opticalScale?: number
   source: string
   license: string
   guidelines?: string

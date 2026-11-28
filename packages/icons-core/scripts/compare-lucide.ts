@@ -1,10 +1,9 @@
 /**
- * Vendors Lucide's icon sources at a tag:
- *   bun run icons:sync --ref 1.66.0
+ * Compares a Lucide tag with the frozen import:
+ *   bun run icons:compare --ref 1.73.0
  *
- * Copies icons/, categories/, LICENSE and brand-stopwords.json into sources/lucide/, records the tag
- * and commit in icons.lock.json, and prints what changed since the last sync.
- * The vendored files are never edited by hand.
+ * The checkout is temporary. The report leaves Fabricator's catalog and the
+ * import snapshot untouched.
  */
 import { execFileSync } from "node:child_process"
 import fs from "node:fs"
@@ -13,7 +12,6 @@ import path from "node:path"
 import { parseArgs } from "node:util"
 
 import { diffIconSets, type IconSnapshot } from "../src/icon-set-diff"
-import { readLock, writeLock } from "../src/lock"
 import { LUCIDE_SOURCES } from "../src/paths"
 import { iconMetadataSchema, readJson } from "../src/schemas"
 
@@ -44,7 +42,7 @@ function git(args: string[], cwd?: string) {
 
 const { values } = parseArgs({ options: { ref: { type: "string" } } })
 if (!values.ref) {
-  console.error("Usage: bun run icons:sync --ref <tag>")
+  console.error("Usage: bun run icons:compare --ref <tag>")
   process.exit(1)
 }
 
@@ -64,33 +62,15 @@ try {
     REPOSITORY,
     checkout,
   ])
-  git(["sparse-checkout", "set", "icons", "categories"], checkout)
+  git(["sparse-checkout", "set", "icons"], checkout)
   const sha = git(["rev-parse", "HEAD"], checkout)
 
   const before = snapshot(LUCIDE_SOURCES)
-  fs.rmSync(LUCIDE_SOURCES, { recursive: true, force: true })
-  fs.mkdirSync(LUCIDE_SOURCES, { recursive: true })
-  for (const entry of ["icons", "categories"]) {
-    fs.cpSync(path.join(checkout, entry), path.join(LUCIDE_SOURCES, entry), {
-      recursive: true,
-    })
-  }
-  for (const file of ["LICENSE", "brand-stopwords.json"]) {
-    fs.copyFileSync(path.join(checkout, file), path.join(LUCIDE_SOURCES, file))
-  }
-  const after = snapshot(LUCIDE_SOURCES)
-
-  writeLock({
-    ...readLock(),
-    lucide: {
-      tag: values.ref,
-      sha,
-      syncedAt: new Date().toISOString().slice(0, 10),
-    },
-  })
-
+  const after = snapshot(checkout)
   const diff = diffIconSets(before, after)
-  console.log(`Lucide ${values.ref} (${sha.slice(0, 7)}): ${after.size} icons`)
+  console.log(
+    `Lucide ${values.ref} (${sha.slice(0, 7)}) vs. the frozen import: ${after.size} icons`
+  )
   for (const [label, names] of Object.entries(diff)) {
     if (names.length === 0) continue
     const list =

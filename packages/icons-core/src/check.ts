@@ -8,7 +8,12 @@ import { loadBrands } from "./brands"
 import { loadFileIcons } from "./file-icons"
 import { getBounds, type Bounds } from "./geometry"
 import { isKebabCase } from "./names"
-import { loadOutlineIcons, readBrandStopwords, readCategories } from "./outline"
+import {
+  loadImportedIcons,
+  loadOutlineIcons,
+  readBrandStopwords,
+  readCategories,
+} from "./outline"
 import { DUOTONE_SOURCES, OUTLINE_SOURCES, ROUNDED_SOURCES } from "./paths"
 import { iconMetadataSchema, readJson } from "./schemas"
 import { parseSvg } from "./svg"
@@ -30,11 +35,8 @@ function isClosed([tag, attributes]: IconElement) {
 export function checkOriginals(directory = OUTLINE_SOURCES) {
   if (!fs.existsSync(directory)) return []
   const errors: string[] = []
-  const lucide = loadOutlineIcons({
-    outlineDirectory: path.join(directory, "__none__"),
-  })
   const taken = new Set(
-    lucide.flatMap((icon) => [
+    loadImportedIcons().flatMap((icon) => [
       icon.name,
       ...icon.aliases.map((alias) => alias.name),
     ])
@@ -51,14 +53,14 @@ export function checkOriginals(directory = OUTLINE_SOURCES) {
     if (!isKebabCase(name)) report("the name must be kebab-case")
     if (taken.has(name))
       report(
-        "Lucide already uses this name; make ours an alias of Lucide's or rename it"
+        "this name is already in the Fabricator catalog; use a drawing override or choose a new name"
       )
     const stopword = stopwords.find((word) => name.split("-").includes(word))
     if (stopword)
       report(`"${stopword}" is a brand; brand marks go in sources/brands`)
     for (const error of validateOutlineSvg(
       parseSvg(fs.readFileSync(path.join(directory, file), "utf8")),
-      { strict: true }
+      { strict: true, isFabricatorSource: true }
     )) {
       report(error)
     }
@@ -183,7 +185,7 @@ export function checkDuotone(directory = DUOTONE_SOURCES) {
   return errors
 }
 
-/** Every vendored animated icon must ship under a Lucide name, or say why not. */
+/** Validate the archived animation references against the imported snapshot. */
 export function checkAnimated() {
   try {
     loadAnimatedIcons()
@@ -196,7 +198,9 @@ export function checkAnimated() {
 }
 
 function checkUiDrawings() {
-  const catalog = new Map(loadUiIcons().map((icon) => [icon.name, icon]))
+  const sources = loadOutlineIcons()
+  const originals = new Map(sources.map((icon) => [icon.name, icon.node]))
+  const catalog = new Map(loadUiIcons(sources).map((icon) => [icon.name, icon]))
   const errors: string[] = []
   for (const [name, icon] of catalog) {
     if (
@@ -249,7 +253,11 @@ function checkUiDrawings() {
         if (!secondary.node.length || !secondary.node.every(isClosed))
           report("use closed shapes for the secondary paint")
       }
-      if (JSON.stringify(drawing.node) !== JSON.stringify(icon.node))
+      const outlineFile = path.join(ROUNDED_SOURCES, `${icon.name}-outline.svg`)
+      const outline = fs.existsSync(outlineFile)
+        ? parseSvg(fs.readFileSync(outlineFile, "utf8")).node
+        : originals.get(icon.name)
+      if (JSON.stringify(drawing.node) !== JSON.stringify(outline))
         report("the stroke geometry must match the outline")
     } else if (drawing.groups.length) {
       report("groups are only available for secondary paint")

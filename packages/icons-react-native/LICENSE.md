@@ -22,9 +22,10 @@ SOFTWARE.
 
 ---
 
-The rounded UI icon catalog is based on Lucide 1.73.0 (https://lucide.dev), used under
-its licence, reproduced below. The Custom icons are Fabricator's own, under the
-MIT licence above. Brand marks are not covered by either licence: see BRANDS.md.
+Fabricator maintains the UI icon catalog. It includes redrawn icons derived from
+Lucide 1.73.0 (https://lucide.dev). The Lucide and Feather notices for those
+drawings are reproduced below. The MIT licence above covers Fabricator's code
+and original icons. See BRANDS.md for brand marks.
 
 ISC License
 

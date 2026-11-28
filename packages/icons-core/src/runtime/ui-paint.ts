@@ -16,15 +16,15 @@ export function resolveUiPaint(
 }
 
 /** White keeps the surface visible, and black removes the interior detail. */
-export function getCutoutMask(node: IconElement[]): IconElement[] {
+export function getCutoutMask(
+  node: IconElement[],
+  area = { x: "0", y: "0", width: "24", height: "24" }
+): IconElement[] {
   return [
     [
       "rect",
       {
-        x: "0",
-        y: "0",
-        width: "24",
-        height: "24",
+        ...area,
         fill: "white",
         stroke: "none",
       },

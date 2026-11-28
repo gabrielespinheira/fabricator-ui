@@ -22,7 +22,7 @@ export function useAnimatedRenderer(isNeeded: boolean) {
 }
 
 /**
- * Plays while `isPlaying`. A ref takes the icon off its own hover, so a whole
+ * Starts when `isPlaying` turns on. A ref takes the icon off its own hover, so a whole
  * cell can be the target, and the keyboard can reach it.
  */
 export function AnimatedIconView({
@@ -32,20 +32,32 @@ export function AnimatedIconView({
   strokeWidth,
   data,
   recipe,
+  playCount = 0,
+  loop = false,
+  open,
 }: {
   component: AnimatedRenderer
   isPlaying: boolean
   size: number
   strokeWidth: number
-} & Pick<React.ComponentProps<AnimatedRenderer>, "data" | "recipe">) {
+  playCount?: number
+} & Pick<
+  React.ComponentProps<AnimatedRenderer>,
+  "data" | "recipe" | "loop" | "open"
+>) {
   const handle = React.useRef<AnimatedIconHandle>(null)
-  const wasPlaying = React.useRef(false)
+  const lastPlayCount = React.useRef(0)
+  const wasLooping = React.useRef(false)
   React.useEffect(() => {
-    if (isPlaying === wasPlaying.current) return
-    wasPlaying.current = isPlaying
-    if (isPlaying) handle.current?.startAnimation()
-    else handle.current?.stopAnimation()
-  }, [isPlaying])
+    const frame = requestAnimationFrame(() => {
+      const isReplay = lastPlayCount.current !== playCount
+      if (isPlaying || isReplay) handle.current?.startAnimation()
+      else if (wasLooping.current && loop) handle.current?.stopAnimation()
+      wasLooping.current = isPlaying && loop
+      lastPlayCount.current = playCount
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [isPlaying, loop, playCount])
   return (
     <Component
       data={data}
@@ -53,6 +65,8 @@ export function AnimatedIconView({
       ref={handle}
       size={size}
       strokeWidth={strokeWidth}
+      loop={loop}
+      open={open}
     />
   )
 }

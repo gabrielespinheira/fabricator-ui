@@ -1,8 +1,11 @@
 import { getBounds } from "./geometry"
+import { UI_STROKE_WIDTH } from "./runtime/attributes"
 import type { ParsedSvg } from "./svg"
 import type { IconElement, IconTag } from "./types"
 
-/** Lucide's root attributes, as written in its source SVGs. */
+export { UI_STROKE_WIDTH } from "./runtime/attributes"
+
+/** Root attributes of the imported and legacy outline drawings. */
 export const OUTLINE_ROOT_ATTRIBUTES: Record<string, string> = {
   xmlns: "http://www.w3.org/2000/svg",
   width: "24",
@@ -25,15 +28,16 @@ const SHAPE_ATTRIBUTES: Record<IconTag, string[]> = {
   polygon: ["points"],
 }
 
-const STROKE_WIDTH = 2
+const LEGACY_STROKE_WIDTH = 2
 const SAFE_ZONE = { min: 1, max: 23 }
-/** Lucide's own shapes overshoot by up to 0.03; originals reuse them unchanged. */
+/** Existing outlines can overshoot by a few hundredths from rounding. */
 const SAFE_ZONE_TOLERANCE = 0.05
 const DECIMALS = /\d\.\d{4,}/
 
 export type ValidateOptions = {
   /** Spec rules for Fabricator-authored icons: precision and safe zone. */
   strict: boolean
+  isFabricatorSource?: boolean
 }
 
 export function validateElements(
@@ -66,11 +70,15 @@ export function validatePrecision(node: IconElement[]) {
 
 export function validateOutlineSvg(
   parsed: ParsedSvg,
-  { strict }: ValidateOptions
+  { strict, isFabricatorSource = false }: ValidateOptions
 ) {
   const errors: string[] = []
+  const isPublishedStroke =
+    isFabricatorSource &&
+    parsed.attributes["stroke-width"] === String(UI_STROKE_WIDTH)
 
   for (const [name, expected] of Object.entries(OUTLINE_ROOT_ATTRIBUTES)) {
+    if (name === "stroke-width" && isPublishedStroke) continue
     const actual = parsed.attributes[name]
     if (actual !== expected) {
       errors.push(
@@ -89,7 +97,7 @@ export function validateOutlineSvg(
   if (strict && parsed.node.length > 0) {
     errors.push(...validatePrecision(parsed.node))
     const bounds = getBounds(parsed.node)
-    const half = STROKE_WIDTH / 2
+    const half = (isPublishedStroke ? UI_STROKE_WIDTH : LEGACY_STROKE_WIDTH) / 2
     const stroked = {
       minX: bounds.minX - half,
       minY: bounds.minY - half,

@@ -7,6 +7,7 @@ import {
 } from "react"
 
 import {
+  getArtworkViewBox,
   getStrokeWidth,
   hasA11yProp,
   ICON_SIZE,
@@ -31,6 +32,21 @@ export type IconProps = SVGProps<SVGSVGElement> & {
 export type IconComponent = ((props: IconProps) => ReactElement) & {
   displayName?: string
 }
+
+export type IconArtworkLayer = "primary" | "secondary" | "cutout"
+const animatedMaskArea = {
+  x: String(-ICON_SIZE),
+  y: String(-ICON_SIZE),
+  width: String(3 * ICON_SIZE),
+  height: String(3 * ICON_SIZE),
+}
+
+type IconShape = ReactElement<SVGProps<SVGElement>>
+type WrapShape = (
+  shape: IconShape,
+  layer: IconArtworkLayer,
+  index: number
+) => IconShape
 
 function renderShapes(
   node: IconElement[],
@@ -85,7 +101,9 @@ export function renderIcon(
   }: IconProps,
   options: {
     maskId?: string
+    allowOverflow?: boolean
     wrapArtwork?: (artwork: ReactNode) => ReactNode
+    wrapShape?: WrapShape
   } = {}
 ) {
   const isLabelled = Boolean(children) || hasA11yProp(rest)
@@ -103,11 +121,17 @@ export function renderIcon(
   const hasStyle = style !== undefined || Object.keys(variables).length > 0
 
   const paint = color ?? "currentColor"
+  const { wrapShape } = options
   const artwork = [
-    ...renderSecondary(data.secondary ?? [], paint),
-    ...renderShapes(resolveUiPaint(data.node, color), shapeAttributes),
+    ...renderSecondary(data.secondary ?? [], paint).map((shape, index) =>
+      wrapShape ? wrapShape(shape, "secondary", index) : shape
+    ),
+    ...renderShapes(resolveUiPaint(data.node, color), shapeAttributes).map(
+      (shape, index) => (wrapShape ? wrapShape(shape, "primary", index) : shape)
+    ),
   ]
   const maskId = options.maskId && `fab-cutout-${options.maskId}`
+  const maskArea = options.allowOverflow ? animatedMaskArea : undefined
   const body =
     data.cutout?.length && maskId
       ? [
@@ -121,8 +145,14 @@ export function renderIcon(
               y: 0,
               width: 24,
               height: 24,
+              ...maskArea,
             },
-            ...renderShapes(getCutoutMask(data.cutout), {})
+            ...renderShapes(getCutoutMask(data.cutout, maskArea), {}).map(
+              (shape, index) =>
+                wrapShape && index > 0
+                  ? wrapShape(shape, "cutout", index - 1)
+                  : shape
+            )
           ),
           createElement(
             "g",
@@ -138,19 +168,21 @@ export function renderIcon(
       xmlns: "http://www.w3.org/2000/svg",
       width: width ?? size ?? ICON_SIZE,
       height: height ?? size ?? ICON_SIZE,
-      viewBox: `0 0 ${ICON_SIZE} ${ICON_SIZE}`,
+      viewBox: getArtworkViewBox(ICON_SIZE, ICON_SIZE, data.opticalScale),
       fill: data.paint === "fill" ? paint : "none",
       stroke: data.paint === "fill" ? "none" : paint,
       strokeWidth: getStrokeWidth({
         strokeWidth: strokeWidth ?? data.strokeWidth,
         absoluteStrokeWidth,
         size: size ?? width,
+        opticalScale: rest.viewBox ? 1 : data.opticalScale,
       }),
       strokeLinecap: "round",
       strokeLinejoin: "round",
       className: mergeClasses("fab-icon", `fab-icon-${data.name}`, className),
       ...(!isLabelled && { "aria-hidden": "true" }),
       ...(hasStyle && { style: { ...variables, ...style } }),
+      ...(options.allowOverflow && { overflow: "visible" }),
       ...rest,
     },
     options.wrapArtwork ? options.wrapArtwork(body) : body,

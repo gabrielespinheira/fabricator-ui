@@ -3,8 +3,8 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { ChevronRightIcon } from "@fabricator-ui/icons"
 import { cn } from "cn"
-import { ChevronRightIcon } from "lucide-react"
 
 import { groupComponentPages } from "@/lib/component-groups"
 import { siteConfig } from "@/lib/config"

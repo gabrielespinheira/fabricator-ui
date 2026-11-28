@@ -1,4 +1,4 @@
-import { IconBell } from "@tabler/icons-react"
+import { BellIcon } from "@fabricator-ui/icons"
 import { RefreshCcwIcon } from "lucide-react"
 
 import { Button } from "@/styles/aria-nova/ui/button"
@@ -16,7 +16,7 @@ export function EmptyMuted() {
     <Empty className="h-full bg-muted/30">
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <IconBell />
+          <BellIcon />
         </EmptyMedia>
         <EmptyTitle>No Notifications</EmptyTitle>
         <EmptyDescription className="max-w-xs text-pretty">

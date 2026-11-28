@@ -1,7 +1,7 @@
 import * as React from "react"
+import { Check, PlusCircle } from "@fabricator-ui/icons"
 import { type Column, type RowData } from "@tanstack/react-table"
 import { cn } from "cn"
-import { Check, PlusCircle } from "lucide-react"
 
 import { Badge } from "@/registry/new-york-v4/ui/badge"
 import { Button } from "@/registry/new-york-v4/ui/button"

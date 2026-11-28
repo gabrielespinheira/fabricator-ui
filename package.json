@@ -35,7 +35,7 @@
     "release:publish": "./scripts/publish.sh",
     "deploy": "./scripts/deploy.sh",
     "rebrand": "bun ./scripts/rebrand.ts",
-    "icons:sync": "bun ./packages/icons-core/scripts/sync-lucide.ts",
+    "icons:compare": "bun ./packages/icons-core/scripts/compare-lucide.ts",
     "icons:animated": "bun ./packages/icons-core/scripts/sync-animated.ts",
     "icons:audit": "bun run --cwd packages/icons audit:animated",
     "release:icons": "./scripts/publish-icons.sh",

@@ -89,11 +89,33 @@ updated:
   - /docs/foundations/motion
   - scroll-area
   - /docs/utils/scroll-fade
+  - avatar
+  - breadcrumb
+  - button-group
+  - empty
+  - marker
+  - model-picker
+  - pagination
+  - toggle
+  - workspace-switcher
+  - /docs/icons
 ---
 
 ## Fabricator Icons
 
-All UI icons now have rounded Outline, Fill and Duotone drawings and a web animation. Existing names and aliases carry over to every variant. Outline and Duotone use a 1.5-unit stroke by default.
+Fabricator Icons now has an independently maintained catalog. All UI icons have rounded Outline, Fill and Duotone drawings and a web animation. The redraw uses more of the 24 × 24 grid, with shared shapes for common families and a 1.75-unit resting stroke for Outline and Duotone. Sidebar, navigation, and controls keep their density sizes. Existing names and aliases carry over to every variant.
+
+The UI, brand, and file sets now share an optical sizing standard based on their visible artwork. The same proportions carry through to React, React Native, and static exports.
+
+The calendar family has a narrower body and aligned pins and dividers across all 26 icons. UI families with shared frames use one viewport across states and weights. Outline and Duotone also stay aligned when switching weights elsewhere in the catalog.
+
+Circle and square letters are optically centred, and Fill uses the same letter strokes as a cutout.
+
+The [Icons gallery](/icons) opens on All, where one search covers every icon set. The gallery previews sizes from 14 to 48 px and stroke widths from 0.5 to 3. Icon names appear on hover and keyboard focus. Select a tile to compare sizes and copy or download the icon from a bottom drawer.
+
+**Sidebar.** Navigation icons and dots follow the 14, 16, and 18 px density sizes. Hovered and selected navigation icons keep the same stroke width as resting icons. The Sidebar and App Shell use the packaged `SidebarToggleIcon` on web and React Native. The icon has a narrower, slightly taller frame. The inner panel widens as it opens, and the right panel uses the mirrored drawing. The icon is available in Outline, Fill, Duotone, and Animated. On iPhone, the sidebar renders on the first tap after launch.
+
+**Animated icons.** Arrows follow their direction, eyelids and menu strokes morph, slider knobs travel along their tracks, and check marks draw themselves. Icons with no clear movement trace their strokes into place. Moving strokes and filled shapes have room beyond the SVG viewport. Preview one shot or loop in the [Animated gallery](/icons?set=animated). Use `open` on `PanelLeftIcon` and `PanelRightIcon` to hold the selected width.
 
 These changes are merged and ship in the next version.
 

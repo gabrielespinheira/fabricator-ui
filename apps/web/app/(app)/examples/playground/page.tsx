@@ -1,6 +1,6 @@
 import { type Metadata } from "next"
 import Image from "next/image"
-import { RotateCcw } from "lucide-react"
+import { RotateCcw } from "@fabricator-ui/icons"
 
 import { Button } from "@/registry/new-york-v4/ui/button"
 import {

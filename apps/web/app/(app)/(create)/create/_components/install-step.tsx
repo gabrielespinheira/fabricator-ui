@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { LinkIcon } from "@fabricator-ui/icons"
 import {
   getAgentPrompt,
   getAssistantLabel,
@@ -14,7 +15,6 @@ import {
   REACT_NATIVE_PACKAGE,
   REACT_PACKAGE,
 } from "@fabricator-ui/setup"
-import { LinkIcon } from "lucide-react"
 
 import type { Event } from "@/lib/events"
 import { CheckIcon, CopyIcon, ExternalLinkIcon } from "@/lib/site-icons"

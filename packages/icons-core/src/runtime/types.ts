@@ -17,6 +17,8 @@ export type IconData = {
   name: string
   node: IconElement[]
   paint?: "fill"
+  /** Uniform optical correction around the source drawing's centre. */
+  opticalScale?: number
   strokeWidth?: number
   /** Fill only: line work that punches transparent detail out of a solid face. */
   cutout?: IconElement[]
@@ -25,15 +27,48 @@ export type IconData = {
 }
 
 export type IconWeight = "outline" | "fill" | "duotone"
-export type IconMotion =
+export type IconDirection =
   | "left"
   | "right"
   | "up"
   | "down"
+  | "up-left"
+  | "up-right"
+  | "down-left"
+  | "down-right"
+
+export type IconMotion =
+  | IconDirection
+  | "exchange-horizontal"
+  | "exchange-vertical"
+  | "expand"
+  | "contract"
+  | "receive"
+  | "dispatch"
+  | "exit-diagonal"
+  | "send"
+  | "rotate-back"
+  | "rotate-forward"
+  | "blink"
+  | "envelope"
+  | "shutter"
+  | "clock"
+  | "heartbeat"
+  | "radiate"
+  | "sound"
+  | "shackle"
+  | "check"
+  | "drag"
+  | "rows"
+  | "bars"
+  | "stack"
   | "bookmark"
   | "pencil"
   | "bell"
   | "toggle"
+  | "sidebar-toggle"
+  | "panel-left"
+  | "panel-right"
   | "turn"
   | "open"
   | "pulse"
@@ -75,6 +110,7 @@ export type BrandGradient = {
 export type BrandArt = {
   width: number
   height: number
+  opticalScale?: number
   node: IconElement[]
   /** For logos whose colours are gradients (Firefox, Telegram). */
   gradients?: BrandGradient[]
@@ -90,6 +126,7 @@ export type BrandIconData = {
   colors: BrandColors
   /** Optical correction below 1: widens the viewBox so the mark shrinks. */
   scale?: number
+  opticalScale?: number
 }
 
 export type OutlineCatalogEntry = {
@@ -117,17 +154,17 @@ export type BrandCatalogEntry = {
   credit?: string
 }
 
-/** An outline category, with Lucide's title for it. */
+/** A label for filtering the Fabricator catalog. */
 export type IconCategory = {
   name: string
   title: string
 }
 
-/** A Lucide icon with an animated version in `/animated`, under the same name. */
+/** An icon in the Fabricator Animated set. */
 export type AnimatedCatalogEntry = Omit<OutlineCatalogEntry, "set"> & {
   set: "animated"
   motion?: IconMotion
-  /** It animates an older Lucide drawing, so at rest it differs from the outline icon. */
+  /** Compatibility flag for archived animations with older geometry. */
   isOlderDrawing?: boolean
 }
 

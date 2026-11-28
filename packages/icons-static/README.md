@@ -1,6 +1,6 @@
 # @fabricator-ui/icons-static
 
-Fabricator Icons without a framework: SVG files, sprites, JSON data and SVG strings, plus a PNG exporter for desktop tray and menu icons. Every [Lucide](https://lucide.dev) icon under its Lucide name, plus 145 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
+The [Fabricator UI](https://fabricator-ui.vercel.app) icon library as standalone SVGs, sprites, JSON data and SVG strings, with a PNG exporter for desktop trays and menus. Browse the [Fabricator catalog](https://fabricator-ui.vercel.app/icons).
 
 ```sh
 npm install @fabricator-ui/icons-static
@@ -17,6 +17,7 @@ npm install @fabricator-ui/icons-static
 | `sprite.svg`                               | Every outline icon as a `<symbol>`: `<use href="sprite.svg#house"/>` |
 | `brands-sprite.svg`                        | Every brand mark as a `<symbol>`                                     |
 | `icon-nodes.json`                          | Outline shapes per icon                                              |
+| `icon-scales.json`                         | Outline artwork scale around the grid centre, defaults to 1          |
 | `brand-nodes.json`                         | Brand shapes, art, colours and scale                                 |
 | `tags.json`                                | Search tags per outline icon                                         |
 
@@ -46,4 +47,4 @@ The `/files` entry exports 249 Charmed SVG strings, such as `FileTypescript`. Th
 
 ## Licence
 
-MIT for Fabricator's code and Custom icons; the other outline icons are Lucide's, under ISC. See [LICENSE.md](./LICENSE.md).
+Fabricator's code and original artwork are MIT-licensed. Drawings derived from Lucide and Feather carry their upstream notices. See [LICENSE.md](./LICENSE.md).

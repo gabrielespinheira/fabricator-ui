@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { cn } from "cn"
 import {
   CircleIcon,
   MonitorIcon,
@@ -12,7 +11,8 @@ import {
   SunIcon,
   Volume2Icon,
   VolumeXIcon,
-} from "lucide-react"
+} from "@fabricator-ui/icons"
+import { cn } from "cn"
 import { useTheme } from "next-themes"
 
 import {

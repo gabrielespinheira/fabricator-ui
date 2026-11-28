@@ -1,168 +1,163 @@
 import fs from "node:fs"
 import path from "node:path"
-import svgpath from "svgpath"
 
 import { loadDuotoneIcons } from "./duotone"
 import { getBounds } from "./geometry"
+import { getArtworkScale, measureIconFootprint } from "./icon-footprint"
+import { getIconMotion } from "./icon-motion"
 import { loadOutlineIcons } from "./outline"
 import { ROUNDED_SOURCES } from "./paths"
-import type { IconMotion } from "./runtime/types"
+import {
+  getSidebarToggleDrawing,
+  SIDEBAR_TOGGLE_NAME,
+} from "./runtime/sidebar-toggle"
+import type { IconData, IconMotion, IconWeight } from "./runtime/types"
+import { renderUiSvg } from "./runtime/ui-svg"
 import { parseSvg } from "./svg"
 import type { IconElement, OutlineIcon } from "./types"
+import { drawCalendarGlyph, type CalendarFrame } from "./ui-calendar-glyphs"
+import { getSharedFrame } from "./ui-families"
 import {
   getContour,
   isInContour,
-  roundOutline,
   sampleContour,
   splitPath,
 } from "./ui-geometry"
+import { drawUiGlyph } from "./ui-glyphs"
+import { fitUiGrid } from "./ui-grid"
 import { redrawUiOutline } from "./ui-redraw"
+import { drawStateGlyph, hasStateFrame } from "./ui-state-glyphs"
+import { UI_STROKE_WIDTH } from "./validate"
 
-export const UI_STROKE_WIDTH = 1.5
+export { UI_STROKE_WIDTH } from "./validate"
 
-const directions = ["left", "right", "up", "down"] as const
 export type UiIcon = OutlineIcon & {
   fill: { node: IconElement[]; cutout: IconElement[] }
   duotone: { name: string; node: IconElement[]; secondary: IconElement[] }
   motion: IconMotion
+  opticalScales: Partial<Record<IconWeight, number>>
 }
 
-const categoryMotion: Record<string, IconMotion> = {
-  arrows: "sweep",
-  charts: "rise",
-  layout: "widen",
-  text: "press",
-  "letters-digits": "press",
-  audio: "pulse",
-  multimedia: "pulse",
-  connectivity: "pulse",
-  communications: "lift",
-  communication: "lift",
-  mail: "lift",
-  notifications: "pulse",
-  weather: "sweep",
-  devices: "press",
-  development: "press",
-  tools: "swing",
-  design: "lean",
-  shapes: "pulse",
-  transportation: "right",
-  travel: "right",
-  navigation: "hop",
-  cursors: "press",
-  files: "open",
-  shopping: "lift",
-  finance: "rise",
-  buildings: "rise",
-  home: "rise",
-  security: "press",
-  photography: "spark",
-  sustainability: "sweep",
-  nature: "sweep",
-  animals: "hop",
-  sports: "hop",
-  gaming: "press",
-  emoji: "nod",
-  time: "turn",
-  people: "nod",
-  account: "nod",
-  social: "nod",
-  accessibility: "nod",
-  "food-beverage": "lean",
-  math: "mark",
-  science: "pulse",
-  medical: "pulse",
-  seasons: "sweep",
-}
-
-export function getIconMotion(
-  name: string,
-  categories: string[] = []
-): IconMotion {
-  if (
-    /^(arrow|chevron|move|corner|shift|navigation|gesture-swipe)-/.test(name)
-  ) {
-    const direction = name
-      .split("-")
-      .find((part): part is (typeof directions)[number] =>
-        directions.some((value) => value === part)
-      )
-    if (direction) return direction
+export function getUiIconData(
+  icon: UiIcon,
+  weight: IconWeight = "outline"
+): IconData {
+  const opticalScale = icon.opticalScales[weight]
+  const base = {
+    name: icon.name,
+    ...(opticalScale !== undefined && { opticalScale }),
   }
-  if (/^(dot|circle-small|ellipsis-vertical)$/.test(name)) return "hop"
-  if (/^(circle|disc|disc-2)$/.test(name)) return "pulse"
-  if (/^(circle|octagon|triangle)-exclamation-point$/.test(name)) return "pulse"
-  if (/^(bookmark|book-marked)(-|$)/.test(name)) return "bookmark"
-  if (/^(pen|pencil|highlighter|edit|square-pen)(-|$)/.test(name))
-    return "pencil"
-  if (/^(bell|alarm-clock)(-|$)/.test(name)) return "bell"
-  if (/^(toggle|switch)(-|$)/.test(name)) return "toggle"
-  if (
-    /^(rotate|refresh|repeat|spin|loader|circle-dashed|fan|orbit|clock|disc|settings|cog|sun)(-|$)/.test(
-      name
+  if (weight === "fill") {
+    const { node, cutout } = icon.fill
+    return {
+      ...base,
+      node,
+      paint: "fill",
+      ...(cutout.length > 0 && { cutout }),
+    }
+  }
+  return {
+    ...base,
+    node: icon.node,
+    ...(weight === "duotone" && { secondary: icon.duotone.secondary }),
+  }
+}
+
+function getMaximumScale(data: IconData) {
+  // Leave room around the artwork at the heaviest preview stroke.
+  const edge = Math.max(
+    ...[...data.node, ...(data.secondary ?? [])].map((shape) => {
+      const { minX, minY, maxX, maxY } = getBounds([shape])
+      const { stroke, "stroke-width": width } = shape[1]
+      const inheritsStroke = data.node.includes(shape) && data.paint !== "fill"
+      const margin =
+        stroke === "none" || (!stroke && !inheritsStroke)
+          ? 0
+          : Number(width ?? 3) / 2
+      return Math.max(12 - minX, 12 - minY, maxX - 12, maxY - 12) + margin
+    })
+  )
+  return 11.7 / edge
+}
+
+function measureScale(data: IconData, maxScale: number) {
+  return getArtworkScale(measureIconFootprint(renderUiSvg(data)), { maxScale })
+}
+
+type FramedDrawing = { icon: UiIcon; frame?: string }
+
+function calibrateUiIcons(drawings: FramedDrawing[]) {
+  const measured = drawings.map(({ icon, frame: family }) => {
+    if (icon.name === SIDEBAR_TOGGLE_NAME)
+      return { icon, family, outline: 1, fill: 1, limit: 1 }
+    const outlineData = getUiIconData(icon)
+    const fillData = getUiIconData(icon, "fill")
+    const duotoneData = getUiIconData(icon, "duotone")
+    const outlineLimit = Math.min(
+      getMaximumScale(outlineData),
+      getMaximumScale(duotoneData)
     )
-  )
-    return "turn"
-  if (/^(folder|door|book|archive|box|package|clipboard|file)(-|$)/.test(name))
-    return "open"
-  if (
-    /^(heart|activity|radio|wifi|waves|volume|signal|bluetooth|audio|mic)(-|$)/.test(
-      name
-    )
-  )
-    return "pulse"
-  if (/^(search|scan|focus|eye|locate|inspect|view|magnifying)(-|$)/.test(name))
-    return "scan"
-  if (
-    /^(sparkle|sparkles|star|zap|flash|camera|lightbulb|flame)(-|$)/.test(name)
-  )
-    return "spark"
-  if (
-    /^(list|table|grid|panel|column|columns|rows|sidebar|layout|align|dock)(-|$)/.test(
-      name
-    )
-  )
-    return "widen"
-  if (
-    /^(hand|pointer|mouse|cursor|keyboard|fingerprint|lock|unlock|plug)(-|$)/.test(
-      name
-    )
-  )
-    return "press"
-  if (
-    /^(chart|chart-no-axes|trending|battery|database|server|gauge|meter)(-|$)/.test(
-      name
-    )
-  )
-    return "rise"
-  if (
-    /^(map-pin|map-pinned|pin|flag|signpost|footprints|step|person-standing)(-|$)/.test(
-      name
-    )
-  )
-    return "hop"
-  if (
-    /^(hammer|wrench|scissors|paintbrush|brush|paint|axe|pipette|sword)(-|$)/.test(
-      name
-    )
-  )
-    return "swing"
-  if (/^(wind|cloud|umbrella|leaf|leaves|sailboat|antenna)(-|$)/.test(name))
-    return "sweep"
-  if (/^(user|users|contact|person|smile|laugh|frown|annoyed)(-|$)/.test(name))
-    return "nod"
-  if (/^(download|save|import)(-|$)/.test(name)) return "down"
-  if (/^(upload|send|share|rocket|external-link|message|mail)(-|$)/.test(name))
-    return "lift"
-  if (/(^|-)(check|plus|minus|x|tick|dot)(-|$)/.test(name)) return "mark"
-  const [primary] = categories.filter((category) => category in categoryMotion)
-  return primary ? (categoryMotion[primary] ?? "settle") : "settle"
+    const fillLimit = getMaximumScale(fillData)
+    const outline =
+      (measureScale(outlineData, outlineLimit) +
+        measureScale(duotoneData, outlineLimit)) /
+      2
+    return {
+      icon,
+      family,
+      outline: Math.floor(outline * 1000) / 1000,
+      fill: measureScale(fillData, fillLimit),
+      limit: Math.min(outlineLimit, fillLimit),
+    }
+  })
+
+  const families = new Map<string, typeof measured>()
+  for (const drawing of measured) {
+    if (!drawing.family) continue
+    const members = families.get(drawing.family) ?? []
+    members.push(drawing)
+    families.set(drawing.family, members)
+  }
+  for (const [name, members] of families) {
+    const reference =
+      members.find(({ icon }) => icon.name === name) ?? members[0]
+    if (!reference) continue
+    const limit = Math.min(...members.map((member) => member.limit))
+    // Keep stroke and solid ink balanced without moving the frame between weights.
+    const target = (reference.outline + reference.fill) / 2
+    const scale = Math.floor(Math.min(target, limit) * 1000) / 1000
+    for (const member of members) {
+      member.outline = scale
+      member.fill = scale
+    }
+  }
+
+  return measured.map(({ icon, outline, fill }) => ({
+    ...icon,
+    opticalScales: {
+      ...(outline !== 1 && { outline, duotone: outline }),
+      ...(fill !== 1 && { fill }),
+    },
+  }))
 }
 
 function readDrawing(name: string, weight: string) {
   const file = path.join(ROUNDED_SOURCES, `${name}-${weight}.svg`)
   if (!fs.existsSync(file)) return
   return parseSvg(fs.readFileSync(file, "utf8"))
+}
+
+function readCalendarFrame(): CalendarFrame {
+  const node = readDrawing("calendar", "outline")?.node
+  const fill = readDrawing("calendar", "fill")?.node
+  const secondary = readDrawing("calendar", "duotone")?.groups.find(
+    ({ attributes }) => attributes.id === "secondary"
+  )?.node
+  if (!node?.length || !fill?.length || !secondary?.length)
+    throw new Error(
+      "Calendar family needs Outline, Fill and Duotone source artwork"
+    )
+  return { node, fill, secondary }
 }
 
 function stroke([tag, attrs]: IconElement, width: number): IconElement {
@@ -223,7 +218,7 @@ function isSameSurface(
   )
 }
 
-function buildPaint(node: IconElement[]) {
+function buildPaint(node: IconElement[], hasSharedFrame: boolean) {
   const parts = node.flatMap(([tag, attrs]): IconElement[] => {
     if (tag !== "path") return [[tag, attrs]]
     return splitPath(attrs.d ?? "").map(([, part]) => [
@@ -257,10 +252,20 @@ function buildPaint(node: IconElement[]) {
   if (contours.length > 0) {
     const face: IconElement = [
       "path",
-      { d: contours.join(""), "fill-rule": "evenodd" },
+      {
+        d: contours.join(""),
+        "fill-rule": "evenodd",
+      },
     ]
+    const solid =
+      hasSharedFrame && contours.length === 1
+        ? stroke(
+            ["path", { ...face[1], fill: "currentColor" }],
+            UI_STROKE_WIDTH
+          )
+        : face
     return {
-      fill: { node: [face, ...linework], cutout },
+      fill: { node: [solid, ...linework], cutout },
       secondary: [face],
     }
   }
@@ -277,120 +282,125 @@ function buildPaint(node: IconElement[]) {
   return {
     fill: { node: linework, cutout },
     secondary: largest
-      ? [stroke(largest, widthWithinCanvas(largest, 3.75))]
+      ? [stroke(largest, widthWithinCanvas(largest, 3.25))]
       : [],
   }
 }
 
-const authoredFamilies = {
-  folder: ["check", "down", "minus", "plus", "up", "x"],
-  calendar: ["1", "check", "days", "minus-2", "plus-2", "range", "x"],
-  "message-circle": [
-    "check",
-    "code",
-    "exclamation-point",
-    "heart",
-    "more",
-    "plus",
-    "question-mark",
-    "reply",
-    "x",
-  ],
-  bell: ["ring"],
-  heart: ["pulse"],
+type AuthoredDrawing = {
+  node: IconElement[]
+  fill?: IconElement[]
+  secondary?: IconElement[]
 }
 
-function getFamilyDrawings(icons: OutlineIcon[]) {
-  const result = new Map<
-    string,
-    { node: IconElement[]; secondary?: IconElement[] }
-  >()
-  const byName = new Map(icons.map((icon) => [icon.name, icon]))
-  for (const [name, suffixes] of Object.entries(authoredFamilies)) {
-    const base = byName.get(name)
-    const drawing = readDrawing(name, "outline")
-    if (!base || !drawing) continue
-    const secondary = readDrawing(name, "duotone")?.groups.find(
-      ({ attributes }) => attributes.id === "secondary"
-    )?.node
-    const baseParts = base.node.map((part) => JSON.stringify(part))
-    for (const suffix of suffixes) {
-      const member = byName.get(`${name}-${suffix}`)
-      if (!member) continue
-      const memberParts = new Set(
-        member.node.map((part) => JSON.stringify(part))
-      )
-      if (!baseParts.every((part) => memberParts.has(part))) continue
-      const modifiers = roundOutline(
-        member.node.filter((part) => !baseParts.includes(JSON.stringify(part)))
-      )
-      // The folder seam uses the top portion of the existing modifier's space.
-      const details =
-        name === "folder"
-          ? modifiers.map(
-              ([tag, attrs]): IconElement => [
-                tag,
-                tag === "path" && attrs.d
-                  ? {
-                      ...attrs,
-                      d: svgpath(attrs.d)
-                        .translate(0, 1.55)
-                        .round(3)
-                        .toString(),
-                    }
-                  : attrs,
-              ]
-            )
-          : modifiers
-      result.set(member.name, {
-        node: [...drawing.node, ...details],
-        ...(secondary && { secondary }),
-      })
-    }
+function readAuthoredDrawing(icon: OutlineIcon): AuthoredDrawing | undefined {
+  const outline =
+    readDrawing(icon.name, "outline")?.node ??
+    (icon.strokeWidth === UI_STROKE_WIDTH ? icon.node : undefined)
+  if (!outline) return
+
+  const fill = readDrawing(icon.name, "fill")?.node
+  const secondary = readDrawing(icon.name, "duotone")?.groups.find(
+    ({ attributes }) => attributes.id === "secondary"
+  )?.node
+  const fit = fitUiGrid(icon, [
+    ...outline,
+    ...(fill ?? []),
+    ...(secondary ?? []),
+  ])
+  return {
+    node: fit(outline),
+    ...(fill && { fill: fit(fill) }),
+    ...(secondary && { secondary: fit(secondary) }),
   }
-  return result
 }
 
-/** Derive the shipped drawings from the frozen name inventory and authored overrides. */
-export function loadUiIcons(): UiIcon[] {
-  const bookmark = readDrawing("bookmark", "outline")?.node[0]
+/** Resolve authored artwork and generate the published weights. */
+export function loadUiIcons(icons = loadOutlineIcons()): UiIcon[] {
+  const calendarFrame = readCalendarFrame()
+  const authored = new Map<string, AuthoredDrawing>()
+  for (const icon of icons) {
+    if (icon.name === "calendar") continue
+    const drawing = readAuthoredDrawing(icon)
+    if (drawing) authored.set(icon.name, drawing)
+  }
   const duotoneSources = new Map(
     loadDuotoneIcons().map((icon) => [icon.name, icon])
   )
-  const icons = loadOutlineIcons()
-  const families = getFamilyDrawings(icons)
-  return icons.map((icon) => {
-    const authoredOutline = readDrawing(icon.name, "outline")
-    const authoredFill = readDrawing(icon.name, "fill")
-    const authoredDuotone = readDrawing(icon.name, "duotone")
-    const isBookmarkModifier = /^bookmark-(check|minus|plus|x)$/.test(icon.name)
-    const family = families.get(icon.name)
-    const node =
-      authoredOutline?.node ??
-      family?.node ??
-      (isBookmarkModifier && bookmark
-        ? [
-            bookmark,
-            ...roundOutline(icon.node.filter((shape) => !getContour(shape))),
-          ]
-        : redrawUiOutline(icon))
-    const { fill, secondary } = buildPaint(node)
+  const getBase = (name: string) =>
+    authored.get(name)?.node ?? drawUiGlyph(name)
+
+  const drawings = icons.map<FramedDrawing>((icon) => {
+    if (icon.name === SIDEBAR_TOGGLE_NAME) {
+      const { node } = getSidebarToggleDrawing("outline")
+      return {
+        icon: {
+          ...icon,
+          node,
+          fill: { node: getSidebarToggleDrawing("fill").node, cutout: [] },
+          duotone: {
+            name: icon.name,
+            node,
+            secondary: getSidebarToggleDrawing("duotone").secondary ?? [],
+          },
+          motion: "sidebar-toggle",
+          opticalScales: {},
+        },
+      }
+    }
+
+    const calendar = drawCalendarGlyph(icon.name, calendarFrame)
+    if (calendar) {
+      return {
+        frame: "calendar",
+        icon: {
+          ...icon,
+          node: calendar.node,
+          fill: calendar.fill,
+          duotone: {
+            name: icon.name,
+            node: calendar.node,
+            secondary: calendar.secondary,
+          },
+          motion: getIconMotion(icon.name, icon.categories),
+          opticalScales: {},
+        },
+      }
+    }
+
+    const drawing = authored.get(icon.name)
+    const family = drawing ? undefined : drawStateGlyph(icon.name, getBase)
+    const node = drawing?.node ?? family?.node ?? redrawUiOutline(icon)
+    const frame =
+      family?.frame ??
+      (hasStateFrame(icon.name) ? icon.name : getSharedFrame(node))
+    const hasFramedLetter =
+      frame !== undefined && /-letter-[a-z]$/.test(icon.name)
+    const { fill, secondary } = buildPaint(
+      hasFramedLetter ? node.slice(0, 1) : node,
+      frame !== undefined
+    )
+    if (hasFramedLetter)
+      fill.cutout = node.slice(1).map((mark) => stroke(mark, UI_STROKE_WIDTH))
+    const legacySecondary = duotoneSources.get(icon.name)?.secondary
+    const tonalFace =
+      drawing?.secondary ??
+      (family?.base ? authored.get(family.base)?.secondary : undefined) ??
+      (legacySecondary
+        ? fitUiGrid(icon, icon.node)(legacySecondary)
+        : secondary)
+
     return {
-      ...icon,
-      node,
-      fill: authoredFill ? { node: authoredFill.node, cutout: [] } : fill,
-      duotone: {
-        name: icon.name,
+      frame,
+      icon: {
+        ...icon,
         node,
-        secondary:
-          authoredDuotone?.groups.find(
-            ({ attributes }) => attributes.id === "secondary"
-          )?.node ??
-          family?.secondary ??
-          duotoneSources.get(icon.name)?.secondary ??
-          secondary,
+        fill: drawing?.fill ? { node: drawing.fill, cutout: [] } : fill,
+        duotone: { name: icon.name, node, secondary: tonalFace },
+        motion: getIconMotion(icon.name, icon.categories),
+        opticalScales: {},
       },
-      motion: getIconMotion(icon.name, icon.categories),
     }
   })
+  return calibrateUiIcons(drawings)
 }

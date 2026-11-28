@@ -4,7 +4,7 @@ import ts from "typescript"
 
 import { getBounds } from "./geometry"
 import { getExportNames } from "./names"
-import { loadOutlineIcons } from "./outline"
+import { loadImportedIcons } from "./outline"
 import { withGeneratedHeader } from "./output"
 import { ANIMATED_MAP, ANIMATED_SOURCES } from "./paths"
 import { animatedMapSchema, readJson } from "./schemas"
@@ -587,7 +587,7 @@ export function transformAnimatedIcon(
 }
 
 export type AnimatedIcon = {
-  /** Lucide's current name, which the export and the file take. */
+  /** The resolved name in the imported snapshot. */
   name: string
   upstreamName: string
   source: string
@@ -595,8 +595,8 @@ export type AnimatedIcon = {
   isOlderDrawing: boolean
 }
 
-/** The upstream icons that ship, resolved to Lucide's names and rewritten. */
-export function loadAnimatedIcons(outline = loadOutlineIcons()) {
+/** Transform legacy animation references against the frozen imported drawings. */
+export function loadAnimatedIcons(outline = loadImportedIcons()) {
   const { renames, excluded, olderDrawings } = readJson(
     ANIMATED_MAP,
     animatedMapSchema
@@ -618,7 +618,7 @@ export function loadAnimatedIcons(outline = loadOutlineIcons()) {
     const lucide = name ? nodes.get(name) : undefined
     if (!name || !lucide) {
       throw new AnimatedTransformError(
-        `${upstreamName} isn't a Lucide icon: rename or exclude it in sources/animated.json`
+        `${upstreamName} has no matching outline in the reference snapshot: map or exclude it in sources/animated.json`
       )
     }
     const existing = icons.get(name)

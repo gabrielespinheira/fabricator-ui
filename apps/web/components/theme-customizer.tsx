@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { IconCheck, IconCopy } from "@tabler/icons-react"
+import { CheckIcon, CopyIcon } from "@fabricator-ui/icons"
 import { cn } from "cn"
 import template from "lodash/template"
 
@@ -34,19 +34,19 @@ import {
 import { Label } from "@/registry/new-york-v4/ui/label"
 import { ScrollArea, ScrollBar } from "@/registry/new-york-v4/ui/scroll-area"
 import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/new-york-v4/ui/tabs"
+import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/registry/new-york-v4/ui/select"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/registry/new-york-v4/ui/tabs"
+} from "@/styles/radix-fabricator/ui/select"
 
 interface BaseColorOKLCH {
   light: Record<string, string>
@@ -143,7 +143,7 @@ export function CopyCodeButton({
             className={cn("group/button hidden sm:flex", className)}
             {...props}
           >
-            <IconCopy />
+            <CopyIcon />
             <span className="group-data-[size=icon-sm]/button:sr-only">
               Copy Code
             </span>
@@ -230,7 +230,7 @@ function CustomizerCode({ themeName }: { themeName: string }) {
                 }}
               >
                 <span className="sr-only">Copy</span>
-                {hasCopied ? <IconCheck /> : <IconCopy />}
+                {hasCopied ? <CheckIcon /> : <CopyIcon />}
               </Button>
               <code data-line-numbers data-language="css">
                 <span data-line className="line text-code-foreground">
@@ -310,7 +310,7 @@ function CustomizerCode({ themeName }: { themeName: string }) {
                 }}
               >
                 <span className="sr-only">Copy</span>
-                {hasCopied ? <IconCheck /> : <IconCopy />}
+                {hasCopied ? <CheckIcon /> : <CopyIcon />}
               </Button>
               <code data-line-numbers data-language="css">
                 <span data-line className="line text-code-foreground">
@@ -391,7 +391,7 @@ function CustomizerCode({ themeName }: { themeName: string }) {
                 }}
               >
                 <span className="sr-only">Copy</span>
-                {hasCopied ? <IconCheck /> : <IconCopy />}
+                {hasCopied ? <CheckIcon /> : <CopyIcon />}
               </Button>
               <code data-line-numbers data-language="css">
                 <span data-line className="line">

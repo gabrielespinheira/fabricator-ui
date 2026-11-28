@@ -16,7 +16,7 @@ Upstream syncs, pinned tools, releases and deploys. Most of this is the maintain
 - Root `overrides` pin `prettier` 3.6.2 (the registry build formats generated source; another version breaks parity), `eslint-plugin-react-hooks` 7.0.1 and `mdast-util-to-markdown` 2.1.2 to upstream's versions. Bump them only with upstream, then rerun `test:parity`.
 - `turbo.json` sets `"agentGuidance": false` so `AGENTS.md` stays the only agent guidance.
 - The web typecheck allows up to 8 GB of Node heap to check the generated registry and examples. The setting applies only to that command.
-- Lucide, lucide-animated and Charmed are vendored at pinned refs (`icons:sync`, `icons:animated`, `icons:files`); after a Lucide sync, bump the parity dev dependencies in `packages/icons`.
+- Fabricator owns the UI icon catalog. The Lucide import and its compatibility fixtures stay at the recorded version. `icons:compare` reports differences against another tag. `icons:animated` refreshes the animation references and `icons:files` refreshes the Charmed files at a pinned ref. See [Icon contributions](../packages/icons-core/CONTRIBUTING.md).
 
 ## Releases
 

@@ -3,22 +3,22 @@
 import * as React from "react"
 import Link from "next/link"
 import {
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
-} from "@tabler/icons-react"
+  CameraIcon,
+  ChartColumnIcon,
+  CircleDotIcon,
+  CircleHelpIcon,
+  ClipboardListIcon,
+  DatabaseIcon,
+  FileInputIcon,
+  FileTextIcon,
+  FileTypeIcon,
+  FolderIcon,
+  GaugeIcon,
+  ListIcon,
+  SearchIcon,
+  SettingsIcon,
+  UsersIcon,
+} from "@fabricator-ui/icons"
 
 import {
   Sidebar,
@@ -44,33 +44,33 @@ const data = {
     {
       title: "Dashboard",
       url: "#",
-      icon: IconDashboard,
+      icon: GaugeIcon,
     },
     {
       title: "Lifecycle",
       url: "#",
-      icon: IconListDetails,
+      icon: ListIcon,
     },
     {
       title: "Analytics",
       url: "#",
-      icon: IconChartBar,
+      icon: ChartColumnIcon,
     },
     {
       title: "Projects",
       url: "#",
-      icon: IconFolder,
+      icon: FolderIcon,
     },
     {
       title: "Team",
       url: "#",
-      icon: IconUsers,
+      icon: UsersIcon,
     },
   ],
   navClouds: [
     {
       title: "Capture",
-      icon: IconCamera,
+      icon: CameraIcon,
       isActive: true,
       url: "#",
       items: [
@@ -86,7 +86,7 @@ const data = {
     },
     {
       title: "Proposal",
-      icon: IconFileDescription,
+      icon: FileTextIcon,
       url: "#",
       items: [
         {
@@ -101,7 +101,7 @@ const data = {
     },
     {
       title: "Prompts",
-      icon: IconFileAi,
+      icon: FileInputIcon,
       url: "#",
       items: [
         {
@@ -119,34 +119,34 @@ const data = {
     {
       title: "Settings",
       url: "#",
-      icon: IconSettings,
+      icon: SettingsIcon,
     },
     {
       title: "Get Help",
       url: "#",
-      icon: IconHelp,
+      icon: CircleHelpIcon,
     },
     {
       title: "Search",
       url: "#",
-      icon: IconSearch,
+      icon: SearchIcon,
     },
   ],
   documents: [
     {
       name: "Data Library",
       url: "#",
-      icon: IconDatabase,
+      icon: DatabaseIcon,
     },
     {
       name: "Reports",
       url: "#",
-      icon: IconReport,
+      icon: ClipboardListIcon,
     },
     {
       name: "Word Assistant",
       url: "#",
-      icon: IconFileWord,
+      icon: FileTypeIcon,
     },
   ],
 }
@@ -162,7 +162,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
               <Link href="#">
-                <IconInnerShadowTop className="size-5!" />
+                <CircleDotIcon className="size-5!" />
                 <span className="text-base font-semibold">Acme Inc.</span>
               </Link>
             </SidebarMenuButton>

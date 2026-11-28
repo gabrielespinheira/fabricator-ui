@@ -1,7 +1,7 @@
 "use client"
 
+import { X } from "@fabricator-ui/icons"
 import { type ReactTable, type RowData } from "@tanstack/react-table"
-import { X } from "lucide-react"
 
 import { Button } from "@/registry/new-york-v4/ui/button"
 import { Input } from "@/registry/new-york-v4/ui/input"

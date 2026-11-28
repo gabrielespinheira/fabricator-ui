@@ -2,6 +2,8 @@ import { createElement } from "react"
 import { renderToStaticMarkup } from "react-dom/server"
 import { describe, expect, it } from "vitest"
 
+import { iconData as houseData } from "./generated/icons/house"
+import { getArtworkViewBox } from "./generated/runtime/attributes"
 import type { IconData } from "./generated/runtime/types"
 import { HomeIcon, House, HouseIcon, Icon } from "./index"
 
@@ -16,13 +18,18 @@ const duotone: IconData = {
 }
 
 describe("outline icons", () => {
-  it("render Lucide's root attributes, hidden from assistive tech", () => {
-    expect(render(createElement(HouseIcon))).toMatch(
-      /^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="fab-icon fab-icon-house" aria-hidden="true"><path /
+  it("renders the Fabricator grid and stroke, hidden from assistive tech", () => {
+    const viewBox = getArtworkViewBox(24, 24, houseData.opticalScale)
+    const markup = render(createElement(HouseIcon))
+    expect(markup).toContain(
+      `width="24" height="24" viewBox="${viewBox}" fill="none" stroke="currentColor" stroke-width="1.75"`
+    )
+    expect(markup).toContain(
+      'class="fab-icon fab-icon-house" aria-hidden="true"><path '
     )
   })
 
-  it("export the same component under both names and Lucide's aliases", () => {
+  it("exports the same component under its name and aliases", () => {
     expect(House).toBe(HouseIcon)
     expect(HomeIcon).toBe(HouseIcon)
   })
@@ -35,10 +42,36 @@ describe("outline icons", () => {
     expect(markup).toContain('stroke="red" stroke-width="1.5"')
   })
 
-  it("keep the stroke's pixel width with absoluteStrokeWidth", () => {
-    expect(
-      render(createElement(HouseIcon, { size: 48, absoluteStrokeWidth: true }))
-    ).toContain('stroke-width="0.75"')
+  it.each([0.125, 1.25, 3.75])(
+    "renders a numeric strokeWidth of %d",
+    (strokeWidth) => {
+      expect(render(createElement(HouseIcon, { strokeWidth }))).toContain(
+        `stroke-width="${strokeWidth}"`
+      )
+    }
+  )
+
+  it("keeps the pixel stroke width on a scaled drawing", () => {
+    const markup = render(
+      createElement(Icon, {
+        data: { ...houseData, opticalScale: 0.8 },
+        size: 48,
+        absoluteStrokeWidth: true,
+      })
+    )
+    expect(markup).toContain('viewBox="-3 -3 30 30"')
+    const stroke = Number(markup.match(/ stroke-width="([^"]+)"/)?.[1])
+    expect((stroke * 48) / 30).toBeCloseTo(1.75, 8)
+    const override = render(
+      createElement(Icon, {
+        data: { ...houseData, opticalScale: 0.8 },
+        size: 48,
+        absoluteStrokeWidth: true,
+        viewBox: "0 0 24 24",
+      })
+    )
+    expect(override).toContain('viewBox="0 0 24 24"')
+    expect(override).toContain('stroke-width="0.875"')
   })
 
   it("add a non-scaling stroke to every shape when asked", () => {

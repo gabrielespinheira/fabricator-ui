@@ -1,6 +1,11 @@
+import {
+  ArrowDown,
+  ArrowUp,
+  ChevronsUpDown,
+  EyeOff,
+} from "@fabricator-ui/icons"
 import { type Column, type RowData } from "@tanstack/react-table"
 import { cn } from "cn"
-import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from "lucide-react"
 
 import { Button } from "@/registry/new-york-v4/ui/button"
 import {

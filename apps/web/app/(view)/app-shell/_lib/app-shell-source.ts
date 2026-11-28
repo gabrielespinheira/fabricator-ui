@@ -793,7 +793,7 @@ export function buildAppShellSource(
 
 const ICON_PLACEHOLDER_ELEMENT = /<IconPlaceholder\s+lucide="(\w+)"[^>]*?\/>/g
 
-/** Fabricator's icons take Lucide's names, so each placeholder names its icon. */
+/** Resolve placeholders using the catalog's retained compatibility names. */
 function withFabricatorIcons(source: string) {
   const names = [
     ...new Set(
