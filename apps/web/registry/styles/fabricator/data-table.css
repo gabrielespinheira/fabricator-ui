@@ -4,7 +4,7 @@
      40-step; pinned and sticky cells paint the surface the table sits on
      (the card, or the page when flat). */
   .cn-data-table {
-    @apply gap-(--density-12) text-(length:--density-text-13) [--data-table-head-height:var(--density-40)] [--data-table-ink:var(--foreground)] [--data-table-paper:var(--background)] [--data-table-row-height:var(--density-48)] [--data-table-surface:var(--card)] data-[variant=flat]:[--data-table-surface:var(--background)] [--surface-fade-color:var(--data-table-surface)] [--surface-fade-size:var(--density-24)];
+    @apply gap-(--density-12) text-(length:--density-text-13) [--data-table-head-height:var(--density-40)] [--data-table-ink:var(--foreground)] [--data-table-paper:var(--background)] [--data-table-row-height:var(--density-48)] [--data-table-surface:var(--card)] data-[variant=flat]:[--data-table-surface:var(--background)] [--surface-fade-color:var(--data-table-surface)];
   }
 
   .cn-data-table-toolbar {
@@ -57,7 +57,7 @@
      surface, below the hairline). Pinned heads sit above the scrolling ones.
      A head that moves grabs outside its buttons. */
   .cn-data-table-head {
-    @apply sticky top-0 z-20 h-(--data-table-head-height) cursor-default data-movable:cursor-grab border-b border-border/60 not-data-pin-edge:bg-(--data-table-surface) px-(--density-12) text-start align-middle font-medium whitespace-nowrap data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0 data-[pin-edge=end]:surface-fade-e data-[pin-edge=start]:surface-fade-s data-[pin-edge=start]:not-data-[kind=select]:not-data-[kind=actions]:pe-(--density-24) data-[pin-edge=end]:not-data-[kind=select]:not-data-[kind=actions]:ps-(--density-24) data-[pin-edge=start]:data-[kind=select]:pe-(--density-16) data-[pin-edge=start]:data-[kind=actions]:pe-(--density-16) data-[pin-edge=end]:data-[kind=select]:ps-(--density-16) data-[pin-edge=end]:data-[kind=actions]:ps-(--density-16) sticky-fade-b after:mt-px data-pin-edge:after:bg-(--data-table-surface) [--sticky-fade-size:var(--density-24)];
+    @apply sticky top-0 z-20 h-(--data-table-head-height) cursor-default data-movable:cursor-grab border-b border-border/60 bg-(--data-table-surface) px-(--density-12) text-start align-middle font-medium whitespace-nowrap data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0 data-pin-edge:before:pointer-events-none data-pin-edge:before:absolute data-pin-edge:before:top-0 data-pin-edge:before:bottom-0 data-pin-edge:before:w-(--density-48) data-pin-edge:before:opacity-0 data-pin-edge:before:transition-opacity data-pin-edge:before:duration-move data-pin-edge:before:ease-move data-pin-edge:before:content-[''] data-[pin-edge=start]:before:start-full data-[pin-edge=start]:before:surface-fade-s rtl:data-[pin-edge=start]:before:surface-fade-e data-[pin-edge=end]:before:end-full data-[pin-edge=end]:before:surface-fade-e rtl:data-[pin-edge=end]:before:surface-fade-s in-data-overflow-start:data-[pin-edge=start]:before:opacity-100 in-data-overflow-end:data-[pin-edge=end]:before:opacity-100 sticky-fade-b after:mt-px [--sticky-fade-size:var(--density-24)];
   }
 
   /* Every head reads from the start with its options at the end, whatever
@@ -115,18 +115,21 @@
   }
 
   /* Pinned edges: a pinned column's cell at the edge (data-pin-edge)
-     paints its surface and its row's wash eased to clear across its far
-     24px, padding that keeps its text, checkbox or button clear
-     (surface-fade, painted: a mask per cell made fast scrolls outrun the
-     rows), so rows scrolling under it dissolve into it and a lit or picked
-     row stays lit: no line, no shadow.
+     paints a 48px fade beside it, over the rows scrolling under it, while
+     they are there: its surface and its row's wash eased to clear
+     (surface-fade on ::before, painted: a mask per cell made fast scrolls
+     outrun the rows). It stops above the hairline, so the rows' lines run
+     on unbroken. A body cell clips its text with overflow-clip and a 48px
+     clip margin, so the ellipsis stays inside and the fade paints outside;
+     where the margin isn't supported the fade is clipped and the edge is
+     plain. No line, no shadow.
 
      Cells: muted, the lit or picked row and the record's name in the
      foreground, at once: a transition on the inherited colour restyles
      every cell's contents each frame, which picking all rows multiplies.
      Numbers align to the end in tabular figures. */
   .cn-data-table-cell {
-    @apply h-(--data-table-row-height) cursor-default overflow-hidden border-b border-border/60 px-(--density-12) py-0 text-start in-data-clickable:cursor-pointer align-middle text-ellipsis whitespace-nowrap text-muted-foreground in-data-[state=selected]:text-foreground in-[tr:hover]:text-foreground data-pinned:sticky data-pinned:z-10 data-pinned:not-data-pin-edge:bg-(--data-table-surface) data-pinned:not-data-pin-edge:bg-[image:var(--data-table-row-tint)] data-[pin-edge=end]:surface-fade-e data-[pin-edge=start]:surface-fade-s data-[pin-edge=start]:not-data-[kind=select]:not-data-[kind=actions]:pe-(--density-24) data-[pin-edge=end]:not-data-[kind=select]:not-data-[kind=actions]:ps-(--density-24) data-[pin-edge=start]:data-[kind=select]:pe-(--density-16) data-[pin-edge=start]:data-[kind=actions]:pe-(--density-16) data-[pin-edge=end]:data-[kind=select]:ps-(--density-16) data-[pin-edge=end]:data-[kind=actions]:ps-(--density-16) data-primary:font-medium data-primary:text-foreground data-[align=center]:text-center data-[align=end]:text-end data-[kind=actions]:px-0 data-[kind=select]:px-0 data-editable:px-0 data-editable:not-data-pinned:relative data-editable:[&>[data-slot=checkbox]]:mx-auto in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
+    @apply h-(--data-table-row-height) cursor-default overflow-hidden border-b data-pin-edge:overflow-clip data-pin-edge:[overflow-clip-margin:var(--density-48)] border-border/60 px-(--density-12) py-0 text-start in-data-clickable:cursor-pointer align-middle text-ellipsis whitespace-nowrap text-muted-foreground in-data-[state=selected]:text-foreground in-[tr:hover]:text-foreground data-pinned:sticky data-pinned:z-10 data-pinned:bg-(--data-table-surface) data-pinned:bg-[image:var(--data-table-row-tint)] data-pin-edge:before:pointer-events-none data-pin-edge:before:absolute data-pin-edge:before:top-0 data-pin-edge:before:bottom-0 data-pin-edge:before:w-(--density-48) data-pin-edge:before:opacity-0 data-pin-edge:before:transition-opacity data-pin-edge:before:duration-move data-pin-edge:before:ease-move data-pin-edge:before:content-[''] data-[pin-edge=start]:before:start-full data-[pin-edge=start]:before:surface-fade-s rtl:data-[pin-edge=start]:before:surface-fade-e data-[pin-edge=end]:before:end-full data-[pin-edge=end]:before:surface-fade-e rtl:data-[pin-edge=end]:before:surface-fade-s in-data-overflow-start:data-[pin-edge=start]:before:opacity-100 in-data-overflow-end:data-[pin-edge=end]:before:opacity-100 data-primary:font-medium data-primary:text-foreground data-[align=center]:text-center data-[align=end]:text-end data-[kind=actions]:px-0 data-[kind=select]:px-0 data-editable:px-0 data-editable:not-data-pinned:relative data-editable:[&>[data-slot=checkbox]]:mx-auto in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
   }
 
   /* The empty column that takes the width the others leave. */
@@ -165,7 +168,7 @@
   }
 
   .cn-data-table-footer-cell {
-    @apply sticky bottom-0 z-20 h-(--density-36) cursor-default border-t border-border/60 not-data-pin-edge:bg-(--data-table-surface) px-(--density-8) align-middle font-normal data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0 data-[pin-edge=end]:surface-fade-e data-[pin-edge=start]:surface-fade-s data-[pin-edge=start]:not-data-[kind=select]:not-data-[kind=actions]:pe-(--density-24) data-[pin-edge=end]:not-data-[kind=select]:not-data-[kind=actions]:ps-(--density-24) data-[pin-edge=start]:data-[kind=select]:pe-(--density-16) data-[pin-edge=start]:data-[kind=actions]:pe-(--density-16) data-[pin-edge=end]:data-[kind=select]:ps-(--density-16) data-[pin-edge=end]:data-[kind=actions]:ps-(--density-16) sticky-fade-t after:mb-px data-pin-edge:after:bg-(--data-table-surface) [--sticky-fade-size:var(--density-24)];
+    @apply sticky bottom-0 z-20 h-(--density-36) cursor-default border-t border-border/60 bg-(--data-table-surface) px-(--density-8) align-middle font-normal data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0 data-pin-edge:before:pointer-events-none data-pin-edge:before:absolute data-pin-edge:before:top-0 data-pin-edge:before:bottom-0 data-pin-edge:before:w-(--density-48) data-pin-edge:before:opacity-0 data-pin-edge:before:transition-opacity data-pin-edge:before:duration-move data-pin-edge:before:ease-move data-pin-edge:before:content-[''] data-[pin-edge=start]:before:start-full data-[pin-edge=start]:before:surface-fade-s rtl:data-[pin-edge=start]:before:surface-fade-e data-[pin-edge=end]:before:end-full data-[pin-edge=end]:before:surface-fade-e rtl:data-[pin-edge=end]:before:surface-fade-s in-data-overflow-start:data-[pin-edge=start]:before:opacity-100 in-data-overflow-end:data-[pin-edge=end]:before:opacity-100 sticky-fade-t after:mb-px [--sticky-fade-size:var(--density-24)];
   }
 
   /* A calculation: its name muted, its value in the foreground. An unset

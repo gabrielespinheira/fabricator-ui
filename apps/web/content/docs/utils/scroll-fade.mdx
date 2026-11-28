@@ -176,10 +176,10 @@ A mask can only dissolve the scroller it is on. When the content scrolls under a
 
 A painted fade has to be the colour of the surface under it, or it reads as a dark or light band. `sticky-fade-*` fades the sticky element's own background colour, so a header on a card fades to the card and one in a popover to the popover, with nothing to configure. Give the sticky element its surface, which it needs anyway to hide what scrolls under it.
 
-`surface-fade-t`, `surface-fade-b`, `surface-fade-s` and `surface-fade-e` paint the same fade as an element's own background: `--surface-fade-color` (the page by default), solid at the named edge, eased to clear over the last `--surface-fade-size`. `--surface-fade-wash` paints a translucent wash on top, such as a row's hover or selection, so a lit row stays lit as it fades. A pinned cell uses it to let the rows scrolling under it show through its far padding. It is painted rather than masked, so it stays cheap on every row of a long list. The [Data Table](/docs/components/base/data-table)'s pinned columns work this way:
+`surface-fade-t`, `surface-fade-b`, `surface-fade-s` and `surface-fade-e` paint the same fade as an element's own background: `--surface-fade-color` (the page by default), solid at the named edge, eased to clear over the last `--surface-fade-size`. `--surface-fade-wash` paints a translucent wash on top, such as a row's hover or selection, so a lit row stays lit as it fades. A pinned cell paints it on a `::before` beside itself, so the rows scrolling under it dissolve as they reach it. It is painted rather than masked, so it stays cheap on every row of a long list. The [Data Table](/docs/components/base/data-table)'s pinned columns work this way:
 
 ```tsx
-<td className="sticky start-0 surface-fade-s [--surface-fade-color:var(--card)] [--surface-fade-size:--spacing(3)] [--surface-fade-wash:var(--row-wash)]">
+<td className="sticky start-0 overflow-clip bg-card [--surface-fade-color:var(--card)] [--surface-fade-wash:var(--row-wash)] [overflow-clip-margin:--spacing(12)] before:absolute before:inset-y-0 before:start-full before:w-12 before:surface-fade-s rtl:before:surface-fade-e">
   {/* ... */}
 </td>
 ```

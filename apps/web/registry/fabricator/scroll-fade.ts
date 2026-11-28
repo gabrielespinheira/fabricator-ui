@@ -286,8 +286,10 @@ function toSurfaceFadeUtility(edge: Edge): CssObject {
   const { direction, rtlDirection } = SURFACE_FADE_DIRECTIONS[edge]
   return {
     "background-image": toSurfaceFadeImage(direction),
+    // An ancestor selector, so it stays valid on a `::before` (`&:where()`
+    // would land after the pseudo-element).
     ...(rtlDirection && {
-      '&:where([dir="rtl"], [dir="rtl"] *)': {
+      ':where([dir="rtl"]) &': {
         "background-image": toSurfaceFadeImage(rtlDirection),
       },
     }),

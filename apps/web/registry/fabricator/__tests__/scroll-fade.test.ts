@@ -151,6 +151,12 @@ describe("surface-fade", () => {
     expect(wash).toBeLessThan(start.indexOf("var(--surface-fade-color"))
   })
 
+  it("mirrors with an ancestor selector, so it stays valid on a ::before", async () => {
+    const css = await build(["before:surface-fade-s"])
+    expect(css).toContain(':where([dir="rtl"]) &')
+    expect(css).not.toMatch(/::before:where/)
+  })
+
   it("is painted, never a mask, so every row's pinned cell stays cheap", async () => {
     const start = rulesFor(
       await build(["surface-fade-s"]),

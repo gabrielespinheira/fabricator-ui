@@ -350,10 +350,9 @@ try {
   await page.$eval(VIEWPORT, (viewport) => (viewport.scrollTop = 0))
   await loaded(page)
 
-  // Pinned edges: the pinned edge cell paints its surface and its row's wash
-  // eased to clear across its far padding, so rows scrolling under it
-  // dissolve into it and a lit row stays lit. Painted, not masked, and no
-  // line or shadow.
+  // Pinned edges: the pinned edge cell paints a 48px fade beside it, its
+  // surface and its row's wash eased to clear over the rows scrolling under
+  // it, above their hairline. Painted, not masked, and no line or shadow.
   const edges = async () =>
     page.$eval('[data-slot="data-table-content"]', (content) => ({
       start: content.hasAttribute("data-overflow-start"),
@@ -363,18 +362,21 @@ try {
     '[data-slot="data-table-cell"][data-pin-edge="start"]',
     (cell) => {
       const style = getComputedStyle(cell)
+      const fade = getComputedStyle(cell, "::before")
       return {
         sticky: style.position,
-        fill: style.backgroundColor,
-        fades: (style.backgroundImage.match(/linear-gradient/g) ?? []).length,
-        masked: style.maskImage !== "none",
+        clips: style.overflowX,
+        width: fade.width,
+        fades: (fade.backgroundImage.match(/linear-gradient/g) ?? []).length,
+        masked: fade.maskImage !== "none",
         line: getComputedStyle(cell, "::after").content,
       }
     }
   )
   assert.deepEqual(edgeCell, {
     sticky: "sticky",
-    fill: "rgba(0, 0, 0, 0)",
+    clips: "clip",
+    width: "48px",
     fades: 2,
     masked: false,
     line: "none",
