@@ -14,7 +14,7 @@
      input's line height (1.5), so a prefix such as https:// and the value
      share one baseline instead of rounding a pixel apart. */
   .cn-input-group-addon {
-    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-(--density-8) py-(--density-6) text-(length:--density-text-13) leading-normal font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-(--radius-mark) [&>svg]:stroke-[1.75] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-(--density-8) py-(--density-6) text-(length:--density-text-13) leading-normal font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-(--radius-mark) [&>svg]:[stroke-width:var(--density-icon-stroke-16)] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   /* Inline addons sit as far from the side as their content sits from the

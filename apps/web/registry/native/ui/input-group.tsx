@@ -11,6 +11,7 @@ import { Pressable, TextInput, View } from "react-native"
 import { useCSSVariable } from "uniwind"
 
 import { useFieldControl } from "@/registry/native/lib/field-model"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import {
   canClearSearch,
   getSearchKeyAction,
@@ -193,7 +194,7 @@ function InputGroupAddon({
   const group = React.use(InputGroupContext)
   const isFocused = group?.isFocused ?? false
   const content = (
-    <IconProvider strokeWidth={isFocused ? 2 : 1.75}>
+    <IconProvider strokeWidth={useIconStroke(isFocused)}>
       {renderTextChildren(children)}
     </IconProvider>
   )

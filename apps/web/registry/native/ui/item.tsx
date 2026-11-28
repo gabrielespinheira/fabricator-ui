@@ -1,5 +1,4 @@
 import * as React from "react"
-import { IconProvider } from "@fabricator-ui/icons-react-native"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { View } from "react-native"
@@ -194,18 +193,16 @@ function ItemMedia({
         )
       : children
   return (
-    <IconProvider {...(variant === "icon" ? { strokeWidth: 1.75 } : {})}>
-      <View
-        data-slot="item-media"
-        data-variant={variant}
-        data-size={size}
-        data-description={hasDescription}
-        className={cn(itemMediaVariants({ variant, className }))}
-        {...props}
-      >
-        {renderTextChildren(content)}
-      </View>
-    </IconProvider>
+    <View
+      data-slot="item-media"
+      data-variant={variant}
+      data-size={size}
+      data-description={hasDescription}
+      className={cn(itemMediaVariants({ variant, className }))}
+      {...props}
+    >
+      {renderTextChildren(content)}
+    </View>
   )
 }
 

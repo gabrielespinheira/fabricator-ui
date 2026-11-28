@@ -166,7 +166,7 @@ function PaginationEllipsis({
         )}
         {...props}
       >
-        <MoreHorizontalIcon strokeWidth={1.75} />
+        <MoreHorizontalIcon />
       </View>
     </TextStyle>
   )

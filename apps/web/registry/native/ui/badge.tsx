@@ -98,11 +98,7 @@ function Badge({
   )
   return (
     <TextStyle className={badgeTextVariants({ variant })}>
-      <IconProvider
-        size={12}
-        strokeWidth={1.75}
-        {...(typeof color === "string" ? { color } : {})}
-      >
+      <IconProvider size={12} {...(typeof color === "string" ? { color } : {})}>
         {slotted ?? <View {...shared}>{renderTextChildren(children)}</View>}
       </IconProvider>
     </TextStyle>

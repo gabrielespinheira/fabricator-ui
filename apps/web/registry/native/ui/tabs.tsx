@@ -15,6 +15,7 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import {
   getTextContent,
   wrapTextChildren,
@@ -207,7 +208,7 @@ function TabsTrigger({
             : undefined
       )}
     >
-      <IconProvider strokeWidth={isActive || isLit ? 2 : 1.75}>
+      <IconProvider strokeWidth={useIconStroke(isActive || isLit)}>
         <TabsPrimitive.Trigger
           data-slot="tabs-trigger"
           data-state={isActive ? "active" : "inactive"}

@@ -22,7 +22,7 @@
   }
 
   .cn-command-input-icon {
-    @apply text-muted-foreground size-(--density-icon-16) shrink-0 stroke-[1.75] transition-[color,stroke-width] duration-feedback group-focus-within/input-group:text-foreground group-focus-within/input-group:stroke-2;
+    @apply text-muted-foreground size-(--density-icon-16) shrink-0 [stroke-width:var(--density-icon-stroke-16)] transition-[color,stroke-width] duration-feedback group-focus-within/input-group:text-foreground group-focus-within/input-group:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)];
   }
 
   .cn-command-input {
@@ -51,11 +51,11 @@
      data-selected="true"; inside the fluid list the glide highlight paints
      it. Checked rows are foreground and semibold. */
   .cn-command-item {
-    @apply cursor-pointer text-muted-foreground relative flex h-(--density-36) items-center gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-(length:--density-text-13) outline-hidden transition-colors duration-feedback select-none [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75] [&_svg]:transition-[stroke-width] data-selected:bg-hover data-selected:text-foreground data-selected:[&_svg]:stroke-2 in-data-[fluid-hover]:data-selected:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[checked=true]:text-foreground data-[checked=true]:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative flex h-(--density-36) items-center gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-(length:--density-text-13) outline-hidden transition-colors duration-feedback select-none [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] [&_svg]:transition-[stroke-width] data-selected:bg-hover data-selected:text-foreground data-selected:[&_svg]:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)] in-data-[fluid-hover]:data-selected:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)] data-[checked=true]:text-foreground data-[checked=true]:font-semibold;
   }
 
   .cn-command-item-aria {
-    @apply cursor-pointer data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2;
+    @apply cursor-pointer data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)];
   }
 
   .cn-command-shortcut {

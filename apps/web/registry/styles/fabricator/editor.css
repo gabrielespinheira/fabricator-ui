@@ -161,7 +161,7 @@
   }
 
   .cn-editor-block-type-item {
-    @apply text-muted-foreground h-(--density-32) gap-(--density-8) rounded-(--radius-inner) px-(--density-8) text-(length:--density-text-13) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-checked:text-foreground aria-checked:font-medium disabled:pointer-events-none disabled:opacity-40 [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply text-muted-foreground h-(--density-32) gap-(--density-8) rounded-(--radius-inner) px-(--density-8) text-(length:--density-text-13) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-checked:text-foreground aria-checked:font-medium disabled:pointer-events-none disabled:opacity-40 [&_svg]:[stroke-width:var(--density-icon-stroke-16)] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-editor-menu-separator {

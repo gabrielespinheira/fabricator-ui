@@ -20,9 +20,9 @@
   }
 
   .cn-breadcrumb-separator {
-    @apply text-muted-foreground/60 [&>svg]:size-(--density-icon-14) [&>svg]:stroke-[1.75];
+    @apply text-muted-foreground/60 [&>svg]:size-(--density-icon-14) [&>svg]:[stroke-width:var(--density-icon-stroke-14)];
   }
 
   .cn-breadcrumb-ellipsis {
-    @apply size-(--density-20) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.75];
+    @apply size-(--density-20) [&>svg]:size-(--density-icon-16) [&>svg]:[stroke-width:var(--density-icon-stroke-16)];
   }

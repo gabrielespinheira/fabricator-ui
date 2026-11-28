@@ -47,7 +47,7 @@
   /* A tile in the node's palette colour (or muted) that names its kind at a
      glance, even zoomed out. */
   .cn-canvas-node-icon {
-    @apply size-(--density-28) rounded-(--radius-control) bg-muted text-muted-foreground in-data-colored:bg-[color-mix(in_oklab,var(--palette-light)_16%,transparent)] in-data-colored:text-(--palette-light) dark:in-data-colored:bg-[color-mix(in_oklab,var(--palette-dark)_22%,transparent)] dark:in-data-colored:text-(--palette-dark) [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
+    @apply size-(--density-28) rounded-(--radius-control) bg-muted text-muted-foreground in-data-colored:bg-[color-mix(in_oklab,var(--palette-light)_16%,transparent)] in-data-colored:text-(--palette-light) dark:in-data-colored:bg-[color-mix(in_oklab,var(--palette-dark)_22%,transparent)] dark:in-data-colored:text-(--palette-dark) [&_svg]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)];
   }
 
   /* Subtitle size: the node's name is what a person scans the graph for. */
@@ -230,7 +230,7 @@
   }
 
   .cn-canvas-library-icon {
-    @apply size-(--density-28) rounded-(--radius-control) bg-muted text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
+    @apply size-(--density-28) rounded-(--radius-control) bg-muted text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)];
   }
 
   .cn-canvas-library-description {

@@ -1,5 +1,4 @@
 import * as React from "react"
-import { IconProvider } from "@fabricator-ui/icons-react-native"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { View } from "react-native"
@@ -104,9 +103,7 @@ function Alert({
         >
           {media.length > 0 ? (
             <TextStyle className={alertIconVariants({ variant })}>
-              <IconProvider strokeWidth={1.75}>
-                <View className="cn-alert-media shrink-0">{media}</View>
-              </IconProvider>
+              <View className="cn-alert-media shrink-0">{media}</View>
             </TextStyle>
           ) : null}
           <View className="cn-alert-body min-w-0 flex-1">

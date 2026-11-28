@@ -25,6 +25,7 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { DisclosurePanel } from "@/registry/native/ui/collapsible"
@@ -272,7 +273,7 @@ function AccordionTrigger({
         {...props}
       >
         <View className="flex-1 shrink">{renderTextChildren(children)}</View>
-        <IconProvider strokeWidth={isExpanded || isLit ? 2 : 1.75}>
+        <IconProvider strokeWidth={useIconStroke(isExpanded || isLit)}>
           <Animated.View
             data-slot="accordion-trigger-icon"
             className="cn-accordion-trigger-icon shrink-0 items-center justify-center"

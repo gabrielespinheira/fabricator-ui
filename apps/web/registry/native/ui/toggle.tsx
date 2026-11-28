@@ -8,6 +8,7 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated"
 
 import { getTouchSlop } from "@/registry/native/lib/density-scale"
 import { useFeedback } from "@/registry/native/lib/feedback"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import { usePressScale } from "@/registry/native/lib/motion"
 import { StateFill } from "@/registry/native/lib/press-wash"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
@@ -135,7 +136,7 @@ function Toggle({
           isForeground ? toggleOnTextVariants() : undefined
         )}
       >
-        <IconProvider strokeWidth={isForeground ? 2 : 1.75}>
+        <IconProvider strokeWidth={useIconStroke(isForeground)}>
           {content}
         </IconProvider>
       </TextStyle>

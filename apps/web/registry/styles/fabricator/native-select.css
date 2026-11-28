@@ -8,5 +8,5 @@
 
   /* Muted chevron that wakes to foreground on hover; no rotation. */
   .cn-native-select-icon {
-    @apply text-muted-foreground group-hover/native-select:text-foreground top-1/2 right-2.5 size-4 -translate-y-1/2 stroke-[1.75] transition-colors duration-feedback group-data-[size=sm]/native-select:right-2 group-data-[size=sm]/native-select:size-3.5;
+    @apply text-muted-foreground group-hover/native-select:text-foreground top-1/2 right-2.5 size-4 -translate-y-1/2 [stroke-width:2.125] transition-colors duration-feedback group-data-[size=sm]/native-select:right-2;
   }

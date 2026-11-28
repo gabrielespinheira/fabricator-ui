@@ -27,6 +27,7 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -449,7 +450,7 @@ function SelectItemText({
             : cn("cn-select-item-label")
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.75}>{children}</IconProvider>
+      <IconProvider strokeWidth={useIconStroke(isLit)}>{children}</IconProvider>
     </TextStyle>
   )
 }

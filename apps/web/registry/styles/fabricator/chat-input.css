@@ -24,7 +24,7 @@
   /* "Drop to attach": the card's surface over everything, with the focus
      ring as its edge. */
   .cn-chat-input-drop {
-    @apply bg-surface-3/90 ring-focus-ring text-muted-foreground gap-(--density-8) rounded-[inherit] text-(length:--density-text-13) ring-1 animate-in fade-in-0 duration-feedback ease-feedback motion-reduce:animate-none [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
+    @apply bg-surface-3/90 ring-focus-ring text-muted-foreground gap-(--density-8) rounded-[inherit] text-(length:--density-text-13) ring-1 animate-in fade-in-0 duration-feedback ease-feedback motion-reduce:animate-none [&_svg]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)];
   }
 
   /* Voice chat's glow is voice-glow's VoiceBeam with its own colours and
@@ -48,7 +48,7 @@
   /* Surface 2 with a hairline. An image fills a square; a file is a chip
      with its icon and name. Uploading dims the image under a spinner. */
   .cn-chat-input-attachment-tile {
-    @apply bg-surface-2 ring-border h-14 rounded-(--radius-control) ring-1 group-data-[layout=default]/chat-input-attachments:h-(--density-40) group-data-[layout=default]/chat-input-attachments:rounded-(--radius-surface) group-data-[layout=inline]/chat-input-attachments:h-(--density-36) group-data-[layout=inline]/chat-input-attachments:rounded-(--radius-surface) group-data-[kind=image]/chat-input-attachment:aspect-square group-data-[kind=file]/chat-input-attachment:max-w-48 group-data-[kind=file]/chat-input-attachment:gap-(--density-8) group-data-[kind=file]/chat-input-attachment:px-(--density-12) [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.75] group-data-uploading/chat-input-attachment:[&_img]:opacity-50;
+    @apply bg-surface-2 ring-border h-14 rounded-(--radius-control) ring-1 group-data-[layout=default]/chat-input-attachments:h-(--density-40) group-data-[layout=default]/chat-input-attachments:rounded-(--radius-surface) group-data-[layout=inline]/chat-input-attachments:h-(--density-36) group-data-[layout=inline]/chat-input-attachments:rounded-(--radius-surface) group-data-[kind=image]/chat-input-attachment:aspect-square group-data-[kind=file]/chat-input-attachment:max-w-48 group-data-[kind=file]/chat-input-attachment:gap-(--density-8) group-data-[kind=file]/chat-input-attachment:px-(--density-12) [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:size-(--density-icon-16) [&>svg]:[stroke-width:var(--density-icon-stroke-16)] group-data-uploading/chat-input-attachment:[&_img]:opacity-50;
   }
 
   .cn-chat-input-attachment-image {
@@ -145,7 +145,7 @@
   }
 
   .cn-chat-input-submit-send {
-    @apply size-(--density-icon-16) stroke-2 scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=send]/chat-input-submit:scale-100 group-data-[state=send]/chat-input-submit:opacity-100 group-data-[state=queue]/chat-input-submit:scale-100 group-data-[state=queue]/chat-input-submit:opacity-100 group-data-[state=idle]/chat-input-submit:scale-100 group-data-[state=idle]/chat-input-submit:opacity-100 group-data-[state=uploading]/chat-input-submit:scale-100 group-data-[state=uploading]/chat-input-submit:opacity-100;
+    @apply size-(--density-icon-16) [stroke-width:var(--density-icon-stroke-16)] scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=send]/chat-input-submit:scale-100 group-data-[state=send]/chat-input-submit:opacity-100 group-data-[state=queue]/chat-input-submit:scale-100 group-data-[state=queue]/chat-input-submit:opacity-100 group-data-[state=idle]/chat-input-submit:scale-100 group-data-[state=idle]/chat-input-submit:opacity-100 group-data-[state=uploading]/chat-input-submit:scale-100 group-data-[state=uploading]/chat-input-submit:opacity-100;
   }
 
   .cn-chat-input-submit-voice {
@@ -178,7 +178,7 @@
   }
 
   .cn-chat-input-option-icon {
-    @apply mt-0.5 [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply mt-0.5 [&_svg]:[stroke-width:var(--density-icon-stroke-16)] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-chat-input-option-label {
@@ -225,7 +225,7 @@
   }
 
   .cn-chat-input-command-icon {
-    @apply text-muted-foreground [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-16) in-data-[kind=skill]:text-[oklch(from_var(--info-text)_l_c_calc(h_+_50))];
+    @apply text-muted-foreground [&_svg]:[stroke-width:var(--density-icon-stroke-16)] [&_svg:not([class*='size-'])]:size-(--density-icon-16) in-data-[kind=skill]:text-[oklch(from_var(--info-text)_l_c_calc(h_+_50))];
   }
 
   /* Commands read bold; skills mono in the skill tint, as their mentions. */
@@ -275,13 +275,13 @@
   /* 30px rows of 13px text with a muted 16px icon and ghost actions at
      the end. */
   .cn-chat-input-tray-item {
-    @apply h-(--density-30) gap-(--density-8) rounded-(--radius-control) ps-(--density-8) pe-(--density-4) text-(length:--density-text-13) has-[[data-slot=chat-input-tray-trigger]]:ps-0 [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:stroke-[1.75] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply h-(--density-30) gap-(--density-8) rounded-(--radius-control) ps-(--density-8) pe-(--density-4) text-(length:--density-text-13) has-[[data-slot=chat-input-tray-trigger]]:ps-0 [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:[stroke-width:var(--density-icon-stroke-16)] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   /* The row's text as a button that opens its content: the hover fill, a
      chevron at the end that turns while open. */
   .cn-chat-input-tray-trigger {
-    @apply text-foreground hover:bg-hover focus-visible:ring-ring cursor-pointer gap-(--density-8) rounded-(--radius-control) ps-(--density-8) pe-(--density-6) transition-colors duration-feedback ease-feedback focus-visible:ring-1 [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:stroke-[1.75] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply text-foreground hover:bg-hover focus-visible:ring-ring cursor-pointer gap-(--density-8) rounded-(--radius-control) ps-(--density-8) pe-(--density-6) transition-colors duration-feedback ease-feedback focus-visible:ring-1 [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:[stroke-width:var(--density-icon-stroke-16)] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-chat-input-tray-chevron {

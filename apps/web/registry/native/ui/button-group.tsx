@@ -1,5 +1,4 @@
 import * as React from "react"
-import { IconProvider } from "@fabricator-ui/icons-react-native"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { View } from "react-native"
@@ -89,9 +88,7 @@ function ButtonGroupText({
   )
   return (
     <TextStyle className="cn-button-group-text-text">
-      <IconProvider strokeWidth={1.75}>
-        {slotted ?? <View {...shared}>{renderTextChildren(children)}</View>}
-      </IconProvider>
+      {slotted ?? <View {...shared}>{renderTextChildren(children)}</View>}
     </TextStyle>
   )
 }

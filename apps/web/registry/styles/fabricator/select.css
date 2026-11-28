@@ -5,7 +5,7 @@
      compact (28px, 12px). Keyboard focus turns the ring
      blue; invalid turns it destructive. The chevron brightens on hover. */
   .cn-select-trigger {
-    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-(--radius-control) bg-transparent py-0 pr-(--density-8) pl-(--density-10) text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback select-none data-[size=sm]:density-compact *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-(--density-8) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75] hover:[&>svg]:text-foreground;
+    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-(--radius-control) bg-transparent py-0 pr-(--density-8) pl-(--density-10) text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback select-none data-[size=sm]:density-compact *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-(--density-8) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] hover:[&>svg]:text-foreground;
   }
 
   .cn-select-value {
@@ -44,7 +44,7 @@
      slides between rows inside a fluid container. Rows fall in one
      after another as the menu opens (motion-stagger). */
   .cn-select-item {
-    @apply motion-stagger cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-(--density-8);
+    @apply motion-stagger cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)] data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-(--density-8);
   }
 
   .cn-select-item-aria {

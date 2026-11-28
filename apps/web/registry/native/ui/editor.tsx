@@ -140,6 +140,7 @@ import {
   type FlatRange,
 } from "@/registry/native/lib/editor-native-model"
 import { useFeedback } from "@/registry/native/lib/feedback"
+import { getEmphasisStroke } from "@/registry/native/lib/icon-stroke"
 import { usePressScale } from "@/registry/native/lib/motion"
 import { StateFill } from "@/registry/native/lib/press-wash"
 import { SheetSurfaceScrollView } from "@/registry/native/lib/sheet-surface"
@@ -1523,7 +1524,10 @@ function ToolbarPressable({
           isForeground ? editorToolbarButtonOnTextVariants() : undefined
         )}
       >
-        <IconProvider strokeWidth={isForeground ? 2 : 1.75} size={iconSize}>
+        <IconProvider
+          strokeWidth={isForeground ? getEmphasisStroke(iconSize) : undefined}
+          size={iconSize}
+        >
           <AnimatedPressable
             accessibilityLabel={label}
             aria-disabled={disabled}

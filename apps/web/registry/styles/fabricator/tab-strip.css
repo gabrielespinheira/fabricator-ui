@@ -27,7 +27,7 @@
   }
 
   .cn-tab-strip-trigger {
-    @apply h-full cursor-pointer gap-(--density-6) rounded-(--radius-control) ps-(--density-10) pe-(--density-4) text-start ring-ring focus-visible:ring-1 in-data-fluid-hover-active:text-foreground in-data-pinned:justify-center in-data-pinned:px-(--density-10) [&_svg]:shrink-0 [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-14) in-data-active:[&_svg]:stroke-2;
+    @apply h-full cursor-pointer gap-(--density-6) rounded-(--radius-control) ps-(--density-10) pe-(--density-4) text-start ring-ring focus-visible:ring-1 in-data-fluid-hover-active:text-foreground in-data-pinned:justify-center in-data-pinned:px-(--density-10) [&_svg]:shrink-0 [&_svg]:[stroke-width:var(--density-icon-stroke-14)] [&_svg:not([class*='size-'])]:size-(--density-icon-14) in-data-active:[&_svg]:[stroke-width:calc(var(--density-icon-stroke-14)+0.25)];
   }
 
   .cn-tab-strip-title {

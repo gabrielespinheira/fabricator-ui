@@ -1,5 +1,4 @@
 import * as React from "react"
-import { IconProvider } from "@fabricator-ui/icons-react-native"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import {
@@ -192,19 +191,17 @@ function AttachmentMedia({
   })
   return (
     <TextStyle className={attachmentMediaTextVariants({ state })}>
-      <IconProvider strokeWidth={1.75}>
-        <Animated.View
-          data-slot="attachment-media"
-          data-variant={variant}
-          data-state={state}
-          data-layout={isVertical ? "vertical" : size}
-          className={cn(attachmentMediaVariants({ variant }), className)}
-          style={[opacityStyle, style]}
-          {...props}
-        >
-          {renderTextChildren(content)}
-        </Animated.View>
-      </IconProvider>
+      <Animated.View
+        data-slot="attachment-media"
+        data-variant={variant}
+        data-state={state}
+        data-layout={isVertical ? "vertical" : size}
+        className={cn(attachmentMediaVariants({ variant }), className)}
+        style={[opacityStyle, style]}
+        {...props}
+      >
+        {renderTextChildren(content)}
+      </Animated.View>
     </TextStyle>
   )
 }

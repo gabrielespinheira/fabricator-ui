@@ -14,7 +14,7 @@ The full documentation is also available as a single file: [llms-full.txt](https
 
 ## Foundations
 
-The Fabricator design language rests on these systems, shipped in the `foundations`, `density`, `fluid-hover` and `sounds` registry items. https://fabricator-ui.vercel.app/features presents the signature ones with live previews: fluid hover, squircle corners, safe submenus, surfaces, sounds, scroll fade and Blueprint.
+The Fabricator design language rests on these systems, shipped in the `foundations`, `density`, `fluid-hover` and `sounds` registry items. https://fabricator-ui.vercel.app/features presents the signature ones with live previews: branding (primary colour, surfaces, density and motion), fluid hover, squircle corners, safe submenus, surfaces, sounds, scroll fade, Blueprint and Fabricator Icons in Outline, Fill, Duotone and Animated.
 
 - [Colors](https://fabricator-ui.vercel.app/docs/foundations/colors.md): Eight surface levels and six colour roles, each set by a hue and a strength, with every state AA in light and dark.
 - [Motion](https://fabricator-ui.vercel.app/docs/foundations/motion.md): Four speeds, from smooth for websites to instant for dashboards. Components move by role, so one setting retimes all of them.

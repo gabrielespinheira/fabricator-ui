@@ -12,7 +12,12 @@ import { Button } from "@/styles/base-fabricator/ui/button"
 /** The top bar for the homepage and the full-width pages. */
 export function SiteHeader() {
   const pageTree = source.pageTree
-  const navItems = siteConfig.navItems.filter((item) => item.href !== "/")
+  // Get started links to /create beside the nav, so the nav leaves it out.
+  // Search keeps it: the docs shell has no Get started button.
+  const menuItems = siteConfig.navItems.filter(
+    (item) => item.href !== "/create"
+  )
+  const navItems = menuItems.filter((item) => item.href !== "/")
 
   return (
     <header
@@ -23,7 +28,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <MobileNav
             tree={pageTree}
-            items={siteConfig.navItems}
+            items={menuItems}
             className="flex lg:hidden"
           />
           <Link

@@ -14,7 +14,7 @@
   }
 
   .cn-multi-select-icon {
-    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
+    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)];
   }
 
   /* Chips pop in (fade, a 6px rise from 0.92) and glide to a new place on the
@@ -31,7 +31,7 @@
   }
 
   .cn-multi-select-chip-remove {
-    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring size-(--density-20) rounded-(--radius-mark) transition-colors duration-feedback ease-feedback [&_svg:not([class*='size-'])]:size-3 [&_svg]:stroke-2;
+    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring size-(--density-20) rounded-(--radius-mark) transition-colors duration-feedback ease-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)];
   }
 
   .cn-multi-select-input {
@@ -64,7 +64,7 @@
      picked row turns foreground and semibold. The check scales in from 0.9
      on the move timing and stays mounted to scale out. */
   .cn-multi-select-item {
-    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pe-[calc(var(--density-8)*2+var(--density-icon-16))] ps-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:text-foreground data-[selected]:font-semibold;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pe-[calc(var(--density-8)*2+var(--density-icon-16))] ps-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)] data-[selected]:text-foreground data-[selected]:font-semibold;
   }
 
   .cn-multi-select-item-aria {

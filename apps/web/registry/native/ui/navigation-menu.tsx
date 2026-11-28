@@ -31,6 +31,7 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import {
@@ -395,7 +396,7 @@ function NavigationMenuLink({
           : cn("cn-navigation-menu-link-text")
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.75}>
+      <IconProvider strokeWidth={useIconStroke(isLit)}>
         <NavigationMenuPrimitive.Link
           data-slot="navigation-menu-link"
           data-active={active}

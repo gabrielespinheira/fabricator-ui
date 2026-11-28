@@ -29,6 +29,7 @@ import {
   useFluidRemeasure,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -292,7 +293,7 @@ function ContextMenuItem({
           : contextMenuItemTextVariants({ variant })
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.75}>
+      <IconProvider strokeWidth={useIconStroke(isLit)}>
         <ContextMenuPrimitive.Item
           data-slot="context-menu-item"
           data-inset={inset}
@@ -352,7 +353,7 @@ function ContextMenuSubTrigger({
           : contextMenuItemTextVariants()
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.75}>
+      <IconProvider strokeWidth={useIconStroke(isLit)}>
         <ContextMenuPrimitive.SubTrigger
           data-slot="context-menu-sub-trigger"
           data-inset={inset}
@@ -430,7 +431,7 @@ function ContextMenuChoiceText({
             : cn("cn-context-menu-choice-text")
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.75}>{children}</IconProvider>
+      <IconProvider strokeWidth={useIconStroke(isLit)}>{children}</IconProvider>
     </TextStyle>
   )
 }

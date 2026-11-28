@@ -35,6 +35,7 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { Button } from "@/registry/native/ui/button"
@@ -565,7 +566,7 @@ function ComboboxItem({
               : cn("cn-combobox-item-text")
         }
       >
-        <IconProvider strokeWidth={isLit ? 2 : 1.75}>
+        <IconProvider strokeWidth={useIconStroke(isLit)}>
           {renderTextChildren(children)}
         </IconProvider>
       </TextStyle>

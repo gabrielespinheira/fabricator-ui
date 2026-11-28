@@ -936,10 +936,7 @@ function CustomizeRow({
               hitSlop={8}
               className="cn-app-nav-customize-handle items-center justify-center"
             >
-              <IconProvider
-                size={parseNumber(iconToken, 14)}
-                strokeWidth={1.75}
-              >
+              <IconProvider size={parseNumber(iconToken, 14)}>
                 <GripVerticalIcon />
               </IconProvider>
             </Pressable>
@@ -955,9 +952,7 @@ function CustomizeRow({
           }}
           className="cn-app-nav-customize-name flex-row items-center"
         >
-          <IconProvider strokeWidth={1.75}>
-            <IconSlot icon={item.icon} />
-          </IconProvider>
+          <IconSlot icon={item.icon} />
           <Text numberOfLines={1} className="cn-app-nav-customize-name-text">
             {item.label}
           </Text>

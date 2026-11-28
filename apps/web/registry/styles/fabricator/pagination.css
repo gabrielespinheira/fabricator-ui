@@ -11,7 +11,7 @@
   }
 
   .cn-pagination-ellipsis {
-    @apply text-muted-foreground size-(--density-36) items-center justify-center [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply text-muted-foreground size-(--density-36) items-center justify-center [&_svg]:[stroke-width:var(--density-icon-stroke-16)] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-pagination-previous {

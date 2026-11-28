@@ -111,6 +111,7 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
@@ -1042,7 +1043,7 @@ function PhoneBreadcrumb({
   const hasWayUp = parent !== null
   const separator = (
     <BreadcrumbSeparator>
-      <ChevronRightIcon size={separatorSize} strokeWidth={1.75} />
+      <ChevronRightIcon size={separatorSize} />
     </BreadcrumbSeparator>
   )
   return (
@@ -1224,7 +1225,10 @@ function TrailBreadcrumb({
             ))}
             {current && (
               <BreadcrumbItem className="min-w-0">
-                <BreadcrumbPage numberOfLines={1}>
+                <BreadcrumbPage
+                  numberOfLines={1}
+                  className="cn-app-shell-breadcrumb-page"
+                >
                   {current.label}
                 </BreadcrumbPage>
               </BreadcrumbItem>
@@ -1907,7 +1911,7 @@ function AppShellBottomNavItem({
       >
         <IconProvider
           size={iconSize}
-          strokeWidth={isActive || isLit ? 2 : 1.75}
+          strokeWidth={useIconStroke(isActive || isLit)}
         >
           <IconSlot icon={icon} />
         </IconProvider>

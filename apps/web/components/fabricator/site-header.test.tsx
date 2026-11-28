@@ -16,3 +16,9 @@ it("offers an accessible search trigger outside the docs shell", () => {
   const html = renderToStaticMarkup(<SiteHeader />)
   expect(html).toContain('aria-label="Search documentation"')
 })
+
+it("links to /create once, from Get started, not again in the nav", () => {
+  const html = renderToStaticMarkup(<SiteHeader />)
+  expect(html.match(/href="\/create"/g)).toHaveLength(1)
+  expect(html).toContain("Get started")
+})

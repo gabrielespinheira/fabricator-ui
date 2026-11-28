@@ -25,6 +25,7 @@ import {
   FluidHoverScrollList,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import {
   Dialog,
   DialogContent,
@@ -429,7 +430,7 @@ function CommandItemRow({
               : cn("cn-command-item-text")
         }
       >
-        <IconProvider strokeWidth={isLit ? 2 : 1.75}>
+        <IconProvider strokeWidth={useIconStroke(isLit)}>
           {renderTextChildren(children)}
           {!hasShortcut && (
             <View

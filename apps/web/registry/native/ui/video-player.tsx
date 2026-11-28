@@ -656,7 +656,7 @@ function VideoPlayer({
           />
           {!isCompact && seek}
           <TextStyle className="cn-video-player-bar-text">
-            <IconProvider color="white" size={iconSize} strokeWidth={1.75}>
+            <IconProvider color="white" size={iconSize}>
               <View
                 data-slot="video-player-bar"
                 className="cn-video-player-bar flex-row items-center"

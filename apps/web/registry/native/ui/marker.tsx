@@ -1,5 +1,4 @@
 import * as React from "react"
-import { IconProvider } from "@fabricator-ui/icons-react-native"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { View } from "react-native"
@@ -61,9 +60,7 @@ function Marker({
   return (
     <MarkerContext value={variant ?? "default"}>
       <TextStyle className="cn-marker-text">
-        <IconProvider strokeWidth={1.75}>
-          {slotted ?? <View {...shared}>{content}</View>}
-        </IconProvider>
+        {slotted ?? <View {...shared}>{content}</View>}
       </TextStyle>
     </MarkerContext>
   )

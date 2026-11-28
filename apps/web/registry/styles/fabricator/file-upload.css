@@ -44,7 +44,7 @@
   }
 
   .cn-file-upload-field-icon {
-    @apply [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-16) group-data-filled/file-upload-field:[&_svg:not([class*='size-'])]:size-(--density-icon-14);
+    @apply [&_svg]:[stroke-width:var(--density-icon-stroke-16)] [&_svg:not([class*='size-'])]:size-(--density-icon-16) group-data-filled/file-upload-field:[&_svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-file-upload-field-text {
@@ -54,7 +54,7 @@
   /* The drop message: over the contents, inside the ring, hidden until files
      are dragged over; its arrow drops into place as it appears. */
   .cn-file-upload-field-drop {
-    @apply bg-card text-foreground inset-px gap-(--density-8) rounded-[calc(var(--radius-control)-1px)] text-(length:--density-text-13) font-medium opacity-0 transition-opacity duration-feedback ease-feedback group-data-dragging/file-upload-field:opacity-100 [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:-translate-y-1 [&_svg]:transition-transform [&_svg]:duration-move [&_svg]:ease-move group-data-dragging/file-upload-field:[&_svg]:translate-y-0 motion-reduce:[&_svg]:translate-y-0;
+    @apply bg-card text-foreground inset-px gap-(--density-8) rounded-[calc(var(--radius-control)-1px)] text-(length:--density-text-13) font-medium opacity-0 transition-opacity duration-feedback ease-feedback group-data-dragging/file-upload-field:opacity-100 [&_svg]:[stroke-width:var(--density-icon-stroke-16)] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:-translate-y-1 [&_svg]:transition-transform [&_svg]:duration-move [&_svg]:ease-move group-data-dragging/file-upload-field:[&_svg]:translate-y-0 motion-reduce:[&_svg]:translate-y-0;
   }
 
   /* The chips: one row that scrolls sideways under faded edges, so the field
@@ -77,7 +77,7 @@
   }
 
   .cn-file-upload-chip-icon {
-    @apply text-muted-foreground [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-14);
+    @apply text-muted-foreground [&_svg]:[stroke-width:var(--density-icon-stroke-14)] [&_svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-file-upload-chip-name {
@@ -85,7 +85,7 @@
   }
 
   .cn-file-upload-chip-remove {
-    @apply cursor-pointer size-(--density-20) rounded-(--radius-mark) opacity-50 transition-opacity duration-feedback ease-feedback hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none [&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-(--density-icon-14);
+    @apply cursor-pointer size-(--density-20) rounded-(--radius-mark) opacity-50 transition-opacity duration-feedback ease-feedback hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none [&_svg]:[stroke-width:var(--density-icon-stroke-14)] [&_svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   /* The trigger is a Button (outline by default); this adds nothing. */

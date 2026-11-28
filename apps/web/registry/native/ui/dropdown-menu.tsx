@@ -30,6 +30,7 @@ import {
   useFluidRemeasure,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -325,7 +326,7 @@ function DropdownMenuItem({
           : dropdownMenuItemTextVariants({ variant })
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.75}>
+      <IconProvider strokeWidth={useIconStroke(isLit)}>
         <DropdownMenuPrimitive.Item
           data-slot="dropdown-menu-item"
           data-inset={inset}
@@ -385,7 +386,7 @@ function DropdownMenuSubTrigger({
           : dropdownMenuItemTextVariants()
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.75}>
+      <IconProvider strokeWidth={useIconStroke(isLit)}>
         <DropdownMenuPrimitive.SubTrigger
           data-slot="dropdown-menu-sub-trigger"
           data-inset={inset}
@@ -465,7 +466,7 @@ function DropdownMenuChoiceText({
             : cn("cn-dropdown-menu-choice-text")
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.75}>{children}</IconProvider>
+      <IconProvider strokeWidth={useIconStroke(isLit)}>{children}</IconProvider>
     </TextStyle>
   )
 }

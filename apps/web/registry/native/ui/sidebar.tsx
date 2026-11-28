@@ -59,6 +59,7 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { getTextContent } from "@/registry/native/lib/overlay-model"
@@ -1344,7 +1345,7 @@ function SidebarChevron({ open }: { open: boolean }) {
   }))
   return (
     <Animated.View style={style}>
-      <ChevronRightIcon size={iconSize} strokeWidth={1.75} />
+      <ChevronRightIcon size={iconSize} />
     </Animated.View>
   )
 }
@@ -1658,9 +1659,7 @@ function SidebarGroupAction({
   if (collapse === "icon" || group?.open === false) return null
   const content = (
     <TextStyle className="cn-sidebar-group-action-text">
-      <IconProvider strokeWidth={1.75}>
-        {renderTextChildren(children)}
-      </IconProvider>
+      {renderTextChildren(children)}
     </TextStyle>
   )
   const shared = {
@@ -2217,7 +2216,6 @@ function SidebarMenuButton({
     >
       <IconProvider
         size={iconSize}
-        strokeWidth={2}
         {...(typeof iconColor === "string" ? { color: iconColor } : {})}
       >
         {icon ? (
@@ -2333,18 +2331,19 @@ function SidebarMenuAction({
     return () => setActions(0)
   }, [inCluster, setActions])
 
+  const isLit = row?.isLit ?? false
+  const iconStroke = useIconStroke(isLit)
+
   if (collapse === "icon") return null
-  const content = row?.isLit ? (
+  const content = isLit ? (
     <TextStyle className="cn-sidebar-menu-action-text cn-sidebar-menu-action-text-lit">
-      <IconProvider strokeWidth={2}>
+      <IconProvider strokeWidth={iconStroke}>
         {renderTextChildren(children)}
       </IconProvider>
     </TextStyle>
   ) : (
     <TextStyle className="cn-sidebar-menu-action-text">
-      <IconProvider strokeWidth={1.75}>
-        {renderTextChildren(children)}
-      </IconProvider>
+      {renderTextChildren(children)}
     </TextStyle>
   )
   const shared = {
@@ -2646,7 +2645,7 @@ function SidebarMenuSubButton({
         state: isActive || isLit ? "active" : "default",
       })}
     >
-      <IconProvider size={iconSize} strokeWidth={2}>
+      <IconProvider size={iconSize}>
         {icon ? renderRowIcon(icon) : null}
       </IconProvider>
       {wrapTextChildren(children, (label, key) => (

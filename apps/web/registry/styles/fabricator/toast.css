@@ -28,7 +28,7 @@
      their icon, with the role's fill (error is the destructive role), on the
      neutral surface: FF's low-contrast banner. */
   .cn-toast-icon {
-    @apply flex min-h-(--density-20) items-center self-start has-data-[slot=avatar]:self-center has-data-[slot=avatar]:me-0.5 [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-16) group-data-[type=info]/toast:text-info group-data-[type=success]/toast:text-success group-data-[type=warning]/toast:text-warning group-data-[type=error]/toast:text-destructive group-data-[type=loading]/toast:text-muted-foreground group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0 group-data-settled/toast:zoom-in-75 group-data-settled/toast:duration-move group-data-settled/toast:ease-enter;
+    @apply flex min-h-(--density-20) items-center self-start has-data-[slot=avatar]:self-center has-data-[slot=avatar]:me-0.5 [&_svg]:[stroke-width:var(--density-icon-stroke-16)] [&_svg:not([class*='size-'])]:size-(--density-icon-16) group-data-[type=info]/toast:text-info group-data-[type=success]/toast:text-success group-data-[type=warning]/toast:text-warning group-data-[type=error]/toast:text-destructive group-data-[type=loading]/toast:text-muted-foreground group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0 group-data-settled/toast:zoom-in-75 group-data-settled/toast:duration-move group-data-settled/toast:ease-enter;
   }
 
   /* The action sits beside text that leaves it room, and under text that
@@ -64,7 +64,7 @@
   /* Out of the way at rest: a toast is only its message. It sits on the corner
      and shows on hover and focus, or always where there is no hover. */
   .cn-toast-close {
-    @apply bg-surface-5 text-muted-foreground shadow-surface-3 hover:bg-surface-5 hover:text-foreground size-(--density-20) -top-1.5 -left-1.5 scale-75 rounded-full opacity-0 transition-[opacity,scale,color] duration-feedback ease-enter group-hover/toast:scale-100 group-hover/toast:opacity-100 group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100 focus-visible:scale-100 focus-visible:opacity-100 pointer-coarse:scale-100 pointer-coarse:opacity-100 group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0 [&_svg]:size-3!;
+    @apply bg-surface-5 text-muted-foreground shadow-surface-3 hover:bg-surface-5 hover:text-foreground size-(--density-24) -top-2 -left-2 scale-75 rounded-full opacity-0 transition-[opacity,scale,color] duration-feedback ease-enter group-hover/toast:scale-100 group-hover/toast:opacity-100 group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100 focus-visible:scale-100 focus-visible:opacity-100 pointer-coarse:scale-100 pointer-coarse:opacity-100 group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0 [&_svg]:size-(--density-icon-16)!;
   }
 
   /* Sonner: the same toast on Sonner's element. Everything is important because
@@ -88,7 +88,7 @@
 
   /* See Toast's icon. */
   .cn-sonner-icon {
-    @apply col-start-1 me-(--density-8)! ms-0! h-auto! min-h-(--density-20) w-auto! min-w-(--density-icon-16) items-center self-start has-data-[slot=avatar]:self-center has-data-[slot=avatar]:me-2.5! [&_svg]:m-0! [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_.sonner-loader]:static [&_.sonner-loader]:translate-none [&_.sonner-loader]:transform-none group-data-[type=info]/toast:text-info group-data-[type=success]/toast:text-success group-data-[type=warning]/toast:text-warning group-data-[type=error]/toast:text-destructive group-data-[type=loading]/toast:text-muted-foreground group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0 group-data-settled/toast:zoom-in-75 group-data-settled/toast:duration-move group-data-settled/toast:ease-enter;
+    @apply col-start-1 me-(--density-8)! ms-0! h-auto! min-h-(--density-20) w-auto! min-w-(--density-icon-16) items-center self-start has-data-[slot=avatar]:self-center has-data-[slot=avatar]:me-2.5! [&_svg]:m-0! [&_svg]:[stroke-width:var(--density-icon-stroke-16)] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_.sonner-loader]:static [&_.sonner-loader]:translate-none [&_.sonner-loader]:transform-none group-data-[type=info]/toast:text-info group-data-[type=success]/toast:text-success group-data-[type=warning]/toast:text-warning group-data-[type=error]/toast:text-destructive group-data-[type=loading]/toast:text-muted-foreground group-data-settled/toast:animate-in group-data-settled/toast:fade-in-0 group-data-settled/toast:zoom-in-75 group-data-settled/toast:duration-move group-data-settled/toast:ease-enter;
   }
 
   /* Keeps the width it is going to have, cut to the toast around it on the
@@ -118,5 +118,5 @@
 
   /* See Toast's close button. */
   .cn-sonner-close {
-    @apply bg-surface-5! text-muted-foreground! shadow-surface-3! hover:text-foreground! -top-1.5! right-auto! -left-1.5! size-(--density-20)! transform-none! scale-75 rounded-full border-0! opacity-0! transition-[opacity,scale,color]! duration-feedback! ease-enter! after:absolute after:-inset-2 after:content-[''] focus-visible:ring-1! focus-visible:ring-ring! group-hover/toast:scale-100 group-hover/toast:opacity-100! group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100! focus-visible:scale-100 focus-visible:opacity-100! pointer-coarse:scale-100 pointer-coarse:opacity-100! group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0! [&_svg]:size-3! motion-press;
+    @apply bg-surface-5! text-muted-foreground! shadow-surface-3! hover:text-foreground! -top-2! right-auto! -left-2! size-(--density-24)! transform-none! scale-75 rounded-full border-0! opacity-0! transition-[opacity,scale,color]! duration-feedback! ease-enter! after:absolute after:-inset-2 after:content-[''] focus-visible:ring-1! focus-visible:ring-ring! group-hover/toast:scale-100 group-hover/toast:opacity-100! group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100! focus-visible:scale-100 focus-visible:opacity-100! pointer-coarse:scale-100 pointer-coarse:opacity-100! group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0! [&_svg]:size-(--density-icon-16)! motion-press;
   }

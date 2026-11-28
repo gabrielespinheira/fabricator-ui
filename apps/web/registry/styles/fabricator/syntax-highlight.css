@@ -15,7 +15,7 @@
   }
 
   .cn-syntax-highlight-icon {
-    @apply [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-14);
+    @apply [&_svg]:[stroke-width:var(--density-icon-stroke-14)] [&_svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-syntax-highlight-title {

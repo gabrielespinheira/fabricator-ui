@@ -64,6 +64,7 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { getEmphasisStroke } from "@/registry/native/lib/icon-stroke"
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import {
@@ -678,7 +679,10 @@ function TabStripTab({
       ? ContextMenuTrigger
       : Pressable
   const content = (
-    <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.75}>
+    <IconProvider
+      size={iconSize}
+      strokeWidth={isActive || isLit ? getEmphasisStroke(iconSize) : undefined}
+    >
       {isRenaming ? (
         <TabRenameInput strip={strip} value={tabValue} title={title} />
       ) : (
@@ -953,7 +957,7 @@ function CompactTab({
       data-status={tab.info.status}
       className="min-w-0 flex-1 self-stretch"
     >
-      <IconProvider size={iconSize} strokeWidth={2}>
+      <IconProvider size={iconSize}>
         <Trigger
           data-slot="tab-strip-compact-tab"
           role="button"
@@ -1042,7 +1046,10 @@ function TabCard({
       className="relative"
       style={{ width }}
     >
-      <IconProvider size={iconSize} strokeWidth={isActive ? 2 : 1.75}>
+      <IconProvider
+        size={iconSize}
+        strokeWidth={isActive ? getEmphasisStroke(iconSize) : undefined}
+      >
         <Trigger
           data-slot="tab-strip-card-trigger"
           data-active={isActive}

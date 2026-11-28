@@ -23,7 +23,7 @@
      spring, so picking a tab lands with a bounce. The current tab's icon is
      drawn heavier. */
   .cn-bottom-nav-icon {
-    @apply transition-[scale] duration-pop-spring ease-pop-spring group-active/bottom-nav-item:scale-85 group-active/bottom-nav-item:duration-feedback group-active/bottom-nav-item:ease-feedback motion-reduce:scale-100 [&_svg:not([class*='size-'])]:size-[calc(var(--density-icon-16)+4px)] [&_svg]:stroke-[1.75] [&_svg]:transition-[stroke-width] group-data-active/bottom-nav-item:[&_svg]:stroke-2;
+    @apply transition-[scale] duration-pop-spring ease-pop-spring group-active/bottom-nav-item:scale-85 group-active/bottom-nav-item:duration-feedback group-active/bottom-nav-item:ease-feedback motion-reduce:scale-100 [&_svg:not([class*='size-'])]:size-[calc(var(--density-icon-16)+4px)] [&_svg]:[stroke-width:1.9] [&_svg]:transition-[stroke-width] group-data-active/bottom-nav-item:[&_svg]:[stroke-width:2.15];
   }
 
   /* The name opens to its width on the soft spring as the tab becomes

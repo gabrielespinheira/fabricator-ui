@@ -116,7 +116,7 @@
      and a group's avatars are ringed in the front's colour instead of the
      page's. Icons take the density's icon size. */
   .cn-folder-cover {
-    @apply z-20 gap-[3cqw] p-[5cqw] text-(--folder-ink) [&_[data-slot=badge]]:bg-[color-mix(in_oklab,var(--surface-5)_70%,transparent)] [&_[data-slot=badge]]:text-inherit [&_[data-slot=badge]]:shadow-[0_0_0_1px_var(--folder-edge)] [&_[data-slot=badge]]:backdrop-blur-sm [&_[data-slot=avatar-group]>[data-slot=avatar]]:ring-(--folder-front) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75] origin-bottom [transform:perspective(var(--folder-perspective,320cqw))_translateY(calc(var(--folder-open)*var(--folder-drop,0%)))_rotateX(calc(var(--folder-open)*var(--folder-tilt,-24deg)))] transition-transform duration-[calc(var(--folder-front-duration)*var(--motion-scale,1))] ease-move motion-reduce:transition-none;
+    @apply z-20 gap-[3cqw] p-[5cqw] text-(--folder-ink) [&_[data-slot=badge]]:bg-[color-mix(in_oklab,var(--surface-5)_70%,transparent)] [&_[data-slot=badge]]:text-inherit [&_[data-slot=badge]]:shadow-[0_0_0_1px_var(--folder-edge)] [&_[data-slot=badge]]:backdrop-blur-sm [&_[data-slot=avatar-group]>[data-slot=avatar]]:ring-(--folder-front) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] origin-bottom [transform:perspective(var(--folder-perspective,320cqw))_translateY(calc(var(--folder-open)*var(--folder-drop,0%)))_rotateX(calc(var(--folder-open)*var(--folder-tilt,-24deg)))] transition-transform duration-[calc(var(--folder-front-duration)*var(--motion-scale,1))] ease-move motion-reduce:transition-none;
   }
 
   /* The name, one line, truncated. A link or button in it stretches over

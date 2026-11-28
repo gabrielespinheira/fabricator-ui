@@ -4,8 +4,10 @@ import Link from "next/link"
 import { Button } from "@/styles/base-fabricator/ui/button"
 
 import { BlueprintPreview } from "./_components/blueprint-preview"
+import { BrandingPreview } from "./_components/branding-preview"
 import { FeatureSection } from "./_components/feature-section"
 import { FluidHoverPreview } from "./_components/fluid-hover-preview"
+import { IconsPreview } from "./_components/icons-preview-loader"
 import { ScrollFadePreview } from "./_components/scroll-fade-preview"
 import { SoundsPreview } from "./_components/sounds-preview"
 import { SquirclePreview } from "./_components/squircle-preview"
@@ -16,11 +18,12 @@ import { FEATURES, type FeatureId } from "./_lib/features"
 const title = "Features"
 const headline = "The details are built in"
 const description =
-  "Fluid hover, squircle corners, safe submenus, surfaces, sounds, scroll fades and Blueprint: the details Fabricator UI components ship with, and why they're there."
+  "Branding, fluid hover, squircle corners, safe submenus, surfaces, sounds, scroll fades, Blueprint and Fabricator Icons: the details Fabricator UI components ship with, and why they're there."
 
 const ogImage = `/og?title=${encodeURIComponent(headline)}&description=${encodeURIComponent(description)}`
 
 const PREVIEWS: Record<FeatureId, React.ReactNode> = {
+  branding: <BrandingPreview />,
   "fluid-hover": <FluidHoverPreview />,
   squircle: <SquirclePreview />,
   "safe-submenus": <SubmenuAimPreview />,
@@ -28,6 +31,7 @@ const PREVIEWS: Record<FeatureId, React.ReactNode> = {
   sounds: <SoundsPreview />,
   "scroll-fade": <ScrollFadePreview />,
   blueprint: <BlueprintPreview />,
+  icons: <IconsPreview />,
 }
 
 export const dynamic = "force-static"
@@ -57,7 +61,7 @@ export default function FeaturesPage() {
         </p>
         <nav
           aria-label="Features on this page"
-          className="mt-10 flex max-w-3xl flex-wrap justify-center gap-2"
+          className="mt-10 flex max-w-5xl flex-wrap justify-center gap-2"
         >
           {FEATURES.map((feature) => (
             <Button

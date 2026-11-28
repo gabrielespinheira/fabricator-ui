@@ -96,6 +96,7 @@ import {
   FluidHoverScrollList,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import {
   useMotion,
   usePressScale,
@@ -1046,7 +1047,7 @@ function ChatInputAttachment({
               />
             </Animated.View>
           ) : (
-            <IconProvider strokeWidth={1.75}>
+            <>
               <TextStyle className="cn-chat-input-attachment-icon">
                 <FileIcon aria-hidden />
               </TextStyle>
@@ -1056,7 +1057,7 @@ function ChatInputAttachment({
               >
                 {label}
               </Text>
-            </IconProvider>
+            </>
           ))}
         {isUploading ? (
           <View className="absolute inset-0 items-center justify-center">
@@ -1686,9 +1687,7 @@ function ChatInputSubmit({
               }
               className="cn-chat-input-submit-send"
             >
-              <IconProvider strokeWidth={2}>
-                <ArrowUpIcon />
-              </IconProvider>
+              <ArrowUpIcon />
             </SubmitGlyph>
             <SubmitGlyph
               data-slot="chat-input-submit-voice"
@@ -2029,7 +2028,7 @@ function ChatInputOption({
             : chatInputOptionTextVariants()
         }
       >
-        <IconProvider strokeWidth={1.75}>
+        <>
           {icon ? (
             <View aria-hidden className="cn-chat-input-option-icon shrink-0">
               {icon}
@@ -2057,7 +2056,7 @@ function ChatInputOption({
           >
             <CheckIcon size={checkSize} />
           </View>
-        </IconProvider>
+        </>
       </TextStyle>
     </Pressable>
   )
@@ -2255,7 +2254,7 @@ function ChatInputCommandRow({
             : chatInputCommandTextVariants()
         }
       >
-        <IconProvider strokeWidth={isLit ? 2 : 1.75}>
+        <IconProvider strokeWidth={useIconStroke(isLit)}>
           {command.icon ? (
             <View aria-hidden className="cn-chat-input-command-icon shrink-0">
               {kind === "skill" && skillColor ? (
@@ -2516,10 +2515,7 @@ function ChatInputTrayItem({
       {...props}
     >
       <TextStyle className="cn-chat-input-tray-item-text">
-        <IconProvider
-          strokeWidth={1.75}
-          {...(typeof muted === "string" ? { color: muted } : {})}
-        >
+        <IconProvider {...(typeof muted === "string" ? { color: muted } : {})}>
           {renderTextChildren(children)}
         </IconProvider>
       </TextStyle>

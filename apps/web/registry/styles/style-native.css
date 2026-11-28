@@ -4072,7 +4072,7 @@
   }
 
   .cn-event-calendar-event-details-icon {
-    @apply mt-0.5 size-(--density-icon-16) text-muted-foreground;
+    @apply mt-0.5 size-3.5 text-muted-foreground;
   }
 
   .cn-event-calendar-event-form {

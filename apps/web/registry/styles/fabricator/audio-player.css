@@ -110,7 +110,7 @@
   }
 
   .cn-audio-player-play-icon {
-    @apply scale-50 opacity-0 blur-xs transition-[opacity,scale,filter] duration-move ease-move data-visible:scale-100 data-visible:opacity-100 data-visible:blur-none motion-reduce:scale-100 motion-reduce:blur-none data-[icon=play]:ms-0.5 [&_svg]:size-(--density-20) [&_svg]:fill-current data-[icon=replay]:[&_svg]:fill-none data-[icon=replay]:[&_svg]:stroke-2 group-data-[variant=compact]/audio-player:[&_svg]:size-(--density-icon-14) group-data-[variant=cover]/audio-player:[&_svg]:size-(--density-24);
+    @apply scale-50 opacity-0 blur-xs transition-[opacity,scale,filter] duration-move ease-move data-visible:scale-100 data-visible:opacity-100 data-visible:blur-none motion-reduce:scale-100 motion-reduce:blur-none data-[icon=play]:ms-0.5 [&_svg]:size-(--density-20) [&_svg]:fill-current data-[icon=replay]:[&_svg]:fill-none data-[icon=replay]:[&_svg]:[stroke-width:calc(var(--density-icon-stroke-14)+0.25)] group-data-[variant=compact]/audio-player:[&_svg]:size-(--density-icon-14) group-data-[variant=cover]/audio-player:[&_svg]:size-(--density-24);
   }
 
   .cn-audio-player-spinner {

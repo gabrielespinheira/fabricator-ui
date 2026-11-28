@@ -92,6 +92,9 @@ html:root {
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
   --density-icon-18: 1.125rem;
+  --density-icon-stroke-14: 2.286;
+  --density-icon-stroke-16: 2.125;
+  --density-icon-stroke-18: 2;
   --radius-control-ratio: 0.2222222222222222;
   --radius-control-base: 0px;
   --radius-surface-ratio: 0;
@@ -1114,6 +1117,9 @@ html[data-radius="pill"]:root {
   --density-icon-14: 0.75rem;
   --density-icon-16: 1rem;
   --density-icon-18: 1rem;
+  --density-icon-stroke-14: 2.5;
+  --density-icon-stroke-16: 2.125;
+  --density-icon-stroke-18: 2.125;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1151,6 +1157,9 @@ html[data-radius="pill"]:root {
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
   --density-icon-18: 1.125rem;
+  --density-icon-stroke-14: 2.286;
+  --density-icon-stroke-16: 2.125;
+  --density-icon-stroke-18: 2;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1188,6 +1197,9 @@ html[data-radius="pill"]:root {
   --density-icon-14: 1rem;
   --density-icon-16: 1.125rem;
   --density-icon-18: 1.25rem;
+  --density-icon-stroke-14: 2.125;
+  --density-icon-stroke-16: 2;
+  --density-icon-stroke-18: 1.9;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1225,6 +1237,9 @@ html[data-radius="pill"]:root {
   --density-icon-14: 0.75rem;
   --density-icon-16: 1rem;
   --density-icon-18: 1rem;
+  --density-icon-stroke-14: 2.5;
+  --density-icon-stroke-16: 2.125;
+  --density-icon-stroke-18: 2.125;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1262,6 +1277,9 @@ html[data-radius="pill"]:root {
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
   --density-icon-18: 1.125rem;
+  --density-icon-stroke-14: 2.286;
+  --density-icon-stroke-16: 2.125;
+  --density-icon-stroke-18: 2;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1299,6 +1317,9 @@ html[data-radius="pill"]:root {
   --density-icon-14: 1rem;
   --density-icon-16: 1.125rem;
   --density-icon-18: 1.25rem;
+  --density-icon-stroke-14: 2.125;
+  --density-icon-stroke-16: 2;
+  --density-icon-stroke-18: 1.9;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));

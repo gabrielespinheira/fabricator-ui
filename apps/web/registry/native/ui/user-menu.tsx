@@ -123,7 +123,7 @@ function UserMenu({
           <UserDetails user={user} />
           <TextStyle className="cn-user-menu-chevron-text">
             <View className="cn-user-menu-chevron ml-auto items-center justify-center">
-              <ChevronsUpDownIcon size={chevronSize} strokeWidth={1.75} />
+              <ChevronsUpDownIcon size={chevronSize} />
             </View>
           </TextStyle>
         </>
@@ -251,7 +251,7 @@ function UserMenuTheme({
           data-slot="user-menu-theme-label"
           className="cn-user-menu-theme-label min-w-0 flex-1 flex-row items-center"
         >
-          <PaletteIcon strokeWidth={1.75} />
+          <PaletteIcon />
           <Text numberOfLines={1}>{names.theme}</Text>
         </View>
       </TextStyle>

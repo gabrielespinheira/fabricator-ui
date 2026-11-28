@@ -8,11 +8,30 @@ export type Feature = {
   lead: string
   reasons: string[]
   code: string
-  language: "tsx" | "bash"
+  language: "tsx" | "bash" | "css"
   docs: { href: string; label: string }
 }
 
 export const FEATURES = [
+  {
+    id: "branding",
+    name: "Branding",
+    title: "Your brand in a few variables",
+    lead: "A brand comes in through a handful of settings, and no component needs editing. Pick a primary hue and a surface tint, then a density and a motion speed, and every fill, state, size and transition follows in light and dark.",
+    reasons: [
+      "Primary takes any hue, and every fill and state built from it stays AA in light and dark.",
+      "The surfaces share one base colour, so a tint runs through the page, the sidebar, cards and menus together.",
+      "Density and motion are set per region with data-density and data-motion, so a compact table and a smooth landing page live in one app.",
+    ],
+    code: `:root {
+  --primary-hue: 300;
+  --primary-chroma: 0.22;
+  --surface-hue: 260;
+  --surface-chroma: 0.02;
+}`,
+    language: "css",
+    docs: { href: "/docs/foundations/colors", label: "Colors" },
+  },
   {
     id: "fluid-hover",
     name: "Fluid hover",
@@ -47,28 +66,6 @@ export const FEATURES = [
     code: `npx fabricator-ui@latest add radius-squircle`,
     language: "bash",
     docs: { href: "/docs/foundations/radius#squircle", label: "Radius" },
-  },
-  {
-    id: "safe-submenus",
-    name: "Safe submenus",
-    title: "Menus that know where you're heading",
-    lead: "Reaching for a submenu on a diagonal crosses the rows below its trigger, and in most menus each of them steals the submenu. Fabricator watches the direction of the pointer, and while it points at the open submenu, those rows wait.",
-    reasons: [
-      "Every move is checked against the triangle between the pointer and the submenu's near edge.",
-      "Two moves away from it, a press or a 300ms rest hand the rows back, so a change of mind is never ignored.",
-      "Dropdown Menu and Context Menu do it on Base UI, Radix and React Aria, with nothing to configure.",
-    ],
-    code: `<DropdownMenuSub>
-  <DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger>
-  <DropdownMenuSubContent>
-    <DropdownMenuItem>Copy link</DropdownMenuItem>
-  </DropdownMenuSubContent>
-</DropdownMenuSub>`,
-    language: "tsx",
-    docs: {
-      href: "/docs/components/base/dropdown-menu",
-      label: "Dropdown Menu",
-    },
   },
   {
     id: "surfaces",
@@ -109,11 +106,14 @@ export const FEATURES = [
     lead: "A scroller dissolves at the edge where more content waits and sharpens when you reach the end. It is one class, drawn on an eased curve, with no JavaScript and no scroll listeners.",
     reasons: [
       "The mask fades the content itself, so it fits any background without picking a colour.",
-      "Scroll-driven animations track the position: the top fades in as you leave it, the bottom clears at the end.",
+      "An inset starts the fade below a sticky header, so the header stays solid while rows dissolve under it.",
       "A list that doesn't overflow gets no fade, so you can add it everywhere.",
     ],
     code: `<div className="scroll-fade overflow-y-auto">
-  {/* a long list */}
+  {rows}
+</div>
+<div className="scroll-fade-x overflow-x-auto">
+  {filters}
 </div>`,
     language: "tsx",
     docs: { href: "/docs/utils/scroll-fade", label: "scroll-fade" },
@@ -133,6 +133,46 @@ export const FEATURES = [
 </Blueprint>`,
     language: "tsx",
     docs: { href: "/docs/components/base/blueprint", label: "Blueprint" },
+  },
+  {
+    id: "icons",
+    name: "Icons",
+    title: "Icons drawn for the components",
+    lead: "Fabricator Icons is our own library, drawn on a 24 × 24 grid with rounded strokes, and the components use it from the first install. Every UI icon comes in Outline, Fill and Duotone, and each one animates on the web under the same name.",
+    reasons: [
+      "Changing the drawing is an import change: names and props stay the same, and Duotone's second layer takes any colour.",
+      "Animated icons play on hover or from a parent's ref, and stay still with Reduce Motion.",
+      "React, React Native and plain SVG are built from the same sources, so an icon looks the same on every platform.",
+    ],
+    code: `import {
+  BellIcon,
+} from "@fabricator-ui/icons/animated"
+
+<BellIcon variant="duotone" />`,
+    language: "tsx",
+    docs: { href: "/docs/icons", label: "Icons" },
+  },
+  {
+    id: "safe-submenus",
+    name: "Safe submenus",
+    title: "Menus that know where you're heading",
+    lead: "Reaching for a submenu on a diagonal crosses the rows below its trigger, and in most menus each of them steals the submenu. Fabricator watches the direction of the pointer, and while it points at the open submenu, those rows wait.",
+    reasons: [
+      "Every move is checked against the triangle between the pointer and the submenu's near edge.",
+      "Two moves away from it, a press or a 300ms rest hand the rows back, so a change of mind is never ignored.",
+      "Dropdown Menu and Context Menu do it on Base UI, Radix and React Aria, with nothing to configure.",
+    ],
+    code: `<DropdownMenuSub>
+  <DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger>
+  <DropdownMenuSubContent>
+    <DropdownMenuItem>Copy link</DropdownMenuItem>
+  </DropdownMenuSubContent>
+</DropdownMenuSub>`,
+    language: "tsx",
+    docs: {
+      href: "/docs/components/base/dropdown-menu",
+      label: "Dropdown Menu",
+    },
   },
 ] as const satisfies readonly Feature[]
 

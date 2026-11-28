@@ -86,7 +86,7 @@
      Pressed captions add a short bar under the icon; settings turn a little
      while open. */
   .cn-video-player-control {
-    @apply size-(--density-36) cursor-pointer rounded-full text-white/90 transition-[background-color,color] duration-feedback ease-feedback motion-press hover:bg-white/15 hover:text-white focus-visible:ring-1 focus-visible:ring-white/80 aria-expanded:bg-white/15 aria-pressed:text-white aria-pressed:after:absolute aria-pressed:after:bottom-(--density-6) aria-pressed:after:h-0.5 aria-pressed:after:w-(--density-14) aria-pressed:after:rounded-full aria-pressed:after:bg-white [&_svg]:size-(--density-20) [&_svg]:stroke-[1.75] data-[control=play]:[&_svg]:fill-current data-[control=settings]:[&_svg]:transition-transform data-[control=settings]:[&_svg]:duration-move data-[control=settings]:[&_svg]:ease-move data-[control=settings]:aria-expanded:[&_svg]:rotate-45 group-data-[variant=compact]/video-player:[&_svg]:size-(--density-icon-16);
+    @apply size-(--density-36) cursor-pointer rounded-full text-white/90 transition-[background-color,color] duration-feedback ease-feedback motion-press hover:bg-white/15 hover:text-white focus-visible:ring-1 focus-visible:ring-white/80 aria-expanded:bg-white/15 aria-pressed:text-white aria-pressed:after:absolute aria-pressed:after:bottom-(--density-6) aria-pressed:after:h-0.5 aria-pressed:after:w-(--density-14) aria-pressed:after:rounded-full aria-pressed:after:bg-white [&_svg]:size-(--density-20) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] data-[control=play]:[&_svg]:fill-current data-[control=settings]:[&_svg]:transition-transform data-[control=settings]:[&_svg]:duration-move data-[control=settings]:[&_svg]:ease-move data-[control=settings]:aria-expanded:[&_svg]:rotate-45 group-data-[variant=compact]/video-player:[&_svg]:size-(--density-icon-16);
   }
 
   /* The seek bar: a 6px pill drawn at 60% height that grows to full on hover,
@@ -179,7 +179,7 @@
   }
 
   .cn-video-player-menu-item {
-    @apply h-(--density-32) shrink-0 cursor-pointer gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-white/90 transition-colors duration-feedback ease-feedback hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white aria-checked:text-white data-back:font-medium [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.75];
+    @apply h-(--density-32) shrink-0 cursor-pointer gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-white/90 transition-colors duration-feedback ease-feedback hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white aria-checked:text-white data-back:font-medium [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:[stroke-width:var(--density-icon-stroke-16)];
   }
 
   .cn-video-player-menu-value {

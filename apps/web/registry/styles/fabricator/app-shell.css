@@ -86,7 +86,7 @@
      traffic lights on macOS and centred on them (in the titlebar row when
      there is one). The glyph is a little larger alongside native controls. */
   .cn-app-shell-window-toggle {
-    @apply start-[max(var(--density-16),var(--app-shell-window-inset-start))] h-(--app-shell-titlebar-height) in-data-titlebar:-translate-y-full [&_[data-slot=sidebar-toggle-icon]]:size-[calc(var(--density-icon-16)*1.25)];
+    @apply start-[max(var(--density-16),var(--app-shell-window-inset-start))] h-(--app-shell-titlebar-height) in-data-titlebar:-translate-y-full [&_[data-slot=sidebar-toggle-icon]]:size-[calc(var(--density-icon-16)*1.125)];
   }
 
   /* The main column: the page's surface everywhere, phones included; with
@@ -101,8 +101,10 @@
 
   /* The header: 48px, a hairline once the content scrolls. A tab strip starting
      it runs the full width, on its own inset. */
+  /* Its buttons draw their icons at stroke 2: at the small buttons' 16px,
+     1.75 thins to about a pixel. */
   .cn-app-shell-header {
-    @apply h-(--density-48) gap-(--density-8) border-b border-transparent pt-px ps-(--density-12) pe-(--app-shell-control-inset) has-[>[data-slot=sidebar-trigger]:first-child]:ps-(--app-shell-control-inset) has-[>[data-slot=tab-strip]:first-child]:ps-0 transition-[border-color] duration-feedback ease-feedback data-scrolled:border-border;
+    @apply [&_button_svg]:[stroke-width:var(--density-icon-stroke-16)] h-(--density-48) gap-(--density-8) border-b border-transparent pt-px ps-(--density-12) pe-(--app-shell-control-inset) has-[>[data-slot=sidebar-trigger]:first-child]:ps-(--app-shell-control-inset) has-[>[data-slot=tab-strip]:first-child]:ps-0 transition-[border-color] duration-feedback ease-feedback data-scrolled:border-border;
   }
 
   .cn-app-shell-header-trigger {
@@ -120,8 +122,9 @@
     @apply transition-[opacity,translate] duration-move ease-move in-data-title:pointer-events-none in-data-title:-translate-y-1 in-data-title:opacity-0 motion-reduce:translate-y-0;
   }
 
+  /* The page you're on reads a weight above its muted ancestors. */
   .cn-app-shell-breadcrumb-list {
-    @apply gap-(--density-6) text-(length:--density-text-13) leading-(--density-20);
+    @apply gap-(--density-6) text-(length:--density-text-13) leading-(--density-20) [&_[data-slot=breadcrumb-page]]:weight-medium;
   }
 
   .cn-app-shell-breadcrumb-text {
@@ -133,7 +136,7 @@
   }
 
   .cn-app-shell-breadcrumb-current {
-    @apply flex min-h-(--density-24) min-w-0 cursor-pointer items-center gap-(--density-4) rounded-(--radius-inner) ring-ring focus-visible:ring-1 pointer-coarse:min-h-(--density-48) [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+    @apply weight-medium flex min-h-(--density-24) min-w-0 cursor-pointer items-center gap-(--density-4) rounded-(--radius-inner) ring-ring focus-visible:ring-1 pointer-coarse:min-h-(--density-48) [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
   }
 
   .cn-app-shell-breadcrumb-title {
@@ -207,9 +210,10 @@
   /* The panel's edge: a hairline that brightens on hover, while dragging
      and with focus. Beside the inset sidebar the panel is a card, so the line
      traces its inner side, rounded corners included, as the sidebar's rail
-     traces the main card, in a strip as wide as the panel's radius. */
+     traces the main card, in a strip as wide as the panel's radius. The line
+     takes no pointer, so that strip never widens the handle into the card. */
   .cn-app-shell-panel-resize-handle {
-    @apply w-2 cursor-col-resize [--app-shell-panel-handle-color:transparent] hover:[--app-shell-panel-handle-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] data-dragging:[--app-shell-panel-handle-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] focus-visible:[--app-shell-panel-handle-color:var(--ring)] after:absolute after:inset-y-0 after:w-px after:bg-(--app-shell-panel-handle-color) after:border-(--app-shell-panel-handle-color) after:transition-colors after:duration-feedback data-[side=left]:end-0 data-[side=left]:after:end-0 data-[side=right]:start-0 data-[side=right]:after:start-0 group-has-data-[variant=inset]/sidebar-wrapper:after:w-(--radius-panel) group-has-data-[variant=inset]/sidebar-wrapper:after:bg-transparent group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:after:rounded-s-(--radius-panel) group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:after:border-s group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:after:rounded-e-(--radius-panel) group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:after:border-e;
+    @apply w-2 cursor-col-resize [--app-shell-panel-handle-color:transparent] hover:[--app-shell-panel-handle-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] data-dragging:[--app-shell-panel-handle-color:color-mix(in_oklab,var(--foreground)_25%,transparent)] focus-visible:[--app-shell-panel-handle-color:var(--ring)] after:absolute after:inset-y-0 after:w-px after:pointer-events-none after:bg-(--app-shell-panel-handle-color) after:border-(--app-shell-panel-handle-color) after:transition-colors after:duration-feedback data-[side=left]:end-0 data-[side=left]:after:end-0 data-[side=right]:start-0 data-[side=right]:after:start-0 group-has-data-[variant=inset]/sidebar-wrapper:after:w-(--radius-panel) group-has-data-[variant=inset]/sidebar-wrapper:after:bg-transparent group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:after:rounded-s-(--radius-panel) group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:after:border-s group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:after:rounded-e-(--radius-panel) group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:after:border-e;
   }
 
   /* A docked panel's header leaves room for the toggle pinned over its end.
@@ -282,7 +286,7 @@
   }
 
   .cn-app-shell-bottom-nav-item {
-    @apply min-h-(--density-48) cursor-pointer gap-(--density-4) text-(length:--density-text-11) text-muted-foreground transition-colors duration-feedback ease-feedback outline-none hover:text-foreground focus-visible:text-foreground aria-[current=page]:text-foreground aria-[current=page]:weight-semibold [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75] aria-[current=page]:[&_svg]:stroke-2;
+    @apply min-h-(--density-48) cursor-pointer gap-(--density-4) text-(length:--density-text-11) text-muted-foreground transition-colors duration-feedback ease-feedback outline-none hover:text-foreground focus-visible:text-foreground aria-[current=page]:text-foreground aria-[current=page]:weight-semibold [&_svg]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] aria-[current=page]:[&_svg]:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)];
   }
 
   .cn-app-shell-bottom-nav-label {

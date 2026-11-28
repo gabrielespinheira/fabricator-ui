@@ -7,6 +7,7 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated"
 
 import { getTouchSlop } from "@/registry/native/lib/density-scale"
 import { useFeedback, type FeedbackName } from "@/registry/native/lib/feedback"
+import { useIconStroke } from "@/registry/native/lib/icon-stroke"
 import { usePressScale } from "@/registry/native/lib/motion"
 import { PressWash } from "@/registry/native/lib/press-wash"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
@@ -246,7 +247,7 @@ function Button({
         )}
       >
         <IconProvider
-          strokeWidth={isLifted ? 2 : 1.75}
+          strokeWidth={useIconStroke(isLifted)}
           {...(isXs ? { size: control.xs.icon } : {})}
         >
           {slotted ?? (

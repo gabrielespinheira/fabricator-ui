@@ -76,7 +76,7 @@
   /* 16px, the label's cap height plus its overshoot. Centred in the head it
      sits on the line box's middle, a pixel under the caps', so it lifts. */
   .cn-data-table-sort-icon {
-    @apply size-(--density-icon-16) -translate-y-px text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
+    @apply size-(--density-icon-16) -translate-y-px text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)];
   }
 
   .cn-data-table-sort-type {
@@ -358,7 +358,7 @@
      columns. The trigger draws no surface: it spans the column so the whole
      head end is the target, and only the icon lights up. */
   .cn-data-table-settings-trigger {
-    @apply grid h-(--density-28) w-full cursor-pointer place-items-center rounded-(--radius-inner) text-foreground opacity-60 outline-none transition-opacity duration-feedback ease-feedback hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring data-focus-visible:opacity-100 data-focus-visible:ring-1 data-focus-visible:ring-ring data-popup-open:opacity-100 data-[state=open]:opacity-100 aria-expanded:opacity-100 [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
+    @apply grid h-(--density-28) w-full cursor-pointer place-items-center rounded-(--radius-inner) text-foreground opacity-60 outline-none transition-opacity duration-feedback ease-feedback hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring data-focus-visible:opacity-100 data-focus-visible:ring-1 data-focus-visible:ring-ring data-popup-open:opacity-100 data-[state=open]:opacity-100 aria-expanded:opacity-100 [&_svg]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)];
   }
 
   .cn-data-table-settings {
