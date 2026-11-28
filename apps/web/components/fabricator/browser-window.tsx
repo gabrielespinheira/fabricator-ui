@@ -103,7 +103,7 @@ export function BrowserWindow({
                   />
                 }
               >
-                <ExternalLinkIcon />
+                <ExternalLinkIcon className="size-3" />
               </TooltipTrigger>
               <TooltipContent>Open in a new tab</TooltipContent>
             </Tooltip>
@@ -120,7 +120,7 @@ export function BrowserWindow({
                 />
               }
             >
-              <RotateCwIcon />
+              <RotateCwIcon className="size-3" />
             </TooltipTrigger>
             <TooltipContent>Reload</TooltipContent>
           </Tooltip>

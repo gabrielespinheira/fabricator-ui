@@ -51,7 +51,9 @@ Sizes come from the density, never fixed pixels; the token table and how a compo
 - `density.ts` defines the three scales, each token named after its default value. They are CSS variables rather than theme keys because class merging only knows arbitrary values.
 - React Native resolves its own rungs per device (`registry/native/lib/density-scale.ts`): a phone's default is the spacious scale, a tablet's 40pt controls with phone text.
 - `__tests__/density-usage.test.ts` fails on fixed control heights, text sizes and icon sizes.
-- Sidebar navigation keeps a 1.75-unit icon stroke across resting, hovered and selected rows. Density sets the icon slot, and the icon package scales the artwork inside it.
+- A component's own icons (in buttons, menus, selects, inputs, chips, close buttons) are never under 16px (`DENSITY_ICON_MIN`): `--density-icon-16` and `-18` are floored there at every density, and `density.test.ts` holds it. Icons that only mark something (breadcrumb separators, small chevrons, badges, metadata, a Kbd keycap, an indicator's check) may use `--density-icon-14` or a smaller fixed size.
+- Icon strokes follow the icon's size. `density.ts` writes `--density-icon-stroke-<step>` (the stroke Fabricator Icons picks for that step's size, `getIconStroke`; `density.test.ts` holds them equal), and the style maps set `[stroke-width:var(--density-icon-stroke-<step>)]` on the icons they size, plus `0.25` for hover, lit and selected states. Media and artwork icons (players, Empty, File Upload) keep 1.75. React Native leaves the stroke to the icon and adds the quarter unit with `useIconStroke` (`lib/icon-stroke.ts`).
+- Sidebar rows draw their leading icon at `--density-icon-18`, with the same stroke resting, hovered and selected. Density sets the icon slot, and the icon package scales the artwork inside it.
 
 ## Loader
 

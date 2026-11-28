@@ -1,9 +1,11 @@
+import { getAutoStrokeWidth } from "@fabricator-ui/icons"
 import { describe, expect, it } from "vitest"
 
 import {
   DEFAULT_DENSITY,
   DENSITIES,
   DENSITY_CSS,
+  DENSITY_ICON_MIN,
   DENSITY_ICON_STEPS,
   DENSITY_NAMES,
   DENSITY_ROOT_VARS,
@@ -13,6 +15,9 @@ import {
   toDensityVars,
 } from "@/registry/fabricator/density"
 import { RADIUS_ROLE_VARS } from "@/registry/fabricator/radius"
+
+// Fabricator Icons' drawn stroke, at 24px.
+const UI_STROKE_WIDTH = 1.75
 
 const ORDER = ["compact", "default", "spacious"] as const
 
@@ -26,6 +31,16 @@ describe("densities", () => {
     }
     for (const step of DENSITY_ICON_STEPS) {
       expect(DENSITIES.default.icon[step]).toBe(step)
+    }
+  })
+
+  it("never draws a component's own icon under 16px", () => {
+    for (const name of DENSITY_NAMES) {
+      for (const step of [16, 18] as const) {
+        expect(DENSITIES[name].icon[step]).toBeGreaterThanOrEqual(
+          DENSITY_ICON_MIN
+        )
+      }
     }
   })
 
@@ -58,7 +73,7 @@ describe("densities", () => {
         )
       }
       for (const step of DENSITY_ICON_STEPS) {
-        expect(DENSITIES[smaller].icon[step]).toBeLessThan(
+        expect(DENSITIES[smaller].icon[step]).toBeLessThanOrEqual(
           DENSITIES[larger].icon[step]
         )
       }
@@ -132,8 +147,24 @@ describe("density tokens", () => {
     expect(Object.keys(toDensityVars(DENSITIES.compact))).toHaveLength(
       DENSITY_SPACE_STEPS.length +
         DENSITY_TEXT_STEPS.length +
-        DENSITY_ICON_STEPS.length
+        DENSITY_ICON_STEPS.length * 2
     )
+  })
+
+  it("gives each icon step the stroke Fabricator Icons picks for its size", () => {
+    for (const name of DENSITY_NAMES) {
+      const vars = toDensityVars(DENSITIES[name])
+      for (const step of DENSITY_ICON_STEPS) {
+        expect(Number(vars[`density-icon-stroke-${step}`])).toBeCloseTo(
+          getAutoStrokeWidth(UI_STROKE_WIDTH, DENSITIES[name].icon[step]),
+          3
+        )
+      }
+    }
+    expect(toDensityVars(DENSITIES.default)).toMatchObject({
+      "density-icon-stroke-16": "2.125",
+      "density-icon-stroke-18": "2",
+    })
   })
 
   it("puts the default density in :root", () => {

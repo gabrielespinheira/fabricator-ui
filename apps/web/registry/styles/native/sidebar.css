@@ -165,8 +165,8 @@
     @apply min-w-0;
   }
 
-  /* Rows: 30pt, gap-2, the control corner, 13pt: the label at foreground/80 and the icon
-     muted at rest. The lit row turns foreground; the active row is foreground on a
+  /* Rows: 30pt, gap-2, the control corner, 13pt: the label at foreground/80 and an
+     18pt icon, stroke 2, muted at rest. The lit row turns foreground; the active row is foreground on a
      raised bg-active. The menu's highlight and selection paint those fills, so a
      row paints them itself only outside a menu, and while a drag has the selection
      hidden. On the rail a row is a 32pt square with only its icon. */
@@ -222,7 +222,7 @@
   /* Status dots sit in the icon column: filled or ring, muted at rest and
      foreground/60 when the row is active. */
   .cn-sidebar-menu-dot-slot {
-    @apply size-(--density-icon-16);
+    @apply size-(--density-icon-18);
   }
 
   .cn-sidebar-menu-dot {
@@ -265,7 +265,7 @@
   }
 
   .cn-sidebar-menu-skeleton-icon {
-    @apply size-(--density-icon-16) rounded-(--radius-inner) corner-curve;
+    @apply size-(--density-icon-18) rounded-(--radius-inner) corner-curve;
   }
 
   .cn-sidebar-menu-skeleton-text {
@@ -278,8 +278,8 @@
     @apply gap-0.5 pt-0.5 data-[collapsible=icon]:hidden;
   }
 
-  /* Nested rows: 30pt (24pt small), 2pt apart, each level 16pt further in, 14pt
-     icons. Muted at rest; the lit one turns foreground, under the same highlight as
+  /* Nested rows: 30pt (24pt small), 2pt apart, each level 16pt further in, the
+     top-level rows' 18pt icons. Muted at rest; the lit one turns foreground, under the same highlight as
      the top-level rows. The current one sits on a quiet wash (half the hover fill)
      instead of the raised selection, which marks its top-level row. */
   .cn-sidebar-menu-sub-button {

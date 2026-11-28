@@ -643,7 +643,7 @@ function KanbanFilterPanel<Item>({
                 </Text>
                 <KanbanFilterValue board={board} property={entry} />
                 <ChevronRightIcon
-                  size={14}
+                  size={16}
                   color={typeof muted === "string" ? muted : undefined}
                 />
               </Button>
@@ -1377,9 +1377,9 @@ function KanbanBoard<Item>({
                     >
                       <View data-slot="kanban-lane-chevron">
                         {isCollapsed ? (
-                          <ChevronRightIcon size={14} />
+                          <ChevronRightIcon size={16} />
                         ) : (
-                          <ChevronDownIcon size={14} />
+                          <ChevronDownIcon size={16} />
                         )}
                       </View>
                       <Text className="cn-kanban-lane-text">{lane.name}</Text>

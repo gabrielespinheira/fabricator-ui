@@ -181,7 +181,7 @@ function FileTree({
                     }}
                   >
                     <ChevronRightIcon
-                      size={14}
+                      size={16}
                       style={{
                         transform: [{ rotate: isExpanded ? "90deg" : "0deg" }],
                       }}

@@ -201,7 +201,7 @@ const CanvasEdgeLabelAnchor = React.memo(function CanvasEdgeLabelAnchor({
             onPress={() => onInsert?.(edge.id, { x: labelX, y: labelY })}
             className="cn-canvas-edge-insert items-center justify-center"
           >
-            <PlusIcon size={14} />
+            <PlusIcon size={16} />
           </Pressable>
         )}
       </View>

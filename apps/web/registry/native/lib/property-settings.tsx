@@ -380,7 +380,7 @@ function PropertySettingRow({
       >
         {value}
       </Text>
-      {onPress && <ChevronRightIcon size={14} color={muted} />}
+      {onPress && <ChevronRightIcon size={16} color={muted} />}
     </Button>
   )
 }

@@ -30,7 +30,7 @@
 
   /* On the axis of the rows' actions and badges. */
   .cn-workspace-switcher-chevron {
-    @apply me-[calc((var(--density-20)-var(--density-icon-16))/2)] size-(--density-icon-16) text-muted-foreground;
+    @apply me-[calc((var(--density-20)-var(--density-icon-14))/2)] size-(--density-icon-14) text-muted-foreground;
   }
 
   .cn-workspace-switcher-check {

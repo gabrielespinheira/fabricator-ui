@@ -11,7 +11,10 @@
 // is named after its default value: `h-(--density-36)` is 36px at default,
 // 28px compact and 44px spacious; `px-(--density-16)`, `gap-(--density-6)`,
 // `text-(length:--density-text-13)` and `size-(--density-icon-16)` work the
-// same way. They are CSS variables rather than theme keys, so class merging (cn)
+// same way, except that a component's own icons are never drawn under 16px:
+// `--density-icon-16` and `-18` are floored there. `--density-icon-14` is the
+// small step, for icons that only mark something (separators, small
+// chevrons, metadata), and may go below it. They are CSS variables rather than theme keys, so class merging (cn)
 // knows them: a consumer's `h-12` still replaces `h-(--density-36)`.
 // `registry/fabricator/__tests__/density-usage.test.ts` fails on fixed
 // control sizes in the style maps.
@@ -40,6 +43,12 @@ export const DENSITY_TEXT_STEPS = [11, 12, 13, 14, 16, 24, 32] as const
 /** Icon sizes, named by their default size in px. */
 export const DENSITY_ICON_STEPS = [14, 16, 18] as const
 
+/**
+ * The smallest icon a component draws for itself (`--density-icon-16` and up),
+ * in px, at any density: smaller glyphs stop reading on a control.
+ */
+export const DENSITY_ICON_MIN = 16
+
 export type DensitySpaceStep = (typeof DENSITY_SPACE_STEPS)[number]
 export type DensityTextStep = (typeof DENSITY_TEXT_STEPS)[number]
 export type DensityIconStep = (typeof DENSITY_ICON_STEPS)[number]
@@ -54,8 +63,9 @@ export type Density = {
 }
 
 export const DENSITIES: Record<DensityName, Density> = {
-  // About a fifth smaller: 28px controls and menu rows, 12px text. Tracks
-  // keep 24px items with 2px of padding.
+  // About a fifth smaller: 28px controls and menu rows, 12px text, and
+  // component icons at the 16px floor. Tracks keep 24px items with 2px of
+  // padding.
   compact: {
     space: {
       4: 2,
@@ -75,7 +85,7 @@ export const DENSITIES: Record<DensityName, Density> = {
       48: 40,
     },
     text: { 11: 11, 12: 12, 13: 12, 14: 13, 16: 15, 24: 20, 32: 28 },
-    icon: { 14: 12, 16: 14, 18: 16 },
+    icon: { 14: 12, 16: 16, 18: 16 },
   },
   // 36px controls, 13px text: Fabricator's own sizes.
   default: {
@@ -126,6 +136,17 @@ export const DENSITIES: Record<DensityName, Density> = {
 
 const toRem = (px: number) => `${px / 16}rem`
 
+/**
+ * The stroke, in grid units, an icon of `px` pixels draws when none is
+ * given: Fabricator Icons' `getAutoStrokeWidth` for its 1.75 stroke, written
+ * out because this file also ships to apps without the web icon package
+ * (density.test.ts holds them equal). CSS can't divide by the size, so the
+ * style maps read it per icon step from `--density-icon-stroke-<step>`.
+ */
+export function getIconStroke(px: number) {
+  return Number(((1.75 * 4 * (px + 18)) / (7 * px)).toFixed(3))
+}
+
 /** A density's tokens, keyed by name without the `--`. */
 export function toDensityVars(density: Density): Record<string, string> {
   return {
@@ -145,6 +166,12 @@ export function toDensityVars(density: Density): Record<string, string> {
       DENSITY_ICON_STEPS.map((step) => [
         `density-icon-${step}`,
         toRem(density.icon[step]),
+      ])
+    ),
+    ...Object.fromEntries(
+      DENSITY_ICON_STEPS.map((step) => [
+        `density-icon-stroke-${step}`,
+        String(getIconStroke(density.icon[step])),
       ])
     ),
   }

@@ -11,7 +11,6 @@ import {
   REVEAL_SCALE,
   shouldRevealStayOpen,
   TOGGLE_GLYPH,
-  TOGGLE_GLYPH_SCALE,
 } from "@/registry/fabricator/shared/lib/sidebar-model"
 
 describe("getToggleGlyphPanel", () => {
@@ -84,10 +83,10 @@ describe("the Sidebar's style", () => {
     "utf8"
   )
 
-  it("sizes the toggle's glyph the same", () => {
-    expect(styleMap).toContain(
-      `size-[calc(var(--density-icon-16)*${TOGGLE_GLYPH_SCALE})]`
-    )
+  // Web draws it in a compact icon button, where the 16px icon floor is
+  // already a step up; native scales its button's icon by the same glyph.
+  it("sizes the toggle's glyph at the button's icon", () => {
+    expect(styleMap).toContain("size-(--density-icon-16)")
   })
 
   it("uses the same scale, page strip and corners", () => {

@@ -27,7 +27,7 @@
 
   /* On the axis of the rows' actions and badges. */
   .cn-user-menu-chevron {
-    @apply mr-[calc((var(--density-20)-var(--density-icon-16))/2)] size-(--density-icon-16);
+    @apply mr-[calc((var(--density-20)-var(--density-icon-14))/2)] size-(--density-icon-14);
   }
 
   .cn-user-menu-chevron-text {

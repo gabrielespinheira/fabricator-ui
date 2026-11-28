@@ -21,7 +21,7 @@
 
   /* The icon column of a row without an icon. */
   .cn-app-nav-icon-space {
-    @apply size-(--density-icon-16) data-[nested=true]:size-(--density-icon-14);
+    @apply size-(--density-icon-18);
   }
 
   /* Where a badge has no room, a dot on the icon. */

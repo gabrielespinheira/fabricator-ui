@@ -217,25 +217,26 @@ Three densities size every component: **compact** (dashboards, dense tables), **
 
 Tokens are named after their default value. Write `h-(--density-36)`, `px-(--density-16)`, `gap-(--density-6)`, `text-(length:--density-text-13)`, `size-(--density-icon-16)`. They are CSS variables rather than theme keys because class merging only knows arbitrary values: `h-control` would never conflict with a consumer's `h-12`.
 
-| Token                       | Compact | Default | Spacious | Sizes                                               |
-| --------------------------- | ------- | ------- | -------- | --------------------------------------------------- |
-| `--density-48`              | 40      | 48      | 56       | Command input row, App Shell and panel headers      |
-| `--density-40`              | 32      | 40      | 48       | Tab strip, large avatars, media tiles               |
-| `--density-36`              | 28      | 36      | 44       | Controls, menu rows, table head, tab tracks         |
-| `--density-32`              | 28      | 32      | 40       | Sidebar rows, avatars, calendar cells               |
-| `--density-28`              | 24      | 28      | 36       | Tabs and segmented items, sub-rows, chips           |
-| `--density-24`              | 20      | 24      | 28       | Badges, row actions, dialog padding                 |
-| `--density-20`              | 16      | 20      | 24       | Switch track, Kbd                                   |
-| `--density-16`              | 12      | 16      | 20       | Button padding, card spacing, dialog and sheet gaps |
-| `--density-12`              | 10      | 12      | 14       | Tab, accordion, table and popover padding           |
-| `--density-10`              | 8       | 10      | 12       | Input, select, toggle and badge padding             |
-| `--density-8`, `-6`, `-4`   | 6, 4, 2 | 8, 6, 4 | 10, 8, 4 | Row padding and gaps, button gaps, track padding    |
-| `--density-text-32` / `-24` | 28 / 20 | 32 / 24 | 36 / 28  | Card values / small card values                     |
-| `--density-text-16` / `-14` | 15 / 13 | 16 / 14 | 18 / 16  | Dialog and card titles / small card titles          |
-| `--density-text-13`         | 12      | 13      | 15       | Body and control text                               |
-| `--density-text-12` / `-11` | 12 / 11 | 12 / 11 | 13 / 12  | Captions, labels, errors / shortcuts, Kbd           |
-| `--density-icon-18`         | 16      | 18      | 20       | Icons in a card's item list                         |
-| `--density-icon-16` / `-14` | 14 / 12 | 16 / 14 | 18 / 16  | Icons / small chevrons and separators               |
+| Token                          | Compact                   | Default | Spacious | Sizes                                                             |
+| ------------------------------ | ------------------------- | ------- | -------- | ----------------------------------------------------------------- |
+| `--density-48`                 | 40                        | 48      | 56       | Command input row, App Shell and panel headers                    |
+| `--density-40`                 | 32                        | 40      | 48       | Tab strip, large avatars, media tiles                             |
+| `--density-36`                 | 28                        | 36      | 44       | Controls, menu rows, table head, tab tracks                       |
+| `--density-32`                 | 28                        | 32      | 40       | Sidebar rows, avatars, calendar cells                             |
+| `--density-28`                 | 24                        | 28      | 36       | Tabs and segmented items, sub-rows, chips                         |
+| `--density-24`                 | 20                        | 24      | 28       | Badges, row actions, dialog padding                               |
+| `--density-20`                 | 16                        | 20      | 24       | Switch track, Kbd                                                 |
+| `--density-16`                 | 12                        | 16      | 20       | Button padding, card spacing, dialog and sheet gaps               |
+| `--density-12`                 | 10                        | 12      | 14       | Tab, accordion, table and popover padding                         |
+| `--density-10`                 | 8                         | 10      | 12       | Input, select, toggle and badge padding                           |
+| `--density-8`, `-6`, `-4`      | 6, 4, 2                   | 8, 6, 4 | 10, 8, 4 | Row padding and gaps, button gaps, track padding                  |
+| `--density-text-32` / `-24`    | 28 / 20                   | 32 / 24 | 36 / 28  | Card values / small card values                                   |
+| `--density-text-16` / `-14`    | 15 / 13                   | 16 / 14 | 18 / 16  | Dialog and card titles / small card titles                        |
+| `--density-text-13`            | 12                        | 13      | 15       | Body and control text                                             |
+| `--density-text-12` / `-11`    | 12 / 11                   | 12 / 11 | 13 / 12  | Captions, labels, errors / shortcuts, Kbd                         |
+| `--density-icon-18`            | 16                        | 18      | 20       | Icons in a card's item list                                       |
+| `--density-icon-16` / `-14`    | 16 / 12                   | 16 / 14 | 18 / 16  | Icons / small chevrons and separators                             |
+| `--density-icon-stroke-<step>` | Stroke for that icon size |         |          | `[stroke-width:var(--density-icon-stroke-16)]`; `+ 0.25` on hover |
 
 - **Never write a fixed control size.** Derived geometry is a `calc()` of tokens (an inline addon sits `(group height − content height) / 2` from the edge; a menu inset is two row paddings plus an icon).
 - **`size` pins a density:** `sm` adds `density-compact`, `lg` adds `density-spacious`; the default follows the region. Button `xs` is a fixed 24px floor.
@@ -271,7 +272,7 @@ Inter with its optical-size axis; `font-medium` is 450 and `font-semibold` 550.
 | Shortcut | `--density-text-11`                        | Kbd, menu shortcuts                                       |
 | Document | 14, 16 or 18, fixed                        | Markdown, Editor, chat bubbles; never follows the density |
 
-- **Hover changes colour (muted → foreground) and icon stroke (1.5 → 2); weight changes only for persistent state** (checked, selected, open). For a weight change that must not shift layout, use `weight-normal|medium|semibold|bold` with `transition-[font-variation-settings]` (`weight-normal data-checked:weight-semibold`).
+- **Hover changes colour (muted → foreground) and icon stroke (the size's `--density-icon-stroke-<step>` → a quarter unit heavier); weight changes only for persistent state** (checked, selected, open). For a weight change that must not shift layout, use `weight-normal|medium|semibold|bold` with `transition-[font-variation-settings]` (`weight-normal data-checked:weight-semibold`).
 - Text inputs are `text-base md:text-(length:--density-text-13)` so iOS doesn't zoom into them.
 - Figures that update or sit in columns use `tabular-nums`. `text-box-trim` centres text optically in fixed-height controls. Sentence case, no tracking on labels.
 

@@ -148,14 +148,14 @@ describe("getSizeDensity on a tablet", () => {
 
 describe("getXsSize", () => {
   it("is a phone's and a desktop's 24pt floor", () => {
-    expect(getXsSize("spacious")).toEqual({ height: 24, icon: 12 })
-    expect(getXsSize("default")).toEqual({ height: 24, icon: 12 })
+    expect(getXsSize("spacious")).toEqual({ height: 24, icon: 16 })
+    expect(getXsSize("default")).toEqual({ height: 24, icon: 16 })
   })
 
   it("is 28pt on a tablet, whichever step it sits in", () => {
-    expect(getXsSize("tablet")).toEqual({ height: 28, icon: 14 })
-    expect(getXsSize("tablet-sm")).toEqual({ height: 28, icon: 14 })
-    expect(getXsSize("tablet-lg")).toEqual({ height: 28, icon: 14 })
+    expect(getXsSize("tablet")).toEqual({ height: 28, icon: 16 })
+    expect(getXsSize("tablet-sm")).toEqual({ height: 28, icon: 16 })
+    expect(getXsSize("tablet-lg")).toEqual({ height: 28, icon: 16 })
   })
 })
 

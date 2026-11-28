@@ -81,6 +81,11 @@
     @apply rounded-(--radius-inner) active:opacity-70 corner-curve;
   }
 
+  /* The page you're on reads a weight above its muted ancestors. */
+  .cn-app-shell-breadcrumb-page {
+    @apply font-medium;
+  }
+
   /* A phone's trail: the page's name beside the way up, once its heading is gone. */
   .cn-app-shell-breadcrumb-current {
     @apply gap-(--density-6);

@@ -3,6 +3,7 @@
 
 import {
   DENSITIES,
+  DENSITY_ICON_MIN,
   isDensityName,
   type DensityName,
   type Density as DensityTokens,
@@ -190,11 +191,15 @@ export function getSizeDensity(
   return isPhoneBase ? "large" : "spacious"
 }
 
-/** The fixed floor below `sm`, which a tablet's distance takes a step up. */
+/**
+ * The fixed floor below `sm`, which a tablet's distance takes a step up. Its
+ * icon stays at the 16pt floor for a component's own icons.
+ */
 export function getXsSize(around: SizeDensity) {
-  return isTabletRung(around)
-    ? { height: 28, icon: 14 }
-    : { height: 24, icon: 12 }
+  return {
+    height: isTabletRung(around) ? 28 : 24,
+    icon: DENSITY_ICON_MIN,
+  }
 }
 
 /** The `hitSlop` that takes a control this tall to a full touch target. */

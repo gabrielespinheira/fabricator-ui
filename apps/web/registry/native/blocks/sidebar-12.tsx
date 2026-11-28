@@ -78,7 +78,7 @@ function CalendarBox({ isActive }: { isActive: boolean }) {
         data-active={isActive}
         className="size-(--density-icon-16) shrink-0 items-center justify-center rounded-sm border border-border data-[active=true]:border-primary data-[active=true]:bg-primary"
       >
-        {isActive ? <CheckIcon size={12} /> : null}
+        {isActive ? <CheckIcon size={16} /> : null}
       </View>
     </TextStyle>
   )

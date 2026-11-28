@@ -1683,7 +1683,7 @@ function SidebarMenuDot({ dot }: { dot: "filled" | "ring" }) {
   return (
     <span
       data-slot="sidebar-menu-dot"
-      className="flex size-(--density-icon-16) shrink-0 items-center justify-center"
+      className="flex size-(--density-icon-18) shrink-0 items-center justify-center"
     >
       <span data-dot={dot} className="cn-sidebar-menu-dot rounded-full" />
     </span>
