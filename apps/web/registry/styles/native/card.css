@@ -36,8 +36,10 @@
     @apply gap-(--density-4);
   }
 
+  /* Follows the header: centred on a lone title, at the top above a
+     description. */
   .cn-card-media {
-    @apply self-center;
+    @apply shrink-0;
   }
 
   .cn-card-media-variant-default {

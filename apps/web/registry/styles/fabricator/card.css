@@ -1,28 +1,96 @@
 /* MARK: Card */
 
-  /* Light, visible container: bg-card on surface 2's shadow ring (no
-     border or ring), the surface corner. 16px rhythm (12px for size="sm"). The
-     footer has no muted bar, so the card keeps its bottom padding. */
+  /* The card corner (rounder than popups, the panel's at the default density;
+     size="sm" steps down with its inset). 16px rhythm (12px for size="sm").
+     A card with a CardLink lifts one level under the pointer, gives a third of
+     a button's press and draws the focus ring on its own corner. */
   .cn-card {
-    @apply bg-card text-card-foreground shadow-surface-2 gap-(--card-spacing) overflow-hidden rounded-(--radius-surface) py-(--card-spacing) text-(length:--density-text-13) [--card-spacing:var(--density-16)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:var(--density-12)] *:[img:first-child]:rounded-t-(--radius-surface) *:[img:last-child]:rounded-b-(--radius-surface);
+    @apply text-card-foreground gap-(--card-spacing) overflow-hidden rounded-(--radius-card) py-(--card-spacing) text-(length:--density-text-13) [--card-spacing:var(--density-16)] has-[>img:first-child]:pt-0 data-[size=sm]:rounded-(--radius-card-sm) data-[size=sm]:[--card-spacing:var(--density-12)] *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit] has-data-[slot=card-link]:transition-[background-color,box-shadow,scale] has-data-[slot=card-link]:duration-feedback has-data-[slot=card-link]:ease-feedback has-[[data-slot=card-link]:active]:scale-[calc(1-(1-var(--motion-press-scale))/3)] has-[[data-slot=card-link]:focus-visible]:ring-2 has-[[data-slot=card-link]:focus-visible]:ring-ring forced-colors:outline forced-colors:outline-1;
   }
 
+  /* Lifted on surface 2's shadow ring, with no border. */
+  .cn-card-variant-default {
+    @apply bg-card shadow-surface-2 has-[[data-slot=card-link]:hover]:bg-surface-4 has-[[data-slot=card-link]:hover]:shadow-surface-3;
+  }
+
+  /* A wash with no shadow: secondary cards, an "Add" slot, a card inside a
+     raised surface. A linked one lifts into a default card. */
+  .cn-card-variant-muted {
+    @apply bg-muted has-[[data-slot=card-link]:hover]:bg-card has-[[data-slot=card-link]:hover]:shadow-surface-2;
+  }
+
+  /* A muted shell around a lifted panel: the header and footer sit on the
+     shell, each CardContent is a panel on the inner corner. Every text edge
+     stays on the card's inset (shell + panel padding). */
+  .cn-card-variant-tray {
+    @apply bg-muted gap-(--density-4) p-(--density-4) has-[>img:first-child]:pt-(--density-4) has-[[data-slot=card-link]:hover]:bg-active;
+  }
+
+  /* Media, title and action on one grid. With no description the title
+     centres on the action's row. */
   .cn-card-header {
-    @apply gap-1 rounded-t-(--radius-surface) px-(--card-spacing) [.border-b]:border-border/60 [.border-b]:pb-(--card-spacing);
+    @apply gap-x-(--density-12) gap-y-(--density-4) rounded-t-(--radius-card) px-(--card-spacing) not-has-data-[slot=card-description]:items-center [.border-b]:border-border/60 [.border-b]:pb-(--card-spacing) group-data-[variant=tray]/card:px-[calc(var(--card-spacing)-var(--density-4))] group-data-[variant=tray]/card:pt-[calc(var(--card-spacing)-var(--density-4))] group-data-[variant=tray]/card:pb-[calc(var(--card-spacing)-var(--density-8))];
+  }
+
+  /* An identity: a tile on the control corner (media far from the card's
+     corner takes the control's), a logo or an avatar. It centres on a lone
+     title and tops out with the title above a description. */
+  .cn-card-media {
+    @apply self-center group-has-data-[slot=card-description]/card-header:self-start;
+  }
+
+  .cn-card-media-variant-default {
+    @apply bg-transparent;
+  }
+
+  .cn-card-media-variant-icon {
+    @apply bg-hover text-foreground size-(--density-32) rounded-(--radius-control) group-data-[size=sm]/card:size-(--density-28) [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+  .cn-card-media-variant-image {
+    @apply size-(--density-32) overflow-hidden rounded-(--radius-control) group-data-[size=sm]/card:size-(--density-28) [&_img]:size-full [&_img]:object-cover;
   }
 
   .cn-card-title {
-    @apply text-foreground text-(length:--density-text-14) leading-snug font-medium group-data-[size=sm]/card:text-(length:--density-text-13);
+    @apply text-foreground text-(length:--density-text-16) leading-snug font-medium text-pretty group-data-[size=sm]/card:text-(length:--density-text-14);
   }
 
   .cn-card-description {
     @apply text-muted-foreground text-(length:--density-text-13) group-data-[size=sm]/card:text-(length:--density-text-12);
   }
 
-  .cn-card-content {
-    @apply px-(--card-spacing);
+  /* Centred on the title's row; under a description it keeps to the top. Above
+     a CardLink's cover so its control still works. */
+  .cn-card-action {
+    @apply self-center group-has-data-[slot=card-description]/card-header:self-start group-has-data-[slot=card-link]/card:relative group-has-data-[slot=card-link]/card:z-1;
   }
 
+  /* The title's link; the card draws its focus and hover. */
+  .cn-card-link {
+    @apply text-inherit;
+  }
+
+  /* A table or item list reaches the card's edges with its text on the inset,
+     so its hover wash spans the card; a table that ends the card meets its
+     bottom corner. A Segmented Meter under a CardValue keeps its label and
+     total for screen readers only, since the value already shows them.
+     Controls inside a linked card sit above the link's cover. */
+  .cn-card-content {
+    @apply px-(--card-spacing) has-[>[data-slot=table-container]]:px-0 [&>[data-slot=table-container]_tr>*:first-child]:ps-(--card-spacing) [&>[data-slot=table-container]_tr>*:last-child]:pe-(--card-spacing) last:has-[>[data-slot=table-container]]:-mb-(--card-spacing) has-[>[data-slot=item-group]]:px-[calc(var(--card-spacing)-var(--density-12))] [&>[data-slot=card-value]~[data-slot=segmented-meter]_[data-slot=segmented-meter-header]]:sr-only group-has-data-[slot=card-link]/card:[&_:is(button,a,input,label,[role=switch],[tabindex]):not([data-slot=card-link])]:relative group-has-data-[slot=card-link]/card:[&_:is(button,a,input,label,[role=switch],[tabindex]):not([data-slot=card-link])]:z-1 group-data-[variant=tray]/card:bg-card group-data-[variant=tray]/card:shadow-surface-2 group-data-[variant=tray]/card:rounded-(--radius-card-inner) group-data-[variant=tray]/card:p-[calc(var(--card-spacing)-var(--density-4))] group-data-[variant=tray]/card:last:mb-0;
+  }
+
+  /* The metric role: the largest text on the card, medium, tabular. A Delta
+     centres on the figure; a caption sits on its baseline. */
+  .cn-card-value {
+    @apply text-foreground gap-x-(--density-8) gap-y-(--density-4) text-(length:--density-text-28) leading-none font-medium tracking-tight tabular-nums group-data-[size=sm]/card:text-(length:--density-text-20) *:data-[slot=badge]:self-center *:data-[slot=badge]:tracking-normal;
+  }
+
+  .cn-card-value-caption {
+    @apply text-muted-foreground text-(length:--density-text-14) font-normal tracking-normal group-data-[size=sm]/card:text-(length:--density-text-13);
+  }
+
+  /* Pinned to the bottom so the footers of a row line up; metadata in grey,
+     buttons keep their own colours. */
   .cn-card-footer {
-    @apply gap-(--density-8) rounded-b-(--radius-surface) px-(--card-spacing) [.border-t]:border-border/60 [.border-t]:pt-(--card-spacing);
+    @apply text-muted-foreground mt-auto gap-(--density-8) rounded-b-(--radius-card) px-(--card-spacing) [.border-t]:border-border/60 [.border-t]:pt-(--card-spacing) group-has-data-[slot=card-link]/card:[&_:is(button,a,[tabindex]):not([data-slot=card-link])]:relative group-has-data-[slot=card-link]/card:[&_:is(button,a,[tabindex]):not([data-slot=card-link])]:z-1 group-data-[variant=tray]/card:px-[calc(var(--card-spacing)-var(--density-4))] group-data-[variant=tray]/card:pt-[calc(var(--card-spacing)-var(--density-8))] group-data-[variant=tray]/card:pb-[calc(var(--card-spacing)-var(--density-4))];
   }
