@@ -21,7 +21,7 @@ Depth is a ladder of levels. Each pairs a background with a shadow whose first l
 - **A child sits above its parent or on a wash.** A quiet area inside a surface (a code block, a summary, a nested option) is a **well**: `rounded-(--radius-control) bg-hover`, or `Item variant="muted"`. Going back down the ladder reads as a hole.
 - **Two steps per screen are usually enough:** page and cards, with overlays above. If three levels are visible at rest, one of them wants to be space.
 - **Plane against plane:** the sidebar on the frame, the main column and panels as cards in front. That single contrast gives an app its depth, so leave the frame's colour alone.
-- Scrolling edges fade with `scroll-fade` (`scroll-fade-x`, `scroll-fade-b`) instead of a line or a shadow.
+- **Content dissolves at every scroll edge,** a scroller's own and a sticky header's, footer's or pinned column's, instead of stopping at a line or a shadow ([rules/styling.md](rules/styling.md#scroll-fades)).
 
 ## Colour
 

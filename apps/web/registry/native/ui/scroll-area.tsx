@@ -13,8 +13,8 @@ import { useCSSVariable, useResolveClassNames } from "uniwind"
 
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import {
+  getEdgeFade,
   getFadeOpacity,
-  withAlpha,
 } from "@/registry/native/lib/scroll-fade-model"
 import { renderTextChildren } from "@/registry/native/ui/text"
 
@@ -57,11 +57,7 @@ function EdgeFade({
       style={style}
     >
       <LinearGradient
-        colors={
-          edge === "start"
-            ? [color, withAlpha(color, 0)]
-            : [withAlpha(color, 0), color]
-        }
+        {...getEdgeFade({ color, edge })}
         start={{ x: 0, y: 0 }}
         end={towards}
         style={{ flex: 1 }}

@@ -11,7 +11,7 @@ description: Utilities for adding a fade effect to the edges of a scroll contain
 
 ## Installation
 
-If your project was set up with `npx fabricator-ui@latest init`, you already have `scroll-fade`. It ships with the `shadcn` package, which the CLI imports in your global CSS file.
+If your project was set up with `npx fabricator-ui@latest init`, you already have `scroll-fade`. The base utilities ship with the `shadcn` package, which the CLI imports in your global CSS file, and the Fabricator UI foundations, installed with every Fabricator component, redraw them on the eased curve and add `scroll-fade-inset-*` and `sticky-fade-*`.
 
 Otherwise, install the package:
 
@@ -44,6 +44,8 @@ Then import the shared utilities in your global CSS file:
 | `scroll-fade-{t,b,s,e}-<number>`  | `--scroll-fade-{t,b,s,e}-size: calc(var(--spacing) * <number>);`                                                    |
 | `scroll-fade-{t,b,s,e}-[<value>]` | `--scroll-fade-{t,b,s,e}-size: <value>;`                                                                            |
 | `scroll-fade-none`                | `--scroll-fade-mask: none;`                                                                                         |
+| `scroll-fade-inset-{t,b,s,e}-<n>` | `--scroll-fade-{t,b,s,e}-inset: calc(var(--spacing) * <n>);` Starts that edge's fade past a sticky region.          |
+| `sticky-fade-{t,b,s,e}`           | On a sticky or fixed element: paints the page's colour past that edge while content scrolls under it.               |
 
 Add `scroll-fade` or `scroll-fade-y` to the scroll container, i.e. the element that has `overflow-y-auto`.
 
@@ -57,7 +59,7 @@ The fade is scroll-aware and tracks the scroll position:
 - As you scroll, a fade appears at the top and both edges stay faded mid-scroll.
 - At the end, the bottom edge sharpens to show you have reached the last item.
 
-The fade is applied with `mask-image`, so it dissolves the content itself rather than overlaying a color. The mask uses a linear fade from transparent to black, so it adapts to any background without configuration. If your scroll area sits inside a card, put the background and border on a wrapper and `scroll-fade` on the inner scroller, so the fade dissolves the content and not the card.
+The fade is applied with `mask-image`, so it dissolves the content itself rather than overlaying a color, and adapts to any background without configuration. Fabricator UI draws the mask on an eased curve that is flat at both ends, so there is no line where the fade starts or where the content turns solid, and it strengthens in place as you scroll instead of growing from a hard edge. If your scroll area sits inside a card, put the background and border on a wrapper and `scroll-fade` on the inner scroller, so the fade dissolves the content and not the card. The mask also clips the scroller's own focus outline, so a focusable scroller draws its focus ring on that wrapper.
 
 The [`ScrollArea`](/docs/components/scroll-area) and [`MessageScroller`](/docs/components/message-scroller) components can use `scroll-fade` on their scrollable viewport.
 
@@ -105,7 +107,7 @@ The edge utilities are scroll-aware. Start edges fade in after you scroll away f
 
 ## Fade Size
 
-The fade depth defaults to `12%` of the container, capped at `40px` so tall scrollers stay subtle. Use `scroll-fade-<number>` to set a fixed size on the spacing scale instead, the same way `scroll-mt-<number>` works.
+The fade depth defaults to `16%` of the container, capped at `56px` so tall scrollers stay subtle. Use `scroll-fade-<number>` to set a fixed size on the spacing scale instead, the same way `scroll-mt-<number>` works.
 
 <ComponentPreview
   styleName="base-rhea"
@@ -133,13 +135,43 @@ To fade opposite edges by different amounts, use the per-edge modifiers `scroll-
 
 Use the logical `s`/`e` modifiers for the start and end edges of horizontal scrollers.
 
-The fade eases in and out over a fixed scroll distance rather than appearing instantly. That distance is the `--scroll-fade-reveal` variable, `96px` by default and independent of the fade depth. Lower it for a snappier reveal or raise it for a more gradual one:
+The fade strengthens over a fixed scroll distance rather than appearing instantly. That distance is the `--scroll-fade-reveal` variable, `64px` by default and independent of the fade depth. Lower it for a snappier reveal or raise it for a more gradual one:
 
 ```tsx
 <div className="scroll-fade overflow-y-auto [--scroll-fade-reveal:64px]">
   {/* ... */}
 </div>
 ```
+
+## Sticky Headers and Footers
+
+A sticky header or footer inside a scroller should not cut the content at a line. Give the scroller an inset on that edge, the height of the sticky part, so the sticky part stays solid and the content fades as it reaches it.
+
+<ComponentPreview
+  styleName="base-rhea"
+  name="scroll-fade-sticky"
+  previewClassName="h-auto"
+/>
+
+```tsx
+<div className="scroll-fade overflow-y-auto scroll-fade-inset-b-12 scroll-fade-inset-t-10">
+  <header className="sticky top-0 h-10 bg-background">{/* ... */}</header>
+  {/* ... */}
+  <footer className="sticky bottom-0 h-12 bg-background">{/* ... */}</footer>
+</div>
+```
+
+Use `scroll-fade-inset-t-<number>` and `scroll-fade-inset-b-<number>` for headers and footers, and `scroll-fade-inset-s-<number>` and `scroll-fade-inset-e-<number>` for pinned columns. They take arbitrary values too, such as `scroll-fade-inset-t-[var(--header-height)]`.
+
+A mask can only dissolve the scroller it is on. When the content scrolls under a fixed header on the page itself, or the scroller can't be masked, put `sticky-fade-b` on the header instead (`sticky-fade-t` on a footer or composer, `sticky-fade-e` on a column pinned to the start). It paints the page's colour past that edge on the same eased curve, and only while content is scrolled under it. It paints `--background` by default; on another surface set `--sticky-fade-color`, and change the depth with `--sticky-fade-size` (`40px` by default):
+
+```tsx
+<header className="sticky-fade-b sticky top-0 bg-card [--sticky-fade-color:var(--card)]">
+  {/* ... */}
+</header>
+```
+
+`sticky-fade-*` draws with the element's `::after`, so the element must be sticky, fixed or otherwise positioned, and must not use `::after` itself.
 
 ## Disabling the Fade
 
@@ -159,6 +191,6 @@ Use `scroll-fade-none` to remove the fade. It works in any class order, so the t
 
 ## Fallback
 
-The scroll-aware behavior is implemented with [CSS scroll-driven animations](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll-driven_animations), with no JavaScript and no scroll listeners. In browsers that do not support scroll-driven animations, `scroll-fade` falls back to a static fade on both edges, and edge utilities fall back to a static fade on the selected edge.
+The scroll-aware behavior is implemented with [CSS scroll-driven animations](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll-driven_animations), with no JavaScript and no scroll listeners. In browsers that do not support scroll-driven animations, `scroll-fade` falls back to a static fade on both edges, edge utilities fall back to a static fade on the selected edge, and `sticky-fade-*` always shows.
 
 Since the mask is applied to the scroll container itself, a visible scrollbar fades with the content at the edges. Pair `scroll-fade` with `no-scrollbar`, which ships in the same package, if you want to hide the scrollbar entirely.

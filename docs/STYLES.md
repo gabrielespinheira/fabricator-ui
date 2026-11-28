@@ -13,6 +13,7 @@ How the Fabricator foundations are made: the token modules, the colour, motion a
 | Density                                  | `registry/fabricator/density.ts`                                                               |
 | Radius and shapes                        | `registry/fabricator/radius.ts`                                                                |
 | Loader                                   | `registry/fabricator/loader.ts`                                                                |
+| Scroll fades                             | `registry/fabricator/scroll-fade.ts`                                                           |
 | Code colours                             | `registry/fabricator/syntax-colors.ts`                                                         |
 | Overrides (behaviour)                    | `registry/fabricator/<base>/ui/<component>.tsx`, shared files in `registry/fabricator/shared/` |
 | Extra items, overrides' deps, exclusions | `registry/fabricator/registry.ts`                                                              |
@@ -58,6 +59,15 @@ How placeholders look while content loads: `skeleton` (default) or `blueprint`. 
 - `loader.ts` defines both as the same set of `--loader-*` tokens, the `data-loader` switches, `loader-<name>` utilities, the pen's `@property` angles and the trace's keyframes. A token can't hold the trace's mask: `var()` in a custom property resolves where it is defined, so the conic mask lives in the style maps, on the element the angles animate. Skeleton reads them on two layers: it is a size container named `loader`, and its `::before` (the block) and `::after` (the pen) query its height, so a placeholder up to 3.5rem (a control) takes the `--loader-control-*` tokens and a taller one (layout) the plain ones. The blueprint is for base components; layout stays the skeleton's block, and so does a chart's loading plot. A placeholder never asks which loader is on; code that must know reads `--loader`.
 - The look writes the blueprint tokens into `:root` (`loader=blueprint`); the site sets `data-loader` on `<html>` from its settings.
 - React Native skips the tokens (`native-css-variables.test.ts`) and keeps the skeleton; see `parity-exceptions.json`.
+
+## Scroll fades
+
+How content leaves view: it dissolves at a scroller's edge, and past a sticky part, never at a line.
+
+- `scroll-fade.ts` redefines shadcn/tailwind.css's `scroll-fade*` utilities with the same names and variables. Tailwind emits a redefined utility after the upstream one, so the foundations win; `scroll-fade-none` keeps winning because it sorts last. Each edge is one mask layer (layers intersect), drawn on `getFadeRamp`'s smoothstep at full depth and scaled by a registered `--scroll-fade-{t,b,s,e}-strength` (0 to 1) that a scroll timeline animates: ease-out on start edges, ease-in on end edges, so both track how much content is past them. An inactive timeline (nothing overflows) leaves the strength at 0.
+- `scroll-fade-inset-{t,b,s,e}-*` keeps an edge solid over a sticky part before its ramp starts. `sticky-fade-{t,b,s,e}` paints `--sticky-fade-color` (default `--background`) on the same curve in the element's `::after`, shown by `scroll(nearest)`, for scrollers a mask can't reach.
+- React Native samples the same curve in `registry/native/lib/scroll-fade-model.ts` (`getEdgeFade`, `getHeaderFade`, `getBottomNavFade`) and paints it over the content.
+- `__tests__/scroll-fade.test.ts` compiles the utilities against shadcn/tailwind.css to prove the override and the class order.
 
 ## Radius
 

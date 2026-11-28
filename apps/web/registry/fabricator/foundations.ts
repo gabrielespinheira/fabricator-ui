@@ -1,5 +1,5 @@
 // Fabricator UI foundations: surfaces, interaction overlays, focus, motion,
-// density and scrollbars.
+// density, scrollbars and scroll fades.
 //
 // This module is the single source of truth. The registry build turns it into
 // the `foundations` registry item (installed with every Fabricator
@@ -31,6 +31,7 @@ import {
   SHAPE_ROOT_RADIUS,
   toChangedShapeVars,
 } from "@/registry/fabricator/radius"
+import { SCROLL_FADE_CSS } from "@/registry/fabricator/scroll-fade"
 
 export type { CssObject }
 export { FABRICATOR_PALETTE, PALETTE_LINKS, SURFACE_PALETTE_LINKS }
@@ -114,6 +115,8 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
     ...DENSITY_CSS,
     // Loaders (data-loader), the loader-* utilities and the blueprint sweep.
     ...LOADER_CSS,
+    // Eased scroll fades (scroll-fade-*, scroll-fade-inset-*, sticky-fade-*).
+    ...SCROLL_FADE_CSS,
     "@utility scrollbar-hide": {
       "-ms-overflow-style": "none",
       "scrollbar-width": "none",
@@ -144,7 +147,7 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
 
 // --- CSS output -------------------------------------------------------------
 
-function serializeCss(object: CssObject, indent = ""): string {
+export function serializeCss(object: CssObject, indent = ""): string {
   return Object.entries(object)
     .map(([key, value]) =>
       typeof value === "string"

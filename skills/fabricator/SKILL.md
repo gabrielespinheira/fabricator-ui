@@ -131,7 +131,7 @@ API rules settle how code is written. Installed source and base-specific docs (`
 | Triggers, controlled values, collections across bases | [rules/base-vs-radix.md](rules/base-vs-radix.md) |
 | Groups, overlays, cards, menus, tabs, avatars         | [rules/composition.md](rules/composition.md)     |
 | Fields, validation, input groups                      | [rules/forms.md](rules/forms.md)                 |
-| Classes, variants, cursors, hover                     | [rules/styling.md](rules/styling.md)             |
+| Classes, variants, cursors, hover, scroll fades       | [rules/styling.md](rules/styling.md)             |
 | Icons                                                 | [rules/icons.md](rules/icons.md)                 |
 | Skeletons, refreshes, pending actions                 | [rules/loading.md](rules/loading.md)             |
 | Conversations                                         | [rules/chat.md](rules/chat.md)                   |

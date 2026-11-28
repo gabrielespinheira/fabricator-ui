@@ -207,6 +207,23 @@ Layouts never draw a line to part things. Reach for these in order and stop at t
 
 So no `Separator` between sections, no border on a column or panel, no rule between settings rows, stat cards or list items, no bar between toolbar groups, no divider under a card's header. Only components keep the lines they need to be read: a table's faint row rules, a field's frame, a menu's group separators.
 
+### Scrolling edges
+
+Content that scrolls never stops at a hard line. Where it leaves view it dissolves into the edge on an eased fade, and only while there is more to see that way: at rest the top is crisp, and the end sharpens once you reach it. The fade is a mask, so it works on any surface.
+
+| Where content scrolls                                                                               | Use                                                                                                            |
+| --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| A region that scrolls on its own: a list, a panel, a sidebar, code, a strip of chips or tabs        | `ScrollArea`, or `scroll-fade` (`scroll-fade-x` sideways) on the scroller                                      |
+| Under a sticky header, footer, composer or pinned column inside that scroller                       | `scroll-fade` plus `scroll-fade-inset-{t,b,s,e}-<n>`, the sticky part's size, so it stays solid                |
+| Under a fixed header, bottom bar or floating composer on the page itself, or an unmaskable scroller | `sticky-fade-b` on a header, `sticky-fade-t` on a footer or composer, `sticky-fade-e` on a pinned start column |
+| One edge only ever has more: a log from the top, a chat from the bottom                             | `scroll-fade-t` or `scroll-fade-b`                                                                             |
+
+- **The fade replaces the line.** A sticky part over a faded scroller has no border or shadow under it.
+- **Fade the content, not the frame.** The card's surface and edge go on a wrapper and the fade on the scroller inside it. `sticky-fade-*` paints the page's colour; on a card set `--sticky-fade-color: var(--card)`.
+- **Keep the default depth.** It scales with the scroller up to 56px. Set one only on a strip under 40px tall (`scroll-fade-6`).
+- **Apply it freely.** A scroller whose content fits shows no fade.
+- **A mask fades everything in the scroller,** sticky parts included, until they have an inset. Popups are portalled, so they never fade.
+
 ### Widths
 
 Use the App Shell's content sizes on `AppShellContent`, which centre the page with its padding:
@@ -827,6 +844,7 @@ A screen is done when every line holds. Check it in the running app, never from 
 - [ ] Each region has one primary action; every icon-only button has a name and a tooltip with its shortcut; every menu action leads with an icon.
 - [ ] Title, toolbar and body share one start edge; space is tighter inside groups than between them.
 - [ ] No line divides the layout: space, headings and surfaces part every section, row, card and panel.
+- [ ] Nothing that scrolls is cut at a hard line: scroller edges fade, and content fades into sticky headers, footers, composers and pinned columns.
 - [ ] A page of cards uses one grid rhythm; gutters continue down the page and cards in a row are equal height.
 - [ ] Inside each card, the title, values, list icons and table text start on the card's inset.
 - [ ] Short single choices keep all labels visible. Tabs have named content panels, and settings use a single-select toggle group. Five or more options, or labels that do not fit, use `Select`.

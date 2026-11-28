@@ -35,6 +35,45 @@ export function getFadeOpacity(distance: number, size: number) {
 // Samples of the curve: enough that the fade shows no steps or a line where it ends.
 const HEADER_FADE_SAMPLES = 8
 
+// Flat at both ends, so a fade shows no line where it starts or stops. The
+// website's scroll-fade mask samples the same curve.
+function smoothstep(progress: number) {
+  return progress * progress * (3 - 2 * progress)
+}
+
+/**
+ * A scroll area's edge fade, painted over the content in the colour behind
+ * it: solid at the edge, eased to clear. Drawn along the axis, so the end
+ * edge runs the other way.
+ */
+export function getEdgeFade({
+  color,
+  edge,
+}: {
+  color: string
+  edge: "start" | "end"
+}) {
+  // Solid at the edge: the start edge sits at 0, the end edge at 1.
+  const alphaAt = (location: number) =>
+    Number(
+      (edge === "start"
+        ? 1 - smoothstep(location)
+        : smoothstep(location)
+      ).toFixed(3)
+    )
+  const colors: [string, string, ...string[]] = [
+    withAlpha(color, alphaAt(0)),
+    withAlpha(color, alphaAt(1 / HEADER_FADE_SAMPLES)),
+  ]
+  const locations: [number, number, ...number[]] = [0, 1 / HEADER_FADE_SAMPLES]
+  for (let sample = 2; sample <= HEADER_FADE_SAMPLES; sample += 1) {
+    const location = sample / HEADER_FADE_SAMPLES
+    colors.push(withAlpha(color, alphaAt(location)))
+    locations.push(location)
+  }
+  return { colors, locations }
+}
+
 /**
  * The fade behind a phone's status bar and header. It holds the page's colour
  * behind the clock and the island, keeps the header's row legible, and melts away
@@ -58,7 +97,7 @@ export function getHeaderFade({
   const locations: [number, number, ...number[]] = [0, solid / height]
   for (let sample = 1; sample <= HEADER_FADE_SAMPLES; sample += 1) {
     const progress = sample / HEADER_FADE_SAMPLES
-    const eased = progress * progress * (3 - 2 * progress)
+    const eased = smoothstep(progress)
     colors.push(withAlpha(color, Number((1 - eased).toFixed(3))))
     locations.push((solid + (height - solid) * progress) / height)
   }
@@ -88,7 +127,7 @@ export function getBottomNavFade({
   const middle = height - (clearance - barHeight * 0.5)
   const ramp = Array.from({ length: HEADER_FADE_SAMPLES - 1 }, (_, index) => {
     const progress = (index + 1) / HEADER_FADE_SAMPLES
-    const eased = progress * progress * (3 - 2 * progress)
+    const eased = smoothstep(progress)
     return {
       color: withAlpha(
         color,

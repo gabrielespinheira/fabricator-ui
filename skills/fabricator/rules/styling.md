@@ -58,7 +58,35 @@ Overlays stack themselves. No `z-*` on `Dialog`, `Sheet`, `Drawer`, `DropdownMen
 
 ## Text and scroll effects
 
-Live text is `<span className="shimmer">Thinking…</span>`. A scroll edge fades with `scroll-fade`, `scroll-fade-x` or `scroll-fade-b`. `MessageScrollerViewport` and `Attachment` already do it.
+Live text is `<span className="shimmer">Thinking…</span>`.
+
+### Scroll fades
+
+Content that scrolls dissolves into its edge; it is never cut at a line. `ScrollArea`, `SidebarContent`, `TabStrip`, `MessageScrollerViewport` and `Attachment` already fade. On a scroller you write, pick by where the content leaves view:
+
+| Content scrolls | On | Class |
+| --- | --- | --- |
+| Past the scroller's edges | the scroller | `scroll-fade` (vertical), `scroll-fade-x` (sideways); `scroll-fade-t` or `scroll-fade-b` for one edge |
+| Under a sticky header, footer, composer or pinned column inside it | the scroller | `scroll-fade` + `scroll-fade-inset-{t,b,s,e}-<n>`, `<n>` the sticky part's size |
+| Under a fixed or sticky part over a scroller that can't be masked, such as the page itself | the sticky part | `sticky-fade-b` (header), `sticky-fade-t` (footer, composer), `sticky-fade-e` (pinned start column) |
+
+```tsx
+// Wrong: the sticky header crops the rows at a line
+<div className="overflow-y-auto">
+  <header className="sticky top-0 h-10 border-b bg-background">Today</header>
+  {rows}
+</div>
+// Right: the rows fade as they reach the header
+<div className="scroll-fade scroll-fade-inset-t-10 overflow-y-auto">
+  <header className="sticky top-0 h-10 bg-background">Today</header>
+  {rows}
+</div>
+```
+
+- The fade replaces the line: a sticky part over faded content drops its `border-b` and shadow.
+- A mask fades everything inside its scroller. Give every sticky part in it an inset; for a sticky part whose size changes, set `scroll-fade-inset-t-[var(--header-height)]`.
+- The card's surface and a focusable scroller's focus ring go on a wrapper (the mask clips the scroller's own), the fade on the scroller inside it. `sticky-fade-*` paints `--background`; on another surface set `[--sticky-fade-color:var(--card)]`. It draws with `::after`, on a sticky, fixed or positioned element.
+- Keep the default depth. Only a strip under 40px tall sets one (`scroll-fade-6`). `scroll-fade-none` turns it off at a breakpoint.
 
 ## Motion you write
 

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 
 import {
   getBottomNavFade,
+  getEdgeFade,
   getFadeOpacity,
   getHeaderFade,
   withAlpha,
@@ -18,6 +19,34 @@ describe("withAlpha", () => {
 
   it("falls back to transparent for what it can't read", () => {
     expect(withAlpha("oklch(0.5 0.1 200)", 0)).toBe("transparent")
+  })
+})
+
+describe("getEdgeFade", () => {
+  const alphaOf = (color: string) => Number(/, ([\d.]+)\)$/.exec(color)?.[1])
+
+  it("paints solid at the edge and clear at the content", () => {
+    const fade = getEdgeFade({ color: "#171717", edge: "start" })
+    expect(fade.colors[0]).toBe("rgba(23, 23, 23, 1)")
+    expect(fade.colors.at(-1)).toBe("rgba(23, 23, 23, 0)")
+    expect(fade.locations[0]).toBe(0)
+    expect(fade.locations.at(-1)).toBe(1)
+  })
+
+  it("eases into both ends, as the website's mask does", () => {
+    const alphas = getEdgeFade({ color: "#171717", edge: "start" }).colors.map(
+      alphaOf
+    )
+    const steps = alphas.slice(1).map((alpha, index) => alphas[index]! - alpha)
+    const steepest = Math.max(...steps)
+    expect(steps[0]).toBeLessThan(steepest / 2)
+    expect(steps.at(-1)).toBeLessThan(steepest / 2)
+  })
+
+  it("runs the other way on the end edge", () => {
+    const fade = getEdgeFade({ color: "#171717", edge: "end" })
+    expect(fade.colors[0]).toBe("rgba(23, 23, 23, 0)")
+    expect(fade.colors.at(-1)).toBe("rgba(23, 23, 23, 1)")
   })
 })
 
