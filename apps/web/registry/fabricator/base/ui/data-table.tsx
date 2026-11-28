@@ -1205,9 +1205,7 @@ function DataTableSettings<TData extends RowData>({
         <Separator />
         <div className="cn-data-table-section cn-data-table-columns flex min-h-0 flex-col">
           <div className="cn-data-table-columns-header flex items-center">
-            <span className="cn-data-table-section-label flex-1">
-              Columns
-            </span>
+            <span className="cn-data-table-section-label flex-1">Columns</span>
             <span className="cn-data-table-columns-count tabular-nums">
               {shown} of {listed.length}
             </span>
@@ -3567,22 +3565,6 @@ function DataTableScrollLayer({
       data-slot="data-table-scroll-layer"
       className="pointer-events-none absolute inset-0 z-30"
     >
-      {startWidth > 0 && (
-        <div
-          data-slot="data-table-pin-edge"
-          data-side="start"
-          style={{ insetInlineStart: startWidth }}
-          className="cn-data-table-pin-edge absolute inset-y-0"
-        />
-      )}
-      {endWidth > 0 && (
-        <div
-          data-slot="data-table-pin-edge"
-          data-side="end"
-          style={{ insetInlineEnd: endWidth }}
-          className="cn-data-table-pin-edge absolute inset-y-0"
-        />
-      )}
       <div
         ref={verticalRef}
         data-slot="data-table-scrollbar"

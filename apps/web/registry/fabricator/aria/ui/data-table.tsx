@@ -3664,22 +3664,6 @@ function DataTableScrollLayer({
       data-slot="data-table-scroll-layer"
       className="pointer-events-none absolute inset-0 z-30"
     >
-      {startWidth > 0 && (
-        <div
-          data-slot="data-table-pin-edge"
-          data-side="start"
-          style={{ insetInlineStart: startWidth }}
-          className="cn-data-table-pin-edge absolute inset-y-0"
-        />
-      )}
-      {endWidth > 0 && (
-        <div
-          data-slot="data-table-pin-edge"
-          data-side="end"
-          style={{ insetInlineEnd: endWidth }}
-          className="cn-data-table-pin-edge absolute inset-y-0"
-        />
-      )}
       <div
         ref={verticalRef}
         data-slot="data-table-scrollbar"
