@@ -449,7 +449,7 @@ function SelectItemText({
             : cn("cn-select-item-label")
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.5}>{children}</IconProvider>
+      <IconProvider strokeWidth={isLit ? 2 : 1.75}>{children}</IconProvider>
     </TextStyle>
   )
 }

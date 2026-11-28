@@ -2,15 +2,15 @@
 
 import * as React from "react"
 import { usePathname, useRouter } from "next/navigation"
-import { cn } from "cn"
-import { useDocsSearch } from "fumadocs-core/search/client"
 import {
   ArrowRightIcon,
   CircleDashedIcon,
   CornerDownLeftIcon,
   FileTextIcon,
   SquareDashedIcon,
-} from "lucide-react"
+} from "@fabricator-ui/icons"
+import { cn } from "cn"
+import { useDocsSearch } from "fumadocs-core/search/client"
 
 import { trackEvent } from "@/lib/events"
 import { showMcpDocs } from "@/lib/flags"

@@ -18,7 +18,7 @@
   /* The name is trimmed to its cap height, as in the sidebar, so its capitals
      centre on the icon; the padding keeps descenders inside the truncation. */
   .cn-properties-label {
-    @apply h-(--density-32) gap-(--density-8) text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&>span:not(.sr-only)]:text-box-trim [&>span:not(.sr-only)]:py-(--density-4);
+    @apply h-(--density-32) gap-(--density-8) text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.75] [&>span:not(.sr-only)]:text-box-trim [&>span:not(.sr-only)]:py-(--density-4);
   }
 
   /* A label that opens its settings. It pulls out by its own inset, so its icon
@@ -91,7 +91,7 @@
   /* A row's text is trimmed to its cap height like the label beside it, so
      both columns share one line and icons centre on the capitals. */
   .cn-properties-value {
-    @apply gap-(--density-8) leading-snug data-empty:text-muted-foreground data-[variant=card]:gap-(--density-4) data-[variant=card]:text-(length:--density-text-12) data-[variant=card]:text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] data-[variant=card]:[&_svg]:size-(--density-icon-14) data-[variant=row]:[&_.truncate]:text-box-trim data-[variant=row]:[&_.truncate]:py-(--density-4);
+    @apply gap-(--density-8) leading-snug data-empty:text-muted-foreground data-[variant=card]:gap-(--density-4) data-[variant=card]:text-(length:--density-text-12) data-[variant=card]:text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.75] data-[variant=card]:[&_svg]:size-(--density-icon-14) data-[variant=row]:[&_.truncate]:text-box-trim data-[variant=row]:[&_.truncate]:py-(--density-4);
   }
 
   .cn-properties-option {
@@ -109,7 +109,7 @@
   }
 
   .cn-properties-mark {
-    @apply data-toned:text-(--palette-light) dark:data-toned:text-(--palette-dark) [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.5];
+    @apply data-toned:text-(--palette-light) dark:data-toned:text-(--palette-dark) [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.75];
   }
 
   .cn-properties-dot {
@@ -199,7 +199,7 @@
   }
 
   .cn-properties-file-icon {
-    @apply text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+    @apply text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
   }
 
   .cn-properties-file-size {
@@ -249,7 +249,7 @@
 
   /* A row of a panel that does something. */
   .cn-properties-action {
-    @apply h-(--density-32)! justify-start gap-(--density-8) rounded-(--radius-control) px-(--density-8)! text-(length:--density-text-13) font-normal text-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-destructive:text-destructive-text data-destructive:hover:text-destructive-text [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground data-destructive:[&_svg]:text-current;
+    @apply h-(--density-32)! justify-start gap-(--density-8) rounded-(--radius-control) px-(--density-8)! text-(length:--density-text-13) font-normal text-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-destructive:text-destructive-text data-destructive:hover:text-destructive-text [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75] [&_svg]:text-muted-foreground data-destructive:[&_svg]:text-current;
   }
 
   /* MARK: Property popups */
@@ -387,7 +387,7 @@
   }
 
   .cn-properties-setting {
-    @apply h-(--density-32) justify-start gap-(--density-8) rounded-(--radius-control) border border-transparent px-(--density-8) text-(length:--density-text-13) font-normal text-foreground [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground;
+    @apply h-(--density-32) justify-start gap-(--density-8) rounded-(--radius-control) border border-transparent px-(--density-8) text-(length:--density-text-13) font-normal text-foreground [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:stroke-[1.75] [&_svg]:text-muted-foreground;
   }
 
   .cn-properties-setting-value {

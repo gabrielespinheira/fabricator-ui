@@ -61,7 +61,7 @@ function Marker({
   return (
     <MarkerContext value={variant ?? "default"}>
       <TextStyle className="cn-marker-text">
-        <IconProvider strokeWidth={1.5}>
+        <IconProvider strokeWidth={1.75}>
           {slotted ?? <View {...shared}>{content}</View>}
         </IconProvider>
       </TextStyle>

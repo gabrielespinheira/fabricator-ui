@@ -40,7 +40,7 @@
   }
 
   .cn-item-media-variant-icon {
-    @apply [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-item-media-variant-image {

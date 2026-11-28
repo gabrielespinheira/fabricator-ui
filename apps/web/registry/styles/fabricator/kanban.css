@@ -145,7 +145,7 @@
   }
 
   .cn-kanban-view-option {
-    @apply min-h-(--density-32) gap-(--density-8) [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg]:text-muted-foreground;
+    @apply min-h-(--density-32) gap-(--density-8) [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.75] [&_svg]:text-muted-foreground;
   }
 
   .cn-kanban-view-choice {

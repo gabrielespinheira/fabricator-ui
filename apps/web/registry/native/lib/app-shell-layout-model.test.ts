@@ -535,10 +535,8 @@ describe("getPinnedTriggerPosition", () => {
 })
 
 describe("hasPanelClose", () => {
-  it("leaves a phone's drawer to its handle and scrim", () => {
-    expect(hasPanelClose({ placement: "drawer", pinnedTriggers: 0 })).toBe(
-      false
-    )
+  it("keeps the panel's close control in the phone drawer", () => {
+    expect(hasPanelClose({ placement: "drawer", pinnedTriggers: 0 })).toBe(true)
   })
 
   it("keeps it where the panel has no other way to close", () => {

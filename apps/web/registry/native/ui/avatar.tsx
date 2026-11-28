@@ -377,7 +377,7 @@ function AvatarGroupCount({
   const iconSize = parseNumber(useCSSVariable(COUNT_ICON_TOKEN[size]), 16)
   return (
     <TextStyle className="cn-avatar-group-count-text">
-      <IconProvider size={iconSize} strokeWidth={1.5}>
+      <IconProvider size={iconSize} strokeWidth={1.75}>
         <View
           data-slot="avatar-group-count"
           data-size={size}

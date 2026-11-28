@@ -1,7 +1,7 @@
 "use client"
 
+import { MoreHorizontal } from "@fabricator-ui/icons"
 import { type Row, type RowData } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/registry/new-york-v4/ui/button"
 import {

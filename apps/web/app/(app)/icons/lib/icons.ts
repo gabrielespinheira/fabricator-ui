@@ -1,6 +1,7 @@
-import type { IconElement } from "@fabricator-ui/icons"
+import type { IconData, IconElement } from "@fabricator-ui/icons"
+import { renderUiSvg } from "@fabricator-ui/icons-static/svg"
 import {
-  getBrandViewBox,
+  getBrandArtworkViewBox,
   prefixGradientFills,
   renderGradientMarkup,
   type BrandIconData,
@@ -16,8 +17,13 @@ import {
   type FilePalette,
 } from "@fabricator-ui/icons/files"
 
+import { DEFAULT_STROKE_WIDTH } from "./icon-query"
+
 export const DEFAULT_SIZE = 24
-export const DEFAULT_STROKE_WIDTH = 2
+
+export function hasStrokeWidth(set: IconSet) {
+  return set === "outline" || set === "duotone" || set === "animated"
+}
 
 /** `arrow-up-0-1` → `ArrowUp01Icon`, as the packages export it. */
 export function toComponentName(name: string) {
@@ -32,6 +38,8 @@ const IMPORT_PATHS: Record<IconSet, string> = {
   outline: "@fabricator-ui/icons",
   brands: "@fabricator-ui/icons/brands",
   animated: "@fabricator-ui/icons/animated",
+  fill: "@fabricator-ui/icons/fill",
+  duotone: "@fabricator-ui/icons/duotone",
   files: "@fabricator-ui/icons/files",
 }
 
@@ -40,11 +48,9 @@ export function getIconDescription(entry: CatalogEntry) {
   if (entry.set === "files")
     return "Charmed Icons file and folder artwork, by Littensy (MIT)."
   if (entry.set === "brands") return `${entry.title}, a trademark of its owner.`
-  if (entry.categories.includes("custom"))
-    return `Fabricator's ${entry.name} icon, drawn to Lucide's rules.`
-  return entry.set === "animated"
-    ? `Lucide's ${entry.name} icon, animated.`
-    : `Lucide's ${entry.name} icon.`
+  if (entry.set === "animated")
+    return `Fabricator’s ${entry.name} icon, animated.`
+  return `Fabricator’s ${entry.name} icon in ${entry.set}.`
 }
 
 export function getImportLine(entry: CatalogEntry) {
@@ -71,8 +77,7 @@ export function getJsxSnippet(
 ) {
   const props = [
     size !== (entry.set === "files" ? 16 : DEFAULT_SIZE) && `size={${size}}`,
-    entry.set !== "brands" &&
-      entry.set !== "files" &&
+    hasStrokeWidth(entry.set) &&
       strokeWidth !== DEFAULT_STROKE_WIDTH &&
       `strokeWidth={${strokeWidth}}`,
     entry.set === "brands" && brandColor && 'color="brand"',
@@ -81,7 +86,9 @@ export function getJsxSnippet(
 }
 
 export type PreviewIcon =
-  | { set: "outline"; node: IconElement[] }
+  | { set: "outline"; node: IconElement[]; opticalScale?: number }
+  | { set: "fill"; data: IconData }
+  | { set: "duotone"; data: IconData }
   | { set: "brands"; name: string; data: Omit<BrandIconData, "name"> }
   | { set: "files"; data: FileIconData; palette: FilePalette }
 
@@ -121,26 +128,16 @@ export function buildSvgMarkup(
     width: String(size),
     height: String(size),
   }
-  if (icon.set === "outline") {
-    const root = {
-      ...box,
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: color,
-      "stroke-width": String(strokeWidth),
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-    }
-    const fill = color === "currentColor" ? undefined : color
-    return `<svg ${attributes(root)}>${shapes(icon.node, fill)}</svg>`
-  }
+  if (icon.set === "outline")
+    return renderUiSvg(
+      { name: "outline", node: icon.node, opticalScale: icon.opticalScale },
+      { size, strokeWidth, color }
+    )
+  if (icon.set === "fill" || icon.set === "duotone")
+    return renderUiSvg(icon.data, { size, strokeWidth, color })
   const { data } = icon
   const art = brandColor ? data.art : undefined
-  const viewBox = getBrandViewBox(
-    art?.width ?? 24,
-    art?.height ?? 24,
-    data.scale
-  )
+  const viewBox = getBrandArtworkViewBox(data, art)
   const brandFill = data.colors.inherit ? color : data.colors.light
   const fill = brandColor && !art ? brandFill : color
   // Ids carry the brand's name, so pasted marks never share a gradient.
@@ -152,30 +149,33 @@ export function buildSvgMarkup(
 
 export type CategoryOption = { value: string; label: string; count: number }
 
-/** The categories of one set, with how many icons each holds; brands use their groups. */
+/** Categories for a set or the whole catalog, with a count for each. */
 export function getCategoryOptions(
   entries: CatalogEntry[],
   titles: IconCategory[],
-  set: IconSet
+  set?: IconSet
 ): CategoryOption[] {
+  const labels = new Map(
+    set === "brands" || set === "files"
+      ? []
+      : titles.map(({ name, title }) => [name, title])
+  )
   const counts = new Map<string, number>()
   for (const entry of entries) {
-    if (entry.set !== set) continue
+    if (set && entry.set !== set) continue
     const keys = entry.set === "brands" ? [entry.group] : entry.categories
-    for (const key of keys) counts.set(key, (counts.get(key) ?? 0) + 1)
+    for (const key of keys) {
+      if (!labels.has(key)) {
+        if (entry.set === "brands") labels.set(key, key)
+        if (entry.set === "files")
+          labels.set(key, key === "folders" ? "Folders" : "Files")
+      }
+      counts.set(key, (counts.get(key) ?? 0) + 1)
+    }
   }
-  if (set === "brands") {
-    return [...counts].map(([value, count]) => ({ value, label: value, count }))
-  }
-  if (set === "files")
-    return [...counts].map(([value, count]) => ({
-      value,
-      label: value === "folders" ? "Folders" : "Files",
-      count,
-    }))
-  return titles.flatMap(({ name, title }) => {
-    const count = counts.get(name)
-    return count ? [{ value: name, label: title, count }] : []
+  return [...labels].flatMap(([value, label]) => {
+    const count = counts.get(value)
+    return count ? [{ value, label, count }] : []
   })
 }
 

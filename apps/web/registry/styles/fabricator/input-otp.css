@@ -37,5 +37,5 @@
   }
 
   .cn-input-otp-separator {
-    @apply [[data-slot]+&]:ms-(--density-8) text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+    @apply [[data-slot]+&]:ms-(--density-8) text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
   }

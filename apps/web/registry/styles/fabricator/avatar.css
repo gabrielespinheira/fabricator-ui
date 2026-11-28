@@ -49,5 +49,5 @@
   /* Opaque like an avatar: the active tint over the background, drawn as an
      image over the colour. */
   .cn-avatar-group-count {
-    @apply bg-background bg-[image:linear-gradient(var(--color-active),var(--color-active))] text-muted-foreground size-(--density-32) rounded-full text-(length:--density-text-12) font-medium group-has-data-[size=lg]/avatar-group:size-(--density-40) group-has-data-[size=sm]/avatar-group:size-(--density-24) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] group-has-data-[size=lg]/avatar-group:[&>svg]:size-(--density-20) group-has-data-[size=sm]/avatar-group:[&>svg]:size-3;
+    @apply bg-background bg-[image:linear-gradient(var(--color-active),var(--color-active))] text-muted-foreground size-(--density-32) rounded-full text-(length:--density-text-12) font-medium group-has-data-[size=lg]/avatar-group:size-(--density-40) group-has-data-[size=sm]/avatar-group:size-(--density-24) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.75] group-has-data-[size=lg]/avatar-group:[&>svg]:size-(--density-20) group-has-data-[size=sm]/avatar-group:[&>svg]:size-3;
   }

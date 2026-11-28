@@ -3,7 +3,6 @@
 import * as React from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { cn } from "cn"
 import {
   Check,
   ChevronRight,
@@ -16,7 +15,8 @@ import {
   Smartphone,
   Tablet,
   Terminal,
-} from "lucide-react"
+} from "@fabricator-ui/icons"
+import { cn } from "cn"
 import { type PanelImperativeHandle } from "react-resizable-panels"
 import {
   type registryItemFileSchema,

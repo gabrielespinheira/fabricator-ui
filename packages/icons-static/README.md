@@ -1,6 +1,6 @@
 # @fabricator-ui/icons-static
 
-Fabricator Icons without a framework: SVG files, sprites, JSON data and SVG strings, plus a PNG exporter for desktop tray and menu icons. Every [Lucide](https://lucide.dev) icon under its Lucide name, plus 145 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
+The [Fabricator UI](https://fabricator-ui.vercel.app) icon library as standalone SVGs, sprites, JSON data and SVG strings, with a PNG exporter for desktop trays and menus. Browse the [Fabricator catalog](https://fabricator-ui.vercel.app/icons).
 
 ```sh
 npm install @fabricator-ui/icons-static
@@ -8,16 +8,18 @@ npm install @fabricator-ui/icons-static
 
 ## What's inside
 
-| Path                      | Content                                                              |
-| ------------------------- | -------------------------------------------------------------------- |
-| `icons/<name>.svg`        | Outline icons, byte for byte as Lucide ships them                    |
-| `brands/<name>.svg`       | Brand marks in one colour (`currentColor`)                           |
-| `brands/color/<name>.svg` | Brand marks in their own colours                                     |
-| `sprite.svg`              | Every outline icon as a `<symbol>`: `<use href="sprite.svg#house"/>` |
-| `brands-sprite.svg`       | Every brand mark as a `<symbol>`                                     |
-| `icon-nodes.json`         | Outline shapes per icon                                              |
-| `brand-nodes.json`        | Brand shapes, art, colours and scale                                 |
-| `tags.json`               | Search tags per outline icon                                         |
+| Path                                       | Content                                                              |
+| ------------------------------------------ | -------------------------------------------------------------------- |
+| `icons/<name>.svg`                         | Rounded outline SVGs                                                 |
+| `fill/<name>.svg` and `duotone/<name>.svg` | Filled and two-tone UI icons                                         |
+| `brands/<name>.svg`                        | Brand marks in one colour (`currentColor`)                           |
+| `brands/color/<name>.svg`                  | Brand marks in their own colours                                     |
+| `sprite.svg`                               | Every outline icon as a `<symbol>`: `<use href="sprite.svg#house"/>` |
+| `brands-sprite.svg`                        | Every brand mark as a `<symbol>`                                     |
+| `icon-nodes.json`                          | Outline shapes per icon                                              |
+| `icon-scales.json`                         | Outline artwork scale around the grid centre, defaults to 1          |
+| `brand-nodes.json`                         | Brand shapes, art, colours and scale                                 |
+| `tags.json`                                | Search tags per outline icon                                         |
 
 SVG strings, for server templates and other frameworks:
 
@@ -35,7 +37,7 @@ npm install --save-dev @resvg/resvg-js
 npx fabricator-icons png house bell --size 16 --scale 1,2 --template --out src-tauri/icons/tray
 ```
 
-`--template` writes black-on-transparent `<name>Template.png` and `<name>Template@2x.png`: Electron's `Tray` treats those as macOS template images, and Tauri takes them with `iconAsTemplate` (load PNGs with the `image-png` Cargo feature). Other options: `--set brands`, `--color <css colour | brand>`, `--stroke <width>`.
+`--template` writes black-on-transparent `<name>Template.png` and `<name>Template@2x.png`: Electron's `Tray` treats those as macOS template images, and Tauri takes them with `iconAsTemplate` (load PNGs with the `image-png` Cargo feature). Other options: `--set fill`, `--set duotone`, `--set brands`, `--color <css colour | brand>`, `--stroke <width>`.
 
 Brand marks are trademarks of their owners. Read [BRANDS.md](./BRANDS.md) before using one.
 
@@ -45,4 +47,4 @@ The `/files` entry exports 249 Charmed SVG strings, such as `FileTypescript`. Th
 
 ## Licence
 
-MIT for Fabricator's code and Custom icons; the other outline icons are Lucide's, under ISC. See [LICENSE.md](./LICENSE.md).
+Fabricator's code and original artwork are MIT-licensed. Drawings derived from Lucide and Feather carry their upstream notices. See [LICENSE.md](./LICENSE.md).

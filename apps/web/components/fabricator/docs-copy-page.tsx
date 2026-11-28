@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, ChevronDownIcon, CopyIcon } from "lucide-react"
+import { CheckIcon, ChevronDownIcon, CopyIcon } from "@fabricator-ui/icons"
 
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import { menuItems } from "@/components/docs-copy-page"

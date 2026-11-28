@@ -19,7 +19,7 @@
      rows are foreground and semibold with a check; in single selection
      their bg-active fill slides between rows inside the fluid list. */
   .cn-combobox-item {
-    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-(--radius-nested) py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent;
   }
 
   .cn-combobox-item-aria {

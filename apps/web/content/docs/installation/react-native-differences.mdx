@@ -19,7 +19,9 @@ Interface sounds are the same on React Native, under the same `<SoundEffects />`
 These web components are not available for React Native yet. Each deferral has a reason and date in the parity exceptions.
 
 - **Assistant 01** (2026-11-17): New web chat block. Chat Input and Model Picker have no native versions yet (see PLATFORMS.md), so the native port waits for them.
+- **Automation 01** (2026-11-27): New web automation block on App Shell and Canvas. Canvas and Canvas Layout have native versions it can compose; its React Native port waits for a phone composition of the step panel and the step library as sheets. Its run path and edits are pure modules it can reuse.
 - **Billing 01** (2026-11-25): Web billing block. A React Native port needs a phone layout for plan comparisons and native invoice downloads.
+- **Blueprint** (2026-11-27): New web component that measures the DOM and draws on SVG and a canvas. The native port measures parts with onLayout and draws the same blueprint-model timeline with react-native-svg; it follows in its own change.
 - **Board 01** (2026-11-25): New web project block on App Shell. Kanban, Properties and Record View have native versions it can compose; its React Native port waits for a phone composition of the project list, the saved views and the ticket form. Its rules are pure modules it can reuse.
 - **Bottom Nav** (2026-11-26): A phone web app's tab bar. React Native apps already get theirs from the App Shell's bottom bar (lib/bottom-bar), so there is no separate native item.
 - **Calendar App 01** (2026-11-17): New web calendar block. Its React Native port composes the native Event Calendar and Date Picker, with Time Input still web-only (see PLATFORMS.md).

@@ -23,14 +23,14 @@ import {
   ItemTitle,
 } from "@/registry/new-york-v4/ui/item"
 import { Label } from "@/registry/new-york-v4/ui/label"
+import { Separator } from "@/registry/new-york-v4/ui/separator"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/registry/new-york-v4/ui/select"
-import { Separator } from "@/registry/new-york-v4/ui/separator"
+} from "@/styles/radix-fabricator/ui/select"
 
 const people = [
   {

@@ -1,12 +1,7 @@
 "use client"
 
 import * as React from "react"
-import {
-  IconCheck,
-  IconCopy,
-  IconInfoCircle,
-  IconStar,
-} from "@tabler/icons-react"
+import { CheckIcon, CopyIcon, InfoIcon, StarIcon } from "@fabricator-ui/icons"
 
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import {
@@ -36,7 +31,7 @@ export default function InputGroupButtonExample() {
               copyToClipboard("https://github.com/gabrielespinheira")
             }}
           >
-            {isCopied ? <IconCheck /> : <IconCopy />}
+            {isCopied ? <CheckIcon /> : <CopyIcon />}
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>
@@ -44,7 +39,7 @@ export default function InputGroupButtonExample() {
         <PopoverTrigger>
           <InputGroupAddon>
             <InputGroupButton variant="secondary" size="icon-xs">
-              <IconInfoCircle />
+              <InfoIcon />
             </InputGroupButton>
           </InputGroupAddon>
           <Popover
@@ -64,7 +59,7 @@ export default function InputGroupButtonExample() {
             onClick={() => setIsFavorite(!isFavorite)}
             size="icon-xs"
           >
-            <IconStar
+            <StarIcon
               data-favorite={isFavorite}
               className="data-[favorite=true]:fill-blue-600 data-[favorite=true]:stroke-blue-600"
             />

@@ -1,7 +1,7 @@
 "use client"
 
+import { Settings2 } from "@fabricator-ui/icons"
 import { type ReactTable, type RowData } from "@tanstack/react-table"
-import { Settings2 } from "lucide-react"
 
 import { Button } from "@/registry/new-york-v4/ui/button"
 import {

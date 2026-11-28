@@ -1,7 +1,7 @@
 import { createElement, useId, type ReactElement, type SVGProps } from "react"
 
 import {
-  getBrandViewBox,
+  getBrandArtworkViewBox,
   hasA11yProp,
   ICON_SIZE,
   mergeClasses,
@@ -103,11 +103,7 @@ export function renderBrandIcon(
       xmlns: "http://www.w3.org/2000/svg",
       width: width ?? size ?? ICON_SIZE,
       height: height ?? size ?? ICON_SIZE,
-      viewBox: getBrandViewBox(
-        art?.width ?? ICON_SIZE,
-        art?.height ?? ICON_SIZE,
-        data.scale
-      ),
+      viewBox: getBrandArtworkViewBox(data, art),
       fill,
       className: mergeClasses("fab-icon", `fab-brand-${data.name}`, className),
       ...(!isLabelled && { "aria-hidden": "true" }),

@@ -1,4 +1,4 @@
-import { Copy } from "lucide-react"
+import { Copy } from "@fabricator-ui/icons"
 
 import { Button } from "@/registry/new-york-v4/ui/button"
 import { Input } from "@/registry/new-york-v4/ui/input"

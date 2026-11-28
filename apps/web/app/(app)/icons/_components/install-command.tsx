@@ -2,10 +2,16 @@
 
 import * as React from "react"
 
-import { CheckIcon, CopyIcon } from "@/lib/site-icons"
+import { CheckIcon, CopyIcon, TerminalIcon } from "@/lib/site-icons"
 import { useConfig } from "@/hooks/use-config"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import { Button } from "@/styles/base-fabricator/ui/button"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/styles/base-fabricator/ui/popover"
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -76,5 +82,24 @@ export function InstallCommand({ packages }: { packages: string[] }) {
         </Button>
       </div>
     </div>
+  )
+}
+
+export function InstallIconsPopover() {
+  return (
+    <Popover>
+      <PopoverTrigger render={<Button variant="outline" />}>
+        <TerminalIcon data-icon="inline-start" />
+        Install icons
+      </PopoverTrigger>
+      <PopoverContent
+        align="end"
+        sideOffset={8}
+        className="w-88 max-w-[calc(100vw-2rem)]"
+      >
+        <PopoverTitle>Install Fabricator Icons</PopoverTitle>
+        <InstallCommand packages={["@fabricator-ui/icons"]} />
+      </PopoverContent>
+    </Popover>
   )
 }

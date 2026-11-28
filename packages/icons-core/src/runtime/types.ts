@@ -12,13 +12,79 @@ export type IconTag =
 
 export type IconElement = [tag: IconTag, attributes: Record<string, string>]
 
-/** Outline and duotone icons: stroke paint. */
+/** UI icons share the same geometry format across renderers. */
 export type IconData = {
   name: string
   node: IconElement[]
+  paint?: "fill"
+  /** Uniform optical correction around the source drawing's centre. */
+  opticalScale?: number
+  strokeWidth?: number
+  /** Fill only: line work that punches transparent detail out of a solid face. */
+  cutout?: IconElement[]
   /** Duotone only: filled, translucent shapes drawn under the outline. */
   secondary?: IconElement[]
 }
+
+export type IconWeight = "outline" | "fill" | "duotone"
+export type IconDirection =
+  | "left"
+  | "right"
+  | "up"
+  | "down"
+  | "up-left"
+  | "up-right"
+  | "down-left"
+  | "down-right"
+
+export type IconMotion =
+  | IconDirection
+  | "exchange-horizontal"
+  | "exchange-vertical"
+  | "expand"
+  | "contract"
+  | "receive"
+  | "dispatch"
+  | "exit-diagonal"
+  | "send"
+  | "rotate-back"
+  | "rotate-forward"
+  | "blink"
+  | "envelope"
+  | "shutter"
+  | "clock"
+  | "heartbeat"
+  | "radiate"
+  | "sound"
+  | "shackle"
+  | "check"
+  | "drag"
+  | "rows"
+  | "bars"
+  | "stack"
+  | "bookmark"
+  | "pencil"
+  | "bell"
+  | "toggle"
+  | "sidebar-toggle"
+  | "panel-left"
+  | "panel-right"
+  | "turn"
+  | "open"
+  | "pulse"
+  | "mark"
+  | "lift"
+  | "settle"
+  | "press"
+  | "scan"
+  | "swing"
+  | "sweep"
+  | "widen"
+  | "rise"
+  | "spark"
+  | "hop"
+  | "nod"
+  | "lean"
 
 export type BrandColors = {
   /** Achromatic marks follow `currentColor` instead of a hex. */
@@ -44,6 +110,7 @@ export type BrandGradient = {
 export type BrandArt = {
   width: number
   height: number
+  opticalScale?: number
   node: IconElement[]
   /** For logos whose colours are gradients (Firefox, Telegram). */
   gradients?: BrandGradient[]
@@ -59,6 +126,7 @@ export type BrandIconData = {
   colors: BrandColors
   /** Optical correction below 1: widens the viewBox so the mark shrinks. */
   scale?: number
+  opticalScale?: number
 }
 
 export type OutlineCatalogEntry = {
@@ -86,21 +154,27 @@ export type BrandCatalogEntry = {
   credit?: string
 }
 
-/** An outline category, with Lucide's title for it. */
+/** A label for filtering the Fabricator catalog. */
 export type IconCategory = {
   name: string
   title: string
 }
 
-/** A Lucide icon with an animated version in `/animated`, under the same name. */
+/** An icon in the Fabricator Animated set. */
 export type AnimatedCatalogEntry = Omit<OutlineCatalogEntry, "set"> & {
   set: "animated"
-  /** It animates an older Lucide drawing, so at rest it differs from the outline icon. */
+  motion?: IconMotion
+  /** Compatibility flag for archived animations with older geometry. */
   isOlderDrawing?: boolean
+}
+
+export type VariantCatalogEntry = Omit<OutlineCatalogEntry, "set"> & {
+  set: "fill" | "duotone"
 }
 
 export type CatalogEntry =
   | OutlineCatalogEntry
+  | VariantCatalogEntry
   | BrandCatalogEntry
   | AnimatedCatalogEntry
   | FileCatalogEntry

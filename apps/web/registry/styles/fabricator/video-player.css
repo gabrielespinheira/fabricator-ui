@@ -41,7 +41,7 @@
   }
 
   .cn-video-player-play {
-    @apply size-[calc(var(--density-48)+var(--density-16))] cursor-pointer rounded-full bg-black/45 text-white ring-1 ring-white/15 backdrop-blur-md transition-[background-color,scale] duration-feedback ease-feedback motion-press animate-in fade-in-0 hover:bg-black/60 focus-visible:ring-2 focus-visible:ring-white [&_svg]:size-(--density-28) [&_svg]:stroke-[1.5] data-[action=pause]:[&_svg]:fill-current data-[action=play]:[&_svg]:ms-0.5 data-[action=play]:[&_svg]:fill-current group-data-[variant=compact]/video-player:size-(--density-48) group-data-[variant=compact]/video-player:[&_svg]:size-(--density-20);
+    @apply size-[calc(var(--density-48)+var(--density-16))] cursor-pointer rounded-full bg-black/45 text-white ring-1 ring-white/15 backdrop-blur-md transition-[background-color,scale] duration-feedback ease-feedback motion-press animate-in fade-in-0 hover:bg-black/60 focus-visible:ring-2 focus-visible:ring-white [&_svg]:size-(--density-28) [&_svg]:stroke-[1.75] data-[action=pause]:[&_svg]:fill-current data-[action=play]:[&_svg]:ms-0.5 data-[action=play]:[&_svg]:fill-current group-data-[variant=compact]/video-player:size-(--density-48) group-data-[variant=compact]/video-player:[&_svg]:size-(--density-20);
   }
 
   .cn-video-player-spinner {
@@ -49,7 +49,7 @@
   }
 
   .cn-video-player-error {
-    @apply max-w-xs gap-(--density-8) px-(--density-16) text-(length:--density-text-13) text-white/80 [&_svg]:size-(--density-24) [&_svg]:text-white [&_svg]:stroke-[1.5];
+    @apply max-w-xs gap-(--density-8) px-(--density-16) text-(length:--density-text-13) text-white/80 [&_svg]:size-(--density-24) [&_svg]:text-white [&_svg]:stroke-[1.75];
   }
 
   /* A play or pause from a click or a key answers in the centre and fades on
@@ -179,7 +179,7 @@
   }
 
   .cn-video-player-menu-item {
-    @apply h-(--density-32) shrink-0 cursor-pointer gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-white/90 transition-colors duration-feedback ease-feedback hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white aria-checked:text-white data-back:font-medium [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5];
+    @apply h-(--density-32) shrink-0 cursor-pointer gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-white/90 transition-colors duration-feedback ease-feedback hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white aria-checked:text-white data-back:font-medium [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.75];
   }
 
   .cn-video-player-menu-value {

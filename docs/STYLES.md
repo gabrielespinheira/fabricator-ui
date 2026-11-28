@@ -51,6 +51,7 @@ Sizes come from the density, never fixed pixels; the token table and how a compo
 - `density.ts` defines the three scales, each token named after its default value. They are CSS variables rather than theme keys because class merging only knows arbitrary values.
 - React Native resolves its own rungs per device (`registry/native/lib/density-scale.ts`): a phone's default is the spacious scale, a tablet's 40pt controls with phone text.
 - `__tests__/density-usage.test.ts` fails on fixed control heights, text sizes and icon sizes.
+- Sidebar navigation keeps a 1.75-unit icon stroke across resting, hovered and selected rows. Density sets the icon slot, and the icon package scales the artwork inside it.
 
 ## Loader
 

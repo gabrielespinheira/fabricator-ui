@@ -16,7 +16,7 @@
   "keywords": [
     "fabricator-ui",
     "icons",
-    "lucide",
+    "duotone",
     "brand-icons",
     "svg",
     "sprite"
@@ -64,6 +64,7 @@
     "./sprite.svg": "./sprite.svg",
     "./brands-sprite.svg": "./brands-sprite.svg",
     "./icon-nodes.json": "./icon-nodes.json",
+    "./icon-scales.json": "./icon-scales.json",
     "./brand-nodes.json": "./brand-nodes.json",
     "./tags.json": "./tags.json",
     "./package.json": "./package.json",
@@ -78,7 +79,67 @@
       }
     },
     "./files/*.svg": "./files/*.svg",
-    "./files-sprite.svg": "./files-sprite.svg"
+    "./files-sprite.svg": "./files-sprite.svg",
+    "./fill": {
+      "import": {
+        "types": "./dist/esm/fill.d.ts",
+        "default": "./dist/esm/fill.js"
+      },
+      "require": {
+        "types": "./dist/cjs/fill.d.ts",
+        "default": "./dist/cjs/fill.js"
+      }
+    },
+    "./fill/*": {
+      "import": {
+        "types": "./dist/esm/generated/fill/*.d.ts",
+        "default": "./dist/esm/generated/fill/*.js"
+      },
+      "require": {
+        "types": "./dist/cjs/generated/fill/*.d.ts",
+        "default": "./dist/cjs/generated/fill/*.js"
+      }
+    },
+    "./duotone": {
+      "import": {
+        "types": "./dist/esm/duotone.d.ts",
+        "default": "./dist/esm/duotone.js"
+      },
+      "require": {
+        "types": "./dist/cjs/duotone.d.ts",
+        "default": "./dist/cjs/duotone.js"
+      }
+    },
+    "./duotone/*": {
+      "import": {
+        "types": "./dist/esm/generated/duotone/*.d.ts",
+        "default": "./dist/esm/generated/duotone/*.js"
+      },
+      "require": {
+        "types": "./dist/cjs/generated/duotone/*.d.ts",
+        "default": "./dist/cjs/generated/duotone/*.js"
+      }
+    },
+    "./variants": {
+      "import": {
+        "types": "./dist/esm/variants.d.ts",
+        "default": "./dist/esm/variants.js"
+      },
+      "require": {
+        "types": "./dist/cjs/variants.d.ts",
+        "default": "./dist/cjs/variants.js"
+      }
+    },
+    "./svg": {
+      "import": {
+        "types": "./dist/esm/svg.d.ts",
+        "default": "./dist/esm/svg.js"
+      },
+      "require": {
+        "types": "./dist/cjs/svg.d.ts",
+        "default": "./dist/cjs/svg.js"
+      }
+    }
   },
   "files": [
     "dist",
@@ -87,12 +148,15 @@
     "sprite.svg",
     "brands-sprite.svg",
     "icon-nodes.json",
+    "icon-scales.json",
     "brand-nodes.json",
     "tags.json",
     "LICENSE.md",
     "BRANDS.md",
     "files",
-    "files-sprite.svg"
+    "files-sprite.svg",
+    "fill",
+    "duotone"
   ],
   "publishConfig": {
     "access": "public"

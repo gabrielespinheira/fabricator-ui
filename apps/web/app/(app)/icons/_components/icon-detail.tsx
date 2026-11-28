@@ -9,15 +9,19 @@ import {
   CheckIcon,
   CopyIcon,
   DownloadIcon,
+  PlayIcon,
+  RefreshCwIcon,
+  XIcon,
 } from "@/lib/site-icons"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import { Badge } from "@/styles/base-fabricator/ui/badge"
 import { Button } from "@/styles/base-fabricator/ui/button"
 import {
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/styles/base-fabricator/ui/sheet"
+  DrawerClose,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/styles/base-fabricator/ui/drawer"
 
 import {
   buildSvgMarkup,
@@ -27,11 +31,7 @@ import {
   getPackages,
   toComponentName,
 } from "../lib/icons"
-import {
-  AnimatedIconView,
-  type AnimatedComponent,
-  type AnimatedComponents,
-} from "./animated-icon-view"
+import { AnimatedIconView, type AnimatedRenderer } from "./animated-icon-view"
 import {
   IconPreview,
   type LoadedIcon,
@@ -40,7 +40,7 @@ import {
 import { InstallCommand } from "./install-command"
 
 const PNG_SIZE = 512
-const SAMPLE_SIZES = [14, 16, 18, 24]
+const SAMPLE_SIZES = [14, 16, 18, 24, 32, 48] as const
 
 function downloadBlob(blob: Blob, fileName: string) {
   const url = URL.createObjectURL(blob)
@@ -99,7 +99,7 @@ function Fact({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex min-w-0 flex-col gap-1">
       <dt className="text-[12px] text-muted-foreground">{label}</dt>
       <dd className="flex flex-wrap gap-1 text-[13px] [overflow-wrap:anywhere]">
         {children}
@@ -108,60 +108,96 @@ function Fact({
   )
 }
 
-const PLAY_MILLISECONDS = 1800
+function IconSizeSamples({
+  renderPreview,
+}: {
+  renderPreview: (size: number) => React.ReactNode
+}) {
+  return (
+    <ul
+      aria-label="Sample sizes"
+      className="grid w-full grid-cols-3 gap-x-1 gap-y-4 min-[390px]:grid-cols-6"
+    >
+      {SAMPLE_SIZES.map((size) => (
+        <li key={size} className="flex flex-col items-center gap-2">
+          <span className="flex h-12 items-center justify-center" aria-hidden>
+            {renderPreview(size)}
+          </span>
+          <span className="text-[11px] text-muted-foreground tabular-nums">
+            {size} px
+          </span>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 /** Plays on opening, on hover and on request; the cell's hover has ended by then. */
 function AnimatedDetailPreview({
   component,
   strokeWidth,
-}: {
-  component: AnimatedComponent
+  data,
+  recipe,
+}: Pick<React.ComponentProps<AnimatedRenderer>, "data" | "recipe"> & {
+  component: AnimatedRenderer
   strokeWidth: number
 }) {
   const [isHovered, setIsHovered] = React.useState(false)
-  const [isReplaying, setIsReplaying] = React.useState(true)
-  React.useEffect(() => {
-    if (!isReplaying) return
-    const timer = setTimeout(() => setIsReplaying(false), PLAY_MILLISECONDS)
-    return () => clearTimeout(timer)
-  }, [isReplaying])
-  const isPlaying = isHovered || isReplaying
+  const [isLooping, setIsLooping] = React.useState(false)
+  const [open, setOpen] = React.useState<boolean>()
+  const [playCount, setPlayCount] = React.useState(1)
+  const isPanel =
+    recipe === "sidebar-toggle" ||
+    recipe === "panel-left" ||
+    recipe === "panel-right"
+  const renderPreview = (size: number) => (
+    <AnimatedIconView
+      component={component}
+      data={data}
+      recipe={recipe}
+      isPlaying={isHovered || isLooping}
+      playCount={playCount}
+      loop={isLooping}
+      open={open}
+      size={size}
+      strokeWidth={strokeWidth}
+    />
+  )
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex w-full flex-col items-center gap-4">
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="flex flex-col items-center gap-5"
+        className="flex w-full flex-col items-center gap-6"
       >
-        <AnimatedIconView
-          component={component}
-          isPlaying={isPlaying}
-          size={96}
-          strokeWidth={strokeWidth}
-        />
-        <div
-          className="flex items-end gap-5 text-muted-foreground"
-          aria-hidden="true"
-        >
-          {SAMPLE_SIZES.map((size) => (
-            <AnimatedIconView
-              key={size}
-              component={component}
-              isPlaying={isPlaying}
-              size={size}
-              strokeWidth={strokeWidth}
-            />
-          ))}
-        </div>
+        {renderPreview(96)}
+        <IconSizeSamples renderPreview={renderPreview} />
       </div>
-      <Button
-        variant="ghost"
-        size="sm"
-        disabled={isReplaying}
-        onClick={() => setIsReplaying(true)}
-      >
-        Play
-      </Button>
+      {isPanel ? (
+        <Button variant="outline" size="sm" onClick={() => setOpen(!open)}>
+          {open ? "Close panel" : "Open panel"}
+        </Button>
+      ) : (
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setPlayCount((count) => count + 1)}
+          >
+            <PlayIcon data-icon="inline-start" />
+            Play
+          </Button>
+          <Button
+            variant={isLooping ? "secondary" : "ghost"}
+            size="sm"
+            aria-pressed={isLooping}
+            onClick={() => setIsLooping(!isLooping)}
+          >
+            <RefreshCwIcon data-icon="inline-start" />
+            Loop
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
@@ -178,7 +214,7 @@ export function IconDetail({
   /** Category titles by name, from the catalog. */
   categoryTitles: Map<string, string>
   /** The animated icons, once loaded. */
-  animated: AnimatedComponents | null
+  animated: AnimatedRenderer | null
 }) {
   const previewRef = React.useRef<HTMLDivElement>(null)
   const { resolvedTheme } = useTheme()
@@ -191,10 +227,7 @@ export function IconDetail({
     color: "currentColor",
     scheme,
   })
-  const moving =
-    entry.set === "animated"
-      ? animated?.get(toComponentName(entry.name))
-      : undefined
+  const recipe = entry.set === "animated" ? entry.motion : undefined
 
   const downloadPng = async () => {
     // A standalone PNG can't follow the text colour: paint it with the
@@ -212,184 +245,181 @@ export function IconDetail({
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-6 pb-6">
-      <SheetHeader className="px-0">
-        <SheetTitle className="font-mono">
-          {toComponentName(entry.name)}
-        </SheetTitle>
-        <SheetDescription>{getIconDescription(entry)}</SheetDescription>
-      </SheetHeader>
-
-      <div
-        ref={previewRef}
-        className="flex flex-col items-center gap-5 rounded-xl bg-surface-2 py-8 text-foreground shadow-surface-2"
-      >
-        {moving ? (
-          <AnimatedDetailPreview
-            component={moving}
-            strokeWidth={options.strokeWidth}
-          />
-        ) : (
-          <>
-            <IconPreview icon={icon} {...options} size={96} />
-            <div
-              className="flex items-end gap-5 text-muted-foreground"
-              aria-hidden="true"
-            >
-              {SAMPLE_SIZES.map((size) => (
-                <IconPreview key={size} icon={icon} {...options} size={size} />
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <pre className="rounded-xl bg-surface-2 p-3 font-mono text-[12px] leading-relaxed break-all whitespace-pre-wrap shadow-surface-2">
-          <code>{snippet}</code>
-        </pre>
-        <div className="grid grid-cols-2 gap-2">
-          <CopyAction label="Copy JSX" value={snippet} />
-          {entry.set === "animated" ? (
-            <Button
-              variant="outline"
-              nativeButton={false}
-              render={<Link href={`/icons?icon=${entry.name}`} />}
-            >
-              Static icon
-            </Button>
-          ) : (
-            <>
-              <CopyAction label="Copy SVG" value={svg} />
-              <Button
-                variant="outline"
-                onClick={() =>
-                  downloadBlob(
-                    new Blob([svg], { type: "image/svg+xml" }),
-                    `${entry.name}.svg`
-                  )
-                }
-              >
-                <DownloadIcon data-icon="inline-start" />
-                Download SVG
-              </Button>
-              <Button variant="outline" onClick={() => void downloadPng()}>
-                <DownloadIcon data-icon="inline-start" />
-                Download PNG
-              </Button>
-            </>
-          )}
+    <>
+      <DrawerHeader className="flex-row items-start justify-between gap-3 px-4 py-4 group-data-[swipe-axis=y]/drawer-popup:text-start sm:px-6">
+        <div className="min-w-0 space-y-1">
+          <DrawerTitle className="font-mono [overflow-wrap:anywhere]">
+            {toComponentName(entry.name)}
+          </DrawerTitle>
+          <DrawerDescription>{getIconDescription(entry)}</DrawerDescription>
         </div>
-      </div>
+        <DrawerClose
+          render={
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              aria-label="Close preview"
+              title="Close preview"
+            />
+          }
+        >
+          <XIcon />
+        </DrawerClose>
+      </DrawerHeader>
 
-      <InstallCommand packages={getPackages(entry.set)} />
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pt-1 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-6">
+        <div className="grid items-start gap-4 md:grid-cols-2">
+          <div
+            ref={previewRef}
+            className="flex min-w-0 flex-col items-center gap-5 rounded-(--radius-surface) bg-surface-2 px-4 pt-6 pb-4 text-foreground shadow-surface-2"
+          >
+            {animated && recipe && icon.set === "animated" ? (
+              <AnimatedDetailPreview
+                component={animated}
+                data={icon.data}
+                recipe={recipe}
+                strokeWidth={options.strokeWidth}
+              />
+            ) : (
+              <>
+                <IconPreview icon={icon} {...options} size={96} />
+                <IconSizeSamples
+                  renderPreview={(size) => (
+                    <IconPreview icon={icon} {...options} size={size} />
+                  )}
+                />
+              </>
+            )}
+          </div>
 
-      <dl className="flex flex-col gap-4">
-        {entry.set === "files" && (
-          <Fact label="Source">
-            <a
-              href="https://github.com/littensy/charmed-icons/tree/v0.10.0"
-              target="_blank"
-              rel="noreferrer"
-              className="underline underline-offset-4"
-            >
-              Charmed Icons v0.10.0 · MIT
-            </a>
-          </Fact>
-        )}
-        {entry.set !== "brands" ? (
-          <>
-            {entry.set === "animated" && (
-              <Fact label="Animation">
-                <a
-                  href="https://lucide-animated.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 underline underline-offset-4"
+          <div className="flex min-w-0 flex-col gap-3">
+            <pre className="rounded-(--radius-surface) bg-surface-2 p-3 font-mono text-[12px] leading-relaxed [overflow-wrap:anywhere] whitespace-pre-wrap shadow-surface-2">
+              <code>{snippet}</code>
+            </pre>
+            <div className="grid grid-cols-2 gap-2">
+              <CopyAction label="Copy JSX" value={snippet} />
+              {entry.set === "animated" ? (
+                <Button
+                  variant="outline"
+                  nativeButton={false}
+                  render={<Link href={`/icons?icon=${entry.name}`} />}
                 >
-                  lucide-animated, MIT
-                  <ArrowUpRightIcon className="size-3.5" />
-                </a>
-              </Fact>
-            )}
-            {entry.set === "animated" && entry.isOlderDrawing && (
-              <Fact label="Drawing">
-                Animates an older Lucide drawing, so at rest it differs slightly
-                from the outline icon.
-              </Fact>
-            )}
-            {entry.aliases.length > 0 && (
-              <Fact label="Also exported as">
-                {entry.aliases.map((alias) => (
-                  <code key={alias} className="font-mono">
-                    {toComponentName(alias)}
-                  </code>
+                  Static icon
+                </Button>
+              ) : (
+                <>
+                  <CopyAction label="Copy SVG" value={svg} />
+                  <Button
+                    variant="outline"
+                    onClick={() =>
+                      downloadBlob(
+                        new Blob([svg], { type: "image/svg+xml" }),
+                        `${entry.name}.svg`
+                      )
+                    }
+                  >
+                    <DownloadIcon data-icon="inline-start" />
+                    Download SVG
+                  </Button>
+                  <Button variant="outline" onClick={() => void downloadPng()}>
+                    <DownloadIcon data-icon="inline-start" />
+                    Download PNG
+                  </Button>
+                </>
+              )}
+            </div>
+            <InstallCommand packages={getPackages(entry.set)} />
+          </div>
+        </div>
+
+        <dl className="flex flex-wrap gap-x-6 gap-y-3 pt-4">
+          {entry.set === "files" && (
+            <Fact label="Source">
+              <a
+                href="https://github.com/littensy/charmed-icons/tree/v0.10.0"
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-4"
+              >
+                Charmed Icons v0.10.0 · MIT
+              </a>
+            </Fact>
+          )}
+          {entry.set !== "brands" ? (
+            <>
+              {entry.aliases.length > 0 && (
+                <Fact label="Also exported as">
+                  {entry.aliases.map((alias) => (
+                    <code key={alias} className="font-mono">
+                      {toComponentName(alias)}
+                    </code>
+                  ))}
+                </Fact>
+              )}
+              <Fact label="Categories">
+                {entry.categories.map((category) => (
+                  <Badge key={category} variant="secondary">
+                    {categoryTitles.get(category) ?? category}
+                  </Badge>
                 ))}
               </Fact>
-            )}
-            <Fact label="Categories">
-              {entry.categories.map((category) => (
-                <Badge key={category} variant="secondary">
-                  {categoryTitles.get(category) ?? category}
+            </>
+          ) : (
+            <>
+              <Fact label="Brand colour">
+                <span
+                  aria-hidden="true"
+                  className="size-4 rounded-sm"
+                  style={{ backgroundColor: entry.hex }}
+                />
+                <code className="font-mono">{entry.hex}</code>
+              </Fact>
+              <Fact label="Source">
+                {entry.artSource
+                  ? `${entry.source}; art: ${entry.artSource}`
+                  : entry.source}
+              </Fact>
+              <Fact label="Licence">{entry.license}</Fact>
+              {entry.credit && <Fact label="Credit">{entry.credit}</Fact>}
+              {entry.guidelines && (
+                <Fact label="Guidelines">
+                  <a
+                    href={entry.guidelines}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 underline underline-offset-4"
+                  >
+                    {title} brand guidelines
+                    <ArrowUpRightIcon className="size-3.5" />
+                  </a>
+                </Fact>
+              )}
+            </>
+          )}
+          {entry.tags.length > 0 && (
+            <Fact label="Tags">
+              {entry.tags.map((tag) => (
+                <Badge key={tag} variant="outline">
+                  {tag}
                 </Badge>
               ))}
             </Fact>
-          </>
-        ) : (
-          <>
-            <Fact label="Brand colour">
-              <span
-                aria-hidden="true"
-                className="size-4 rounded-sm"
-                style={{ backgroundColor: entry.hex }}
-              />
-              <code className="font-mono">{entry.hex}</code>
-            </Fact>
-            <Fact label="Source">
-              {entry.artSource
-                ? `${entry.source}; art: ${entry.artSource}`
-                : entry.source}
-            </Fact>
-            <Fact label="Licence">{entry.license}</Fact>
-            {entry.credit && <Fact label="Credit">{entry.credit}</Fact>}
-            {entry.guidelines && (
-              <Fact label="Guidelines">
-                <a
-                  href={entry.guidelines}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 underline underline-offset-4"
-                >
-                  {title} brand guidelines
-                  <ArrowUpRightIcon className="size-3.5" />
-                </a>
-              </Fact>
-            )}
-          </>
-        )}
-        {entry.tags.length > 0 && (
-          <Fact label="Tags">
-            {entry.tags.map((tag) => (
-              <Badge key={tag} variant="outline">
-                {tag}
-              </Badge>
-            ))}
-          </Fact>
-        )}
-      </dl>
+          )}
+        </dl>
 
-      {entry.set === "brands" && (
-        <p className="text-[12px] text-muted-foreground">
-          Brand marks belong to their owners. Read the{" "}
-          <Link
-            href="/docs/icons/brands"
-            className="underline underline-offset-4"
-          >
-            brands policy
-          </Link>{" "}
-          before using one.
-        </p>
-      )}
-    </div>
+        {entry.set === "brands" && (
+          <p className="mt-3 text-[12px] text-muted-foreground">
+            Brand marks belong to their owners. Read the{" "}
+            <Link
+              href="/docs/icons/brands"
+              className="underline underline-offset-4"
+            >
+              brands policy
+            </Link>{" "}
+            before using one.
+          </p>
+        )}
+      </div>
+    </>
   )
 }

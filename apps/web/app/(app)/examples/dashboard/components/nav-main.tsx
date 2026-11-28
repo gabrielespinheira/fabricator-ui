@@ -1,6 +1,6 @@
 "use client"
 
-import { type Icon } from "@tabler/icons-react"
+import { type IconComponent } from "@fabricator-ui/icons"
 
 import {
   SidebarGroup,
@@ -17,7 +17,7 @@ export function NavMain({
   items: {
     title: string
     url: string
-    icon?: Icon
+    icon?: IconComponent
   }[]
 }) {
   return (

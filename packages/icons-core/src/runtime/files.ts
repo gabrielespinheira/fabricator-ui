@@ -8,6 +8,7 @@ export type FilePalette = Record<string, { light: string; dark: string }>
 export type FileIconData = {
   name: string
   node: IconElement[]
+  opticalScale?: number
   masks?: {
     id: string
     attributes: Record<string, string>

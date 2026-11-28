@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "@fabricator-ui/icons"
 import { toast } from "sonner"
 
 import {

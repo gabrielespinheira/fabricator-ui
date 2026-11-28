@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { IconMenu3 } from "@tabler/icons-react"
+import { MenuIcon } from "@fabricator-ui/icons"
 import { cn } from "cn"
 
 import { FluidNav, FluidNavLink } from "@/components/fabricator/fluid-nav"
@@ -81,7 +81,7 @@ export function DocsTableOfContents({
             size="sm"
             className={cn("h-8 md:h-7", className)}
           >
-            <IconMenu3 /> On This Page
+            <MenuIcon /> On This Page
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent

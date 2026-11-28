@@ -1,10 +1,10 @@
-import { type ReactTable, type RowData } from "@tanstack/react-table"
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-} from "lucide-react"
+} from "@fabricator-ui/icons"
+import { type ReactTable, type RowData } from "@tanstack/react-table"
 
 import { Button } from "@/registry/new-york-v4/ui/button"
 import {
@@ -13,7 +13,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/registry/new-york-v4/ui/select"
+} from "@/styles/radix-fabricator/ui/select"
 
 import { type TasksTableFeatures } from "./data-table-features"
 

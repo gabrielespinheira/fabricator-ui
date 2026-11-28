@@ -104,7 +104,7 @@ function Alert({
         >
           {media.length > 0 ? (
             <TextStyle className={alertIconVariants({ variant })}>
-              <IconProvider strokeWidth={1.5}>
+              <IconProvider strokeWidth={1.75}>
                 <View className="cn-alert-media shrink-0">{media}</View>
               </IconProvider>
             </TextStyle>

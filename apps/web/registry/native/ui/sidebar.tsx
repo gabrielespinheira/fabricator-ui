@@ -16,6 +16,7 @@ import {
   IconProvider,
   type IconProps,
 } from "@fabricator-ui/icons-react-native"
+import { SidebarToggleIcon as AnimatedSidebarToggleIcon } from "@fabricator-ui/icons-react-native/animated"
 import { useEffectEvent as useLatestCallback } from "@rn-primitives/hooks"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
@@ -28,7 +29,6 @@ import {
 } from "react-native"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
 import Animated, {
-  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -39,17 +39,14 @@ import {
   SafeAreaInsetsContext,
   type EdgeInsets,
 } from "react-native-safe-area-context"
-import Svg, { Path } from "react-native-svg"
 import { scheduleOnRN } from "react-native-worklets"
 import { ScopedVariables, useCSSVariable, useResolveClassNames } from "uniwind"
 
 import {
   getRevealDragProgress,
   getRevealWidth,
-  getToggleGlyphPanel,
   REVEAL_RADIUS,
   shouldRevealStayOpen,
-  TOGGLE_GLYPH,
   TOGGLE_GLYPH_SCALE,
 } from "@/registry/fabricator/shared/lib/sidebar-model"
 import { useIsMobile } from "@/registry/native/hooks/use-mobile"
@@ -329,6 +326,10 @@ function SidebarProvider({
   const motion = useMotion("sheet")
   const progress = useSharedValue(0)
   const [isAside, setIsAside] = React.useState(false)
+  const finishRevealClose = useLatestCallback(() => {
+    // A completion queued on the UI thread can arrive after the sidebar reopens.
+    if (!openMobile) setIsAside(false)
+  })
   const settleReveal = React.useCallback(
     (toOpen: boolean) => {
       const duration = motion.isReduced
@@ -341,12 +342,12 @@ function SidebarProvider({
           toOpen ? 1 : 0,
           { duration, easing: motion.drawerEasing },
           (finished) => {
-            if (finished && !toOpen) scheduleOnRN(setIsAside, false)
+            if (finished && !toOpen) scheduleOnRN(finishRevealClose)
           }
         )
       )
     },
-    [motion, progress]
+    [finishRevealClose, motion, progress]
   )
 
   const isReveal = isMobile && mobileSidebar === "reveal"
@@ -356,7 +357,9 @@ function SidebarProvider({
   if (previousRevealState !== revealState) {
     setPreviousRevealState(revealState)
     // A closing reveal stays aside until its animation completes.
-    if (revealState !== "closed") setIsAside(revealState === "open")
+    if (revealState !== "closed" || previousRevealState === "open") {
+      setIsAside(isReveal)
+    }
   }
   React.useEffect(() => {
     if (!isReveal) {
@@ -441,7 +444,7 @@ function SidebarProvider({
       progress,
       revealWidth,
       sheetWidth,
-      isAside,
+      isAside: isReveal && (openMobile || isAside),
       setIsAside,
       settleReveal,
     }),
@@ -449,6 +452,8 @@ function SidebarProvider({
       collapsible,
       gapWidth,
       isAside,
+      isReveal,
+      openMobile,
       progress,
       registerCollapsible,
       registerGapWidth,
@@ -964,13 +969,7 @@ function Sidebar({
 
 const sidebarTriggerWashVariants = cva("cn-sidebar-trigger-wash")
 const sidebarToggleIconVariants = cva("cn-sidebar-toggle-icon")
-const sidebarToggleIconPanelVariants = cva("cn-sidebar-toggle-icon-panel")
 
-/**
- * The panel glyph (lib/sidebar-model): the sidebar inside its frame widens as it
- * opens, on the look's move timing. A path can't animate on the UI thread here, so
- * each frame of the move draws the shape.
- */
 function SidebarToggleIcon({
   open,
   side,
@@ -981,56 +980,26 @@ function SidebarToggleIcon({
   className?: string
 }) {
   const motion = useMotion("move")
-  const { color: frameColor } = useResolveClassNames(
+  const { color } = useResolveClassNames(
     sidebarToggleIconVariants({ className })
-  )
-  const { color: panelColor } = useResolveClassNames(
-    sidebarToggleIconPanelVariants()
   )
   const size =
     parseNumber(useCSSVariable("--density-icon-16"), 16) * TOGGLE_GLYPH_SCALE
-  const progress = useSharedValue(open ? 1 : 0)
-  const [drawn, setDrawn] = React.useState(open ? 1 : 0)
-  React.useEffect(() => {
-    progress.set(
-      withTiming(open ? 1 : 0, {
-        duration: motion.isReduced ? 0 : motion.enterMs,
-        easing: motion.moveEasing,
-      })
-    )
-  }, [motion, open, progress])
-  useAnimatedReaction(
-    () => progress.get(),
-    (value) => {
-      scheduleOnRN(setDrawn, value)
-    }
-  )
-  const fill = typeof frameColor === "string" ? frameColor : undefined
+
   return (
-    <Svg
+    <AnimatedSidebarToggleIcon
       data-slot="sidebar-toggle-icon"
       data-state={open ? "open" : "closed"}
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      style={side === "right" ? { transform: [{ scaleX: -1 }] } : undefined}
-    >
-      <Path
-        d={TOGGLE_GLYPH.frame}
-        fill={fill}
-        stroke={fill}
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <Path
-        d={getToggleGlyphPanel(drawn)}
-        fill={typeof panelColor === "string" ? panelColor : undefined}
-      />
-    </Svg>
+      size={size}
+      color={typeof color === "string" ? color : undefined}
+      open={open}
+      side={side}
+      variant="fill"
+      duration={motion.isOff || motion.isReduced ? 0 : motion.enterMs}
+      easing={motion.moveEasing}
+    />
   )
 }
 
@@ -1375,7 +1344,7 @@ function SidebarChevron({ open }: { open: boolean }) {
   }))
   return (
     <Animated.View style={style}>
-      <ChevronRightIcon size={iconSize} strokeWidth={1.5} />
+      <ChevronRightIcon size={iconSize} strokeWidth={1.75} />
     </Animated.View>
   )
 }
@@ -1689,7 +1658,7 @@ function SidebarGroupAction({
   if (collapse === "icon" || group?.open === false) return null
   const content = (
     <TextStyle className="cn-sidebar-group-action-text">
-      <IconProvider strokeWidth={1.5}>
+      <IconProvider strokeWidth={1.75}>
         {renderTextChildren(children)}
       </IconProvider>
     </TextStyle>
@@ -2246,7 +2215,7 @@ function SidebarMenuButton({
       className={sidebarMenuButtonTextVariants({ size: resolvedSize, state })}
     >
       <IconProvider
-        strokeWidth={active || isLit ? 2 : 1.5}
+        strokeWidth={1.75}
         {...(typeof iconColor === "string" ? { color: iconColor } : {})}
       >
         {icon ? (
@@ -2371,7 +2340,7 @@ function SidebarMenuAction({
     </TextStyle>
   ) : (
     <TextStyle className="cn-sidebar-menu-action-text">
-      <IconProvider strokeWidth={1.5}>
+      <IconProvider strokeWidth={1.75}>
         {renderTextChildren(children)}
       </IconProvider>
     </TextStyle>
@@ -2674,10 +2643,7 @@ function SidebarMenuSubButton({
         state: isActive || isLit ? "active" : "default",
       })}
     >
-      <IconProvider
-        size={parseNumber(icon14, 14)}
-        strokeWidth={isActive || isLit ? 2 : 1.5}
-      >
+      <IconProvider size={parseNumber(icon14, 14)} strokeWidth={1.75}>
         {icon ? renderRowIcon(icon) : null}
       </IconProvider>
       {wrapTextChildren(children, (label, key) => (

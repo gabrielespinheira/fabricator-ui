@@ -292,7 +292,7 @@ function ContextMenuItem({
           : contextMenuItemTextVariants({ variant })
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+      <IconProvider strokeWidth={isLit ? 2 : 1.75}>
         <ContextMenuPrimitive.Item
           data-slot="context-menu-item"
           data-inset={inset}
@@ -352,7 +352,7 @@ function ContextMenuSubTrigger({
           : contextMenuItemTextVariants()
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+      <IconProvider strokeWidth={isLit ? 2 : 1.75}>
         <ContextMenuPrimitive.SubTrigger
           data-slot="context-menu-sub-trigger"
           data-inset={inset}
@@ -430,7 +430,7 @@ function ContextMenuChoiceText({
             : cn("cn-context-menu-choice-text")
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.5}>{children}</IconProvider>
+      <IconProvider strokeWidth={isLit ? 2 : 1.75}>{children}</IconProvider>
     </TextStyle>
   )
 }

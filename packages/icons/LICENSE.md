@@ -22,9 +22,10 @@ SOFTWARE.
 
 ---
 
-The outline icons come from Lucide 1.73.0 (https://lucide.dev), used under
-its licence, reproduced below. The Custom icons are Fabricator's own, under the
-MIT licence above. Brand marks are not covered by either licence: see BRANDS.md.
+Fabricator maintains the UI icon catalog. It includes redrawn icons derived from
+Lucide 1.73.0 (https://lucide.dev). The Lucide and Feather notices for those
+drawings are reproduced below. The MIT licence above covers Fabricator's code
+and original icons. See BRANDS.md for brand marks.
 
 ISC License
 
@@ -85,7 +86,7 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 
 ---
 
-The animations in the `/animated` entry come from lucide-animated
+The vendored animation references come from lucide-animated
 (https://lucide-animated.com, 4662fff), used under its licence, reproduced
 below.
 

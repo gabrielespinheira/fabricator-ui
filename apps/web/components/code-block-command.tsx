@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { IconCheck, IconCopy, IconTerminal } from "@tabler/icons-react"
+import { CheckIcon, CopyIcon, TerminalIcon } from "@fabricator-ui/icons"
 
 import { useConfig } from "@/hooks/use-config"
 import { copyToClipboardWithMeta } from "@/components/copy-button"
@@ -80,7 +80,7 @@ export function CodeBlockCommand({
       >
         <div className="flex items-center gap-2 border-b border-border/50 px-3 py-1">
           <div className="flex size-4 items-center justify-center rounded-[1px] bg-foreground opacity-70">
-            <IconTerminal className="size-3 text-code" />
+            <TerminalIcon className="size-3 text-code" />
           </div>
           <TabsList className="rounded-none bg-transparent p-0">
             {Object.entries(tabs).map(([key]) => {
@@ -121,7 +121,7 @@ export function CodeBlockCommand({
         onClick={copyCommand}
       >
         <span className="sr-only">Copy</span>
-        {hasCopied ? <IconCheck /> : <IconCopy />}
+        {hasCopied ? <CheckIcon /> : <CopyIcon />}
       </Button>
     </div>
   )

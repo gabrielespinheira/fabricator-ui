@@ -8,12 +8,22 @@ import { loadBrands } from "./brands"
 import { loadFileIcons } from "./file-icons"
 import { getBounds, type Bounds } from "./geometry"
 import { isKebabCase } from "./names"
-import { loadOutlineIcons, readBrandStopwords, readCategories } from "./outline"
-import { DUOTONE_SOURCES, OUTLINE_SOURCES } from "./paths"
+import {
+  loadImportedIcons,
+  loadOutlineIcons,
+  readBrandStopwords,
+  readCategories,
+} from "./outline"
+import { DUOTONE_SOURCES, OUTLINE_SOURCES, ROUNDED_SOURCES } from "./paths"
 import { iconMetadataSchema, readJson } from "./schemas"
 import { parseSvg } from "./svg"
 import type { BrandGradient, IconElement } from "./types"
-import { validateElements, validateOutlineSvg } from "./validate"
+import { loadUiIcons, UI_STROKE_WIDTH } from "./ui-icons"
+import {
+  validateElements,
+  validateOutlineSvg,
+  validatePrecision,
+} from "./validate"
 
 function isClosed([tag, attributes]: IconElement) {
   if (tag === "path") return /z\s*$/i.test(attributes.d ?? "")
@@ -25,11 +35,8 @@ function isClosed([tag, attributes]: IconElement) {
 export function checkOriginals(directory = OUTLINE_SOURCES) {
   if (!fs.existsSync(directory)) return []
   const errors: string[] = []
-  const lucide = loadOutlineIcons({
-    outlineDirectory: path.join(directory, "__none__"),
-  })
   const taken = new Set(
-    lucide.flatMap((icon) => [
+    loadImportedIcons().flatMap((icon) => [
       icon.name,
       ...icon.aliases.map((alias) => alias.name),
     ])
@@ -46,14 +53,14 @@ export function checkOriginals(directory = OUTLINE_SOURCES) {
     if (!isKebabCase(name)) report("the name must be kebab-case")
     if (taken.has(name))
       report(
-        "Lucide already uses this name; make ours an alias of Lucide's or rename it"
+        "this name is already in the Fabricator catalog; use a drawing override or choose a new name"
       )
     const stopword = stopwords.find((word) => name.split("-").includes(word))
     if (stopword)
       report(`"${stopword}" is a brand; brand marks go in sources/brands`)
     for (const error of validateOutlineSvg(
       parseSvg(fs.readFileSync(path.join(directory, file), "utf8")),
-      { strict: true }
+      { strict: true, isFabricatorSource: true }
     )) {
       report(error)
     }
@@ -178,7 +185,7 @@ export function checkDuotone(directory = DUOTONE_SOURCES) {
   return errors
 }
 
-/** Every vendored animated icon must ship under a Lucide name, or say why not. */
+/** Validate the archived animation references against the imported snapshot. */
 export function checkAnimated() {
   try {
     loadAnimatedIcons()
@@ -190,12 +197,82 @@ export function checkAnimated() {
   }
 }
 
+function checkUiDrawings() {
+  const sources = loadOutlineIcons()
+  const originals = new Map(sources.map((icon) => [icon.name, icon.node]))
+  const catalog = new Map(loadUiIcons(sources).map((icon) => [icon.name, icon]))
+  const errors: string[] = []
+  for (const [name, icon] of catalog) {
+    if (
+      !icon.node.length ||
+      !icon.fill.node.length ||
+      !icon.duotone.secondary.length
+    ) {
+      errors.push(`rounded/${name}: every weight must contain visible geometry`)
+    }
+  }
+  if (!fs.existsSync(ROUNDED_SOURCES)) return errors
+  for (const file of fs.readdirSync(ROUNDED_SOURCES)) {
+    const report = (message: string) =>
+      errors.push(`rounded/${file}: ${message}`)
+    const match = /^(.*)-(outline|fill|duotone)\.svg$/.exec(file)
+    const icon = catalog.get(match?.[1] ?? "")
+    const weight = match?.[2]
+    if (!icon || !weight) {
+      report("use the canonical name and a weight")
+      continue
+    }
+    const drawing = parseSvg(
+      fs.readFileSync(path.join(ROUNDED_SOURCES, file), "utf8")
+    )
+    if (drawing.attributes.viewBox !== "0 0 24 24") report("use a 24 × 24 grid")
+    if (
+      weight === "fill"
+        ? drawing.attributes.fill !== "currentColor"
+        : Number(drawing.attributes["stroke-width"]) !== UI_STROKE_WIDTH
+    )
+      report("use the weight’s default paint")
+    for (const error of [
+      ...validateElements(drawing.node, weight === "fill" ? ["fill-rule"] : []),
+      ...validatePrecision(drawing.node),
+    ])
+      report(error)
+    if (weight === "duotone") {
+      const [secondary] = drawing.groups
+      if (
+        drawing.groups.length !== 1 ||
+        secondary?.attributes.id !== "secondary"
+      ) {
+        report("use one secondary group")
+      } else {
+        for (const error of [
+          ...validateElements(secondary.node, ["fill-rule"]),
+          ...validatePrecision(secondary.node),
+        ])
+          report(error)
+        if (!secondary.node.length || !secondary.node.every(isClosed))
+          report("use closed shapes for the secondary paint")
+      }
+      const outlineFile = path.join(ROUNDED_SOURCES, `${icon.name}-outline.svg`)
+      const outline = fs.existsSync(outlineFile)
+        ? parseSvg(fs.readFileSync(outlineFile, "utf8")).node
+        : originals.get(icon.name)
+      if (JSON.stringify(drawing.node) !== JSON.stringify(outline))
+        report("the stroke geometry must match the outline")
+    } else if (drawing.groups.length) {
+      report("groups are only available for secondary paint")
+    }
+  }
+  return errors
+}
+
 export function checkSources() {
   loadFileIcons()
   return [
     ...checkOriginals(),
     ...checkBrands(),
     ...checkDuotone(),
+    ...checkUiDrawings(),
     ...checkAnimated(),
   ]
 }

@@ -282,7 +282,7 @@
   }
 
   .cn-app-shell-bottom-nav-item {
-    @apply min-h-(--density-48) cursor-pointer gap-(--density-4) text-(length:--density-text-11) text-muted-foreground transition-colors duration-feedback ease-feedback outline-none hover:text-foreground focus-visible:text-foreground aria-[current=page]:text-foreground aria-[current=page]:weight-semibold [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5] aria-[current=page]:[&_svg]:stroke-2;
+    @apply min-h-(--density-48) cursor-pointer gap-(--density-4) text-(length:--density-text-11) text-muted-foreground transition-colors duration-feedback ease-feedback outline-none hover:text-foreground focus-visible:text-foreground aria-[current=page]:text-foreground aria-[current=page]:weight-semibold [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75] aria-[current=page]:[&_svg]:stroke-2;
   }
 
   .cn-app-shell-bottom-nav-label {

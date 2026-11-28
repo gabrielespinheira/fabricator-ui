@@ -1775,7 +1775,10 @@ export const fabricatorOverrides: Record<
   "navigation-menu": { registryDependencies: ["fluid-hover", "density"] },
   tabs: { registryDependencies: ["fluid-hover"] },
   "toggle-group": { registryDependencies: ["fluid-hover"] },
-  sidebar: { registryDependencies: ["fluid-hover", "kbd", "sidebar-model"] },
+  sidebar: {
+    dependencies: ["@fabricator-ui/icons"],
+    registryDependencies: ["fluid-hover", "kbd", "sidebar-model"],
+  },
   accordion: { registryDependencies: ["fluid-hover", "accordion-shape"] },
   table: { registryDependencies: ["fluid-hover"] },
   questionnaire: { registryDependencies: ["fluid-hover"] },

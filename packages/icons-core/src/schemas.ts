@@ -10,7 +10,6 @@ export const iconAliasSchema = z.object({
   toBeRemovedInVersion: z.string().optional(),
 })
 
-/** Lucide's icon metadata, also used for Fabricator originals. */
 export const iconMetadataSchema = z.object({
   tags: z.array(z.string()),
   categories: z.array(z.string()),
@@ -60,7 +59,9 @@ export const animatedMapSchema = z.object({
   olderDrawings: z.array(z.string()),
 })
 
-export const categorySchema = z.object({ title: z.string() })
+export const iconCategoriesSchema = z.array(
+  z.object({ name: z.string(), title: z.string() })
+)
 
 export const brandStopwordsSchema = z.record(z.string(), z.string())
 

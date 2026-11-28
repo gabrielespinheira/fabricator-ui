@@ -4,7 +4,7 @@
 
 Read installed imports, package dependencies and the `@fabricator` registry config. If `config.registries["@fabricator"].params.icons` is `"fabricator"`, use `@fabricator-ui/icons` on web even when `iconLibrary` says `lucide` for compatibility. In React Native use `@fabricator-ui/icons-react-native` and its installed exports. Otherwise preserve the configured library, for example `lucide-react` or `@tabler/icons-react`; adopting Fabricator UI does not imply an icon migration.
 
-For a new project using Fabricator defaults, prefer Fabricator Icons. For an existing product, keep its choice unless a migration was requested. Check actual exports/types before importing an unfamiliar icon. Outline names and aliases follow Lucide, but package versions and specialized sets differ.
+For a new project using Fabricator defaults, prefer Fabricator Icons. For an existing product, keep its choice unless a migration was requested. Use the installed exports or the Fabricator catalog to verify an unfamiliar name or alias. The catalog includes Fabricator originals and preserves names and aliases from the initial import.
 
 Choose one metaphor for each meaning throughout the product. Use outline icons for actions/navigation, brand marks for companies and file icons for file types. Use labels for important or unfamiliar actions. A decorative icon beside text should be hidden from assistive technology.
 

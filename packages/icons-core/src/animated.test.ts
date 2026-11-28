@@ -368,10 +368,10 @@ describe("transformAnimatedIcon", () => {
   })
 })
 
-describe("the shipped set", () => {
+describe("the archived animation references", () => {
   const icons = loadAnimatedIcons()
 
-  it("takes Lucide's names, once each", () => {
+  it("resolves to unique Fabricator catalog names", () => {
     const outline = new Set(loadOutlineIcons().map((icon) => icon.name))
     expect(icons.filter(({ name }) => !outline.has(name))).toEqual([])
     expect(new Set(icons.map(({ name }) => name)).size).toBe(icons.length)
@@ -384,13 +384,13 @@ describe("the shipped set", () => {
     }
   })
 
-  it("draws Lucide's geometry unless it's listed as an older drawing", () => {
+  it("records references that use older geometry", () => {
     const house = icons.find(({ name }) => name === "house")
     expect(house?.isOlderDrawing).toBe(false)
     expect(icons.some(({ isOlderDrawing }) => isOlderDrawing)).toBe(true)
   })
 
-  it("never ships a wrapper div or a fixed root size", () => {
+  it("transforms the references to svg roots with flexible sizing", () => {
     expect(
       icons
         .filter(({ source }) => /<div\b|<motion\.svg|size = 28/.test(source))
@@ -400,7 +400,7 @@ describe("the shipped set", () => {
 })
 
 describe("the licence", () => {
-  it("credits lucide-animated only where its code ships", () => {
+  it("includes the reference credit in the web package's licence", () => {
     expect(licenseText({ animated: true })).toContain("pqoqubbw")
     expect(licenseText()).not.toContain("pqoqubbw")
   })

@@ -1,0 +1,12 @@
+{
+  "tags": [
+    "sidebar",
+    "panel",
+    "open",
+    "close",
+    "collapse",
+    "expand",
+    "inspector"
+  ],
+  "categories": ["layout", "navigation"]
+}

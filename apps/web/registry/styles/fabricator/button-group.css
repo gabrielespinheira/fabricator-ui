@@ -19,7 +19,7 @@
   /* An addon cell: hover fill with a hairline edge, muted 13px text, sized
      like the 36px controls beside it. */
   .cn-button-group-text {
-    @apply bg-hover border-border text-muted-foreground gap-(--density-8) rounded-(--radius-control) border px-(--density-12) text-(length:--density-text-13) font-medium [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply bg-hover border-border text-muted-foreground gap-(--density-8) rounded-(--radius-control) border px-(--density-12) text-(length:--density-text-13) font-medium [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-button-group-separator {

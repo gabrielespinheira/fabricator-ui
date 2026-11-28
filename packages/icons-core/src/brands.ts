@@ -4,10 +4,12 @@ import type { z } from "zod"
 
 import { parseArtDocument } from "./brand-art"
 import { resolveBrandColors } from "./brand-colors"
+import { getArtworkScale, measureIconFootprint } from "./icon-footprint"
 import { BRAND_SOURCES } from "./paths"
+import { renderGradientMarkup } from "./runtime/gradients"
 import { brandMetadataSchema, readJson } from "./schemas"
-import { parseSvg } from "./svg"
-import type { BrandIcon } from "./types"
+import { parseSvg, renderSvgInline } from "./svg"
+import type { BrandArt, BrandIcon, IconElement } from "./types"
 
 export type BrandMetadata = z.infer<typeof brandMetadataSchema>
 
@@ -18,6 +20,21 @@ export class BrandSourceError extends Error {
 function readArt(file: string) {
   if (!fs.existsSync(file)) return undefined
   return parseArtDocument(fs.readFileSync(file, "utf8"))
+}
+
+function measureBrandScale(node: IconElement[], art?: BrandArt) {
+  const svg = renderSvgInline(
+    {
+      xmlns: "http://www.w3.org/2000/svg",
+      width: "96",
+      height: "96",
+      viewBox: `0 0 ${art?.width ?? 24} ${art?.height ?? 24}`,
+      fill: "black",
+    },
+    node
+  )
+  const framed = svg.replace(">", `>${renderGradientMarkup(art?.gradients)}`)
+  return getArtworkScale(measureIconFootprint(framed), { preserveSmall: false })
 }
 
 /** Every brand mark in sources/brands, sorted by name. */
@@ -48,7 +65,10 @@ export function loadBrands(directory = BRAND_SOURCES): BrandIcon[] {
         hex: metadata.hex,
         colors: resolveBrandColors(metadata.hex),
         node: mono.node,
-        ...(art && { art }),
+        ...(art && {
+          art: { ...art, opticalScale: measureBrandScale(art.node, art) },
+        }),
+        opticalScale: measureBrandScale(mono.node),
         ...(metadata.scale !== undefined && { scale: metadata.scale }),
         source: metadata.source,
         license: metadata.license,

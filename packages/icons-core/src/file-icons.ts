@@ -3,7 +3,9 @@ import path from "node:path"
 import { parseSync, stringify } from "svgson"
 import { z } from "zod"
 
+import { getArtworkScale, measureIconFootprint } from "./icon-footprint"
 import { FILE_SOURCES } from "./paths"
+import { renderFileSvg } from "./runtime/file-svg"
 import type { FileIconData, FilePalette } from "./runtime/files"
 import { readJson } from "./schemas"
 import { parseSvg } from "./svg"
@@ -128,13 +130,26 @@ export function loadFileIcons() {
               .node,
           }
         })
-      return {
+      const icon = {
         name: file.slice(0, -4),
         node: transformFileSvg(source, metadata.palette),
         ...(masks.length > 0 && { masks }),
       }
+      const svg = renderFileSvg(icon, metadata.palette, "dark", 96)
+      const opticalScale = getArtworkScale(measureIconFootprint(svg), {
+        preserveSmall: false,
+      })
+      return { ...icon, ...(opticalScale !== 1 && { opticalScale }) }
     })
-  const names = new Set(icons.map(({ name }) => name))
+  const iconsByName = new Map(icons.map((icon) => [icon.name, icon]))
+  for (const open of icons) {
+    if (!open.name.endsWith("-open")) continue
+    const closed = iconsByName.get(open.name.slice(0, -"-open".length))
+    if (!closed) continue
+    const scale = Math.min(closed.opticalScale ?? 1, open.opticalScale ?? 1)
+    closed.opticalScale = scale
+    open.opticalScale = scale
+  }
   for (const name of [
     "default-file",
     "default-folder",
@@ -143,11 +158,11 @@ export function loadFileIcons() {
     ...Object.values(metadata.fileExtensions),
     ...Object.values(metadata.folderNames),
   ]) {
-    if (!names.has(name))
+    if (!iconsByName.has(name))
       throw new FileIconSourceError(`Missing file artwork: ${name}`)
   }
   for (const name of Object.values(metadata.folderNames)) {
-    if (!names.has(`${name}-open`))
+    if (!iconsByName.has(`${name}-open`))
       throw new FileIconSourceError(`Missing expanded folder artwork: ${name}`)
   }
   return { icons, ...metadata }

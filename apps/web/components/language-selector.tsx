@@ -10,7 +10,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/styles/base-nova/ui/select"
+} from "@/styles/base-fabricator/ui/select"
 
 export type Language = "en" | "ar" | "he"
 

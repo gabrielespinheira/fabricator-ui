@@ -33,7 +33,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.`
 
-/** The package licence: MIT for Fabricator's code, Lucide's ISC (and Feather's MIT) for the icons. */
+/** The Fabricator licence and the notices for reused work. */
 export function licenseText({ animated = false } = {}) {
   const lucide = fs
     .readFileSync(path.join(LUCIDE_SOURCES, "LICENSE"), "utf8")
@@ -43,9 +43,10 @@ export function licenseText({ animated = false } = {}) {
 
 ---
 
-The outline icons come from Lucide ${lucideLock?.tag ?? "unknown"} (https://lucide.dev), used under
-its licence, reproduced below. The Custom icons are Fabricator's own, under the
-MIT licence above. Brand marks are not covered by either licence: see BRANDS.md.
+Fabricator maintains the UI icon catalog. It includes redrawn icons derived from
+Lucide ${lucideLock?.tag ?? "unknown"} (https://lucide.dev). The Lucide and Feather notices for those
+drawings are reproduced below. The MIT licence above covers Fabricator's code
+and original icons. See BRANDS.md for brand marks.
 
 ${lucide}
 
@@ -63,7 +64,7 @@ ${fs.readFileSync(path.join(FILE_SOURCES, "LICENSE"), "utf8").trim()}
   return `${notice}
 ---
 
-The animations in the \`/animated\` entry come from lucide-animated
+The vendored animation references come from lucide-animated
 (https://lucide-animated.com, ${animatedLock?.sha.slice(0, 7) ?? "unknown"}), used under its licence, reproduced
 below.
 

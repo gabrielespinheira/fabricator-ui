@@ -368,9 +368,8 @@ export function getPinnedAnchorWidth({
 }
 
 /**
- * Whether a panel draws its close button. A phone's drawer closes from its handle
- * and scrim. Beside a pinned toggle, which closes a docked panel from the same
- * spot, it steps aside.
+ * Whether a panel draws its close button. Beside a pinned toggle, which closes
+ * a docked panel from the same spot, it steps aside.
  */
 export function hasPanelClose({
   placement,
@@ -379,7 +378,6 @@ export function hasPanelClose({
   placement: PanelPlacement
   pinnedTriggers: number
 }) {
-  if (placement === "drawer") return false
   return placement !== "inline" || pinnedTriggers === 0
 }
 

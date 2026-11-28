@@ -57,9 +57,9 @@ export function IconsShowcase() {
   return (
     <div className="not-prose flex flex-col gap-4 rounded-xl bg-surface-2 p-6 text-foreground shadow-surface-2">
       {SIZES.map((size) => (
-        <Row key={size} label={`${size}px, stroke ${size === 24 ? 2 : 1.5}`}>
+        <Row key={size} label={`${size} px`}>
           {OUTLINE.map((Icon, index) => (
-            <Icon key={index} size={size} strokeWidth={size === 24 ? 2 : 1.5} />
+            <Icon key={index} size={size} />
           ))}
         </Row>
       ))}

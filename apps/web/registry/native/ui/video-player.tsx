@@ -535,9 +535,9 @@ function VideoPlayer({
             >
               <IconProvider color="white" size={centerIconSize}>
                 {status === "ended" ? (
-                  <RotateCcwIcon strokeWidth={1.5} />
+                  <RotateCcwIcon strokeWidth={1.75} />
                 ) : (
-                  <PlayIcon fill="white" strokeWidth={1.5} />
+                  <PlayIcon fill="white" strokeWidth={1.75} />
                 )}
               </IconProvider>
             </Pressable>
@@ -570,12 +570,12 @@ function VideoPlayer({
                   }}
                 >
                   <IconProvider color="white" size={centerIconSize}>
-                    {status === "ended" && <RotateCcwIcon strokeWidth={1.5} />}
+                    {status === "ended" && <RotateCcwIcon strokeWidth={1.75} />}
                     {status !== "ended" && isPlaying && (
-                      <PauseIcon fill="white" strokeWidth={1.5} />
+                      <PauseIcon fill="white" strokeWidth={1.75} />
                     )}
                     {status !== "ended" && !isPlaying && (
-                      <PlayIcon fill="white" strokeWidth={1.5} />
+                      <PlayIcon fill="white" strokeWidth={1.75} />
                     )}
                   </IconProvider>
                 </Pressable>
@@ -598,7 +598,7 @@ function VideoPlayer({
               <AlertCircleIcon
                 color="white"
                 size={iconSize}
-                strokeWidth={1.5}
+                strokeWidth={1.75}
               />
               <Text className="cn-video-player-error-text text-center">
                 This video can&apos;t be played.

@@ -8,7 +8,7 @@
  *
  * Reports console errors, sideways scroll, axe violations, controls under
  * something else that the keyboard still reaches, touch targets under 24px on
- * phones, a page without one h1, and a navigation row that lost its icon.
+ * phones, a page without one h1, and stale icons in the default preview.
  * Uses your installed Chrome through puppeteer-core (CHROME_PATH overrides).
  */
 import { existsSync } from "fs"
@@ -50,6 +50,15 @@ function findPageProblems({ isPhone }: { isPhone: boolean }) {
   const problems: string[] = []
   const overflow = document.documentElement.scrollWidth - innerWidth
   if (overflow > 0) problems.push(`scrolls sideways by ${overflow}px`)
+
+  const otherPackIcons = document.querySelectorAll(
+    "svg.lucide, svg.tabler-icon"
+  )
+  if (otherPackIcons.length > 0) {
+    problems.push(
+      `${otherPackIcons.length} icons from other packs in the default preview`
+    )
+  }
 
   const headings = [
     ...document.querySelectorAll('h1, [role="heading"][aria-level="1"]'),

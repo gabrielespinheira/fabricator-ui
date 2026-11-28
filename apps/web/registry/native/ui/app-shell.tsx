@@ -15,9 +15,7 @@ import {
   ChevronRightIcon,
   EllipsisIcon,
   IconProvider,
-  PanelBottomIcon,
   PlusIcon,
-  XIcon,
   type IconProps,
 } from "@fabricator-ui/icons-react-native"
 import {
@@ -75,7 +73,6 @@ import {
   type ShortcutEvent,
   type ShortcutPlatform,
 } from "@/registry/fabricator/shared/lib/app-shell-model"
-import { TOGGLE_GLYPH_SCALE } from "@/registry/fabricator/shared/lib/sidebar-model"
 import { noteStep } from "@/registry/fabricator/shared/lib/sound-recipes"
 import {
   applyPanelUpdate,
@@ -1045,7 +1042,7 @@ function PhoneBreadcrumb({
   const hasWayUp = parent !== null
   const separator = (
     <BreadcrumbSeparator>
-      <ChevronRightIcon size={separatorSize} strokeWidth={1.5} />
+      <ChevronRightIcon size={separatorSize} strokeWidth={1.75} />
     </BreadcrumbSeparator>
   )
   return (
@@ -1908,7 +1905,10 @@ function AppShellBottomNavItem({
         className="items-center justify-center"
         style={{ width: iconSize, height: iconSize }}
       >
-        <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.5}>
+        <IconProvider
+          size={iconSize}
+          strokeWidth={isActive || isLit ? 2 : 1.75}
+        >
           <IconSlot icon={icon} />
         </IconProvider>
       </View>
@@ -2421,7 +2421,7 @@ function AppShellPanelTabs({
   const { views, panel, placement } = usePanel()
   const isFloating = placement !== "inline"
   const isCompact = !isFloating && panel.width < PANEL_TABS_LABEL_WIDTH
-  // Beside a close button they take the row; a drawer has none, and centres them.
+  // Drawer tabs keep their natural width.
   const isStretched = isFloating && placement !== "drawer"
   return (
     <TabsList
@@ -2459,7 +2459,7 @@ function AppShellPanelClose({
   children,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { label, placement, side, setOpen } = usePanel()
+  const { label, panel, placement, side, setOpen } = usePanel()
   const { pinnedTriggers } = useAppShell()
   if (!hasPanelClose({ placement, pinnedTriggers })) return null
   const isFloating = placement !== "inline"
@@ -2474,8 +2474,7 @@ function AppShellPanelClose({
       className={cn("cn-app-shell-panel-close", className)}
       {...props}
     >
-      {children ??
-        (isFloating ? <XIcon /> : <SidebarToggleIcon open side={side} />)}
+      {children ?? <SidebarToggleIcon open={panel.open} side={side} />}
     </Button>
   )
 }
@@ -2541,9 +2540,6 @@ function AppShellPanelTrigger({
     "--density-24",
   ])
   const rowOffset = useShellRowOffset()
-  // The same size as the sidebar's toggle across the header from it.
-  const glyphSize =
-    parseNumber(useCSSVariable("--density-icon-16"), 16) * TOGGLE_GLYPH_SCALE
   const { height: smallButton } = useControlSize("sm")
   const isPhone = shell.size === "phone"
   const isPressed = view ? panel.open && panel.view === view : panel.open
@@ -2590,14 +2586,9 @@ function AppShellPanelTrigger({
       {...props}
     />
   )
-  // A phone's panel comes up from the bottom, so its toggle says that.
-  const glyph =
-    children ??
-    (isPhone ? (
-      <PanelBottomIcon size={glyphSize} />
-    ) : (
-      <SidebarToggleIcon open={isPressed} side={panel.side ?? "right"} />
-    ))
+  const glyph = children ?? (
+    <SidebarToggleIcon open={isPressed} side={panel.side ?? "right"} />
+  )
   // No tooltip: nothing hovers on a touch screen, and a long press taking over a
   // slow tap would leave the panel as it was.
   const button = React.cloneElement(panelButton, undefined, glyph)

@@ -145,7 +145,7 @@ function BreadcrumbSeparator({
         {...props}
       >
         {children === undefined ? (
-          <ChevronRightIcon size={size} strokeWidth={1.5} />
+          <ChevronRightIcon size={size} strokeWidth={1.75} />
         ) : (
           renderTextChildren(children)
         )}
@@ -169,7 +169,7 @@ function BreadcrumbEllipsis({
       )}
       {...props}
     >
-      <MoreHorizontalIcon strokeWidth={1.5} />
+      <MoreHorizontalIcon strokeWidth={1.75} />
     </View>
   )
 }

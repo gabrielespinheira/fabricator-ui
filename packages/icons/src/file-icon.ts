@@ -1,6 +1,10 @@
 import { createElement, useId, type ReactElement, type SVGProps } from "react"
 
-import { hasA11yProp, mergeClasses } from "./generated/runtime/attributes.js"
+import {
+  getArtworkViewBox,
+  hasA11yProp,
+  mergeClasses,
+} from "./generated/runtime/attributes.js"
 import type { FileIconData } from "./generated/runtime/files.js"
 import { toPascalCase } from "./generated/runtime/names.js"
 
@@ -50,7 +54,7 @@ export function FileIcon({
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 16 16",
+      viewBox: getArtworkViewBox(16, 16, data.opticalScale),
       width: width ?? size,
       height: height ?? size,
       fill: "none",

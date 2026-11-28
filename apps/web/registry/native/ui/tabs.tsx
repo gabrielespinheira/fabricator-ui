@@ -207,7 +207,7 @@ function TabsTrigger({
             : undefined
       )}
     >
-      <IconProvider strokeWidth={isActive || isLit ? 2 : 1.5}>
+      <IconProvider strokeWidth={isActive || isLit ? 2 : 1.75}>
         <TabsPrimitive.Trigger
           data-slot="tabs-trigger"
           data-state={isActive ? "active" : "inactive"}

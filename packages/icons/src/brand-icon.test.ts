@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest"
 import {
   BrandIcon,
   FirefoxIcon,
+  getBrandArtworkViewBox,
   GithubIcon,
   GoogleIcon,
   Instagram,
@@ -12,6 +13,8 @@ import {
   PinterestIcon,
   XIcon,
 } from "./brands"
+import { brandData as googleData } from "./generated/brands/google"
+import { brandData as xData } from "./generated/brands/x"
 import type { BrandIconData } from "./generated/runtime/types"
 import { XIcon as CloseIcon } from "./index"
 
@@ -20,7 +23,7 @@ const render = renderToStaticMarkup
 describe("brand icons", () => {
   it("draw in one colour that follows the text colour by default", () => {
     expect(render(createElement(GithubIcon))).toMatch(
-      /^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="fab-icon fab-brand-github" aria-hidden="true"><path d="/
+      /^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="24" height="24" viewBox="[^"]+" fill="currentColor" class="fab-icon fab-brand-github" aria-hidden="true"><path d="/
     )
   })
 
@@ -31,8 +34,9 @@ describe("brand icons", () => {
   })
 
   it("widen the viewBox for marks with an optical correction", () => {
+    expect(xData.opticalScale).toBeLessThan(1)
     expect(render(createElement(XIcon))).toContain(
-      'viewBox="-2.286 -2.286 28.571 28.571"'
+      `viewBox="${getBrandArtworkViewBox(xData)}"`
     )
   })
 
@@ -73,7 +77,9 @@ describe('color="brand"', () => {
 
   it("draws multi-colour art in its own box", () => {
     const markup = render(createElement(GoogleIcon, { color: "brand" }))
-    expect(markup).toContain('viewBox="0 0 256 262"')
+    expect(markup).toContain(
+      `viewBox="${getBrandArtworkViewBox(googleData, googleData.art)}"`
+    )
     expect(markup).toContain('fill="currentColor"')
     expect(markup.match(/<path fill="#/g)?.length).toBeGreaterThan(1)
   })

@@ -1,5 +1,7 @@
 # Icon pack expansion: candidate list
 
+Historical inventory and candidate list. Use the [icon contribution guide](../../packages/icons-core/CONTRIBUTING.md) for current drawing and naming rules.
+
 Status: decided 2026-11-04 (section 5). 112 Custom icons are drawn in `sources/outline/`: 24 `ui-*`, 15 AI and agents, and the accounts, deploys, data grid, commerce, and desktop and mobile groups. The rest of this list is proposed. It extends `docs/plans/icon-pack.md`.
 
 ## Summary

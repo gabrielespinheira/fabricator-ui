@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { parseArgs } from "node:util"
 
+import { UI_STROKE_WIDTH } from "./generated/runtime/attributes.js"
 import {
   exportPngs,
   isIconSet,
@@ -13,11 +14,11 @@ const USAGE = `Usage: fabricator-icons png <names...> [options]
 Renders icons to PNG for tray icons, menus and notifications.
 
 Options:
-  --set <outline|brands>  Which set the names come from (default: outline)
+  --set <outline|fill|duotone|brands>  Which set the names come from (default: outline)
   --size <points>         Width and height at 1x (default: 16)
   --scale <list>          Pixel densities, comma-separated (default: 1,2)
   --color <color>         Any CSS colour; "brand" for brand colours (default: #000000)
-  --stroke <width>        Stroke width for outline icons (default: 2)
+  --stroke <width>        Stroke width for outline and duotone icons (default: ${UI_STROKE_WIDTH})
   --template              macOS template images: black, named <name>Template.png
   --out <directory>       Where to write the files (default: .)
 `
@@ -31,7 +32,7 @@ async function main(argv: string[]) {
       size: { type: "string", default: "16" },
       scale: { type: "string", default: "1,2" },
       color: { type: "string", default: "#000000" },
-      stroke: { type: "string", default: "2" },
+      stroke: { type: "string", default: String(UI_STROKE_WIDTH) },
       template: { type: "boolean", default: false },
       out: { type: "string", default: "." },
       help: { type: "boolean", short: "h", default: false },
@@ -44,7 +45,9 @@ async function main(argv: string[]) {
   }
   const set = values.set
   if (!isIconSet(set)) {
-    console.error(`--set must be outline or brands, not ${set}`)
+    console.error(
+      `Unknown icon set "${set}". Use outline, fill, duotone or brands.`
+    )
     return 1
   }
   const written = await exportPngs(names, {

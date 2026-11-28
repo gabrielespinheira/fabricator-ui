@@ -1,6 +1,6 @@
 ---
 title: Animated
-description: 447 Lucide icons that animate on hover, with the same names and props as the outline icons, built on Motion.
+description: Every Fabricator UI icon animates in Outline, Fill and Duotone on the web.
 ---
 
 <IconsAnimated />
@@ -13,11 +13,11 @@ npm install @fabricator-ui/icons motion
 
 [Motion](https://motion.dev) is an optional peer dependency: nothing else in the package needs it, so the outline icons and brand marks don't load it. Motion 13 or later, React 19 or later.
 
-The animations render to the DOM, so they work in web apps and in the renderers of Electron and Tauri apps, but not in React Native.
+The full Animated set works in web apps and in the renderers of Electron and Tauri apps. The [sidebar toggle also has a React Native animation](/docs/icons/react-native#animated-sidebar-toggle).
 
 ## Usage
 
-Import from `/animated` and the icon plays while the pointer is over it:
+Import from `/animated` and the icon plays once when the pointer enters it:
 
 ```tsx
 import { BellIcon } from "@fabricator-ui/icons/animated"
@@ -60,31 +60,49 @@ export function UploadButton() {
 }
 ```
 
-Some animations loop until `stopAnimation()`, and some hold their last frame until then, so always pair the two.
+Each animation plays once and settles at rest. Call `stopAnimation()` to reset it early.
+
+## Loop playback
+
+Pass `loop` to replay the motion while the icon is hovered. The current gesture completes when the pointer leaves. If you start a loop through a ref, call `stopAnimation()` to stop it. You can preview a loop at every size in the [Animated gallery](/icons?set=animated).
+
+```tsx
+import { RefreshCwIcon } from "@fabricator-ui/icons/animated"
+
+;<RefreshCwIcon loop />
+```
+
+## Sidebar toggle
+
+Pass `open` to follow a sidebar or panel's state. Use `side="right"` for the mirrored right-panel glyph. Fabricator's Sidebar and App Shell use the Fill variant. The direct import has no Motion dependency.
+
+```tsx
+import { SidebarToggleIcon } from "@fabricator-ui/icons/animated/sidebar-toggle"
+
+;<SidebarToggleIcon variant="fill" open={isPanelOpen} side="right" />
+```
+
+The Animated `PanelLeftIcon` and `PanelRightIcon` also accept `open`. Their divider slides to widen the selected panel and stays there while `open` is true. Omit `open` whenever you want the hover preview.
 
 ## Reduced motion
 
-With `prefers-reduced-motion: reduce`, or `data-motion="off"` on `<html>`, icons stay at rest. The check runs each time an animation starts, so changing the setting needs no re-render.
+With `prefers-reduced-motion: reduce` or `data-motion="off"`, hover and ref playback stay idle. Controlled panels still show the current state immediately.
 
 ## Size
 
-One animated icon costs about 1.5 KB, minified and gzipped. Motion adds about 47 KB once per page, or nothing more if your app already uses it.
+Importing `BellIcon` from the Animated set adds about 8.3 KB, minified and gzipped. The shared Motion bundle adds about 58 KB if it is new to the page.
 
-## The icons
+## Weights
 
-The animations come from [lucide-animated](https://lucide-animated.com), MIT licensed, vendored at a pinned commit. They differ from the originals in a few ways:
+Pass `variant="fill"` or `variant="duotone"` to animate that weight. The default is `outline`.
 
-- The root is an `<svg>`, not an `<svg>` inside a `<div>`, and the default size is 24, not 28.
-- Icons take Lucide's current names, so upstream's `home` is `HouseIcon`, with `HomeIcon` as its alias.
-- Your `onMouseEnter` and `onMouseLeave` always run, with or without a `ref`.
-- Reduced motion is honoured.
+```tsx
+import { BookmarkIcon, PencilIcon } from "@fabricator-ui/icons/animated"
 
-When an icon has the same parts as the Lucide icon we ship, it takes our current geometry, so at rest it draws what the outline icon draws. 35 icons animate parts that don't line up with the current drawing and keep an older one, so they differ slightly at rest. Their panels on the [Icons](/icons?set=animated) page say so.
+<BookmarkIcon variant="fill" />
+<PencilIcon variant="duotone" />
+```
 
-A few upstream icons rest as a different Lucide icon than their name says, and take the name of what they draw. Upstream's `delete` is a bin, so it's `TrashIcon`. Its `volume` rests muted, so it's `VolumeXIcon`. Its `clipboard-check` rests empty and draws the check on hover, so it's `ClipboardIcon`.
+Motion follows the action of each family. Eyes blink by changing the eyelid paths, menu strokes fold into a close mark, and transfer arrows move inside a fixed frame. Where the drawing has no clear action, the strokes draw back into place. Each variant settles to the same drawing its static component uses.
 
-## Left out
-
-- **Brand logos.** GitHub, Instagram, YouTube and nine others are stroked redraws. [Brands](/docs/icons/brands) draws those marks as their owners publish them.
-- **Not Lucide icons.** `connect` and `clap` have no Lucide icon, and `flask` and `syringe` are filled drawings on another grid.
-- **Icons that don't work.** `concierge-bell` ignores hover, `hard-drive-download` shows no movement and doesn't return to rest, `log-in` and `log-out` stay shifted after hover, and `folder-root` rests faded with a pulse that's hard to see.
+Animated glyphs can draw beyond the SVG viewport during playback. Give them room inside containers that clip their children, especially with a heavy stroke.

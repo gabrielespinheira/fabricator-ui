@@ -11,7 +11,7 @@ import {
 import { useIconDefaults, type ResolvedIconDefaults } from "./context.js"
 import { renderShapes } from "./elements.js"
 import {
-  getBrandViewBox,
+  getBrandArtworkViewBox,
   hasA11yProp,
   ICON_SIZE,
 } from "./generated/runtime/attributes.js"
@@ -106,11 +106,7 @@ export function renderBrandIcon(
     {
       width: width ?? resolvedSize,
       height: height ?? resolvedSize,
-      viewBox: getBrandViewBox(
-        art?.width ?? ICON_SIZE,
-        art?.height ?? ICON_SIZE,
-        data.scale
-      ),
+      viewBox: getBrandArtworkViewBox(data, art),
       fill,
       ...(!isLabelled && { "aria-hidden": true }),
       ...rest,

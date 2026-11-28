@@ -474,7 +474,7 @@ function AudioPlayerArtwork({
         <TextStyle className="cn-audio-player-artwork-text">
           <MusicIcon
             size={iconSize}
-            strokeWidth={variant === "cover" ? 1 : 1.5}
+            strokeWidth={variant === "cover" ? 1 : 1.75}
           />
         </TextStyle>
       )}

@@ -1,3 +1,4 @@
+import { getArtworkViewBox } from "./attributes.js"
 import {
   resolveFilePaint,
   type FileIconData,
@@ -32,5 +33,5 @@ export function renderFileSvg(
           `<mask ${attributes({ ...mask.attributes, id: `${prefix}${mask.id}` })}>${shapes(mask.node)}</mask>`
       )
       .join("") ?? ""
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 16 16" fill="none">${masks}${shapes(scheme ? resolveFilePaint(icon.node, palette, scheme) : icon.node)}</svg>`
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="${getArtworkViewBox(16, 16, icon.opticalScale)}" fill="none">${masks}${shapes(scheme ? resolveFilePaint(icon.node, palette, scheme) : icon.node)}</svg>`
 }

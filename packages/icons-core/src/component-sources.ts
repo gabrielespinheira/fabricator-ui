@@ -1,37 +1,43 @@
-import { loadAnimatedIcons, type AnimatedIcon } from "./animated"
 import { loadBrands } from "./brands"
-import { loadDuotoneIcons } from "./duotone"
 import { buildFileComponentSources } from "./file-component-sources"
 import { loadFileIcons } from "./file-icons"
 import { getExportNames } from "./names"
-import { loadOutlineIcons, readCategoryTitles } from "./outline"
+import { readCategoryTitles } from "./outline"
 import {
   readRuntimeFiles,
   toCamelCaseAttributes,
   withGeneratedHeader,
 } from "./output"
+import { getArtworkViewBox, getBrandArtworkViewBox } from "./runtime/attributes"
+import { renderGradientMarkup } from "./runtime/gradients"
 import type {
   AnimatedCatalogEntry,
   BrandCatalogEntry,
   OutlineCatalogEntry,
 } from "./runtime/types"
 import { renderSvgInline } from "./svg"
-import type {
-  BrandIcon,
-  BrandIconData,
-  DuotoneIcon,
-  IconData,
-  OutlineIcon,
-} from "./types"
+import type { BrandIcon, BrandIconData, IconData, OutlineIcon } from "./types"
+import {
+  getUiIconData,
+  loadUiIcons,
+  UI_STROKE_WIDTH,
+  type UiIcon,
+} from "./ui-icons"
 import { OUTLINE_ROOT_ATTRIBUTES } from "./validate"
 
 const SITE = "https://fabricator-ui.vercel.app/icons"
 
 const PREVIEW_STYLE = "background-color: #fff; border-radius: 2px"
 
-function preview(icon: OutlineIcon) {
+function preview(icon: UiIcon) {
   const svg = renderSvgInline(
-    { ...OUTLINE_ROOT_ATTRIBUTES, stroke: "#000", style: PREVIEW_STYLE },
+    {
+      ...OUTLINE_ROOT_ATTRIBUTES,
+      viewBox: getArtworkViewBox(24, 24, icon.opticalScales.outline),
+      "stroke-width": String(UI_STROKE_WIDTH),
+      stroke: "#000",
+      style: PREVIEW_STYLE,
+    },
     icon.node
   )
   return Buffer.from(svg).toString("base64")
@@ -44,17 +50,17 @@ function brandPreview(brand: BrandIcon) {
           xmlns: "http://www.w3.org/2000/svg",
           width: "24",
           height: "24",
-          viewBox: `0 0 ${brand.art.width} ${brand.art.height}`,
+          viewBox: getBrandArtworkViewBox(brand, brand.art),
           style: PREVIEW_STYLE,
         },
         brand.art.node
-      )
+      ).replace(">", `>${renderGradientMarkup(brand.art.gradients)}`)
     : renderSvgInline(
         {
           xmlns: "http://www.w3.org/2000/svg",
           width: "24",
           height: "24",
-          viewBox: "0 0 24 24",
+          viewBox: getBrandArtworkViewBox(brand),
           fill: brand.colors.inherit ? "#000" : brand.hex,
           style: PREVIEW_STYLE,
         },
@@ -73,6 +79,9 @@ function brandModule(brand: BrandIcon) {
     }),
     colors: brand.colors,
     ...(brand.scale !== undefined && { scale: brand.scale }),
+    ...(brand.opticalScale !== undefined && {
+      opticalScale: brand.opticalScale,
+    }),
   }
   return withGeneratedHeader(`import { createBrandIcon } from "../../brand-icon.js"
 import type { BrandIconData } from "../runtime/types.js"
@@ -127,12 +136,11 @@ ${brand.join("\n")}
 `)
 }
 
-function animatedBarrel(animated: AnimatedIcon[], icons: OutlineIcon[]) {
-  const outline = new Map(icons.map((icon) => [icon.name, icon]))
-  const lines = animated.map(({ name }) => {
+function animatedBarrel(icons: OutlineIcon[]) {
+  const lines = icons.map(({ name, aliases }) => {
     const [component, ...others] = [
       name,
-      ...(outline.get(name)?.aliases.map((alias) => alias.name) ?? []),
+      ...aliases.map((alias) => alias.name),
     ].flatMap(getExportNames)
     const specifiers = [
       component,
@@ -145,18 +153,16 @@ function animatedBarrel(animated: AnimatedIcon[], icons: OutlineIcon[]) {
   return withGeneratedHeader(`${lines.join("\n")}\n`)
 }
 
-function catalogData(
-  icons: OutlineIcon[],
-  brands: BrandIcon[],
-  animated: AnimatedIcon[]
-) {
-  const outline: OutlineCatalogEntry[] = icons.map((icon) => ({
-    name: icon.name,
-    set: "outline",
-    aliases: icon.aliases.map((alias) => alias.name),
-    categories: icon.categories,
-    tags: icon.tags,
-  }))
+function catalogData(icons: UiIcon[], brands: BrandIcon[], animated: boolean) {
+  const outline = icons.map(
+    (icon): OutlineCatalogEntry => ({
+      name: icon.name,
+      set: "outline",
+      aliases: icon.aliases.map((alias) => alias.name),
+      categories: icon.categories,
+      tags: icon.tags,
+    })
+  )
   const brand: BrandCatalogEntry[] = brands.map((mark) => ({
     name: mark.name,
     set: "brands",
@@ -171,15 +177,16 @@ function catalogData(
     ...(mark.artSource && { artSource: mark.artSource }),
     ...(mark.credit && { credit: mark.credit }),
   }))
-  const moving: AnimatedCatalogEntry[] = outline.flatMap((entry) => {
-    const icon = animated.find(({ name }) => name === entry.name)
-    if (!icon) return []
-    return {
-      ...entry,
-      set: "animated" as const,
-      ...(icon.isOlderDrawing && { isOlderDrawing: true }),
-    }
-  })
+  const moving: AnimatedCatalogEntry[] = animated
+    ? icons.map(({ name, aliases, categories, tags, motion }) => ({
+        name,
+        aliases: aliases.map((alias) => alias.name),
+        categories,
+        tags,
+        motion,
+        set: "animated",
+      }))
+    : []
   const {
     icons: fileIcons,
     fileNames,
@@ -213,16 +220,14 @@ export const fileCatalog: FileCatalogEntry[] = ${JSON.stringify(fileEntries)}
 `)
 }
 
-function iconModule(icon: OutlineIcon) {
+function iconModule(icon: UiIcon) {
   const [componentName] = getExportNames(icon.name)
   const data: IconData = {
-    name: icon.name,
+    ...getUiIconData(icon),
+    strokeWidth: UI_STROKE_WIDTH,
     node: toCamelCaseAttributes(icon.node),
   }
-  const origin =
-    icon.origin === "lucide"
-      ? `Lucide's \`${icon.name}\``
-      : `Fabricator's \`${icon.name}\``
+  const origin = `Fabricator’s \`${icon.name}\``
   return withGeneratedHeader(`import { createIcon } from "../../create-icon.js"
 import type { IconData } from "../runtime/types.js"
 
@@ -240,7 +245,7 @@ export default ${componentName}
 `)
 }
 
-function outlineBarrel(icons: OutlineIcon[]) {
+function weightBarrel(icons: OutlineIcon[], folder: string) {
   const seen = new Map<string, string>()
   const lines = icons.map((icon) => {
     const names = [
@@ -261,43 +266,56 @@ function outlineBarrel(icons: OutlineIcon[]) {
     const specifiers = names
       .map((exportName) => `default as ${exportName}`)
       .join(", ")
-    return `export { ${specifiers} } from "./icons/${icon.name}.js"`
+    return `export { ${specifiers} } from "./${folder}/${icon.name}.js"`
   })
   return withGeneratedHeader(`${lines.join("\n")}\n`)
 }
 
-function duotoneModule(icon: DuotoneIcon) {
-  const [componentName] = getExportNames(icon.name)
+function weightModule(icon: UiIcon, weight: "fill" | "duotone") {
+  const shapes = getUiIconData(icon, weight)
   const data: IconData = {
-    name: icon.name,
-    node: toCamelCaseAttributes(icon.node),
-    secondary: toCamelCaseAttributes(icon.secondary),
+    ...shapes,
+    node: toCamelCaseAttributes(shapes.node),
+    ...(shapes.cutout && { cutout: toCamelCaseAttributes(shapes.cutout) }),
+    ...(shapes.secondary && {
+      secondary: toCamelCaseAttributes(shapes.secondary),
+    }),
   }
   return withGeneratedHeader(`import { createIcon } from "../../create-icon.js"
 import type { IconData } from "../runtime/types.js"
 
 export const iconData: IconData = ${JSON.stringify(data)}
 
-/**
- * Duotone \`${icon.name}\`: the outline icon with a translucent secondary layer.
- *
- * @see ${SITE}?set=duotone&icon=${icon.name}
- */
-const ${componentName} = createIcon(iconData)
-
-export default ${componentName}
+/** @see ${SITE}?set=${weight}&icon=${icon.name} */
+export default createIcon(iconData)
 `)
 }
 
-function duotoneBarrel(icons: DuotoneIcon[]) {
-  if (icons.length === 0) return withGeneratedHeader("export {}\n")
-  const lines = icons.map((icon) => {
-    const specifiers = getExportNames(icon.name)
-      .map((exportName) => `default as ${exportName}`)
-      .join(", ")
-    return `export { ${specifiers} } from "./duotone/${icon.name}.js"`
-  })
-  return withGeneratedHeader(`${lines.join("\n")}\n`)
+function animatedModule(icon: UiIcon) {
+  if (icon.motion === "sidebar-toggle") {
+    return withGeneratedHeader(`"use client"
+
+export { SidebarToggleIcon } from "../../sidebar-toggle.js"
+`)
+  }
+  const [componentName] = getExportNames(icon.name)
+  const panel =
+    icon.motion === "panel-left"
+      ? "left"
+      : icon.motion === "panel-right"
+        ? "right"
+        : undefined
+  const factory = panel ? "createAnimatedPanelIcon" : "createAnimatedIcon"
+  const module = panel ? "animated-panel" : "create-animated-icon"
+  return withGeneratedHeader(`"use client"
+
+import { ${factory} } from "../../${module}.js"
+import { iconData as outline } from "../icons/${icon.name}.js"
+import { iconData as fill } from "../fill/${icon.name}.js"
+import { iconData as duotone } from "../duotone/${icon.name}.js"
+
+export const ${componentName} = ${factory}({ outline, fill, duotone }, ${JSON.stringify(panel ?? icon.motion)})
+`)
 }
 
 export type ComponentSourceOptions = {
@@ -319,9 +337,9 @@ export function buildComponentSources({
   catalog,
   animated,
 }: ComponentSourceOptions) {
-  const icons = loadOutlineIcons()
+  const icons = loadUiIcons()
   const brands = loadBrands()
-  const duotone = loadDuotoneIcons()
+  const duotone = icons.map((icon) => icon.duotone)
   const files = new Map<string, string>()
   for (const [name, source] of buildFileComponentSources())
     files.set(name, source)
@@ -330,15 +348,20 @@ export function buildComponentSources({
   for (const icon of icons) files.set(`icons/${icon.name}.ts`, iconModule(icon))
   for (const brand of brands)
     files.set(`brands/${brand.name}.ts`, brandModule(brand))
-  files.set("outline.ts", outlineBarrel(icons))
-  for (const icon of duotone)
-    files.set(`duotone/${icon.name}.ts`, duotoneModule(icon))
+  files.set("outline.ts", weightBarrel(icons, "icons"))
+  for (const weight of ["fill", "duotone"] as const) {
+    for (const icon of icons)
+      files.set(`${weight}/${icon.name}.ts`, weightModule(icon, weight))
+    files.set(`${weight}.ts`, weightBarrel(icons, weight))
+  }
   files.set("brands.ts", brandBarrel(brands))
-  files.set("duotone.ts", duotoneBarrel(duotone))
-  const moving = animated ? loadAnimatedIcons(icons) : []
-  for (const icon of moving) files.set(`animated/${icon.name}.tsx`, icon.source)
-  if (animated) files.set("animated.ts", animatedBarrel(moving, icons))
+  if (animated) {
+    for (const icon of icons)
+      files.set(`animated/${icon.name}.tsx`, animatedModule(icon))
+    files.set("animated.ts", animatedBarrel(icons))
+  }
   if (dynamic) files.set("dynamic-imports.ts", dynamicImports(icons, brands))
-  if (catalog) files.set("catalog-data.ts", catalogData(icons, brands, moving))
-  return { files, icons, brands, duotone, animated: moving }
+  if (catalog)
+    files.set("catalog-data.ts", catalogData(icons, brands, Boolean(animated)))
+  return { files, icons, brands, duotone, animated: animated ? icons : [] }
 }

@@ -21,7 +21,7 @@
   }
 
   .cn-model-picker-route-label {
-    @apply gap-(--density-6) text-(length:--density-text-13) [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+    @apply gap-(--density-6) text-(length:--density-text-13) [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
   }
 
   .cn-model-picker-route-caption {

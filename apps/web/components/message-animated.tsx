@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { BrainIcon } from "lucide-react"
+import { BrainIcon } from "@fabricator-ui/icons"
 import { motion, useReducedMotion } from "motion/react"
 
 import type { MessageAnimationPreset } from "@/lib/message-animations"

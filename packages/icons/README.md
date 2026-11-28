@@ -1,12 +1,24 @@
 # @fabricator-ui/icons
 
-Fabricator Icons for React: every [Lucide](https://lucide.dev) icon under its Lucide name, with identical geometry, Fabricator's own Custom icons, and 145 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
+The [Fabricator UI](https://fabricator-ui.vercel.app) icon library for React, with rounded Outline, Fill, Duotone and Animated icons, plus brand marks and file icons. Browse the [Fabricator catalog](https://fabricator-ui.vercel.app/icons).
 
 ```sh
 npm install @fabricator-ui/icons
 ```
 
 React 19 or later. Icons are plain server-renderable components: no context, no `"use client"`.
+
+## UI icon weights
+
+```tsx
+import { BellIcon } from "@fabricator-ui/icons/animated"
+import { PencilIcon } from "@fabricator-ui/icons/duotone"
+import { BookmarkIcon } from "@fabricator-ui/icons/fill"
+
+;<BellIcon variant="duotone" />
+```
+
+Each variant uses the same canonical names and aliases. Outline and Duotone default to a 1.75-unit stroke.
 
 ## Outline icons
 
@@ -17,13 +29,13 @@ import { HouseIcon } from "@fabricator-ui/icons"
 <HouseIcon size={16} strokeWidth={1.5} className="text-muted-foreground" />
 ```
 
-Each icon is exported as `HouseIcon` and `House`, and Lucide's aliases (`HomeIcon`) are exported too, so moving from `lucide-react` is an import change.
+Each icon is exported with and without the `Icon` suffix, for example `HouseIcon` and `House`. Catalog aliases such as `HomeIcon` resolve to the same component.
 
 | Prop                           | Default        | Notes                                                    |
 | ------------------------------ | -------------- | -------------------------------------------------------- |
 | `size`                         | `24`           | Width and height                                         |
 | `color`                        | `currentColor` | Stroke colour                                            |
-| `strokeWidth`                  | `2`            |                                                          |
+| `strokeWidth`                  | `1.75`         |                                                          |
 | `absoluteStrokeWidth`          | `false`        | Keeps the stroke's pixel width at any size               |
 | `nonScalingStroke`             | `false`        | Adds `vector-effect="non-scaling-stroke"` to every shape |
 | `className`, any SVG attribute |                | `className` is merged after `fab-icon fab-icon-<name>`   |
@@ -80,4 +92,4 @@ import { FileTypeIcon, FileTypescriptIcon } from "@fabricator-ui/icons/files"
 
 ## Licence
 
-MIT for Fabricator's code and Custom icons; the other outline icons are Lucide's, under ISC. See [LICENSE.md](./LICENSE.md).
+Fabricator's code and original artwork are MIT-licensed. Drawings derived from Lucide and Feather carry their upstream notices. See [LICENSE.md](./LICENSE.md).

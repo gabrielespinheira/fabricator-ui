@@ -6,13 +6,26 @@ import {
   outlineCategories,
 } from "./generated/catalog-data.js"
 import { searchCatalog } from "./generated/runtime/search.js"
-import type { CatalogEntry, IconSet } from "./generated/runtime/types.js"
+import type {
+  CatalogEntry,
+  IconSet,
+  VariantCatalogEntry,
+} from "./generated/runtime/types.js"
+
+export const fillCatalog = outlineCatalog.map(
+  (entry): VariantCatalogEntry => ({ ...entry, set: "fill" })
+)
+export const duotoneCatalog = outlineCatalog.map(
+  (entry): VariantCatalogEntry => ({ ...entry, set: "duotone" })
+)
 
 /** Every icon and brand mark, with the metadata pickers and search need. */
 export const catalog: CatalogEntry[] = [
   ...outlineCatalog,
   ...brandCatalog,
   ...animatedCatalog,
+  ...fillCatalog,
+  ...duotoneCatalog,
   ...fileCatalog,
 ]
 
@@ -44,4 +57,5 @@ export type {
   IconCategory,
   IconSet,
   OutlineCatalogEntry,
+  VariantCatalogEntry,
 } from "./generated/runtime/types.js"

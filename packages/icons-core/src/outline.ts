@@ -2,20 +2,20 @@ import fs from "node:fs"
 import path from "node:path"
 import type { z } from "zod"
 
-import { LUCIDE_SOURCES, OUTLINE_SOURCES } from "./paths"
+import { ICON_CATEGORIES, LUCIDE_SOURCES, OUTLINE_SOURCES } from "./paths"
 import {
   brandStopwordsSchema,
-  categorySchema,
+  iconCategoriesSchema,
   iconMetadataSchema,
   readJson,
 } from "./schemas"
 import { parseSvg } from "./svg"
 import type { IconOrigin, OutlineIcon } from "./types"
-import { validateOutlineSvg } from "./validate"
+import { UI_STROKE_WIDTH, validateOutlineSvg } from "./validate"
 
 export type IconMetadata = z.infer<typeof iconMetadataSchema>
 
-/** Fabricator's own category. Every original is in it; no Lucide icon is. */
+/** Maintained originals also appear in Custom. */
 export const CUSTOM_CATEGORY = { name: "custom", title: "Custom" }
 
 export class IconSourceError extends Error {
@@ -38,15 +38,23 @@ function readIcons(directory: string, origin: IconOrigin): OutlineIcon[] {
         )
       }
       const parsed = parseSvg(fs.readFileSync(svgFile, "utf8"))
-      const errors = validateOutlineSvg(parsed, { strict: false })
+      const isFabricatorSource = origin === "fabricator"
+      const errors = validateOutlineSvg(parsed, {
+        strict: false,
+        isFabricatorSource,
+      })
       if (errors.length > 0) {
         throw new IconSourceError(`${name}: ${errors.join("; ")}`)
       }
       const metadata = readJson(metadataFile, iconMetadataSchema)
+      const isPublishedDrawing =
+        isFabricatorSource &&
+        parsed.attributes["stroke-width"] === String(UI_STROKE_WIDTH)
       return {
         name,
         origin,
         node: parsed.node,
+        ...(isPublishedDrawing && { strokeWidth: UI_STROKE_WIDTH }),
         aliases: metadata.aliases ?? [],
         categories:
           origin === "fabricator"
@@ -57,20 +65,30 @@ function readIcons(directory: string, origin: IconOrigin): OutlineIcon[] {
     })
 }
 
-/** Lucide's icons and Fabricator's originals, sorted by name. */
+/** The frozen SVG and metadata snapshot used to seed the catalog. */
+export function loadImportedIcons(
+  directory = path.join(LUCIDE_SOURCES, "icons")
+) {
+  return readIcons(directory, "lucide")
+}
+
+/** Fabricator's catalog includes the frozen import and original entries. */
 export function loadOutlineIcons({
-  lucideDirectory = path.join(LUCIDE_SOURCES, "icons"),
+  lucideDirectory,
   outlineDirectory = OUTLINE_SOURCES,
+}: {
+  lucideDirectory?: string
+  outlineDirectory?: string
 } = {}): OutlineIcon[] {
   const icons = [
-    ...readIcons(lucideDirectory, "lucide"),
+    ...loadImportedIcons(lucideDirectory),
     ...readIcons(outlineDirectory, "fabricator"),
   ]
   const seen = new Set<string>()
   for (const icon of icons) {
     if (seen.has(icon.name)) {
       throw new IconSourceError(
-        `${icon.name}: the name is used by Lucide and by a Fabricator original`
+        `${icon.name}: the name already exists in the Fabricator catalog`
       )
     }
     seen.add(icon.name)
@@ -78,30 +96,12 @@ export function loadOutlineIcons({
   return icons.sort((a, b) => a.name.localeCompare(b.name))
 }
 
-function readLucideCategories() {
-  return fs
-    .readdirSync(path.join(LUCIDE_SOURCES, "categories"))
-    .filter((file) => file.endsWith(".json"))
-    .map((file) => file.slice(0, -5))
-    .sort()
-}
-
 export function readCategories() {
-  return [CUSTOM_CATEGORY.name, ...readLucideCategories()]
+  return readCategoryTitles().map(({ name }) => name)
 }
 
-/** Custom first, then Lucide's categories with their titles, sorted by name. */
 export function readCategoryTitles() {
-  return [
-    CUSTOM_CATEGORY,
-    ...readLucideCategories().map((name) => ({
-      name,
-      title: readJson(
-        path.join(LUCIDE_SOURCES, "categories", `${name}.json`),
-        categorySchema
-      ).title,
-    })),
-  ]
+  return [CUSTOM_CATEGORY, ...readJson(ICON_CATEGORIES, iconCategoriesSchema)]
 }
 
 export function readBrandStopwords() {

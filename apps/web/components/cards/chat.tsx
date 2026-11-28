@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { ArrowUpIcon, CheckIcon, PlusIcon } from "@fabricator-ui/icons"
 import { cn } from "cn"
-import { ArrowUpIcon, CheckIcon, PlusIcon } from "lucide-react"
 
 import {
   Avatar,

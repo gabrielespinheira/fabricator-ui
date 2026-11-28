@@ -4,7 +4,10 @@ import { Mask, Svg, type SvgProps } from "react-native-svg"
 import { useIconDefaults } from "./context.js"
 import { renderShapes } from "./elements.js"
 import { filePalette } from "./generated/file-palette.js"
-import { hasA11yProp } from "./generated/runtime/attributes.js"
+import {
+  getArtworkViewBox,
+  hasA11yProp,
+} from "./generated/runtime/attributes.js"
 import {
   resolveFilePaint,
   type FileIconData,
@@ -41,7 +44,7 @@ export function FileIcon({
   return createElement(
     Svg,
     {
-      viewBox: "0 0 16 16",
+      viewBox: getArtworkViewBox(16, 16, data.opticalScale),
       width: width ?? resolvedSize,
       height: height ?? resolvedSize,
       fill: "none",

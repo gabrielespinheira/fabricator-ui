@@ -75,7 +75,7 @@ function EmptyMedia({
     <TextStyle className="cn-empty-media-text">
       <IconProvider
         {...(variant === "icon"
-          ? { size: iconTileSize, strokeWidth: 1.5 }
+          ? { size: iconTileSize, strokeWidth: 1.75 }
           : {})}
       >
         <View

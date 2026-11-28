@@ -19,16 +19,16 @@ import {
   type ChartConfig,
 } from "@/registry/new-york-v4/ui/chart"
 import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/registry/new-york-v4/ui/toggle-group"
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/registry/new-york-v4/ui/select"
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/registry/new-york-v4/ui/toggle-group"
+} from "@/styles/radix-fabricator/ui/select"
 
 export const description = "An interactive area chart"
 

@@ -6,7 +6,10 @@ export {
   type BrandIconComponent,
   type BrandIconProps,
 } from "./brand-icon.js"
-export { getBrandViewBox } from "./generated/runtime/attributes.js"
+export {
+  getBrandArtworkViewBox,
+  getBrandViewBox,
+} from "./generated/runtime/attributes.js"
 export {
   prefixGradientFills,
   renderGradientMarkup,

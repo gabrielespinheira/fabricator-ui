@@ -1,6 +1,6 @@
 ---
 title: React
-description: Outline icons and brand marks as React components, with Lucide's props, for web apps and the Electron and Tauri renderers.
+description: Fabricator UI icons and brand marks as React components for web apps and the Electron and Tauri renderers.
 ---
 
 ## Installation
@@ -23,7 +23,7 @@ export function Home() {
 }
 ```
 
-Each icon is exported twice, as `HouseIcon` and `House`, and under Lucide's aliases (`HomeIcon`). One icon module is about 1 KB minified and gzipped, the shared renderer included.
+Each icon is exported with and without the `Icon` suffix, for example `HouseIcon` and `House`. Catalog aliases such as `HomeIcon` resolve to the same component. One icon module is about 1 KB minified and gzipped, the shared renderer included.
 
 Electron and Tauri apps render React in a webview, so this package covers their interface. For tray and menu icons, which need PNG files, see [Static and desktop](/docs/icons/static#desktop-apps).
 
@@ -35,7 +35,7 @@ Electron and Tauri apps render React in a webview, so this package covers their 
 | --------------------- | ------------------ | -------------- | --------------------------------------------------------- |
 | `size`                | `number \| string` | `24`           | Width and height.                                         |
 | `color`               | `string`           | `currentColor` | Stroke colour.                                            |
-| `strokeWidth`         | `number \| string` | `2`            | Stroke width, in the 24 × 24 grid.                        |
+| `strokeWidth`         | `number \| string` | `1.75`         | Stroke width in the 24 × 24 grid. Accepts decimals.       |
 | `absoluteStrokeWidth` | `boolean`          | `false`        | Keeps the stroke's pixel width at any size.               |
 | `nonScalingStroke`    | `boolean`          | `false`        | Adds `vector-effect="non-scaling-stroke"` to every shape. |
 | `className`           | `string`           |                | Merged after `fab-icon fab-icon-<name>`.                  |
@@ -118,7 +118,7 @@ const Burger = createIcon({
 
 ## Animated icons
 
-`@fabricator-ui/icons/animated` has 447 icons that animate on hover, with the same names and props, on [Motion](https://motion.dev). See [Animated](/docs/icons/animated).
+Every UI icon is available from `@fabricator-ui/icons/animated` under the same name. It animates on hover and supports the Outline, Fill and Duotone drawings. See [Animated](/docs/icons/animated).
 
 ## Duotone
 

@@ -4,7 +4,10 @@ src/generated/
 sprite.svg
 brands-sprite.svg
 icon-nodes.json
+icon-scales.json
 brand-nodes.json
 tags.json
 /files/
 files-sprite.svg
+/fill/
+/duotone/

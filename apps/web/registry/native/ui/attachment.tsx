@@ -192,7 +192,7 @@ function AttachmentMedia({
   })
   return (
     <TextStyle className={attachmentMediaTextVariants({ state })}>
-      <IconProvider strokeWidth={1.5}>
+      <IconProvider strokeWidth={1.75}>
         <Animated.View
           data-slot="attachment-media"
           data-variant={variant}

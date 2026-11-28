@@ -2,18 +2,25 @@ import fs from "node:fs"
 import path from "node:path"
 
 import { brandAliases, outlineAliases } from "./generated/aliases.js"
-import { brandNodes, outlineNodes } from "./generated/nodes.js"
-import { getBrandViewBox, ICON_SIZE } from "./generated/runtime/attributes.js"
+import { brandNodes, outlineNodes, outlineScales } from "./generated/nodes.js"
+import { getBrandArtworkViewBox } from "./generated/runtime/attributes.js"
 import { renderGradientMarkup } from "./generated/runtime/gradients.js"
 import type { IconElement } from "./generated/runtime/types.js"
+import { renderUiSvg } from "./generated/runtime/ui-svg.js"
+import { duotoneNodes, fillNodes } from "./generated/variant-nodes.js"
 import { renderSvgPng } from "./render-svg-png.js"
 
 export { MissingRendererError, renderSvgPng } from "./render-svg-png.js"
 
-export type IconSet = "outline" | "brands"
+export type IconSet = "outline" | "fill" | "duotone" | "brands"
 
 export function isIconSet(value: string): value is IconSet {
-  return value === "outline" || value === "brands"
+  return (
+    value === "outline" ||
+    value === "fill" ||
+    value === "duotone" ||
+    value === "brands"
+  )
 }
 
 export type PngOptions = {
@@ -70,14 +77,18 @@ export function buildSvg(
   }: Omit<PngOptions, "outDir" | "scales" | "size">
 ) {
   const paint = template ? "#000000" : color
+  if (set === "fill" || set === "duotone") {
+    const icon = (set === "fill" ? fillNodes : duotoneNodes)[name]
+    if (!icon) throw unknown(name, set)
+    return renderUiSvg(icon, { color: paint, strokeWidth })
+  }
   if (set === "outline") {
     const node = outlineNodes[name]
     if (!node) throw unknown(name, set)
-    const body = shapes(node).replaceAll(
-      'fill="currentColor"',
-      `fill="${paint}"`
+    return renderUiSvg(
+      { name, node, opticalScale: outlineScales[name] },
+      { color: paint, strokeWidth }
     )
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${paint}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`
   }
   const brand = brandNodes[name]
   if (!brand) throw unknown(name, set)
@@ -85,11 +96,7 @@ export function buildSvg(
   // Art carries its own colours; its unfilled parts take the light-mode foreground.
   const brandFill = art || brand.colors.inherit ? "#000000" : brand.colors.light
   const fill = paint === "brand" ? brandFill : paint
-  const box = getBrandViewBox(
-    art?.width ?? ICON_SIZE,
-    art?.height ?? ICON_SIZE,
-    brand.scale
-  )
+  const box = getBrandArtworkViewBox(brand, art)
   const defs = renderGradientMarkup(art?.gradients)
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box}" fill="${fill}">${defs}${shapes(art?.node ?? brand.node)}</svg>`
 }

@@ -43,6 +43,8 @@ class CaptureError extends Error {
   override name = "CaptureError"
 }
 
+type BlockPicture = { file: string; picture: Uint8Array }
+
 function getBlockNames() {
   const names = fabricatorBlocks.map(({ name }) => name)
   const requested = process.argv.slice(2)
@@ -92,6 +94,7 @@ async function takeScreenshot(page: Page) {
 }
 
 async function captureBlock(page: Page, name: string) {
+  const pictures: BlockPicture[] = []
   for (const theme of THEMES) {
     const { identifier } = await page.evaluateOnNewDocument((current) => {
       localStorage.setItem("theme", current)
@@ -120,13 +123,14 @@ async function captureBlock(page: Page, name: string) {
 
     const { picture, quality } = await takeScreenshot(page)
     const file = path.join(OUTPUT_DIR, `${name}-${theme}.webp`)
-    await fs.writeFile(file, picture)
+    pictures.push({ file, picture })
     const size = `${Math.round(picture.byteLength / 1024)}KB`
     console.log(
       `- ${name} (${theme}): ${size} at quality ${quality}` +
         (isStill ? "" : ", still moving")
     )
   }
+  return pictures
 }
 
 async function captureBlocks() {
@@ -138,7 +142,6 @@ async function captureBlocks() {
   }
 
   const names = getBlockNames()
-  await fs.mkdir(OUTPUT_DIR, { recursive: true })
   const browser = await puppeteer.launch({
     executablePath,
     headless: true,
@@ -148,6 +151,7 @@ async function captureBlocks() {
     defaultViewport: VIEWPORT,
   })
   const failures: string[] = []
+  const pictures: BlockPicture[] = []
   try {
     for (const name of names) {
       const page = await browser.newPage()
@@ -156,7 +160,7 @@ async function captureBlocks() {
         { name: "prefers-reduced-motion", value: "reduce" },
       ])
       try {
-        await captureBlock(page, name)
+        pictures.push(...(await captureBlock(page, name)))
       } catch (error) {
         failures.push(name)
         console.error(`- ${name}:`, error)
@@ -169,6 +173,13 @@ async function captureBlocks() {
   if (failures.length > 0) {
     throw new CaptureError(`Not captured: ${failures.join(", ")}`)
   }
+
+  // The gallery imports these files. Updating them during capture can reload
+  // the preview in Next dev.
+  await fs.mkdir(OUTPUT_DIR, { recursive: true })
+  await Promise.all(
+    pictures.map(({ file, picture }) => fs.writeFile(file, picture))
+  )
 }
 
 try {

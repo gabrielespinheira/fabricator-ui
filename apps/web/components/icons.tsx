@@ -1,4 +1,4 @@
-import { FileIcon } from "lucide-react"
+import { FileIcon } from "@fabricator-ui/icons"
 
 type IconProps = React.HTMLAttributes<SVGElement>
 

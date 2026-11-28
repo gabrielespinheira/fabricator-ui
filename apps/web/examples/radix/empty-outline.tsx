@@ -1,4 +1,4 @@
-import { IconCloud } from "@tabler/icons-react"
+import { CloudIcon } from "@fabricator-ui/icons"
 
 import { Button } from "@/styles/radix-nova/ui/button"
 import {
@@ -15,7 +15,7 @@ export default function EmptyOutline() {
     <Empty className="border border-dashed">
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <IconCloud />
+          <CloudIcon />
         </EmptyMedia>
         <EmptyTitle>Cloud Storage Empty</EmptyTitle>
         <EmptyDescription>

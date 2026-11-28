@@ -46,7 +46,21 @@ describe("checkOriginals", () => {
     expect(checkOriginals(directory)).toEqual([])
   })
 
-  it("refuses names Lucide uses, brand names and unknown categories", () => {
+  it("validates new drawings at the Fabricator stroke width", () => {
+    const directory = sources({
+      "custom-sample.svg": svg('<path d="M2 12H22"/>').replace(
+        'stroke-width="2"',
+        'stroke-width="1.75"'
+      ),
+      "custom-sample.json": JSON.stringify({
+        tags: ["sample"],
+        categories: ["layout"],
+      }),
+    })
+    expect(checkOriginals(directory)).toEqual([])
+  })
+
+  it("refuses existing catalog names, brand names and unknown categories", () => {
     const directory = sources({
       "house.svg": svg('<rect x="3" y="3" width="18" height="18" rx="2"/>'),
       "house.json": JSON.stringify({
@@ -64,7 +78,7 @@ describe("checkOriginals", () => {
     expect(checkOriginals(directory)).toEqual([
       'outline/github-star: "github" is a brand; brand marks go in sources/brands',
       "outline/github-star: unknown category nowhere",
-      "outline/house: Lucide already uses this name; make ours an alias of Lucide's or rename it",
+      "outline/house: this name is already in the Fabricator catalog; use a drawing override or choose a new name",
     ])
   })
 })

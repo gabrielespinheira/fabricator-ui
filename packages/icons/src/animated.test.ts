@@ -4,16 +4,21 @@ import { afterEach, describe, expect, it, vi } from "vitest"
 
 import * as Animated from "./animated"
 import { composeHandlers, isMotionOff } from "./animated-icon"
-import { animatedCatalog, getIconEntry, searchIcons } from "./catalog"
+import {
+  animatedCatalog,
+  getIconEntry,
+  outlineCatalog,
+  searchIcons,
+} from "./catalog"
 import * as Outline from "./index"
 
 const render = (component: ComponentType, props = {}) =>
   renderToStaticMarkup(createElement(component, props))
 
 describe("animated icons", () => {
-  it("exports every catalog entry under Lucide's names", () => {
+  it("exports the canonical name and aliases of every catalog entry", () => {
     const exported = new Set(Object.keys(Animated))
-    expect(animatedCatalog.length).toBeGreaterThan(400)
+    expect(animatedCatalog).toHaveLength(outlineCatalog.length)
     for (const { name, aliases } of animatedCatalog) {
       for (const each of [name, ...aliases]) {
         const pascal = each
@@ -32,9 +37,54 @@ describe("animated icons", () => {
     }
   })
 
+  it("draws the sidebar toggle open and mirrors the same geometry for the right panel", () => {
+    expect(render(Animated.SidebarToggleIcon)).toContain('d="M9.5 2.75V21.25"')
+    const open = render(Animated.SidebarToggleIcon, { open: true })
+    expect(open).toContain('d="M13.25 2.75V21.25"')
+    expect(
+      render(Animated.SidebarToggleIcon, { open: true, side: "right" })
+    ).toBe(open.replace("<g>", '<g transform="translate(24 0) scale(-1 1)">'))
+  })
+
+  it.each([
+    [Animated.PanelLeftIcon, 3.6],
+    [Animated.PanelRightIcon, -3.6],
+  ] as const)(
+    "opens the divider inward in all three weights",
+    (Panel, distance) => {
+      for (const variant of ["outline", "fill", "duotone"] as const) {
+        const closed = render(Panel, { variant, open: false })
+        const open = render(Panel, { variant, open: true })
+        expect(open).toContain(`transform="translate(${distance} 0)"`)
+        expect(closed).not.toContain('transform="translate')
+        expect(
+          open
+            .replace(` transform="translate(${distance} 0)"`, "")
+            .replace(/fab-cutout-[\w_]+/g, "mask")
+        ).toBe(closed.replace(/fab-cutout-[\w_]+/g, "mask"))
+      }
+    }
+  )
+
+  it("keeps the playback options off the svg element", () => {
+    expect(render(Animated.ArrowUpRightIcon, { loop: true })).not.toContain(
+      " loop="
+    )
+  })
+
+  it("lets moving artwork and masked fills extend past the viewBox", () => {
+    expect(render(Animated.ArrowRightIcon)).toContain('overflow="visible"')
+    const filled = render(Animated.MailIcon, { variant: "fill" })
+    expect(filled).toMatch(/<mask[^>]+ x="-24" y="-24" width="72" height="72"/)
+    expect(filled).toContain('<rect x="-24" y="-24" width="72" height="72"')
+    expect(render(Animated.ArrowRightIcon, { overflow: "hidden" })).toContain(
+      'overflow="hidden"'
+    )
+  })
+
   it("render a real svg with Lucide's attributes, like an outline icon", () => {
     expect(render(Animated.BellIcon)).toMatch(
-      /^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fab-icon fab-icon-bell" aria-hidden="true"/
+      /^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="24" height="24" viewBox="[^"]+" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="fab-icon fab-icon-bell" aria-hidden="true"/
     )
     expect(render(Animated.BellIcon)).not.toContain("<div")
   })
@@ -76,19 +126,29 @@ describe("animated icons", () => {
 })
 
 describe("the catalog", () => {
-  it("lists animated icons as their own set, with Lucide's search terms", () => {
+  it("lists animated icons with their catalog aliases and search terms", () => {
     const [bell] = searchIcons("alarm", { set: "animated" })
     expect(bell?.set).toBe("animated")
     expect(getIconEntry("home", "animated")?.name).toBe("house")
   })
 
-  it("flags the icons that animate an older drawing", () => {
+  it("uses the same rest geometry for all three animated weights", async () => {
+    const { BookmarkIcon: Fill } = await import("./fill")
+    const { BookmarkIcon: Duotone } = await import("./duotone")
+    const getPaths = (markup: string) => markup.match(/<path [^>]+>/g)
+    for (const [variant, Icon] of [
+      ["outline", Outline.BookmarkIcon],
+      ["fill", Fill],
+      ["duotone", Duotone],
+    ] as const) {
+      expect(getPaths(render(Animated.BookmarkIcon, { variant }))).toEqual(
+        getPaths(render(Icon))
+      )
+    }
     expect(getIconEntry("arrow-big-up", "animated")).toMatchObject({
-      isOlderDrawing: true,
+      motion: "up",
     })
-    expect(getIconEntry("house", "animated")).not.toHaveProperty(
-      "isOlderDrawing"
-    )
+    expect(animatedCatalog.every((entry) => !entry.isOlderDrawing)).toBe(true)
   })
 })
 
