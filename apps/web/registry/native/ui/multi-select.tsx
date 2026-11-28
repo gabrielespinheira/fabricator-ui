@@ -34,7 +34,10 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
-import { useIconStroke } from "@/registry/native/lib/icon-stroke"
+import {
+  useChevronIcon,
+  useIconStroke,
+} from "@/registry/native/lib/icon-stroke"
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { Button } from "@/registry/native/ui/button"
@@ -192,6 +195,7 @@ function MultiSelectTrigger({
   children?: React.ReactNode
   "aria-invalid"?: boolean
 }) {
+  const chevron = useChevronIcon()
   const multiSelect = useMultiSelect()
   const isDisabled = disabled ?? multiSelect.disabled
   const iconSize = parseNumber(useCSSVariable("--density-icon-16"), 16)
@@ -236,7 +240,7 @@ function MultiSelectTrigger({
         className="items-center"
       >
         <TextStyle className="cn-multi-select-icon">
-          <ChevronsUpDownIcon aria-hidden />
+          <ChevronsUpDownIcon aria-hidden {...chevron} />
         </TextStyle>
       </Pressable>
     </Pressable>

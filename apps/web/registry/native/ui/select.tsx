@@ -27,7 +27,10 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
-import { useIconStroke } from "@/registry/native/lib/icon-stroke"
+import {
+  useChevronIcon,
+  useIconStroke,
+} from "@/registry/native/lib/icon-stroke"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -219,6 +222,7 @@ function SelectTrigger({
   "aria-invalid"?: boolean
   children?: React.ReactNode
 }) {
+  const chevron = useChevronIcon()
   const select = useSelect()
   const { density, height } = useControlSize(size)
   return (
@@ -242,7 +246,7 @@ function SelectTrigger({
           {renderTextChildren(children)}
           <View className="cn-select-trigger-icon shrink-0">
             <TextStyle className="cn-select-trigger-icon-text">
-              <ChevronDownIcon />
+              <ChevronDownIcon {...chevron} />
             </TextStyle>
           </View>
         </PopoverPrimitive.Trigger>

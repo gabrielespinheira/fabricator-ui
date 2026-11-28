@@ -35,7 +35,10 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
-import { useIconStroke } from "@/registry/native/lib/icon-stroke"
+import {
+  useChevronIcon,
+  useIconStroke,
+} from "@/registry/native/lib/icon-stroke"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { Button } from "@/registry/native/ui/button"
@@ -253,6 +256,7 @@ function ComboboxTrigger({
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children"> &
   RenderProps & { children?: React.ReactNode }) {
+  const chevron = useChevronIcon()
   const combobox = useCombobox()
   const isDisabled = props.disabled ?? combobox.disabled
   const iconSize = parseNumber(useCSSVariable("--density-icon-16"), 16)
@@ -276,7 +280,7 @@ function ComboboxTrigger({
     <>
       {renderTextChildren(children)}
       <TextStyle className="cn-combobox-trigger-icon">
-        <ChevronDownIcon aria-hidden />
+        <ChevronDownIcon aria-hidden {...chevron} />
       </TextStyle>
     </>
   )

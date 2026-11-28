@@ -26,3 +26,13 @@ export function useIconStroke(
   const size = parseNumber(useCSSVariable(token), 16)
   return isEmphasised ? getEmphasisStroke(size) : undefined
 }
+
+/**
+ * A disclosure chevron's size and stroke (select, menu and collapsible
+ * triggers): the small icon step, at that size's stroke, steady while its
+ * row is lit. Spread it on the chevron.
+ */
+export function useChevronIcon() {
+  const size = parseNumber(useCSSVariable("--density-icon-14"), 14)
+  return { size, strokeWidth: getAutoStrokeWidth(1.75, size) }
+}

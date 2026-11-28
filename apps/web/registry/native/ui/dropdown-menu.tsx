@@ -30,7 +30,10 @@ import {
   useFluidRemeasure,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
-import { useIconStroke } from "@/registry/native/lib/icon-stroke"
+import {
+  useChevronIcon,
+  useIconStroke,
+} from "@/registry/native/lib/icon-stroke"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -77,6 +80,7 @@ const dropdownMenuItemTextVariants = cva("cn-dropdown-menu-item-text", {
 
 /** Turns toward the rows it opens, on the disclosure timing. */
 function SubmenuChevron({ isOpen }: { isOpen: boolean }) {
+  const chevron = useChevronIcon()
   const motion = useMotion("disclosure")
   const turn = useSharedValue(isOpen ? 1 : 0)
   React.useEffect(() => {
@@ -90,7 +94,7 @@ function SubmenuChevron({ isOpen }: { isOpen: boolean }) {
   }))
   return (
     <Animated.View style={style}>
-      <ChevronRightIcon />
+      <ChevronRightIcon {...chevron} />
     </Animated.View>
   )
 }

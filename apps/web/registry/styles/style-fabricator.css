@@ -29,7 +29,7 @@
      rest, foreground when lit or open. A leading icon rests in grey. Hover is
      bg-hover where there is no fluid container. Focus is a 1px blue ring. */
   .cn-accordion-trigger {
-    @apply cursor-pointer gap-(--density-8) rounded-[max(var(--radius-mark),calc(var(--radius-surface)-var(--density-4)))] px-(--density-12) py-(--density-8) text-start text-(length:--density-text-14) leading-5 font-medium text-foreground/80 transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:mt-0.5 [&>svg:not([data-slot=accordion-trigger-icon])]:shrink-0 [&>svg:not([data-slot=accordion-trigger-icon])]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:text-muted-foreground;
+    @apply cursor-pointer gap-(--density-8) rounded-[max(var(--radius-mark),calc(var(--radius-surface)-var(--density-4)))] px-(--density-12) py-(--density-8) text-start text-(length:--density-text-14) leading-5 font-medium text-foreground/80 transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-(--density-icon-14) [&>svg:not([data-slot=accordion-trigger-icon])]:mt-0.5 [&>svg:not([data-slot=accordion-trigger-icon])]:shrink-0 [&>svg:not([data-slot=accordion-trigger-icon])]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:text-muted-foreground;
   }
 
   /* One chevron that points to the end and turns a quarter to point down
@@ -37,7 +37,7 @@
      chevron of the source is never shown). Its stroke thickens on hover, when
      lit and when open. */
   .cn-accordion-trigger-icon {
-    @apply text-muted-foreground -rotate-90 [stroke-width:var(--density-icon-stroke-16)] transition-[rotate,color,stroke-width] duration-move ease-move group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)] group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)] group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:[stroke-width:calc(var(--density-icon-stroke-16)+0.25)] group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
+    @apply text-muted-foreground -rotate-90 [stroke-width:var(--density-icon-stroke-14)] transition-[rotate,color,stroke-width] duration-move ease-move group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:[stroke-width:calc(var(--density-icon-stroke-14)+0.25)] group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:[stroke-width:calc(var(--density-icon-stroke-14)+0.25)] group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:[stroke-width:calc(var(--density-icon-stroke-14)+0.25)] group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
   }
 
   /* The panel springs open and shut on the bounce role. Its text is
@@ -2221,7 +2221,7 @@
   }
 
   .cn-chat-input-tray-chevron {
-    @apply size-(--density-icon-14)! transition-transform duration-feedback ease-feedback group-data-open/chat-input-tray-entry:rotate-180;
+    @apply size-(--density-icon-14)! [stroke-width:var(--density-icon-stroke-14)]! transition-transform duration-feedback ease-feedback group-data-open/chat-input-tray-entry:rotate-180;
   }
 
   /* A row's reading gives way to its text: past 45% of the row it truncates,
@@ -2507,7 +2507,7 @@
   }
 
   .cn-combobox-trigger-icon {
-    @apply text-muted-foreground size-(--density-icon-16) transition-colors duration-feedback;
+    @apply text-muted-foreground size-(--density-icon-14) [stroke-width:var(--density-icon-stroke-14)]! transition-colors duration-feedback;
   }
 
   /* Chips field: the input recipe (1px ring-border frame, light fill on
@@ -2661,7 +2661,7 @@
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-context-menu-sub-trigger {
-    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover [&>svg:last-child]:size-(--density-icon-14)! [&>svg:last-child]:[stroke-width:var(--density-icon-stroke-14)]!;
   }
 
   .cn-context-menu-sub-content {
@@ -3502,7 +3502,7 @@
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-dropdown-menu-sub-trigger {
-    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply motion-stagger cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-(--radius-nested) px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover [&>svg:last-child]:size-(--density-icon-14)! [&>svg:last-child]:[stroke-width:var(--density-icon-stroke-14)]!;
   }
 
   .cn-dropdown-menu-sub-content {
@@ -3812,7 +3812,7 @@
   }
 
   .cn-event-calendar-title-icon {
-    @apply shrink-0 text-muted-foreground transition-transform duration-move ease-move in-aria-expanded:rotate-180;
+    @apply shrink-0 text-muted-foreground transition-transform duration-move ease-move in-aria-expanded:rotate-180 size-(--density-icon-14) [stroke-width:var(--density-icon-stroke-14)]!;
   }
 
   .cn-event-calendar-date-picker {
@@ -5967,7 +5967,7 @@
   }
 
   .cn-multi-select-icon {
-    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)];
+    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-14) [&_svg]:[stroke-width:var(--density-icon-stroke-14)]!;
   }
 
   /* Chips pop in (fade, a 6px rise from 0.92) and glide to a new place on the
@@ -6050,7 +6050,7 @@
 
   /* Muted chevron that wakes to foreground on hover; no rotation. */
   .cn-native-select-icon {
-    @apply text-muted-foreground group-hover/native-select:text-foreground top-1/2 right-2.5 size-4 -translate-y-1/2 [stroke-width:2.125] transition-colors duration-feedback group-data-[size=sm]/native-select:right-2;
+    @apply text-muted-foreground group-hover/native-select:text-foreground top-1/2 right-2.5 size-(--density-icon-14) -translate-y-1/2 [stroke-width:var(--density-icon-stroke-14)] transition-colors duration-feedback group-data-[size=sm]/native-select:right-2;
   }
 
 /* MARK: Navigation Menu */
@@ -6083,7 +6083,7 @@
      right padding by its own side bearing, so the trigger reads 12px of
      space on both sides like a plain link. */
   .cn-navigation-menu-trigger-icon {
-    @apply ms-(--density-4) -me-(--density-4) size-(--density-icon-14) transition duration-popup ease-enter group-data-open/navigation-menu-trigger:rotate-180 group-data-popup-open/navigation-menu-trigger:rotate-180;
+    @apply ms-(--density-4) -me-(--density-4) size-(--density-icon-14) [stroke-width:var(--density-icon-stroke-14)]! transition duration-popup ease-enter group-data-open/navigation-menu-trigger:rotate-180 group-data-popup-open/navigation-menu-trigger:rotate-180;
   }
 
   /* A panel is a fluid hover container for its links (relative isolate).
@@ -7362,7 +7362,7 @@
   }
 
   .cn-select-trigger-icon {
-    @apply text-muted-foreground size-(--density-icon-16) transition-colors duration-feedback;
+    @apply text-muted-foreground size-(--density-icon-14) [stroke-width:var(--density-icon-stroke-14)]! transition-colors duration-feedback;
   }
 
   /* Popup: surface 3 with its shadow ring (no border), the surface corner, p-1, on
@@ -7638,8 +7638,8 @@
   }
 
   /* Rows: 30px, px-2, gap-2, the control corner, 13px: the label at foreground/80
-     and an 18px leading icon, stroke 2, muted at rest; other icons, such as
-     a trailing chevron, stay 16px at 1.75. Hover and the lit row turn
+     and an 18px leading icon, muted at rest; other icons, such as a trailing
+     chevron, take the 14px step. Hover and the lit row turn
      both foreground; the active row is foreground on a raised bg-active.
      Inside a fluid menu the row paints no hover or active background: the gliding
      highlight and the sliding selection do. Pressed is a bg-active step.
@@ -7649,7 +7649,7 @@
      to its cap height so it centres on the icon (Inter's line box sits it
      1px high); the padding keeps descenders clear of truncate's clip. */
   .cn-sidebar-menu-button {
-    @apply cursor-pointer text-foreground/80 ring-ring gap-(--density-8) rounded-(--radius-control) px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-start text-(length:--density-text-13) weight-normal transition-[width,height,padding,color,background-color,box-shadow] duration-feedback hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,var(--density-32))] hover:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] data-fluid-hover-active:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] focus-visible:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-data-[collapsible=icon]:size-(--density-32)! group-data-[collapsible=icon]:p-[calc((var(--density-32)-var(--density-icon-18))/2)]! focus-visible:ring-1 [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)] [&>svg:first-child:not([class*='size-'])]:size-(--density-icon-18) [&>svg:first-child]:[stroke-width:var(--density-icon-stroke-18)] [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:transition-colors hover:bg-hover hover:text-foreground hover:[&_svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg:not([class*='text-'])]:text-foreground data-active:bg-active data-active:text-foreground data-active:shadow-surface-2 data-active:[&_svg:not([class*='text-'])]:text-foreground data-open:text-foreground data-open:[&_svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent in-data-[fluid-hover]:data-active:shadow-none [&>span:last-child]:text-box-trim [&>span:last-child]:py-(--density-4);
+    @apply cursor-pointer text-foreground/80 ring-ring gap-(--density-8) rounded-(--radius-control) px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-start text-(length:--density-text-13) weight-normal transition-[width,height,padding,color,background-color,box-shadow] duration-feedback hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,var(--density-32))] hover:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] data-fluid-hover-active:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] focus-visible:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-data-[collapsible=icon]:size-(--density-32)! group-data-[collapsible=icon]:p-[calc((var(--density-32)-var(--density-icon-18))/2)]! focus-visible:ring-1 [&_svg:not([class*='size-'])]:size-(--density-icon-14) [&_svg]:[stroke-width:var(--density-icon-stroke-14)] [&>svg:first-child:not([class*='size-'])]:size-(--density-icon-18) [&>svg:first-child]:[stroke-width:var(--density-icon-stroke-18)] [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:transition-colors hover:bg-hover hover:text-foreground hover:[&_svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg:not([class*='text-'])]:text-foreground data-active:bg-active data-active:text-foreground data-active:shadow-surface-2 data-active:[&_svg:not([class*='text-'])]:text-foreground data-open:text-foreground data-open:[&_svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent in-data-[fluid-hover]:data-active:shadow-none [&>span:last-child]:text-box-trim [&>span:last-child]:py-(--density-4);
   }
 
   .cn-sidebar-menu-button-aria {
@@ -7726,7 +7726,7 @@
      hovered or lit; the current one sits on a quiet wash (half the hover fill)
      instead of the raised selection, which marks its top-level row. */
   .cn-sidebar-menu-sub-button {
-    @apply cursor-pointer text-muted-foreground ring-ring h-(--density-30) gap-(--density-8) rounded-(--radius-control) ps-[calc(var(--density-8)+(var(--density-icon-18)+var(--density-8))*var(--sidebar-menu-depth,1))] pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-16) [&>svg]:[stroke-width:var(--density-icon-stroke-16)] [&>svg:first-child]:size-(--density-icon-18) [&>svg:first-child]:[stroke-width:var(--density-icon-stroke-18)] [&>svg:not([class*='text-'])]:text-muted-foreground [&>svg]:transition-colors hover:bg-hover hover:text-foreground hover:[&>svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg:not([class*='text-'])]:text-foreground data-active:bg-hover/50 data-active:text-foreground data-active:[&>svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:not-data-active:hover:bg-transparent [&>span:last-child]:text-box-trim [&>span:last-child]:py-(--density-4);
+    @apply cursor-pointer text-muted-foreground ring-ring h-(--density-30) gap-(--density-8) rounded-(--radius-control) ps-[calc(var(--density-8)+(var(--density-icon-18)+var(--density-8))*var(--sidebar-menu-depth,1))] pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-14) [&>svg]:[stroke-width:var(--density-icon-stroke-14)] [&>svg:first-child]:size-(--density-icon-18) [&>svg:first-child]:[stroke-width:var(--density-icon-stroke-18)] [&>svg:not([class*='text-'])]:text-muted-foreground [&>svg]:transition-colors hover:bg-hover hover:text-foreground hover:[&>svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg:not([class*='text-'])]:text-foreground data-active:bg-hover/50 data-active:text-foreground data-active:[&>svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:not-data-active:hover:bg-transparent [&>span:last-child]:text-box-trim [&>span:last-child]:py-(--density-4);
   }
 
 /* MARK: Skeleton */

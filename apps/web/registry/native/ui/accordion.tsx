@@ -25,7 +25,10 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
-import { useIconStroke } from "@/registry/native/lib/icon-stroke"
+import {
+  useChevronIcon,
+  useIconStroke,
+} from "@/registry/native/lib/icon-stroke"
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { DisclosurePanel } from "@/registry/native/ui/collapsible"
@@ -216,6 +219,7 @@ function AccordionTrigger({
 }: Omit<AccordionPrimitive.TriggerProps, "children"> & {
   children?: React.ReactNode
 }) {
+  const chevron = useChevronIcon()
   const { isExpanded, disabled: isItemDisabled } =
     AccordionPrimitive.useItemContext()
   const { disabled: isRootDisabled } = AccordionPrimitive.useRootContext()
@@ -279,7 +283,7 @@ function AccordionTrigger({
             className="cn-accordion-trigger-icon shrink-0 items-center justify-center"
             style={iconStyle}
           >
-            <ChevronDownIcon />
+            <ChevronDownIcon {...chevron} />
           </Animated.View>
         </IconProvider>
       </AccordionPrimitive.Trigger>

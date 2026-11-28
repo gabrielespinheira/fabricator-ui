@@ -28,7 +28,7 @@
      right padding by its own side bearing, so the trigger reads 12px of
      space on both sides like a plain link. */
   .cn-navigation-menu-trigger-icon {
-    @apply ms-(--density-4) -me-(--density-4) size-(--density-icon-14) transition duration-popup ease-enter group-data-open/navigation-menu-trigger:rotate-180 group-data-popup-open/navigation-menu-trigger:rotate-180;
+    @apply ms-(--density-4) -me-(--density-4) size-(--density-icon-14) [stroke-width:var(--density-icon-stroke-14)]! transition duration-popup ease-enter group-data-open/navigation-menu-trigger:rotate-180 group-data-popup-open/navigation-menu-trigger:rotate-180;
   }
 
   /* A panel is a fluid hover container for its links (relative isolate).

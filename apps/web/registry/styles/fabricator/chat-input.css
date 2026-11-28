@@ -285,7 +285,7 @@
   }
 
   .cn-chat-input-tray-chevron {
-    @apply size-(--density-icon-14)! transition-transform duration-feedback ease-feedback group-data-open/chat-input-tray-entry:rotate-180;
+    @apply size-(--density-icon-14)! [stroke-width:var(--density-icon-stroke-14)]! transition-transform duration-feedback ease-feedback group-data-open/chat-input-tray-entry:rotate-180;
   }
 
   /* A row's reading gives way to its text: past 45% of the row it truncates,

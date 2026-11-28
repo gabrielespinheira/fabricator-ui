@@ -14,7 +14,7 @@
   }
 
   .cn-multi-select-icon {
-    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:[stroke-width:var(--density-icon-stroke-16)];
+    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-14) [&_svg]:[stroke-width:var(--density-icon-stroke-14)]!;
   }
 
   /* Chips pop in (fade, a 6px rise from 0.92) and glide to a new place on the

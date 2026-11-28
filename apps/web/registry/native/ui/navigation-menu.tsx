@@ -3,6 +3,7 @@
 import * as React from "react"
 import {
   ChevronDownIcon,
+  getAutoStrokeWidth,
   IconProvider,
 } from "@fabricator-ui/icons-react-native"
 import { useComposedRefs, useControllableState } from "@rn-primitives/hooks"
@@ -182,6 +183,7 @@ function NavigationMenuTrigger({
   const composedRef = useComposedRefs(triggerRef, ref)
   const { isLit, rowProps } = useFluidRow(props)
   const chevronSize = parseNumber(useCSSVariable("--density-icon-14"), 14)
+  const chevronStroke = getAutoStrokeWidth(1.75, chevronSize)
 
   // Opened from state, no press has measured it, and a popover needs its anchor.
   React.useEffect(() => {
@@ -226,7 +228,7 @@ function NavigationMenuTrigger({
           className="cn-navigation-menu-trigger-icon items-center justify-center"
           style={iconStyle}
         >
-          <ChevronDownIcon size={chevronSize} />
+          <ChevronDownIcon size={chevronSize} strokeWidth={chevronStroke} />
         </Animated.View>
       </NavigationMenuPrimitive.Trigger>
     </TextStyle>

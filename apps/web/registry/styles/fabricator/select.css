@@ -17,7 +17,7 @@
   }
 
   .cn-select-trigger-icon {
-    @apply text-muted-foreground size-(--density-icon-16) transition-colors duration-feedback;
+    @apply text-muted-foreground size-(--density-icon-14) [stroke-width:var(--density-icon-stroke-14)]! transition-colors duration-feedback;
   }
 
   /* Popup: surface 3 with its shadow ring (no border), the surface corner, p-1, on

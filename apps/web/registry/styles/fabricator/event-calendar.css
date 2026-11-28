@@ -42,7 +42,7 @@
   }
 
   .cn-event-calendar-title-icon {
-    @apply shrink-0 text-muted-foreground transition-transform duration-move ease-move in-aria-expanded:rotate-180;
+    @apply shrink-0 text-muted-foreground transition-transform duration-move ease-move in-aria-expanded:rotate-180 size-(--density-icon-14) [stroke-width:var(--density-icon-stroke-14)]!;
   }
 
   .cn-event-calendar-date-picker {

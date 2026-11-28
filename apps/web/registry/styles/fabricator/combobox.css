@@ -52,7 +52,7 @@
   }
 
   .cn-combobox-trigger-icon {
-    @apply text-muted-foreground size-(--density-icon-16) transition-colors duration-feedback;
+    @apply text-muted-foreground size-(--density-icon-14) [stroke-width:var(--density-icon-stroke-14)]! transition-colors duration-feedback;
   }
 
   /* Chips field: the input recipe (1px ring-border frame, light fill on
