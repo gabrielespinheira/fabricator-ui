@@ -4,6 +4,7 @@ import * as React from "react"
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu"
 import { cn } from "cn"
 
+import { useSubmenuAim } from "@/registry/bases/base/hooks/use-submenu-aim"
 import {
   FluidHoverHighlight,
   useFluidHover,
@@ -15,6 +16,9 @@ import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 // Fabricator override of the upstream context menu: the content is a fluid
 // hover container, so one highlight glides between items (keyboard
 // navigation from the primitive moves the same highlight).
+//
+// Heading for an open submenu, the pointer can cross the rows below its
+// trigger without them taking over (submenu-aim).
 //
 // Its popups take the density of the nearest DensityProvider, which their
 // portals would otherwise lose (registry/fabricator/density.ts).
@@ -62,7 +66,8 @@ function ContextMenuContent({
     items: MENU_ITEMS,
     highlighted: "[data-highlighted]",
   })
-  const mergedRef = useMergedRef(fluid.attach, ref)
+  const submenuAim = useSubmenuAim()
+  const mergedRef = useMergedRef(fluid.attach, submenuAim, ref)
   const density = useDensity()
 
   return (

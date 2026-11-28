@@ -18,6 +18,7 @@ import {
 } from "react-aria-components"
 import { createPortal } from "react-dom"
 
+import { useSubmenuAim } from "@/registry/bases/aria/hooks/use-submenu-aim"
 import {
   FluidHoverHighlight,
   useFluidHover,
@@ -30,6 +31,9 @@ import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 // hover container, so one highlight glides between items (keyboard
 // navigation moves the same highlight). The menu renders a collection, so the
 // highlight is portalled into it rather than passed as a child.
+//
+// Heading for an open submenu, the pointer can cross the rows below its
+// trigger without them taking over (submenu-aim).
 //
 // Its popups take the density of the nearest DensityProvider, which their
 // portals would otherwise lose (registry/fabricator/density.ts).
@@ -68,7 +72,13 @@ function DropdownMenu({
     highlighted: "[data-focused]",
   })
   const [menu, setMenu] = React.useState<HTMLDivElement | null>(null)
-  const mergedRef = useMergedRef(fluid.attach, setMenu, ref)
+  const submenuAim = useSubmenuAim()
+  const mergedRef = useMergedRef<HTMLDivElement>(
+    fluid.attach,
+    setMenu,
+    submenuAim,
+    ref
+  )
   const density = useDensity()
 
   return (
@@ -83,8 +93,11 @@ function DropdownMenu({
         className
       )}
     >
+      {/* React Aria turns pointer events off on the menu while the pointer heads
+          for a submenu, for up to a second after it stops; submenu-aim does
+          that job and hands the rows back sooner. */}
       <MenuPrimitive
-        className="relative isolate max-h-[inherit] overflow-x-hidden overflow-y-auto outline-hidden"
+        className="pointer-events-auto! relative isolate max-h-[inherit] overflow-x-hidden overflow-y-auto outline-hidden"
         ref={mergedRef}
         {...fluid.props}
         {...props}

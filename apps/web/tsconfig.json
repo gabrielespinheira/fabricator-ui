@@ -106,6 +106,12 @@
       "@/registry/bases/*/hooks/use-tooltip-travel": [
         "./registry/fabricator/shared/hooks/use-tooltip-travel"
       ],
+      "@/registry/bases/*/lib/submenu-aim-model": [
+        "./registry/fabricator/shared/lib/submenu-aim-model"
+      ],
+      "@/registry/bases/*/hooks/use-submenu-aim": [
+        "./registry/fabricator/shared/hooks/use-submenu-aim"
+      ],
       "@/registry/bases/*/lib/input-search-model": [
         "./registry/fabricator/shared/lib/input-search-model"
       ],

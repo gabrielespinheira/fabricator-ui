@@ -113,6 +113,7 @@ import {
   FilterIcon as FabricatorFilterIcon,
   Folder as FabricatorFolder,
   FolderIcon as FabricatorFolderIcon,
+  FolderInputIcon as FabricatorFolderInputIcon,
   FolderOpenIcon as FabricatorFolderOpenIcon,
   FolderPlusIcon as FabricatorFolderPlusIcon,
   FolderSearchIcon as FabricatorFolderSearchIcon,
@@ -1082,6 +1083,9 @@ export const FolderIcon = createSiteIcon(FabricatorFolderIcon, {
   hugeicons: "Folder01Icon",
   phosphor: "FolderIcon",
   remixicon: "RiFolderLine",
+})
+export const FolderInputIcon = createSiteIcon(FabricatorFolderInputIcon, {
+  lucide: "FolderInputIcon",
 })
 export const FolderOpenIcon = createSiteIcon(FabricatorFolderOpenIcon, {
   lucide: "FolderOpenIcon",

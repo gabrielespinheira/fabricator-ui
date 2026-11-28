@@ -2360,6 +2360,16 @@ export const Components: Record<string, any> = {
       ) || "context-menu-submenu"
     return { default: mod.default || mod[exportName] }
   }),
+  "context-menu-submenus": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/context-menu-submenus"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "context-menu-submenus"
+    return { default: mod.default || mod[exportName] }
+  }),
   "data-picker-with-dropdowns": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/data-picker-with-dropdowns"

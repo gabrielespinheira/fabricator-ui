@@ -1061,6 +1061,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "context-menu-submenu",
       filePath: "examples/base/context-menu-submenu.tsx",
     },
+    "context-menu-submenus": {
+      name: "context-menu-submenus",
+      filePath: "examples/base/context-menu-submenus.tsx",
+    },
     "data-picker-with-dropdowns": {
       name: "data-picker-with-dropdowns",
       filePath: "examples/base/data-picker-with-dropdowns.tsx",
@@ -4114,6 +4118,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "context-menu-submenu": {
       name: "context-menu-submenu",
       filePath: "examples/aria/context-menu-submenu.tsx",
+    },
+    "context-menu-submenus": {
+      name: "context-menu-submenus",
+      filePath: "examples/aria/context-menu-submenus.tsx",
     },
     "data-picker-with-dropdowns": {
       name: "data-picker-with-dropdowns",
@@ -7172,6 +7180,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "context-menu-submenu": {
       name: "context-menu-submenu",
       filePath: "examples/radix/context-menu-submenu.tsx",
+    },
+    "context-menu-submenus": {
+      name: "context-menu-submenus",
+      filePath: "examples/radix/context-menu-submenus.tsx",
     },
     "data-picker-with-dropdowns": {
       name: "data-picker-with-dropdowns",
@@ -10237,6 +10249,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "context-menu-submenu",
       filePath: "examples/__styles__/base-fabricator/context-menu-submenu.tsx",
     },
+    "context-menu-submenus": {
+      name: "context-menu-submenus",
+      filePath: "examples/__styles__/base-fabricator/context-menu-submenus.tsx",
+    },
     "data-picker-with-dropdowns": {
       name: "data-picker-with-dropdowns",
       filePath:
@@ -13106,6 +13122,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "context-menu-submenu": {
       name: "context-menu-submenu",
       filePath: "examples/__styles__/aria-fabricator/context-menu-submenu.tsx",
+    },
+    "context-menu-submenus": {
+      name: "context-menu-submenus",
+      filePath: "examples/__styles__/aria-fabricator/context-menu-submenus.tsx",
     },
     "data-picker-with-dropdowns": {
       name: "data-picker-with-dropdowns",
@@ -15992,6 +16012,11 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "context-menu-submenu": {
       name: "context-menu-submenu",
       filePath: "examples/__styles__/radix-fabricator/context-menu-submenu.tsx",
+    },
+    "context-menu-submenus": {
+      name: "context-menu-submenus",
+      filePath:
+        "examples/__styles__/radix-fabricator/context-menu-submenus.tsx",
     },
     "data-picker-with-dropdowns": {
       name: "data-picker-with-dropdowns",

@@ -327,6 +327,7 @@ const mergedRef = useMergedRef(fluid.attach, ref)
 - Items keep a fallback hover and drop it inside a fluid container: `data-highlighted:bg-hover in-data-[fluid-hover]:data-highlighted:bg-transparent`. The lit item: `data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2`.
 - One container per group: split a list at its separators so the highlight never crosses groups. A submenu has its own.
 - Disabled items are skipped. Reduced motion keeps the fades and drops the travel.
+- A menu popup that can open submenus also merges `useSubmenuAim()` (`shared/hooks/use-submenu-aim.ts`) into the same ref, so the rows the pointer crosses on its way to an open submenu don't take over. It works on every base through the trigger's `aria-controls`; the Radix sub trigger ignores the leave it replays.
 
 ### Cursors
 

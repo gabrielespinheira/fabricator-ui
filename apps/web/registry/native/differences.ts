@@ -125,7 +125,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "context-menu": {
     tier: "touch",
-    note: "A long press opens it, in place of a right click. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard. Rows appear together; on the website they fall in one after another.",
+    note: "A long press opens it, in place of a right click. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard. Rows appear together; on the website they fall in one after another. A tap opens a submenu, so there is no pointer to aim at it; on the website the submenu stays open while the pointer crosses other rows on its way there.",
   },
   dialog: SAME,
   direction: {
@@ -142,7 +142,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "dropdown-menu": {
     tier: "same",
-    note: "`side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard. Rows appear together; on the website they fall in one after another.",
+    note: "`side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard. Rows appear together; on the website they fall in one after another. A tap opens a submenu, so there is no pointer to aim at it; on the website the submenu stays open while the pointer crosses other rows on its way there.",
   },
   editor: {
     tier: "engine",

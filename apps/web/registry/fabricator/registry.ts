@@ -1488,6 +1488,18 @@ export const fabricatorItems = [
     meta: { fabricator: true },
   },
   {
+    name: "submenu-aim",
+    type: "registry:lib",
+    title: "Submenu aim",
+    description:
+      "Keeps a submenu open while the pointer heads for it, across the rows on the way, and hands the rows back when the pointer rests or turns away.",
+    files: [
+      { path: "lib/submenu-aim-model.ts", type: "registry:lib" },
+      { path: "hooks/use-submenu-aim.ts", type: "registry:hook" },
+    ],
+    meta: { fabricator: true },
+  },
+  {
     name: "number-roll",
     type: "registry:lib",
     title: "Number roll",
@@ -1767,8 +1779,12 @@ export const fabricatorOverrides: Record<
   popover: { registryDependencies: ["density"] },
   "hover-card": { registryDependencies: ["density"] },
   tooltip: { registryDependencies: ["density", "tooltip-travel"] },
-  "dropdown-menu": { registryDependencies: ["fluid-hover", "density"] },
-  "context-menu": { registryDependencies: ["fluid-hover", "density"] },
+  "dropdown-menu": {
+    registryDependencies: ["fluid-hover", "density", "submenu-aim"],
+  },
+  "context-menu": {
+    registryDependencies: ["fluid-hover", "density", "submenu-aim"],
+  },
   select: { registryDependencies: ["fluid-hover", "density"] },
   combobox: { registryDependencies: ["fluid-hover", "density"] },
   command: { registryDependencies: ["fluid-hover"] },

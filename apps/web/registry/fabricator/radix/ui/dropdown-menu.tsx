@@ -5,6 +5,10 @@ import { cn } from "cn"
 import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui"
 
 import {
+  isSubmenuAimReplay,
+  useSubmenuAim,
+} from "@/registry/bases/radix/hooks/use-submenu-aim"
+import {
   FluidHoverHighlight,
   useFluidHover,
   useMergedRef,
@@ -16,6 +20,9 @@ import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 // sub-content are fluid hover containers, so one highlight glides between
 // items (keyboard navigation from the primitive moves the same highlight).
 //
+// Heading for an open submenu, the pointer can cross the rows below its
+// trigger without them taking over (submenu-aim).
+//
 // Its popups take the density of the nearest DensityProvider, which their
 // portals would otherwise lose (registry/fabricator/density.ts).
 const MENU_ITEMS =
@@ -26,7 +33,8 @@ function useMenuFluidHover(ref: React.Ref<HTMLDivElement> | undefined) {
     items: MENU_ITEMS,
     highlighted: "[data-highlighted]",
   })
-  const mergedRef = useMergedRef(fluid.attach, ref)
+  const submenuAim = useSubmenuAim()
+  const mergedRef = useMergedRef(fluid.attach, submenuAim, ref)
   return { fluid, mergedRef }
 }
 
@@ -259,12 +267,20 @@ function DropdownMenuSubTrigger({
   className,
   inset,
   children,
+  onPointerLeave,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.SubTrigger> & {
   inset?: boolean
 }) {
   return (
     <DropdownMenuPrimitive.SubTrigger
+      onPointerLeave={(event) => {
+        onPointerLeave?.(event)
+        // A leave submenu aim replays comes after the pointer already left;
+        // Radix would draw its own grace area from it and ignore the row the
+        // pointer rests on.
+        if (isSubmenuAimReplay(event.nativeEvent)) event.preventDefault()
+      }}
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
       className={cn(
