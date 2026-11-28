@@ -687,7 +687,7 @@ rendering and SDK integration explicit so a platform port stays understandable.
 ## 12. Sources and related work
 
 Repository rules: [`../../AGENTS.md`](../../AGENTS.md),
-[`../PLATFORMS.md`](../PLATFORMS.md), [`../COMPONENTS.md`](../COMPONENTS.md),
+[`../PLATFORMS.md`](../PLATFORMS.md), [`../../COMPONENTS.md`](../../COMPONENTS.md),
 [`../COMPONENT-GROUPS.md`](../COMPONENT-GROUPS.md),
 [`../REGISTRY.md`](../REGISTRY.md), [`../CLI.md`](../CLI.md),
 [`../STYLES.md`](../STYLES.md), [`../../CONTRIBUTING.md`](../../CONTRIBUTING.md).

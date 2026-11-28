@@ -324,7 +324,7 @@ function PropertyAvatar({ person }: { person: PropertyOption }) {
         style={{ backgroundColor: color, opacity: 0.28 }}
       />
       {person.image ? (
-        <Image source={{ uri: person.image }} className="size-full" />
+        <Image alt="" source={{ uri: person.image }} className="size-full" />
       ) : (
         <Text className="cn-properties-avatar-text">
           {getInitials(person.label)}

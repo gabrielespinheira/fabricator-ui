@@ -93,3 +93,8 @@
   .cn-input-search {
     @apply min-w-0;
   }
+
+  /* The clear icon is quiet, as on the website; it has no scale-in. */
+  .cn-input-search-clear {
+    @apply text-muted-foreground;
+  }

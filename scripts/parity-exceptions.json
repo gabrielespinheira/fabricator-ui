@@ -18,6 +18,12 @@
       "bases": ["base"],
       "reason": "Removed an unused `import * as React` that fails `noUnusedLocals` (on by default in the Vite template).",
       "since": "2026-10-05"
+    },
+    {
+      "item": "calendar",
+      "bases": ["aria"],
+      "reason": "The month navigation is a `div`, not a `header`: outside a sectioning element a `header` is a banner landmark, so a page with its own header fails axe's duplicate and top-level banner rules.",
+      "since": "2026-11-25"
     }
   ]
 }

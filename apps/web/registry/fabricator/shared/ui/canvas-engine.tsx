@@ -23,6 +23,7 @@ import {
   type EdgeProps,
   type EdgeTypes,
   type FinalConnectionState,
+  type FitViewOptions,
   type NodeChangeset,
   type NodeProps,
   type NodeTypes,
@@ -706,7 +707,7 @@ function CanvasEngineBridge({
   minZoom: number
   maxZoom: number
   isStatic: boolean
-  fitOptions: React.ComponentProps<typeof ReactFlow>["fitViewOptions"] | null
+  fitOptions: FitViewOptions<CanvasEngineNode> | null
   hasMovedRef: React.RefObject<boolean>
 }) {
   const flow = useReactFlow<CanvasEngineNode, CanvasEdgeRecord>()

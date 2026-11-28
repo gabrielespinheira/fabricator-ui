@@ -57,6 +57,7 @@ function PropertyImage({
   }
   return (
     <Image
+      alt=""
       accessible={false}
       source={{ uri: source }}
       resizeMode="cover"

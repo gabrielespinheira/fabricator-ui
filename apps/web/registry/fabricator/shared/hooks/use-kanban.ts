@@ -203,6 +203,9 @@ function useKanban<Item>(options: KanbanOptions<Item>) {
   const [moveError, setMoveError] = React.useState<string | null>(null)
   const [undo, setUndo] = React.useState<KanbanChange<Item> | null>(null)
   const [notice, setNotice] = React.useState<KanbanNotice | null>(null)
+  // Stable, so the notice's dismiss timer restarts only when what it shows changes.
+  const dismissNotice = React.useCallback(() => setNotice(null), [])
+  const dismissMoveError = React.useCallback(() => setMoveError(null), [])
   // The last save of each card, so changes to one card reach the app in order.
   const saves = React.useRef(new Map<string, Promise<void>>())
 
@@ -718,10 +721,10 @@ function useKanban<Item>(options: KanbanOptions<Item>) {
     pendingIds,
     failure,
     notice,
-    dismissNotice: () => setNotice(null),
+    dismissNotice,
     announcement,
     moveError,
-    dismissMoveError: () => setMoveError(null),
+    dismissMoveError,
     selectedIds,
     select,
     toggleSelection,

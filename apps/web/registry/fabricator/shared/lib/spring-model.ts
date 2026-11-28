@@ -80,7 +80,8 @@ export function sampleSpring(config: SpringConfig, count = 40) {
   const last = Math.max(settledAt, 1)
   const samples = Array.from({ length: count + 1 }, (_, index) => {
     if (index === count) return 1
-    const value = trace[Math.round((index / count) * last)]
+    // `last` is a step the trace holds; past it the spring rests on 1.
+    const value = trace[Math.round((index / count) * last)] ?? 1
     return Math.round(value * 1000) / 1000
   })
   return { duration: Math.round(last * SAMPLE_STEP * 1000), samples }
@@ -90,7 +91,8 @@ export function sampleSpring(config: SpringConfig, count = 40) {
 export function parseSpring(token: string): SpringConfig | null {
   const parts = token.trim().split(/\s+/)
   if (parts.length !== 2) return null
-  const [stiffness, damping] = parts.map(Number)
+  const stiffness = Number(parts[0])
+  const damping = Number(parts[1])
   if (!(stiffness > 0) || !(damping >= 0)) return null
   return { stiffness, damping }
 }

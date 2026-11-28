@@ -1,6 +1,6 @@
 ---
 title: Card
-description: Displays a card with header, content, and footer.
+description: One discrete thing on a surface, such as a metric, a chart, a record or a plan, with a header, its value and a footer.
 base: native
 component: true
 ---
@@ -24,26 +24,28 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardLink,
+  CardMedia,
   CardTitle,
+  CardValue,
+  CardValueCaption,
 } from "@/components/ui/card"
+import { Delta } from "@/components/ui/delta"
 import { Text } from "@/components/ui/text"
 ```
 
 ```tsx
 <Card className="w-full">
   <CardHeader>
-    <CardTitle>Project status</CardTitle>
-    <CardDescription>Everything in this release.</CardDescription>
+    <CardTitle>Money in</CardTitle>
+    <CardAction>
+      <Delta change={11.5} />
+    </CardAction>
   </CardHeader>
-  <CardContent>
-    <Text>Twelve tasks are done and three are in review.</Text>
+  <CardContent className="gap-(--density-6)">
+    <CardValue>$981K</CardValue>
+    <CardValueCaption>from $879.5K</CardValueCaption>
   </CardContent>
-  <CardFooter>
-    <Button size="sm">Open</Button>
-    <Button size="sm" variant="ghost">
-      Dismiss
-    </Button>
-  </CardFooter>
 </Card>
 ```
 
@@ -55,11 +57,16 @@ import { Text } from "@/components/ui/text"
 - `CardDescription`
 - `CardFooter`
 - `CardHeader`
+- `CardLink`
+- `CardMedia`
 - `CardTitle`
+- `CardValue`
+- `CardValueCaption`
 
 ## Examples
 
 ```tsx showLineNumbers title="card-example.tsx"
+import { BotIcon } from "@fabricator-ui/icons-react-native"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -69,13 +76,89 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardLink,
+  CardMedia,
   CardTitle,
+  CardValue,
+  CardValueCaption,
 } from "@/components/ui/card"
+import { Delta } from "@/components/ui/delta"
 import { Text } from "@/components/ui/text"
 
 function CardExample() {
   return (
     <ExampleWrapper>
+      <Example title="Stat" className="bg-transparent p-0 shadow-none">
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Money in</CardTitle>
+            <CardAction>
+              <Delta change={11.5} />
+            </CardAction>
+          </CardHeader>
+          <CardContent className="gap-(--density-6)">
+            <CardValue>$981K</CardValue>
+            <CardValueCaption>from $879.5K</CardValueCaption>
+          </CardContent>
+        </Card>
+      </Example>
+      <Example title="Object" className="bg-transparent p-0 shadow-none">
+        <Card className="w-full">
+          <CardHeader>
+            <CardMedia variant="icon">
+              <BotIcon />
+            </CardMedia>
+            <CardTitle>
+              <CardLink onPress={() => {}}>Triage</CardLink>
+            </CardTitle>
+            <CardDescription>Classifier</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Text>
+              Labels every new ticket and routes it to the right queue.
+            </Text>
+          </CardContent>
+          <CardFooter>
+            <Text>1,204 runs today</Text>
+          </CardFooter>
+        </Card>
+      </Example>
+      <Example title="Logo" className="bg-transparent p-0 shadow-none">
+        <Card size="sm" className="w-full">
+          <CardHeader>
+            <CardMedia variant="image">
+              <BotIcon />
+            </CardMedia>
+            <CardTitle>Assistant</CardTitle>
+            <CardDescription>Connected</CardDescription>
+          </CardHeader>
+        </Card>
+      </Example>
+      <Example title="Muted" className="bg-transparent p-0 shadow-none">
+        <Card variant="muted" className="w-full">
+          <CardHeader>
+            <CardTitle>Add a widget</CardTitle>
+            <CardDescription>A slot for the next card.</CardDescription>
+          </CardHeader>
+        </Card>
+      </Example>
+      <Example title="Tray" className="bg-transparent p-0 shadow-none">
+        <Card variant="tray" className="w-full">
+          <CardHeader>
+            <CardTitle>Uptime</CardTitle>
+            <CardDescription>Last 30 days</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CardValue>
+              98.2%
+              <CardValueCaption>uptime</CardValueCaption>
+            </CardValue>
+          </CardContent>
+          <CardFooter>
+            <Text>Updated 2 min ago</Text>
+          </CardFooter>
+        </Card>
+      </Example>
       <Example title="Default" className="bg-transparent p-0 shadow-none">
         <Card className="w-full">
           <CardHeader>
@@ -129,9 +212,11 @@ export { CardExample }
 
 ## API reference
 
+| Prop | Values |
+| --- | --- |
+| `variant` | `default`, `icon`, `image`, `muted`, `tray` |
 
-
-Props it adds to what it wraps: `size`.
+Props it adds to what it wraps: `onPress`, `size`.
 
 ## Differences from web
 
@@ -139,4 +224,4 @@ Props it adds to what it wraps: `size`.
 
 ## Accessibility
 
-Parts set `role="heading"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.
+Parts set `role="heading"`, `role="link"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

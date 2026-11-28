@@ -1178,9 +1178,7 @@ function KanbanNotices<Item>({ board }: KanbanPartProps<Item>) {
       else dismissNotice()
     }, 6000)
     return () => clearTimeout(timer)
-    // The dismissers are new each render; only what is shown restarts the clock.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [moveError, notice])
+  }, [moveError, notice, dismissMoveError, dismissNotice])
   const [destructive, warning] = useCSSVariable(["--destructive", "--warning"])
 
   if (failure)

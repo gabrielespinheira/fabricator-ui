@@ -1,6 +1,6 @@
 # Fabricator UI
 
-> Fabricator UI is the foundation for your design system: a component registry with accessible components, extra components and its own design language. Components are copied into your project as source code with the `fabricator-ui` CLI (`npx fabricator-ui@latest add <name>`). Every component is available for Base UI, Radix UI and React Aria, in eight styles. Built with TypeScript, React 19 and Tailwind CSS v4. Built on shadcn/ui (MIT).
+> Fabricator UI is the foundation for your design system: a component registry with accessible components, extra components and its own design language. Components are copied into your project as source code with the `fabricator-ui` CLI (`npx fabricator-ui@latest add <name>`). Every web component is available for Base UI, Radix UI and React Aria in the Fabricator style, and most have a React Native version. Built with TypeScript, React 19 and Tailwind CSS v4. Built on shadcn/ui (MIT).
 
 The full documentation is also available as a single file: [llms-full.txt](https://fabricator-ui.vercel.app/llms-full.txt). Every docs page is available as Markdown by appending `.md` to its URL. Component pages exist per base: `/docs/components/base/<name>` (Base UI, default), `/docs/components/radix/<name>` and `/docs/components/aria/<name>`.
 
@@ -17,9 +17,11 @@ The full documentation is also available as a single file: [llms-full.txt](https
 The Fabricator design language rests on these systems, shipped in the `foundations`, `density`, `fluid-hover` and `sounds` registry items.
 
 - [Colors](https://fabricator-ui.vercel.app/docs/foundations/colors.md): Eight surface levels and six colour roles, each set by a hue and a strength, with every state AA in light and dark.
-- [Motion](https://fabricator-ui.vercel.app/docs/foundations/motion.md): Three spring speeds, with exits one step quicker than entrances.
+- [Motion](https://fabricator-ui.vercel.app/docs/foundations/motion.md): Four speeds, from smooth for websites to instant for dashboards. Components move by role, so one setting retimes all of them.
 - [Fluid Hover](https://fabricator-ui.vercel.app/docs/foundations/fluid-hover.md): One highlight that glides to the item nearest the pointer, so a list never blinks between rows.
 - [Density](https://fabricator-ui.vercel.app/docs/foundations/density.md): Compact for dashboards, default for apps, spacious for websites. Set it on any container and everything inside follows.
+- [Radius](https://fabricator-ui.vercel.app/docs/foundations/radius.md): Rounded, Squircle or Pill. Every corner comes from its role and the control height, and layers stay concentric.
+- [Loader](https://fabricator-ui.vercel.app/docs/foundations/loader.md): How placeholders look while content loads: Skeleton pulses quietly; Blueprint traces the placeholders of base components with a pen.
 - [Sounds](https://fabricator-ui.vercel.app/docs/foundations/sounds.md): Short, quiet interface sounds synthesized in the browser, on by default.
 - [Typography](https://fabricator-ui.vercel.app/docs/foundations/typography.md): Inter at five sizes, with weights paired to optical size.
 
@@ -32,6 +34,7 @@ Fabricator Icons is Fabricator UI's independently maintained icon catalog. UI ic
 - [React Native](https://fabricator-ui.vercel.app/docs/icons/react-native.md): The same icons and brand marks for React Native and Expo, drawn with react-native-svg, following light and dark mode.
 - [Static and desktop](https://fabricator-ui.vercel.app/docs/icons/static.md): SVG files, sprites, JSON and SVG strings for any framework, and PNG tray and menu icons for Electron and Tauri.
 - [Brands](https://fabricator-ui.vercel.app/docs/icons/brands.md): Brand marks in one colour or their own, with their sources, licences and guidelines.
+- [Files](https://fabricator-ui.vercel.app/docs/icons/files.md): Colour file and folder icons, resolved from filenames and folder names.
 - [Animated](https://fabricator-ui.vercel.app/docs/icons/animated.md): Every UI icon animates on the web in all three drawing weights through `@fabricator-ui/icons/animated`.
 
 ## Installation
@@ -45,6 +48,8 @@ Fabricator Icons is Fabricator UI's independently maintained icon catalog. UI ic
 - [Astro](https://fabricator-ui.vercel.app/docs/installation/astro.md): Install and configure Fabricator UI for Astro.
 - [TanStack Start](https://fabricator-ui.vercel.app/docs/installation/tanstack.md): Install and configure Fabricator UI for TanStack Start.
 - [TanStack Router](https://fabricator-ui.vercel.app/docs/installation/tanstack-router.md): Install and configure Fabricator UI for TanStack Router.
+- [React Native](https://fabricator-ui.vercel.app/docs/installation/react-native.md): Install and configure Fabricator UI for React Native with Expo.
+- [React Native differences](https://fabricator-ui.vercel.app/docs/installation/react-native-differences.md): What each React Native component does differently from its web version, and why.
 - [Manual Installation](https://fabricator-ui.vercel.app/docs/installation/manual.md): Add dependencies to your project manually.
 
 ## Tooling
@@ -86,94 +91,137 @@ Fabricator Icons is Fabricator UI's independently maintained icon catalog. UI ic
 
 ## Components
 
-### Form & Input
+### Basics
 
-- [Field](https://fabricator-ui.vercel.app/docs/components/base/field.md): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+- [Theme Toggle](https://fabricator-ui.vercel.app/docs/components/base/theme-toggle.md): A theme button with a morphing sun and moon, eight page reveals that start at the pressed button.
 - [Button](https://fabricator-ui.vercel.app/docs/components/base/button.md): Displays a button or a component that looks like a button.
-- [Theme Toggle](https://fabricator-ui.vercel.app/docs/components/base/theme-toggle.md): A morphing sun and moon button with eight page reveals from the pressed trigger and feathered transitions.
-- [Button Group](https://fabricator-ui.vercel.app/docs/components/base/button-group.md): A container that groups related buttons together with consistent styling.
+- [Hold Button](https://fabricator-ui.vercel.app/docs/components/base/hold-button.md): A button that confirms only when held for its whole duration, for actions worth a second thought.
+- [Slide to Confirm](https://fabricator-ui.vercel.app/docs/components/base/slide-to-confirm.md): A track whose thumb you slide to the end to commit an action.
+- [Toggle](https://fabricator-ui.vercel.app/docs/components/base/toggle.md): A two-state button that can be either on or off.
+- [Badge](https://fabricator-ui.vercel.app/docs/components/base/badge.md): Displays a badge or a component that looks like a badge.
+- [Avatar](https://fabricator-ui.vercel.app/docs/components/base/avatar.md): An image element with a fallback for representing the user.
+- [Kbd](https://fabricator-ui.vercel.app/docs/components/base/kbd.md): Used to display textual user input from keyboard.
+- [Separator](https://fabricator-ui.vercel.app/docs/components/base/separator.md): Visually or semantically separates content.
+- [Spinner](https://fabricator-ui.vercel.app/docs/components/base/spinner.md): Twenty-two loading animations, from dot matrices to bouncing dots and turning tiles.
+- [Skeleton](https://fabricator-ui.vercel.app/docs/components/base/skeleton.md): Use to show a placeholder while content is loading.
+- [Alert](https://fabricator-ui.vercel.app/docs/components/base/alert.md): Displays a callout for user attention.
+- [Toast](https://fabricator-ui.vercel.app/docs/components/base/toast.md): A succinct message that is displayed temporarily.
+- [Empty](https://fabricator-ui.vercel.app/docs/components/base/empty.md): Use the Empty component to display an empty state.
+- [Aspect Ratio](https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio.md): Displays content within a desired ratio, and glides to a new one when it changes.
+- [Scroll Area](https://fabricator-ui.vercel.app/docs/components/base/scroll-area.md): Augments native scroll functionality for custom, cross-browser styling.
+
+### Forms
+
+- [Properties](https://fabricator-ui.vercel.app/docs/components/base/properties.md): Typed values read and edited as rows, with files, settings behind each label, validation, and types of your own.
 - [Input](https://fabricator-ui.vercel.app/docs/components/base/input.md): A text input component for forms and user data entry with built-in styling and accessibility features.
-- [Input Group](https://fabricator-ui.vercel.app/docs/components/base/input-group.md): Add addons, buttons, and helper content to inputs.
-- [Number Field](https://fabricator-ui.vercel.app/docs/components/base/number-field.md): A number input with steppers, limits, keyboard stepping and locale formatting.
-- [Input OTP](https://fabricator-ui.vercel.app/docs/components/base/input-otp.md): Accessible one-time password component with copy-paste functionality.
-- [File Upload](https://fabricator-ui.vercel.app/docs/components/base/file-upload.md): A file picker with a drop zone, checks on type, size and count, and the picked files as Attachment rows.
 - [Textarea](https://fabricator-ui.vercel.app/docs/components/base/textarea.md): Displays a form textarea or a component that looks like a textarea.
+- [Label](https://fabricator-ui.vercel.app/docs/components/base/label.md): Renders an accessible label associated with controls.
 - [Checkbox](https://fabricator-ui.vercel.app/docs/components/base/checkbox.md): A control that allows the user to toggle between checked and not checked.
 - [Radio Group](https://fabricator-ui.vercel.app/docs/components/base/radio-group.md): A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
-- [Select](https://fabricator-ui.vercel.app/docs/components/base/select.md): Displays a list of options for the user to pick from—triggered by a button.
 - [Switch](https://fabricator-ui.vercel.app/docs/components/base/switch.md): A control that allows the user to toggle between checked and not checked.
 - [Slider](https://fabricator-ui.vercel.app/docs/components/base/slider.md): An input where the user selects a value from within a given range.
-- [Calendar](https://fabricator-ui.vercel.app/docs/components/base/calendar.md): A calendar component that allows users to select a date or a range of dates.
-- [Date Picker](https://fabricator-ui.vercel.app/docs/components/base/date-picker.md): A field that takes a typed date or one picked from a calendar, with time and range compositions.
-- [Month Input](https://fabricator-ui.vercel.app/docs/components/base/month-input.md): A text field that takes a typed month or one picked from a year of months.
-- [Multi Select](https://fabricator-ui.vercel.app/docs/components/base/multi-select.md): Pick several options from a searchable list, shown as chips that pop in, wipe out and glide into place.
-- [Time Input](https://fabricator-ui.vercel.app/docs/components/base/time-input.md): A text field that takes a typed time or one picked from a list.
+- [Rating](https://fabricator-ui.vercel.app/docs/components/base/rating.md): A row of stars that holds a score, in whole or half stars, yellow by default or in your primary and status colours.
+- [Field](https://fabricator-ui.vercel.app/docs/components/base/field.md): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+- [Input Group](https://fabricator-ui.vercel.app/docs/components/base/input-group.md): Add addons, buttons, and helper content to inputs.
+- [Input OTP](https://fabricator-ui.vercel.app/docs/components/base/input-otp.md): Accessible one-time password component with copy-paste functionality.
+- [Select](https://fabricator-ui.vercel.app/docs/components/base/select.md): Displays a list of options for the user to pick from—triggered by a button.
 - [Combobox](https://fabricator-ui.vercel.app/docs/components/base/combobox.md): Autocomplete input with a list of suggestions.
-- [Label](https://fabricator-ui.vercel.app/docs/components/base/label.md): Renders an accessible label associated with controls.
+- [Number Field](https://fabricator-ui.vercel.app/docs/components/base/number-field.md): A number input with steppers, limits, keyboard stepping and locale formatting.
+- [Password Strength](https://fabricator-ui.vercel.app/docs/components/base/password-strength.md): Four bars under a password field that fill as the password gets stronger.
+- [File Upload](https://fabricator-ui.vercel.app/docs/components/base/file-upload.md): A file picker with a drop zone, checks on type, size and count, and the picked files as Attachment rows.
+- [Color Picker](https://fabricator-ui.vercel.app/docs/components/base/color-picker.md): A color picker with a saturation area, hue and alpha sliders, HEX, RGB, HSL and OKLCH fields, swatches and the eyedropper.
+- [Button Group](https://fabricator-ui.vercel.app/docs/components/base/button-group.md): A container that groups related buttons together with consistent styling.
+- [Toggle Group](https://fabricator-ui.vercel.app/docs/components/base/toggle-group.md): A set of two-state buttons that can be toggled on or off.
+- [Calendar](https://fabricator-ui.vercel.app/docs/components/base/calendar.md): A calendar component that allows users to select a date or a range of dates.
+- [Date Picker](https://fabricator-ui.vercel.app/docs/components/base/date-picker.md): A date field that opens a calendar, with an optional time wheel, a month or year granularity, and Calendar compositions for ranges and presets.
+- [Multi Select](https://fabricator-ui.vercel.app/docs/components/base/multi-select.md): Pick several options from a searchable list, shown as chips in the field.
+- [Time Input](https://fabricator-ui.vercel.app/docs/components/base/time-input.md): A text field that takes a typed time or one picked on a scroll wheel of hours, minutes and seconds, alone or as a start and an end.
 
-### Layout & Navigation
+### Overlays
 
-- [Accordion](https://fabricator-ui.vercel.app/docs/components/base/accordion.md): A vertically stacked set of interactive headings that each reveal a section of content.
-- [Breadcrumb](https://fabricator-ui.vercel.app/docs/components/base/breadcrumb.md): Displays the path to the current resource using a hierarchy of links.
-- [Navigation Menu](https://fabricator-ui.vercel.app/docs/components/base/navigation-menu.md): A collection of links for navigating websites.
-- [Tabs](https://fabricator-ui.vercel.app/docs/components/base/tabs.md): A set of layered sections of content—known as tab panels—that are displayed one at a time.
-- [Separator](https://fabricator-ui.vercel.app/docs/components/base/separator.md): Visually or semantically separates content.
-- [Scroll Area](https://fabricator-ui.vercel.app/docs/components/base/scroll-area.md): Augments native scroll functionality for custom, cross-browser styling.
-- [Search](https://fabricator-ui.vercel.app/docs/components/base/search.md): A search button that springs open into a search field, as one object.
-- [Resizable](https://fabricator-ui.vercel.app/docs/components/base/resizable.md): Accessible resizable panel groups and layouts with keyboard support.
-
-### Overlays & Dialogs
-
+- [Record View](https://fabricator-ui.vercel.app/docs/components/base/record-view.md): One record beside, over or instead of the screen it was opened from.
 - [Dialog](https://fabricator-ui.vercel.app/docs/components/base/dialog.md): A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.
 - [Alert Dialog](https://fabricator-ui.vercel.app/docs/components/base/alert-dialog.md): A modal dialog that interrupts the user with important content and expects a response.
 - [Sheet](https://fabricator-ui.vercel.app/docs/components/base/sheet.md): Extends the Dialog component to display content that complements the main content of the screen.
 - [Drawer](https://fabricator-ui.vercel.app/docs/components/base/drawer.md): A drawer component for React.
 - [Popover](https://fabricator-ui.vercel.app/docs/components/base/popover.md): Displays rich content in a portal, triggered by a button.
-- [Tooltip](https://fabricator-ui.vercel.app/docs/components/base/tooltip.md): A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
 - [Hover Card](https://fabricator-ui.vercel.app/docs/components/base/hover-card.md): For sighted users to preview content available behind a link.
-- [Context Menu](https://fabricator-ui.vercel.app/docs/components/base/context-menu.md): Displays a menu of actions triggered by a right click.
+- [Tooltip](https://fabricator-ui.vercel.app/docs/components/base/tooltip.md): A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
 - [Dropdown Menu](https://fabricator-ui.vercel.app/docs/components/base/dropdown-menu.md): Displays a menu to the user — such as a set of actions or functions — triggered by a button.
-- [Menubar](https://fabricator-ui.vercel.app/docs/components/base/menubar.md): A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.
+- [Context Menu](https://fabricator-ui.vercel.app/docs/components/base/context-menu.md): Displays a menu of actions triggered by a right click.
 - [Command](https://fabricator-ui.vercel.app/docs/components/base/command.md): Command menu for search and quick actions.
 
-### Feedback & Status
+### Structure
 
-- [Alert](https://fabricator-ui.vercel.app/docs/components/base/alert.md): Displays a callout for user attention.
-- [Toast](https://fabricator-ui.vercel.app/docs/components/base/toast.md): A succinct message that is displayed temporarily.
-- [Progress](https://fabricator-ui.vercel.app/docs/components/base/progress.md): Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
-- [Spinner](https://fabricator-ui.vercel.app/docs/components/base/spinner.md): An indicator that can be used to show a loading state.
-- [Skeleton](https://fabricator-ui.vercel.app/docs/components/base/skeleton.md): Use to show a placeholder while content is loading.
-- [Badge](https://fabricator-ui.vercel.app/docs/components/base/badge.md): Displays a badge or a component that looks like a badge.
-- [Empty](https://fabricator-ui.vercel.app/docs/components/base/empty.md): Use the Empty component to display an empty state.
-
-### Display & Media
-
-- [Avatar](https://fabricator-ui.vercel.app/docs/components/base/avatar.md): An image element with a fallback for representing the user.
-- [Card](https://fabricator-ui.vercel.app/docs/components/base/card.md): Displays a card with header, content, and footer.
-- [Table](https://fabricator-ui.vercel.app/docs/components/base/table.md): A responsive table component.
-- [Data Table](https://fabricator-ui.vercel.app/docs/components/base/data-table.md): Typed columns, sorting, Notion-style filters, cells that edit in place, and ten thousand rows that load as you scroll, on TanStack Table.
-- [Event Calendar](https://fabricator-ui.vercel.app/docs/components/base/event-calendar.md): A scheduler with day, N-day, week, month and agenda views, drag to create, move and resize, recurring events, time zones and undo, on FullCalendar.
-- [Carousel](https://fabricator-ui.vercel.app/docs/components/base/carousel.md): A carousel with motion and swipe built using Embla.
-- [Aspect Ratio](https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio.md): Displays content within a desired ratio.
-- [Typography](https://fabricator-ui.vercel.app/docs/components/base/typography.md): Styles for headings, paragraphs, lists, etc.
-- [Item](https://fabricator-ui.vercel.app/docs/components/base/item.md): A versatile component for displaying content with media, title, description, and actions.
-- [Kbd](https://fabricator-ui.vercel.app/docs/components/base/kbd.md): Used to display textual user input from keyboard.
-
-### Misc
-
-- [Collapsible](https://fabricator-ui.vercel.app/docs/components/base/collapsible.md): An interactive component which expands/collapses a panel.
-- [Toggle](https://fabricator-ui.vercel.app/docs/components/base/toggle.md): A two-state button that can be either on or off.
-- [Toggle Group](https://fabricator-ui.vercel.app/docs/components/base/toggle-group.md): A set of two-state buttons that can be toggled on or off.
+- [Navigation Menu](https://fabricator-ui.vercel.app/docs/components/base/navigation-menu.md): A collection of links for navigating websites.
+- [Tabs](https://fabricator-ui.vercel.app/docs/components/base/tabs.md): A set of layered sections of content—known as tab panels—that are displayed one at a time.
+- [Breadcrumb](https://fabricator-ui.vercel.app/docs/components/base/breadcrumb.md): Displays the path to the current resource using a hierarchy of links.
+- [Stepper](https://fabricator-ui.vercel.app/docs/components/base/stepper.md): The steps of a flow and where the person is in it.
+- [Bottom Nav](https://fabricator-ui.vercel.app/docs/components/base/bottom-nav.md): A phone app's tab bar: the current tab opens into a pill with its name.
 - [Pagination](https://fabricator-ui.vercel.app/docs/components/base/pagination.md): Pagination with page navigation, next and previous links.
+- [Preview Rail](https://fabricator-ui.vercel.app/docs/components/base/preview-rail.md): A rail of thin ticks, one per section, that swell around the pointer with a card naming the section it's on.
+- [Accordion](https://fabricator-ui.vercel.app/docs/components/base/accordion.md): A vertically stacked set of interactive headings that each reveal a section of content.
+- [Collapsible](https://fabricator-ui.vercel.app/docs/components/base/collapsible.md): An interactive component which expands/collapses a panel.
+- [Resizable](https://fabricator-ui.vercel.app/docs/components/base/resizable.md): Accessible resizable panel groups and layouts with keyboard support.
+- [Card](https://fabricator-ui.vercel.app/docs/components/base/card.md): One discrete thing on a surface, such as a metric, a chart, a record or a plan, with a header, its value and a footer.
+- [Item](https://fabricator-ui.vercel.app/docs/components/base/item.md): A versatile component for displaying content with media, title, description, and actions.
+- [Carousel](https://fabricator-ui.vercel.app/docs/components/base/carousel.md): A carousel with motion and swipe built using Embla.
 
-### Chat & AI
+### Content
 
-- [Attachment](https://fabricator-ui.vercel.app/docs/components/base/attachment.md): Displays a file or image attachment with media, metadata, upload state, and actions.
-- [Bubble](https://fabricator-ui.vercel.app/docs/components/base/bubble.md): Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.
-- [Marker](https://fabricator-ui.vercel.app/docs/components/base/marker.md): Displays an inline status, system note, bordered row, or labeled separator in a conversation.
+- [Typography](https://fabricator-ui.vercel.app/docs/components/base/typography.md): Styles for headings, paragraphs, lists, etc.
+- [Text Motion](https://fabricator-ui.vercel.app/docs/components/base/text-motion.md): Text that plays in by character, word or line, with effects you combine, loops, sequences and rotating words, timed by the motion roles.
+- [Blueprint](https://fabricator-ui.vercel.app/docs/components/base/blueprint.md): Sketches a component into place. A dot field, guides and a dotted outline draw it, each part is traced, then the real content fades in over the drawing.
+- [Table](https://fabricator-ui.vercel.app/docs/components/base/table.md): A responsive table component.
+- [Progress](https://fabricator-ui.vercel.app/docs/components/base/progress.md): Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+- [Segmented Meter](https://fabricator-ui.vercel.app/docs/components/base/segmented-meter.md): Parts of one total in a single bar, with a legend.
+- [Delta](https://fabricator-ui.vercel.app/docs/components/base/delta.md): A change against the previous period, as a status badge.
+- [Folder](https://fabricator-ui.vercel.app/docs/components/base/folder.md): A folder as a tile, the way a drive shows one, with its first files peeking out. Hover lifts them out and tips the front open.
+- [Markdown](https://fabricator-ui.vercel.app/docs/components/base/markdown.md): Markdown drawn with the document typography the Editor uses.
+
+### Charts
+
+- [Area Chart](https://fabricator-ui.vercel.app/docs/components/base/area-chart.md): Change over time as filled areas, stacked or stretched to the whole, with a gliding crosshair and tooltip.
+- [Line Chart](https://fabricator-ui.vercel.app/docs/components/base/line-chart.md): Change over time as lines for comparing series, with dashed targets and a gliding crosshair and tooltip.
+- [Bar Chart](https://fabricator-ui.vercel.app/docs/components/base/bar-chart.md): Magnitude by category, as bars side by side or stacked, in columns or rows.
+- [Composition Chart](https://fabricator-ui.vercel.app/docs/components/base/composition-chart.md): How the mix of a whole changes over time, as 100% columns with each part's current share.
+- [Candlestick Chart](https://fabricator-ui.vercel.app/docs/components/base/candlestick-chart.md): Open, high, low and close per period, with optional volume and a line at the latest close.
+- [Bump Chart](https://fabricator-ui.vercel.app/docs/components/base/bump-chart.md): Rank over time, as lines through each series' place at every index, so you see who overtook whom.
+- [Pie Chart](https://fabricator-ui.vercel.app/docs/components/base/pie-chart.md): Parts of one whole as slices, for a few parts, with the share of each on request.
+- [Donut Chart](https://fabricator-ui.vercel.app/docs/components/base/donut-chart.md): Parts of one whole as a ring, with the total in the centre and a list of values beside it.
+- [Radial Chart](https://fabricator-ui.vercel.app/docs/components/base/radial-chart.md): Progress of a few values against their target as concentric rings, round a full circle or a half gauge.
+- [Radar Chart](https://fabricator-ui.vercel.app/docs/components/base/radar-chart.md): Several measures of one or more subjects on shared axes, as polygons over a hairline grid.
+- [Treemap](https://fabricator-ui.vercel.app/docs/components/base/treemap.md): Hierarchical parts of a whole, as cells sized by value and coloured by their top-level group.
+- [Funnel Chart](https://fabricator-ui.vercel.app/docs/components/base/funnel-chart.md): Ordered stages losing volume, with the conversion between stages, vertical or horizontal.
+- [Sankey Chart](https://fabricator-ui.vercel.app/docs/components/base/sankey-chart.md): Flow volumes between stages, from sources to destinations, as ribbons as thick as each flow.
+- [Heat Calendar](https://fabricator-ui.vercel.app/docs/components/base/heat-calendar.md): A value per day over months, as a grid of weeks by weekdays in five levels of one colour.
+- [Status Bar](https://fabricator-ui.vercel.app/docs/components/base/status-bar.md): Uptime as one pill per day, coloured by status, with the uptime share and a legend.
+
+### Chat
+
+- [BotFace](https://fabricator-ui.vercel.app/docs/components/base/bot-face.md): A calm assistant face with ten fluid expressions and agent session states.
+- [Chat Input](https://fabricator-ui.vercel.app/docs/components/base/chat-input.md): The message box of a chat. A pill that stacks once the draft wraps, or a large card, with attachments, voice chat, a context meter, a model switcher and one send slot that starts voice, sends, queues and stops.
+- [Model Picker](https://fabricator-ui.vercel.app/docs/components/base/model-picker.md): The model switcher's panel. A reasoning effort slider that warms from blue to violet, routing tiles such as Auto, and the models grouped by provider.
 - [Message](https://fabricator-ui.vercel.app/docs/components/base/message.md): Displays a message in a conversation, with optional avatar, header, footer, and alignment.
 - [Message Scroller](https://fabricator-ui.vercel.app/docs/components/base/message-scroller.md): A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.
+- [Bubble](https://fabricator-ui.vercel.app/docs/components/base/bubble.md): Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.
+- [Attachment](https://fabricator-ui.vercel.app/docs/components/base/attachment.md): Displays a file or image attachment with media, metadata, upload state, and actions.
+- [Marker](https://fabricator-ui.vercel.app/docs/components/base/marker.md): Displays an inline status, system note, bordered row, or labeled separator in a conversation.
 - [Questionnaire](https://fabricator-ui.vercel.app/docs/components/base/questionnaire.md): A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.
+
+### Advanced
+
+- [Kanban](https://fabricator-ui.vercel.app/docs/components/base/kanban.md): A board of columns and cards with drag and drop, keyboard moves, typed properties, filters, grouping, selection and pagination.
+- [Data Table](https://fabricator-ui.vercel.app/docs/components/base/data-table.md): Typed columns, sorting, Notion-style filters, cells that edit in place, and ten thousand rows that load as you scroll, on TanStack Table.
+- [Event Calendar](https://fabricator-ui.vercel.app/docs/components/base/event-calendar.md): A scheduler with day, N-day, week, month and agenda views, drag to create, move and resize, recurring events, time zones and undo, on FullCalendar.
+- [Canvas](https://fabricator-ui.vercel.app/docs/components/base/canvas.md): An infinite, zoomable surface of nodes and connections for workflow editors, diagrams and node-based tools, on React Flow.
+- [Rich Text Editor](https://fabricator-ui.vercel.app/docs/components/base/editor.md): A rich text editor whose value is Markdown.
+- [File Tree](https://fabricator-ui.vercel.app/docs/components/base/file-tree.md): A compact file explorer with folder guides, file-type icons, keyboard navigation, and single or multiple selection.
+- [Syntax Highlight](https://fabricator-ui.vercel.app/docs/components/base/syntax-highlight.md): Code coloured by the foundations' syntax tokens, in over 30 languages.
+- [Image Compare](https://fabricator-ui.vercel.app/docs/components/base/image-compare.md): Two pictures of one scene in a single frame, split by a line that bends like jelly as you drag it.
+- [Morph Island](https://fabricator-ui.vercel.app/docs/components/base/morph-island.md): One pill that morphs between live activities, such as a timer, an upload or a call.
+- [Video Player](https://fabricator-ui.vercel.app/docs/components/base/video-player.md): A video with its own controls over the picture, and a compact variant for cards and feeds.
+- [Audio Player](https://fabricator-ui.vercel.app/docs/components/base/audio-player.md): An audio file on a card with its waveform, skip, speed and volume, a cover variant for music and a compact one for voice messages.
 
 ## Blocks
 
@@ -214,6 +262,12 @@ Whole screens built from the components, installed as a page with its parts: `np
 
 - [Audio Player controls](https://fabricator-ui.vercel.app/docs/advanced/audio-player/controls.md): Configure playback, speed, artwork, and a layout that fits the recording.
 - [Audio Player waveform](https://fabricator-ui.vercel.app/docs/advanced/audio-player/waveform.md): Supply precomputed audio peaks and choose when the seek bar shows them.
+- [Canvas connections](https://fabricator-ui.vercel.app/docs/advanced/canvas/connections.md): Typed handles, connection rules with reasons, keyboard and menu connect, and connections that wait on a server.
+- [Canvas controller](https://fabricator-ui.vercel.app/docs/advanced/canvas/controller.md): Drive the canvas from code: the graph, selection, viewport, undo, the clipboard and layout.
+- [Canvas feedback](https://fabricator-ui.vercel.app/docs/advanced/canvas/feedback.md): Empty, loading and failed canvases, changes waiting on a server, run status and problems.
+- [Canvas interaction](https://fabricator-ui.vercel.app/docs/advanced/canvas/interaction.md): Edit, view and static modes, panning like a design tool or a map, touch, and the keyboard.
+- [Canvas layout](https://fabricator-ui.vercel.app/docs/advanced/canvas/layout.md): Arrange a graph automatically with dagre, or any layout engine of your own.
+- [Canvas nodes](https://fabricator-ui.vercel.app/docs/advanced/canvas/nodes.md): Build node components from the node parts, with status, colour, problems, notes, groups and placeholders.
 - [DataTableColumnHeader and Filter](https://fabricator-ui.vercel.app/docs/advanced/data-table/columns.md): Compose a column header or place the filter for one column in a separate panel.
 - [DataTableContent](https://fabricator-ui.vercel.app/docs/advanced/data-table/content.md): Render the virtualized body and handle its empty, loading, and error states.
 - [useDataTable](https://fabricator-ui.vercel.app/docs/advanced/data-table/controller.md): Connect stable row identities, typed columns, and a local or remote data source to every table part.

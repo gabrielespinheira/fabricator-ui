@@ -70,7 +70,7 @@ Same components, one layout for browser and window: `const { shellWindow } = use
 
 Components keep their names, parts and variants, so the screen's component map carries over; the markup does not. Read [rules/react-native.md](rules/react-native.md) before writing.
 
-- **Missing:** `data-table` and its cells, `text-motion` (the text shows at rest), and the blocks `sign-in-01`, `sign-up-01`, `forgot-password-01`, `finance-01`, `assistant-01`, `messenger-01`, `mail-01`, `calendar-app-01`, `board-01`. Use `Table` or a virtualized list of `Item`s, and compose the screen.
+- **Missing:** `data-table` and its cells (use `Table` or a virtualized list of `Item`s), `text-motion` (the text shows at rest), `blueprint` (loaders stay `Skeleton`), `bottom-nav` (use the App Shell's bottom bar), `hold-button` and `slide-to-confirm` (confirm in an `AlertDialog`), `stepper`, `morph-island`, `password-strength` and `segmented-meter`. The screen blocks (`sign-in-01`, `finance-01`, `settings-01`, `board-01`, `automation-01` and the rest) have no native port yet, so compose the screen; the App Shell, sidebar and login blocks have one.
 - **Adapts itself:** `Select`, `UserMenu` and `WorkspaceSwitcher` open as sheets on phones; the App Shell reveals its sidebar behind the page and opens panels as sheets; default density is 44pt on phones and 40pt on tablets.
 - **Touch stands in for pointers:** a long press opens `ContextMenu`, `Tooltip` and `HoverCard`; toasts sit at the top; `Sheet` and `Drawer` follow the finger and avoid the keyboard.
 - **Differs:** `DatePicker` has no time yet, so pair it with `TimeInput`; `ChatInput` has no drag and drop; `Combobox` and `MultiSelect` type inside a dialog.

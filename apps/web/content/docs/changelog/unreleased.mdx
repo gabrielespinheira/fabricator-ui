@@ -3,6 +3,8 @@ title: Unreleased
 description: Changes merged since the last release. They ship in the next version.
 new:
   - /docs/foundations/radius
+  - /docs/foundations/loader
+  - /docs/installation/install-methods
   - blueprint
   - canvas
   - text-motion
@@ -40,6 +42,7 @@ updated:
   - hover-card
   - skeleton
   - time-input
+  - date-picker
   - input-group
   - input
   - data-table
@@ -98,6 +101,7 @@ updated:
   - pagination
   - toggle
   - workspace-switcher
+  - /docs/installation/vite
   - /docs/icons
 ---
 
@@ -116,8 +120,6 @@ The [Icons gallery](/icons) opens on All, where one search covers every icon set
 **Sidebar.** Navigation icons and dots follow the 14, 16, and 18 px density sizes. Hovered and selected navigation icons keep the same stroke width as resting icons. The Sidebar and App Shell use the packaged `SidebarToggleIcon` on web and React Native. The icon has a narrower, slightly taller frame. The inner panel widens as it opens, and the right panel uses the mirrored drawing. The icon is available in Outline, Fill, Duotone, and Animated. On iPhone, the sidebar renders on the first tap after launch.
 
 **Animated icons.** Arrows follow their direction, eyelids and menu strokes morph, slider knobs travel along their tracks, and check marks draw themselves. Icons with no clear movement trace their strokes into place. Moving strokes and filled shapes have room beyond the SVG viewport. Preview one shot or loop in the [Animated gallery](/icons?set=animated). Use `open` on `PanelLeftIcon` and `PanelRightIcon` to hold the selected width.
-
-These changes are merged and ship in the next version.
 
 ## CLI
 
@@ -165,7 +167,7 @@ These changes are merged and ship in the next version.
 
 **Highlights stretch on springs.** The highlight that follows the pointer and the selection background in tabs, toggle groups, menus, selects, comboboxes, command, the sidebar, the file tree and every other list with Fluid Hover now move each edge on its own spring. The edge facing the move is stiff and the edge behind it soft, so they stretch toward the next item and gather as they land, and a second click mid-flight bends the motion instead of restarting it. Seven named springs join the motion tokens (`follow`, `settle`, `soft`, `lead`, `trail`, `pop`, `fade`) as `--motion-spring-<name>`, plus `--motion-stagger`; each speed retimes them with the same feel, `instant` takes the overshoot out, and Reduce Motion still jumps. On web and React Native. [Springs](/docs/foundations/motion#springs).
 
-**Time wheels that loop, on a real drum.** Time Input's wheel is rebuilt. Each column is now a 3D drum: rows bunch up and turn away towards the top and bottom instead of tilting in place, and a row brightens exactly as it crosses the band's edge. Hours, minutes and seconds loop, so 59 runs on into 00 and 12 into 1, while AM or PM stops at its ends. Drag a column, flick it to coast and slow into a row, scroll it with a mouse wheel or trackpad, or click a row to turn to it; it settles on the `settle` spring. Rows and the band are taller, the numbers larger and centred in even columns. Arrow Up now steps to the next value, as a spinbutton should. Date Picker's time column gets the same wheel. On web and React Native; React Native draws the drum from its scroll position and colours the row once it settles. [Time Input](/docs/components/base/time-input).
+**Time wheels that loop, on a real drum.** Time Input's wheel is rebuilt. Each column is now a 3D drum: rows bunch up and turn away towards the top and bottom instead of tilting in place, and a row brightens exactly as it crosses the band's edge. Hours, minutes and seconds loop, so 59 runs on into 00 and 12 into 1, while AM or PM stops at its ends. Drag a column, flick it to coast and slow into a row, scroll it with a mouse wheel or trackpad, or click a row to turn to it; it settles on the `settle` spring. Rows and the band are taller, the numbers larger and centred in even columns. Arrow Up now steps to the next value, as a spinbutton should. On the web, Date Picker's time column gets the same wheel. Time Input has it on web and React Native; React Native draws the drum from its scroll position and colours the row once it settles. [Time Input](/docs/components/base/time-input).
 
 **Controls that land on springs.** The switch thumb lands with a small overshoot and its knob wobbles back after a press; a checkbox pops back as you let go; a typed one-time code digit drops into its slot with a bounce; the slider glides to a click or a key and settles without a visible overshoot; the copy button in Syntax Highlight turns its check in with a bounce. Menus (dropdown, context menu and select) drop their rows in one after another as they open. A number field's value rolls up or down into place when it steps. A tooltip opening right after another travels from it, resizing to its label, instead of reappearing. Every spring has a CSS form, `duration-<name>-spring ease-<name>-spring`, and `motion-stagger` staggers any list. Reduce Motion keeps fades only. On web and React Native, except the menu cascade, number roll and tooltip travel, which are web only.
 
@@ -291,7 +293,7 @@ All seven are on the web for every base; their React Native ports follow.
 
 ## Canvas
 
-Canvas for React web, with React Native to follow in this release: an infinite, zoomable surface of nodes and connections for workflow editors, diagrams and node-based tools, drawn with React Flow 13 in the Fabricator look.
+Canvas for React web and React Native: an infinite, zoomable surface of nodes and connections for workflow editors, diagrams and node-based tools, in the Fabricator look. The web draws with React Flow 13; React Native draws with Reanimated, Gesture Handler and SVG, on the same model for undo, the clipboard, connection rules and edge shapes.
 
 - **Nodes** are raised cards built from parts: an icon tile in a palette colour, a title, a run status (running, done, warning, failed, skipped), content that drops away when zoomed out, and a footer that reads out a problem. Notes, groups and placeholders are built in.
 - **Connections** have typed handles: a line only lands where the types match, turns red with the reason over a handle that can't take it, and can refuse loops or follow a rule of your own. A connection dropped on empty canvas asks your app what to create there.
@@ -308,3 +310,10 @@ Kanban, Properties and Record View for React web and React Native, over your own
 - **Kanban:** drag anywhere on a card, with the slot it will land in, a stack for several cards, and columns that refuse a drop and say why. Arrow keys move between cards and ⌥⇧ with an arrow moves one. Columns have status glyphs, limits, colours and menus, rename with a double click, collapse to a rail or hide. One compact toolbar line searches, filters, groups, sorts and sets what cards show, and adapts to its width down to a phone. Cards show a cover from a files property, are added inline, selected with ⌘ or Shift click and edited together.
 - **Properties:** 25 types read and edited as rows, with date ranges and times, number formats, files and pictures, durations and colors. Each label opens its property's settings, drags to reorder, can hide when empty, and chooses whether cards show it. Values are validated, and apps add types of their own with settings, editors and rules.
 - **Record View:** a side panel over a live board, a centred dialog or a full page, with a title edited in place, a cover, and loading, missing and error states.
+
+## Breaking changes
+
+- **Search is removed.** Replace `<Search collapsible={false} label="…" />` with `<InputSearch aria-label="…" />` from Input Group. [Search](/docs/components/base/input#search).
+- **Menubar is removed** from every base and from React Native. A project that installed it keeps its copy; pages use a Dropdown Menu.
+- **SwiftUI and Kotlin Compose previews are retired.** The CLI and the registry no longer install or update them. Their source stays in the `fabricator-ui@0.9.0` release.
+- **Sonner shows its close button by default.** Pass `closeButton={false}` to hide it.

@@ -125,6 +125,7 @@ export const foundationItems: Registry["items"] = [
       tokenFile("css-object"),
       tokenFile("density"),
       tokenFile("density-variables"),
+      tokenFile("radius"),
     ],
     categories: ["layout"],
     meta: docs("density"),

@@ -55,7 +55,10 @@ export const contentItems: Registry["items"] = [
       "One discrete thing on a surface, such as a metric, a chart, a record or a plan, with a header, its value and a footer.",
     dependencies: ["class-variance-authority", "cn"],
     registryDependencies: ["@fabricator/text", "@fabricator/feedback"],
-    files: [{ path: "ui/card.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/card.tsx", type: "registry:ui" },
+      { path: "lib/surface-color.tsx", type: "registry:lib" },
+    ],
     meta: docs("card"),
   },
   {

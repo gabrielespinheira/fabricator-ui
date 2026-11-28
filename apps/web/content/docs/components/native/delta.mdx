@@ -1,0 +1,61 @@
+---
+title: Delta
+description: A change against the previous period, as a status badge.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add delta
+```
+
+## Usage
+
+```tsx
+import { Delta } from "@/components/ui/delta"
+```
+
+```tsx
+<Delta change={12.4} />
+<Delta change={-3.1} />
+```
+
+## Examples
+
+```tsx showLineNumbers title="delta-example.tsx"
+
+import { Delta } from "@/components/ui/delta"
+
+function DeltaExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Up and down">
+        <Delta change={12.4} />
+        <Delta change={-3.1} />
+      </Example>
+      <Example title="Down is good">
+        <Delta change={-0.4} isGoodWhenUp={false} unit="pt" />
+        <Delta change={2.1} isGoodWhenUp={false} />
+      </Example>
+      <Example title="No change and no data">
+        <Delta change={0} />
+        <Delta change={null} />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { DeltaExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `change`, `emptyLabel`, `isGoodWhenUp`, `locale`, `unit`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

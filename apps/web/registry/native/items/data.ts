@@ -542,6 +542,7 @@ export const dataItems: Registry["items"] = [
     files: [
       { path: "ui/scroll-area.tsx", type: "registry:ui" },
       { path: "lib/scroll-fade-model.ts", type: "registry:lib" },
+      { path: "lib/surface-color.tsx", type: "registry:lib" },
     ],
     meta: docs("scroll-area"),
   },

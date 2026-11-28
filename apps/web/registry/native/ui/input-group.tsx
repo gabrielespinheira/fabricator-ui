@@ -452,7 +452,7 @@ function InputSearch({
         {...props}
       />
       <InputGroupAddon>
-        <SearchIcon aria-hidden />
+        <SearchIcon data-slot="input-search-icon" aria-hidden />
       </InputGroupAddon>
       {canClearSearch(state) ? (
         <InputGroupAddon align="inline-end">
@@ -465,7 +465,9 @@ function InputSearch({
               inputRef.current?.focus()
             }}
           >
-            <XIcon aria-hidden />
+            <TextStyle className="cn-input-search-clear">
+              <XIcon aria-hidden />
+            </TextStyle>
           </InputGroupButton>
         </InputGroupAddon>
       ) : null}
