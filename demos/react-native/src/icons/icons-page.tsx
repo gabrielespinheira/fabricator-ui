@@ -6,6 +6,7 @@ import {
   brandNodes,
   fileNodes,
   outlineNodes,
+  outlineScales,
 } from "@fabricator-ui/icons-static/nodes"
 import { searchIcons, type CatalogEntry } from "@fabricator-ui/icons/catalog"
 import { Pressable, View } from "react-native"
@@ -42,6 +43,21 @@ const LABELS = {
   animated: "Animated",
 }
 const SIZES = [16, 20, 24] as const
+const DEFAULT_STROKE_WIDTH = 1.75
+const STROKES = [1.5, DEFAULT_STROKE_WIDTH, 2]
+
+type NativeCatalogEntry = Extract<
+  CatalogEntry,
+  { set: "outline" | "brands" | "files" }
+>
+
+function isNativeCatalogEntry(
+  entry: CatalogEntry
+): entry is NativeCatalogEntry {
+  return (
+    entry.set === "outline" || entry.set === "brands" || entry.set === "files"
+  )
+}
 
 function IconGlyph({
   entry,
@@ -49,7 +65,7 @@ function IconGlyph({
   strokeWidth,
   brandColor,
 }: {
-  entry: CatalogEntry
+  entry: NativeCatalogEntry
   size: number
   strokeWidth: number
   brandColor: boolean
@@ -66,7 +82,11 @@ function IconGlyph({
     return <FileIcon data={fileNodes[entry.name]} size={size} />
   return (
     <Icon
-      data={{ name: entry.name, node: outlineNodes[entry.name] }}
+      data={{
+        name: entry.name,
+        node: outlineNodes[entry.name],
+        opticalScale: outlineScales[entry.name],
+      }}
       size={size}
       strokeWidth={strokeWidth}
     />
@@ -80,11 +100,11 @@ const IconTile = React.memo(function IconTile({
   brandColor,
   onSelect,
 }: {
-  entry: CatalogEntry
+  entry: NativeCatalogEntry
   size: number
   strokeWidth: number
   brandColor: boolean
-  onSelect: (entry: CatalogEntry) => void
+  onSelect: (entry: NativeCatalogEntry) => void
 }) {
   return (
     <Pressable
@@ -110,11 +130,16 @@ export function NativeIconsPage() {
   const [query, setQuery] = React.useState("")
   const [set, setSet] = React.useState<ExplorerIconSet>("outline")
   const [size, setSize] = React.useState<number>(24)
-  const [strokeWidth, setStrokeWidth] = React.useState(2)
+  const [strokeWidth, setStrokeWidth] = React.useState(DEFAULT_STROKE_WIDTH)
   const [brandColor, setBrandColor] = React.useState(false)
   const [requestedPage, setRequestedPage] = React.useState(0)
-  const [selected, setSelected] = React.useState<CatalogEntry | null>(null)
-  const results = React.useMemo(() => searchIcons(query, { set }), [query, set])
+  const [selected, setSelected] = React.useState<NativeCatalogEntry | null>(
+    null
+  )
+  const results = React.useMemo(
+    () => searchIcons(query, { set }).filter(isNativeCatalogEntry),
+    [query, set]
+  )
   const page = getIconPage(results, requestedPage, 48)
   return (
     <>
@@ -174,13 +199,17 @@ export function NativeIconsPage() {
           {set === "outline" && (
             <Tabs
               value={String(strokeWidth)}
-              onValueChange={(value) =>
-                setStrokeWidth(value === "1.5" ? 1.5 : 2)
-              }
+              onValueChange={(value) => {
+                const stroke = STROKES.find((width) => String(width) === value)
+                if (stroke !== undefined) setStrokeWidth(stroke)
+              }}
             >
               <TabsList accessibilityLabel="Stroke width">
-                <TabsTrigger value="1.5">1.5</TabsTrigger>
-                <TabsTrigger value="2">2</TabsTrigger>
+                {STROKES.map((width) => (
+                  <TabsTrigger key={width} value={String(width)}>
+                    {width}
+                  </TabsTrigger>
+                ))}
               </TabsList>
             </Tabs>
           )}

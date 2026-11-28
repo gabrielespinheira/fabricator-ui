@@ -13,6 +13,8 @@ import {
   getFileIconName,
   getFolderIconName,
 } from "./files"
+import { fileData } from "./generated/files/file-typescript"
+import { getArtworkViewBox } from "./generated/runtime/attributes"
 
 describe("file associations", () => {
   it.each([
@@ -51,7 +53,9 @@ describe("file icon rendering", () => {
   })
   it("renders a named icon at its native grid size with theme paint", () => {
     const svg = renderToStaticMarkup(createElement(FileTypescriptIcon))
-    expect(svg).toContain('viewBox="0 0 16 16"')
+    expect(svg).toContain(
+      `viewBox="${getArtworkViewBox(16, 16, fileData.opticalScale)}"`
+    )
     expect(svg).toContain('width="16"')
     expect(svg).toContain('aria-hidden="true"')
     expect(svg).toContain("var(--file-icon-blue, light-dark(")

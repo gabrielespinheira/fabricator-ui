@@ -18,6 +18,7 @@
 //
 // Motion is CSS on the motion tokens, so --motion-scale reaches all of it.
 import * as React from "react"
+import { SidebarToggleIcon as AnimatedSidebarToggleIcon } from "@fabricator-ui/icons/animated/sidebar-toggle"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { Slot } from "radix-ui"
@@ -32,7 +33,6 @@ import {
 import {
   getRevealDragProgress,
   shouldRevealStayOpen,
-  TOGGLE_GLYPH,
 } from "@/registry/bases/radix/lib/sidebar-model"
 import { Button } from "@/registry/bases/radix/ui/button"
 import { Input } from "@/registry/bases/radix/ui/input"
@@ -887,9 +887,6 @@ function SidebarDesktop({
   )
 }
 
-// The panel glyph (lib/sidebar-model). The path morphs on the move timing where
-// CSS `d` transitions are supported, and swaps elsewhere.
-
 function SidebarToggleIcon({
   open,
   side,
@@ -899,35 +896,15 @@ function SidebarToggleIcon({
   side: SidebarSide
   className?: string
 }) {
-  const panel = open ? TOGGLE_GLYPH.panelOpen : TOGGLE_GLYPH.panelClosed
-
   return (
-    <svg
+    <AnimatedSidebarToggleIcon
       data-slot="sidebar-toggle-icon"
       data-state={open ? "open" : "closed"}
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      className={cn(
-        "cn-sidebar-toggle-icon",
-        side === "right" && "-scale-x-100",
-        className
-      )}
-    >
-      <path
-        d={TOGGLE_GLYPH.frame}
-        fill="currentColor"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d={panel}
-        className="cn-sidebar-toggle-icon-panel"
-        style={{ d: `path("${panel}")` } as React.CSSProperties}
-      />
-    </svg>
+      open={open}
+      side={side}
+      variant="fill"
+      className={cn("cn-sidebar-toggle-icon", className)}
+    />
   )
 }
 
@@ -1680,7 +1657,7 @@ function SidebarMenuItem({
 }
 
 const sidebarMenuButtonVariants = cva(
-  "cn-sidebar-menu-button peer/menu-button group/menu-button flex w-full items-center overflow-hidden outline-hidden disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0 [&>span:last-child]:truncate",
+  "cn-sidebar-menu-button peer/menu-button group/menu-button flex w-full items-center overflow-hidden outline-hidden disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&_svg]:shrink-0 [&>span:last-child]:truncate",
   {
     variants: {
       variant: {
@@ -1706,7 +1683,7 @@ function SidebarMenuDot({ dot }: { dot: "filled" | "ring" }) {
   return (
     <span
       data-slot="sidebar-menu-dot"
-      className="flex size-4 shrink-0 items-center justify-center"
+      className="flex size-(--density-icon-16) shrink-0 items-center justify-center"
     >
       <span data-dot={dot} className="cn-sidebar-menu-dot rounded-full" />
     </span>

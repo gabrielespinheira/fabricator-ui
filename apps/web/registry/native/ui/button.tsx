@@ -246,7 +246,7 @@ function Button({
         )}
       >
         <IconProvider
-          strokeWidth={isLifted ? 2 : 1.5}
+          strokeWidth={isLifted ? 2 : 1.75}
           {...(isXs ? { size: control.xs.icon } : {})}
         >
           {slotted ?? (

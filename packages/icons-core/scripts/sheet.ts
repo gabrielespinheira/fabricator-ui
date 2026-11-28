@@ -2,7 +2,7 @@
  * bun run icons:sheet <names...>
  *
  * Renders a review sheet for outline icons: each icon at 14, 16, 18 and 24px
- * with stroke 1.5 and 2 (Fabricator's resting and hover strokes), beside the
+ * with stroke 1.75 and 2 (Fabricator's resting and hover strokes), beside the
  * `circle` and `square` references, on light and dark. Attach it to the PR.
  */
 import fs from "node:fs"
@@ -10,11 +10,12 @@ import path from "node:path"
 import { Resvg } from "@resvg/resvg-js"
 
 import { PACKAGE_ROOT } from "../src/paths"
+import { getArtworkViewBox } from "../src/runtime/attributes"
 import { renderSvgInline } from "../src/svg"
-import { loadUiIcons } from "../src/ui-icons"
+import { loadUiIcons, UI_STROKE_WIDTH } from "../src/ui-icons"
 
 const SIZES = [14, 16, 18, 24]
-const STROKES = [1.5, 2]
+const STROKES = [UI_STROKE_WIDTH, 2]
 const CELL = 40
 const LABEL = 120
 const THEMES = [
@@ -52,7 +53,7 @@ const panels = THEMES.map((theme, index) => {
       )
       const cx = x + LABEL + column * CELL + (CELL - size) / 2
       const cy = 24 + row * CELL + (CELL - size) / 2
-      return `<svg x="${cx}" y="${cy}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${theme.foreground}" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round">${inner.replaceAll('fill="currentColor"', `fill="${theme.foreground}"`)}</svg>`
+      return `<svg x="${cx}" y="${cy}" width="${size}" height="${size}" viewBox="${getArtworkViewBox(24, 24, icon.opticalScales.outline)}" fill="none" stroke="${theme.foreground}" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round">${inner.replaceAll('fill="currentColor"', `fill="${theme.foreground}"`)}</svg>`
     }),
   ])
   const headers = columns.map(

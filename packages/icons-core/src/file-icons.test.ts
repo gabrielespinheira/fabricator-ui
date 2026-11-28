@@ -4,6 +4,7 @@ import { Resvg } from "@resvg/resvg-js"
 import { describe, expect, it } from "vitest"
 
 import { loadFileIcons, transformFileSvg } from "./file-icons"
+import { measureIconFootprint } from "./icon-footprint"
 import { FILE_SOURCES } from "./paths"
 import { renderFileSvg } from "./runtime/file-svg"
 
@@ -18,7 +19,7 @@ describe("file artwork", () => {
       const options = { font: { loadSystemFonts: false } }
       const expected = new Resvg(original, options).render().pixels
       const actual = new Resvg(
-        renderFileSvg(icon, palette, "dark"),
+        renderFileSvg({ ...icon, opticalScale: 1 }, palette, "dark"),
         options
       ).render().pixels
       const difference = actual.reduce(
@@ -28,6 +29,23 @@ describe("file artwork", () => {
       )
       // Flattening a viewport clip can change edge antialiasing by a few pixels.
       expect(difference / (actual.length * 255), icon.name).toBeLessThan(0.002)
+    }
+  })
+
+  it("keeps artwork inside the shared frame in both themes", () => {
+    const { icons, palette } = loadFileIcons()
+    for (const icon of icons) {
+      const light = measureIconFootprint(renderFileSvg(icon, palette, "light"))
+      const dark = measureIconFootprint(renderFileSvg(icon, palette, "dark"))
+      expect(light, icon.name).toEqual(dark)
+      expect(light.edge, icon.name).toBeLessThan(12)
+    }
+    const scales = new Map(
+      icons.map(({ name, opticalScale }) => [name, opticalScale])
+    )
+    for (const [name, scale] of scales) {
+      if (scales.has(`${name}-open`))
+        expect(scale, name).toBe(scales.get(`${name}-open`))
     }
   })
   it("replaces palette fills with overridable theme colours and keeps geometry", () => {

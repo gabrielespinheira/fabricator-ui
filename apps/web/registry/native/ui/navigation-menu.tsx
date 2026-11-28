@@ -395,7 +395,7 @@ function NavigationMenuLink({
           : cn("cn-navigation-menu-link-text")
       }
     >
-      <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+      <IconProvider strokeWidth={isLit ? 2 : 1.75}>
         <NavigationMenuPrimitive.Link
           data-slot="navigation-menu-link"
           data-active={active}

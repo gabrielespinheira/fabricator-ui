@@ -1,5 +1,7 @@
+import type { BrandArt, BrandIconData } from "./types.js"
+
 export const ICON_SIZE = 24
-export const ICON_STROKE_WIDTH = 2
+export const UI_STROKE_WIDTH = 1.75
 
 /** Joins class names, dropping empty and repeated ones. */
 export function mergeClasses(
@@ -26,28 +28,38 @@ export function hasA11yProp(props: object) {
 
 /** Lucide's absoluteStrokeWidth: the stroke keeps its pixel width at any size. */
 export function getStrokeWidth({
-  strokeWidth = ICON_STROKE_WIDTH,
+  strokeWidth = UI_STROKE_WIDTH,
   absoluteStrokeWidth = false,
   size = ICON_SIZE,
+  opticalScale = 1,
 }: {
   strokeWidth?: number | string
   absoluteStrokeWidth?: boolean
   size?: number | string
+  opticalScale?: number
 }) {
   if (!absoluteStrokeWidth) return strokeWidth
-  return (Number(strokeWidth) * ICON_SIZE) / Number(size)
+  return (Number(strokeWidth) * ICON_SIZE) / (Number(size) * opticalScale)
 }
 
-/** Widens the viewBox around its centre: a scale below 1 shrinks the mark and can never clip it. */
-export function getBrandViewBox(width: number, height: number, scale = 1) {
+/** Scales artwork around the centre of its grid. */
+export function getArtworkViewBox(width: number, height: number, scale = 1) {
   if (scale === 1) return `0 0 ${width} ${height}`
-  const round = (value: number) => Number(value.toFixed(3))
-  const boxWidth = width / scale
-  const boxHeight = height / scale
-  return [
-    round((width - boxWidth) / 2),
-    round((height - boxHeight) / 2),
-    round(boxWidth),
-    round(boxHeight),
-  ].join(" ")
+  const inset = (1 - 1 / scale) / 2
+  return [width * inset, height * inset, width / scale, height / scale]
+    .map((value) => Number(value.toFixed(3)))
+    .join(" ")
+}
+
+export const getBrandViewBox = getArtworkViewBox
+
+export function getBrandArtworkViewBox(
+  data: Pick<BrandIconData, "opticalScale" | "scale">,
+  art?: BrandArt
+) {
+  return getArtworkViewBox(
+    art?.width ?? ICON_SIZE,
+    art?.height ?? ICON_SIZE,
+    art?.opticalScale ?? data.opticalScale ?? data.scale
+  )
 }

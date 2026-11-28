@@ -32,6 +32,9 @@
       ],
       "@fabricator-ui/icons-react-native/files": [
         "../../packages/icons-react-native/dist/esm/files.d.ts"
+      ],
+      "@fabricator-ui/icons-react-native/animated": [
+        "../../packages/icons-react-native/dist/esm/animated.d.ts"
       ]
     }
   },

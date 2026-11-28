@@ -74,6 +74,8 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
       "packages/icons-static/dist/esm/nodes.js",
     "@fabricator-ui/icons-react-native/files":
       "packages/icons-react-native/dist/esm/files.js",
+    "@fabricator-ui/icons-react-native/animated":
+      "packages/icons-react-native/dist/esm/animated.js",
   }
   if (Object.hasOwn(iconSources, moduleName)) {
     return {

@@ -135,7 +135,7 @@ function Toggle({
           isForeground ? toggleOnTextVariants() : undefined
         )}
       >
-        <IconProvider strokeWidth={isForeground ? 2 : 1.5}>
+        <IconProvider strokeWidth={isForeground ? 2 : 1.75}>
           {content}
         </IconProvider>
       </TextStyle>

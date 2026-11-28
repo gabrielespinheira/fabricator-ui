@@ -565,7 +565,7 @@ function ComboboxItem({
               : cn("cn-combobox-item-text")
         }
       >
-        <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+        <IconProvider strokeWidth={isLit ? 2 : 1.75}>
           {renderTextChildren(children)}
         </IconProvider>
       </TextStyle>

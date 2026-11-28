@@ -8,6 +8,8 @@ import {
   toCamelCaseAttributes,
   withGeneratedHeader,
 } from "./output"
+import { getArtworkViewBox, getBrandArtworkViewBox } from "./runtime/attributes"
+import { renderGradientMarkup } from "./runtime/gradients"
 import type {
   AnimatedCatalogEntry,
   BrandCatalogEntry,
@@ -15,17 +17,23 @@ import type {
 } from "./runtime/types"
 import { renderSvgInline } from "./svg"
 import type { BrandIcon, BrandIconData, IconData, OutlineIcon } from "./types"
-import { loadUiIcons, UI_STROKE_WIDTH, type UiIcon } from "./ui-icons"
+import {
+  getUiIconData,
+  loadUiIcons,
+  UI_STROKE_WIDTH,
+  type UiIcon,
+} from "./ui-icons"
 import { OUTLINE_ROOT_ATTRIBUTES } from "./validate"
 
 const SITE = "https://fabricator-ui.vercel.app/icons"
 
 const PREVIEW_STYLE = "background-color: #fff; border-radius: 2px"
 
-function preview(icon: OutlineIcon) {
+function preview(icon: UiIcon) {
   const svg = renderSvgInline(
     {
       ...OUTLINE_ROOT_ATTRIBUTES,
+      viewBox: getArtworkViewBox(24, 24, icon.opticalScales.outline),
       "stroke-width": String(UI_STROKE_WIDTH),
       stroke: "#000",
       style: PREVIEW_STYLE,
@@ -42,17 +50,17 @@ function brandPreview(brand: BrandIcon) {
           xmlns: "http://www.w3.org/2000/svg",
           width: "24",
           height: "24",
-          viewBox: `0 0 ${brand.art.width} ${brand.art.height}`,
+          viewBox: getBrandArtworkViewBox(brand, brand.art),
           style: PREVIEW_STYLE,
         },
         brand.art.node
-      )
+      ).replace(">", `>${renderGradientMarkup(brand.art.gradients)}`)
     : renderSvgInline(
         {
           xmlns: "http://www.w3.org/2000/svg",
           width: "24",
           height: "24",
-          viewBox: "0 0 24 24",
+          viewBox: getBrandArtworkViewBox(brand),
           fill: brand.colors.inherit ? "#000" : brand.hex,
           style: PREVIEW_STYLE,
         },
@@ -71,6 +79,9 @@ function brandModule(brand: BrandIcon) {
     }),
     colors: brand.colors,
     ...(brand.scale !== undefined && { scale: brand.scale }),
+    ...(brand.opticalScale !== undefined && {
+      opticalScale: brand.opticalScale,
+    }),
   }
   return withGeneratedHeader(`import { createBrandIcon } from "../../brand-icon.js"
 import type { BrandIconData } from "../runtime/types.js"
@@ -209,10 +220,10 @@ export const fileCatalog: FileCatalogEntry[] = ${JSON.stringify(fileEntries)}
 `)
 }
 
-function iconModule(icon: OutlineIcon) {
+function iconModule(icon: UiIcon) {
   const [componentName] = getExportNames(icon.name)
   const data: IconData = {
-    name: icon.name,
+    ...getUiIconData(icon),
     strokeWidth: UI_STROKE_WIDTH,
     node: toCamelCaseAttributes(icon.node),
   }
@@ -261,22 +272,15 @@ function weightBarrel(icons: OutlineIcon[], folder: string) {
 }
 
 function weightModule(icon: UiIcon, weight: "fill" | "duotone") {
-  const data: IconData =
-    weight === "fill"
-      ? {
-          name: icon.name,
-          paint: "fill",
-          node: toCamelCaseAttributes(icon.fill.node),
-          ...(icon.fill.cutout.length > 0 && {
-            cutout: toCamelCaseAttributes(icon.fill.cutout),
-          }),
-        }
-      : {
-          name: icon.name,
-          strokeWidth: UI_STROKE_WIDTH,
-          node: toCamelCaseAttributes(icon.node),
-          secondary: toCamelCaseAttributes(icon.duotone.secondary),
-        }
+  const shapes = getUiIconData(icon, weight)
+  const data: IconData = {
+    ...shapes,
+    node: toCamelCaseAttributes(shapes.node),
+    ...(shapes.cutout && { cutout: toCamelCaseAttributes(shapes.cutout) }),
+    ...(shapes.secondary && {
+      secondary: toCamelCaseAttributes(shapes.secondary),
+    }),
+  }
   return withGeneratedHeader(`import { createIcon } from "../../create-icon.js"
 import type { IconData } from "../runtime/types.js"
 
@@ -288,15 +292,29 @@ export default createIcon(iconData)
 }
 
 function animatedModule(icon: UiIcon) {
+  if (icon.motion === "sidebar-toggle") {
+    return withGeneratedHeader(`"use client"
+
+export { SidebarToggleIcon } from "../../sidebar-toggle.js"
+`)
+  }
   const [componentName] = getExportNames(icon.name)
+  const panel =
+    icon.motion === "panel-left"
+      ? "left"
+      : icon.motion === "panel-right"
+        ? "right"
+        : undefined
+  const factory = panel ? "createAnimatedPanelIcon" : "createAnimatedIcon"
+  const module = panel ? "animated-panel" : "create-animated-icon"
   return withGeneratedHeader(`"use client"
 
-import { createAnimatedIcon } from "../../create-animated-icon.js"
+import { ${factory} } from "../../${module}.js"
 import { iconData as outline } from "../icons/${icon.name}.js"
 import { iconData as fill } from "../fill/${icon.name}.js"
 import { iconData as duotone } from "../duotone/${icon.name}.js"
 
-export const ${componentName} = createAnimatedIcon({ outline, fill, duotone }, ${JSON.stringify(icon.motion)})
+export const ${componentName} = ${factory}({ outline, fill, duotone }, ${JSON.stringify(panel ?? icon.motion)})
 `)
 }
 

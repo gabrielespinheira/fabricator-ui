@@ -31,7 +31,11 @@ export {
 } from "./animated"
 export { animatedMapSchema, readJson } from "./schemas"
 export { brandsText, licenseText } from "./notices"
-export { getBrandViewBox } from "./runtime/attributes"
+export {
+  getArtworkViewBox,
+  getBrandArtworkViewBox,
+  getBrandViewBox,
+} from "./runtime/attributes"
 export { diffIconSets, type IconSetDiff } from "./icon-set-diff"
 export { readLock, writeLock, type IconsLock } from "./lock"
 export { getExportNames, isKebabCase, toPascalCase } from "./names"
@@ -56,5 +60,10 @@ export { OUTLINE_ROOT_ATTRIBUTES, validateOutlineSvg } from "./validate"
 export { buildPackage } from "./build-package"
 export { loadFileIcons, transformFileSvg } from "./file-icons"
 export { renderFileSvg } from "./runtime/file-svg"
-export { loadUiIcons, UI_STROKE_WIDTH, type UiIcon } from "./ui-icons"
+export {
+  getUiIconData,
+  loadUiIcons,
+  UI_STROKE_WIDTH,
+  type UiIcon,
+} from "./ui-icons"
 export { renderUiSvg } from "./runtime/ui-svg"

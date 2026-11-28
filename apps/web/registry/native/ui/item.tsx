@@ -194,7 +194,7 @@ function ItemMedia({
         )
       : children
   return (
-    <IconProvider {...(variant === "icon" ? { strokeWidth: 1.5 } : {})}>
+    <IconProvider {...(variant === "icon" ? { strokeWidth: 1.75 } : {})}>
       <View
         data-slot="item-media"
         data-variant={variant}

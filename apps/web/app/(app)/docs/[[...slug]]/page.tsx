@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { mdxComponents } from "@/mdx-components"
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
+import { ArrowLeftIcon, ArrowRightIcon } from "@fabricator-ui/icons"
 import { cn } from "cn"
 
 import { getDateFromFile, isChangelogEntry } from "@/lib/changelog"
@@ -149,14 +149,14 @@ export default async function Page(props: {
                     href={neighbours.previous.url}
                     className={NAV_ICON_CLASS}
                   >
-                    <IconArrowLeft />
+                    <ArrowLeftIcon />
                     <span className="sr-only">Previous</span>
                   </Link>
                 )}
                 {neighbours.next && (
                   <Link href={neighbours.next.url} className={NAV_ICON_CLASS}>
                     <span className="sr-only">Next</span>
-                    <IconArrowRight />
+                    <ArrowRightIcon />
                   </Link>
                 )}
               </div>
@@ -173,7 +173,7 @@ export default async function Page(props: {
           <nav className="hidden items-center gap-2 sm:flex">
             {neighbours.previous && (
               <Link href={neighbours.previous.url} className={NAV_LINK_CLASS}>
-                <IconArrowLeft className="size-4" />
+                <ArrowLeftIcon className="size-4" />
                 {neighbours.previous.title}
               </Link>
             )}
@@ -183,7 +183,7 @@ export default async function Page(props: {
                 className={cn(NAV_LINK_CLASS, "ms-auto")}
               >
                 {neighbours.next.title}
-                <IconArrowRight className="size-4" />
+                <ArrowRightIcon className="size-4" />
               </Link>
             )}
           </nav>

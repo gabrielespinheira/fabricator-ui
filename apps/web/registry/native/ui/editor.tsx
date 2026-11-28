@@ -1523,7 +1523,7 @@ function ToolbarPressable({
           isForeground ? editorToolbarButtonOnTextVariants() : undefined
         )}
       >
-        <IconProvider strokeWidth={isForeground ? 2 : 1.5} size={iconSize}>
+        <IconProvider strokeWidth={isForeground ? 2 : 1.75} size={iconSize}>
           <AnimatedPressable
             accessibilityLabel={label}
             aria-disabled={disabled}

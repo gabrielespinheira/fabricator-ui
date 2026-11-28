@@ -4,6 +4,7 @@ import { G, Mask, Svg, type SvgProps } from "react-native-svg"
 import { useIconDefaults, type ResolvedIconDefaults } from "./context.js"
 import { renderShapes } from "./elements.js"
 import {
+  getArtworkViewBox,
   getStrokeWidth,
   hasA11yProp,
   ICON_SIZE,
@@ -108,7 +109,7 @@ export function renderIcon(
     {
       width: width ?? resolvedSize,
       height: height ?? resolvedSize,
-      viewBox: `0 0 ${ICON_SIZE} ${ICON_SIZE}`,
+      viewBox: getArtworkViewBox(ICON_SIZE, ICON_SIZE, data.opticalScale),
       fill: data.paint === "fill" ? stroke : "none",
       stroke: data.paint === "fill" ? "none" : stroke,
       strokeWidth: getStrokeWidth({
@@ -116,6 +117,7 @@ export function renderIcon(
         absoluteStrokeWidth:
           absoluteStrokeWidth ?? defaults.absoluteStrokeWidth,
         size: resolvedSize,
+        opticalScale: rest.viewBox ? 1 : data.opticalScale,
       }),
       strokeLinecap: "round",
       strokeLinejoin: "round",

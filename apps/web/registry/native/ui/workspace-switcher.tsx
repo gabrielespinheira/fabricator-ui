@@ -250,7 +250,7 @@ function WorkspaceSwitcher({
           </View>
           <TextStyle className="cn-workspace-switcher-chevron-text">
             <View className="cn-workspace-switcher-chevron ml-auto items-center justify-center">
-              <ChevronsUpDownIcon strokeWidth={1.5} />
+              <ChevronsUpDownIcon strokeWidth={1.75} />
             </View>
           </TextStyle>
         </>

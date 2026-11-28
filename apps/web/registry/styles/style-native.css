@@ -7242,14 +7242,9 @@
     @apply font-semibold;
   }
 
-  /* The panel glyph takes muted text, and the sidebar inside it is drawn in the
-     page colour. The icon reads these as colours: its path can't take a class. */
+  /* The sidebar toggle icon follows the button's muted foreground. */
   .cn-sidebar-toggle-icon {
     @apply text-muted-foreground;
-  }
-
-  .cn-sidebar-toggle-icon-panel {
-    @apply text-background;
   }
 
   .cn-sidebar-trigger {

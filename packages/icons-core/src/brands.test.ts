@@ -6,10 +6,13 @@ import { contrast, DARK_SURFACE } from "./brand-colors"
 import { SCALE_FLOOR } from "./brand-scale"
 import { loadBrands } from "./brands"
 import { exposedDarkFills } from "./check"
+import { measureIconFootprint } from "./icon-footprint"
 import { brandsText } from "./notices"
 import { BRAND_SOURCES, PACKAGE_ROOT } from "./paths"
-import { getBrandViewBox } from "./runtime/attributes"
+import { getBrandArtworkViewBox, getBrandViewBox } from "./runtime/attributes"
+import { renderGradientMarkup } from "./runtime/gradients"
 import { allowlistSchema, readJson, sharposFixtureSchema } from "./schemas"
+import { renderSvgInline } from "./svg"
 
 const fixture = readJson(
   path.join(PACKAGE_ROOT, "fixtures/sharpos-brands.json"),
@@ -98,7 +101,7 @@ describe("SharpOS parity", () => {
     for (const expected of shared) {
       const art = expected.art
       if (!art) continue
-      expect(sharedBrand(expected.slug).art, expected.slug).toEqual({
+      expect(sharedBrand(expected.slug).art, expected.slug).toMatchObject({
         width: art.width,
         height: art.height,
         node: parseBrandArt(art.body, art.width, art.height),
@@ -110,7 +113,7 @@ describe("SharpOS parity", () => {
     expect(NEW_ART.filter((slug) => !sharedBrand(slug).art)).toEqual([])
   })
 
-  it("keeps SharpOS's optical scales and viewBoxes", () => {
+  it("keeps the imported SharpOS scale metadata", () => {
     for (const expected of shared.filter(
       (brand) => !NEW_ART.includes(brand.slug)
     )) {
@@ -150,6 +153,33 @@ describe("brand rules", () => {
       expect(scale, name).toBeGreaterThanOrEqual(SCALE_FLOOR)
     }
   })
+
+  it.each(["mono", "brand"])(
+    "frames %s marks at a consistent optical size",
+    (color) => {
+      const footprints = brands
+        .map((brand) => {
+          const art = color === "brand" ? brand.art : undefined
+          const svg = renderSvgInline(
+            {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "24",
+              height: "24",
+              viewBox: getBrandArtworkViewBox(brand, art),
+            },
+            art?.node ?? brand.node
+          ).replace(">", `>${renderGradientMarkup(art?.gradients)}`)
+          const measured = measureIconFootprint(svg)
+          expect(measured.edge, brand.name).toBeLessThan(12)
+          return measured.footprint
+        })
+        .sort((first, second) => first - second)
+      const lower = footprints[Math.floor(footprints.length * 0.05)] ?? 0
+      const upper = footprints[Math.floor(footprints.length * 0.95)] ?? Infinity
+      expect(lower).toBeGreaterThan(20)
+      expect(upper - lower).toBeLessThan(1.5)
+    }
+  )
 
   it("makes every colour-bearing brand legible on the dark surface", () => {
     for (const brand of brands.filter(

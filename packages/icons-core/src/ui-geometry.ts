@@ -6,8 +6,6 @@ import type { IconElement } from "./types"
 type Point = [number, number]
 type Step = { command: string; values: number[]; end: Point }
 
-const SCALE = 0.96
-
 function coordinate(value: number) {
   return String(Number(value.toFixed(3)))
 }
@@ -31,7 +29,7 @@ function inset(from: Point, to: Point, amount: number): Point {
 function bend(previous: Point, corner: Point, next: Point) {
   const first = distance(corner, previous)
   const second = distance(corner, next)
-  const trim = Math.min(1.15, first * 0.28, second * 0.28)
+  const trim = Math.min(1.7, first * 0.34, second * 0.34)
   if (trim < 0.18) return
   const before = inset(corner, previous, trim)
   const after = inset(corner, next, trim)
@@ -73,7 +71,7 @@ function reshapeCorners(steps: Step[]) {
 
     const incoming = distance(previous.end, entry.end)
     const outgoing = distance(arc.end, exit.end)
-    const extra = Math.min(radius * 0.32, incoming * 0.22, outgoing * 0.22)
+    const extra = Math.min(radius * 0.52, incoming * 0.3, outgoing * 0.3)
     if (extra < 0.15) continue
 
     const tangentEntry = inset(entry.end, previous.end, radius)
@@ -95,7 +93,7 @@ function reshapeCorners(steps: Step[]) {
 
     const start = inset(entry.end, previous.end, extra)
     const end = inset(arc.end, exit.end, extra)
-    const reach = (radius + extra) * 0.65
+    const reach = (radius + extra) * 0.64
     const firstHandle = inset(
       start,
       [2 * start[0] - previous.end[0], 2 * start[1] - previous.end[1]],
@@ -148,9 +146,6 @@ function roundPath(drawing: string) {
   svgpath(drawing)
     .abs()
     .unshort()
-    .translate(-12, -12)
-    .scale(SCALE)
-    .translate(12, 12)
     .iterate(([tag, ...values], _index, x, y) => {
       if (tag === "M") {
         current = []
@@ -174,18 +169,6 @@ function roundPath(drawing: string) {
   return svgpath(subpaths.map(roundsPath).join("")).rel().round(3).toString()
 }
 
-const positionAttributes = new Set([
-  "x",
-  "y",
-  "cx",
-  "cy",
-  "x1",
-  "y1",
-  "x2",
-  "y2",
-])
-const sizeAttributes = new Set(["width", "height", "r", "rx", "ry"])
-
 export function roundOutline(node: IconElement[]): IconElement[] {
   return node.map(([tag, attributes]) => {
     if (tag === "path")
@@ -198,8 +181,7 @@ export function roundOutline(node: IconElement[]): IconElement[] {
       for (let index = 0; index < values.length; index += 2) {
         const x = values[index]
         const y = values[index + 1]
-        if (x !== undefined && y !== undefined)
-          vertices.push([scalePosition(x), scalePosition(y)])
+        if (x !== undefined && y !== undefined) vertices.push([x, y])
       }
       const { points: _points, ...paint } = attributes
       return [
@@ -207,29 +189,8 @@ export function roundOutline(node: IconElement[]): IconElement[] {
         { ...paint, d: roundVertices(vertices, tag === "polygon") },
       ]
     }
-    const scaled = Object.fromEntries(
-      Object.entries(attributes).map(([key, value]) => {
-        if (positionAttributes.has(key))
-          return [key, coordinate(scalePosition(Number(value)))]
-        if (sizeAttributes.has(key))
-          return [key, coordinate(Number(value) * SCALE)]
-        return [key, value]
-      })
-    )
-    if (tag === "rect") {
-      const limit = Math.min(Number(scaled.width), Number(scaled.height)) / 2
-      for (const axis of ["rx", "ry"]) {
-        const radius = scaled[axis]
-        if (radius !== undefined)
-          scaled[axis] = coordinate(Math.min(limit, 1.3 * Number(radius)))
-      }
-    }
-    return [tag, scaled]
+    return [tag, attributes]
   })
-}
-
-function scalePosition(value: number) {
-  return 12 + (value - 12) * SCALE
 }
 
 export function splitPath(drawing: string): IconElement[] {

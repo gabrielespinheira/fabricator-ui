@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { IconRss } from "@tabler/icons-react"
+import { RssIcon } from "@fabricator-ui/icons"
 
 import { getChangelogPages, type ChangelogPageData } from "@/lib/changelog"
 import { formatChangelogDate } from "@/lib/changelog-order"
@@ -50,7 +50,7 @@ export default function ChangelogPage() {
               </h1>
               <Button variant="secondary" size="sm" asChild>
                 <a href="/rss.xml" target="_blank" rel="noopener noreferrer">
-                  <IconRss />
+                  <RssIcon />
                   RSS
                 </a>
               </Button>

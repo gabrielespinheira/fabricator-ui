@@ -678,7 +678,7 @@ function TabStripTab({
       ? ContextMenuTrigger
       : Pressable
   const content = (
-    <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.5}>
+    <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.75}>
       {isRenaming ? (
         <TabRenameInput strip={strip} value={tabValue} title={title} />
       ) : (
@@ -1042,7 +1042,7 @@ function TabCard({
       className="relative"
       style={{ width }}
     >
-      <IconProvider size={iconSize} strokeWidth={isActive ? 2 : 1.5}>
+      <IconProvider size={iconSize} strokeWidth={isActive ? 2 : 1.75}>
         <Trigger
           data-slot="tab-strip-card-trigger"
           data-active={isActive}

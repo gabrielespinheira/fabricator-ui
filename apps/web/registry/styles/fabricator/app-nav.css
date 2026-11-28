@@ -17,7 +17,7 @@
      with the row's hover, light or focus (always without an icon or on
      touch). */
   .cn-app-nav-toggle {
-    @apply z-10 cursor-pointer rounded-(--radius-mark) text-muted-foreground ring-ring outline-none top-[calc((var(--density-30)-var(--density-icon-16))/2)] start-[calc(var(--density-8)+(var(--density-icon-16)+var(--density-8))*var(--sidebar-menu-depth,0))] size-(--density-icon-16) opacity-0 transition-opacity duration-feedback hover:text-foreground hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 peer-hover/menu-button:opacity-100 peer-data-fluid-hover-active/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 data-bare:opacity-100 pointer-coarse:opacity-100 [--app-nav-toggle-target:max(var(--density-24),1.5rem)] pointer-coarse:size-(--app-nav-toggle-target) pointer-coarse:m-[calc((var(--density-icon-16)-var(--app-nav-toggle-target))/2)] after:absolute after:-inset-1 [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.5] [&_svg]:transition-transform [&_svg]:duration-feedback [&_svg]:ease-feedback aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none group-data-[collapsible=icon]:hidden;
+    @apply z-10 cursor-pointer rounded-(--radius-mark) text-muted-foreground ring-ring outline-none top-[calc((var(--density-30)-var(--density-icon-16))/2)] start-[calc(var(--density-8)+(var(--density-icon-16)+var(--density-8))*var(--sidebar-menu-depth,0))] size-(--density-icon-16) opacity-0 transition-opacity duration-feedback hover:text-foreground hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 peer-hover/menu-button:opacity-100 peer-data-fluid-hover-active/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 data-bare:opacity-100 pointer-coarse:opacity-100 [--app-nav-toggle-target:max(var(--density-24),1.5rem)] pointer-coarse:size-(--app-nav-toggle-target) pointer-coarse:m-[calc((var(--density-icon-16)-var(--app-nav-toggle-target))/2)] after:absolute after:-inset-1 [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.75] [&_svg]:transition-transform [&_svg]:duration-feedback [&_svg]:ease-feedback aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none group-data-[collapsible=icon]:hidden;
   }
 
   /* The icon column of a row without an icon. */
@@ -63,9 +63,9 @@
   /* The grip drags, and arrow keys move the row. A row alone in its list has
      nowhere to go, so it keeps the space and hides the grip. */
   .cn-app-nav-customize-handle {
-    @apply size-(--density-24) shrink-0 cursor-grab touch-none rounded-(--radius-inner) text-muted-foreground ring-ring outline-none transition-colors duration-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 active:cursor-grabbing disabled:invisible [&>svg]:size-(--density-icon-14) [&>svg]:stroke-[1.5];
+    @apply size-(--density-24) shrink-0 cursor-grab touch-none rounded-(--radius-inner) text-muted-foreground ring-ring outline-none transition-colors duration-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 active:cursor-grabbing disabled:invisible [&>svg]:size-(--density-icon-14) [&>svg]:stroke-[1.75];
   }
 
   .cn-app-nav-customize-name {
-    @apply min-h-(--density-36) min-w-0 flex-1 cursor-pointer items-center gap-(--density-8) [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg]:text-muted-foreground;
+    @apply min-h-(--density-36) min-w-0 flex-1 cursor-pointer items-center gap-(--density-8) [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0 [&>svg]:stroke-[1.75] [&>svg]:text-muted-foreground;
   }

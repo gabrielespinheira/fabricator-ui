@@ -1,3 +1,4 @@
+import { getArtworkViewBox, ICON_SIZE, UI_STROKE_WIDTH } from "./attributes.js"
 import type { IconData, IconElement } from "./types.js"
 import { getCutoutMask, resolveUiPaint } from "./ui-paint.js"
 
@@ -15,8 +16,8 @@ function shapes(node: IconElement[]) {
 export function renderUiSvg(
   data: IconData,
   {
-    size = 24,
-    strokeWidth = data.strokeWidth ?? 1.5,
+    size = ICON_SIZE,
+    strokeWidth = data.strokeWidth ?? UI_STROKE_WIDTH,
     color = "currentColor",
   } = {}
 ) {
@@ -39,7 +40,7 @@ export function renderUiSvg(
     xmlns: "http://www.w3.org/2000/svg",
     width: String(size),
     height: String(size),
-    viewBox: "0 0 24 24",
+    viewBox: getArtworkViewBox(ICON_SIZE, ICON_SIZE, data.opticalScale),
     fill: fill ? color : "none",
     stroke: fill ? "none" : color,
     "stroke-width": String(strokeWidth),

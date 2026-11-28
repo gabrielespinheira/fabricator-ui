@@ -193,7 +193,7 @@ function InputGroupAddon({
   const group = React.use(InputGroupContext)
   const isFocused = group?.isFocused ?? false
   const content = (
-    <IconProvider strokeWidth={isFocused ? 2 : 1.5}>
+    <IconProvider strokeWidth={isFocused ? 2 : 1.75}>
       {renderTextChildren(children)}
     </IconProvider>
   )

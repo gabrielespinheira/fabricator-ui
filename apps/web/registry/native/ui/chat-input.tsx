@@ -1046,7 +1046,7 @@ function ChatInputAttachment({
               />
             </Animated.View>
           ) : (
-            <IconProvider strokeWidth={1.5}>
+            <IconProvider strokeWidth={1.75}>
               <TextStyle className="cn-chat-input-attachment-icon">
                 <FileIcon aria-hidden />
               </TextStyle>
@@ -2029,7 +2029,7 @@ function ChatInputOption({
             : chatInputOptionTextVariants()
         }
       >
-        <IconProvider strokeWidth={1.5}>
+        <IconProvider strokeWidth={1.75}>
           {icon ? (
             <View aria-hidden className="cn-chat-input-option-icon shrink-0">
               {icon}
@@ -2255,7 +2255,7 @@ function ChatInputCommandRow({
             : chatInputCommandTextVariants()
         }
       >
-        <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+        <IconProvider strokeWidth={isLit ? 2 : 1.75}>
           {command.icon ? (
             <View aria-hidden className="cn-chat-input-command-icon shrink-0">
               {kind === "skill" && skillColor ? (
@@ -2517,7 +2517,7 @@ function ChatInputTrayItem({
     >
       <TextStyle className="cn-chat-input-tray-item-text">
         <IconProvider
-          strokeWidth={1.5}
+          strokeWidth={1.75}
           {...(typeof muted === "string" ? { color: muted } : {})}
         >
           {renderTextChildren(children)}

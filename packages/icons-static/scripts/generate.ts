@@ -6,7 +6,9 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import {
   brandsText,
-  getBrandViewBox,
+  getArtworkViewBox,
+  getBrandArtworkViewBox,
+  getUiIconData,
   licenseText,
   loadBrands,
   loadFileIcons,
@@ -27,13 +29,14 @@ import {
   type BrandIcon,
   type IconData,
   type OutlineIcon,
+  type UiIcon,
 } from "@fabricator-ui/icons-core"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 
-function sprite(icons: OutlineIcon[]) {
+function sprite(icons: UiIcon[]) {
   const symbolAttributes = Object.entries(OUTLINE_ROOT_ATTRIBUTES)
-    .filter(([name]) => !["xmlns", "width", "height"].includes(name))
+    .filter(([name]) => !["xmlns", "width", "height", "viewBox"].includes(name))
     .map(([name, value]) => [
       name,
       name === "stroke-width" ? String(UI_STROKE_WIDTH) : value,
@@ -47,7 +50,7 @@ function sprite(icons: OutlineIcon[]) {
       /^<svg >|<\/svg>$/g,
       ""
     )
-    return `  <symbol id="${icon.name}" ${attributes}>${inner}</symbol>`
+    return `  <symbol id="${icon.name}" viewBox="${getArtworkViewBox(24, 24, icon.opticalScales.outline)}" ${attributes}>${inner}</symbol>`
   })
   return `<svg xmlns="http://www.w3.org/2000/svg">\n${symbols.join("\n")}\n</svg>\n`
 }
@@ -68,11 +71,7 @@ function stringBarrel(icons: OutlineIcon[], folder = "icons") {
 
 function brandSvg(brand: BrandIcon, color: "mono" | "brand") {
   const art = color === "brand" ? brand.art : undefined
-  const viewBox = getBrandViewBox(
-    art?.width ?? 24,
-    art?.height ?? 24,
-    brand.scale
-  )
+  const viewBox = getBrandArtworkViewBox(brand, art)
   const fill =
     color === "mono" || art || brand.colors.inherit ? "currentColor" : brand.hex
   // Ids carry the brand's name, so different marks on one page never clash.
@@ -98,7 +97,7 @@ function brandSprite(brands: BrandIcon[]) {
       /^<svg >|<\/svg>$/g,
       ""
     )
-    return `  <symbol id="${brand.name}" viewBox="${getBrandViewBox(24, 24, brand.scale)}" fill="currentColor">${inner}</symbol>`
+    return `  <symbol id="${brand.name}" viewBox="${getBrandArtworkViewBox(brand)}" fill="currentColor">${inner}</symbol>`
   })
   return `<svg xmlns="http://www.w3.org/2000/svg">\n${symbols.join("\n")}\n</svg>\n`
 }
@@ -114,7 +113,7 @@ const weights = {
   duotone: new Map<string, IconData>(),
 }
 for (const icon of icons) {
-  const svg = renderUiSvg({ name: icon.name, node: icon.node })
+  const svg = renderUiSvg(getUiIconData(icon))
   svgs.set(`${icon.name}.svg`, svg)
   generated.set(
     `icons/${icon.name}.ts`,
@@ -123,17 +122,8 @@ for (const icon of icons) {
 }
 generated.set("outline.ts", stringBarrel(icons))
 for (const icon of icons) {
-  weights.fill.set(icon.name, {
-    name: icon.name,
-    node: icon.fill.node,
-    paint: "fill",
-    ...(icon.fill.cutout.length > 0 && { cutout: icon.fill.cutout }),
-  })
-  weights.duotone.set(icon.name, {
-    name: icon.name,
-    node: icon.node,
-    secondary: icon.duotone.secondary,
-  })
+  weights.fill.set(icon.name, getUiIconData(icon, "fill"))
+  weights.duotone.set(icon.name, getUiIconData(icon, "duotone"))
 }
 for (const weight of ["fill", "duotone"] as const) {
   const variantFiles = new Map<string, string>()
@@ -189,7 +179,12 @@ generated.set(
     `export const outlineAliases: Record<string, string> = ${JSON.stringify(outlineAliases)}\n\nexport const brandAliases: Record<string, string> = ${JSON.stringify(brandAliases)}\n`
   )
 )
-// Typed shape data for the PNG exporter, so it reads no untyped JSON.
+const outlineScales = Object.fromEntries(
+  icons.flatMap((icon) => {
+    const scale = icon.opticalScales.outline
+    return scale === undefined ? [] : [[icon.name, scale]]
+  })
+)
 const brandNodes = Object.fromEntries(
   brands.map((brand) => [
     brand.name,
@@ -198,6 +193,9 @@ const brandNodes = Object.fromEntries(
       ...(brand.art && { art: brand.art }),
       colors: brand.colors,
       ...(brand.scale !== undefined && { scale: brand.scale }),
+      ...(brand.opticalScale !== undefined && {
+        opticalScale: brand.opticalScale,
+      }),
     },
   ])
 )
@@ -210,6 +208,7 @@ export const fileNodes: Record<string, FileIconData> = ${JSON.stringify(Object.f
 export const filePalette: FilePalette = ${JSON.stringify(filePack.palette)}
 
 export const outlineNodes: Record<string, IconElement[]> = ${JSON.stringify(Object.fromEntries(icons.map((icon) => [icon.name, icon.node])))}
+export const outlineScales: Partial<Record<string, number>> = ${JSON.stringify(outlineScales)}
 
 export const brandNodes: Record<string, Omit<BrandIconData, "name">> = ${JSON.stringify(brandNodes)}
 `)
@@ -252,7 +251,7 @@ writeGeneratedFile(
       renderFileSvg(icon, filePack.palette)
         .replace(
           /^<svg[^>]*>/,
-          `<symbol id="${icon.name}" viewBox="0 0 16 16" fill="none">`
+          `<symbol id="${icon.name}" viewBox="${getArtworkViewBox(16, 16, icon.opticalScale)}" fill="none">`
         )
         .replace(/<\/svg>$/, "</symbol>")
     )
@@ -268,22 +267,8 @@ writeGeneratedFile(
   json(Object.fromEntries(icons.map((icon) => [icon.name, icon.node])))
 )
 writeGeneratedFile(path.join(root, "brands-sprite.svg"), brandSprite(brands))
-writeGeneratedFile(
-  path.join(root, "brand-nodes.json"),
-  json(
-    Object.fromEntries(
-      brands.map((brand) => [
-        brand.name,
-        {
-          node: brand.node,
-          ...(brand.art && { art: brand.art }),
-          colors: brand.colors,
-          ...(brand.scale !== undefined && { scale: brand.scale }),
-        },
-      ])
-    )
-  )
-)
+writeGeneratedFile(path.join(root, "icon-scales.json"), json(outlineScales))
+writeGeneratedFile(path.join(root, "brand-nodes.json"), json(brandNodes))
 writeGeneratedFile(
   path.join(root, "tags.json"),
   json(Object.fromEntries(icons.map((icon) => [icon.name, icon.tags])))

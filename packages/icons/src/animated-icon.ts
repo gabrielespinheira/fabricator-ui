@@ -12,10 +12,15 @@ import { useAnimation as useMotionAnimation } from "motion/react"
 import { hasA11yProp } from "./generated/runtime/attributes.js"
 import type { IconWeight } from "./generated/runtime/types.js"
 import { renderIcon, type IconProps } from "./icon.js"
+import { isMotionOff } from "./motion-preference.js"
+
+export { isMotionOff } from "./motion-preference.js"
 
 /** The same props as an outline icon. */
 export type AnimatedIconProps = Omit<IconProps, "nonScalingStroke" | "ref"> & {
   variant?: IconWeight
+  /** Keep replaying until the pointer leaves or stopAnimation is called. */
+  loop?: boolean
 }
 
 /** Passing a `ref` takes over from hover: start and stop the animation yourself. */
@@ -25,17 +30,6 @@ export type AnimatedIconHandle = {
 }
 
 type HoverHandler = MouseEventHandler<SVGSVGElement>
-
-const REDUCED_MOTION = "(prefers-reduced-motion: reduce)"
-
-/** Asked each time an animation starts, so a change applies without a re-render. */
-export function isMotionOff() {
-  if (typeof document === "undefined") return true
-  return (
-    document.documentElement.dataset.motion === "off" ||
-    window.matchMedia(REDUCED_MOTION).matches
-  )
-}
 
 /**
  * Motion's `useAnimation`, which every animated icon goes through: with reduced
@@ -89,6 +83,7 @@ export function composeHandlers(
 export function AnimatedSvg({
   name,
   variant: _variant,
+  loop: _loop,
   ...props
 }: AnimatedIconProps & { name: string }) {
   return renderIcon(

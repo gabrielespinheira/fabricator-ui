@@ -272,7 +272,7 @@ function AccordionTrigger({
         {...props}
       >
         <View className="flex-1 shrink">{renderTextChildren(children)}</View>
-        <IconProvider strokeWidth={isExpanded || isLit ? 2 : 1.5}>
+        <IconProvider strokeWidth={isExpanded || isLit ? 2 : 1.75}>
           <Animated.View
             data-slot="accordion-trigger-icon"
             className="cn-accordion-trigger-icon shrink-0 items-center justify-center"

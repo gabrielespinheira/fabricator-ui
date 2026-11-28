@@ -2223,7 +2223,7 @@ function AppShellPanelClose({
   children,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { label, placement, side, setOpen } = usePanel()
+  const { label, panel, side, setOpen } = usePanel()
   return (
     <Button
       variant="ghost"
@@ -2234,18 +2234,7 @@ function AppShellPanelClose({
       className={cn("cn-app-shell-panel-close", className)}
       {...props}
     >
-      {children ??
-        (placement === "drawer" ? (
-          <IconPlaceholder
-            lucide="XIcon"
-            tabler="IconX"
-            hugeicons="Cancel01Icon"
-            phosphor="XIcon"
-            remixicon="RiCloseLine"
-          />
-        ) : (
-          <SidebarToggleIcon open side={side} />
-        ))}
+      {children ?? <SidebarToggleIcon open={panel.open} side={side} />}
     </Button>
   )
 }

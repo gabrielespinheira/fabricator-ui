@@ -5,13 +5,13 @@
   viewBox="0 0 24 24"
   fill="none"
   stroke="currentColor"
-  stroke-width="1.5"
+  stroke-width="1.75"
   stroke-linecap="round"
   stroke-linejoin="round"
 >
-  <g id="secondary" fill="currentColor" fill-opacity="0.2" stroke="none">
-    <path d="M3.93 10.35c0-3.95 2.47-6.42 6.42-6.42s6.42 2.47 6.42 6.42-2.47 6.42-6.42 6.42-6.42-2.47-6.42-6.42Z" />
+  <g id="secondary">
+    <circle cx="9.75" cy="9.75" r="6.6" />
   </g>
-  <path d="M3 10.35C3 5.88 5.88 3 10.35 3s7.35 2.88 7.35 7.35-2.88 7.35-7.35 7.35S3 14.82 3 10.35Z" />
-  <path d="m15.83 15.83 4.7 4.7" />
+  <circle cx="9.75" cy="9.75" r="6.6" />
+  <path d="m14.55 14.55 6.35 6.35" />
 </svg>

@@ -89,7 +89,7 @@ function ButtonGroupText({
   )
   return (
     <TextStyle className="cn-button-group-text-text">
-      <IconProvider strokeWidth={1.5}>
+      <IconProvider strokeWidth={1.75}>
         {slotted ?? <View {...shared}>{renderTextChildren(children)}</View>}
       </IconProvider>
     </TextStyle>

@@ -225,7 +225,7 @@ function ModelPickerRoute({
         )}
       >
         <View className="cn-model-picker-route-label min-w-0 flex-row items-center">
-          <IconProvider strokeWidth={1.5}>
+          <IconProvider strokeWidth={1.75}>
             {renderTextChildren(children)}
           </IconProvider>
           {selected ? (

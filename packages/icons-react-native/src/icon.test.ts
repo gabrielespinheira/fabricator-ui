@@ -2,6 +2,11 @@ import { createElement } from "react"
 import { renderToStaticMarkup } from "react-dom/server"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
+import {
+  getArtworkViewBox,
+  getBrandArtworkViewBox,
+} from "./generated/runtime/attributes"
+
 const scheme = vi.hoisted((): { current: "light" | "dark" } => ({
   current: "light",
 }))
@@ -28,6 +33,8 @@ const { HouseIcon, House, IconProvider, Icon, VaultIcon } = await import(
   "./index"
 )
 const { GithubIcon, GoogleIcon, PinterestIcon } = await import("./brands")
+const { iconData: houseData } = await import("./generated/icons/house")
+const { brandData: googleData } = await import("./generated/brands/google")
 
 const render = renderToStaticMarkup
 
@@ -36,10 +43,12 @@ beforeEach(() => {
 })
 
 describe("outline icons", () => {
-  it("draw with Lucide's attributes in the scheme's foreground", () => {
-    expect(render(createElement(HouseIcon))).toMatch(
-      /^<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d=/
+  it("draws on the Fabricator grid in the scheme's foreground", () => {
+    const markup = render(createElement(HouseIcon))
+    expect(markup).toContain(
+      `width="24" height="24" viewBox="${getArtworkViewBox(24, 24, houseData.opticalScale)}" fill="none" stroke="#171717" stroke-width="1.75"`
     )
+    expect(markup).toContain('aria-hidden="true"><path ')
   })
 
   it("follow dark mode with no provider", () => {
@@ -102,7 +111,9 @@ describe("brand icons", () => {
 
   it("draw multi-colour art in its own box", () => {
     const markup = render(createElement(GoogleIcon, { color: "brand" }))
-    expect(markup).toContain('viewBox="0 0 256 262"')
+    expect(markup).toContain(
+      `viewBox="${getBrandArtworkViewBox(googleData, googleData.art)}"`
+    )
     expect(markup.match(/<path fill="#/g)?.length).toBeGreaterThan(1)
   })
 

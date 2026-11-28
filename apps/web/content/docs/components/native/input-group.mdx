@@ -23,6 +23,7 @@ import {
   InputGroupInput,
   InputGroupText,
   InputGroupTextarea,
+  InputSearch,
 } from "@/components/ui/input-group"
 import { Text } from "@/components/ui/text"
 ```
@@ -45,6 +46,7 @@ import { Text } from "@/components/ui/text"
 - `InputGroupInput`
 - `InputGroupText`
 - `InputGroupTextarea`
+- `InputSearch`
 
 ## Examples
 
@@ -64,6 +66,7 @@ import {
   InputGroupInput,
   InputGroupText,
   InputGroupTextarea,
+  InputSearch,
 } from "@/components/ui/input-group"
 import { Text } from "@/components/ui/text"
 
@@ -79,6 +82,13 @@ function InputGroupExample() {
           </InputGroupAddon>
           <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
         </InputGroup>
+      </Example>
+      <Example title="Search">
+        <InputSearch
+          accessibilityLabel="Search components"
+          placeholder="Search components"
+          defaultValue="Button"
+        />
       </Example>
       <Example title="Text">
         <InputGroup>
@@ -181,7 +191,7 @@ export { InputGroupExample }
 | `align` | `block-end`, `block-start`, `inline-end`, `inline-start` |
 | `size` | `icon-sm`, `icon-xs`, `sm`, `xs` |
 
-Props it adds to what it wraps: `type`.
+Props it adds to what it wraps: `clearLabel`, `defaultValue`, `groupProps`, `onValueChange`, `type`, `value`.
 
 ## Differences from web
 

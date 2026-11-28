@@ -2,6 +2,7 @@
 export {
   brandNodes,
   outlineNodes,
+  outlineScales,
   fileNodes,
   filePalette,
 } from "./generated/nodes.js"

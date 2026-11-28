@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { parseArgs } from "node:util"
 
+import { UI_STROKE_WIDTH } from "./generated/runtime/attributes.js"
 import {
   exportPngs,
   isIconSet,
@@ -17,7 +18,7 @@ Options:
   --size <points>         Width and height at 1x (default: 16)
   --scale <list>          Pixel densities, comma-separated (default: 1,2)
   --color <color>         Any CSS colour; "brand" for brand colours (default: #000000)
-  --stroke <width>        Stroke width for outline and duotone icons (default: 1.5)
+  --stroke <width>        Stroke width for outline and duotone icons (default: ${UI_STROKE_WIDTH})
   --template              macOS template images: black, named <name>Template.png
   --out <directory>       Where to write the files (default: .)
 `
@@ -31,7 +32,7 @@ async function main(argv: string[]) {
       size: { type: "string", default: "16" },
       scale: { type: "string", default: "1,2" },
       color: { type: "string", default: "#000000" },
-      stroke: { type: "string", default: "1.5" },
+      stroke: { type: "string", default: String(UI_STROKE_WIDTH) },
       template: { type: "boolean", default: false },
       out: { type: "string", default: "." },
       help: { type: "boolean", short: "h", default: false },

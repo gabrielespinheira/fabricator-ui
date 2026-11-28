@@ -5,8 +5,6 @@ base: native
 component: true
 ---
 
-Kanban owns everything between a gesture and a saved change. Your app owns the records, the rules and the storage.
-
 ## Installation
 
 ```bash
@@ -16,45 +14,129 @@ npx fabricator-ui@latest add kanban
 ## Usage
 
 ```tsx
-const [items, setItems] = React.useState([
-  { id: "ISS-1", title: "Document saved views", status: "todo" },
-])
-
-<Kanban
-  fit="fill"
-  className="h-[40rem]"
-  items={items}
-  groupBy="status"
-  properties={[
-    {
-      id: "status",
-      name: "Status",
-      type: "status",
-      options: [
-        { value: "todo", label: "To do", group: "todo", color: "gray" },
-        { value: "done", label: "Done", group: "complete", color: "green" },
-      ],
-    },
-  ]}
-  createItem={({ title, value }) => ({
-    id: crypto.randomUUID(),
-    title,
-    status: value,
-  })}
-  onCardsChange={(change) => setItems(change.apply)}
-  onOpenCard={(item) => setOpenId(item.id)}
-/>
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Kanban,
+  KanbanBoard,
+  KanbanToolbar,
+  type KanbanColumnDefinition,
+  type KanbanLoader,
+} from "@/components/ui/kanban"
+import {
+  getPropertyCover,
+  getPropertyDefaults,
+  PropertyAdd,
+  PropertyIconProvider,
+  PropertyList,
+  type PropertyDefinition,
+  type PropertyFile,
+} from "@/components/ui/properties"
+import {
+  RecordView,
+  RecordViewCover,
+  RecordViewSection,
+  type RecordViewMode,
+} from "@/components/ui/record-view"
+import { Text } from "@/components/ui/text"
+import { Textarea } from "@/components/ui/textarea"
 ```
 
-The board takes any record shape. `getId`, `getTitle` and `getValue` read it, and `setValue` writes one property. Leave out `onCardsChange` for a read-only board.
-
-## Columns
-
-Columns come from the options of the property in `groupBy`, or from `columns`:
-
 ```tsx
-columns={[
-  { id: "todo", name: "To do", icon: "status-todo", color: "gray" },
+<StorefrontBoard />
+```
+
+## Composition
+
+- `Kanban`
+- `KanbanBoard`
+- `KanbanBoardProps`
+- `KanbanCard`
+- `KanbanCardProps`
+- `KanbanCardRenderers`
+- `KanbanChange`
+- `KanbanColumn`
+- `KanbanColumnDefinition`
+- `KanbanColumnProps`
+- `KanbanController`
+- `KanbanDraft`
+- `KanbanFilter`
+- `KanbanGroup`
+- `KanbanLane`
+- `KanbanLoader`
+- `KanbanMenuGroup`
+- `KanbanMenuItem`
+- `KanbanNotices`
+- `KanbanOptions`
+- `KanbanPage`
+- `KanbanPlacement`
+- `KanbanProps`
+- `KanbanSearch`
+- `KanbanSelectionBar`
+- `KanbanSort`
+- `KanbanToolbar`
+- `KanbanView`
+- `KanbanViewOptions`
+
+## Examples
+
+```tsx showLineNumbers title="kanban-example.tsx"
+import * as React from "react"
+import {
+  MessageSquareIcon,
+  PlusIcon,
+  RocketIcon,
+} from "@fabricator-ui/icons-react-native"
+import { View } from "react-native"
+
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Kanban,
+  KanbanBoard,
+  KanbanToolbar,
+  type KanbanColumnDefinition,
+  type KanbanLoader,
+} from "@/components/ui/kanban"
+import {
+  getPropertyCover,
+  getPropertyDefaults,
+  PropertyAdd,
+  PropertyIconProvider,
+  PropertyList,
+  type PropertyDefinition,
+  type PropertyFile,
+} from "@/components/ui/properties"
+import {
+  RecordView,
+  RecordViewCover,
+  RecordViewSection,
+  type RecordViewMode,
+} from "@/components/ui/record-view"
+import { Text } from "@/components/ui/text"
+import { Textarea } from "@/components/ui/textarea"
+
+type Task = { title: string; isDone: boolean }
+type Issue = {
+  id: string
+  title: string
+  notes?: string
+  tasks?: Task[]
+  values: Record<string, unknown>
+}
+
+const icons = { comments: <MessageSquareIcon /> }
+
+const initialColumns: KanbanColumnDefinition[] = [
+  { id: "backlog", name: "Backlog", icon: "status-backlog", color: "gray" },
+  { id: "planned", name: "Planned", icon: "status-todo", color: "gray" },
+  {
+    id: "progress",
+    name: "In progress",
+    icon: "status-progress",
+    color: "yellow",
+    limit: 4,
+  },
   {
     id: "review",
     name: "In review",
@@ -63,79 +145,632 @@ columns={[
     limit: 3,
     limitMode: "block",
   },
-]}
-```
+  { id: "done", name: "Done", icon: "status-done", color: "green" },
+  { id: "canceled", name: "Canceled", icon: "status-canceled", color: "gray" },
+]
 
-- `color` is a palette name (`red`, `orange`, `yellow`, `green`, `teal`, `cyan`, `blue`, `indigo`, `purple`, `pink`, `gray`), a role, or any CSS colour.
-- `icon` is a built-in glyph: `status-backlog`, `status-todo`, `status-started`, `status-progress`, `status-review`, `status-done` or `status-canceled`.
-- `limit` shows the count as "2/3". `limitMode="block"` refuses a drop over it and says why.
-- `onColumnsChange` lets people add columns and rename them, from the column's menu or with two taps on its name.
-- `view.colorColumns` tints each column with its colour.
-- `hasHeaderAdd` puts an add button in each header too.
+const initialProperties: PropertyDefinition[] = [
+  {
+    id: "key",
+    name: "ID",
+    type: "key",
+    isSystem: true,
+    isReadOnly: true,
+    visibility: "hide",
+  },
+  {
+    id: "priority",
+    name: "Priority",
+    type: "select",
+    options: [
+      {
+        value: "urgent",
+        label: "Urgent",
+        icon: "priority-urgent",
+        color: "destructive",
+      },
+      { value: "high", label: "High", icon: "priority-high" },
+      { value: "medium", label: "Medium", icon: "priority-medium" },
+      { value: "low", label: "Low", icon: "priority-low" },
+    ],
+  },
+  {
+    id: "assignee",
+    name: "Assignee",
+    type: "person",
+    options: [
+      { value: "maya", label: "Maya Chen" },
+      { value: "daniel", label: "Daniel Okafor" },
+      { value: "nora", label: "Nora Ahmed" },
+      { value: "lucas", label: "Lucas Ferreira" },
+      { value: "hana", label: "Hana Sato" },
+    ],
+  },
+  {
+    id: "labels",
+    name: "Labels",
+    type: "multi-select",
+    options: [
+      { value: "storefront", label: "Storefront", color: "blue" },
+      { value: "design", label: "Design", color: "purple" },
+      { value: "api", label: "API", color: "teal" },
+      { value: "bug", label: "Bug", color: "red" },
+      { value: "growth", label: "Growth", color: "green" },
+      { value: "docs", label: "Docs", color: "orange" },
+    ],
+  },
+  { id: "tasks", name: "Sub-tasks", type: "progress", isReadOnly: true },
+  {
+    id: "comments",
+    name: "Comments",
+    type: "number",
+    icon: "comments",
+    isReadOnly: true,
+    visibility: "hide",
+  },
+  { id: "due", name: "Due date", type: "date" },
+  {
+    id: "estimate",
+    name: "Estimate",
+    type: "number",
+    settings: { unit: "points", minimum: 0, maximum: 13 },
+  },
+  {
+    id: "media",
+    name: "Images",
+    type: "files",
+    settings: { accept: "images" },
+  },
+]
 
-With two or more single-choice properties, the toolbar offers to group by another one.
+const getPhoto = (id: string, name: string): PropertyFile => ({
+  id,
+  name,
+  type: "image/jpeg",
+  url: `https://images.unsplash.com/photo-${id}?w=1200&auto=format&fit=crop&q=80`,
+  thumbnail: `https://images.unsplash.com/photo-${id}?w=600&auto=format&fit=crop&q=70`,
+})
 
-## Cards
+const toTasks = (done: number, titles: string[]): Task[] =>
+  titles.map((title, index) => ({ title, isDone: index < done }))
 
-A card places each property by its type: the ID and people on top, then the title, then tags, with dates, progress and counts at the end. `view.visibleProperties` chooses which show; people change it under View, or with Show on card in a property's settings. `renderCard` replaces the content.
+const initialIssues: Issue[] = [
+  {
+    id: "SHOP-148",
+    title: "Remember the last delivery address",
+    values: {
+      status: "backlog",
+      priority: "low",
+      assignee: "hana",
+      labels: ["storefront"],
+      estimate: 2,
+    },
+  },
+  {
+    id: "SHOP-151",
+    title: "Translate the returns flow into Portuguese and German",
+    values: {
+      status: "backlog",
+      priority: "medium",
+      assignee: "lucas",
+      labels: ["docs"],
+      comments: 2,
+      estimate: 5,
+    },
+  },
+  {
+    id: "SHOP-155",
+    title: "Gift notes on multi-address orders",
+    values: {
+      status: "backlog",
+      priority: "low",
+      labels: ["storefront", "design"],
+      estimate: 3,
+      media: [getPhoto("1549465220-1a8b9238cd48", "Gift box.jpg")],
+    },
+  },
+  {
+    id: "SHOP-132",
+    title: "Let shoppers split one order across two cards",
+    notes:
+      "Support asks for this every week around the holidays. Start with two cards and equal or custom amounts.",
+    tasks: toTasks(0, [
+      "Amount editor in the payment step",
+      "Refund each card in proportion",
+      "Receipt with both cards",
+    ]),
+    values: {
+      status: "planned",
+      priority: "high",
+      assignee: "maya",
+      labels: ["storefront", "api"],
+      comments: 6,
+      due: "2026-12-04",
+      estimate: 8,
+    },
+  },
+  {
+    id: "SHOP-137",
+    title: "Stock counts drift after a partial refund",
+    values: {
+      status: "planned",
+      priority: "urgent",
+      assignee: "daniel",
+      labels: ["api", "bug"],
+      comments: 11,
+      due: "2026-11-24",
+      estimate: 3,
+    },
+  },
+  {
+    id: "SHOP-140",
+    title: "Empty states for saved lists",
+    values: {
+      status: "planned",
+      priority: "medium",
+      assignee: "nora",
+      labels: ["design"],
+      due: "2026-12-09",
+      estimate: 2,
+    },
+  },
+  {
+    id: "SHOP-118",
+    title: "New size guide with measurements per region",
+    notes: "One table per region, with the shopper’s own region first.",
+    tasks: toTasks(3, [
+      "Collect regional charts",
+      "Unit switch",
+      "Table on phones",
+      "Link from the size picker",
+      "Copy review",
+    ]),
+    values: {
+      status: "progress",
+      priority: "high",
+      assignee: "nora",
+      labels: ["design", "storefront"],
+      comments: 4,
+      due: "2026-11-27",
+      estimate: 5,
+      media: [
+        getPhoto("1556905055-8f358a7a47b2", "Flat lay.jpg"),
+        getPhoto("1441986300917-64674bd600d8", "Shop floor.jpg"),
+      ],
+    },
+  },
+  {
+    id: "SHOP-124",
+    title: "Faster product search with typo tolerance",
+    tasks: toTasks(1, ["Index product names", "Rank by stock"]),
+    values: {
+      status: "progress",
+      priority: "medium",
+      assignee: "maya",
+      labels: ["api"],
+      due: "2026-12-01",
+      estimate: 8,
+    },
+  },
+  {
+    id: "SHOP-129",
+    title: "Referral banner after the second order",
+    values: {
+      status: "progress",
+      priority: "low",
+      assignee: "lucas",
+      labels: ["growth"],
+      comments: 1,
+      estimate: 3,
+    },
+  },
+  {
+    id: "SHOP-109",
+    title: "Wallet buttons on the product page",
+    tasks: toTasks(4, ["Apple Pay", "Google Pay", "Fallback", "Analytics"]),
+    values: {
+      status: "review",
+      priority: "high",
+      assignee: "daniel",
+      labels: ["storefront"],
+      comments: 9,
+      due: "2026-11-26",
+      estimate: 5,
+    },
+  },
+  {
+    id: "SHOP-113",
+    title: "Webhook signatures for order events",
+    values: {
+      status: "review",
+      priority: "medium",
+      assignee: "hana",
+      labels: ["api", "docs"],
+      comments: 3,
+      estimate: 3,
+    },
+  },
+  {
+    id: "SHOP-096",
+    title: "Order status page without signing in",
+    values: {
+      status: "done",
+      priority: "medium",
+      assignee: "nora",
+      labels: ["storefront"],
+      estimate: 5,
+    },
+  },
+  {
+    id: "SHOP-101",
+    title: "Weekly sales digest for store managers",
+    values: {
+      status: "done",
+      priority: "low",
+      assignee: "lucas",
+      labels: ["growth"],
+      estimate: 2,
+    },
+  },
+  {
+    id: "SHOP-088",
+    title: "Loyalty points in a separate app",
+    values: { status: "canceled", priority: "low", labels: ["growth"] },
+  },
+]
 
-A card is covered by the first picture of a `files` property. `view.cover` names the property, or is `null` for none, and `view.coverFit` is `fill` or `fit`; people change both under View. A property that is off the cards doesn't cover them. `getCover` overrides it per card.
+function getTitle(issue: Issue) {
+  return issue.title
+}
 
-`getCardActions` and `getColumnActions` add your items to the menus:
+function getValue(issue: Issue, propertyId: string): unknown {
+  if (propertyId === "key") return issue.id
+  if (propertyId === "tasks")
+    return (
+      issue.tasks && {
+        done: issue.tasks.filter(({ isDone }) => isDone).length,
+        total: issue.tasks.length,
+      }
+    )
+  return issue.values[propertyId]
+}
 
-```tsx
-getCardActions={(item) => [
-  { id: "link", label: "Copy link", onSelect: () => copyLink(item) },
-]}
-```
+function setValue(issue: Issue, propertyId: string, value: unknown): Issue {
+  return { ...issue, values: { ...issue.values, [propertyId]: value } }
+}
 
-To offer Show on card from a record, pass the controller's `isOnCard` and `setOnCard` to its [Properties](./properties):
+function KanbanExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Storefront">
+        <StorefrontBoard />
+      </Example>
+      <Example title="Pages">
+        <PagedBoard />
+      </Example>
+    </ExampleWrapper>
+  )
+}
 
-```tsx
-<PropertyList
-  // …
-  isOnCard={board.isOnCard}
-  onCardChange={board.setOnCard}
-/>
-```
+/** A real app opens its picker here, uploads and returns the stored address. */
+async function pickFiles(): Promise<PropertyFile[]> {
+  await new Promise((resolve) => setTimeout(resolve, 900))
+  return [
+    {
+      ...getPhoto("1472851294608-062f824d29cc", "Open sign.jpg"),
+      id: `photo-${Date.now()}`,
+    },
+  ]
+}
 
-Pass `openId` to mark the card shown in a [Record View](./record-view), and wrap the board in `PropertyIconProvider` to give properties and options your own icons.
+function StorefrontBoard() {
+  const [issues, setIssues] = React.useState(initialIssues)
+  const [columns, setColumns] = React.useState(initialColumns)
+  const [properties, setProperties] = React.useState(initialProperties)
+  const [statusRow, setStatusRow] = React.useState<
+    Pick<PropertyDefinition, "name" | "description" | "icon" | "visibility">
+  >({ name: "Status" })
+  const [openId, setOpenId] = React.useState<string | null>(null)
+  const [mode, setMode] = React.useState<RecordViewMode>("side")
+  const nextId = React.useRef(160)
+  const status: PropertyDefinition = {
+    ...statusRow,
+    id: "status",
+    type: "status",
+    required: true,
+    options: columns.map(({ id, name, icon, color }) => ({
+      value: id,
+      label: name,
+      icon,
+      color,
+    })),
+  }
+  const issue = issues.find(({ id }) => id === openId)
+  const cover =
+    issue &&
+    properties
+      .map((property) =>
+        getPropertyCover(property, getValue(issue, property.id))
+      )
+      .find(Boolean)
+  // The status's options are the board's columns, so editing one edits both.
+  function changeProperties(next: PropertyDefinition[]) {
+    const edited = next.find(({ id }) => id === "status")
+    if (edited) {
+      const { name, description, icon, visibility, options = [] } = edited
+      setStatusRow({ name, description, icon, visibility })
+      setColumns(
+        options.map(({ value, label, color, icon }) => ({
+          ...columns.find(({ id }) => id === value),
+          id: value,
+          name: label,
+          color,
+          icon,
+        }))
+      )
+    }
+    setProperties(next.filter(({ id }) => id !== "status"))
+  }
+  const update = (id: string, change: (issue: Issue) => Issue) =>
+    setIssues((list) =>
+      list.map((entry) => (entry.id === id ? change(entry) : entry))
+    )
 
-## Saving
+  return (
+    <PropertyIconProvider icons={icons}>
+      <Kanban
+        label="Storefront board"
+        items={issues}
+        columns={columns}
+        properties={[status, ...properties]}
+        groupBy="status"
+        defaultView={{
+          hiddenColumns: ["canceled"],
+          visibleProperties: [
+            "key",
+            "priority",
+            "assignee",
+            "labels",
+            "tasks",
+            "comments",
+            "due",
+            "media",
+          ],
+        }}
+        getTitle={getTitle}
+        getValue={getValue}
+        setValue={setValue}
+        createItem={({ title, value }) => ({
+          id: `SHOP-${nextId.current++}`,
+          title,
+          values: { ...getPropertyDefaults(properties), status: value },
+        })}
+        onCardsChange={(change) => setIssues(change.apply)}
+        onColumnsChange={setColumns}
+      >
+        {(board) => (
+          <>
+            <KanbanToolbar board={board} title="Storefront">
+              <Button
+                size="icon-sm"
+                accessibilityLabel="New card"
+                onPress={() =>
+                  setOpenId(
+                    board.create("Untitled card", "planned", null, "start") ??
+                      null
+                  )
+                }
+              >
+                <PlusIcon />
+              </Button>
+            </KanbanToolbar>
+            <KanbanBoard
+              board={board}
+              openId={openId}
+              onOpenCard={({ id }) => setOpenId(id)}
+            />
+            <RecordView
+              open={openId !== null}
+              onOpenChange={(open) => {
+                if (!open) setOpenId(null)
+              }}
+              mode={mode}
+              onModeChange={setMode}
+              title={issue?.title ?? "Card"}
+              onTitleChange={(title) => {
+                if (issue) update(issue.id, (entry) => ({ ...entry, title }))
+              }}
+              state={issue ? "ready" : "missing"}
+              context={
+                <>
+                  <RocketIcon size={16} />
+                  <Text numberOfLines={1}>{issue?.id}</Text>
+                </>
+              }
+              cover={
+                cover && <RecordViewCover src={cover.url} alt={cover.name} />
+              }
+              aside={
+                issue && (
+                  <>
+                    <PropertyList
+                      key={issue.id}
+                      properties={[status, ...properties]}
+                      onPropertiesChange={changeProperties}
+                      getValue={(id) => getValue(issue, id)}
+                      isOnCard={board.isOnCard}
+                      onCardChange={board.setOnCard}
+                      onValueChange={(id, value) =>
+                        update(issue.id, (entry) => setValue(entry, id, value))
+                      }
+                      onFilesAdd={pickFiles}
+                      onOptionCreate={(property, label) => {
+                        const value = `${Date.now()}`
+                        changeProperties(
+                          [status, ...properties].map((entry) =>
+                            entry.id === property.id
+                              ? {
+                                  ...entry,
+                                  options: [
+                                    ...(entry.options ?? []),
+                                    { value, label, color: "gray" },
+                                  ],
+                                }
+                              : entry
+                          )
+                        )
+                        return value
+                      }}
+                      conversion={{
+                        getValues: (id) =>
+                          issues.map((entry) => ({
+                            recordId: entry.id,
+                            value: getValue(entry, id),
+                          })),
+                        onConvert: ({ property, values }) => {
+                          setProperties((list) =>
+                            list.map((entry) =>
+                              entry.id === property.id ? property : entry
+                            )
+                          )
+                          const converted = new Map(
+                            values.map(({ recordId, value }) => [
+                              recordId,
+                              value,
+                            ])
+                          )
+                          setIssues((list) =>
+                            list.map((entry) =>
+                              setValue(
+                                entry,
+                                property.id,
+                                converted.get(entry.id) ?? null
+                              )
+                            )
+                          )
+                        },
+                      }}
+                    />
+                    <PropertyAdd
+                      onPropertyAdd={(property) =>
+                        setProperties((list) => [...list, property])
+                      }
+                    />
+                  </>
+                )
+              }
+            >
+              {issue && (
+                <IssueContent
+                  key={issue.id}
+                  issue={issue}
+                  onChange={(change) => update(issue.id, change)}
+                />
+              )}
+            </RecordView>
+          </>
+        )}
+      </Kanban>
+    </PropertyIconProvider>
+  )
+}
 
-`onCardsChange` receives one change at a time, with a `reason`, the card IDs and `apply`, which returns the new list. Return a promise to save to a server: the board shows the change at once, keeps later edits to the same card in order, and drops the change with a Retry if the promise rejects.
-
-A move names its neighbours (`afterId`, `beforeId`) instead of an index, so it holds on a filtered or half-loaded column. `canMove` enforces a rule and can return the reason. `moveTo` writes a move when a column is more than a property's value.
-
-## Paginated sources
-
-Supply `load({ columnId, cursor, limit, signal })` and return `{ items, nextCursor, total }`. Use `null` for the final cursor. Memoize the loader and change `queryKey` when the server-side query changes. Each column keeps its own cursor, loads the next page as it nears the end, and retries on its own. `paging="button"` waits for a press.
-
-Reactive sources can pass a `ReadonlyMap<string, KanbanPage<Item>>` as `pages` and handle `onLoadMore` and `onRetry`. Publish updated items from the save callback before it resolves.
-
-## Composition
-
-```tsx
-<Kanban {...options}>
-  {(board) => (
+function IssueContent({
+  issue,
+  onChange,
+}: {
+  issue: Issue
+  onChange: (change: (issue: Issue) => Issue) => void
+}) {
+  const tasks = issue.tasks ?? []
+  const done = tasks.filter(({ isDone }) => isDone).length
+  return (
     <>
-      <KanbanToolbar board={board} title="Storefront">
-        <Button size="sm" onPress={addCard}>
-          New card
-        </Button>
-      </KanbanToolbar>
-      <KanbanBoard board={board} onOpenCard={openCard} />
+      <RecordViewSection title="Description">
+        <Textarea
+          accessibilityLabel="Description"
+          placeholder="Add a description"
+          defaultValue={issue.notes}
+          onEndEditing={(event) => {
+            const notes = event.nativeEvent.text
+            onChange((entry) => ({ ...entry, notes }))
+          }}
+        />
+      </RecordViewSection>
+      {tasks.length > 0 && (
+        <RecordViewSection title={`Sub-tasks ${done}/${tasks.length}`}>
+          {tasks.map((task, index) => (
+            <View key={task.title} className="flex-row items-center gap-3">
+              <Checkbox
+                accessibilityLabel={task.title}
+                checked={task.isDone}
+                onCheckedChange={(isDone) =>
+                  onChange((entry) => ({
+                    ...entry,
+                    tasks: tasks.map((other, place) =>
+                      place === index ? { ...other, isDone } : other
+                    ),
+                  }))
+                }
+              />
+              <Text className="shrink">{task.title}</Text>
+            </View>
+          ))}
+        </RecordViewSection>
+      )}
     </>
-  )}
-</Kanban>
+  )
+}
+
+type QueuedIssue = { id: string; title: string; columnId: string }
+
+const queueColumns: KanbanColumnDefinition[] = [
+  { id: "planned", name: "Planned", icon: "status-todo", color: "gray" },
+  { id: "active", name: "Active", icon: "status-progress", color: "yellow" },
+]
+
+const loadQueue: KanbanLoader<QueuedIssue> = async ({
+  columnId,
+  cursor,
+  limit,
+}) => {
+  await new Promise((resolve) => setTimeout(resolve, 600))
+  const start = cursor === null ? 0 : Number(cursor)
+  return {
+    items: Array.from({ length: limit }, (_, place) => ({
+      id: `${columnId.toUpperCase()}-${start + place + 1}`,
+      columnId,
+      title: `Review request ${start + place + 1}`,
+    })),
+    nextCursor: start + limit < 500 ? String(start + limit) : null,
+    total: 500,
+  }
+}
+
+const queueProperties: PropertyDefinition[] = [
+  { id: "id", name: "ID", type: "key" },
+]
+
+function PagedBoard() {
+  return (
+    <Kanban<QueuedIssue>
+      columns={queueColumns}
+      properties={queueProperties}
+      load={loadQueue}
+      pageSize={20}
+    />
+  )
+}
+
+export { KanbanExample }
 ```
 
-`KanbanToolbar` is one compact line. `title` and the filter sit at the start, search, grouping, sorting and view options at the end, and its children last. It answers to its own width: labels go first, the filter becomes a count, search becomes a button, and the filter and view options open in a drawer.
+## API reference
 
-`KanbanSearch`, `KanbanFilter`, `KanbanGroup`, `KanbanSort` and `KanbanViewOptions` are its parts. Each takes the controller, so you can lay them out yourself. `useKanban` returns the same controller with no interface.
+
+
+Props it adds to what it wraps: `collapsible`, `isFilling`, `onOpenChange`, `open`, `placeholder`, `title`.
 
 ## Accessibility
 
-- Hold a card to drag it across the board. Scrolling works until the hold.
-- Every drag has a path through the card's menu, which VoiceOver and TalkBack reach as the card's Actions.
-- Moves are announced with the card, its column and its position.
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

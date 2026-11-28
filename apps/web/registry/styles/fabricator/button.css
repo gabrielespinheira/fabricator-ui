@@ -6,7 +6,7 @@
      1px blue ring with no halo; icons draw at stroke 1.5 and thicken to 2 on
      hover or while the button's popup is open. */
   .cn-button {
-    @apply cursor-pointer aria-disabled:cursor-not-allowed rounded-(--radius-control) border border-transparent text-(length:--density-text-13) font-medium duration-feedback ease-feedback motion-press focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-feedback hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply cursor-pointer aria-disabled:cursor-not-allowed rounded-(--radius-control) border border-transparent text-(length:--density-text-13) font-medium duration-feedback ease-feedback motion-press focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.75] [&_svg]:transition-[stroke-width] [&_svg]:duration-feedback hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   /* The primary role's fill (the foreground colour while primary is

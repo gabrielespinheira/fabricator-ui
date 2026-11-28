@@ -308,7 +308,7 @@ function InputOTPSeparator({
         )}
         {...props}
       >
-        <MinusIcon strokeWidth={1.5} />
+        <MinusIcon strokeWidth={1.75} />
       </View>
     </TextStyle>
   )
