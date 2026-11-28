@@ -95,7 +95,9 @@ function AimDiagram({ isAimOn }: { isAimOn: boolean }) {
   const pointerRow = React.useRef<string | undefined>(undefined)
 
   const [activeRow, setActiveRow] = React.useState<string>()
-  const [openRow, setOpenRow] = React.useState("Share")
+  // The open submenu's trigger: state to draw it, a ref for the handlers.
+  const [openRow, setOpenRow] = React.useState<string | undefined>("Share")
+  const openRowRef = React.useRef<string | undefined>("Share")
   const [submenuTop, setSubmenuTop] = React.useState(0)
   const [activeItem, setActiveItem] = React.useState<string>()
   const [triangle, setTriangle] = React.useState<AimPoint[] | null>(null)
@@ -105,6 +107,7 @@ function AimDiagram({ isAimOn }: { isAimOn: boolean }) {
 
   // The submenu lines its first row up with its trigger, as a real one does.
   React.useLayoutEffect(() => {
+    if (!openRow) return
     const row = rowElements.current.get(openRow)
     const stage = stageRef.current
     if (!row || !stage) return
@@ -117,9 +120,14 @@ function AimDiagram({ isAimOn }: { isAimOn: boolean }) {
     const row = findRow(label)
     if (!row) return
     setActiveRow(row.label)
-    if (!row.submenu) return
+    // A plain row closes the open submenu, as in a real menu.
+    const next = row.submenu ? row.label : undefined
+    if (next === openRowRef.current) return
+    openRowRef.current = next
     aimRef.current = initialSubmenuAim
-    setOpenRow(row.label)
+    setOpenRow(next)
+    setIsAiming(false)
+    setTriangle(null)
   }, [])
 
   function releaseAim() {
@@ -134,12 +142,11 @@ function AimDiagram({ isAimOn }: { isAimOn: boolean }) {
     const target = event.target
     if (!(target instanceof Element)) return
     const stage = stageRef.current
-    const submenu = submenuRef.current
-    if (!stage || !submenu) return
+    if (!stage) return
 
     if (target.closest("[data-submenu]")) {
       releaseAim()
-      setActiveRow(openRow)
+      setActiveRow(openRowRef.current)
       setActiveItem(
         target.closest<HTMLElement>("[data-item]")?.dataset.item ?? undefined
       )
@@ -147,6 +154,11 @@ function AimDiagram({ isAimOn }: { isAimOn: boolean }) {
     }
     setActiveItem(undefined)
     pointerRow.current = target.closest<HTMLElement>("[data-row]")?.dataset.row
+    const submenu = submenuRef.current
+    if (!submenu) {
+      applyRow(pointerRow.current)
+      return
+    }
 
     const point = { x: event.clientX, y: event.clientY }
     const submenuRect = toAimRect(submenu.getBoundingClientRect())
@@ -192,7 +204,7 @@ function AimDiagram({ isAimOn }: { isAimOn: boolean }) {
       onPointerLeave={handlePointerLeave}
       className="relative flex w-full max-w-[25rem] cursor-default justify-start pt-4 pb-12 select-none"
     >
-      <div className="relative w-44 shrink-0 rounded-xl bg-surface-3 p-1 shadow-surface-3">
+      <div className="relative w-40 shrink-0 rounded-xl bg-surface-3 p-1 shadow-surface-3 sm:w-44">
         {ROWS.map((row) => {
           const isLit = row.label === activeRow || row.label === openRow
           return (
@@ -219,26 +231,28 @@ function AimDiagram({ isAimOn }: { isAimOn: boolean }) {
           )
         })}
       </div>
-      <div
-        ref={submenuRef}
-        data-submenu=""
-        style={{ top: submenuTop }}
-        className="absolute left-48 w-36 rounded-xl bg-surface-3 p-1 shadow-surface-3 sm:left-52"
-      >
-        {open?.submenu?.map((item) => (
-          <div
-            key={item}
-            data-item={item}
-            className={cn(
-              ROW,
-              "pl-3",
-              item === activeItem && "bg-hover text-foreground"
-            )}
-          >
-            {item}
-          </div>
-        ))}
-      </div>
+      {open?.submenu ? (
+        <div
+          ref={submenuRef}
+          data-submenu=""
+          style={{ top: submenuTop }}
+          className="absolute left-44 w-32 rounded-xl bg-surface-3 p-1 shadow-surface-3 sm:left-52 sm:w-36"
+        >
+          {open.submenu.map((item) => (
+            <div
+              key={item}
+              data-item={item}
+              className={cn(
+                ROW,
+                "pl-3",
+                item === activeItem && "bg-hover text-foreground"
+              )}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      ) : null}
       {triangle ? (
         <svg className="pointer-events-none absolute inset-0 size-full overflow-visible">
           <polygon
@@ -257,7 +271,7 @@ function AimDiagram({ isAimOn }: { isAimOn: boolean }) {
       <p className="absolute right-0 bottom-0 left-0 text-center text-[12px] text-muted-foreground sm:text-start">
         {isAimOn
           ? isAiming
-            ? `Heading for ${openRow}: the rows below wait`
+            ? `Heading for ${openRow ?? "the submenu"}: the rows below wait`
             : "Move from Share straight to its submenu"
           : "Off: every row you cross takes over"}
       </p>

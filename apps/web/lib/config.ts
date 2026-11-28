@@ -21,6 +21,10 @@ export const siteConfig = {
       label: "Home",
     },
     {
+      href: "/features",
+      label: "Features",
+    },
+    {
       href: "/docs/installation",
       label: "Docs",
     },

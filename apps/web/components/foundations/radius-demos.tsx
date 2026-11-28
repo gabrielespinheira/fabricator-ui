@@ -27,7 +27,7 @@ const SHAPES: Record<RadiusShape, { label: string; note: string }> = {
 // A column's shape: the shape's inputs and the role formulas again, so the
 // roles resolve here rather than at the page's root, whatever shape the site
 // is set to.
-function getShapeStyle(shape: RadiusShape) {
+export function getShapeStyle(shape: RadiusShape) {
   return Object.fromEntries(
     Object.entries({
       "radius-squircle-scale": "1",

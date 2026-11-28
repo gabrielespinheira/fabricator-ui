@@ -24,9 +24,11 @@ import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import { Pressable, View } from "react-native"
 import Animated from "react-native-reanimated"
+import { useCSSVariable } from "uniwind"
 
 import { MenuSheet } from "@/registry/native/lib/menu-sheet"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
+import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { useShellShortcut } from "@/registry/native/ui/app-shell"
 import {
   CommandDialog,
@@ -210,6 +212,7 @@ function WorkspaceSwitcher({
   const [open, setOpen] = React.useState(false)
   const { isMobile } = useSidebar()
   const collapse = useSidebarCollapse()
+  const chevronSize = parseNumber(useCSSVariable("--density-icon-14"), 14)
   const active = workspaces.find((workspace) => workspace.id === activeId)
   const switching = workspaces.find((workspace) => workspace.id === switchingTo)
 
@@ -250,7 +253,7 @@ function WorkspaceSwitcher({
           </View>
           <TextStyle className="cn-workspace-switcher-chevron-text">
             <View className="cn-workspace-switcher-chevron ml-auto items-center justify-center">
-              <ChevronsUpDownIcon strokeWidth={1.75} />
+              <ChevronsUpDownIcon size={chevronSize} strokeWidth={1.75} />
             </View>
           </TextStyle>
         </>

@@ -2208,6 +2208,7 @@ function SidebarMenuButton({
     30
   )
   const rowSlop = getTouchSlop(height)
+  const iconSize = parseNumber(useCSSVariable("--density-icon-18"), 18)
   const text = getTextContent(children)
   const content = (
     <TextStyle
@@ -2215,7 +2216,8 @@ function SidebarMenuButton({
       className={sidebarMenuButtonTextVariants({ size: resolvedSize, state })}
     >
       <IconProvider
-        strokeWidth={1.75}
+        size={iconSize}
+        strokeWidth={2}
         {...(typeof iconColor === "string" ? { color: iconColor } : {})}
       >
         {icon ? (
@@ -2607,13 +2609,14 @@ function SidebarMenuSubButton({
   const depth = React.use(SidebarMenuDepthContext)
   const collapse = useSidebarCollapse()
   const feedback = useFeedback()
-  const [space8, space16, icon14] = useCSSVariable([
+  const [space8, space16, icon18] = useCSSVariable([
     "--density-8",
     "--density-16",
-    "--density-icon-14",
+    "--density-icon-18",
   ])
   const start = parseNumber(space8, 8)
   const step = parseNumber(space16, 16)
+  const iconSize = parseNumber(icon18, 18)
   const rowSize = size === "sm" ? "sm" : "default"
   const rowSlop = getTouchSlop(
     parseNumber(
@@ -2643,7 +2646,7 @@ function SidebarMenuSubButton({
         state: isActive || isLit ? "active" : "default",
       })}
     >
-      <IconProvider size={parseNumber(icon14, 14)} strokeWidth={1.75}>
+      <IconProvider size={iconSize} strokeWidth={2}>
         {icon ? renderRowIcon(icon) : null}
       </IconProvider>
       {wrapTextChildren(children, (label, key) => (
@@ -2680,7 +2683,9 @@ function SidebarMenuSubButton({
     style: [
       {
         // A row without an icon starts its label under its parent's.
-        paddingLeft: icon ? start + step * depth : step * (depth + 1),
+        paddingLeft: icon
+          ? start + step * depth
+          : start + iconSize + start + step * (depth - 1),
         paddingRight: row?.trailing.gutter ?? start,
       },
       style,

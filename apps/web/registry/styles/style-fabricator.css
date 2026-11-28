@@ -169,19 +169,19 @@
      hovered, lit or focused (on touch, always). On the rail, where a badge has
      no room, a dot on the icon stands for it; the tooltip has its value. */
   .cn-app-nav-item {
-    @apply group-data-[collapsible=icon]:data-badge:after:pointer-events-none group-data-[collapsible=icon]:data-badge:after:absolute group-data-[collapsible=icon]:data-badge:after:end-[calc(50%-var(--density-icon-16)/2-1px)] group-data-[collapsible=icon]:data-badge:after:top-[calc(50%-var(--density-icon-16)/2-1px)] group-data-[collapsible=icon]:data-badge:after:size-1.5 group-data-[collapsible=icon]:data-badge:after:rounded-full group-data-[collapsible=icon]:data-badge:after:bg-primary data-dragging:z-10 data-dragging:rounded-(--radius-control) data-dragging:bg-surface-5 data-dragging:shadow-surface-5 data-dragging:[&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])]:text-foreground data-dragging:[&>:is([data-slot=sidebar-menu-actions],[data-slot=app-nav-toggle])]:hidden data-dnd-placeholder:visible! data-dnd-placeholder:bg-hover! data-dnd-placeholder:shadow-none! [&[data-dnd-placeholder]>*]:invisible [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:transition-opacity [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:duration-feedback [&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button]):is(:hover,[data-fluid-hover-active],:focus-visible)>:first-child]:opacity-0 [&:has(>[data-slot=app-nav-toggle]:is(:hover,:focus-visible))>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0 pointer-coarse:[&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0;
+    @apply group-data-[collapsible=icon]:data-badge:after:pointer-events-none group-data-[collapsible=icon]:data-badge:after:absolute group-data-[collapsible=icon]:data-badge:after:end-[calc(50%-var(--density-icon-18)/2-1px)] group-data-[collapsible=icon]:data-badge:after:top-[calc(50%-var(--density-icon-18)/2-1px)] group-data-[collapsible=icon]:data-badge:after:size-1.5 group-data-[collapsible=icon]:data-badge:after:rounded-full group-data-[collapsible=icon]:data-badge:after:bg-primary data-dragging:z-10 data-dragging:rounded-(--radius-control) data-dragging:bg-surface-5 data-dragging:shadow-surface-5 data-dragging:[&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])]:text-foreground data-dragging:[&>:is([data-slot=sidebar-menu-actions],[data-slot=app-nav-toggle])]:hidden data-dnd-placeholder:visible! data-dnd-placeholder:bg-hover! data-dnd-placeholder:shadow-none! [&[data-dnd-placeholder]>*]:invisible [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:transition-opacity [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:duration-feedback [&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button]):is(:hover,[data-fluid-hover-active],:focus-visible)>:first-child]:opacity-0 [&:has(>[data-slot=app-nav-toggle]:is(:hover,:focus-visible))>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0 pointer-coarse:[&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0;
   }
 
-  /* The chevron in the icon column: 14px (a 24px target on touch), turned down while open, shown
+  /* The chevron in the 18px icon column: 14px (a 24px target on touch), turned down while open, shown
      with the row's hover, light or focus (always without an icon or on
      touch). */
   .cn-app-nav-toggle {
-    @apply z-10 cursor-pointer rounded-(--radius-mark) text-muted-foreground ring-ring outline-none top-[calc((var(--density-30)-var(--density-icon-16))/2)] start-[calc(var(--density-8)+(var(--density-icon-16)+var(--density-8))*var(--sidebar-menu-depth,0))] size-(--density-icon-16) opacity-0 transition-opacity duration-feedback hover:text-foreground hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 peer-hover/menu-button:opacity-100 peer-data-fluid-hover-active/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 data-bare:opacity-100 pointer-coarse:opacity-100 [--app-nav-toggle-target:max(var(--density-24),1.5rem)] pointer-coarse:size-(--app-nav-toggle-target) pointer-coarse:m-[calc((var(--density-icon-16)-var(--app-nav-toggle-target))/2)] after:absolute after:-inset-1 [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.75] [&_svg]:transition-transform [&_svg]:duration-feedback [&_svg]:ease-feedback aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none group-data-[collapsible=icon]:hidden;
+    @apply z-10 cursor-pointer rounded-(--radius-mark) text-muted-foreground ring-ring outline-none top-[calc((var(--density-30)-var(--density-icon-18))/2)] start-[calc(var(--density-8)+(var(--density-icon-18)+var(--density-8))*var(--sidebar-menu-depth,0))] size-(--density-icon-18) opacity-0 transition-opacity duration-feedback hover:text-foreground hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 peer-hover/menu-button:opacity-100 peer-data-fluid-hover-active/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 data-bare:opacity-100 pointer-coarse:opacity-100 [--app-nav-toggle-target:max(var(--density-24),1.5rem)] pointer-coarse:size-(--app-nav-toggle-target) pointer-coarse:m-[calc((var(--density-icon-18)-var(--app-nav-toggle-target))/2)] after:absolute after:-inset-1 [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.75] [&_svg]:transition-transform [&_svg]:duration-feedback [&_svg]:ease-feedback aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none group-data-[collapsible=icon]:hidden;
   }
 
   /* The icon column of a row without an icon. */
   .cn-app-nav-icon-space {
-    @apply size-(--density-icon-16);
+    @apply size-(--density-icon-18);
   }
 
   /* The rail's menu marks the page it holds. */
@@ -315,9 +315,9 @@
 
   /* The desktop sidebar toggle: in the window's top band, after the
      traffic lights on macOS and centred on them (in the titlebar row when
-     there is one). The glyph is a little larger alongside native controls. */
+     there is one). */
   .cn-app-shell-window-toggle {
-    @apply start-[max(var(--density-16),var(--app-shell-window-inset-start))] h-(--app-shell-titlebar-height) in-data-titlebar:-translate-y-full [&_[data-slot=sidebar-toggle-icon]]:size-[calc(var(--density-icon-16)*1.25)];
+    @apply start-[max(var(--density-16),var(--app-shell-window-inset-start))] h-(--app-shell-titlebar-height) in-data-titlebar:-translate-y-full;
   }
 
   /* The main column: the page's surface everywhere, phones included; with
@@ -332,8 +332,10 @@
 
   /* The header: 48px, a hairline once the content scrolls. A tab strip starting
      it runs the full width, on its own inset. */
+  /* Its buttons draw their icons at stroke 2: at the small buttons' 16px,
+     1.75 thins to about a pixel. */
   .cn-app-shell-header {
-    @apply h-(--density-48) gap-(--density-8) border-b border-transparent pt-px ps-(--density-12) pe-(--app-shell-control-inset) has-[>[data-slot=sidebar-trigger]:first-child]:ps-(--app-shell-control-inset) has-[>[data-slot=tab-strip]:first-child]:ps-0 transition-[border-color] duration-feedback ease-feedback data-scrolled:border-border;
+    @apply [&_button_svg]:stroke-2 h-(--density-48) gap-(--density-8) border-b border-transparent pt-px ps-(--density-12) pe-(--app-shell-control-inset) has-[>[data-slot=sidebar-trigger]:first-child]:ps-(--app-shell-control-inset) has-[>[data-slot=tab-strip]:first-child]:ps-0 transition-[border-color] duration-feedback ease-feedback data-scrolled:border-border;
   }
 
   .cn-app-shell-header-trigger {
@@ -351,8 +353,9 @@
     @apply transition-[opacity,translate] duration-move ease-move in-data-title:pointer-events-none in-data-title:-translate-y-1 in-data-title:opacity-0 motion-reduce:translate-y-0;
   }
 
+  /* The page you're on reads a weight above its muted ancestors. */
   .cn-app-shell-breadcrumb-list {
-    @apply gap-(--density-6) text-(length:--density-text-13) leading-(--density-20);
+    @apply gap-(--density-6) text-(length:--density-text-13) leading-(--density-20) [&_[data-slot=breadcrumb-page]]:weight-medium;
   }
 
   .cn-app-shell-breadcrumb-text {
@@ -364,7 +367,7 @@
   }
 
   .cn-app-shell-breadcrumb-current {
-    @apply flex min-h-(--density-24) min-w-0 cursor-pointer items-center gap-(--density-4) rounded-(--radius-inner) ring-ring focus-visible:ring-1 pointer-coarse:min-h-(--density-48) [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+    @apply weight-medium flex min-h-(--density-24) min-w-0 cursor-pointer items-center gap-(--density-4) rounded-(--radius-inner) ring-ring focus-visible:ring-1 pointer-coarse:min-h-(--density-48) [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
   }
 
   .cn-app-shell-breadcrumb-title {
@@ -1231,7 +1234,7 @@
      size prop always means the same height. An icon sits a step closer to
      its edge than text does. xs is the fixed 24px floor. */
   .cn-button-size-xs {
-    @apply h-6 gap-1 px-2 text-[12px] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3;
+    @apply h-6 gap-1 px-2 text-[12px] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-button-size-sm {
@@ -1247,7 +1250,7 @@
   }
 
   .cn-button-size-icon-xs {
-    @apply size-6 [&_svg:not([class*='size-'])]:size-3;
+    @apply size-6 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-button-size-icon-sm {
@@ -5980,7 +5983,7 @@
   }
 
   .cn-multi-select-chip-remove {
-    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring size-(--density-20) rounded-(--radius-mark) transition-colors duration-feedback ease-feedback [&_svg:not([class*='size-'])]:size-3 [&_svg]:stroke-2;
+    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring size-(--density-20) rounded-(--radius-mark) transition-colors duration-feedback ease-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-2;
   }
 
   .cn-multi-select-input {
@@ -6046,7 +6049,7 @@
 
   /* Muted chevron that wakes to foreground on hover; no rotation. */
   .cn-native-select-icon {
-    @apply text-muted-foreground group-hover/native-select:text-foreground top-1/2 right-2.5 size-4 -translate-y-1/2 stroke-[1.75] transition-colors duration-feedback group-data-[size=sm]/native-select:right-2 group-data-[size=sm]/native-select:size-3.5;
+    @apply text-muted-foreground group-hover/native-select:text-foreground top-1/2 right-2.5 size-4 -translate-y-1/2 stroke-[1.75] transition-colors duration-feedback group-data-[size=sm]/native-select:right-2;
   }
 
 /* MARK: Navigation Menu */
@@ -7521,7 +7524,7 @@
 
   /* The sidebar toggle icon follows the button density. */
   .cn-sidebar-toggle-icon {
-    @apply size-[calc(var(--density-icon-16)*1.125)];
+    @apply size-[calc(var(--density-icon-16)*1.25)];
   }
 
   .cn-sidebar-shortcut {
@@ -7631,10 +7634,10 @@
   }
 
   /* Rows: 30px, px-2, gap-2, the control corner, 13px: the label at foreground/80
-     and the icon muted at rest. Hover and the lit row turn both foreground
-     (and thicken the icon); the active row is foreground on a raised
-     bg-active. Inside a
-     fluid menu the row paints no hover or active background: the gliding
+     and an 18px leading icon, stroke 2, muted at rest; other icons, such as
+     a trailing chevron, stay 16px at 1.75. Hover and the lit row turn
+     both foreground; the active row is foreground on a raised bg-active.
+     Inside a fluid menu the row paints no hover or active background: the gliding
      highlight and the sliding selection do. Pressed is a bg-active step.
      The end padding clears the row's badge and actions exactly
      (--sidebar-menu-gutter, published by the row); a row that publishes
@@ -7642,7 +7645,7 @@
      to its cap height so it centres on the icon (Inter's line box sits it
      1px high); the padding keeps descenders clear of truncate's clip. */
   .cn-sidebar-menu-button {
-    @apply cursor-pointer text-foreground/80 ring-ring gap-(--density-8) rounded-(--radius-control) px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-start text-(length:--density-text-13) weight-normal transition-[width,height,padding,color,background-color,box-shadow] duration-feedback hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,var(--density-32))] hover:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] data-fluid-hover-active:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] focus-visible:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-data-[collapsible=icon]:size-(--density-32)! group-data-[collapsible=icon]:p-[calc((var(--density-32)-var(--density-icon-16))/2)]! focus-visible:ring-1 [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75] [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:transition-colors hover:bg-hover hover:text-foreground hover:[&_svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg:not([class*='text-'])]:text-foreground data-active:bg-active data-active:text-foreground data-active:shadow-surface-2 data-active:[&_svg:not([class*='text-'])]:text-foreground data-open:text-foreground data-open:[&_svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent in-data-[fluid-hover]:data-active:shadow-none [&>span:last-child]:text-box-trim [&>span:last-child]:py-(--density-4);
+    @apply cursor-pointer text-foreground/80 ring-ring gap-(--density-8) rounded-(--radius-control) px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-start text-(length:--density-text-13) weight-normal transition-[width,height,padding,color,background-color,box-shadow] duration-feedback hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,var(--density-32))] hover:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] data-fluid-hover-active:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] focus-visible:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-data-[collapsible=icon]:size-(--density-32)! group-data-[collapsible=icon]:p-[calc((var(--density-32)-var(--density-icon-18))/2)]! focus-visible:ring-1 [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.75] [&>svg:first-child:not([class*='size-'])]:size-(--density-icon-18) [&>svg:first-child]:stroke-2 [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:transition-colors hover:bg-hover hover:text-foreground hover:[&_svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg:not([class*='text-'])]:text-foreground data-active:bg-active data-active:text-foreground data-active:shadow-surface-2 data-active:[&_svg:not([class*='text-'])]:text-foreground data-open:text-foreground data-open:[&_svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent in-data-[fluid-hover]:data-active:shadow-none [&>span:last-child]:text-box-trim [&>span:last-child]:py-(--density-4);
   }
 
   .cn-sidebar-menu-button-aria {
@@ -7697,7 +7700,7 @@
   }
 
   .cn-sidebar-menu-skeleton-icon {
-    @apply size-(--density-icon-16) rounded-(--radius-inner);
+    @apply size-(--density-icon-18) rounded-(--radius-inner);
   }
 
   .cn-sidebar-menu-skeleton-text {
@@ -7710,16 +7713,16 @@
      so a row's icon starts under its parent's label. A hairline under the
      parent's icon shows while the list is hovered or holds focus. */
   .cn-sidebar-menu-sub {
-    @apply relative ms-0 me-0 gap-0.5 border-0 ps-0 pe-0 pt-0.5 pb-0 group-data-[collapsible=icon]:hidden before:pointer-events-none before:absolute before:inset-y-1 before:start-[calc(var(--density-8)+var(--density-icon-16)/2+(var(--density-icon-16)+var(--density-8))*(var(--sidebar-menu-depth,1)-1))] before:w-px before:bg-border before:opacity-0 before:transition-opacity before:duration-feedback hover:before:opacity-100 has-focus-visible:before:opacity-100 has-[>[data-dragging]]:before:opacity-100;
+    @apply relative ms-0 me-0 gap-0.5 border-0 ps-0 pe-0 pt-0.5 pb-0 group-data-[collapsible=icon]:hidden before:pointer-events-none before:absolute before:inset-y-1 before:start-[calc(var(--density-8)+var(--density-icon-18)/2+(var(--density-icon-18)+var(--density-8))*(var(--sidebar-menu-depth,1)-1))] before:w-px before:bg-border before:opacity-0 before:transition-opacity before:duration-feedback hover:before:opacity-100 has-focus-visible:before:opacity-100 has-[>[data-dragging]]:before:opacity-100;
   }
 
   /* Nested rows: 30px (24px small), 2px apart, on the top-level rows' grid: the
-     same 16px icons, and whatever comes first (the icon, or the label without
+     same 18px icons, and whatever comes first (the icon, or the label without
      one) starts under the parent's label. Muted at rest, foreground when
      hovered or lit; the current one sits on a quiet wash (half the hover fill)
      instead of the raised selection, which marks its top-level row. */
   .cn-sidebar-menu-sub-button {
-    @apply cursor-pointer text-muted-foreground ring-ring h-(--density-30) gap-(--density-8) rounded-(--radius-control) ps-[calc(var(--density-8)+(var(--density-icon-16)+var(--density-8))*var(--sidebar-menu-depth,1))] pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.75] [&>svg:not([class*='text-'])]:text-muted-foreground [&>svg]:transition-colors hover:bg-hover hover:text-foreground hover:[&>svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg:not([class*='text-'])]:text-foreground data-active:bg-hover/50 data-active:text-foreground data-active:[&>svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:not-data-active:hover:bg-transparent [&>span:last-child]:text-box-trim [&>span:last-child]:py-(--density-4);
+    @apply cursor-pointer text-muted-foreground ring-ring h-(--density-30) gap-(--density-8) rounded-(--radius-control) ps-[calc(var(--density-8)+(var(--density-icon-18)+var(--density-8))*var(--sidebar-menu-depth,1))] pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.75] [&>svg:first-child]:size-(--density-icon-18) [&>svg:first-child]:stroke-2 [&>svg:not([class*='text-'])]:text-muted-foreground [&>svg]:transition-colors hover:bg-hover hover:text-foreground hover:[&>svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg:not([class*='text-'])]:text-foreground data-active:bg-hover/50 data-active:text-foreground data-active:[&>svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:not-data-active:hover:bg-transparent [&>span:last-child]:text-box-trim [&>span:last-child]:py-(--density-4);
   }
 
 /* MARK: Skeleton */
@@ -8542,7 +8545,7 @@
   /* Out of the way at rest: a toast is only its message. It sits on the corner
      and shows on hover and focus, or always where there is no hover. */
   .cn-toast-close {
-    @apply bg-surface-5 text-muted-foreground shadow-surface-3 hover:bg-surface-5 hover:text-foreground size-(--density-20) -top-1.5 -left-1.5 scale-75 rounded-full opacity-0 transition-[opacity,scale,color] duration-feedback ease-enter group-hover/toast:scale-100 group-hover/toast:opacity-100 group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100 focus-visible:scale-100 focus-visible:opacity-100 pointer-coarse:scale-100 pointer-coarse:opacity-100 group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0 [&_svg]:size-3!;
+    @apply bg-surface-5 text-muted-foreground shadow-surface-3 hover:bg-surface-5 hover:text-foreground size-(--density-24) -top-2 -left-2 scale-75 rounded-full opacity-0 transition-[opacity,scale,color] duration-feedback ease-enter group-hover/toast:scale-100 group-hover/toast:opacity-100 group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100 focus-visible:scale-100 focus-visible:opacity-100 pointer-coarse:scale-100 pointer-coarse:opacity-100 group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0 [&_svg]:size-(--density-icon-16)!;
   }
 
   /* Sonner: the same toast on Sonner's element. Everything is important because
@@ -8596,7 +8599,7 @@
 
   /* See Toast's close button. */
   .cn-sonner-close {
-    @apply bg-surface-5! text-muted-foreground! shadow-surface-3! hover:text-foreground! -top-1.5! right-auto! -left-1.5! size-(--density-20)! transform-none! scale-75 rounded-full border-0! opacity-0! transition-[opacity,scale,color]! duration-feedback! ease-enter! after:absolute after:-inset-2 after:content-[''] focus-visible:ring-1! focus-visible:ring-ring! group-hover/toast:scale-100 group-hover/toast:opacity-100! group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100! focus-visible:scale-100 focus-visible:opacity-100! pointer-coarse:scale-100 pointer-coarse:opacity-100! group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0! [&_svg]:size-3! motion-press;
+    @apply bg-surface-5! text-muted-foreground! shadow-surface-3! hover:text-foreground! -top-2! right-auto! -left-2! size-(--density-24)! transform-none! scale-75 rounded-full border-0! opacity-0! transition-[opacity,scale,color]! duration-feedback! ease-enter! after:absolute after:-inset-2 after:content-[''] focus-visible:ring-1! focus-visible:ring-ring! group-hover/toast:scale-100 group-hover/toast:opacity-100! group-focus-visible/toast:scale-100 group-focus-visible/toast:opacity-100! focus-visible:scale-100 focus-visible:opacity-100! pointer-coarse:scale-100 pointer-coarse:opacity-100! group-data-behind-front/toast:pointer-events-none group-data-behind-front/toast:opacity-0! [&_svg]:size-(--density-icon-16)! motion-press;
   }
 
 /* MARK: Toggle Group */
@@ -8760,7 +8763,7 @@
 
   /* On the axis of the rows' actions and badges. */
   .cn-user-menu-chevron {
-    @apply me-[calc((var(--density-20)-var(--density-icon-16))/2)] size-(--density-icon-16) text-muted-foreground;
+    @apply me-[calc((var(--density-20)-var(--density-icon-14))/2)] size-(--density-icon-14) text-muted-foreground;
   }
 
   .cn-user-menu-content {
@@ -9021,7 +9024,7 @@
 
   /* On the axis of the rows' actions and badges. */
   .cn-workspace-switcher-chevron {
-    @apply me-[calc((var(--density-20)-var(--density-icon-16))/2)] size-(--density-icon-16) text-muted-foreground;
+    @apply me-[calc((var(--density-20)-var(--density-icon-14))/2)] size-(--density-icon-14) text-muted-foreground;
   }
 
   .cn-workspace-switcher-check {

@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/config"
 import { source } from "@/lib/source"
 import { BLOCKS } from "@/app/(app)/blocks/_lib/block-list"
 
-const staticRoutes = ["/", "/app-shell", "/blocks", "/icons"]
+const staticRoutes = ["/", "/features", "/app-shell", "/blocks", "/icons"]
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const urls = [

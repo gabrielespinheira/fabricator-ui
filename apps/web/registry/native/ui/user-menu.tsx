@@ -11,6 +11,7 @@ import {
 } from "@fabricator-ui/icons-react-native"
 import { cn } from "cn"
 import { Pressable, View } from "react-native"
+import { useCSSVariable } from "uniwind"
 
 import {
   getThemePreference,
@@ -20,6 +21,7 @@ import {
   type ThemeToggleVariant,
 } from "@/registry/fabricator/shared/lib/theme-toggle-model"
 import { MenuSheet } from "@/registry/native/lib/menu-sheet"
+import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import {
   Avatar,
   AvatarFallback,
@@ -111,6 +113,7 @@ function UserMenu({
   const [open, setOpen] = React.useState(false)
   const isMark = variant === "mark"
   const isCompact = isMark || collapse === "icon"
+  const chevronSize = parseNumber(useCSSVariable("--density-icon-14"), 14)
 
   const triggerContent = (
     <>
@@ -120,7 +123,7 @@ function UserMenu({
           <UserDetails user={user} />
           <TextStyle className="cn-user-menu-chevron-text">
             <View className="cn-user-menu-chevron ml-auto items-center justify-center">
-              <ChevronsUpDownIcon strokeWidth={1.75} />
+              <ChevronsUpDownIcon size={chevronSize} strokeWidth={1.75} />
             </View>
           </TextStyle>
         </>

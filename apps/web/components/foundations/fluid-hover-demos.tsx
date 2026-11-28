@@ -16,7 +16,7 @@ const FOLDERS = ["Inbox", "Drafts", "Sent", "Archive", "Trash"]
 const ITEM =
   "flex h-9 w-full items-center rounded-lg px-3 text-start text-[13px] text-muted-foreground outline-none select-none transition-colors duration-feedback"
 
-function PlainList() {
+export function PlainList() {
   return (
     <div className="flex flex-col gap-1 rounded-xl bg-surface-3 p-1 shadow-surface-3">
       {FOLDERS.map((folder) => (
@@ -35,7 +35,7 @@ function PlainList() {
   )
 }
 
-function FluidList({
+export function FluidList({
   items = FOLDERS,
   disabled = [],
   className,

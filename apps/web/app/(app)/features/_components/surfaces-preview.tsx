@@ -25,7 +25,7 @@ const LEVEL_CLASSES: Record<number, string> = {
 }
 
 // How far apart the levels float in the layered view.
-const LIFT = 46
+const LIFT = 40
 
 // Every layer sits in one 3D scene: flat, it is an ordinary screen; layered,
 // the scene tilts and each level rises by its height on the ladder.
@@ -44,7 +44,9 @@ function Layer({
 }) {
   return (
     <div
-      style={{ transform: `translateZ(${isLayered ? level * LIFT : 0}px)` }}
+      style={{
+        transform: `translateZ(${isLayered ? (level - 1) * LIFT : 0}px)`,
+      }}
       className={cn(
         "absolute transition-transform duration-(--motion-move) ease-move [transform-style:preserve-3d] motion-reduce:transition-none",
         LEVEL_CLASSES[level],
@@ -54,7 +56,9 @@ function Layer({
       {children}
       <span
         className={cn(
-          "absolute -top-2.5 -right-2 rounded-full bg-foreground px-2 py-0.5 text-[12px] font-medium whitespace-nowrap text-background tabular-nums transition-opacity duration-(--motion-move) motion-reduce:transition-none",
+          "absolute -right-2 rounded-full bg-foreground px-2 py-0.5 text-[12px] font-medium whitespace-nowrap text-background tabular-nums transition-opacity duration-(--motion-move) motion-reduce:transition-none",
+          // The page's corner is under the card, so its label goes below.
+          level === 1 ? "-bottom-2.5" : "-top-2.5",
           isLayered ? "opacity-100" : "opacity-0"
         )}
       >
@@ -94,7 +98,8 @@ export function SurfacesPreview() {
         aria-label="A page, sidebar, card, active tab and dialog, each on its own surface level"
         className={cn(
           "relative aspect-[7/5] w-full max-w-[26rem] transition-transform duration-(--motion-move) ease-move [transform-style:preserve-3d] motion-reduce:transition-none",
-          isLayered && "[transform:rotateX(38deg)_rotateZ(-22deg)_scale(0.84)]"
+          isLayered &&
+            "[transform:translateY(13%)_rotateX(40deg)_rotateZ(-22deg)_scale(0.82)]"
         )}
       >
         <Layer

@@ -1112,7 +1112,7 @@ html[data-radius="pill"]:root {
   --density-text-24: 20px;
   --density-text-32: 28px;
   --density-icon-14: 0.75rem;
-  --density-icon-16: 0.875rem;
+  --density-icon-16: 1rem;
   --density-icon-18: 1rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1223,7 +1223,7 @@ html[data-radius="pill"]:root {
   --density-text-24: 20px;
   --density-text-32: 28px;
   --density-icon-14: 0.75rem;
-  --density-icon-16: 0.875rem;
+  --density-icon-16: 1rem;
   --density-icon-18: 1rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
