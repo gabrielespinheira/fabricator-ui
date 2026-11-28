@@ -316,7 +316,7 @@ export function writeProjectDocs(
         needsLaravelSetup
           ? "- See [README.md](README.md#fabricator-ui) for Fabricator UI setup and component commands."
           : setup.distribution === "package"
-            ? "- Import supported components from `@fabricator-ui/react/<component>`. See [README.md](README.md#fabricator-ui) for styling and upgrades."
+            ? getPackageImportLine(setup)
             : "- Reuse local Fabricator UI components. See [README.md](README.md#fabricator-ui) for component paths and CLI commands.",
       ].join("\n")
     )
@@ -324,4 +324,17 @@ export function writeProjectDocs(
   if (!setup.assistants.includes("claude")) return
   const claude = path.join(root, "CLAUDE.md")
   writeFileSync(claude, mergeClaudeImport(readIfPresent(claude)))
+}
+
+/** Where a package project's agents import components from, per app. */
+function getPackageImportLine(setup: ProjectSetup) {
+  const see =
+    "See [README.md](README.md#fabricator-ui) for styling and upgrades."
+  const hasExpo = setup.mobile && !hasTauriMobile(setup)
+  if (hasWebApp(setup) && hasExpo)
+    return `- Import supported components from \`@fabricator-ui/react/<component>\` in \`apps/web\` and \`@fabricator-ui/react-native/<component>\` in \`apps/mobile\`. ${see}`
+  const packageName = hasExpo
+    ? "@fabricator-ui/react-native"
+    : "@fabricator-ui/react"
+  return `- Import supported components from \`${packageName}/<component>\`. ${see}`
 }

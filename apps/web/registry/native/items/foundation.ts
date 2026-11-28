@@ -17,7 +17,7 @@ export const foundationItems: Registry["items"] = [
     description:
       "What every native component needs: Uniwind, Reanimated, gestures, safe areas, Inter and icons.",
     dependencies: [
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
       "tailwindcss@4",
       "class-variance-authority",
       "cn",
@@ -46,7 +46,7 @@ export const foundationItems: Registry["items"] = [
     type: "registry:lib",
     title: "Motion",
     description: "Motion by role, read from the theme's tokens.",
-    dependencies: ["cn", "react-native-reanimated", "uniwind@1.13.1"],
+    dependencies: ["cn", "react-native-reanimated", "uniwind@1.14.0"],
     files: [
       { path: "lib/motion.ts", type: "registry:lib" },
       { path: "lib/motion-tokens.ts", type: "registry:lib" },
@@ -63,7 +63,7 @@ export const foundationItems: Registry["items"] = [
     title: "Look",
     description:
       "applyLook: changes surface, colour roles, radius, density and motion at runtime.",
-    dependencies: ["uniwind@1.13.1"],
+    dependencies: ["uniwind@1.14.0"],
     files: [
       ...SHARED_TOKEN_FILES.map((path) => ({
         path,
@@ -83,7 +83,7 @@ export const foundationItems: Registry["items"] = [
       "@rn-primitives/portal",
       "react-native-gesture-handler",
       "react-native-safe-area-context",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/density", "@fabricator/feedback"],
     files: [{ path: "ui/fabricator-root.tsx", type: "registry:ui" }],
@@ -100,7 +100,7 @@ export const foundationItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/motion"],
     files: [
@@ -117,7 +117,7 @@ export const foundationItems: Registry["items"] = [
     title: "Density",
     description:
       "DensityProvider sets compact, default or spacious for everything inside it, including the overlays it opens.",
-    dependencies: ["uniwind@1.13.1"],
+    dependencies: ["uniwind@1.14.0"],
     files: [
       { path: "ui/density.tsx", type: "registry:ui" },
       { path: "lib/density-scale.ts", type: "registry:lib" },

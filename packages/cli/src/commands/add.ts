@@ -1,3 +1,4 @@
+import { devNull } from "node:os"
 import {
   REACT_NATIVE_PACKAGE,
   REACT_NATIVE_PACKAGE_COMPONENTS,
@@ -165,7 +166,7 @@ async function finishWorkspaceAdd(cwd: string, silent?: boolean) {
   if (!silent) logger.info("Updating the workspace's dependencies.")
   await runLogged(packageManager, buildInstallArgs(packageManager), {
     cwd: root,
-    logFile: "/dev/null",
+    logFile: devNull,
   })
 }
 

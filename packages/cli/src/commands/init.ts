@@ -1,4 +1,5 @@
 import { existsSync, readdirSync, statSync } from "node:fs"
+import { devNull } from "node:os"
 import path from "node:path"
 import { DEFAULT_PROJECT_SETUP } from "@fabricator-ui/setup"
 import { Command } from "commander"
@@ -9,6 +10,7 @@ import {
   setupFromInitFlags,
   type SetupFlags,
 } from "../setup/flags"
+import { findPackageTarget } from "../setup/package-install"
 import { writeProjectDocs } from "../setup/project-docs"
 import { runSetup } from "../setup/run-setup"
 import {
@@ -276,8 +278,13 @@ export async function init(
   if (rawOptions.distribution === "package") {
     if (rawOptions.template)
       throw new Error("Use create --distribution package to create a project.")
-    if (rawOptions.platform && rawOptions.platform !== "web")
-      throw new Error("Package setup is available for React web projects.")
+    if (rawOptions.platform) {
+      const platform = findPackageTarget(cwd) === "expo" ? "native" : "web"
+      if (rawOptions.platform !== platform)
+        throw new Error(
+          `This is a ${platform === "native" ? "React Native" : "React web"} project. Use --platform ${platform}, or leave it out.`
+        )
+    }
     if (components.length)
       throw new Error(
         "Package setup installs the preview catalog. Import components by name after setup."
@@ -424,7 +431,7 @@ export async function init(
       const packageManager = detectPackageManager(root)
       await runLogged(packageManager, buildInstallArgs(packageManager), {
         cwd: root,
-        logFile: "/dev/null",
+        logFile: devNull,
         stream: !options.silent,
       })
     }

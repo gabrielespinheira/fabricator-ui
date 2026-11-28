@@ -252,7 +252,7 @@ export const overlayItems: Registry["items"] = [
       "@rn-primitives/hooks",
       "cn",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/button",

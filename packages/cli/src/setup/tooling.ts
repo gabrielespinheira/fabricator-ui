@@ -6,8 +6,8 @@ import path from "node:path"
 import type { Runner, Tooling } from "@fabricator-ui/setup"
 
 export const TOOLING_VERSIONS = {
-  biome: "2.6.8",
-  vitePlus: "1.6.0",
+  biome: "2.6.9",
+  vitePlus: "1.8.0",
   prettier: "3.10.1",
   eslint: "10.15.0",
   /** eslint-config-expo's React plugin doesn't load in ESLint 10 yet. */
@@ -17,7 +17,7 @@ export const TOOLING_VERSIONS = {
   eslintPluginReactHooks: "7.1.1",
   eslintPluginReactRefresh: "0.5.8",
   globals: "17.14.0",
-  typescriptEslint: "8.72.2",
+  typescriptEslint: "8.74.0",
 } as const
 
 export type PackageJson = Record<string, unknown> & {

@@ -3,7 +3,7 @@ import { type Registry } from "shadcn/schema"
 
 import { docs } from "./shared"
 
-const UNIWIND = "uniwind@1.13.1"
+const UNIWIND = "uniwind@1.14.0"
 
 // Pickers, feedback, data and scrolling.
 export const dataItems: Registry["items"] = [
@@ -178,10 +178,10 @@ export const dataItems: Registry["items"] = [
       "cn",
       "expo",
       "expo-linear-gradient",
-      "expo-video@58.0.13",
+      "expo-video@58.0.14",
       "react-native-gesture-handler",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/density",
@@ -208,7 +208,7 @@ export const dataItems: Registry["items"] = [
     dependencies: [
       "@fabricator-ui/icons-react-native",
       "cn",
-      "expo-audio@58.0.11",
+      "expo-audio@58.0.12",
       "react-native-gesture-handler",
       "react-native-reanimated",
       UNIWIND,
@@ -241,7 +241,7 @@ export const dataItems: Registry["items"] = [
       "react-native-gesture-handler",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/feedback",
@@ -379,7 +379,7 @@ export const dataItems: Registry["items"] = [
     dependencies: [
       "cn",
       "@fabricator-ui/icons-react-native",
-      "@legendapp/list@3.7.3",
+      "@legendapp/list@3.9.2",
       "react-native-gesture-handler",
       "react-native-reanimated",
       "uniwind",
@@ -419,8 +419,8 @@ export const dataItems: Registry["items"] = [
     dependencies: [
       "@date-fns/tz@1.5.0",
       "@fabricator-ui/icons-react-native",
-      "@legendapp/list@3.7.2",
-      "@super-calendar/native@2.17.0",
+      "@legendapp/list@3.9.2",
+      "@super-calendar/native@2.23.1",
       "cn",
       "date-fns",
       "react-native-gesture-handler",

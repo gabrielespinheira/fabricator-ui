@@ -73,7 +73,7 @@ export const navigationItems: Registry["items"] = [
       "react-native-safe-area-context",
       "react-native-svg",
       "react-native-worklets",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/scroll-area",
@@ -115,7 +115,7 @@ export const navigationItems: Registry["items"] = [
       "expo-linear-gradient",
       "react-native-reanimated",
       "react-native-safe-area-context",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/app-shell-model",
@@ -158,7 +158,7 @@ export const navigationItems: Registry["items"] = [
       "cn",
       "react-native-gesture-handler",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/app-shell",

@@ -26,11 +26,11 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@iconify-json/logos": "1.2.20",
+    "@iconify-json/logos": "1.2.21",
     "@resvg/resvg-js": "2.6.2",
     "@types/node": "^20.19.0",
-    "simple-icons": "16.38.0",
+    "simple-icons": "16.38.1",
     "typescript": "^6.0.3",
-    "vitest": "5.1.1"
+    "vitest": "5.1.2"
   }
 }

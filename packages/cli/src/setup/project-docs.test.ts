@@ -170,6 +170,35 @@ describe("scaffold documentation", () => {
     expect(readme).not.toMatch(/^yarn dev$/m)
   })
 
+  it("points package agents at the package each app installs", () => {
+    writeProjectDocs(
+      root,
+      {
+        ...DEFAULT_PROJECT_SETUP,
+        distribution: "package",
+        web: false,
+        mobile: true,
+      },
+      "bun"
+    )
+    const agents = read("AGENTS.md")
+    expect(agents).toContain("`@fabricator-ui/react-native/<component>`")
+    expect(agents).not.toContain("`@fabricator-ui/react/<component>`")
+  })
+
+  it("points a web and Expo package project at both packages", () => {
+    writeProjectDocs(
+      root,
+      { ...DEFAULT_PROJECT_SETUP, distribution: "package", mobile: true },
+      "bun"
+    )
+    const agents = read("AGENTS.md")
+    expect(agents).toContain("`@fabricator-ui/react/<component>` in `apps/web`")
+    expect(agents).toContain(
+      "`@fabricator-ui/react-native/<component>` in `apps/mobile`"
+    )
+  })
+
   it("keeps an existing project's root docs", () => {
     for (const file of ["README.md", "AGENTS.md", "DESIGN.md"]) {
       writeFileSync(path.join(root, file), `# Existing ${file}\n`)

@@ -147,6 +147,8 @@ The [Icons gallery](/icons) opens on All, where one search covers every icon set
 
 **Generated project formatting.** Biome and Vite+ format generated docs before the first commit.
 
+**Current dependencies.** New monorepos get Biome 2.6.9 or Vite+ 1.8 and typescript-eslint 8.74, Electron apps start on 45.5, and package projects on Vite 8.4 and Turborepo 2.11.13. Items install the versions the registry is tested with: Uniwind 1.14 on React Native, Legend List 3.9.2 and Super Calendar 2.23.1 for the native Event Calendar, TanStack Virtual 3.14.28, voice-glow 0.5 for Chat Input, and the Expo SDK 58 patches of Expo Audio and Expo Video.
+
 **SwiftUI and Kotlin Compose previews retired.** The CLI and hosted registry no longer install or update SwiftUI and Compose items. Existing apps can continue using the source they copied. The preview source is available in the `fabricator-ui@0.9.0` release.
 
 ## Components
@@ -263,7 +265,7 @@ All seven are on the web for every base; their React Native ports follow.
 
 **Scroll fades that melt instead of cut.** `scroll-fade` and its edge utilities now draw the mask on an eased curve, flat at both ends, so there is no line where the fade starts or where the content turns solid. The fade keeps its full depth and strengthens as you scroll instead of growing from a hard edge. It is a little deeper by default (16% of the scroller, at most 56px), and reaches full strength after 64px of scrolling. Two additions handle sticky parts: `scroll-fade-inset-{t,b,s,e}-<n>` starts an edge's fade past a sticky header, footer or pinned column inside the scroller, so content fades as it reaches it, and `sticky-fade-{t,b,s,e}` on a fixed or sticky element paints the page's colour past its edge for scrollers that can't be masked, such as the page itself. Scroll Area, the sidebar, tab strips, the message scroller and every other component that fades gets the new curve. `sticky-fade-*` fades the sticky element's own background, so inside a card or a popover it is that surface instead of a dark band, and the new `surface-fade-{t,b,s,e}` paints a surface as an element's own background, eased to clear at one edge. Every upstream class and variable keeps its meaning. On React Native, Scroll Area's edge fade uses the same curve, and inside a Card it fades to the card. [scroll-fade](/docs/utils/scroll-fade).
 
-**Data Table edges that dissolve.** Rows scrolling under a pinned column now fade into it in the table's own surface, with the hover or selection tint carried through, instead of meeting a hairline and a black shadow. Rows also fade under the sticky header and above the footer once they scroll there. [Data Table](/docs/components/base/data-table).
+**Data Table edges that dissolve.** Rows scrolling under a pinned column now fade into it over 24px in the table's own surface, with the hover or selection tint carried through, instead of meeting a hairline and a black shadow. Rows also fade over 24px under the sticky header and above the footer once they scroll there; pinned checkbox and action columns take 16px of padding on that side so the fade never touches their controls. [Data Table](/docs/components/base/data-table).
 
 ## Blocks
 

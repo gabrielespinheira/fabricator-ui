@@ -24,7 +24,7 @@ export const formItems: Registry["items"] = [
     name: "time-wheel",
     type: "registry:ui",
     title: "Time Wheel",
-    dependencies: ["cn", "react-native-reanimated", "uniwind@1.13.1"],
+    dependencies: ["cn", "react-native-reanimated", "uniwind@1.14.0"],
     registryDependencies: ["@fabricator/text", "@fabricator/motion"],
     files: [
       { path: "ui/time-wheel.tsx", type: "registry:ui" },
@@ -116,7 +116,7 @@ export const formItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/field-model", "@fabricator/motion"],
     files: [
@@ -136,7 +136,7 @@ export const formItems: Registry["items"] = [
       "@rn-primitives/hooks",
       "class-variance-authority",
       "cn",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/button",
@@ -240,7 +240,7 @@ export const formItems: Registry["items"] = [
       "@rn-primitives/hooks",
       "cn",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/density",
@@ -261,7 +261,7 @@ export const formItems: Registry["items"] = [
       "cn",
       "react-native-gesture-handler",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/density",
@@ -288,7 +288,7 @@ export const formItems: Registry["items"] = [
       "cn",
       "react-native-gesture-handler",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/feedback", "@fabricator/motion"],
     files: [
@@ -410,7 +410,7 @@ export const formItems: Registry["items"] = [
       "@fabricator-ui/icons-react-native",
       "class-variance-authority",
       "cn",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/app-shell-model",
@@ -448,7 +448,7 @@ export const formItems: Registry["items"] = [
       "react-native-keyboard-controller",
       "react-native-reanimated",
       "react-native-safe-area-context",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/bottom-bar",

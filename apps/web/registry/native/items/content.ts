@@ -33,7 +33,7 @@ export const contentItems: Registry["items"] = [
       "class-variance-authority",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/motion"],
     files: [
@@ -85,7 +85,7 @@ export const contentItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/field-model", "@fabricator/motion"],
     files: [
@@ -105,7 +105,7 @@ export const contentItems: Registry["items"] = [
       "cn",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/feedback",
@@ -150,7 +150,7 @@ export const contentItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/button",
@@ -173,7 +173,7 @@ export const contentItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/motion",
@@ -195,7 +195,7 @@ export const contentItems: Registry["items"] = [
       "@fabricator-ui/icons-react-native",
       "class-variance-authority",
       "cn",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/render", "@fabricator/text"],
     files: [{ path: "ui/badge.tsx", type: "registry:ui" }],
@@ -248,7 +248,7 @@ export const contentItems: Registry["items"] = [
       "@fabricator-ui/icons-react-native",
       "class-variance-authority",
       "cn",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/text"],
     files: [{ path: "ui/empty.tsx", type: "registry:ui" }],
@@ -265,7 +265,7 @@ export const contentItems: Registry["items"] = [
       "cn",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/feedback",
@@ -403,7 +403,7 @@ export const contentItems: Registry["items"] = [
       "react-native-keyboard-controller",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/button",
@@ -433,7 +433,7 @@ export const contentItems: Registry["items"] = [
       "cn",
       "react-native-gesture-handler",
       "react-native-reanimated",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/feedback",
@@ -496,7 +496,7 @@ export const contentItems: Registry["items"] = [
       "cn",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/motion",

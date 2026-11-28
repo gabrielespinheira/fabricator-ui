@@ -20,7 +20,7 @@ export const chartItems: Registry["items"] = [
       "react-native-gesture-handler",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
       "@types/d3-scale@4.0.9",
     ],
     registryDependencies: [
@@ -45,7 +45,7 @@ export const chartItems: Registry["items"] = [
       "cn",
       "d3-shape@3.2.1",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
       "@types/d3-shape@3.2.0",
     ],
     registryDependencies: ["@fabricator/chart-kit"],
@@ -67,7 +67,7 @@ export const chartItems: Registry["items"] = [
       "cn",
       "d3-shape@3.2.1",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
       "@types/d3-shape@3.2.0",
     ],
     registryDependencies: ["@fabricator/chart-kit"],
@@ -88,7 +88,7 @@ export const chartItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/chart-kit"],
     files: [
@@ -108,7 +108,7 @@ export const chartItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: [
       "@fabricator/chart-kit",
@@ -133,7 +133,7 @@ export const chartItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/chart-kit", "@fabricator/text"],
     files: [
@@ -153,7 +153,7 @@ export const chartItems: Registry["items"] = [
       "cn",
       "d3-shape@3.2.1",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
       "@types/d3-shape@3.2.0",
     ],
     registryDependencies: [
@@ -179,7 +179,7 @@ export const chartItems: Registry["items"] = [
       "d3-shape@3.2.1",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
       "@types/d3-shape@3.2.0",
     ],
     registryDependencies: [
@@ -206,7 +206,7 @@ export const chartItems: Registry["items"] = [
       "d3-shape@3.2.1",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
       "@types/d3-shape@3.2.0",
     ],
     registryDependencies: [
@@ -232,7 +232,7 @@ export const chartItems: Registry["items"] = [
       "cn",
       "d3-shape@3.2.1",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
       "@types/d3-shape@3.2.0",
     ],
     registryDependencies: ["@fabricator/chart-kit", "@fabricator/text"],
@@ -252,7 +252,7 @@ export const chartItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/chart-kit"],
     files: [
@@ -274,7 +274,7 @@ export const chartItems: Registry["items"] = [
       "date-fns",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/chart-kit", "@fabricator/text"],
     files: [
@@ -296,7 +296,7 @@ export const chartItems: Registry["items"] = [
       "date-fns",
       "react-native-reanimated",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/chart-kit", "@fabricator/text"],
     files: [
@@ -316,7 +316,7 @@ export const chartItems: Registry["items"] = [
       "cn",
       "d3-hierarchy@3.1.3",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
       "@types/d3-hierarchy@3.1.7",
     ],
     registryDependencies: ["@fabricator/chart-kit"],
@@ -336,7 +336,7 @@ export const chartItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/chart-kit"],
     files: [
@@ -355,7 +355,7 @@ export const chartItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-svg",
-      "uniwind@1.13.1",
+      "uniwind@1.14.0",
     ],
     registryDependencies: ["@fabricator/chart-kit"],
     files: [

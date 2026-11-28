@@ -196,7 +196,7 @@ export const fabricatorItems = [
       "The message box of a chat: a pill that stacks once the draft wraps, or a large card, attachments with drop and paste, voice chat with a glow and a level-following mic, a context meter, and one send slot that starts voice, sends, queues and stops.",
     // voice-glow (MIT, no runtime dependencies, React 18+) draws the voice
     // chat glow; pinned like Relay, which uses the same version.
-    dependencies: ["voice-glow@0.3.0"],
+    dependencies: ["voice-glow@0.5.0"],
     registryDependencies: ["button", "spinner", "density"],
     files: [
       { path: "ui/chat-input.tsx", type: "registry:ui" },
@@ -636,7 +636,7 @@ export const fabricatorItems = [
     // RangeCalendar, as with Date Picker.
     dependencies: [
       "@tanstack/react-table@9.3.1",
-      "@tanstack/react-virtual@3.14.26",
+      "@tanstack/react-virtual@3.14.28",
       "@internationalized/date",
     ],
     registryDependencies: [
@@ -764,7 +764,7 @@ export const fabricatorItems = [
     title: "Kanban",
     description:
       "A board of columns and cards: drag and drop, keyboard moves, swimlanes, typed properties, filters, grouping, selection, quick create, limits and cursor pagination.",
-    dependencies: ["@tanstack/react-virtual@3.14.26"],
+    dependencies: ["@tanstack/react-virtual@3.14.28"],
     registryDependencies: [
       "palette-model",
       "record-properties-model",
@@ -807,7 +807,7 @@ export const fabricatorItems = [
       "@date-fns/tz@1.5.0",
       "date-fns",
       "@internationalized/date",
-      "@tanstack/react-virtual@3.14.26",
+      "@tanstack/react-virtual@3.14.28",
     ],
     registryDependencies: [
       "palette-model",

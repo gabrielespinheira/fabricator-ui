@@ -29,12 +29,12 @@ import {
 } from "./tooling"
 import { buildWorkspaceRoot, PNPM_WORKSPACE_CONFIG } from "./workspace-config"
 
-const FRAMEWORK_DEPENDENCIES = { next: "16.4.6", vite: "8.3.8" }
+const FRAMEWORK_DEPENDENCIES = { next: "16.4.6", vite: "8.4.0" }
 const REACT_VERSION = "19.3.1"
 const TYPE_DEPENDENCIES = {
-  "@types/react": "19.3.0",
+  "@types/react": "19.3.3",
   "@types/react-dom": "19.3.0",
-  "@types/node": "22.20.5",
+  "@types/node": "22.20.7",
   typescript: "6.0.3",
 }
 const STARTER = `import { Button } from "${REACT_PACKAGE}/button"
@@ -149,7 +149,7 @@ export async function scaffoldPackageWeb(context: SetupContext) {
         format: 'prettier --write "apps/**/*.{ts,tsx,css}"',
       },
       devDependencies: {
-        turbo: "2.11.11",
+        turbo: "2.11.13",
         prettier: TOOLING_VERSIONS.prettier,
       },
     })
