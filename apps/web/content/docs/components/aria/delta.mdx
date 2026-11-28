@@ -70,14 +70,15 @@ import { Delta } from "@/components/ui/delta"
 <Delta change={-0.4} isGoodWhenUp={false} unit="pt" />
 ```
 
-In a card, the delta sits in `CardValue` between the figure and its caption:
+In a stat card, the delta sits in the header's action, beside the title:
 
 ```tsx
-<CardValue>
-  $981K
-  <Delta change={11.5} />
-  <CardValueCaption>from $879.5K</CardValueCaption>
-</CardValue>
+<CardHeader>
+  <CardTitle>Money in</CardTitle>
+  <CardAction>
+    <Delta change={11.5} />
+  </CardAction>
+</CardHeader>
 ```
 
 ## API Reference

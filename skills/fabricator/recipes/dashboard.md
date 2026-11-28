@@ -188,7 +188,7 @@ Use the `delta` component (`npx fabricator-ui@latest add delta`); never rebuild 
 
 ## KPI row
 
-A row of stat cards, parted by the gutter alone: no dividers, no shared frame. The row's own grid uses the page's 16px gap, so its four cards line up with the quarters below, and goes two by two on phones. Stat cards keep the default size, so each label sits on the same inset as the titles of the cards below.
+A row of stat cards, parted by the gutter alone. Each puts its `Delta` in the header beside the title and its previous value on a line under the number: no dividers, no shared frame. The row's own grid uses the page's 16px gap, so its four cards line up with the quarters below, and goes two by two on phones. Stat cards keep the default size, so each label sits on the same inset as the titles of the cards below.
 
 ```tsx
 type Metric = {
@@ -218,19 +218,21 @@ function KpiRow({
         <Card key={metric.label}>
           <CardHeader>
             <CardTitle>{metric.label}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CardValue>
-              {metric.value}
+            <CardAction>
               <Delta
                 change={metric.change}
                 isGoodWhenUp={metric.isGoodWhenUp}
                 unit={metric.unit}
               />
-              {metric.previous && (
-                <CardValueCaption>from {metric.previous}</CardValueCaption>
-              )}
-            </CardValue>
+            </CardAction>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-(--density-6)">
+            <CardValue>{metric.value}</CardValue>
+            <CardValueCaption>
+              {metric.previous
+                ? `from ${metric.previous}`
+                : "First period tracked"}
+            </CardValueCaption>
           </CardContent>
         </Card>
       ))}
@@ -266,11 +268,9 @@ function RevenueCard({ days, className }: { days: Day[]; className?: string }) {
       <CardContent className="flex flex-col gap-(--density-16)">
         <CardValue>
           {formatMoney(active ? active.datum.current : total)}
-          {active ? (
-            <CardValueCaption>{active.datum.day}</CardValueCaption>
-          ) : (
-            <Delta change={12.4} />
-          )}
+          <CardValueCaption>
+            {active ? active.datum.day : "this period"}
+          </CardValueCaption>
         </CardValue>
         <LineChart
           className="h-56 @4xl:h-64"
@@ -295,7 +295,7 @@ function RevenueCard({ days, className }: { days: Day[]; className?: string }) {
     <CardTitle>Needs attention</CardTitle>
     <CardDescription>Ordered by money at risk</CardDescription>
   </CardHeader>
-  {/* An ItemGroup reaches the card's edges by itself, icons on the inset. */}
+  {/* An ItemGroup lays itself out: rows 8px from the edges, icons on the inset. */}
   <CardContent>
     <ItemGroup>
       {tasks.map((task) => (

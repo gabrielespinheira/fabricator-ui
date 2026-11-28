@@ -230,10 +230,11 @@ Tokens are named after their default value. Write `h-(--density-36)`, `px-(--den
 | `--density-12`              | 10      | 12      | 14       | Tab, accordion, table and popover padding           |
 | `--density-10`              | 8       | 10      | 12       | Input, select, toggle and badge padding             |
 | `--density-8`, `-6`, `-4`   | 6, 4, 2 | 8, 6, 4 | 10, 8, 4 | Row padding and gaps, button gaps, track padding    |
-| `--density-text-28` / `-20` | 24 / 18 | 28 / 20 | 32 / 22  | Card values / small card values                     |
+| `--density-text-32` / `-24` | 28 / 20 | 32 / 24 | 36 / 28  | Card values / small card values                     |
 | `--density-text-16` / `-14` | 15 / 13 | 16 / 14 | 18 / 16  | Dialog and card titles / small card titles          |
 | `--density-text-13`         | 12      | 13      | 15       | Body and control text                               |
 | `--density-text-12` / `-11` | 12 / 11 | 12 / 11 | 13 / 12  | Captions, labels, errors / shortcuts, Kbd           |
+| `--density-icon-18`         | 16      | 18      | 20       | Icons in a card's item list                         |
 | `--density-icon-16` / `-14` | 14 / 12 | 16 / 14 | 18 / 16  | Icons / small chevrons and separators               |
 
 - **Never write a fixed control size.** Derived geometry is a `calc()` of tokens (an inline addon sits `(group height − content height) / 2` from the edge; a menu inset is two row paddings plus an icon).
@@ -263,7 +264,7 @@ Inter with its optical-size axis; `font-medium` is 450 and `font-semibold` 550.
 | -------- | ------------------------------------------ | --------------------------------------------------------- |
 | Title    | `--density-text-16`, bold, `leading-tight` | Dialog titles                                             |
 | Card     | `--density-text-16`, medium                | `CardTitle` (the 14 step on `size="sm"`)                  |
-| Metric   | `--density-text-28`, medium, tabular       | `CardValue` (the 20 step on `size="sm"`)                  |
+| Metric   | `--density-text-32`, semibold, tabular     | `CardValue` (the 24 step on `size="sm"`)                  |
 | Subtitle | `--density-text-14`, medium                | Alert and popover titles; the command input               |
 | Body     | `--density-text-13`                        | Controls, labels, menus, cells, descriptions              |
 | Caption  | `--density-text-12`, muted                 | Group labels, badges, tooltips, field help and errors     |

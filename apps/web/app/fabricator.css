@@ -87,10 +87,11 @@ html:root {
   --density-text-13: 13px;
   --density-text-14: 14px;
   --density-text-16: 16px;
-  --density-text-20: 20px;
-  --density-text-28: 28px;
+  --density-text-24: 24px;
+  --density-text-32: 32px;
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
+  --density-icon-18: 1.125rem;
   --radius-control-ratio: 0.2222222222222222;
   --radius-control-base: 0px;
   --radius-surface-ratio: 0;
@@ -1108,10 +1109,11 @@ html[data-radius="pill"]:root {
   --density-text-13: 12px;
   --density-text-14: 13px;
   --density-text-16: 15px;
-  --density-text-20: 18px;
-  --density-text-28: 24px;
+  --density-text-24: 20px;
+  --density-text-32: 28px;
   --density-icon-14: 0.75rem;
   --density-icon-16: 0.875rem;
+  --density-icon-18: 1rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1144,10 +1146,11 @@ html[data-radius="pill"]:root {
   --density-text-13: 13px;
   --density-text-14: 14px;
   --density-text-16: 16px;
-  --density-text-20: 20px;
-  --density-text-28: 28px;
+  --density-text-24: 24px;
+  --density-text-32: 32px;
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
+  --density-icon-18: 1.125rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1180,10 +1183,11 @@ html[data-radius="pill"]:root {
   --density-text-13: 15px;
   --density-text-14: 16px;
   --density-text-16: 18px;
-  --density-text-20: 22px;
-  --density-text-28: 32px;
+  --density-text-24: 28px;
+  --density-text-32: 36px;
   --density-icon-14: 1rem;
   --density-icon-16: 1.125rem;
+  --density-icon-18: 1.25rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1216,10 +1220,11 @@ html[data-radius="pill"]:root {
   --density-text-13: 12px;
   --density-text-14: 13px;
   --density-text-16: 15px;
-  --density-text-20: 18px;
-  --density-text-28: 24px;
+  --density-text-24: 20px;
+  --density-text-32: 28px;
   --density-icon-14: 0.75rem;
   --density-icon-16: 0.875rem;
+  --density-icon-18: 1rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1252,10 +1257,11 @@ html[data-radius="pill"]:root {
   --density-text-13: 13px;
   --density-text-14: 14px;
   --density-text-16: 16px;
-  --density-text-20: 20px;
-  --density-text-28: 28px;
+  --density-text-24: 24px;
+  --density-text-32: 32px;
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
+  --density-icon-18: 1.125rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1288,10 +1294,11 @@ html[data-radius="pill"]:root {
   --density-text-13: 15px;
   --density-text-14: 16px;
   --density-text-16: 18px;
-  --density-text-20: 22px;
-  --density-text-28: 32px;
+  --density-text-24: 28px;
+  --density-text-32: 36px;
   --density-icon-14: 1rem;
   --density-icon-16: 1.125rem;
+  --density-icon-18: 1.25rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
@@ -1369,6 +1376,354 @@ html[data-radius="pill"]:root {
   100% {
     --loader-head: 180deg;
     --loader-tail: 180deg;
+  }
+}
+@property --scroll-fade-t-strength {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --scroll-fade-b-strength {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --scroll-fade-s-strength {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --scroll-fade-e-strength {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@keyframes fabricator-scroll-fade-t {
+  from {
+    --scroll-fade-t-strength: 0;
+  }
+  to {
+    --scroll-fade-t-strength: 1;
+  }
+}
+@keyframes fabricator-scroll-fade-b {
+  from {
+    --scroll-fade-b-strength: 1;
+  }
+  to {
+    --scroll-fade-b-strength: 0;
+  }
+}
+@keyframes fabricator-scroll-fade-s {
+  from {
+    --scroll-fade-s-strength: 0;
+  }
+  to {
+    --scroll-fade-s-strength: 1;
+  }
+}
+@keyframes fabricator-scroll-fade-e {
+  from {
+    --scroll-fade-e-strength: 1;
+  }
+  to {
+    --scroll-fade-e-strength: 0;
+  }
+}
+@keyframes fabricator-sticky-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@utility scroll-fade {
+  --_scroll-fade-size-t: var(--scroll-fade-t-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --_scroll-fade-size-b: var(--scroll-fade-b-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --scroll-fade-block: linear-gradient(to bottom, #000 0 var(--scroll-fade-t-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 1)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.957)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.844)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.684)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.5)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.316)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.156)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.043)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.875), #000 calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 1)), linear-gradient(to top, #000 0 var(--scroll-fade-b-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 1)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.957)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.844)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.684)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.5)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.316)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.156)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.043)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.875), #000 calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 1));
+  -webkit-mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));
+  mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  @supports (animation-timeline: scroll()) {
+    animation: fabricator-scroll-fade-t 1ms ease-out, fabricator-scroll-fade-b 1ms ease-in;
+    animation-timeline: scroll(self y), scroll(self y);
+    animation-range: 0 var(--scroll-fade-reveal, calc(var(--spacing) * 16)), calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 16))) 100%;
+    animation-fill-mode: both;
+  }
+  @supports not (animation-timeline: scroll()) {
+    --scroll-fade-t-strength: 1;
+    --scroll-fade-b-strength: 1;
+  }
+}
+@utility scroll-fade-y {
+  --_scroll-fade-size-t: var(--scroll-fade-t-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --_scroll-fade-size-b: var(--scroll-fade-b-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --scroll-fade-block: linear-gradient(to bottom, #000 0 var(--scroll-fade-t-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 1)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.957)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.844)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.684)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.5)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.316)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.156)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.043)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.875), #000 calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 1)), linear-gradient(to top, #000 0 var(--scroll-fade-b-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 1)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.957)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.844)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.684)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.5)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.316)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.156)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.043)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.875), #000 calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 1));
+  -webkit-mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));
+  mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  @supports (animation-timeline: scroll()) {
+    animation: fabricator-scroll-fade-t 1ms ease-out, fabricator-scroll-fade-b 1ms ease-in;
+    animation-timeline: scroll(self y), scroll(self y);
+    animation-range: 0 var(--scroll-fade-reveal, calc(var(--spacing) * 16)), calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 16))) 100%;
+    animation-fill-mode: both;
+  }
+  @supports not (animation-timeline: scroll()) {
+    --scroll-fade-t-strength: 1;
+    --scroll-fade-b-strength: 1;
+  }
+}
+@utility scroll-fade-x {
+  --_scroll-fade-size-s: var(--scroll-fade-s-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --_scroll-fade-size-e: var(--scroll-fade-e-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --scroll-fade-inline: linear-gradient(to right, #000 0 var(--scroll-fade-s-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 1)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.957)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.844)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.684)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.5)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.316)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.156)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.043)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.875), #000 calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 1)), linear-gradient(to left, #000 0 var(--scroll-fade-e-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 1)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.957)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.844)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.684)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.5)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.316)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.156)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.043)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.875), #000 calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 1));
+  &:where([dir="rtl"], [dir="rtl"] *) {
+    --scroll-fade-inline: linear-gradient(to left, #000 0 var(--scroll-fade-s-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 1)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.957)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.844)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.684)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.5)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.316)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.156)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.043)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.875), #000 calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 1)), linear-gradient(to right, #000 0 var(--scroll-fade-e-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 1)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.957)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.844)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.684)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.5)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.316)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.156)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.043)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.875), #000 calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 1));
+  }
+  -webkit-mask-image: var(--scroll-fade-mask, var(--scroll-fade-inline));
+  mask-image: var(--scroll-fade-mask, var(--scroll-fade-inline));
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  @supports (animation-timeline: scroll()) {
+    animation: fabricator-scroll-fade-s 1ms ease-out, fabricator-scroll-fade-e 1ms ease-in;
+    animation-timeline: scroll(self inline), scroll(self inline);
+    animation-range: 0 var(--scroll-fade-reveal, calc(var(--spacing) * 16)), calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 16))) 100%;
+    animation-fill-mode: both;
+  }
+  @supports not (animation-timeline: scroll()) {
+    --scroll-fade-s-strength: 1;
+    --scroll-fade-e-strength: 1;
+  }
+}
+@utility scroll-fade-t {
+  --_scroll-fade-size-t: var(--scroll-fade-t-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --scroll-fade-mask: linear-gradient(to bottom, #000 0 var(--scroll-fade-t-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 1)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.957)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.844)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.684)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.5)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.316)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.156)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-t-strength) * 0.043)) calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 0.875), #000 calc(var(--scroll-fade-t-inset, 0px) + var(--_scroll-fade-size-t) * 1));
+  -webkit-mask-image: var(--scroll-fade-mask);
+  mask-image: var(--scroll-fade-mask);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  @supports (animation-timeline: scroll()) {
+    animation: fabricator-scroll-fade-t 1ms ease-out;
+    animation-timeline: scroll(self y);
+    animation-range: 0 var(--scroll-fade-reveal, calc(var(--spacing) * 16));
+    animation-fill-mode: both;
+  }
+  @supports not (animation-timeline: scroll()) {
+    --scroll-fade-t-strength: 1;
+  }
+}
+@utility scroll-fade-b {
+  --_scroll-fade-size-b: var(--scroll-fade-b-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --scroll-fade-mask: linear-gradient(to top, #000 0 var(--scroll-fade-b-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 1)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.957)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.844)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.684)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.5)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.316)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.156)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-b-strength) * 0.043)) calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 0.875), #000 calc(var(--scroll-fade-b-inset, 0px) + var(--_scroll-fade-size-b) * 1));
+  -webkit-mask-image: var(--scroll-fade-mask);
+  mask-image: var(--scroll-fade-mask);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  @supports (animation-timeline: scroll()) {
+    animation: fabricator-scroll-fade-b 1ms ease-in;
+    animation-timeline: scroll(self y);
+    animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 16))) 100%;
+    animation-fill-mode: both;
+  }
+  @supports not (animation-timeline: scroll()) {
+    --scroll-fade-b-strength: 1;
+  }
+}
+@utility scroll-fade-l {
+  --_scroll-fade-size-s: var(--scroll-fade-s-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --scroll-fade-mask: linear-gradient(to right, #000 0 var(--scroll-fade-s-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 1)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.957)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.844)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.684)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.5)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.316)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.156)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.043)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.875), #000 calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 1));
+  -webkit-mask-image: var(--scroll-fade-mask);
+  mask-image: var(--scroll-fade-mask);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  @supports (animation-timeline: scroll()) {
+    animation: fabricator-scroll-fade-s 1ms ease-out;
+    animation-timeline: scroll(self x);
+    animation-range: 0 var(--scroll-fade-reveal, calc(var(--spacing) * 16));
+    animation-fill-mode: both;
+  }
+  @supports not (animation-timeline: scroll()) {
+    --scroll-fade-s-strength: 1;
+  }
+}
+@utility scroll-fade-r {
+  --_scroll-fade-size-e: var(--scroll-fade-e-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --scroll-fade-mask: linear-gradient(to left, #000 0 var(--scroll-fade-e-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 1)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.957)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.844)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.684)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.5)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.316)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.156)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.043)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.875), #000 calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 1));
+  -webkit-mask-image: var(--scroll-fade-mask);
+  mask-image: var(--scroll-fade-mask);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  @supports (animation-timeline: scroll()) {
+    animation: fabricator-scroll-fade-e 1ms ease-in;
+    animation-timeline: scroll(self x);
+    animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 16))) 100%;
+    animation-fill-mode: both;
+  }
+  @supports not (animation-timeline: scroll()) {
+    --scroll-fade-e-strength: 1;
+  }
+}
+@utility scroll-fade-s {
+  --_scroll-fade-size-s: var(--scroll-fade-s-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --scroll-fade-mask: linear-gradient(to right, #000 0 var(--scroll-fade-s-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 1)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.957)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.844)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.684)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.5)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.316)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.156)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.043)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.875), #000 calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 1));
+  &:where([dir="rtl"], [dir="rtl"] *) {
+    --scroll-fade-mask: linear-gradient(to left, #000 0 var(--scroll-fade-s-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 1)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.957)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.844)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.684)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.5)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.316)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.156)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-s-strength) * 0.043)) calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 0.875), #000 calc(var(--scroll-fade-s-inset, 0px) + var(--_scroll-fade-size-s) * 1));
+  }
+  -webkit-mask-image: var(--scroll-fade-mask);
+  mask-image: var(--scroll-fade-mask);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  @supports (animation-timeline: scroll()) {
+    animation: fabricator-scroll-fade-s 1ms ease-out;
+    animation-timeline: scroll(self inline);
+    animation-range: 0 var(--scroll-fade-reveal, calc(var(--spacing) * 16));
+    animation-fill-mode: both;
+  }
+  @supports not (animation-timeline: scroll()) {
+    --scroll-fade-s-strength: 1;
+  }
+}
+@utility scroll-fade-e {
+  --_scroll-fade-size-e: var(--scroll-fade-e-size, var(--scroll-fade-size, min(16%, calc(var(--spacing) * 14))));
+  --scroll-fade-mask: linear-gradient(to left, #000 0 var(--scroll-fade-e-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 1)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.957)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.844)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.684)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.5)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.316)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.156)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.043)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.875), #000 calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 1));
+  &:where([dir="rtl"], [dir="rtl"] *) {
+    --scroll-fade-mask: linear-gradient(to right, #000 0 var(--scroll-fade-e-inset, 0px), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 1)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.957)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.125), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.844)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.25), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.684)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.375), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.5)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.5), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.316)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.625), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.156)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.75), rgb(0 0 0 / calc(1 - var(--scroll-fade-e-strength) * 0.043)) calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 0.875), #000 calc(var(--scroll-fade-e-inset, 0px) + var(--_scroll-fade-size-e) * 1));
+  }
+  -webkit-mask-image: var(--scroll-fade-mask);
+  mask-image: var(--scroll-fade-mask);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  @supports (animation-timeline: scroll()) {
+    animation: fabricator-scroll-fade-e 1ms ease-in;
+    animation-timeline: scroll(self inline);
+    animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 16))) 100%;
+    animation-fill-mode: both;
+  }
+  @supports not (animation-timeline: scroll()) {
+    --scroll-fade-e-strength: 1;
+  }
+}
+@utility scroll-fade-inset-t-* {
+  --scroll-fade-t-inset: calc(var(--spacing) * --value(integer));
+  & {
+    --scroll-fade-t-inset: --value([*]);
+  }
+}
+@utility scroll-fade-inset-b-* {
+  --scroll-fade-b-inset: calc(var(--spacing) * --value(integer));
+  & {
+    --scroll-fade-b-inset: --value([*]);
+  }
+}
+@utility scroll-fade-inset-s-* {
+  --scroll-fade-s-inset: calc(var(--spacing) * --value(integer));
+  & {
+    --scroll-fade-s-inset: --value([*]);
+  }
+}
+@utility scroll-fade-inset-e-* {
+  --scroll-fade-e-inset: calc(var(--spacing) * --value(integer));
+  & {
+    --scroll-fade-e-inset: --value([*]);
+  }
+}
+@utility sticky-fade-t {
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    inset-inline: 0;
+    height: var(--sticky-fade-size, calc(var(--spacing) * 10));
+    pointer-events: none;
+    background-image: linear-gradient(to top, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 100%, transparent) 0%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 95.7%, transparent) 12.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 84.4%, transparent) 25%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 68.4%, transparent) 37.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 50%, transparent) 50%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 31.6%, transparent) 62.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 15.6%, transparent) 75%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 4.3%, transparent) 87.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 0%, transparent) 100%);
+    @supports (animation-timeline: scroll()) {
+      opacity: 0;
+      animation: fabricator-sticky-fade 1ms linear both;
+      animation-direction: reverse;
+      animation-timeline: scroll(nearest block);
+      animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 16))) 100%;
+    }
+  }
+}
+@utility sticky-fade-b {
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    height: var(--sticky-fade-size, calc(var(--spacing) * 10));
+    pointer-events: none;
+    background-image: linear-gradient(to bottom, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 100%, transparent) 0%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 95.7%, transparent) 12.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 84.4%, transparent) 25%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 68.4%, transparent) 37.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 50%, transparent) 50%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 31.6%, transparent) 62.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 15.6%, transparent) 75%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 4.3%, transparent) 87.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 0%, transparent) 100%);
+    @supports (animation-timeline: scroll()) {
+      opacity: 0;
+      animation: fabricator-sticky-fade 1ms linear both;
+      animation-direction: normal;
+      animation-timeline: scroll(nearest block);
+      animation-range: 0 var(--scroll-fade-reveal, calc(var(--spacing) * 16));
+    }
+  }
+}
+@utility sticky-fade-s {
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline-end: 100%;
+    inset-block: 0;
+    width: var(--sticky-fade-size, calc(var(--spacing) * 10));
+    pointer-events: none;
+    background-image: linear-gradient(to left, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 100%, transparent) 0%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 95.7%, transparent) 12.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 84.4%, transparent) 25%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 68.4%, transparent) 37.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 50%, transparent) 50%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 31.6%, transparent) 62.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 15.6%, transparent) 75%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 4.3%, transparent) 87.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 0%, transparent) 100%);
+    @supports (animation-timeline: scroll()) {
+      opacity: 0;
+      animation: fabricator-sticky-fade 1ms linear both;
+      animation-direction: reverse;
+      animation-timeline: scroll(nearest inline);
+      animation-range: calc(100% - var(--scroll-fade-reveal, calc(var(--spacing) * 16))) 100%;
+    }
+  }
+  &:where([dir="rtl"], [dir="rtl"] *)::after {
+    background-image: linear-gradient(to right, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 100%, transparent) 0%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 95.7%, transparent) 12.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 84.4%, transparent) 25%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 68.4%, transparent) 37.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 50%, transparent) 50%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 31.6%, transparent) 62.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 15.6%, transparent) 75%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 4.3%, transparent) 87.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 0%, transparent) 100%);
+  }
+}
+@utility sticky-fade-e {
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: 100%;
+    inset-block: 0;
+    width: var(--sticky-fade-size, calc(var(--spacing) * 10));
+    pointer-events: none;
+    background-image: linear-gradient(to right, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 100%, transparent) 0%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 95.7%, transparent) 12.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 84.4%, transparent) 25%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 68.4%, transparent) 37.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 50%, transparent) 50%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 31.6%, transparent) 62.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 15.6%, transparent) 75%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 4.3%, transparent) 87.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 0%, transparent) 100%);
+    @supports (animation-timeline: scroll()) {
+      opacity: 0;
+      animation: fabricator-sticky-fade 1ms linear both;
+      animation-direction: normal;
+      animation-timeline: scroll(nearest inline);
+      animation-range: 0 var(--scroll-fade-reveal, calc(var(--spacing) * 16));
+    }
+  }
+  &:where([dir="rtl"], [dir="rtl"] *)::after {
+    background-image: linear-gradient(to left, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 100%, transparent) 0%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 95.7%, transparent) 12.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 84.4%, transparent) 25%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 68.4%, transparent) 37.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 50%, transparent) 50%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 31.6%, transparent) 62.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 15.6%, transparent) 75%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 4.3%, transparent) 87.5%, color-mix(in oklab, var(--sticky-fade-color, var(--background)) 0%, transparent) 100%);
   }
 }
 @utility scrollbar-hide {

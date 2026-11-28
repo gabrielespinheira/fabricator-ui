@@ -70,19 +70,22 @@
     @apply text-inherit;
   }
 
-  /* A table or item list reaches the card's edges with its text on the inset,
-     so its hover wash spans the card; a table that ends the card meets its
-     bottom corner. A Segmented Meter under a CardValue keeps its label and
+  /* A table reaches the card's edges with its text on the inset, so its hover
+     wash spans the card, and a table that ends the card meets its bottom
+     corner. An item list's rows sit 8px from the card's edges on the card
+     corner minus that gap, so their wash nests in the card, while each icon
+     stays on the inset and steps up to the 18px icon. A Segmented Meter under a CardValue keeps its label and
      total for screen readers only, since the value already shows them.
      Controls inside a linked card sit above the link's cover. */
   .cn-card-content {
-    @apply px-(--card-spacing) has-[>[data-slot=table-container]]:px-0 [&>[data-slot=table-container]_tr>*:first-child]:ps-(--card-spacing) [&>[data-slot=table-container]_tr>*:last-child]:pe-(--card-spacing) last:has-[>[data-slot=table-container]]:-mb-(--card-spacing) has-[>[data-slot=item-group]]:px-[calc(var(--card-spacing)-var(--density-12))] [&>[data-slot=card-value]~[data-slot=segmented-meter]_[data-slot=segmented-meter-header]]:sr-only group-has-data-[slot=card-link]/card:[&_:is(button,a,input,label,[role=switch],[tabindex]):not([data-slot=card-link])]:relative group-has-data-[slot=card-link]/card:[&_:is(button,a,input,label,[role=switch],[tabindex]):not([data-slot=card-link])]:z-1 group-data-[variant=tray]/card:bg-card group-data-[variant=tray]/card:shadow-surface-2 group-data-[variant=tray]/card:rounded-(--radius-card-inner) group-data-[variant=tray]/card:p-[calc(var(--card-spacing)-var(--density-4))] group-data-[variant=tray]/card:last:mb-0;
+    @apply px-(--card-spacing) has-[>[data-slot=table-container]]:px-0 [&>[data-slot=table-container]_tr>*:first-child]:ps-(--card-spacing) [&>[data-slot=table-container]_tr>*:last-child]:pe-(--card-spacing) last:has-[>[data-slot=table-container]]:-mb-(--card-spacing) has-[>[data-slot=item-group]]:px-(--density-8) [&>[data-slot=item-group]_[data-slot=item]]:px-[calc(var(--card-spacing)-var(--density-8))] [&>[data-slot=item-group]_[data-slot=item]]:rounded-[max(var(--radius-mark),calc(var(--radius-card)-var(--density-8)))] [&>[data-slot=item-group]_[data-slot=item-media][data-variant=icon]_svg:not([class*='size-'])]:size-(--density-icon-18) [&>[data-slot=card-value]~[data-slot=segmented-meter]_[data-slot=segmented-meter-header]]:sr-only group-has-data-[slot=card-link]/card:[&_:is(button,a,input,label,[role=switch],[tabindex]):not([data-slot=card-link])]:relative group-has-data-[slot=card-link]/card:[&_:is(button,a,input,label,[role=switch],[tabindex]):not([data-slot=card-link])]:z-1 group-data-[variant=tray]/card:bg-card group-data-[variant=tray]/card:shadow-surface-2 group-data-[variant=tray]/card:rounded-(--radius-card-inner) group-data-[variant=tray]/card:p-[calc(var(--card-spacing)-var(--density-4))] group-data-[variant=tray]/card:last:mb-0;
   }
 
-  /* The metric role: the largest text on the card, medium, tabular. A Delta
-     centres on the figure; a caption sits on its baseline. */
+  /* The metric role: the largest text on the card, semibold, tabular. A
+     caption sits on its baseline; in a stat card the Delta goes in the
+     header's action and the previous value on a line of its own. */
   .cn-card-value {
-    @apply text-foreground gap-x-(--density-8) gap-y-(--density-4) text-(length:--density-text-28) leading-none font-medium tracking-tight tabular-nums group-data-[size=sm]/card:text-(length:--density-text-20) *:data-[slot=badge]:self-center *:data-[slot=badge]:tracking-normal;
+    @apply text-foreground gap-x-(--density-8) gap-y-(--density-4) text-(length:--density-text-32) leading-none font-semibold tracking-tight tabular-nums group-data-[size=sm]/card:text-(length:--density-text-24) *:data-[slot=badge]:self-center *:data-[slot=badge]:tracking-normal;
   }
 
   .cn-card-value-caption {

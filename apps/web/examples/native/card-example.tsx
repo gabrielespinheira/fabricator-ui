@@ -25,13 +25,13 @@ function CardExample() {
         <Card className="w-full">
           <CardHeader>
             <CardTitle>Money in</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CardValue>
-              $981K
+            <CardAction>
               <Delta change={11.5} />
-              <CardValueCaption>from $879.5K</CardValueCaption>
-            </CardValue>
+            </CardAction>
+          </CardHeader>
+          <CardContent className="gap-(--density-6)">
+            <CardValue>$981K</CardValue>
+            <CardValueCaption>from $879.5K</CardValueCaption>
           </CardContent>
         </Card>
       </Example>

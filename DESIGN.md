@@ -149,7 +149,7 @@ Components set their own type; the roles are for the text you write around them.
 | Hero       | 48 or 60px | Medium   | The one headline of a website page                       |
 | Display    | 28px       | Semibold | Website section headings, prices, proof numbers          |
 | Page title | 24px       | Semibold | The title of an app page: `AppShellPageTitle`            |
-| Metric     | 28px       | Medium   | A stat's value or a chart's headline: `CardValue`        |
+| Metric     | 32px       | Semibold | A stat's value or a chart's headline: `CardValue`        |
 | Title      | 16px       | Semibold | Section headings inside an app page                      |
 | Card title | 16px       | Medium   | `CardTitle`; 14px on `size="sm"` cards                   |
 | Subtitle   | 14px       | Medium   | Group headings, feature titles, alert and popover titles |
@@ -157,7 +157,7 @@ Components set their own type; the roles are for the text you write around them.
 | Body       | 13px       | Regular  | Body text, a stat's label                                |
 | Caption    | 12px       | Regular  | Descriptions, group labels, errors, metadata, in grey    |
 
-- **Every role but hero, display and page title follows the density:** body is 12px compact and 15px spacious, a metric 24px and 32px.
+- **Every role but hero, display and page title follows the density:** body is 12px compact and 15px spacious, a metric 28px and 36px.
 - **Two weights per view:** regular for text, medium or semibold for titles and values.
 - **Weight is state.** Hover changes colour; weight changes only for state that lasts (checked, selected, open).
 - **Sentence case everywhere,** with no all-caps labels or wide letter-spacing.
@@ -324,7 +324,7 @@ A `Card` holds one discrete thing: a metric, a chart, a list of things to do, a 
 
 - **Header:** `CardTitle` names the thing in a few words ("Revenue", "Needs attention"). `CardDescription` gives its scope: the grain, the sort, the unit ("Daily", "By monthly recurring revenue"); the page's period is in the toolbar. `CardAction` holds at most one quiet control: default `Tabs` or a `Select`, a ghost "View all" link, a `Switch`, or a ghost "More" menu with the card's own rare options. With no description the title centres on the action's row.
 - **Identity:** `CardMedia` before the title, only on a card that is a thing (an agent, an integration, a project, a file, a person): an icon tile for a kind of thing, a logo for a brand, an `Avatar` for a person.
-- **Value:** `CardValue` is the largest text on the card, with a `Delta` and a `CardValueCaption` after it (a unit, "of 200K", "from $879.5K"). Never write a value's classes by hand.
+- **Value:** `CardValue` is the largest text on the card, with a `CardValueCaption` after it for a unit or a total ("visits", "of 200K"). A stat's `Delta` goes in `CardAction` and its previous value on a line under the number. Never write a value's classes by hand.
 - **Content:** the one thing the card shows. A headline value sits above a chart; a list or table runs to the card's edges by itself.
 - **Footer:** only when it has content: metadata in grey, an `AvatarGroup`, or the buttons of a settings or plan card. It sits on the bottom edge, so the footers of a row line up.
 
@@ -332,7 +332,7 @@ A `Card` holds one discrete thing: a metric, a chart, a list of things to do, a 
 
 A card has one inset (12, 16 or 20px by density). The title, the description, a headline value, a list's icons and a table's first column start on it; a table's last column and a "View all" link end on it.
 
-- **Tables and item lists reach the card's edges** by themselves, so their hover wash spans the card while their text stays on the inset. Anything else that bleeds uses `-mx-(--card-spacing)`.
+- **Tables reach the card's edges** by themselves, so their hover wash spans the card while their text stays on the inset. **Item lists** sit their rows 8px from the card's edges, on a corner that nests in the card's, with each icon (18px) on the inset; a ghost "View all" above a list pulls out to the same 8px edge. Anything else that bleeds uses `-mx-(--card-spacing)`.
 - **Stat cards** keep the default card size, so their titles sit on the same inset as the titles of the cards below.
 - **A ghost control at an edge** (a "View all" link, a "More" button) pulls out by its own padding, so its text, not its hover area, sits on the line.
 
@@ -341,7 +341,7 @@ A card has one inset (12, 16 or 20px by density). The title, the description, a 
 Each kind has a docs example (`npx fabricator-ui@latest docs card`) built from the same parts in the same order.
 
 - **KPI row:** three to six stat cards side by side on the grid, parted by the gutter alone. On phones they go two by two.
-- **Stat:** the title names the number, then `CardValue` with its `Delta` and previous value. In a KPI row it keeps the default size; `size="sm"` when six go across. **Goal:** a stat with a `Progress` and "62% of $80K".
+- **Stat:** the title names the number with its `Delta` beside it in `CardAction`, then `CardValue` and the previous value on a line under it ("from $879.5K"). In a KPI row it keeps the default size; `size="sm"` when six go across. **Goal:** a stat with a `Progress` and "62% of $80K".
 - **Chart:** the title, the period in the action, `CardValue` with its caption, one chart; `minimal` when the card is under about 360px wide.
 - **Meter:** the title, `CardValue` "of" the limit, a `SegmentedMeter` with its legend.
 - **List:** five to seven `Item`s to do or read, and "View all". **Activity:** `Item`s with an `Avatar` and a relative time, newest first.

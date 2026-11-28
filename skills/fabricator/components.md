@@ -130,7 +130,7 @@ Every chart takes `data`, a `config` naming the series (or `nameKey`/`valueKey`)
 | How do a few compare on many measures?        | `radar-chart`                                                                                                                                                                                                                                                                                                      |
 | What did the price do?                        | `candlestick-chart`                                                                                                                                                                                                                                                                                                |
 
-One headline number is a `CardValue` with a `Delta`, not a chart. A chart in a small card (under about 360px, or a sparkline under a stat) takes `minimal`: no axes or gridlines, only its first and last labels.
+One headline number is a `CardValue` with its `Delta` in the header's `CardAction`, not a chart. A chart in a small card (under about 360px, or a sparkline under a stat) takes `minimal`: no axes or gridlines, only its first and last labels.
 
 ## Showing time
 

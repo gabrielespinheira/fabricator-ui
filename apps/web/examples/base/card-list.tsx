@@ -54,7 +54,7 @@ export function CardList() {
         <CardTitle>Needs attention</CardTitle>
         <CardDescription>Ordered by money at risk</CardDescription>
         <CardAction>
-          <Button variant="ghost" size="sm" className="-me-3">
+          <Button variant="ghost" size="sm" className="-me-2">
             View all
           </Button>
         </CardAction>

@@ -4,6 +4,7 @@ import { FinanceDelta } from "@/registry/bases/__base__/blocks/finance-01/compon
 import { type FinanceMetric } from "@/registry/bases/__base__/blocks/finance-01/lib/finance-model"
 import {
   Card,
+  CardAction,
   CardContent,
   CardHeader,
   CardTitle,
@@ -33,35 +34,32 @@ export function FinanceKpiRow({
       {metrics.map((metric) => (
         <Card key={metric.id} className="last:col-span-2 @lg:last:col-span-1">
           <CardHeader>
-            <CardTitle>
-              {metric.label}
-              {metric.scope && (
-                <span className="@lg:hidden @3xl:inline"> {metric.scope}</span>
-              )}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {/* Dimmed while new numbers load, as the charts are. */}
-            <CardValue
-              className={cn(
-                "transition-opacity duration-feedback ease-feedback",
-                isLoading && "opacity-50"
-              )}
-            >
-              {metric.value}
-              {isComparing && (
+            <CardTitle>{metric.label}</CardTitle>
+            {isComparing && (
+              <CardAction>
                 <FinanceDelta
                   change={metric.change}
                   isGoodWhenUp={metric.isGoodWhenUp}
                   unit={metric.unit}
                 />
-              )}
-              {isComparing && (
-                <CardValueCaption className="hidden @3xl:inline">
-                  from {metric.previous}
-                </CardValueCaption>
-              )}
-            </CardValue>
+              </CardAction>
+            )}
+          </CardHeader>
+          {/* Dimmed while new numbers load, as the charts are. */}
+          <CardContent
+            className={cn(
+              "flex flex-col gap-(--density-6) transition-opacity duration-feedback ease-feedback",
+              isLoading && "opacity-50"
+            )}
+          >
+            <CardValue>{metric.value}</CardValue>
+            {(metric.scope || isComparing) && (
+              <CardValueCaption>
+                {[metric.scope, isComparing && `from ${metric.previous}`]
+                  .filter(Boolean)
+                  .join(", ")}
+              </CardValueCaption>
+            )}
           </CardContent>
         </Card>
       ))}

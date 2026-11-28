@@ -1468,6 +1468,16 @@ export const Components: Record<string, any> = {
       ) || "card-plan"
     return { default: mod.default || mod[exportName] }
   }),
+  "card-scroll": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/card-scroll"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-scroll"
+    return { default: mod.default || mod[exportName] }
+  }),
   "card-small": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/card-small"
@@ -5192,6 +5202,16 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "scroll-fade-size"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "scroll-fade-sticky": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/scroll-fade-sticky"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "scroll-fade-sticky"
     return { default: mod.default || mod[exportName] }
   }),
   "segmented-meter-demo": React.lazy(async () => {

@@ -95,13 +95,21 @@ describe("densities", () => {
   })
 })
 
+describe("list icons", () => {
+  it("sizes the icons of a card's list a step above interface icons", () => {
+    expect(DENSITY_NAMES.map((name) => DENSITIES[name].icon[18])).toEqual([
+      16, 18, 20,
+    ])
+  })
+})
+
 describe("display text", () => {
   it("sizes card values on two display steps that follow the density", () => {
-    expect(DENSITY_NAMES.map((name) => DENSITIES[name].text[20])).toEqual([
-      18, 20, 22,
+    expect(DENSITY_NAMES.map((name) => DENSITIES[name].text[24])).toEqual([
+      20, 24, 28,
     ])
-    expect(DENSITY_NAMES.map((name) => DENSITIES[name].text[28])).toEqual([
-      24, 28, 32,
+    expect(DENSITY_NAMES.map((name) => DENSITIES[name].text[32])).toEqual([
+      28, 32, 36,
     ])
   })
 })

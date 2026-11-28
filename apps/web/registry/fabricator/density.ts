@@ -35,10 +35,10 @@ export const DENSITY_SPACE_STEPS = [
 ] as const
 
 /** Text sizes, named by their default size in px. */
-export const DENSITY_TEXT_STEPS = [11, 12, 13, 14, 16, 20, 28] as const
+export const DENSITY_TEXT_STEPS = [11, 12, 13, 14, 16, 24, 32] as const
 
 /** Icon sizes, named by their default size in px. */
-export const DENSITY_ICON_STEPS = [14, 16] as const
+export const DENSITY_ICON_STEPS = [14, 16, 18] as const
 
 export type DensitySpaceStep = (typeof DENSITY_SPACE_STEPS)[number]
 export type DensityTextStep = (typeof DENSITY_TEXT_STEPS)[number]
@@ -74,8 +74,8 @@ export const DENSITIES: Record<DensityName, Density> = {
       40: 32,
       48: 40,
     },
-    text: { 11: 11, 12: 12, 13: 12, 14: 13, 16: 15, 20: 18, 28: 24 },
-    icon: { 14: 12, 16: 14 },
+    text: { 11: 11, 12: 12, 13: 12, 14: 13, 16: 15, 24: 20, 32: 28 },
+    icon: { 14: 12, 16: 14, 18: 16 },
   },
   // 36px controls, 13px text: Fabricator's own sizes.
   default: {
@@ -96,8 +96,8 @@ export const DENSITIES: Record<DensityName, Density> = {
       40: 40,
       48: 48,
     },
-    text: { 11: 11, 12: 12, 13: 13, 14: 14, 16: 16, 20: 20, 28: 28 },
-    icon: { 14: 14, 16: 16 },
+    text: { 11: 11, 12: 12, 13: 13, 14: 14, 16: 16, 24: 24, 32: 32 },
+    icon: { 14: 14, 16: 16, 18: 18 },
   },
   // About a fifth larger: 44px controls (the touch target size), 15px text,
   // 18px icons.
@@ -119,8 +119,8 @@ export const DENSITIES: Record<DensityName, Density> = {
       40: 48,
       48: 56,
     },
-    text: { 11: 12, 12: 13, 13: 15, 14: 16, 16: 18, 20: 22, 28: 32 },
-    icon: { 14: 16, 16: 18 },
+    text: { 11: 12, 12: 13, 13: 15, 14: 16, 16: 18, 24: 28, 32: 36 },
+    icon: { 14: 16, 16: 18, 18: 20 },
   },
 }
 

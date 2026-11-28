@@ -129,7 +129,7 @@ The one featured card of its grid on the `tray` variant: who it's for on the she
 
 ## Checks
 
-- No value is written with classes: every headline figure is a `CardValue`, every change a `Delta`.
+- No value is written with classes: every headline figure is a `CardValue`, every change a `Delta` in the header's `CardAction`.
 - Only cards that are things carry `CardMedia`; metric, chart and list cards are named by their title alone.
 - A card that opens a record has a `CardLink` in its title, and nothing wraps a card in a link or gives it `onClick`.
 - At most one `tray` card per grid; `muted` only for secondary cards, empty slots and cards inside a raised surface.

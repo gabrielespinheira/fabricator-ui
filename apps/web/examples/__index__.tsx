@@ -717,6 +717,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "card-rtl",
       filePath: "examples/base/card-rtl.tsx",
     },
+    "card-scroll": {
+      name: "card-scroll",
+      filePath: "examples/base/card-scroll.tsx",
+    },
     "card-small": {
       name: "card-small",
       filePath: "examples/base/card-small.tsx",
@@ -2397,6 +2401,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/base/scroll-fade-size.tsx",
     },
+    "scroll-fade-sticky": {
+      name: "scroll-fade-sticky",
+      filePath: "examples/base/scroll-fade-sticky.tsx",
+    },
     "segmented-meter-demo": {
       name: "segmented-meter-demo",
       filePath: "examples/base/segmented-meter-demo.tsx",
@@ -3770,6 +3778,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-rtl": {
       name: "card-rtl",
       filePath: "examples/aria/card-rtl.tsx",
+    },
+    "card-scroll": {
+      name: "card-scroll",
+      filePath: "examples/aria/card-scroll.tsx",
     },
     "card-small": {
       name: "card-small",
@@ -5431,6 +5443,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/aria/scroll-fade-size.tsx",
     },
+    "scroll-fade-sticky": {
+      name: "scroll-fade-sticky",
+      filePath: "examples/aria/scroll-fade-sticky.tsx",
+    },
     "segmented-meter-demo": {
       name: "segmented-meter-demo",
       filePath: "examples/aria/segmented-meter-demo.tsx",
@@ -6812,6 +6828,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-rtl": {
       name: "card-rtl",
       filePath: "examples/radix/card-rtl.tsx",
+    },
+    "card-scroll": {
+      name: "card-scroll",
+      filePath: "examples/radix/card-scroll.tsx",
     },
     "card-small": {
       name: "card-small",
@@ -8473,6 +8493,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/radix/scroll-fade-size.tsx",
     },
+    "scroll-fade-sticky": {
+      name: "scroll-fade-sticky",
+      filePath: "examples/radix/scroll-fade-sticky.tsx",
+    },
     "segmented-meter-demo": {
       name: "segmented-meter-demo",
       filePath: "examples/radix/segmented-meter-demo.tsx",
@@ -9912,6 +9936,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-plan": {
       name: "card-plan",
       filePath: "examples/__styles__/base-fabricator/card-plan.tsx",
+    },
+    "card-scroll": {
+      name: "card-scroll",
+      filePath: "examples/__styles__/base-fabricator/card-scroll.tsx",
     },
     "card-small": {
       name: "card-small",
@@ -11497,6 +11525,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/__styles__/base-fabricator/scroll-fade-size.tsx",
     },
+    "scroll-fade-sticky": {
+      name: "scroll-fade-sticky",
+      filePath: "examples/__styles__/base-fabricator/scroll-fade-sticky.tsx",
+    },
     "segmented-meter-demo": {
       name: "segmented-meter-demo",
       filePath: "examples/__styles__/base-fabricator/segmented-meter-demo.tsx",
@@ -12783,6 +12815,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-plan": {
       name: "card-plan",
       filePath: "examples/__styles__/aria-fabricator/card-plan.tsx",
+    },
+    "card-scroll": {
+      name: "card-scroll",
+      filePath: "examples/__styles__/aria-fabricator/card-scroll.tsx",
     },
     "card-small": {
       name: "card-small",
@@ -14351,6 +14387,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/__styles__/aria-fabricator/scroll-fade-size.tsx",
     },
+    "scroll-fade-sticky": {
+      name: "scroll-fade-sticky",
+      filePath: "examples/__styles__/aria-fabricator/scroll-fade-sticky.tsx",
+    },
     "segmented-meter-demo": {
       name: "segmented-meter-demo",
       filePath: "examples/__styles__/aria-fabricator/segmented-meter-demo.tsx",
@@ -15650,6 +15690,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-plan": {
       name: "card-plan",
       filePath: "examples/__styles__/radix-fabricator/card-plan.tsx",
+    },
+    "card-scroll": {
+      name: "card-scroll",
+      filePath: "examples/__styles__/radix-fabricator/card-scroll.tsx",
     },
     "card-small": {
       name: "card-small",
@@ -17230,6 +17274,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "scroll-fade-size": {
       name: "scroll-fade-size",
       filePath: "examples/__styles__/radix-fabricator/scroll-fade-size.tsx",
+    },
+    "scroll-fade-sticky": {
+      name: "scroll-fade-sticky",
+      filePath: "examples/__styles__/radix-fabricator/scroll-fade-sticky.tsx",
     },
     "segmented-meter-demo": {
       name: "segmented-meter-demo",

@@ -107,7 +107,7 @@ Every card in a grid has the same parts in the same order. These are the kinds a
 
 ### Stat
 
-The title names the number, the value is the largest text, and a [`Delta`](/docs/components/base/delta) says whether it moved the right way. A missing comparison says "No data".
+The title names the number with a [`Delta`](/docs/components/base/delta) beside it saying whether it moved the right way; the value is the largest text, with the previous value under it. A missing comparison says "No data".
 
 <ComponentPreview
   styleName="base-nova"
@@ -127,7 +127,7 @@ A chart card keeps its period in the action and its headline above a `minimal` c
 
 ### List
 
-An `ItemGroup` reaches the card's edges by itself: the rows' hover spans the card, and each icon sits on the card's inset.
+An `ItemGroup` lays itself out in the card: its rows sit 8px from the card's edges on a corner that nests in the card's, each icon is a step larger and sits on the card's inset, and a ghost "View all" pulls out to the rows' edge with `-me-2`.
 
 <ComponentPreview
   styleName="base-nova"
@@ -211,14 +211,19 @@ Text under the cover can't be selected. A card whose text people copy uses an "O
 
 ## Value
 
-`CardValue` is the headline figure: medium, tabular, the largest text on the card. `CardValueCaption` after it holds a unit, a total ("of 200K") or the previous value, and a `Delta` sits between them. When the card is narrow, the caption and delta wrap under the figure, which never truncates.
+`CardValue` is the headline figure: semibold, tabular, the largest text on the card. `CardValueCaption` after it holds a unit or a total ("visits", "of 200K") and wraps under the figure when the card is narrow; the figure never truncates. In a stat card the `Delta` goes in the header's action, beside the title, and the previous value sits on a line under the number.
 
 ```tsx showLineNumbers
-<CardValue>
-  $981K
-  <Delta change={11.5} />
+<CardHeader>
+  <CardTitle>Money in</CardTitle>
+  <CardAction>
+    <Delta change={11.5} />
+  </CardAction>
+</CardHeader>
+<CardContent className="flex flex-col gap-(--density-6)">
+  <CardValue>$981K</CardValue>
   <CardValueCaption>from $879.5K</CardValueCaption>
-</CardValue>
+</CardContent>
 ```
 
 ## Size
@@ -241,11 +246,11 @@ In addition to the `size` prop, you can use the `--card-spacing` CSS variable to
   previewClassName="h-[34rem]"
 />
 
-Tables and item lists go edge to edge by themselves (see [Table](#table) and [List](#list)). For anything else, use negative margins with `-mx-(--card-spacing)` to make content go edge to edge while keeping it aligned with the card inset. When the edge-to-edge content sits above a footer, use `-mb-(--card-spacing)` on `CardContent` to remove the section gap.
+Tables and item lists go edge to edge by themselves (see [Table](#table) and [List](#list)). For anything else, use negative margins with `-mx-(--card-spacing)` to make content go edge to edge while keeping it aligned with the card inset, with the matching `px-(--card-spacing)` inside. A region that scrolls takes `scroll-fade-y`, so its text fades out at the top and bottom instead of being cut at a line, and keeps the card's gap above a footer.
 
 <ComponentPreview
   styleName="base-nova"
-  name="card-edge-to-edge"
+  name="card-scroll"
   previewClassName="h-[24rem]"
 />
 

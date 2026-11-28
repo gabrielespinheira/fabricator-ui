@@ -2094,8 +2094,10 @@
     @apply gap-(--density-4);
   }
 
+  /* Follows the header: centred on a lone title, at the top above a
+     description. */
   .cn-card-media {
-    @apply self-center;
+    @apply shrink-0;
   }
 
   .cn-card-media-variant-default {
@@ -2130,13 +2132,13 @@
     @apply gap-(--density-8) px-(--density-16) data-[size=sm]:px-(--density-12) data-[variant=tray]:bg-card data-[variant=tray]:shadow-surface-2 data-[variant=tray]:rounded-(--radius-card-inner) data-[variant=tray]:p-(--density-12) data-[variant=tray]:corner-curve;
   }
 
-  /* The metric role: the largest text on the card, medium, tabular. */
+  /* The metric role: the largest text on the card, semibold, tabular. */
   .cn-card-value {
     @apply gap-x-(--density-8) gap-y-(--density-4);
   }
 
   .cn-card-value-figure {
-    @apply text-foreground text-(length:--density-text-28) font-medium tracking-tight tabular-nums data-[size=sm]:text-(length:--density-text-20);
+    @apply text-foreground text-(length:--density-text-32) font-semibold tracking-tight tabular-nums data-[size=sm]:text-(length:--density-text-24);
   }
 
   .cn-card-value-caption {

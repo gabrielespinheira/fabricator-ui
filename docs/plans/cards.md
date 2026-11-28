@@ -4,7 +4,7 @@ Status: built, uncommitted (2026-11-28). Board card: "I would like you to help m
 
 ## As built (differs from the plan below)
 
-- **Values as planned:** card corner Rounded 12/16/20, Squircle 16/20/24, Pill 22/26/30 (`--radius-card`, with `--radius-card-sm` and `--radius-card-inner`); title on the 16 step; `CardValue` on new density text steps 28 (24/28/32) and 20 (18/20/22). Phase 0's lab was skipped: the values were tuned on the real examples instead.
+- **Values as planned:** card corner Rounded 12/16/20, Squircle 16/20/24, Pill 22/26/30 (`--radius-card`, with `--radius-card-sm` and `--radius-card-inner`); title on the 16 step; `CardValue` on new density text steps 32 (28/32/36) and 24 (20/24/28), semibold, after review. A stat card puts its `Delta` in `CardAction` beside the title and its previous value on a line under the number. Phase 0's lab was skipped: the values were tuned on the real examples instead.
 - **No `press-surface` motion role.** A linked card scales to a third of the button press, `calc(1 - (1 - var(--motion-press-scale)) / 3)`, so speeds and Reduce Motion follow with no new token.
 - **No two-line clamp on `CardDescription`:** cutting copy silently hides content. Long descriptions wrap.
 - **Chart and meter kinds live in `card-overview`** instead of their own examples; there is no `card-settings` example yet (DESIGN.md's Settings section covers it).
@@ -12,7 +12,6 @@ Status: built, uncommitted (2026-11-28). Board card: "I would like you to help m
 - **No `card.browser.mjs` and no perf trace.** Link behaviour, focus, hover, the bleed rules, light and dark, and 390px were checked by hand in the running site; `card.test.tsx` covers slots, variants, upstream exports and `CardLink` per base.
 - **Finance keeps its own delta** for "mo" (runway months), which `Delta` doesn't take; its values moved to `CardValue`. Billing's plan picker is a choice card (a `FieldLabel`), so it keeps its own markup.
 - **A Segmented Meter under a `CardValue`** hides its header visually (new `segmented-meter-header` slot), keeping it for screen readers.
-
 
 ## Goal
 
@@ -175,7 +174,7 @@ Plus `card-overview` (the docs page's lead: a chart, a meter and an object card 
 - **The new parts and the `variant` prop go in Fabricator overrides** (`registry/fabricator/{base,radix,aria}/ui/card.tsx`, copied from upstream with every export, prop and `data-slot` kept). Overrides compile into the Fabricator style only, so upstream styles keep byte-identical output (contracts 1 and 5, `bun run test:parity`).
 - **The look is the style map** `registry/styles/fabricator/card.css`: corner, header grid, title and value type, footer pin, variants, link states, the bleed rules.
 - **`Delta`** is `registry/fabricator/shared/ui/delta.tsx` with its model.
-- **Tokens** are new names (`--radius-card-ratio`, `--radius-card-base`, `--radius-card`, `--density-text-20`, `--density-text-28`) shipped in the foundations item's `cssVars` (contract 4). The `card` item must depend on the foundations item so `add card` brings `--radius-card`; otherwise an older project gets square corners.
+- **Tokens** are new names (`--radius-card-ratio`, `--radius-card-base`, `--radius-card`, `--density-text-24`, `--density-text-32`) shipped in the foundations item's `cssVars` (contract 4). The `card` item must depend on the foundations item so `add card` brings `--radius-card`; otherwise an older project gets square corners.
 
 ## Phases
 

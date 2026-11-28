@@ -61,8 +61,8 @@ export const TABLET_SMALL_DENSITY: DensityTokens = {
     40: 38,
     48: 46,
   },
-  text: { 11: 12, 12: 12, 13: 14, 14: 15, 16: 16, 20: 20, 28: 26 },
-  icon: { 14: 14, 16: 16 },
+  text: { 11: 12, 12: 12, 13: 14, 14: 15, 16: 16, 24: 24, 32: 30 },
+  icon: { 14: 14, 16: 16, 18: 18 },
 }
 
 /** A tablet's `size="lg"`: 48pt and 16pt text, for a screen's main action. */
@@ -84,8 +84,8 @@ export const TABLET_LARGE_DENSITY: DensityTokens = {
     40: 52,
     48: 60,
   },
-  text: { 11: 13, 12: 14, 13: 16, 14: 17, 16: 20, 20: 24, 28: 34 },
-  icon: { 14: 18, 16: 20 },
+  text: { 11: 13, 12: 14, 13: 16, 14: 17, 16: 20, 24: 30, 32: 40 },
+  icon: { 14: 18, 16: 20, 18: 22 },
 }
 
 /**
@@ -110,8 +110,8 @@ export const LARGE_DENSITY: DensityTokens = {
     40: 56,
     48: 64,
   },
-  text: { 11: 13, 12: 14, 13: 17, 14: 18, 16: 20, 20: 24, 28: 34 },
-  icon: { 14: 18, 16: 20 },
+  text: { 11: 13, 12: 14, 13: 17, 14: 18, 16: 20, 24: 30, 32: 40 },
+  icon: { 14: 18, 16: 20, 18: 22 },
 }
 
 const NATIVE_DENSITIES = {

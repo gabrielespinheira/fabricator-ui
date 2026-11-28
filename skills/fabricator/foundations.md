@@ -65,7 +65,7 @@ Inter, small and precise; a monospace face for code, keys and IDs. Components se
 | ---------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | Page title | The page's name                    | `AppShellPageTitle`                                                                                        |
 | Lead       | One sentence under it              | `text-[15px] text-pretty text-muted-foreground`                                                            |
-| Metric     | A stat's value, a chart's headline | `CardValue` in a card; elsewhere `text-(length:--density-text-28) tracking-tight tabular-nums font-medium` |
+| Metric     | A stat's value, a chart's headline | `CardValue` in a card; elsewhere `text-(length:--density-text-32) tracking-tight tabular-nums font-medium` |
 | Title      | A section heading inside a page    | `text-(length:--density-text-16) weight-semibold`                                                          |
 | Subtitle   | A group's name                     | `text-(length:--density-text-14) font-medium`                                                              |
 | Body       | Text, a stat's label               | `text-(length:--density-text-13)`                                                                          |

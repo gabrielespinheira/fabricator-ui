@@ -1,5 +1,6 @@
 import {
   Card,
+  CardAction,
   CardContent,
   CardHeader,
   CardTitle,
@@ -34,15 +35,15 @@ const metrics = [
   {
     label: "Refunds",
     value: "$0",
-    previous: "",
+    previous: "First month tracked",
     change: null,
     isGoodWhenUp: false,
   },
 ]
 
-// A KPI row: the title names the number, the value is the largest text, and
-// the delta says whether it moved the right way. A missing comparison says
-// No data instead of a zero.
+// A KPI row: the title names the number and the delta beside it says whether
+// it moved the right way; the value is the largest text, with the previous
+// value under it. A missing comparison says No data instead of a zero.
 export function CardStat() {
   return (
     <div className="grid w-full max-w-4xl grid-cols-2 gap-(--density-16) md:grid-cols-4">
@@ -50,19 +51,17 @@ export function CardStat() {
         <Card key={metric.label}>
           <CardHeader>
             <CardTitle>{metric.label}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CardValue>
-              {metric.value}
+            <CardAction>
               <Delta
                 change={metric.change}
                 isGoodWhenUp={metric.isGoodWhenUp}
                 unit={metric.unit}
               />
-              {metric.previous && (
-                <CardValueCaption>{metric.previous}</CardValueCaption>
-              )}
-            </CardValue>
+            </CardAction>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-(--density-6)">
+            <CardValue>{metric.value}</CardValue>
+            <CardValueCaption>{metric.previous}</CardValueCaption>
           </CardContent>
         </Card>
       ))}
