@@ -55,6 +55,30 @@ describe("radius shapes", () => {
     expect(getRoleRadius("pill", "panel", 36)).toBe(26)
   })
 
+  it("round cards more than popups, following the density", () => {
+    const cards = (shape: (typeof RADIUS_SHAPES)[number]) =>
+      DENSITY_NAMES.map((density) =>
+        getRoleRadius(shape, "card", controlHeight(density))
+      )
+    expect(cards("rounded")).toEqual([12, 16, 20])
+    expect(cards("squircle")).toEqual([16, 20, 24])
+    expect(cards("pill")).toEqual([22, 26, 30])
+  })
+
+  it("keep a card as round as its popups and the panel around it", () => {
+    for (const shape of RADIUS_SHAPES) {
+      for (const density of DENSITY_NAMES) {
+        const height = controlHeight(density)
+        expect(getRoleRadius(shape, "card", height)).toBeGreaterThanOrEqual(
+          getRoleRadius(shape, "surface", height)
+        )
+      }
+      expect(getRoleRadius(shape, "card", 36)).toBe(
+        getRoleRadius(shape, "panel", 36)
+      )
+    }
+  })
+
   it("rank the roles mark < control <= surface < panel", () => {
     for (const shape of RADIUS_SHAPES) {
       for (const density of DENSITY_NAMES) {
@@ -122,6 +146,15 @@ describe("radius CSS", () => {
     }
   })
 
+  it("step a small card's corner down with its inset, never below a popup's", () => {
+    expect(RADIUS_ROLE_VARS["radius-card-sm"]).toBe(
+      "max(var(--radius-surface), calc(var(--radius-card) - var(--density-4)))"
+    )
+    expect(RADIUS_ROLE_VARS["radius-card-inner"]).toBe(
+      "max(var(--radius-mark), calc(var(--radius-card) - var(--density-4)))"
+    )
+  })
+
   it("subtract an unscaled inset for nested rows and inner parts", () => {
     expect(RADIUS_ROLE_VARS["radius-nested"]).toBe(
       "max(var(--radius-mark), calc(var(--radius-surface) - 4px))"
@@ -145,6 +178,9 @@ describe("native radii", () => {
       surface: 12,
       panel: 16,
       mark: 4,
+      card: 16,
+      cardSmall: 12,
+      cardInner: 12,
       nested: 8,
       inner: 4,
       wrap: 12,
@@ -159,5 +195,18 @@ describe("native radii", () => {
 
   it("draw Squircle at its base radii (iOS's continuous curve)", () => {
     expect(getNativeRadii("squircle", DENSITIES.default).surface).toBe(14)
+  })
+
+  it("resolve the card corners for native cards", () => {
+    expect(getNativeRadii("squircle", DENSITIES.default)).toMatchObject({
+      card: 20,
+      cardSmall: 16,
+      cardInner: 16,
+    })
+    expect(getNativeRadii("rounded", DENSITIES.compact)).toMatchObject({
+      card: 12,
+      cardSmall: 12,
+      cardInner: 10,
+    })
   })
 })

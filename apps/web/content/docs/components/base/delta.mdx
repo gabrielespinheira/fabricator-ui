@@ -1,0 +1,97 @@
+---
+title: Delta
+description: A change against the previous period, as a status badge.
+base: base
+component: true
+---
+
+<ComponentPreview styleName="base-nova" name="delta-demo" />
+
+A delta says how a number moved since the period it is compared with: a sign, one decimal and an arrow. It is green when the number moved the way it should and red when it didn't, so a fall in churn is good news. Rates change in points ("−0.4 pt"). No change is an outline "0%", and a missing comparison says "No data" instead of pretending to be zero.
+
+Delta is part of the Fabricator style. It's built on Badge, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add delta
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the Badge it renders.</Step>
+
+```bash
+npx fabricator-ui@latest add badge
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/delta.tsx"
+  title="components/ui/delta.tsx"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/delta-model.ts"
+  title="lib/delta-model.ts"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Delta } from "@/components/ui/delta"
+```
+
+```tsx
+<Delta change={12.4} />
+<Delta change={-0.4} isGoodWhenUp={false} unit="pt" />
+```
+
+In a card, the delta sits in `CardValue` between the figure and its caption:
+
+```tsx
+<CardValue>
+  $981K
+  <Delta change={11.5} />
+  <CardValueCaption>from $879.5K</CardValueCaption>
+</CardValue>
+```
+
+## API Reference
+
+| Prop           | Type             | Default     |
+| -------------- | ---------------- | ----------- |
+| `change`       | `number \| null` |             |
+| `isGoodWhenUp` | `boolean`        | `true`      |
+| `unit`         | `"%" \| "pt"`    | `"%"`       |
+| `locale`       | `string`         | the browser |
+| `emptyLabel`   | `string`         | `"No data"` |
+
+`change` is in the unit's terms (12.4 for 12.4%). It rounds to one decimal, so a change under 0.05 reads as no change. The rest of the props go to the `Badge`.
+
+## Accessibility
+
+The sign and the arrow carry the direction, so colour is never the only cue, and the label reads as text ("+12.4%"). Name what the delta compares with once, near the numbers, such as "Compared with the previous 30 days" in the page's toolbar.

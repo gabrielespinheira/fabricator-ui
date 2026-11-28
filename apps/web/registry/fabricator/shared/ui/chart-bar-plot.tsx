@@ -32,6 +32,7 @@ import {
   ChartBand,
   ChartDataTable,
   ChartEmpty,
+  ChartEnds,
   ChartGrid,
   ChartInspector,
   ChartLegend,
@@ -63,6 +64,11 @@ type ChartBarPlotProps<TDatum extends ChartDatum> = {
   formatValue?: (value: number, key: string) => string
   formatIndex?: (value: string, datum: TDatum) => string
   legend?: boolean
+  /**
+   * No axes or gridlines, only the first and last labels under the plot: for
+   * charts in small cards. Horizontal bars keep their labels.
+   */
+  minimal?: boolean
   tooltip?: boolean
   animate?: boolean
   loading?: boolean
@@ -151,6 +157,7 @@ function ChartBarPlot<TDatum extends ChartDatum>({
   formatValue,
   formatIndex,
   legend,
+  minimal = false,
   tooltip = true,
   animate = true,
   loading = false,
@@ -182,6 +189,7 @@ function ChartBarPlot<TDatum extends ChartDatum>({
         maxThickness,
         bandPadding,
         formatIndex,
+        minimal,
       }),
     [
       data,
@@ -195,6 +203,7 @@ function ChartBarPlot<TDatum extends ChartDatum>({
       maxThickness,
       bandPadding,
       formatIndex,
+      minimal,
     ]
   )
   const dataVersion = React.useMemo(
@@ -356,6 +365,7 @@ function ChartBarPlot<TDatum extends ChartDatum>({
           />
         )}
       </div>
+      {minimal && isVertical && !isEmpty && <ChartEnds labels={model.labels} />}
       {renderLegend
         ? renderLegend({
             series: allSeries,

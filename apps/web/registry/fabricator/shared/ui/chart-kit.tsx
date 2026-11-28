@@ -798,6 +798,31 @@ const ChartDataTable = React.memo(function ChartDataTable({
 })
 
 /** What a chart shows with no data: the `empty` content, or a quiet line. */
+/**
+ * A minimal chart's first and last labels under the plot, in place of an
+ * axis: the range the marks cover. Hidden from screen readers, which read
+ * every label in the data table.
+ */
+function ChartEnds({
+  labels,
+  className,
+}: {
+  labels: readonly string[]
+  className?: string
+}) {
+  if (labels.length === 0) return null
+  return (
+    <div
+      aria-hidden
+      data-slot="chart-ends"
+      className={cn("cn-chart-ends flex justify-between", className)}
+    >
+      <span>{labels[0]}</span>
+      {labels.length > 1 && <span>{labels.at(-1)}</span>}
+    </div>
+  )
+}
+
 function ChartEmpty({
   children,
   className,
@@ -833,6 +858,7 @@ export {
   ChartDataTable,
   ChartDot,
   ChartEmpty,
+  ChartEnds,
   ChartGrid,
   ChartInspector,
   ChartLegend,

@@ -87,6 +87,8 @@ html:root {
   --density-text-13: 13px;
   --density-text-14: 14px;
   --density-text-16: 16px;
+  --density-text-20: 20px;
+  --density-text-28: 28px;
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
   --radius-control-ratio: 0.2222222222222222;
@@ -97,14 +99,19 @@ html:root {
   --radius-panel-base: 16px;
   --radius-mark-ratio: 0;
   --radius-mark-base: 4px;
+  --radius-card-ratio: 0.5;
+  --radius-card-base: -2px;
   --corner-shape: round;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-mark: calc((var(--density-36) * var(--radius-mark-ratio, 0) + var(--radius-mark-base, 0px)) * var(--radius-corner-scale, 1));
+  --radius-card: calc((var(--density-36) * var(--radius-card-ratio, 0) + var(--radius-card-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-nested: max(var(--radius-mark), calc(var(--radius-surface) - 4px));
   --radius-inner: max(var(--radius-mark), calc(var(--radius-control) - var(--density-4)));
   --radius-wrap: calc(var(--radius-control) + var(--density-4));
+  --radius-card-sm: max(var(--radius-surface), calc(var(--radius-card) - var(--density-4)));
+  --radius-card-inner: max(var(--radius-mark), calc(var(--radius-card) - var(--density-4)));
   --loader: skeleton;
   --loader-fill: var(--hover);
   --loader-animation: var(--animate-pulse);
@@ -613,6 +620,7 @@ html[data-radius="squircle"]:root {
   --radius-surface-base: 14px;
   --radius-panel-base: 20px;
   --radius-mark-base: 5px;
+  --radius-card-base: 2px;
   --corner-shape: superellipse(1.5);
   --radius-squircle-scale: 1.35;
   --radius: 0.625rem;
@@ -625,6 +633,7 @@ html[data-radius="pill"]:root {
   --radius-panel-ratio: 0.5;
   --radius-panel-base: 8px;
   --radius-mark-base: 6px;
+  --radius-card-base: 8px;
   --radius: 0.75rem;
 }
 
@@ -1099,15 +1108,20 @@ html[data-radius="pill"]:root {
   --density-text-13: 12px;
   --density-text-14: 13px;
   --density-text-16: 15px;
+  --density-text-20: 18px;
+  --density-text-28: 24px;
   --density-icon-14: 0.75rem;
   --density-icon-16: 0.875rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-mark: calc((var(--density-36) * var(--radius-mark-ratio, 0) + var(--radius-mark-base, 0px)) * var(--radius-corner-scale, 1));
+  --radius-card: calc((var(--density-36) * var(--radius-card-ratio, 0) + var(--radius-card-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-nested: max(var(--radius-mark), calc(var(--radius-surface) - 4px));
   --radius-inner: max(var(--radius-mark), calc(var(--radius-control) - var(--density-4)));
   --radius-wrap: calc(var(--radius-control) + var(--density-4));
+  --radius-card-sm: max(var(--radius-surface), calc(var(--radius-card) - var(--density-4)));
+  --radius-card-inner: max(var(--radius-mark), calc(var(--radius-card) - var(--density-4)));
 }
 :root[data-density="default"], [data-density="default"] {
   --density-4: 0.25rem;
@@ -1130,15 +1144,20 @@ html[data-radius="pill"]:root {
   --density-text-13: 13px;
   --density-text-14: 14px;
   --density-text-16: 16px;
+  --density-text-20: 20px;
+  --density-text-28: 28px;
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-mark: calc((var(--density-36) * var(--radius-mark-ratio, 0) + var(--radius-mark-base, 0px)) * var(--radius-corner-scale, 1));
+  --radius-card: calc((var(--density-36) * var(--radius-card-ratio, 0) + var(--radius-card-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-nested: max(var(--radius-mark), calc(var(--radius-surface) - 4px));
   --radius-inner: max(var(--radius-mark), calc(var(--radius-control) - var(--density-4)));
   --radius-wrap: calc(var(--radius-control) + var(--density-4));
+  --radius-card-sm: max(var(--radius-surface), calc(var(--radius-card) - var(--density-4)));
+  --radius-card-inner: max(var(--radius-mark), calc(var(--radius-card) - var(--density-4)));
 }
 :root[data-density="spacious"], [data-density="spacious"] {
   --density-4: 0.25rem;
@@ -1161,15 +1180,20 @@ html[data-radius="pill"]:root {
   --density-text-13: 15px;
   --density-text-14: 16px;
   --density-text-16: 18px;
+  --density-text-20: 22px;
+  --density-text-28: 32px;
   --density-icon-14: 1rem;
   --density-icon-16: 1.125rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-mark: calc((var(--density-36) * var(--radius-mark-ratio, 0) + var(--radius-mark-base, 0px)) * var(--radius-corner-scale, 1));
+  --radius-card: calc((var(--density-36) * var(--radius-card-ratio, 0) + var(--radius-card-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-nested: max(var(--radius-mark), calc(var(--radius-surface) - 4px));
   --radius-inner: max(var(--radius-mark), calc(var(--radius-control) - var(--density-4)));
   --radius-wrap: calc(var(--radius-control) + var(--density-4));
+  --radius-card-sm: max(var(--radius-surface), calc(var(--radius-card) - var(--density-4)));
+  --radius-card-inner: max(var(--radius-mark), calc(var(--radius-card) - var(--density-4)));
 }
 @utility density-compact {
   --density-4: 0.125rem;
@@ -1192,15 +1216,20 @@ html[data-radius="pill"]:root {
   --density-text-13: 12px;
   --density-text-14: 13px;
   --density-text-16: 15px;
+  --density-text-20: 18px;
+  --density-text-28: 24px;
   --density-icon-14: 0.75rem;
   --density-icon-16: 0.875rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-mark: calc((var(--density-36) * var(--radius-mark-ratio, 0) + var(--radius-mark-base, 0px)) * var(--radius-corner-scale, 1));
+  --radius-card: calc((var(--density-36) * var(--radius-card-ratio, 0) + var(--radius-card-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-nested: max(var(--radius-mark), calc(var(--radius-surface) - 4px));
   --radius-inner: max(var(--radius-mark), calc(var(--radius-control) - var(--density-4)));
   --radius-wrap: calc(var(--radius-control) + var(--density-4));
+  --radius-card-sm: max(var(--radius-surface), calc(var(--radius-card) - var(--density-4)));
+  --radius-card-inner: max(var(--radius-mark), calc(var(--radius-card) - var(--density-4)));
 }
 @utility density-default {
   --density-4: 0.25rem;
@@ -1223,15 +1252,20 @@ html[data-radius="pill"]:root {
   --density-text-13: 13px;
   --density-text-14: 14px;
   --density-text-16: 16px;
+  --density-text-20: 20px;
+  --density-text-28: 28px;
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-mark: calc((var(--density-36) * var(--radius-mark-ratio, 0) + var(--radius-mark-base, 0px)) * var(--radius-corner-scale, 1));
+  --radius-card: calc((var(--density-36) * var(--radius-card-ratio, 0) + var(--radius-card-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-nested: max(var(--radius-mark), calc(var(--radius-surface) - 4px));
   --radius-inner: max(var(--radius-mark), calc(var(--radius-control) - var(--density-4)));
   --radius-wrap: calc(var(--radius-control) + var(--density-4));
+  --radius-card-sm: max(var(--radius-surface), calc(var(--radius-card) - var(--density-4)));
+  --radius-card-inner: max(var(--radius-mark), calc(var(--radius-card) - var(--density-4)));
 }
 @utility density-spacious {
   --density-4: 0.25rem;
@@ -1254,15 +1288,20 @@ html[data-radius="pill"]:root {
   --density-text-13: 15px;
   --density-text-14: 16px;
   --density-text-16: 18px;
+  --density-text-20: 22px;
+  --density-text-28: 32px;
   --density-icon-14: 1rem;
   --density-icon-16: 1.125rem;
   --radius-control: calc((var(--density-36) * var(--radius-control-ratio, 0) + var(--radius-control-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-surface: calc((var(--density-36) * var(--radius-surface-ratio, 0) + var(--radius-surface-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-panel: calc((var(--density-36) * var(--radius-panel-ratio, 0) + var(--radius-panel-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-mark: calc((var(--density-36) * var(--radius-mark-ratio, 0) + var(--radius-mark-base, 0px)) * var(--radius-corner-scale, 1));
+  --radius-card: calc((var(--density-36) * var(--radius-card-ratio, 0) + var(--radius-card-base, 0px)) * var(--radius-corner-scale, 1));
   --radius-nested: max(var(--radius-mark), calc(var(--radius-surface) - 4px));
   --radius-inner: max(var(--radius-mark), calc(var(--radius-control) - var(--density-4)));
   --radius-wrap: calc(var(--radius-control) + var(--density-4));
+  --radius-card-sm: max(var(--radius-surface), calc(var(--radius-card) - var(--density-4)));
+  --radius-card-inner: max(var(--radius-mark), calc(var(--radius-card) - var(--density-4)));
 }
 :root[data-loader="skeleton"], [data-loader="skeleton"] {
   --loader: skeleton;

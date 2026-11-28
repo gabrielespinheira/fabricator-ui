@@ -1,15 +1,17 @@
 ---
 title: Card
-description: Displays a card with header, content, and footer.
+description: One discrete thing on a surface, such as a metric, a chart, a record or a plan, with a header, its value and a footer.
 base: base
 component: true
 ---
 
 <ComponentPreview
-  name="card-demo"
+  name="card-overview"
   styleName="base-nova"
-  previewClassName="h-[30rem]"
+  previewClassName="h-[26rem]"
 />
+
+A card holds one thing: a metric, a chart, a list to work through, a record, a plan. Its corner is rounder than a menu's (the card corner of the look's shape, which follows the density), its header lines an icon, the title and one control up on a single row, and its value is the largest text on it. Lists and tables reach its edges by themselves, footers sit on its bottom edge, and a card with a `CardLink` opens its record from anywhere on it.
 
 ## Installation
 
@@ -57,7 +59,11 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardLink,
+  CardMedia,
   CardTitle,
+  CardValue,
+  CardValueCaption,
 } from "@/components/ui/card"
 ```
 
@@ -82,13 +88,137 @@ import {
 Use the following composition to build a `Card`:
 
 ```text
-Card
+Card                      data-slot="card" data-variant data-size
 ├── CardHeader
+│   ├── CardMedia         an icon tile, a logo or an avatar
 │   ├── CardTitle
+│   │   └── CardLink      optional: the whole card opens the record
 │   ├── CardDescription
-│   └── CardAction
+│   └── CardAction        at most one quiet control
 ├── CardContent
-└── CardFooter
+│   └── CardValue         the headline figure
+│       └── CardValueCaption
+└── CardFooter            pinned to the bottom edge
+```
+
+## Kinds
+
+Every card in a grid has the same parts in the same order. These are the kinds a dashboard is built from.
+
+### Stat
+
+The title names the number, the value is the largest text, and a [`Delta`](/docs/components/base/delta) says whether it moved the right way. A missing comparison says "No data".
+
+<ComponentPreview
+  styleName="base-nova"
+  name="card-stat"
+  previewClassName="h-60"
+/>
+
+### Chart, meter and object
+
+A chart card keeps its period in the action and its headline above a `minimal` chart. A meter card puts the total in `CardValue` and a [Segmented Meter](/docs/components/base/segmented-meter) under it, which then keeps its own label for screen readers only. An object card gives the record an identity with `CardMedia` and its people in the footer.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="card-overview"
+  previewClassName="h-[26rem]"
+/>
+
+### List
+
+An `ItemGroup` reaches the card's edges by itself: the rows' hover spans the card, and each icon sits on the card's inset.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="card-list"
+  previewClassName="h-96"
+/>
+
+### Table
+
+A `Table` reaches the card's edges by itself, with its first and last columns on the inset; as the card's last part, its last row meets the bottom corner.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="card-table"
+  previewClassName="h-96"
+/>
+
+### Plan
+
+<ComponentPreview
+  styleName="base-nova"
+  name="card-plan"
+  previewClassName="h-[28rem]"
+/>
+
+### Connection
+
+<ComponentPreview
+  styleName="base-nova"
+  name="card-connection"
+  previewClassName="h-60"
+/>
+
+### States
+
+Loading keeps the frame and header and fills the content at its height. Empty says what will show and how to start. An error stays in its card with Retry, while the other cards keep their data.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="card-states"
+  previewClassName="h-96"
+/>
+
+## Variant
+
+`default` lifts the card on the page. `muted` is a wash with no shadow: secondary cards, an empty slot in a grid, a card inside a raised surface. `tray` holds each `CardContent` as a lifted panel in a muted shell, with the header and footer on the shell and every text edge on the same inset.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="card-variants"
+  previewClassName="h-72"
+/>
+
+## Media
+
+`CardMedia` gives a card its identity: `variant="icon"` for a kind of thing, `"image"` for a logo or picture, the default for an `Avatar`. Keep it off metric and chart cards, where the title names a measure.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="card-media"
+  previewClassName="h-96"
+/>
+
+## Link
+
+Put a `CardLink` in the title to make the whole card open one record. Its cover spans the card, so a click anywhere opens it and cmd-click opens a tab, while buttons, menus and switches inside the card keep working. Hover lifts the card, a press gives a little and the focus ring follows the card's corner. Never wrap a card in a link.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="card-link"
+  previewClassName="h-72"
+/>
+
+```tsx showLineNumbers
+<CardTitle>
+  <CardLink render={<Link href="/agents/triage" />}>Triage</CardLink>
+</CardTitle>
+```
+
+Text under the cover can't be selected. A card whose text people copy uses an "Open" button instead.
+
+## Value
+
+`CardValue` is the headline figure: medium, tabular, the largest text on the card. `CardValueCaption` after it holds a unit, a total ("of 200K") or the previous value, and a `Delta` sits between them. When the card is narrow, the caption and delta wrap under the figure, which never truncates.
+
+```tsx showLineNumbers
+<CardValue>
+  $981K
+  <Delta change={11.5} />
+  <CardValueCaption>from $879.5K</CardValueCaption>
+</CardValue>
 ```
 
 ## Size
@@ -111,7 +241,7 @@ In addition to the `size` prop, you can use the `--card-spacing` CSS variable to
   previewClassName="h-[34rem]"
 />
 
-Use negative margins with `-mx-(--card-spacing)` to make content go edge to edge while keeping it aligned with the card inset. When the edge-to-edge content sits above a footer, use `-mb-(--card-spacing)` on `CardContent` to remove the section gap.
+Tables and item lists go edge to edge by themselves (see [Table](#table) and [List](#list)). For anything else, use negative margins with `-mx-(--card-spacing)` to make content go edge to edge while keeping it aligned with the card inset. When the edge-to-edge content sits above a footer, use `-mb-(--card-spacing)` on `CardContent` to remove the section gap.
 
 <ComponentPreview
   styleName="base-nova"
@@ -135,10 +265,11 @@ Add an image before the card header to create a card with an image.
 
 The `Card` component is the root container for card content.
 
-| Prop        | Type                | Default     |
-| ----------- | ------------------- | ----------- |
-| `size`      | `"default" \| "sm"` | `"default"` |
-| `className` | `string`            | -           |
+| Prop        | Type                             | Default     |
+| ----------- | -------------------------------- | ----------- |
+| `variant`   | `"default" \| "muted" \| "tray"` | `"default"` |
+| `size`      | `"default" \| "sm"`              | `"default"` |
+| `className` | `string`                         | -           |
 
 ### CardHeader
 
@@ -172,6 +303,32 @@ The `CardAction` component places content in the top-right of the header (for ex
 | ----------- | -------- | ------- |
 | `className` | `string` | -       |
 
+### CardMedia
+
+The header's leading picture.
+
+| Prop        | Type                             | Default     |
+| ----------- | -------------------------------- | ----------- |
+| `variant`   | `"default" \| "icon" \| "image"` | `"default"` |
+| `className` | `string`                         | -           |
+
+### CardLink
+
+The title's link to the record; its cover makes the whole card the target. Takes an anchor's props and `render` for a router's link.
+
+| Prop        | Type           | Default |
+| ----------- | -------------- | ------- |
+| `render`    | `ReactElement` | -       |
+| `className` | `string`       | -       |
+
+### CardValue and CardValueCaption
+
+The headline figure and the muted text after it.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
 ### CardContent
 
 The `CardContent` component is used for the main card body.
@@ -182,13 +339,17 @@ The `CardContent` component is used for the main card body.
 
 ### CardFooter
 
-The `CardFooter` component is used for actions and secondary content at the bottom of the card.
+The `CardFooter` component is used for actions and secondary content at the bottom of the card. It sits on the bottom edge, so the footers of a row of cards line up, and its text is grey.
 
 | Prop        | Type     | Default |
 | ----------- | -------- | ------- |
 | `className` | `string` | -       |
 
 ## Changelog
+
+### Card corner, media, value and link
+
+Fabricator adds the `variant` prop and the `CardMedia`, `CardLink`, `CardValue` and `CardValueCaption` parts; every upstream part, prop and slot is unchanged. Cards take the look's card corner (`--radius-card`) instead of the popup corner, and `size="sm"` steps it down with the inset.
 
 ### Spacing Variable
 

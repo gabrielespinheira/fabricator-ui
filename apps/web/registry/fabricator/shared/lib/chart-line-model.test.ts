@@ -32,6 +32,14 @@ function model(options: Partial<Parameters<typeof getLineChartModel>[0]> = {}) {
 }
 
 describe("getLineChartModel", () => {
+  it("runs the line from edge to edge with no axis labels when minimal", () => {
+    const { positions, labelIndices, layout } = model({ minimal: true })
+    expect(positions[0]).toBe(0)
+    expect(positions[2]).toBe(400)
+    expect(layout.valueTicks).toEqual([])
+    expect(labelIndices).toEqual([])
+  })
+
   it("places one point per datum across the plot", () => {
     const { positions, layout } = model()
     expect(positions).toHaveLength(3)

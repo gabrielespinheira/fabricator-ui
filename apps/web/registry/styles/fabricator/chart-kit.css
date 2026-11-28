@@ -121,6 +121,11 @@
 
   /* The legend: a wrapping row of toggles. A hidden series keeps its place,
      greyed with a hollow key. */
+  /* A minimal chart's range under the plot: the axis labels' size and grey. */
+  .cn-chart-ends {
+    @apply text-muted-foreground pt-(--density-8) text-(length:--density-text-11) tabular-nums;
+  }
+
   .cn-chart-legend {
     @apply gap-x-(--density-4) gap-y-0.5 text-(length:--density-text-12);
   }

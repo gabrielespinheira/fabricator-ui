@@ -90,6 +90,7 @@ export function getBarChartModel<TDatum extends ChartDatum>({
   maxThickness = MAX_BAR_THICKNESS,
   bandPadding = 0.3,
   formatIndex,
+  minimal = false,
 }: {
   data: readonly TDatum[]
   config: ChartConfig
@@ -102,6 +103,8 @@ export function getBarChartModel<TDatum extends ChartDatum>({
   maxThickness?: number
   bandPadding?: number
   formatIndex?: (value: string, datum: TDatum) => string
+  /** No axes or gridlines; the chart writes its first and last labels. */
+  minimal?: boolean
 }): BarChartModel {
   const series = getChartSeries(config, hidden)
   const labels = data.map((datum) => {
@@ -134,6 +137,7 @@ export function getBarChartModel<TDatum extends ChartDatum>({
     orientation,
     valueFormat: stack === "expand" ? "percent" : "number",
     bandLabels: true,
+    minimal: minimal && orientation === "vertical",
   })
   const { plot, scale } = layout
   const isVertical = orientation === "vertical"
@@ -263,9 +267,12 @@ export function getBarChartModel<TDatum extends ChartDatum>({
     0,
     ...labels.map((label) => estimateTextWidth(label, fontSize))
   )
-  const labelIndices = isVertical
-    ? getIndexLabelIndices(data.length, plot.width, labelWidth + 12)
-    : getIndexLabelIndices(data.length, plot.height, fontSize * 1.4)
+  const labelIndices =
+    minimal && isVertical
+      ? []
+      : isVertical
+        ? getIndexLabelIndices(data.length, plot.width, labelWidth + 12)
+        : getIndexLabelIndices(data.length, plot.height, fontSize * 1.4)
 
   return {
     layout,

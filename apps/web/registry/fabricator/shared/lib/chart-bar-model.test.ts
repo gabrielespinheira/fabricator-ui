@@ -28,6 +28,19 @@ function model(options: Partial<Parameters<typeof getBarChartModel>[0]> = {}) {
 }
 
 describe("getBarChartModel", () => {
+  it("fills the frame with no axis labels when minimal", () => {
+    const { layout, labelIndices } = model({ minimal: true })
+    expect(layout.plot.x).toBe(0)
+    expect(layout.plot.width).toBe(600)
+    expect(layout.valueTicks).toEqual([])
+    expect(labelIndices).toEqual([])
+  })
+
+  it("keeps the labels of horizontal bars, which name them", () => {
+    const { labelIndices } = model({ minimal: true, layout: "horizontal" })
+    expect(labelIndices.length).toBeGreaterThan(0)
+  })
+
   it("draws one bar per series per category, side by side", () => {
     const { bars } = model()
     expect(bars).toHaveLength(6)

@@ -95,6 +95,17 @@ describe("densities", () => {
   })
 })
 
+describe("display text", () => {
+  it("sizes card values on two display steps that follow the density", () => {
+    expect(DENSITY_NAMES.map((name) => DENSITIES[name].text[20])).toEqual([
+      18, 20, 22,
+    ])
+    expect(DENSITY_NAMES.map((name) => DENSITIES[name].text[28])).toEqual([
+      24, 28, 32,
+    ])
+  })
+})
+
 describe("density tokens", () => {
   it("writes spacing in rem and text in px", () => {
     expect(toDensityVars(DENSITIES.default)).toMatchObject({

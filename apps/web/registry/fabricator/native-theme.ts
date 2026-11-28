@@ -45,6 +45,16 @@ export const APP_SHELL_FRAME_MUTED_BLACK = { light: 0.1, dark: 0 }
 export const APP_SHELL_CARD_SHADOW_DARK =
   "inset 0 0 0 1px var(--dm-ring-high),0 1px 2px oklch(0 0 0/0.24)"
 
+// getNativeRadii's camelCase keys as the web's variable names.
+const RADIUS_VAR_NAMES: Record<string, string> = {
+  cardSmall: "card-sm",
+  cardInner: "card-inner",
+}
+
+function toRadiusVarName(role: string) {
+  return RADIUS_VAR_NAMES[role] ?? role
+}
+
 /** Multiples of --radius, as in app/globals.css. */
 export const RADIUS_SCALE = { sm: 0.6, md: 0.8, lg: 1, xl: 1.4, "2xl": 1.8 }
 
@@ -411,7 +421,7 @@ export function getNativeCssVariables(
     "--radius-2xl": radius["2xl"],
     ...Object.fromEntries(
       Object.entries(getNativeRadii(look.radius, DENSITIES[look.density])).map(
-        ([role, value]) => [`--radius-${role}`, value]
+        ([role, value]) => [`--radius-${toRadiusVarName(role)}`, value]
       )
     ),
     // iOS draws continuous (squircle) corners; Android ignores it.

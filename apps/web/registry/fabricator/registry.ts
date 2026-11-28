@@ -435,6 +435,27 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "delta",
+    type: "registry:ui",
+    title: "Delta",
+    description:
+      "A change against the previous period as a status badge: a sign, one decimal and an arrow, green when it moved the way it should and red when it didn't, in percent or points. No change is an outline; a missing comparison says No data.",
+    files: [
+      { path: "ui/delta.tsx", type: "registry:ui" },
+      { path: "lib/delta-model.ts", type: "registry:lib" },
+    ],
+    registryDependencies: ["badge"],
+    categories: ["content"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/delta",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/delta#examples",
+      },
+    },
+  },
+  {
     name: "bottom-nav",
     type: "registry:ui",
     title: "Bottom Nav",

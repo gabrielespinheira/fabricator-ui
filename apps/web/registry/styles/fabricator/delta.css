@@ -1,0 +1,12 @@
+/* MARK: Delta */
+
+  /* A status badge: the sign and arrow carry the direction, so colour is never
+     the only cue. Figures are tabular so a row of deltas lines up. */
+  .cn-delta {
+    @apply shrink-0;
+  }
+
+  /* No comparison: grey caption text, never a badge that reads as zero. */
+  .cn-delta-empty {
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal tracking-normal whitespace-nowrap;
+  }

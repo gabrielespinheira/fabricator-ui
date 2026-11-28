@@ -107,6 +107,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   table: "Content",
   progress: "Content",
   "segmented-meter": "Content",
+  delta: "Content",
   folder: "Content",
   markdown: "Content",
   sounds: "Content",

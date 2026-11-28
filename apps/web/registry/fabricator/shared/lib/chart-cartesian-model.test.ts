@@ -73,6 +73,43 @@ describe("getCartesianLayout", () => {
   })
 })
 
+describe("minimal layout", () => {
+  const minimal = getCartesianLayout({
+    size: { width: 300, height: 140 },
+    labels,
+    min: 0,
+    max: 76,
+    fontSize: 12,
+    minimal: true,
+  })
+
+  it("fills the frame edge to edge with no value gutter", () => {
+    expect(minimal.plot.x).toBe(0)
+    expect(minimal.plot.width).toBe(300)
+  })
+
+  it("reaches the bottom, since the end labels sit outside the plot", () => {
+    expect(minimal.plot.y + minimal.plot.height).toBe(140)
+  })
+
+  it("lets the tallest value nearly reach the top, with no axis to round to", () => {
+    const tall = getCartesianLayout({
+      size: { width: 300, height: 140 },
+      labels,
+      min: 0,
+      max: 2060,
+      fontSize: 12,
+      minimal: true,
+    })
+    expect(tall.scale.domain[1]).toBeGreaterThanOrEqual(2060)
+    expect(tall.scale.domain[1]).toBeLessThan(2060 * 1.1)
+  })
+
+  it("keeps the scale so tooltips and bars still read the values", () => {
+    expect(minimal.scale.toPixel(0)).toBe(140)
+  })
+})
+
 describe("label room", () => {
   it("leaves wide value labels a little slack before the plot", () => {
     const layout = getCartesianLayout({

@@ -67,6 +67,7 @@ export function getLineChartModel<TDatum extends ChartDatum>({
   stack = "none",
   hidden,
   formatIndex,
+  minimal = false,
 }: {
   data: readonly TDatum[]
   config: ChartConfig
@@ -76,6 +77,8 @@ export function getLineChartModel<TDatum extends ChartDatum>({
   stack?: ChartStack
   hidden?: ReadonlySet<string>
   formatIndex?: (value: string, datum: TDatum) => string
+  /** No axes or gridlines; the chart writes its first and last labels. */
+  minimal?: boolean
 }): LineChartModel {
   const series = getChartSeries(config, hidden)
   const labels = data.map((datum) => {
@@ -116,6 +119,7 @@ export function getLineChartModel<TDatum extends ChartDatum>({
     fontSize,
     valueFormat: stack === "expand" ? "percent" : "number",
     edgeLabels: true,
+    minimal,
   })
   const positions = getPointPositions(
     data.length,
@@ -133,11 +137,13 @@ export function getLineChartModel<TDatum extends ChartDatum>({
     layout,
     positions,
     labels,
-    labelIndices: getIndexLabelIndices(
-      data.length,
-      layout.plot.width + labelWidth,
-      labelWidth + 12
-    ),
+    labelIndices: minimal
+      ? []
+      : getIndexLabelIndices(
+          data.length,
+          layout.plot.width + labelWidth,
+          labelWidth + 12
+        ),
     baseline,
     stack,
     series: series.map((item, seriesIndex) => ({

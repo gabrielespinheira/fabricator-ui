@@ -33,6 +33,7 @@ const LABEL_GAP = CHART_LABEL_GAP
 // Wide glyphs (W, M, %) outrun the average advance the width estimate uses;
 // a little slack keeps every label inside the frame.
 const LABEL_SLACK = 4
+const MINIMAL_TICK_COUNT = 20
 
 export function getAxisLabelHeight(fontSize: number) {
   return Math.ceil(fontSize * 1.25) + LABEL_GAP
@@ -57,6 +58,7 @@ export function getCartesianLayout({
   formatTick,
   edgeLabels = false,
   bandLabels = false,
+  minimal = false,
 }: {
   size: ChartSize
   labels: readonly string[]
@@ -70,6 +72,11 @@ export function getCartesianLayout({
   edgeLabels?: boolean
   /** Labels centred on bands: the last may reach past a narrow band's edge. */
   bandLabels?: boolean
+  /**
+   * No axes or gridlines: the plot fills the frame and the chart writes its
+   * first and last labels under it. Vertical charts only.
+   */
+  minimal?: boolean
 }): CartesianLayout {
   const top = Math.ceil(fontSize / 2) + 2
   const bottom = getAxisLabelHeight(fontSize)
@@ -110,6 +117,25 @@ export function getCartesianLayout({
         label: format(value),
       })),
     }
+  }
+
+  if (minimal) {
+    const minimalTop = 2
+    const plot = {
+      x: 0,
+      y: minimalTop,
+      width: Math.max(1, size.width),
+      height: Math.max(1, size.height - minimalTop),
+    }
+    const scale = getValueScale({
+      min,
+      max,
+      range: [plot.y + plot.height, plot.y],
+      // No axis to label, so round the top only a little.
+      tickCount: MINIMAL_TICK_COUNT,
+      includeZero,
+    })
+    return { orientation, plot, scale, valueTicks: [] }
   }
 
   const plotHeight = Math.max(1, size.height - top - bottom)

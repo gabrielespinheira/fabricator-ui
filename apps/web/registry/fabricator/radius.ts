@@ -7,6 +7,8 @@
 // - control: single-line controls (button, input, select trigger, toggle).
 // - surface: containers (card, popover, menu, dialog, alert, toast).
 // - panel:   large frames (App Shell frame and inset, sheet edges).
+// - card:    cards, rounder than popups and equal to the panel at the default
+//            density, so a grid of cards reads soft without loosening menus.
 // - mark:    small parts (checkbox, kbd, tooltip, inline code).
 //
 // Layered corners stay concentric: an inner corner is the outer one minus the
@@ -36,7 +38,13 @@ export type RadiusShape = (typeof RADIUS_SHAPES)[number]
 
 export const DEFAULT_RADIUS_SHAPE: RadiusShape = "rounded"
 
-export const RADIUS_ROLES = ["control", "surface", "panel", "mark"] as const
+export const RADIUS_ROLES = [
+  "control",
+  "surface",
+  "panel",
+  "mark",
+  "card",
+] as const
 export type RadiusRole = (typeof RADIUS_ROLES)[number]
 
 /** A role's corner: `control height × ratio + base`, in px. */
@@ -52,6 +60,8 @@ export const SHAPE_RADII: Record<
     surface: { ratio: 0, base: 12 },
     panel: { ratio: 0, base: 16 },
     mark: { ratio: 0, base: 4 },
+    // 12 / 16 / 20px from compact to spacious.
+    card: { ratio: 0.5, base: -2 },
   },
   // Softer than Rounded, the proportions of Apple's controls and cards.
   squircle: {
@@ -59,6 +69,8 @@ export const SHAPE_RADII: Record<
     surface: { ratio: 0, base: 14 },
     panel: { ratio: 0, base: 20 },
     mark: { ratio: 0, base: 5 },
+    // 16 / 20 / 24px: the proportions of an iOS widget.
+    card: { ratio: 0.5, base: 2 },
   },
   // Capsule controls. Containers stay moderate: half a control plus a popup's
   // 4px padding, so the capsule rows inside a menu are concentric.
@@ -67,6 +79,7 @@ export const SHAPE_RADII: Record<
     surface: { ratio: 0.5, base: 4 },
     panel: { ratio: 0.5, base: 8 },
     mark: { ratio: 0, base: 6 },
+    card: { ratio: 0.5, base: 8 },
   },
 }
 
@@ -135,11 +148,15 @@ export function getNativeRadii(
   const surface = getRoleRadius(shape, "surface", height)
   const panel = getRoleRadius(shape, "panel", height)
   const mark = getRoleRadius(shape, "mark", height)
+  const card = getRoleRadius(shape, "card", height)
   return {
     control,
     surface,
     panel,
     mark,
+    card,
+    cardSmall: Math.max(surface, card - density.space[4]),
+    cardInner: getNestedRadius({ outer: card, inset: density.space[4], mark }),
     nested: getNestedRadius({ outer: surface, inset: POPUP_INSET, mark }),
     inner: getNestedRadius({ outer: control, inset: density.space[4], mark }),
     wrap: getWrappingRadius({ inner: control, inset: density.space[4] }),
@@ -192,6 +209,12 @@ export const RADIUS_ROLE_VARS: Record<string, string> = {
     "max(var(--radius-mark), calc(var(--radius-control) - var(--density-4)))",
   // A track or group hugging controls with `p-(--density-4)`.
   "radius-wrap": "calc(var(--radius-control) + var(--density-4))",
+  // A `size="sm"` card: its inset is one step smaller, so its corner is too.
+  "radius-card-sm":
+    "max(var(--radius-surface), calc(var(--radius-card) - var(--density-4)))",
+  // The lifted panel inside a tray card's `p-(--density-4)` shell.
+  "radius-card-inner":
+    "max(var(--radius-mark), calc(var(--radius-card) - var(--density-4)))",
 }
 
 /**

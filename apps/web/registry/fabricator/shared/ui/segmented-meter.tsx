@@ -41,7 +41,10 @@ function SegmentedMeter({
       className={cn("cn-segmented-meter flex flex-col", className)}
       {...props}
     >
-      <div className="cn-segmented-meter-header flex items-baseline justify-between">
+      <div
+        data-slot="segmented-meter-header"
+        className="cn-segmented-meter-header flex items-baseline justify-between"
+      >
         <span id={labelId} className="cn-segmented-meter-label">
           {label}
         </span>

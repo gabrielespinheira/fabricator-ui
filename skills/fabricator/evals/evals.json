@@ -203,9 +203,9 @@
         "Uses AppShellContent size=\"lg\" with AppShellPageTitle and a grid using @container and @4xl:grid-cols-12",
         "Keeps one rhythm: a row of four stat cards with full-width and half-width rows, not 8 + 4 rows under four stats",
         "Separates the stat cards, rows and sections with space and surfaces, with no Separator, border or divider lines, and no icon tiles",
-        "Shows deltas as status Badges with a sign and an arrow, colouring churn's decrease as success and stating the comparison period once in the toolbar",
+        "Shows each value as a CardValue and each change as a Delta, colouring churn's decrease as success and stating the comparison period once in the toolbar",
         "Compares periods with a LineChart whose previous series is dashed and muted, not an AreaChart",
-        "Aligns list rows and table cells to --card-spacing and styles the View all link with buttonVariants",
+        "Lets the ItemGroup and Table bleed to the card edges by themselves (no hand-written padding) and styles the View all link with buttonVariants",
         "Designs loading, empty and error states inside each card without removing the other cards"
       ]
     },
@@ -417,6 +417,32 @@
         "Bold, italic and undo tooltips show their shortcut in Kbd, printed with useShortcutLabel rather than a hard-coded ⌘",
         "Link and share tooltips show no Kbd because they have no shortcut",
         "Uses the base render prop on TooltipTrigger, not asChild"
+      ]
+    },
+    {
+      "id": 31,
+      "prompt": "My Next.js app uses Fabricator UI (base-nova). Add a usage card to the billing page: seats used against the plan's limit, storage split by photos, files and backups against 50 GB, and a button to manage the plan.",
+      "expected_output": "A Card with a title, a quiet action, the storage total as a CardValue with an \"of 50 GB\" CardValueCaption, a SegmentedMeter under it, and the seats as a stat with a Progress, built from recipes/cards.md.",
+      "files": [],
+      "expectations": [
+        "Reads recipes/cards.md before writing the card",
+        "Writes the headline figures with CardValue and CardValueCaption, with no hand-written text-2xl or weight classes",
+        "Puts the storage parts in a SegmentedMeter under the CardValue instead of a chart",
+        "Keeps one quiet control in CardAction and no icon tile on this metric card",
+        "Uses card corners and spacing from the component, with no rounded-* or padding overrides"
+      ]
+    },
+    {
+      "id": 32,
+      "prompt": "My Next.js app uses Fabricator UI (radix-nova). Build an integrations page: a grid of cards for GitHub, Linear, Notion, Slack and Stripe, each connectable, plus a grid of the workspace's six automations that open their detail page.",
+      "expected_output": "Two grids of equal cards: connection cards with CardMedia logos, one line and a Switch or Connect in CardAction; automation object cards with CardMedia icons, a CardLink in the title (asChild around next/link), a More menu and footers that line up.",
+      "files": [],
+      "expectations": [
+        "Reads recipes/cards.md before writing the cards",
+        "Gives each integration and automation card a CardMedia identity and keeps every card in a grid to the same parts",
+        "Makes automation cards open their page with a CardLink in the title (asChild in Radix), never a link around the card or an onClick",
+        "Keeps the More menu and switches working inside linked cards",
+        "Lets the footers line up on the bottom edge without spacer hacks, and shows connected state with a Switch, not colour alone"
       ]
     }
   ]

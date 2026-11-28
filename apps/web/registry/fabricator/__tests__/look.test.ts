@@ -152,6 +152,7 @@ describe("lookCssVars", () => {
       "radius-panel-ratio": "0.5",
       "radius-panel-base": "8px",
       "radius-mark-base": "6px",
+      "radius-card-base": "8px",
       radius: "0.75rem",
     })
   })
@@ -162,6 +163,7 @@ describe("lookCssVars", () => {
       "radius-surface-base": "14px",
       "radius-panel-base": "20px",
       "radius-mark-base": "5px",
+      "radius-card-base": "2px",
       "corner-shape": "superellipse(1.5)",
       "radius-squircle-scale": String(SQUIRCLE_CORNER_SCALE),
       radius: "0.625rem",
