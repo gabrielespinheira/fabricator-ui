@@ -127,6 +127,15 @@ describe("animated icons", () => {
 })
 
 describe("snippets", () => {
+  it("includes the selected stroke width in the Fill snippet", () => {
+    expect(
+      getJsxSnippet(
+        { ...house, set: "fill" },
+        { size: 24, strokeWidth: 2.5, brandColor: false }
+      )
+    ).toBe("<HouseIcon strokeWidth={2.5} />")
+  })
+
   it("names components the way the package exports them", () => {
     expect(toComponentName("arrow-up-0-1")).toBe("ArrowUp01Icon")
   })

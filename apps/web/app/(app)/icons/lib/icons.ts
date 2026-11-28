@@ -22,7 +22,12 @@ import { DEFAULT_STROKE_WIDTH } from "./icon-query"
 export const DEFAULT_SIZE = 24
 
 export function hasStrokeWidth(set: IconSet) {
-  return set === "outline" || set === "duotone" || set === "animated"
+  return (
+    set === "outline" ||
+    set === "fill" ||
+    set === "duotone" ||
+    set === "animated"
+  )
 }
 
 /** `arrow-up-0-1` → `ArrowUp01Icon`, as the packages export it. */

@@ -2,7 +2,6 @@ import type { IconElement } from "./types"
 import { drawInSlot } from "./ui-families"
 import { drawPaths, drawRoundedBox } from "./ui-grid"
 import { drawStateMark } from "./ui-state-glyphs"
-import { UI_STROKE_WIDTH } from "./validate"
 
 export type CalendarFrame = {
   node: IconElement[]
@@ -39,7 +38,6 @@ function strokes(node: IconElement[]): IconElement[] {
       ...attrs,
       fill: "none",
       stroke: "currentColor",
-      "stroke-width": String(UI_STROKE_WIDTH),
     },
   ])
 }
@@ -51,7 +49,6 @@ function surfaces(paths: string[]): IconElement[] {
       d,
       fill: "currentColor",
       stroke: "currentColor",
-      "stroke-width": String(UI_STROKE_WIDTH),
     },
   ])
 }

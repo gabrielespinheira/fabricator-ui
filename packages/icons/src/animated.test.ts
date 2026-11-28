@@ -104,6 +104,21 @@ describe("animated icons", () => {
     expect(markup).toContain('data-icon="inline-start"')
   })
 
+  it.each(["outline", "fill", "duotone"] as const)(
+    "applies the requested stroke width to animated %s artwork",
+    (variant) => {
+      for (const Icon of [
+        Animated.ArrowRightIcon,
+        Animated.SidebarToggleIcon,
+      ]) {
+        const markup = render(Icon, { variant, strokeWidth: 2.25 })
+        expect(markup.match(/stroke-width="[^"]+"/g)).toEqual([
+          'stroke-width="2.25"',
+        ])
+      }
+    }
+  )
+
   it("stay hidden from assistive tech unless labelled", () => {
     expect(
       render(Animated.BellIcon, { "aria-label": "Notifications" })

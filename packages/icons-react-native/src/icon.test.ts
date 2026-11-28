@@ -33,6 +33,7 @@ const { HouseIcon, House, IconProvider, Icon, VaultIcon } = await import(
   "./index"
 )
 const { GithubIcon, GoogleIcon, PinterestIcon } = await import("./brands")
+const { ArrowRightIcon: FilledArrowRightIcon } = await import("./fill")
 const { iconData: houseData } = await import("./generated/icons/house")
 const { brandData: googleData } = await import("./generated/brands/google")
 
@@ -90,6 +91,25 @@ describe("outline icons", () => {
       })
     )
     expect(markup).toContain('stroke="none" fill="#2563eb" fill-opacity="0.2"')
+  })
+})
+
+describe("Fill icons", () => {
+  it("inherits the provider stroke width and allows a prop override", () => {
+    const renderFill = (strokeWidth?: number) =>
+      render(
+        createElement(
+          IconProvider,
+          { strokeWidth: 1.25 },
+          createElement(FilledArrowRightIcon, { strokeWidth })
+        )
+      )
+    expect(renderFill().match(/stroke-width="[^"]+"/g)).toEqual([
+      'stroke-width="1.25"',
+    ])
+    expect(renderFill(2.5).match(/stroke-width="[^"]+"/g)).toEqual([
+      'stroke-width="2.5"',
+    ])
   })
 })
 

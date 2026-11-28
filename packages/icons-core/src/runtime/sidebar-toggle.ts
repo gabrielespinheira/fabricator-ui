@@ -1,4 +1,3 @@
-import { UI_STROKE_WIDTH } from "./attributes.js"
 import type { IconData, IconElement, IconWeight } from "./types.js"
 
 export const SIDEBAR_TOGGLE_NAME = "sidebar-toggle"
@@ -48,7 +47,6 @@ export function getSidebarToggleDrawing(
             ...frame[1],
             fill: "none",
             stroke: "currentColor",
-            "stroke-width": String(UI_STROKE_WIDTH),
           },
         ],
       ],

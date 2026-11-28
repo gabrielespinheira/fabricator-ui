@@ -82,7 +82,7 @@ The native tree (`apps/web/registry/native/`) holds the React Native version of 
 
 ## Fabricator Icons
 
-Fabricator maintains the UI icon catalog, including original additions and names and aliases carried over from its frozen import. Every UI icon shares the 24 × 24 optical grid across Outline, Fill, Duotone and web animation. Outline and Duotone use a 1.75-unit resting stroke, sized for the 14, 16 and 18 px density tokens. Brand marks and Charmed file icons have their own sets.
+Fabricator maintains the UI icon catalog, including original additions and names and aliases carried over from its frozen import. Every UI icon shares the 24 × 24 optical grid across Outline, Fill, Duotone and web animation. Strokes and cutouts inherit the root width, which defaults to 1.75 units across all variants. Variants with strokes or cutouts share a viewport so the strokes scale together. Brand marks and Charmed file icons have their own sets.
 
 | Package                             | For                               | Sets                                                                                        |
 | ----------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------- |

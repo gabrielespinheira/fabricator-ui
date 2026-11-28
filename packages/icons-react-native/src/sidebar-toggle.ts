@@ -83,10 +83,7 @@ export function SidebarToggleIcon({
       animatedProps: outline,
       ...(isFilled && { fill: color, fillRule: "evenodd", stroke: "none" }),
     }),
-    createElement(Path, {
-      d: SIDEBAR_TOGGLE_FRAME,
-      ...(isFilled && { strokeWidth: UI_STROKE_WIDTH }),
-    })
+    createElement(Path, { d: SIDEBAR_TOGGLE_FRAME })
   )
 
   return renderIcon(

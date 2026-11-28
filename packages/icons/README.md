@@ -18,7 +18,7 @@ import { BookmarkIcon } from "@fabricator-ui/icons/fill"
 ;<BellIcon variant="duotone" />
 ```
 
-Each variant uses the same canonical names and aliases. Outline and Duotone default to a 1.75-unit stroke.
+Each variant uses the same canonical names and aliases. All UI strokes default to 1.75 units, including open paths and cutouts in Fill. Set `strokeWidth` to customize them.
 
 ## Outline icons
 

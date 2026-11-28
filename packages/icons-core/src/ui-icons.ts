@@ -38,6 +38,10 @@ export type UiIcon = OutlineIcon & {
   opticalScales: Partial<Record<IconWeight, number>>
 }
 
+function hasExplicitStroke([, { stroke }]: IconElement) {
+  return stroke !== undefined && stroke !== "none"
+}
+
 export function getUiIconData(
   icon: UiIcon,
   weight: IconWeight = "outline"
@@ -68,12 +72,9 @@ function getMaximumScale(data: IconData) {
   const edge = Math.max(
     ...[...data.node, ...(data.secondary ?? [])].map((shape) => {
       const { minX, minY, maxX, maxY } = getBounds([shape])
-      const { stroke, "stroke-width": width } = shape[1]
+      const { stroke } = shape[1]
       const inheritsStroke = data.node.includes(shape) && data.paint !== "fill"
-      const margin =
-        stroke === "none" || (!stroke && !inheritsStroke)
-          ? 0
-          : Number(width ?? 3) / 2
+      const margin = stroke === "none" || (!stroke && !inheritsStroke) ? 0 : 1.5
       return Math.max(12 - minX, 12 - minY, maxX - 12, maxY - 12) + margin
     })
   )
@@ -93,20 +94,26 @@ function calibrateUiIcons(drawings: FramedDrawing[]) {
     const outlineData = getUiIconData(icon)
     const fillData = getUiIconData(icon, "fill")
     const duotoneData = getUiIconData(icon, "duotone")
+    const fillLimit = getMaximumScale(fillData)
+    const sharesStroke = [...fillData.node, ...(fillData.cutout ?? [])].some(
+      hasExplicitStroke
+    )
     const outlineLimit = Math.min(
       getMaximumScale(outlineData),
-      getMaximumScale(duotoneData)
+      getMaximumScale(duotoneData),
+      sharesStroke ? fillLimit : Infinity
     )
-    const fillLimit = getMaximumScale(fillData)
+    // Paint variants with linework share the viewport so their strokes scale together.
     const outline =
       (measureScale(outlineData, outlineLimit) +
         measureScale(duotoneData, outlineLimit)) /
       2
+    const outlineScale = Math.floor(outline * 1000) / 1000
     return {
       icon,
       family,
-      outline: Math.floor(outline * 1000) / 1000,
-      fill: measureScale(fillData, fillLimit),
+      outline: outlineScale,
+      fill: sharesStroke ? outlineScale : measureScale(fillData, fillLimit),
       limit: Math.min(outlineLimit, fillLimit),
     }
   })
@@ -160,13 +167,12 @@ function readCalendarFrame(): CalendarFrame {
   return { node, fill, secondary }
 }
 
-function stroke([tag, attrs]: IconElement, width: number): IconElement {
+function toStrokedShape([tag, attrs]: IconElement): IconElement {
   return [
     tag,
     {
       ...attrs,
       stroke: "currentColor",
-      "stroke-width": String(width),
       fill: attrs.fill ?? "none",
     },
   ]
@@ -190,11 +196,6 @@ function isCovered(
         pointCloud.length >=
       0.7
   )
-}
-
-function widthWithinCanvas(shape: IconElement, width: number) {
-  const { minX, minY, maxX, maxY } = getBounds([shape])
-  return Math.min(width, 2 * Math.min(minX, minY, 24 - maxX, 24 - maxY))
 }
 
 function isSameSurface(
@@ -242,14 +243,15 @@ function buildPaint(node: IconElement[], hasSharedFrame: boolean) {
     polygons.push(polygon)
   }
 
-  const cutout: IconElement[] = []
-  const linework: IconElement[] = []
-  for (const shape of details) {
-    if (isCovered(shape, polygons)) cutout.push(stroke(shape, 1.65))
-    else linework.push(stroke(shape, widthWithinCanvas(shape, 2.6)))
-  }
-
   if (contours.length > 0) {
+    const cutout: IconElement[] = []
+    const linework: IconElement[] = []
+    for (const shape of details) {
+      const stroked = toStrokedShape(shape)
+      if (isCovered(shape, polygons)) cutout.push(stroked)
+      else linework.push(stroked)
+    }
+
     const face: IconElement = [
       "path",
       {
@@ -259,10 +261,7 @@ function buildPaint(node: IconElement[], hasSharedFrame: boolean) {
     ]
     const solid =
       hasSharedFrame && contours.length === 1
-        ? stroke(
-            ["path", { ...face[1], fill: "currentColor" }],
-            UI_STROKE_WIDTH
-          )
+        ? toStrokedShape(["path", { ...face[1], fill: "currentColor" }])
         : face
     return {
       fill: { node: [solid, ...linework], cutout },
@@ -280,10 +279,8 @@ function buildPaint(node: IconElement[], hasSharedFrame: boolean) {
     details[0]
   )
   return {
-    fill: { node: linework, cutout },
-    secondary: largest
-      ? [stroke(largest, widthWithinCanvas(largest, 3.25))]
-      : [],
+    fill: { node: node.map(toStrokedShape), cutout: [] },
+    secondary: largest ? [toStrokedShape(largest)] : [],
   }
 }
 
@@ -380,8 +377,7 @@ export function loadUiIcons(icons = loadOutlineIcons()): UiIcon[] {
       hasFramedLetter ? node.slice(0, 1) : node,
       frame !== undefined
     )
-    if (hasFramedLetter)
-      fill.cutout = node.slice(1).map((mark) => stroke(mark, UI_STROKE_WIDTH))
+    if (hasFramedLetter) fill.cutout = node.slice(1).map(toStrokedShape)
     const legacySecondary = duotoneSources.get(icon.name)?.secondary
     const tonalFace =
       drawing?.secondary ??

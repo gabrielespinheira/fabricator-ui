@@ -39,6 +39,49 @@ describe("Fabricator UI drawings", () => {
     }
   })
 
+  it("inherits the SVG stroke width for every drawing and cutout", () => {
+    const overrides = icons.flatMap((icon) =>
+      weights
+        .filter((weight) => {
+          const {
+            node,
+            secondary = [],
+            cutout = [],
+          } = getUiIconData(icon, weight)
+          return [...node, ...secondary, ...cutout].some(
+            ([, attrs]) => "stroke-width" in attrs
+          )
+        })
+        .map((weight) => `${icon.name}/${weight}`)
+    )
+    expect(overrides.slice(0, 5)).toEqual([])
+  })
+
+  it.each([UI_STROKE_WIDTH, 1, 3])(
+    "renders open Fill artwork with the Outline stroke at width %s",
+    (strokeWidth) => {
+      const arrow = icons.find(({ name }) => name === "arrow-right")
+      if (!arrow) throw new Error("Missing arrow-right")
+      const render = (weight: "outline" | "fill") =>
+        new Resvg(renderUiSvg(getUiIconData(arrow, weight), { strokeWidth }), {
+          font: { loadSystemFonts: false },
+        }).render().pixels
+      expect(Buffer.compare(render("fill"), render("outline"))).toBe(0)
+    }
+  )
+
+  it("uses the requested width for transparent details in a solid Fill", () => {
+    const calendar = icons.find(({ name }) => name === "calendar-days")
+    if (!calendar) throw new Error("Missing calendar-days")
+    const data = getUiIconData(calendar, "fill")
+    const measure = (strokeWidth: number) =>
+      measureIconFootprint(renderUiSvg(data, { strokeWidth }))
+    const thin = measure(1)
+    const thick = measure(3)
+    expect(thick.area).toBeLessThan(thin.area)
+    expect(thick.span).toBe(thin.span)
+  })
+
   it("keeps visible artwork inside the 24-unit canvas", () => {
     const outside: string[] = []
     for (const icon of icons) {
@@ -49,7 +92,10 @@ describe("Fabricator UI drawings", () => {
       ] as const) {
         for (const element of node) {
           const { minX, minY, maxX, maxY } = getBounds([element])
-          const margin = Number(element[1]["stroke-width"] ?? inherited) / 2
+          const { stroke } = element[1]
+          const width =
+            stroke === "none" ? 0 : stroke ? UI_STROKE_WIDTH : inherited
+          const margin = width / 2
           if (
             ![minX, minY, maxX, maxY, margin].every(Number.isFinite) ||
             Math.min(minX, minY) - margin < -0.06 ||
@@ -70,11 +116,10 @@ describe("Fabricator UI drawings", () => {
     expect(clipped.map(({ name }) => name)).toEqual([])
   })
 
-  it("rasterizes three distinct drawings at compact and full size", () => {
+  it("rasterizes all three weights at compact and full size", () => {
     const errors: string[] = []
     for (const icon of icons) {
       for (const size of [14, 16, 18, 24, 32, 48]) {
-        const drawings = new Set<string>()
         for (const weight of weights) {
           const data = getUiIconData(icon, weight)
           const { pixels } = new Resvg(renderUiSvg(data, { size }), {
@@ -82,10 +127,7 @@ describe("Fabricator UI drawings", () => {
           }).render()
           if (!pixels.some((value, index) => index % 4 === 3 && value > 16))
             errors.push(`${icon.name}/${weight} at ${size}px is empty`)
-          drawings.add(Buffer.from(pixels).toString("base64"))
         }
-        if (drawings.size !== 3)
-          errors.push(`${icon.name} has duplicate weights at ${size}px`)
       }
     }
     expect(errors).toEqual([])
@@ -99,7 +141,13 @@ describe("Fabricator UI drawings", () => {
       for (const icon of icons) {
         const data = getUiIconData(icon, weight)
         const { footprint } = measureIconFootprint(renderUiSvg(data))
-        footprints.push(footprint)
+        // When Fill shares a stroked viewport, size is determined by the
+        // outline. The filled silhouette covers a different amount of ink.
+        if (
+          weight !== "fill" ||
+          data.opticalScale !== icon.opticalScales.outline
+        )
+          footprints.push(footprint)
         const { edge } = measureIconFootprint(
           renderUiSvg(data, { strokeWidth: 3 })
         )
@@ -168,6 +216,19 @@ describe("Fabricator UI drawings", () => {
       expect(icon.opticalScales.duotone, icon.name).toBe(
         icon.opticalScales.outline
       )
+    }
+  })
+
+  it("keeps Fill linework and cutouts at the Outline scale", () => {
+    for (const icon of icons) {
+      if (
+        [...icon.fill.node, ...icon.fill.cutout].some(
+          ([, { stroke }]) => stroke === "currentColor"
+        )
+      )
+        expect(icon.opticalScales.fill, icon.name).toBe(
+          icon.opticalScales.outline
+        )
     }
   })
 
