@@ -1141,6 +1141,32 @@ function ChartDataTable(_props: { label: string; table: ChartTableData }) {
   return null
 }
 
+/**
+ * A minimal chart's first and last labels under the plot, in place of an
+ * axis: the range the marks cover.
+ */
+function ChartEnds({
+  labels,
+  className,
+}: {
+  labels: readonly string[]
+  className?: string
+}) {
+  if (labels.length === 0) return null
+  return (
+    <View
+      data-slot="chart-ends"
+      aria-hidden
+      className={cn("cn-chart-ends flex-row justify-between", className)}
+    >
+      <Text className="cn-chart-ends-text">{labels[0]}</Text>
+      {labels.length > 1 && (
+        <Text className="cn-chart-ends-text">{labels.at(-1)}</Text>
+      )}
+    </View>
+  )
+}
+
 function ChartEmpty({
   children,
   className,
@@ -1181,6 +1207,7 @@ export {
   ChartDimmable,
   ChartDot,
   ChartEmpty,
+  ChartEnds,
   ChartFrame,
   ChartGrid,
   ChartInspector,

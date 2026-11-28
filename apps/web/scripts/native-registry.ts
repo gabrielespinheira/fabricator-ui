@@ -32,6 +32,7 @@ export const SHARED_TOKEN_FILES = Object.keys(TOKEN_MODULES).map(getTokenFile)
 
 const SHARED_LIB_FILES = [
   "theme-toggle-model",
+  "delta-model",
   "bot-face-model",
   "bot-face-motion",
   "bot-face-eye-morph",

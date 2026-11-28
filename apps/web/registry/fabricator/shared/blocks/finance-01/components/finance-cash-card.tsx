@@ -19,6 +19,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardValue,
+  CardValueCaption,
 } from "@/registry/bases/__base__/ui/card"
 import { LineChart } from "@/registry/bases/__base__/ui/line-chart"
 
@@ -61,11 +63,11 @@ export function FinanceCashCard({
       </CardHeader>
       <CardContent className="flex flex-1 flex-col gap-(--density-16)">
         {/* The headline follows the pointer along the line. */}
-        <div className="flex min-h-(--density-32) flex-wrap items-center gap-x-(--density-8) text-(length:--density-text-12) text-muted-foreground">
-          <span className="text-2xl tracking-tight text-foreground tabular-nums weight-semibold">
-            {formatMoney(active ? active.datum.current : balance)}
-          </span>
-          {active && <span>on {active.datum.date}</span>}
+        <CardValue className="min-h-(--density-32)">
+          {formatMoney(active ? active.datum.current : balance)}
+          {active && (
+            <CardValueCaption>on {active.datum.date}</CardValueCaption>
+          )}
           {!active && isComparing && (
             <>
               <FinanceDelta
@@ -73,10 +75,12 @@ export function FinanceCashCard({
                 isGoodWhenUp
                 unit="%"
               />
-              <span>from {formatMoneyCompact(overview.previousCash)}</span>
+              <CardValueCaption>
+                from {formatMoneyCompact(overview.previousCash)}
+              </CardValueCaption>
             </>
           )}
-        </div>
+        </CardValue>
         <LineChart
           className="h-60 @4xl:h-auto @4xl:min-h-64 @4xl:flex-1"
           data={overview.cash}

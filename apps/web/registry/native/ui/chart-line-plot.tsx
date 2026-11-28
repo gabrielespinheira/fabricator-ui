@@ -41,6 +41,7 @@ import {
   ChartDimmable,
   ChartDot,
   ChartEmpty,
+  ChartEnds,
   ChartGrid,
   ChartInspector,
   ChartLegend,
@@ -75,6 +76,11 @@ type ChartLinePlotProps<TDatum extends ChartDatum> = {
   formatValue?: (value: number, key: string) => string
   formatIndex?: (value: string, datum: TDatum) => string
   legend?: boolean
+  /**
+   * No axes or gridlines, only the first and last labels under the plot: for
+   * charts in small cards. Horizontal bars keep their labels.
+   */
+  minimal?: boolean
   tooltip?: boolean
   animate?: boolean
   loading?: boolean
@@ -170,6 +176,7 @@ function ChartLinePlot<TDatum extends ChartDatum>({
   formatValue,
   formatIndex,
   legend,
+  minimal = false,
   tooltip = true,
   animate = true,
   loading = false,
@@ -201,8 +208,9 @@ function ChartLinePlot<TDatum extends ChartDatum>({
         stack,
         hidden,
         formatIndex,
+        minimal,
       }),
-    [data, config, index, size, fontSize, stack, hidden, formatIndex]
+    [data, config, index, size, fontSize, stack, hidden, formatIndex, minimal]
   )
   const dataVersion = React.useMemo(
     () => ({ data, config, stack, hidden }),
@@ -390,6 +398,7 @@ function ChartLinePlot<TDatum extends ChartDatum>({
           />
         )}
       </View>
+      {minimal && data.length > 0 && <ChartEnds labels={model.labels} />}
       {showLegend && (
         <ChartLegend
           series={allSeries}

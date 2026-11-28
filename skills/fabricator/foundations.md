@@ -61,17 +61,17 @@ Neutral until it has a reason. Until a project picks a brand hue, primary is the
 
 Inter, small and precise; a monospace face for code, keys and IDs. Components set their own type. Text you write around them takes a role:
 
-| Role       | Use                                         | Classes                                                          |
-| ---------- | ------------------------------------------- | ---------------------------------------------------------------- |
-| Page title | The page's name                             | `AppShellPageTitle`                                              |
-| Lead       | One sentence under it                       | `text-[15px] text-pretty text-muted-foreground`                  |
-| Metric     | A stat's value, a chart's headline          | `text-2xl tracking-tight tabular-nums weight-semibold`           |
-| Title      | A section heading inside a page             | `text-(length:--density-text-16) weight-semibold`                |
-| Subtitle   | A group's name; `CardTitle` is this already | `text-(length:--density-text-14) font-medium`                    |
-| Body       | Text, a stat's label                        | `text-(length:--density-text-13)`                                |
-| Caption    | Metadata, freshness, group labels           | `text-(length:--density-text-12) text-muted-foreground`          |
-| Display    | Website headings, prices                    | `text-[28px] tracking-tight weight-semibold`                     |
-| Hero       | A website's one headline                    | `text-5xl md:text-6xl tracking-tight weight-medium text-balance` |
+| Role       | Use                                | Classes                                                                                                    |
+| ---------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Page title | The page's name                    | `AppShellPageTitle`                                                                                        |
+| Lead       | One sentence under it              | `text-[15px] text-pretty text-muted-foreground`                                                            |
+| Metric     | A stat's value, a chart's headline | `CardValue` in a card; elsewhere `text-(length:--density-text-28) tracking-tight tabular-nums font-medium` |
+| Title      | A section heading inside a page    | `text-(length:--density-text-16) weight-semibold`                                                          |
+| Subtitle   | A group's name                     | `text-(length:--density-text-14) font-medium`                                                              |
+| Body       | Text, a stat's label               | `text-(length:--density-text-13)`                                                                          |
+| Caption    | Metadata, freshness, group labels  | `text-(length:--density-text-12) text-muted-foreground`                                                    |
+| Display    | Website headings, prices           | `text-[28px] tracking-tight weight-semibold`                                                               |
+| Hero       | A website's one headline           | `text-5xl md:text-6xl tracking-tight weight-medium text-balance`                                           |
 
 - Two weights per view. Weight is state or title; hover changes colour, never weight.
 - One step at a time: a heading is larger or heavier than its neighbour, never both plus coloured.
@@ -110,7 +110,7 @@ Your own parts follow it with tokens named after their default value: `h-(--dens
 
 ## Shape
 
-Corners come from roles: `rounded-(--radius-control)` for controls, `rounded-(--radius-surface)` for containers, `rounded-(--radius-panel)` for large frames, `rounded-(--radius-mark)` for small parts. A layer inside another takes the outer corner minus the gap between them, so the corners share a centre: `rounded-(--radius-nested)` for rows in a `p-1` popup, or `rounded-[max(var(--radius-mark),calc(var(--radius-surface)-<gap>))]`. Media takes the corner of its place. Avatars, switches and status dots are round. The shape (Rounded, Squircle, Pill) is a project setting, so write the roles and never `rounded-lg` or pixels.
+Corners come from roles: `rounded-(--radius-control)` for controls, `rounded-(--radius-surface)` for containers, `rounded-(--radius-card)` for card-like tiles (`Card` has it already), `rounded-(--radius-panel)` for large frames, `rounded-(--radius-mark)` for small parts. A layer inside another takes the outer corner minus the gap between them, so the corners share a centre: `rounded-(--radius-nested)` for rows in a `p-1` popup, or `rounded-[max(var(--radius-mark),calc(var(--radius-surface)-<gap>))]`. Media takes the corner of its place. Avatars, switches and status dots are round. The shape (Rounded, Squircle, Pill) is a project setting, so write the roles and never `rounded-lg` or pixels.
 
 ## Motion
 

@@ -17,6 +17,7 @@ new:
   - password-strength
   - segmented-meter
   - bottom-nav
+  - delta
 updated:
   - button
   - badge
@@ -121,6 +122,12 @@ These changes are merged and ship in the next version.
 ## Components
 
 **Three shapes, and corners that line up.** The look's radius setting offers Rounded, Squircle and Pill. Each component's corner now comes from its role (a control, a container, a large panel or a small mark) instead of one multiplier, and a control's corner follows its height, so small and large sizes and every density stay in proportion. Layers are concentric: rows in a menu, buttons in an input group, media in an attachment and the large Chat Input around its send button take the outer corner minus the gap between them. Pill keeps capsule controls with moderate containers (22px instead of 28px). Squircle draws Apple's continuous corners in Chromium browsers and Electron with CSS `corner-shape`, and on iOS with `borderCurve`; elsewhere it falls back to round corners. Pick it on Get started, with `shape=squircle` in `init`, or with `add radius-squircle`; a project already on Pill runs `npx fabricator-ui@latest add radius-pill` again to get the new corners. On web and React Native. [Radius](/docs/foundations/radius).
+
+**Cards with an identity, a value and a link.** Cards take a rounder corner of their own, the card corner of the look's shape (16px in Rounded, 20px in Squircle, 26px in Pill), which follows the density, while menus and popovers keep theirs; `size="sm"` steps it down with its inset. The title is a step larger and centres on the action when there is no description. New parts: `CardMedia` puts an icon tile, a logo or an avatar before the title; `CardValue` and `CardValueCaption` write the headline figure and its unit, total or previous value; `CardLink` in the title makes the whole card open its record while its buttons and menus keep working, with a lift on hover, a small press and a focus ring on the card's corner. A `variant` adds `muted`, a wash for secondary cards and empty slots, and `tray`, a lifted panel in a muted shell. Tables and item lists now reach the card's edges by themselves with their text on the inset, footers sit on the bottom edge so a row of cards lines up, and a Segmented Meter under a `CardValue` keeps its label for screen readers only. Every upstream part, prop and slot is unchanged. The docs show each kind of card (stat, chart, meter, object, list, table, plan, connection, states). On web and React Native, where a `CardLink` takes `onPress`. [Card](/docs/components/base/card).
+
+**Delta.** A change against the previous period as a status badge: a sign, one decimal and an arrow, green when the number moved the way it should, in percent or points; no change is an outline and a missing comparison says "No data". [Delta](/docs/components/base/delta).
+
+**Minimal charts.** Line, area, bar and composition charts take `minimal` for small cards: no axes or gridlines, the plot edge to edge, and only the first and last labels under it. Tooltips, keyboard inspection and the screen-reader table stay. On web and React Native.
 
 **Search is an input again.** `InputSearch`, new in Input Group, is a search field framed like every other input: the search icon at the start and a clear button once there is text. The button and Escape clear the text and keep the focus in the field; Escape on an empty field reaches the dialog around it. It works controlled or uncontrolled and takes more addons, such as a keycap. The Data Table, Kanban, Mail, Members and Messenger toolbars use it; where the Kanban toolbar has no room, a search button opens the field. The Search component, a round button that sprang open into a pill, is removed: replace `<Search collapsible={false} label="…" />` with `<InputSearch aria-label="…" />`. On web and React Native. [Search](/docs/components/base/input#search).
 

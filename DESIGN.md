@@ -31,7 +31,7 @@ Fabricator interfaces are calm and exact, and they feel alive under the hand. Ne
 - **Lifted surfaces.** Cards, menus and dialogs sit above the page on a soft shadow with a hairline edge. That shadow is the edge, so surfaces carry no border.
 - **Small and precise.** Interface text is 13px and controls are 36px tall. Nothing is oversized to look friendly.
 - **Aligned to the pixel.** A page has one start edge and one grid; a card has one inset. The title, the toolbar, the cards and the first word in every card sit on those lines.
-- **Soft geometry.** Controls have 8px corners and containers slightly rounder ones, so a row sits evenly inside its container.
+- **Soft geometry.** Controls have 8px corners, menus and popovers slightly rounder ones so a row sits evenly inside them, and cards the roundest of all.
 - **Quiet chrome.** Navigation, labels and metadata rest in grey and come forward only when pointed at or selected.
 - **Alive under the hand.** One highlight glides to whatever the pointer is nearest, a selection slides to its new place, a button gives a little when pressed, a chart draws itself in. All of it is built in.
 - **One system at every size.** A dense dashboard, a roomy website and a phone use the same components at a different density and speed.
@@ -144,19 +144,20 @@ Inter throughout, with a monospace face for code, keys and IDs. Interface text i
 
 Components set their own type; the roles are for the text you write around them. A browser's default is 16px, so text you write takes its role's size and weight, never the default.
 
-| Role       | Size       | Weight   | Use                                                       |
-| ---------- | ---------- | -------- | --------------------------------------------------------- |
-| Hero       | 48 or 60px | Medium   | The one headline of a website page                        |
-| Display    | 28px       | Semibold | Website section headings, prices, proof numbers           |
-| Page title | 24px       | Semibold | The title of an app page: `AppShellPageTitle`             |
-| Metric     | 24px       | Semibold | A stat's value or a chart's headline, tabular             |
-| Title      | 16px       | Semibold | Section headings inside an app page                       |
-| Subtitle   | 14px       | Medium   | Card titles (`CardTitle`), group headings, feature titles |
-| Lead       | 15px       | Regular  | The sentence under a page title or a hero, in grey        |
-| Body       | 13px       | Regular  | Body text, a stat's label                                 |
-| Caption    | 12px       | Regular  | Descriptions, group labels, errors, metadata, in grey     |
+| Role       | Size       | Weight   | Use                                                      |
+| ---------- | ---------- | -------- | -------------------------------------------------------- |
+| Hero       | 48 or 60px | Medium   | The one headline of a website page                       |
+| Display    | 28px       | Semibold | Website section headings, prices, proof numbers          |
+| Page title | 24px       | Semibold | The title of an app page: `AppShellPageTitle`            |
+| Metric     | 28px       | Medium   | A stat's value or a chart's headline: `CardValue`        |
+| Title      | 16px       | Semibold | Section headings inside an app page                      |
+| Card title | 16px       | Medium   | `CardTitle`; 14px on `size="sm"` cards                   |
+| Subtitle   | 14px       | Medium   | Group headings, feature titles, alert and popover titles |
+| Lead       | 15px       | Regular  | The sentence under a page title or a hero, in grey       |
+| Body       | 13px       | Regular  | Body text, a stat's label                                |
+| Caption    | 12px       | Regular  | Descriptions, group labels, errors, metadata, in grey    |
 
-- **Body, caption, subtitle and title follow the density:** body is 12px compact and 15px spacious.
+- **Every role but hero, display and page title follows the density:** body is 12px compact and 15px spacious, a metric 24px and 32px.
 - **Two weights per view:** regular for text, medium or semibold for titles and values.
 - **Weight is state.** Hover changes colour; weight changes only for state that lasts (checked, selected, open).
 - **Sentence case everywhere,** with no all-caps labels or wide letter-spacing.
@@ -305,7 +306,7 @@ Depth is a ladder of surfaces. Each level is a background and a shadow that star
 | 0        | A screen that stands alone (sign in, sign up, a reset): white in light, a step under the page in dark |
 | Frame    | The App Shell's frame and its sidebar, a step darker than the page                                    |
 | 1        | The page; in an App Shell, the main column and the side panels                                        |
-| 2        | A sidebar on its own, inset regions, the default `Card`                                               |
+| 2        | A sidebar on its own, inset regions, the default `Card` (a `muted` card is a wash on its parent)      |
 | 3        | Raised cards, menus, popovers, sheets, drawers                                                        |
 | 4        | The active tab; anything raised inside a level-3 surface                                              |
 | 5        | Dialogs, alert dialogs, toasts                                                                        |
@@ -321,35 +322,42 @@ A `Card` holds one discrete thing: a metric, a chart, a list of things to do, a 
 
 ### Anatomy
 
-- **Header:** `CardTitle` names the thing in a few words ("Revenue", "Needs attention"). `CardDescription` gives its scope: the grain, the sort, the unit ("Daily", "By monthly recurring revenue"); the page's period is in the toolbar. `CardAction` holds at most one quiet control: default `Tabs` or a `Select`, a ghost "View all" link, or a ghost "More" menu with the card's own rare options.
-- **Content:** the one thing the card shows. A headline value sits above a chart; a list or table runs to the card's edges.
-- **Footer:** only when it has content: a summary line, or the buttons of a settings or plan card.
+- **Header:** `CardTitle` names the thing in a few words ("Revenue", "Needs attention"). `CardDescription` gives its scope: the grain, the sort, the unit ("Daily", "By monthly recurring revenue"); the page's period is in the toolbar. `CardAction` holds at most one quiet control: default `Tabs` or a `Select`, a ghost "View all" link, a `Switch`, or a ghost "More" menu with the card's own rare options. With no description the title centres on the action's row.
+- **Identity:** `CardMedia` before the title, only on a card that is a thing (an agent, an integration, a project, a file, a person): an icon tile for a kind of thing, a logo for a brand, an `Avatar` for a person.
+- **Value:** `CardValue` is the largest text on the card, with a `Delta` and a `CardValueCaption` after it (a unit, "of 200K", "from $879.5K"). Never write a value's classes by hand.
+- **Content:** the one thing the card shows. A headline value sits above a chart; a list or table runs to the card's edges by itself.
+- **Footer:** only when it has content: metadata in grey, an `AvatarGroup`, or the buttons of a settings or plan card. It sits on the bottom edge, so the footers of a row line up.
 
 ### Alignment inside a card
 
 A card has one inset (12, 16 or 20px by density). The title, the description, a headline value, a list's icons and a table's first column start on it; a table's last column and a "View all" link end on it.
 
-- **Tables and lists reach the card's edges** so their hover wash spans the card, while their text stays on the inset. Lists keep rounded rows, inset just enough that the row's icon lands on the line.
-- **Stat cards** keep the default card size, so their labels sit on the same inset as the titles of the cards below.
+- **Tables and item lists reach the card's edges** by themselves, so their hover wash spans the card while their text stays on the inset. Anything else that bleeds uses `-mx-(--card-spacing)`.
+- **Stat cards** keep the default card size, so their titles sit on the same inset as the titles of the cards below.
 - **A ghost control at an edge** (a "View all" link, a "More" button) pulls out by its own padding, so its text, not its hover area, sits on the line.
 
 ### Kinds of card
 
+Each kind has a docs example (`npx fabricator-ui@latest docs card`) built from the same parts in the same order.
+
 - **KPI row:** three to six stat cards side by side on the grid, parted by the gutter alone. On phones they go two by two.
-- **Stat:** a label, one number and its change. In a KPI row it keeps the default size, so its inset matches the cards below; `size="sm"` when six go across. **Goal:** a stat with a `Progress` and "62% of $80K".
-- **Chart:** the header, a headline value, one chart.
+- **Stat:** the title names the number, then `CardValue` with its `Delta` and previous value. In a KPI row it keeps the default size; `size="sm"` when six go across. **Goal:** a stat with a `Progress` and "62% of $80K".
+- **Chart:** the title, the period in the action, `CardValue` with its caption, one chart; `minimal` when the card is under about 360px wide.
+- **Meter:** the title, `CardValue` "of" the limit, a `SegmentedMeter` with its legend.
 - **List:** five to seven `Item`s to do or read, and "View all". **Activity:** `Item`s with an `Avatar` and a relative time, newest first.
 - **Table:** five records edge to edge, and "View all".
 - **Settings:** a group of related settings as horizontal fields, with a footer only when it holds text that saves. See [Settings](#settings).
 - **Checklist:** a `Progress`, then an `Item` per setup step with a done mark and its action.
-- **Object:** one record in a grid: its name and status `Badge`, a few pairs, an `AvatarGroup` of its people, its menu.
-- **Plan:** name, price, who it's for, what's included, the button. **Connection:** a logo, a name, one line, a `Switch` or "Connect".
+- **Object:** one record in a grid: `CardMedia`, its name as a `CardLink`, its menu, a two-line description, its people and status in the footer.
+- **Plan:** a `tray` card: name and who it's for on the shell, the price as `CardValue`, what's included and the button on the panel. **Connection:** `CardMedia` logo, a name, one line, a `Switch` or "Connect".
 
 Rules:
 
 - Lists inside a card are rows or a table, never more cards. Cards don't nest, and a whole page is never wrapped in one.
-- Every card in a grid has the same parts in the same order.
-- The title introduces the card, with no icon tile, coloured header, gradient or coloured border.
+- Every card in a grid has the same parts in the same order, and a row of cards shares one height.
+- Metric, chart and list cards are introduced by their title alone: no icon tile, coloured header, gradient or coloured border.
+- A card that opens a record has a `CardLink` in its title; never wrap a card in a link or give it an `onClick`.
+- Variants: `default` almost always; `muted` for a secondary card, an empty slot in a grid, or a card inside a sheet or dialog; `tray` for at most one featured card per grid.
 - Use `size="sm"` for four or more small cards across. A card that must stand off the page, such as a product picture on a website, goes up a level.
 
 ## Dashboards
@@ -504,10 +512,10 @@ A stack of setting cards in one column (`size="sm"`), one per subject, in the or
 
 ## Shapes
 
-- **Two corner sizes:** 8px for controls, rows, badges and tooltips; about 11px for containers (cards, menus, dialogs, tab tracks, alerts, the main column).
+- **Three corner sizes:** 8px for controls, rows, badges and tooltips; 12px for containers (menus, dialogs, tab tracks, alerts); 16px for cards and the main column. Squircle and Pill round each one further.
 - **Corners are concentric:** a container holds its rows with a small inset so both share a centre.
 - **Full rounds** for switches, avatars, status dots and slider thumbs.
-- **The shape is a project setting:** the Pill look rounds controls fully and containers with them. Design with "control corner" and "container corner" in mind.
+- **The shape is a project setting:** Rounded, Squircle or Pill. Design with "control corner", "container corner" and "card corner" in mind, never a pixel value.
 - **Media takes the shape of its place:** the control corner inside a card, the container corner standing alone.
 
 ## Motion

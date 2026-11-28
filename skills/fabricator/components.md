@@ -12,176 +12,177 @@ Pick in this order: an installed component, a registry component, a block, a com
 
 How these fit together, and what breaks them: [app-shell.md](app-shell.md).
 
-| Component | Reach for it when | Worth knowing |
-| --- | --- | --- |
-| `app-shell` | Any app around its pages | `AppShellMain` > `AppShellHeader` + `AppShellContent size="sm\|md\|lg"`; `AppShellPanel` (`mobile="drawer\|swap\|none"`), `AppShellStatusBar`, `AppShellTitlebar`, `window` for desktop. Adapts to its own width, remembers itself, owns shortcuts (`useShellShortcut`) |
-| `AppShellHeaderActions` | Page actions | `actions`, `primaryAction`, `menu`, `menuLabel`. On phones: one menu and a floating primary. Actions show as icons with tooltips |
-| `app-nav` | Sidebar rows from data | `groups` with `icon`, `badge`, `status`, `children`, `actions`, `mobile: "tab"`; `AppNavBottomBar` on phones; `customizable`. Always pass `renderLink={(item) => <Link href={item.href ?? "/"} />}`: it gives client navigation and keeps the row's icon and badge |
-| `sidebar` | The container `app-nav` sits in, or a custom sidebar | `variant="inset\|floating\|sidebar"`, `collapsible="offcanvas\|icon\|none"`, drags to resize, peeks |
-| `workspace-switcher` | Several organizations | `variant="menu"` for a few, `"command"` for many; `switchingTo` covers the wait; ⌘O |
-| `user-menu` | The signed-in person | `variant="row\|mark"`; the items are yours. `UserMenuTheme theme onThemeChange` for light, dark and system |
-| `tab-strip` | Open documents: files, sessions, records | Pin, preview, dirty, loading and error states, reorder, reopen. `Tabs` is for views of one thing |
-| `breadcrumb` | A path outside the shell | Inside it, `AppShellBreadcrumb items` |
-| `navigation-menu` | A website's header | Not in React Aria |
-| `pagination` | Pages of results with a known count | Records people work through load on scroll in `data-table` instead |
-| `preview-rail` | Jumping through a long page or sequence | A compact rail whose names wait for the pointer |
-| `command` | The ⌘K palette | `CommandDialog`; groups Navigation, Actions, Recent; list shortcuts from `useShellShortcuts()` |
-| `stepper` | A flow done in steps: checkout, onboarding, a setup | `value` is the current step from 1; `StepperItem step` > `StepperIndicator` + `StepperContent` (title, description) + `StepperSeparator` (leave it off the last). Shows progress; the flow's own Back and Next move it |
-| `bottom-nav` | The tab bar of an app on a phone, on the web | `BottomNavLink` (pages) or `BottomNavItem` (views) with `label`, `icon`, `active`; the current tab opens into a named pill. Place it yourself. In the App Shell, `AppNavBottomBar` already does this |
+| Component               | Reach for it when                                    | Worth knowing                                                                                                                                                                                                                                                           |
+| ----------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `app-shell`             | Any app around its pages                             | `AppShellMain` > `AppShellHeader` + `AppShellContent size="sm\|md\|lg"`; `AppShellPanel` (`mobile="drawer\|swap\|none"`), `AppShellStatusBar`, `AppShellTitlebar`, `window` for desktop. Adapts to its own width, remembers itself, owns shortcuts (`useShellShortcut`) |
+| `AppShellHeaderActions` | Page actions                                         | `actions`, `primaryAction`, `menu`, `menuLabel`. On phones: one menu and a floating primary. Actions show as icons with tooltips                                                                                                                                        |
+| `app-nav`               | Sidebar rows from data                               | `groups` with `icon`, `badge`, `status`, `children`, `actions`, `mobile: "tab"`; `AppNavBottomBar` on phones; `customizable`. Always pass `renderLink={(item) => <Link href={item.href ?? "/"} />}`: it gives client navigation and keeps the row's icon and badge      |
+| `sidebar`               | The container `app-nav` sits in, or a custom sidebar | `variant="inset\|floating\|sidebar"`, `collapsible="offcanvas\|icon\|none"`, drags to resize, peeks                                                                                                                                                                     |
+| `workspace-switcher`    | Several organizations                                | `variant="menu"` for a few, `"command"` for many; `switchingTo` covers the wait; ⌘O                                                                                                                                                                                     |
+| `user-menu`             | The signed-in person                                 | `variant="row\|mark"`; the items are yours. `UserMenuTheme theme onThemeChange` for light, dark and system                                                                                                                                                              |
+| `tab-strip`             | Open documents: files, sessions, records             | Pin, preview, dirty, loading and error states, reorder, reopen. `Tabs` is for views of one thing                                                                                                                                                                        |
+| `breadcrumb`            | A path outside the shell                             | Inside it, `AppShellBreadcrumb items`                                                                                                                                                                                                                                   |
+| `navigation-menu`       | A website's header                                   | Not in React Aria                                                                                                                                                                                                                                                       |
+| `pagination`            | Pages of results with a known count                  | Records people work through load on scroll in `data-table` instead                                                                                                                                                                                                      |
+| `preview-rail`          | Jumping through a long page or sequence              | A compact rail whose names wait for the pointer                                                                                                                                                                                                                         |
+| `command`               | The ⌘K palette                                       | `CommandDialog`; groups Navigation, Actions, Recent; list shortcuts from `useShellShortcuts()`                                                                                                                                                                          |
+| `stepper`               | A flow done in steps: checkout, onboarding, a setup  | `value` is the current step from 1; `StepperItem step` > `StepperIndicator` + `StepperContent` (title, description) + `StepperSeparator` (leave it off the last). Shows progress; the flow's own Back and Next move it                                                  |
+| `bottom-nav`            | The tab bar of an app on a phone, on the web         | `BottomNavLink` (pages) or `BottomNavItem` (views) with `label`, `icon`, `active`; the current tab opens into a named pill. Place it yourself. In the App Shell, `AppNavBottomBar` already does this                                                                    |
 
 ## Acting
 
-| Component | Reach for it when | Worth knowing |
-| --- | --- | --- |
-| `button` | Something happens on press | `default` once per region, `secondary`, `outline` (Cancel, filters, in cards), `ghost` (toolbars, rows, icons), `destructive` (soft red), `link`. Sizes follow density; `sm`, `lg`, `icon`, `icon-sm`. A link that looks like one: `buttonVariants` on the router's link |
-| `button-group` | Actions that belong together; a split button | `ButtonGroupSeparator` + a `DropdownMenu` for the other choices ("Send" / "Send later") |
-| `toggle`, `toggle-group` | Short settings, formatting and tool states | Single-select for one value, multi-select for independent choices |
-| `dropdown-menu` | The rest of the actions on one thing | Every action leads with its icon; destructive last, alone; "…" when it opens something; checkbox and radio items for view options |
-| `context-menu` | The same actions on right click | Mirrors the row's "More" menu. A long press on touch |
-| `kbd` | Showing a shortcut | In tooltips, menu rows (`DropdownMenuShortcut`) and search |
-| `hold-button` | One action worth a second thought, without a dialog: delete, publish, pay | Press and hold for `duration` (1200ms); `onHoldComplete`; `variant="destructive"`. Never the only way: keep the action in a menu with a confirm dialog for people who can't hold a key |
-| `slide-to-confirm` | A commit on a touch screen that a stray tap mustn't set off | `onConfirm` (return a promise for the working state), `confirmingLabel`, `confirmedLabel`; Enter confirms from the keyboard. Stays confirmed: change its `key` to reset |
+| Component                | Reach for it when                                                         | Worth knowing                                                                                                                                                                                                                                                            |
+| ------------------------ | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `button`                 | Something happens on press                                                | `default` once per region, `secondary`, `outline` (Cancel, filters, in cards), `ghost` (toolbars, rows, icons), `destructive` (soft red), `link`. Sizes follow density; `sm`, `lg`, `icon`, `icon-sm`. A link that looks like one: `buttonVariants` on the router's link |
+| `button-group`           | Actions that belong together; a split button                              | `ButtonGroupSeparator` + a `DropdownMenu` for the other choices ("Send" / "Send later")                                                                                                                                                                                  |
+| `toggle`, `toggle-group` | Short settings, formatting and tool states                                | Single-select for one value, multi-select for independent choices                                                                                                                                                                                                        |
+| `dropdown-menu`          | The rest of the actions on one thing                                      | Every action leads with its icon; destructive last, alone; "…" when it opens something; checkbox and radio items for view options                                                                                                                                        |
+| `context-menu`           | The same actions on right click                                           | Mirrors the row's "More" menu. A long press on touch                                                                                                                                                                                                                     |
+| `kbd`                    | Showing a shortcut                                                        | In tooltips, menu rows (`DropdownMenuShortcut`) and search                                                                                                                                                                                                               |
+| `hold-button`            | One action worth a second thought, without a dialog: delete, publish, pay | Press and hold for `duration` (1200ms); `onHoldComplete`; `variant="destructive"`. Never the only way: keep the action in a menu with a confirm dialog for people who can't hold a key                                                                                   |
+| `slide-to-confirm`       | A commit on a touch screen that a stray tap mustn't set off               | `onConfirm` (return a promise for the working state), `confirmingLabel`, `confirmedLabel`; Enter confirms from the keyboard. Stays confirmed: change its `key` to reset                                                                                                  |
 
 ## Choosing and entering
 
 Start at [asking.md](asking.md): most values should never reach this table.
 
-| Component | Reach for it when | Worth knowing |
-| --- | --- | --- |
-| `tabs` | Views with content panels | Default `TabsList`; `variant="subtle"` (icons, active shows its label) in tight toolbars; `orientation="vertical"` for settings sections |
-| `radio-group` | One of a few that need explaining | As choice cards: `FieldLabel` > `Field orientation="horizontal"` > `FieldContent` + `RadioGroupItem` |
-| `select` | One of five or more | Pass `items` on Base UI; `SelectGroup` always |
-| `combobox` | One of many, found by typing | Items with avatars, groups; also the person picker |
-| `multi-select` | Several of many; many typed values | Chips in the field, the list stays open between picks. Picks from `items`; for free text see [Many values in one box](recipes/create.md#many-values-in-one-box) |
-| `switch` | On or off, at once | In a settings row: `Field orientation="horizontal"` |
-| `checkbox` | A submitted yes, or rows to select | `indeterminate` for part of a set |
-| `slider` | A level or share | Show the value in the label row; `showSteps`; two thumbs for a range |
-| `number-field` | An exact number | Steppers, `min`, `max`, `format` (Intl), Shift and Alt steps |
-| `rating` | A score | Half stars; takes a role colour |
-| `date-picker` | A date, a moment, a month, a year | `hasTime`, `granularity`, `editable`, `minDate`, `maxDate` |
-| `calendar` | A range, or a date always in view | In a `Popover` with presets for ranges |
-| `time-input` | A time, or a start and end | `TimeRangeInput` shows the duration; reads typed times |
-| `time-wheel` | A time picked on touch, inside your own panel | `DatePicker` and `TimeInput` already use it |
-| `color-picker` | A colour | `ColorPickerPopover` with `triggerLabel`, swatches first |
-| `file-upload` | Files | `FileUploadDropzone`, `FileUploadField` (input-sized), `FileUploadTrigger` (a button); rejections carry a reason |
-| `input-otp` | A one-time code | Pastes and autofills |
-| `password-strength` | Choosing a new password | Under the field in the same `Field`: `value` is the password; a word says how strong. `PasswordToggle` in the field's end addon shows and hides it. The server keeps its own rules |
-| `input`, `textarea` | What only the person can write | Last resort; see the ladder |
-| `properties` | Define, show and edit typed fields | Use `PropertyList` for record values and `PropertyManager` for schemas |
-| `input-group` | A fixed part, a unit, a button in a field; a search field | `InputGroupInput` first, then `InputGroupAddon align`, `InputGroupButton`, `InputGroupText`. `InputSearch` is the search field: icon, clear button, Escape clears; `value` and `onValueChange` |
-| `field` | Around every control | `FieldGroup` > `Field` > `FieldLabel`, control, `FieldDescription`, `FieldError`; `FieldSet` + `FieldLegend` for a group |
-| `label` | A lone label | Inside a form, `FieldLabel` |
-| `questionnaire` | One decision per step, with skip and review | Single, multiple and free answers, shortcuts, progress; `advanceOnSelect`. Not only for chat |
-| `editor` | Formatted writing | Value is Markdown; toolbar, slash menu, tables, keyboard bar |
+| Component           | Reach for it when                                         | Worth knowing                                                                                                                                                                                  |
+| ------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tabs`              | Views with content panels                                 | Default `TabsList`; `variant="subtle"` (icons, active shows its label) in tight toolbars; `orientation="vertical"` for settings sections                                                       |
+| `radio-group`       | One of a few that need explaining                         | As choice cards: `FieldLabel` > `Field orientation="horizontal"` > `FieldContent` + `RadioGroupItem`                                                                                           |
+| `select`            | One of five or more                                       | Pass `items` on Base UI; `SelectGroup` always                                                                                                                                                  |
+| `combobox`          | One of many, found by typing                              | Items with avatars, groups; also the person picker                                                                                                                                             |
+| `multi-select`      | Several of many; many typed values                        | Chips in the field, the list stays open between picks. Picks from `items`; for free text see [Many values in one box](recipes/create.md#many-values-in-one-box)                                |
+| `switch`            | On or off, at once                                        | In a settings row: `Field orientation="horizontal"`                                                                                                                                            |
+| `checkbox`          | A submitted yes, or rows to select                        | `indeterminate` for part of a set                                                                                                                                                              |
+| `slider`            | A level or share                                          | Show the value in the label row; `showSteps`; two thumbs for a range                                                                                                                           |
+| `number-field`      | An exact number                                           | Steppers, `min`, `max`, `format` (Intl), Shift and Alt steps                                                                                                                                   |
+| `rating`            | A score                                                   | Half stars; takes a role colour                                                                                                                                                                |
+| `date-picker`       | A date, a moment, a month, a year                         | `hasTime`, `granularity`, `editable`, `minDate`, `maxDate`                                                                                                                                     |
+| `calendar`          | A range, or a date always in view                         | In a `Popover` with presets for ranges                                                                                                                                                         |
+| `time-input`        | A time, or a start and end                                | `TimeRangeInput` shows the duration; reads typed times                                                                                                                                         |
+| `time-wheel`        | A time picked on touch, inside your own panel             | `DatePicker` and `TimeInput` already use it                                                                                                                                                    |
+| `color-picker`      | A colour                                                  | `ColorPickerPopover` with `triggerLabel`, swatches first                                                                                                                                       |
+| `file-upload`       | Files                                                     | `FileUploadDropzone`, `FileUploadField` (input-sized), `FileUploadTrigger` (a button); rejections carry a reason                                                                               |
+| `input-otp`         | A one-time code                                           | Pastes and autofills                                                                                                                                                                           |
+| `password-strength` | Choosing a new password                                   | Under the field in the same `Field`: `value` is the password; a word says how strong. `PasswordToggle` in the field's end addon shows and hides it. The server keeps its own rules             |
+| `input`, `textarea` | What only the person can write                            | Last resort; see the ladder                                                                                                                                                                    |
+| `properties`        | Define, show and edit typed fields                        | Use `PropertyList` for record values and `PropertyManager` for schemas                                                                                                                         |
+| `input-group`       | A fixed part, a unit, a button in a field; a search field | `InputGroupInput` first, then `InputGroupAddon align`, `InputGroupButton`, `InputGroupText`. `InputSearch` is the search field: icon, clear button, Escape clears; `value` and `onValueChange` |
+| `field`             | Around every control                                      | `FieldGroup` > `Field` > `FieldLabel`, control, `FieldDescription`, `FieldError`; `FieldSet` + `FieldLegend` for a group                                                                       |
+| `label`             | A lone label                                              | Inside a form, `FieldLabel`                                                                                                                                                                    |
+| `questionnaire`     | One decision per step, with skip and review               | Single, multiple and free answers, shortcuts, progress; `advanceOnSelect`. Not only for chat                                                                                                   |
+| `editor`            | Formatted writing                                         | Value is Markdown; toolbar, slash menu, tables, keyboard bar                                                                                                                                   |
 
 ## Overlays
 
-| Component | Reach for it when | Worth knowing |
-| --- | --- | --- |
-| `record-view` | Read or edit the active record | Side panel, center peek or full-page view with record navigation and loading states |
-| `dialog` | A focused task of one to three asks | A drawer on phones is your composition ([recipes/create.md](recipes/create.md)) |
-| `alert-dialog` | Only what can't be undone | Title names the object, action repeats the verb |
-| `sheet` | A task that needs the page beside it | Details someone keeps open belong in an `AppShellPanel` |
-| `drawer` | Phone tasks, filters, pickers | `showSwipeHandle`, `snapPoints`; primary above Cancel |
-| `popover` | One or two controls, a filter, a small preview | `PopoverHeader`, `PopoverTitle` |
-| `hover-card` | A preview of a linked person or record | Never holds the only copy of something; a long press on touch |
-| `tooltip` | The name and shortcut of every icon-only button; a truncated value | One to three words, then `Kbd`; never interactive ([rules/icons.md](rules/icons.md#buttons-without-a-clear-label)) |
+| Component      | Reach for it when                                                  | Worth knowing                                                                                                      |
+| -------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `record-view`  | Read or edit the active record                                     | Side panel, center peek or full-page view with record navigation and loading states                                |
+| `dialog`       | A focused task of one to three asks                                | A drawer on phones is your composition ([recipes/create.md](recipes/create.md))                                    |
+| `alert-dialog` | Only what can't be undone                                          | Title names the object, action repeats the verb                                                                    |
+| `sheet`        | A task that needs the page beside it                               | Details someone keeps open belong in an `AppShellPanel`                                                            |
+| `drawer`       | Phone tasks, filters, pickers                                      | `showSwipeHandle`, `snapPoints`; primary above Cancel                                                              |
+| `popover`      | One or two controls, a filter, a small preview                     | `PopoverHeader`, `PopoverTitle`                                                                                    |
+| `hover-card`   | A preview of a linked person or record                             | Never holds the only copy of something; a long press on touch                                                      |
+| `tooltip`      | The name and shortcut of every icon-only button; a truncated value | One to three words, then `Kbd`; never interactive ([rules/icons.md](rules/icons.md#buttons-without-a-clear-label)) |
 
 Every dialog, sheet and drawer has a title. Two modal layers at most.
 
 ## Showing records
 
-| Component | Reach for it when | Worth knowing |
-| --- | --- | --- |
-| `table` | A few to a hundred records compared by column | Columns fold into the name cell in narrow containers ([recipes/list.md](recipes/list.md)); row hover is built in |
-| `kanban` | Work grouped by status or another field | Drag cards across columns, compose detail actions, page by cursor and save moves via callbacks |
-| `canvas` | Things connected to each other that people arrange: workflow and automation editors, flowcharts, mind maps, schemas, architecture diagrams; `mode="static"` for a diagram in a page | Typed handles with connection rules, run `status` on nodes, a library, undo, keyboard connect; `canvas-layout` arranges with dagre |
-| `data-table` | Records people sort, filter, edit, or have by the thousand | Typed columns through `meta` (`status`, `person`, `currency`, `progress`, `tags`, `date`), `editable` cells, `load`, footers, selection bar, views. Web only; needs a height |
-| `item` | Things read one by one: people, files, tasks, apps | `ItemGroup` > `Item size="default\|sm\|xs" variant="default\|outline\|muted"`; `ItemMedia variant="icon\|image"`; a link through `render`/`asChild`; rows carry `role="listitem"` ([rules/composition.md](rules/composition.md)) |
-| `card` | One discrete thing | `CardHeader` (`CardTitle`, `CardDescription`, `CardAction`), `CardContent`, `CardFooter`; `--card-spacing` is its inset |
-| `badge` | A stage or a delta | `success`, `info`, `warning`, `destructive`, `outline` (no urgency), `secondary` (a tag) |
-| `avatar` | A person or company | Always `AvatarFallback`; without a photo it takes a stable hue from the id, readable in both themes: ``style={{ background: `oklch(0.88 0.06 ${hue})`, color: `oklch(0.36 0.09 ${hue})` }}``. `AvatarBadge` for presence; `AvatarGroup` with `tooltip` names and `AvatarGroupCount` |
-| `accordion` | Lines that open in place | Items part into cards; the base of draft-first setup and "Advanced" |
-| `collapsible`| One region that folds | |
-| `file-tree` | Folders and files | Guides, type icons, multiple selection |
-| `folder` | Collections opened from a grid, as a drive shows them | `FolderPreview` > `FolderFiles` (up to three `FolderFile`: blank sheet or a thumbnail) + `FolderCover` (badges, avatars); a link in `FolderTitle` makes the tile the target; `color` takes a palette name or role, `variant="glass"`; `open` for a drop target. `w-full` in an `auto-fill` grid |
-| `carousel` | Media to swipe through | Never for content people must see |
-| Status dot | Something live, beside its word | No component: `<span aria-hidden className="size-2 shrink-0 rounded-full bg-success" />` then the word |
-| Metadata | Pairs of label and value | A `dl` in two columns: grey `dt`, foreground `dd` aligned to the end |
+| Component     | Reach for it when                                                                                                                                                                   | Worth knowing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `table`       | A few to a hundred records compared by column                                                                                                                                       | Columns fold into the name cell in narrow containers ([recipes/list.md](recipes/list.md)); row hover is built in                                                                                                                                                                                                                                                                                                                                                                                               |
+| `kanban`      | Work grouped by status or another field                                                                                                                                             | Drag cards across columns, compose detail actions, page by cursor and save moves via callbacks                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `canvas`      | Things connected to each other that people arrange: workflow and automation editors, flowcharts, mind maps, schemas, architecture diagrams; `mode="static"` for a diagram in a page | Typed handles with connection rules, run `status` on nodes, a library, undo, keyboard connect; `canvas-layout` arranges with dagre                                                                                                                                                                                                                                                                                                                                                                             |
+| `data-table`  | Records people sort, filter, edit, or have by the thousand                                                                                                                          | Typed columns through `meta` (`status`, `person`, `currency`, `progress`, `tags`, `date`), `editable` cells, `load`, footers, selection bar, views. Web only; needs a height                                                                                                                                                                                                                                                                                                                                   |
+| `item`        | Things read one by one: people, files, tasks, apps                                                                                                                                  | `ItemGroup` > `Item size="default\|sm\|xs" variant="default\|outline\|muted"`; `ItemMedia variant="icon\|image"`; a link through `render`/`asChild`; rows carry `role="listitem"` ([rules/composition.md](rules/composition.md))                                                                                                                                                                                                                                                                               |
+| `card`        | One discrete thing                                                                                                                                                                  | `CardHeader` (`CardMedia` for an identity, `CardTitle`, `CardDescription`, `CardAction`), `CardContent`, `CardFooter` (pinned to the bottom). `CardValue` + `CardValueCaption` for the headline figure; `CardLink` in the title makes the whole card open its record (never wrap a card in a link). `variant`: `default`, `muted` (secondary, empty slots, inside a raised surface), `tray` (one featured card, a plan). Tables and item lists bleed to its edges by themselves; `--card-spacing` is its inset |
+| `badge`       | A stage or a delta                                                                                                                                                                  | `success`, `info`, `warning`, `destructive`, `outline` (no urgency), `secondary` (a tag)                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `avatar`      | A person or company                                                                                                                                                                 | Always `AvatarFallback`; without a photo it takes a stable hue from the id, readable in both themes: ``style={{ background: `oklch(0.88 0.06 ${hue})`, color: `oklch(0.36 0.09 ${hue})` }}``. `AvatarBadge` for presence; `AvatarGroup` with `tooltip` names and `AvatarGroupCount`                                                                                                                                                                                                                            |
+| `accordion`   | Lines that open in place                                                                                                                                                            | Items part into cards; the base of draft-first setup and "Advanced"                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `collapsible` | One region that folds                                                                                                                                                               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `file-tree`   | Folders and files                                                                                                                                                                   | Guides, type icons, multiple selection                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `folder`      | Collections opened from a grid, as a drive shows them                                                                                                                               | `FolderPreview` > `FolderFiles` (up to three `FolderFile`: blank sheet or a thumbnail) + `FolderCover` (badges, avatars); a link in `FolderTitle` makes the tile the target; `color` takes a palette name or role, `variant="glass"`; `open` for a drop target. `w-full` in an `auto-fill` grid                                                                                                                                                                                                                |
+| `carousel`    | Media to swipe through                                                                                                                                                              | Never for content people must see                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| Status dot    | Something live, beside its word                                                                                                                                                     | No component: `<span aria-hidden className="size-2 shrink-0 rounded-full bg-success" />` then the word                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Metadata      | Pairs of label and value                                                                                                                                                            | A `dl` in two columns: grey `dt`, foreground `dd` aligned to the end                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 
 ## Showing numbers
 
 Every chart takes `data`, a `config` naming the series (or `nameKey`/`valueKey`) and a `label`, plus `formatValue`, `loading`, `empty`, `onActiveChange`. Give it a height with `className`. Recharts is never added beside them.
 
-| Question | Component |
-| --- | --- |
-| How is it going against before or a target? | `line-chart`, the comparison dashed in `muted-foreground` |
-| How does the total and its parts move? | `area-chart stack="stacked"`, or `bar-chart stack="stacked"` per period |
-| How does the mix change? | `composition-chart` |
-| Which are largest? | `bar-chart layout="horizontal"`, sorted, five to eight |
-| What is it made of? | `donut-chart` with its list (about 560px), `pie-chart` for two to four parts, `treemap` for a hierarchy |
-| Where do people drop out? Where does it flow? | `funnel-chart`; `sankey-chart` |
-| How close to the goal? | `progress` for one; `radial-chart` for a few (`shape="half"` for a gauge) |
-| How is one limit used up? | `segmented-meter`: storage by kind, a budget by team, seats by plan; `segments`, `max`, `formatValue` |
-| When does it happen? | `heat-calendar` |
-| Has it been up? | `status-bar`, one pill per day, one bar per service. In a table of services: `legend={false}` on each, one shared legend under the table. Pills stop at 4px and older days drop off, and the uptime counts only what is shown, so pass a window that fits the narrowest cell (30 days on a phone) and name it once |
-| Who leads, over time? | `bump-chart` |
-| How do a few compare on many measures? | `radar-chart` |
-| What did the price do? | `candlestick-chart` |
+| Question                                      | Component                                                                                                                                                                                                                                                                                                          |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| How is it going against before or a target?   | `line-chart`, the comparison dashed in `muted-foreground`                                                                                                                                                                                                                                                          |
+| How does the total and its parts move?        | `area-chart stack="stacked"`, or `bar-chart stack="stacked"` per period                                                                                                                                                                                                                                            |
+| How does the mix change?                      | `composition-chart`                                                                                                                                                                                                                                                                                                |
+| Which are largest?                            | `bar-chart layout="horizontal"`, sorted, five to eight                                                                                                                                                                                                                                                             |
+| What is it made of?                           | `donut-chart` with its list (about 560px), `pie-chart` for two to four parts, `treemap` for a hierarchy                                                                                                                                                                                                            |
+| Where do people drop out? Where does it flow? | `funnel-chart`; `sankey-chart`                                                                                                                                                                                                                                                                                     |
+| How close to the goal?                        | `progress` for one; `radial-chart` for a few (`shape="half"` for a gauge)                                                                                                                                                                                                                                          |
+| How is one limit used up?                     | `segmented-meter`: storage by kind, a budget by team, seats by plan; `segments`, `max`, `formatValue`. Under a `CardValue` it keeps its own label for screen readers only                                                                                                                                          |
+| Did it move the right way?                    | `delta`: `change` (null for no comparison), `isGoodWhenUp={false}` for churn, cost, latency; `unit="pt"` for rates                                                                                                                                                                                                 |
+| When does it happen?                          | `heat-calendar`                                                                                                                                                                                                                                                                                                    |
+| Has it been up?                               | `status-bar`, one pill per day, one bar per service. In a table of services: `legend={false}` on each, one shared legend under the table. Pills stop at 4px and older days drop off, and the uptime counts only what is shown, so pass a window that fits the narrowest cell (30 days on a phone) and name it once |
+| Who leads, over time?                         | `bump-chart`                                                                                                                                                                                                                                                                                                       |
+| How do a few compare on many measures?        | `radar-chart`                                                                                                                                                                                                                                                                                                      |
+| What did the price do?                        | `candlestick-chart`                                                                                                                                                                                                                                                                                                |
 
-One headline number is type (`Metric` role) with a delta `Badge`, not a chart.
+One headline number is a `CardValue` with a `Delta`, not a chart. A chart in a small card (under about 360px, or a sparkline under a stat) takes `minimal`: no axes or gridlines, only its first and last labels.
 
 ## Showing time
 
-| Component | Reach for it when |
-| --- | --- |
+| Component        | Reach for it when                                                                                                                                                                                  |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `event-calendar` | Anything with a start and an end: schedules, bookings, shifts, releases, on-call. Day, week, month and agenda views, drag to create and resize, recurrence, zones, undo; save from `onEventChange` |
-| `calendar` | Picking a date |
-| `heat-calendar` | How much, per day |
-| Activity | `ItemGroup` of `Item`s with an `Avatar`, what happened and a relative time, newest first |
+| `calendar`       | Picking a date                                                                                                                                                                                     |
+| `heat-calendar`  | How much, per day                                                                                                                                                                                  |
+| Activity         | `ItemGroup` of `Item`s with an `Avatar`, what happened and a relative time, newest first                                                                                                           |
 
 ## Content and media
 
-| Component | Reach for it when |
-| --- | --- |
-| `markdown` | Reading formatted text, including a model's reply |
-| `syntax-highlight` | Code, a key, a command, a payload: header with language and Copy |
-| `image-compare` | Before and after of one picture |
-| `audio-player` | Audio with its waveform; `cover` for music, compact for voice messages |
-| `video-player` | Video with captions and chapters; compact in cards |
-| `aspect-ratio` | Holding the space of media before it loads |
-| `typography` | Long-form HTML outside Markdown |
-| `text-motion` | A website's moment: a hero headline and lead (`TextMotionGroup`), a section heading arriving, one headline word that cycles (`TextMotionRotate`), a command typed, an ID resolving. Effects are layers; see [foundations.md](foundations.md#text-that-plays-in). Web only |
-| `blueprint` | A website's moment for a component: a landing-page card, feature grid or product shot sketched into place (`BlueprintGroup` plays a set in turn), or the first load of a panel with `loading`, which holds the sketch until the data arrives. It traces whatever it wraps; `data-blueprint-skip` leaves a part out. Not for screens people revisit all day. Web only |
+| Component          | Reach for it when                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `markdown`         | Reading formatted text, including a model's reply                                                                                                                                                                                                                                                                                                                    |
+| `syntax-highlight` | Code, a key, a command, a payload: header with language and Copy                                                                                                                                                                                                                                                                                                     |
+| `image-compare`    | Before and after of one picture                                                                                                                                                                                                                                                                                                                                      |
+| `audio-player`     | Audio with its waveform; `cover` for music, compact for voice messages                                                                                                                                                                                                                                                                                               |
+| `video-player`     | Video with captions and chapters; compact in cards                                                                                                                                                                                                                                                                                                                   |
+| `aspect-ratio`     | Holding the space of media before it loads                                                                                                                                                                                                                                                                                                                           |
+| `typography`       | Long-form HTML outside Markdown                                                                                                                                                                                                                                                                                                                                      |
+| `text-motion`      | A website's moment: a hero headline and lead (`TextMotionGroup`), a section heading arriving, one headline word that cycles (`TextMotionRotate`), a command typed, an ID resolving. Effects are layers; see [foundations.md](foundations.md#text-that-plays-in). Web only                                                                                            |
+| `blueprint`        | A website's moment for a component: a landing-page card, feature grid or product shot sketched into place (`BlueprintGroup` plays a set in turn), or the first load of a panel with `loading`, which holds the sketch until the data arrives. It traces whatever it wraps; `data-blueprint-skip` leaves a part out. Not for screens people revisit all day. Web only |
 
 ## Feedback and waiting
 
-| Component | Reach for it when |
-| --- | --- |
-| `alert` | A message that stays: `info`, `success`, `warning`, `error`; `contrast="high"` for the one that must be dealt with; `AlertAction` |
-| `toast`, `sonner` | A result just now. Base UI uses `toast`; Radix and React Aria use Sonner |
-| `empty` | Nothing here, and what to do about it |
-| `morph-island` | One live activity that changes: a timer, a call, an upload, a save | `MorphIsland value` with one `MorphIslandContent value` per state, all mounted; it morphs to the current one's size. A status region: keep each state short |
-| `skeleton` | A box whose size is known before its data |
-| `spinner` | In the control that started a wait; 22 variants, one per product |
-| `progress` | Known length, a goal, a limit |
-| `shimmer` | Utility: text being worked on ("Thinking…") |
-| `sounds` | Optional interface sounds and haptics behind a setting |
+| Component         | Reach for it when                                                                                                                 |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `alert`           | A message that stays: `info`, `success`, `warning`, `error`; `contrast="high"` for the one that must be dealt with; `AlertAction` |
+| `toast`, `sonner` | A result just now. Base UI uses `toast`; Radix and React Aria use Sonner                                                          |
+| `empty`           | Nothing here, and what to do about it                                                                                             |
+| `morph-island`    | One live activity that changes: a timer, a call, an upload, a save                                                                | `MorphIsland value` with one `MorphIslandContent value` per state, all mounted; it morphs to the current one's size. A status region: keep each state short |
+| `skeleton`        | A box whose size is known before its data                                                                                         |
+| `spinner`         | In the control that started a wait; 22 variants, one per product                                                                  |
+| `progress`        | Known length, a goal, a limit                                                                                                     |
+| `shimmer`         | Utility: text being worked on ("Thinking…")                                                                                       |
+| `sounds`          | Optional interface sounds and haptics behind a setting                                                                            |
 
 How loud each is: [states.md](states.md#how-loud).
 
 ## Conversation and AI
 
-| Component | Reach for it when |
-| --- | --- |
-| `message-scroller` | Any transcript: follows streams, anchors turns, jumps to latest |
-| `message`, `bubble`| A row and its surface; the assistant's replies are plain `Markdown` |
-| `attachment` | A file or image in a conversation, with upload states |
-| `marker` | Day dividers, system lines, tool steps |
-| `chat-input` | The composer: attachments, commands, mentions, context meter, queue, voice, stop |
-| `model-picker` | Choosing a model and its effort |
-| `questionnaire` | An assistant's clarifying questions, in the composer's place |
-| `bot-face` | An assistant's identity and state |
+| Component           | Reach for it when                                                                |
+| ------------------- | -------------------------------------------------------------------------------- |
+| `message-scroller`  | Any transcript: follows streams, anchors turns, jumps to latest                  |
+| `message`, `bubble` | A row and its surface; the assistant's replies are plain `Markdown`              |
+| `attachment`        | A file or image in a conversation, with upload states                            |
+| `marker`            | Day dividers, system lines, tool steps                                           |
+| `chat-input`        | The composer: attachments, commands, mentions, context meter, queue, voice, stop |
+| `model-picker`      | Choosing a model and its effort                                                  |
+| `questionnaire`     | An assistant's clarifying questions, in the composer's place                     |
+| `bot-face`          | An assistant's identity and state                                                |
 
 ## Arranging
 
@@ -193,49 +194,51 @@ How loud each is: [states.md](states.md#how-loud).
 
 ## Near neighbours
 
-| Between | Choose |
-| --- | --- |
-| `Tabs`, `ToggleGroup`, `Select` | Views with panels use Tabs. Short choices in place use ToggleGroup. Use Select when labels do not fit |
-| `Switch`, `Checkbox` | Takes effect now: Switch. Submitted later, or part of a list: Checkbox |
-| `Table`, `DataTable`, `ItemGroup`| Compared by column: Table. Worked on: DataTable. Read one by one, or under about 480px: ItemGroup |
-| `Card`, `Item` | A thing with content of its own: Card. A row among equals: Item |
-| `Folder`, `FileTree`, `Item` | Collections browsed as tiles: Folder. A hierarchy opened in place: FileTree. A list of folders read by name and date: Item |
-| `Dialog`, `Sheet`, `AppShellPanel`, page | Finish and go: Dialog. Needs the page: Sheet. Kept open while working: Panel. Has a URL or more than seven asks: page |
-| `Popover`, `DropdownMenu` | Controls: Popover. Actions: DropdownMenu |
-| `Alert`, toast | Still true in a minute: Alert. A result: toast |
-| `Badge`, status dot | A stage it is in: Badge. Live right now: dot and word |
-| `Progress`, `RadialChart` | One value: Progress. A few to compare: RadialChart |
-| `DatePicker`, `Calendar`, `EventCalendar` | Enter a date: DatePicker. A range or always visible: Calendar. Things in time: EventCalendar |
-| `Accordion`, `Collapsible`, `Tabs` | Several lines, one open: Accordion. One region: Collapsible. Equal views: Tabs |
-| `LineChart`, `AreaChart` | Comparing: Line. A total, stacked or alone: Area |
+| Between                                   | Choose                                                                                                                     |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `Tabs`, `ToggleGroup`, `Select`           | Views with panels use Tabs. Short choices in place use ToggleGroup. Use Select when labels do not fit                      |
+| `Switch`, `Checkbox`                      | Takes effect now: Switch. Submitted later, or part of a list: Checkbox                                                     |
+| `Table`, `DataTable`, `ItemGroup`         | Compared by column: Table. Worked on: DataTable. Read one by one, or under about 480px: ItemGroup                          |
+| `Card`, `Item`                            | A thing with content of its own: Card. A row among equals: Item                                                            |
+| `Folder`, `FileTree`, `Item`              | Collections browsed as tiles: Folder. A hierarchy opened in place: FileTree. A list of folders read by name and date: Item |
+| `Dialog`, `Sheet`, `AppShellPanel`, page  | Finish and go: Dialog. Needs the page: Sheet. Kept open while working: Panel. Has a URL or more than seven asks: page      |
+| `Popover`, `DropdownMenu`                 | Controls: Popover. Actions: DropdownMenu                                                                                   |
+| `Alert`, toast                            | Still true in a minute: Alert. A result: toast                                                                             |
+| `Badge`, status dot                       | A stage it is in: Badge. Live right now: dot and word                                                                      |
+| `Progress`, `RadialChart`                 | One value: Progress. A few to compare: RadialChart                                                                         |
+| `DatePicker`, `Calendar`, `EventCalendar` | Enter a date: DatePicker. A range or always visible: Calendar. Things in time: EventCalendar                               |
+| `Accordion`, `Collapsible`, `Tabs`        | Several lines, one open: Accordion. One region: Collapsible. Equal views: Tabs                                             |
+| `LineChart`, `AreaChart`                  | Comparing: Line. A total, stacked or alone: Area                                                                           |
 
 ## Instead of building
 
-| Tempted to build | Use |
-| --- | --- |
-| A sidebar, topbar or split layout | `AppShell`, `AppNav`, `AppShellPanel` |
-| A segmented control or pill filter row | `Tabs` for views with panels, `ToggleGroup` for choices in place |
-| A grid of feature cards with icons | A list, a table, or the product itself |
-| Stat tiles with icon squares | The KPI row ([recipes/dashboard.md](recipes/dashboard.md)) |
-| A stepper with numbered circles | `Progress` and "Step 2 of 4"; `Questionnaire` |
-| A long form | A shape from [asking.md](asking.md#choosing-the-shape) |
-| A tag input | `MultiSelect` |
-| A timeline with a rail | `ItemGroup` with avatars and times, or `Marker`s |
-| A kanban board | A `Table` or `DataTable` first; for a real board, `Item variant="outline"` in columns with the project's drag library |
-| A copy field | `InputGroup` with an `InputGroupButton`, or `SyntaxHighlight` |
-| A dismissible banner | `Alert` with `AlertAction` |
-| A custom scroll container for chat | `MessageScroller` |
-| A progress bar, spinner, skeleton mosaic | `Progress`, `Spinner`, one `Skeleton` per box |
-| A pricing toggle | `Tabs` |
+| Tempted to build                                   | Use                                                                                                                   |
+| -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| A sidebar, topbar or split layout                  | `AppShell`, `AppNav`, `AppShellPanel`                                                                                 |
+| A segmented control or pill filter row             | `Tabs` for views with panels, `ToggleGroup` for choices in place                                                      |
+| A grid of feature cards with icons                 | A list, a table, or the product itself                                                                                |
+| Stat tiles with icon squares                       | The KPI row ([recipes/dashboard.md](recipes/dashboard.md))                                                            |
+| A value styled by hand (`text-2xl font-semibold`)  | `CardValue` with a `Delta`                                                                                            |
+| A card wrapped in a link, or a card with `onClick` | `CardLink` in the card's title                                                                                        |
+| A stepper with numbered circles                    | `Progress` and "Step 2 of 4"; `Questionnaire`                                                                         |
+| A long form                                        | A shape from [asking.md](asking.md#choosing-the-shape)                                                                |
+| A tag input                                        | `MultiSelect`                                                                                                         |
+| A timeline with a rail                             | `ItemGroup` with avatars and times, or `Marker`s                                                                      |
+| A kanban board                                     | A `Table` or `DataTable` first; for a real board, `Item variant="outline"` in columns with the project's drag library |
+| A copy field                                       | `InputGroup` with an `InputGroupButton`, or `SyntaxHighlight`                                                         |
+| A dismissible banner                               | `Alert` with `AlertAction`                                                                                            |
+| A custom scroll container for chat                 | `MessageScroller`                                                                                                     |
+| A progress bar, spinner, skeleton mosaic           | `Progress`, `Spinner`, one `Skeleton` per box                                                                         |
+| A pricing toggle                                   | `Tabs`                                                                                                                |
 
 ## Blocks
 
 Finished starting points. Inspect before installing, then replace the content.
 
-| Block | What it is |
-| --- | --- |
-| `app-shell-01` … `-05` | Frames: workspace with a Details panel, workbench with tabs, classic SaaS, desktop window, mobile first |
-| `finance-01` | A complete dashboard page |
-| `mail-01`, `messenger-01`, `assistant-01`, `calendar-app-01`, `board-01` | Complete list and detail, messaging, AI chat, calendar and ticket board apps |
-| `sign-in-01`, `sign-up-01`, `forgot-password-01` | Authentication screens with their errors |
-| `login-01` … `-05`, `signup-01` … `-05`, `sidebar-01` … `-16` | Other sign-in, sign-up and sidebar layouts |
+| Block                                                                    | What it is                                                                                              |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `app-shell-01` … `-05`                                                   | Frames: workspace with a Details panel, workbench with tabs, classic SaaS, desktop window, mobile first |
+| `finance-01`                                                             | A complete dashboard page                                                                               |
+| `mail-01`, `messenger-01`, `assistant-01`, `calendar-app-01`, `board-01` | Complete list and detail, messaging, AI chat, calendar and ticket board apps                            |
+| `sign-in-01`, `sign-up-01`, `forgot-password-01`                         | Authentication screens with their errors                                                                |
+| `login-01` … `-05`, `signup-01` … `-05`, `sidebar-01` … `-16`            | Other sign-in, sign-up and sidebar layouts                                                              |

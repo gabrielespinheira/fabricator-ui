@@ -167,7 +167,7 @@ An eight-level ladder of backgrounds, each paired with a shadow that starts with
 | Level    | Classes                                                    | Holds                                                                |
 | -------- | ---------------------------------------------------------- | -------------------------------------------------------------------- |
 | Page     | `bg-background` (surface 1)                                | The page; in an App Shell, the main column and panels                |
-| 2        | `bg-card shadow-surface-2 rounded-(--radius-surface)`      | The default card, inset regions, the sidebar on its own              |
+| 2        | `bg-card shadow-surface-2 rounded-(--radius-card)`         | The default card, inset regions, the sidebar on its own              |
 | 3        | `bg-surface-3 shadow-surface-3 rounded-(--radius-surface)` | Raised cards, menus, popovers, selects, hover cards, sheets, drawers |
 | 4        | `bg-surface-4 shadow-surface-4`                            | The active tab, anything raised inside a level-3 surface             |
 | 5        | `bg-surface-5 shadow-surface-5 rounded-(--radius-surface)` | Dialogs, alert dialogs, toasts, chart tooltips                       |
@@ -230,7 +230,8 @@ Tokens are named after their default value. Write `h-(--density-36)`, `px-(--den
 | `--density-12`              | 10      | 12      | 14       | Tab, accordion, table and popover padding           |
 | `--density-10`              | 8       | 10      | 12       | Input, select, toggle and badge padding             |
 | `--density-8`, `-6`, `-4`   | 6, 4, 2 | 8, 6, 4 | 10, 8, 4 | Row padding and gaps, button gaps, track padding    |
-| `--density-text-16` / `-14` | 15 / 13 | 16 / 14 | 18 / 16  | Dialog titles / card titles                         |
+| `--density-text-28` / `-20` | 24 / 18 | 28 / 20 | 32 / 22  | Card values / small card values                     |
+| `--density-text-16` / `-14` | 15 / 13 | 16 / 14 | 18 / 16  | Dialog and card titles / small card titles          |
 | `--density-text-13`         | 12      | 13      | 15       | Body and control text                               |
 | `--density-text-12` / `-11` | 12 / 11 | 12 / 11 | 13 / 12  | Captions, labels, errors / shortcuts, Kbd           |
 | `--density-icon-16` / `-14` | 14 / 12 | 16 / 14 | 18 / 16  | Icons / small chevrons and separators               |
@@ -247,7 +248,8 @@ Every corner comes from a radius role (`registry/fabricator/radius.ts`), never `
 | Role    | Class                        | For                                                                                              |
 | ------- | ---------------------------- | ------------------------------------------------------------------------------------------------ |
 | Control | `rounded-(--radius-control)` | Single-line controls and their highlights: button, input, select trigger, badge, toggle, tooltip |
-| Surface | `rounded-(--radius-surface)` | Containers: card, popover, menu, dialog, alert, toast, code block                                |
+| Surface | `rounded-(--radius-surface)` | Containers: popover, menu, dialog, alert, toast, code block, kanban card                         |
+| Card    | `rounded-(--radius-card)`    | `Card` (`--radius-card-sm` on `size="sm"`, `--radius-card-inner` for a tray's panel)             |
 | Panel   | `rounded-(--radius-panel)`   | Large frames: App Shell inset and panels, sheet and drawer edges                                 |
 | Mark    | `rounded-(--radius-mark)`    | Small parts: checkbox, kbd, inline marks, chart and event chips                                  |
 
@@ -260,7 +262,9 @@ Inter with its optical-size axis; `font-medium` is 450 and `font-semibold` 550.
 | Role     | Size                                       | Where                                                     |
 | -------- | ------------------------------------------ | --------------------------------------------------------- |
 | Title    | `--density-text-16`, bold, `leading-tight` | Dialog titles                                             |
-| Subtitle | `--density-text-14`, medium                | Card, alert and popover titles; the command input         |
+| Card     | `--density-text-16`, medium                | `CardTitle` (the 14 step on `size="sm"`)                  |
+| Metric   | `--density-text-28`, medium, tabular       | `CardValue` (the 20 step on `size="sm"`)                  |
+| Subtitle | `--density-text-14`, medium                | Alert and popover titles; the command input               |
 | Body     | `--density-text-13`                        | Controls, labels, menus, cells, descriptions              |
 | Caption  | `--density-text-12`, muted                 | Group labels, badges, tooltips, field help and errors     |
 | Shortcut | `--density-text-11`                        | Kbd, menu shortcuts                                       |

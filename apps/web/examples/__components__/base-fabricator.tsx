@@ -1568,6 +1568,16 @@ export const Components: Record<string, any> = {
       ) || "canvas-validation"
     return { default: mod.default || mod[exportName] }
   }),
+  "card-connection": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/card-connection"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-connection"
+    return { default: mod.default || mod[exportName] }
+  }),
   "card-demo": React.lazy(async () => {
     const mod = await import("@/examples/__styles__/base-fabricator/card-demo")
     const exportName =
@@ -1594,6 +1604,48 @@ export const Components: Record<string, any> = {
       ) || "card-image"
     return { default: mod.default || mod[exportName] }
   }),
+  "card-link": React.lazy(async () => {
+    const mod = await import("@/examples/__styles__/base-fabricator/card-link")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-link"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "card-list": React.lazy(async () => {
+    const mod = await import("@/examples/__styles__/base-fabricator/card-list")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-list"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "card-media": React.lazy(async () => {
+    const mod = await import("@/examples/__styles__/base-fabricator/card-media")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-media"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "card-overview": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/card-overview"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-overview"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "card-plan": React.lazy(async () => {
+    const mod = await import("@/examples/__styles__/base-fabricator/card-plan")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-plan"
+    return { default: mod.default || mod[exportName] }
+  }),
   "card-small": React.lazy(async () => {
     const mod = await import("@/examples/__styles__/base-fabricator/card-small")
     const exportName =
@@ -1610,6 +1662,42 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "card-spacing"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "card-stat": React.lazy(async () => {
+    const mod = await import("@/examples/__styles__/base-fabricator/card-stat")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-stat"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "card-states": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/card-states"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-states"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "card-table": React.lazy(async () => {
+    const mod = await import("@/examples/__styles__/base-fabricator/card-table")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-table"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "card-variants": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/card-variants"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card-variants"
     return { default: mod.default || mod[exportName] }
   }),
   "carousel-api": React.lazy(async () => {
@@ -2520,6 +2608,14 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "date-picker-year"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "delta-demo": React.lazy(async () => {
+    const mod = await import("@/examples/__styles__/base-fabricator/delta-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "delta-demo"
     return { default: mod.default || mod[exportName] }
   }),
   "dialog-close-button": React.lazy(async () => {

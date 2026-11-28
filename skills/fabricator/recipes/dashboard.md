@@ -179,28 +179,11 @@ Show up to four period presets with the default `TabsList`. Use a `Select` for m
 
 ## Delta
 
+Use the `delta` component (`npx fabricator-ui@latest add delta`); never rebuild it. `change` is in the unit's terms, `null` when there is nothing to compare ("No data", never a zero), `isGoodWhenUp={false}` for churn, cost and latency, `unit="pt"` for rates.
+
 ```tsx
-function Delta({
-  change,
-  isGoodWhenUp,
-  unit = "%",
-}: {
-  change: number
-  isGoodWhenUp: boolean
-  unit?: "%" | " pt"
-}) {
-  if (change === 0) return <Badge variant="outline">0{unit}</Badge>
-  const isUp = change > 0
-  const Arrow = isUp ? ArrowUpRightIcon : ArrowDownRightIcon
-  return (
-    <Badge variant={isUp === isGoodWhenUp ? "success" : "destructive"}>
-      <Arrow />
-      {isUp ? "+" : "−"}
-      {Math.abs(change).toFixed(1)}
-      {unit}
-    </Badge>
-  )
-}
+<Delta change={12.4} />
+<Delta change={-0.4} isGoodWhenUp={false} unit="pt" />
 ```
 
 ## KPI row
@@ -211,10 +194,10 @@ A row of stat cards, parted by the gutter alone: no dividers, no shared frame. T
 type Metric = {
   label: string
   value: string
-  previous: string
-  change: number
+  previous: string | null
+  change: number | null
   isGoodWhenUp: boolean
-  unit?: "%" | " pt" // rates change in points
+  unit?: "%" | "pt" // rates change in points
 }
 
 function KpiRow({
@@ -233,23 +216,21 @@ function KpiRow({
     >
       {metrics.map((metric) => (
         <Card key={metric.label}>
-          <CardContent className="flex flex-col gap-(--density-4)">
-            <span className="truncate text-muted-foreground">
-              {metric.label}
-            </span>
-            <span className="text-2xl tracking-tight tabular-nums weight-semibold">
+          <CardHeader>
+            <CardTitle>{metric.label}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardValue>
               {metric.value}
-            </span>
-            <span className="flex items-center gap-(--density-8) text-(length:--density-text-12) text-muted-foreground">
               <Delta
                 change={metric.change}
                 isGoodWhenUp={metric.isGoodWhenUp}
                 unit={metric.unit}
               />
-              <span className="hidden truncate @3xl:inline">
-                from {metric.previous}
-              </span>
-            </span>
+              {metric.previous && (
+                <CardValueCaption>from {metric.previous}</CardValueCaption>
+              )}
+            </CardValue>
           </CardContent>
         </Card>
       ))}
@@ -283,17 +264,14 @@ function RevenueCard({ days, className }: { days: Day[]; className?: string }) {
         </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col gap-(--density-16)">
-        <div className="flex flex-col gap-(--density-4)">
-          <span className="text-muted-foreground">
-            {active ? active.datum.day : "Total this period"}
-          </span>
-          <div className="flex items-center gap-(--density-8)">
-            <span className="text-2xl tracking-tight tabular-nums weight-semibold">
-              {formatMoney(active ? active.datum.current : total)}
-            </span>
-            {!active && <Delta change={12.4} isGoodWhenUp />}
-          </div>
-        </div>
+        <CardValue>
+          {formatMoney(active ? active.datum.current : total)}
+          {active ? (
+            <CardValueCaption>{active.datum.day}</CardValueCaption>
+          ) : (
+            <Delta change={12.4} />
+          )}
+        </CardValue>
         <LineChart
           className="h-56 @4xl:h-64"
           data={days}
@@ -317,7 +295,8 @@ function RevenueCard({ days, className }: { days: Day[]; className?: string }) {
     <CardTitle>Needs attention</CardTitle>
     <CardDescription>Ordered by money at risk</CardDescription>
   </CardHeader>
-  <CardContent className="px-[calc(var(--card-spacing)-var(--density-12))]">
+  {/* An ItemGroup reaches the card's edges by itself, icons on the inset. */}
+  <CardContent>
     <ItemGroup>
       {tasks.map((task) => (
         // For a link to where the task is done, wrap a rendered Item in <div role="listitem">.
@@ -358,8 +337,9 @@ function RevenueCard({ days, className }: { days: Day[]; className?: string }) {
       </Link>
     </CardAction>
   </CardHeader>
-  <CardContent className="-mb-(--card-spacing) px-0">
-    <Table className="[&_tr>*:first-child]:ps-(--card-spacing) [&_tr>*:last-child]:pe-(--card-spacing)">
+  {/* A Table reaches the card's edges by itself, first and last columns on the inset. */}
+  <CardContent>
+    <Table>
       <TableHeader>
         <TableRow>
           <TableHead>Customer</TableHead>

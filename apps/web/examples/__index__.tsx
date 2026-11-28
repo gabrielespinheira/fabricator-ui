@@ -677,6 +677,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "canvas-validation",
       filePath: "examples/base/canvas-validation.tsx",
     },
+    "card-connection": {
+      name: "card-connection",
+      filePath: "examples/base/card-connection.tsx",
+    },
     "card-demo": {
       name: "card-demo",
       filePath: "examples/base/card-demo.tsx",
@@ -689,6 +693,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "card-image",
       filePath: "examples/base/card-image.tsx",
     },
+    "card-link": {
+      name: "card-link",
+      filePath: "examples/base/card-link.tsx",
+    },
+    "card-list": {
+      name: "card-list",
+      filePath: "examples/base/card-list.tsx",
+    },
+    "card-media": {
+      name: "card-media",
+      filePath: "examples/base/card-media.tsx",
+    },
+    "card-overview": {
+      name: "card-overview",
+      filePath: "examples/base/card-overview.tsx",
+    },
+    "card-plan": {
+      name: "card-plan",
+      filePath: "examples/base/card-plan.tsx",
+    },
     "card-rtl": {
       name: "card-rtl",
       filePath: "examples/base/card-rtl.tsx",
@@ -700,6 +724,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-spacing": {
       name: "card-spacing",
       filePath: "examples/base/card-spacing.tsx",
+    },
+    "card-stat": {
+      name: "card-stat",
+      filePath: "examples/base/card-stat.tsx",
+    },
+    "card-states": {
+      name: "card-states",
+      filePath: "examples/base/card-states.tsx",
+    },
+    "card-table": {
+      name: "card-table",
+      filePath: "examples/base/card-table.tsx",
+    },
+    "card-variants": {
+      name: "card-variants",
+      filePath: "examples/base/card-variants.tsx",
     },
     "carousel-api": {
       name: "carousel-api",
@@ -1128,6 +1168,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-year": {
       name: "date-picker-year",
       filePath: "examples/base/date-picker-year.tsx",
+    },
+    "delta-demo": {
+      name: "delta-demo",
+      filePath: "examples/base/delta-demo.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -3687,6 +3731,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "canvas-validation",
       filePath: "examples/aria/canvas-validation.tsx",
     },
+    "card-connection": {
+      name: "card-connection",
+      filePath: "examples/aria/card-connection.tsx",
+    },
     "card-demo": {
       name: "card-demo",
       filePath: "examples/aria/card-demo.tsx",
@@ -3699,6 +3747,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "card-image",
       filePath: "examples/aria/card-image.tsx",
     },
+    "card-link": {
+      name: "card-link",
+      filePath: "examples/aria/card-link.tsx",
+    },
+    "card-list": {
+      name: "card-list",
+      filePath: "examples/aria/card-list.tsx",
+    },
+    "card-media": {
+      name: "card-media",
+      filePath: "examples/aria/card-media.tsx",
+    },
+    "card-overview": {
+      name: "card-overview",
+      filePath: "examples/aria/card-overview.tsx",
+    },
+    "card-plan": {
+      name: "card-plan",
+      filePath: "examples/aria/card-plan.tsx",
+    },
     "card-rtl": {
       name: "card-rtl",
       filePath: "examples/aria/card-rtl.tsx",
@@ -3710,6 +3778,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-spacing": {
       name: "card-spacing",
       filePath: "examples/aria/card-spacing.tsx",
+    },
+    "card-stat": {
+      name: "card-stat",
+      filePath: "examples/aria/card-stat.tsx",
+    },
+    "card-states": {
+      name: "card-states",
+      filePath: "examples/aria/card-states.tsx",
+    },
+    "card-table": {
+      name: "card-table",
+      filePath: "examples/aria/card-table.tsx",
+    },
+    "card-variants": {
+      name: "card-variants",
+      filePath: "examples/aria/card-variants.tsx",
     },
     "carousel-api": {
       name: "carousel-api",
@@ -4130,6 +4214,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-year": {
       name: "date-picker-year",
       filePath: "examples/aria/date-picker-year.tsx",
+    },
+    "delta-demo": {
+      name: "delta-demo",
+      filePath: "examples/aria/delta-demo.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -6685,6 +6773,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "canvas-validation",
       filePath: "examples/radix/canvas-validation.tsx",
     },
+    "card-connection": {
+      name: "card-connection",
+      filePath: "examples/radix/card-connection.tsx",
+    },
     "card-demo": {
       name: "card-demo",
       filePath: "examples/radix/card-demo.tsx",
@@ -6697,6 +6789,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "card-image",
       filePath: "examples/radix/card-image.tsx",
     },
+    "card-link": {
+      name: "card-link",
+      filePath: "examples/radix/card-link.tsx",
+    },
+    "card-list": {
+      name: "card-list",
+      filePath: "examples/radix/card-list.tsx",
+    },
+    "card-media": {
+      name: "card-media",
+      filePath: "examples/radix/card-media.tsx",
+    },
+    "card-overview": {
+      name: "card-overview",
+      filePath: "examples/radix/card-overview.tsx",
+    },
+    "card-plan": {
+      name: "card-plan",
+      filePath: "examples/radix/card-plan.tsx",
+    },
     "card-rtl": {
       name: "card-rtl",
       filePath: "examples/radix/card-rtl.tsx",
@@ -6708,6 +6820,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-spacing": {
       name: "card-spacing",
       filePath: "examples/radix/card-spacing.tsx",
+    },
+    "card-stat": {
+      name: "card-stat",
+      filePath: "examples/radix/card-stat.tsx",
+    },
+    "card-states": {
+      name: "card-states",
+      filePath: "examples/radix/card-states.tsx",
+    },
+    "card-table": {
+      name: "card-table",
+      filePath: "examples/radix/card-table.tsx",
+    },
+    "card-variants": {
+      name: "card-variants",
+      filePath: "examples/radix/card-variants.tsx",
     },
     "carousel-api": {
       name: "carousel-api",
@@ -7136,6 +7264,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-year": {
       name: "date-picker-year",
       filePath: "examples/radix/date-picker-year.tsx",
+    },
+    "delta-demo": {
+      name: "delta-demo",
+      filePath: "examples/radix/delta-demo.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -9745,6 +9877,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "canvas-validation",
       filePath: "examples/__styles__/base-fabricator/canvas-validation.tsx",
     },
+    "card-connection": {
+      name: "card-connection",
+      filePath: "examples/__styles__/base-fabricator/card-connection.tsx",
+    },
     "card-demo": {
       name: "card-demo",
       filePath: "examples/__styles__/base-fabricator/card-demo.tsx",
@@ -9757,6 +9893,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "card-image",
       filePath: "examples/__styles__/base-fabricator/card-image.tsx",
     },
+    "card-link": {
+      name: "card-link",
+      filePath: "examples/__styles__/base-fabricator/card-link.tsx",
+    },
+    "card-list": {
+      name: "card-list",
+      filePath: "examples/__styles__/base-fabricator/card-list.tsx",
+    },
+    "card-media": {
+      name: "card-media",
+      filePath: "examples/__styles__/base-fabricator/card-media.tsx",
+    },
+    "card-overview": {
+      name: "card-overview",
+      filePath: "examples/__styles__/base-fabricator/card-overview.tsx",
+    },
+    "card-plan": {
+      name: "card-plan",
+      filePath: "examples/__styles__/base-fabricator/card-plan.tsx",
+    },
     "card-small": {
       name: "card-small",
       filePath: "examples/__styles__/base-fabricator/card-small.tsx",
@@ -9764,6 +9920,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-spacing": {
       name: "card-spacing",
       filePath: "examples/__styles__/base-fabricator/card-spacing.tsx",
+    },
+    "card-stat": {
+      name: "card-stat",
+      filePath: "examples/__styles__/base-fabricator/card-stat.tsx",
+    },
+    "card-states": {
+      name: "card-states",
+      filePath: "examples/__styles__/base-fabricator/card-states.tsx",
+    },
+    "card-table": {
+      name: "card-table",
+      filePath: "examples/__styles__/base-fabricator/card-table.tsx",
+    },
+    "card-variants": {
+      name: "card-variants",
+      filePath: "examples/__styles__/base-fabricator/card-variants.tsx",
     },
     "carousel-api": {
       name: "carousel-api",
@@ -10144,6 +10316,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-year": {
       name: "date-picker-year",
       filePath: "examples/__styles__/base-fabricator/date-picker-year.tsx",
+    },
+    "delta-demo": {
+      name: "delta-demo",
+      filePath: "examples/__styles__/base-fabricator/delta-demo.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -12572,6 +12748,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "canvas-validation",
       filePath: "examples/__styles__/aria-fabricator/canvas-validation.tsx",
     },
+    "card-connection": {
+      name: "card-connection",
+      filePath: "examples/__styles__/aria-fabricator/card-connection.tsx",
+    },
     "card-demo": {
       name: "card-demo",
       filePath: "examples/__styles__/aria-fabricator/card-demo.tsx",
@@ -12584,6 +12764,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "card-image",
       filePath: "examples/__styles__/aria-fabricator/card-image.tsx",
     },
+    "card-link": {
+      name: "card-link",
+      filePath: "examples/__styles__/aria-fabricator/card-link.tsx",
+    },
+    "card-list": {
+      name: "card-list",
+      filePath: "examples/__styles__/aria-fabricator/card-list.tsx",
+    },
+    "card-media": {
+      name: "card-media",
+      filePath: "examples/__styles__/aria-fabricator/card-media.tsx",
+    },
+    "card-overview": {
+      name: "card-overview",
+      filePath: "examples/__styles__/aria-fabricator/card-overview.tsx",
+    },
+    "card-plan": {
+      name: "card-plan",
+      filePath: "examples/__styles__/aria-fabricator/card-plan.tsx",
+    },
     "card-small": {
       name: "card-small",
       filePath: "examples/__styles__/aria-fabricator/card-small.tsx",
@@ -12591,6 +12791,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-spacing": {
       name: "card-spacing",
       filePath: "examples/__styles__/aria-fabricator/card-spacing.tsx",
+    },
+    "card-stat": {
+      name: "card-stat",
+      filePath: "examples/__styles__/aria-fabricator/card-stat.tsx",
+    },
+    "card-states": {
+      name: "card-states",
+      filePath: "examples/__styles__/aria-fabricator/card-states.tsx",
+    },
+    "card-table": {
+      name: "card-table",
+      filePath: "examples/__styles__/aria-fabricator/card-table.tsx",
+    },
+    "card-variants": {
+      name: "card-variants",
+      filePath: "examples/__styles__/aria-fabricator/card-variants.tsx",
     },
     "carousel-api": {
       name: "carousel-api",
@@ -12962,6 +13178,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-year": {
       name: "date-picker-year",
       filePath: "examples/__styles__/aria-fabricator/date-picker-year.tsx",
+    },
+    "delta-demo": {
+      name: "delta-demo",
+      filePath: "examples/__styles__/aria-fabricator/delta-demo.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -15395,6 +15615,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "canvas-validation",
       filePath: "examples/__styles__/radix-fabricator/canvas-validation.tsx",
     },
+    "card-connection": {
+      name: "card-connection",
+      filePath: "examples/__styles__/radix-fabricator/card-connection.tsx",
+    },
     "card-demo": {
       name: "card-demo",
       filePath: "examples/__styles__/radix-fabricator/card-demo.tsx",
@@ -15407,6 +15631,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "card-image",
       filePath: "examples/__styles__/radix-fabricator/card-image.tsx",
     },
+    "card-link": {
+      name: "card-link",
+      filePath: "examples/__styles__/radix-fabricator/card-link.tsx",
+    },
+    "card-list": {
+      name: "card-list",
+      filePath: "examples/__styles__/radix-fabricator/card-list.tsx",
+    },
+    "card-media": {
+      name: "card-media",
+      filePath: "examples/__styles__/radix-fabricator/card-media.tsx",
+    },
+    "card-overview": {
+      name: "card-overview",
+      filePath: "examples/__styles__/radix-fabricator/card-overview.tsx",
+    },
+    "card-plan": {
+      name: "card-plan",
+      filePath: "examples/__styles__/radix-fabricator/card-plan.tsx",
+    },
     "card-small": {
       name: "card-small",
       filePath: "examples/__styles__/radix-fabricator/card-small.tsx",
@@ -15414,6 +15658,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-spacing": {
       name: "card-spacing",
       filePath: "examples/__styles__/radix-fabricator/card-spacing.tsx",
+    },
+    "card-stat": {
+      name: "card-stat",
+      filePath: "examples/__styles__/radix-fabricator/card-stat.tsx",
+    },
+    "card-states": {
+      name: "card-states",
+      filePath: "examples/__styles__/radix-fabricator/card-states.tsx",
+    },
+    "card-table": {
+      name: "card-table",
+      filePath: "examples/__styles__/radix-fabricator/card-table.tsx",
+    },
+    "card-variants": {
+      name: "card-variants",
+      filePath: "examples/__styles__/radix-fabricator/card-variants.tsx",
     },
     "carousel-api": {
       name: "carousel-api",
@@ -15798,6 +16058,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-year": {
       name: "date-picker-year",
       filePath: "examples/__styles__/radix-fabricator/date-picker-year.tsx",
+    },
+    "delta-demo": {
+      name: "delta-demo",
+      filePath: "examples/__styles__/radix-fabricator/delta-demo.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",

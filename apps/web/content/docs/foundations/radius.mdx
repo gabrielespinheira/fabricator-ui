@@ -22,20 +22,22 @@ A new project can pick its shape on [Get started](/create), or with `shape=squir
 | --------------- | ------- | ---------------- | --------------- |
 | Controls (36px) | 8px     | 9px, continuous  | 18px, a capsule |
 | Containers      | 12px    | 14px, continuous | 22px            |
+| Cards           | 16px    | 20px, continuous | 26px            |
 | Rows in a menu  | 8px     | 10px             | 18px, a capsule |
 | Large panels    | 16px    | 20px             | 26px            |
 | Small marks     | 4px     | 5px              | 6px             |
 
-Control corners follow the control height, so a `size="sm"` button, a compact toolbar and a spacious landing page keep the same proportions. In Pill a control is always a capsule, and containers grow only as much as their capsule rows need.
+Control corners follow the control height, so a `size="sm"` button, a compact toolbar and a spacious landing page keep the same proportions. In Pill a control is always a capsule, and containers grow only as much as their capsule rows need. Cards follow the density too (12, 16 and 20px in Rounded), and a `size="sm"` card steps down with its smaller inset.
 
 ## Roles
 
-Components never write `rounded-lg` or a pixel value. Each corner takes one of four roles:
+Components never write `rounded-lg` or a pixel value. Each corner takes one of five roles:
 
 | Role    | Class                        | For                                                         |
 | ------- | ---------------------------- | ----------------------------------------------------------- |
 | Control | `rounded-(--radius-control)` | Buttons, inputs, select triggers, badges, toggles, tooltips |
-| Surface | `rounded-(--radius-surface)` | Cards, popovers, menus, dialogs, alerts, toasts             |
+| Surface | `rounded-(--radius-surface)` | Popovers, menus, dialogs, alerts, toasts                    |
+| Card    | `rounded-(--radius-card)`    | Cards, and the tiles of a grid built like them              |
 | Panel   | `rounded-(--radius-panel)`   | The App Shell's inset and panels, sheet and drawer edges    |
 | Mark    | `rounded-(--radius-mark)`    | Checkboxes, keycaps, inline marks                           |
 

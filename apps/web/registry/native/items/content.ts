@@ -51,11 +51,26 @@ export const contentItems: Registry["items"] = [
     name: "card",
     type: "registry:ui",
     title: "Card",
-    description: "Displays a card with header, content, and footer.",
-    dependencies: ["cn"],
-    registryDependencies: ["@fabricator/text"],
+    description:
+      "One discrete thing on a surface, such as a metric, a chart, a record or a plan, with a header, its value and a footer.",
+    dependencies: ["class-variance-authority", "cn"],
+    registryDependencies: ["@fabricator/text", "@fabricator/feedback"],
     files: [{ path: "ui/card.tsx", type: "registry:ui" }],
     meta: docs("card"),
+  },
+  {
+    name: "delta",
+    type: "registry:ui",
+    title: "Delta",
+    description:
+      "A change against the previous period as a status badge: a sign, one decimal and an arrow, green when it moved the way it should.",
+    dependencies: ["@fabricator-ui/icons-react-native", "cn"],
+    registryDependencies: ["@fabricator/badge", "@fabricator/text"],
+    files: [
+      { path: "ui/delta.tsx", type: "registry:ui" },
+      { path: "lib/delta-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("delta"),
   },
   {
     name: "input",

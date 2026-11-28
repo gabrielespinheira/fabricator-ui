@@ -23,7 +23,15 @@ import {
   AvatarImage,
 } from "@/registry/bases/__base__/ui/avatar"
 import { Badge } from "@/registry/bases/__base__/ui/badge"
-import { Card, CardContent } from "@/registry/bases/__base__/ui/card"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardValue,
+  CardValueCaption,
+} from "@/registry/bases/__base__/ui/card"
 import { Progress } from "@/registry/bases/__base__/ui/progress"
 import { Skeleton } from "@/registry/bases/__base__/ui/skeleton"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
@@ -66,11 +74,11 @@ function UsageCard({
 }) {
   return (
     <Card className="flex-1">
+      <CardHeader>
+        <CardTitle>{label}</CardTitle>
+        {!isLoading && badge && <CardAction>{badge}</CardAction>}
+      </CardHeader>
       <CardContent className="flex flex-1 flex-col justify-between gap-(--density-12)">
-        <div className="flex min-h-(--density-24) items-center justify-between gap-(--density-8)">
-          <span className="truncate text-muted-foreground">{label}</span>
-          {!isLoading && badge}
-        </div>
         {isLoading ? (
           <Skeleton
             role="status"
@@ -80,14 +88,10 @@ function UsageCard({
           />
         ) : (
           <>
-            <div className="flex items-baseline gap-(--density-6)">
-              <span className="text-2xl tracking-tight tabular-nums weight-semibold">
-                {value}
-              </span>
-              <span className="text-muted-foreground tabular-nums">
-                of {limit}
-              </span>
-            </div>
+            <CardValue>
+              {value}
+              <CardValueCaption>of {limit}</CardValueCaption>
+            </CardValue>
             <Progress value={percent} aria-label={label} />
             <div className="text-(length:--density-text-12) text-pretty text-muted-foreground">
               {children}

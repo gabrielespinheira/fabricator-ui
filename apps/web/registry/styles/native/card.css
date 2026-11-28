@@ -1,36 +1,95 @@
 /* MARK: Card */
 
-  /* The card colour with surface 2's shadow ring, the surface corner. py-(--density-16) with
-     px on the parts; sm tightens through the same parts. */
+  /* The card corner (rounder than popups; size="sm" steps down with its
+     inset), iOS's continuous curve in Squircle. py-(--density-16) with px on
+     the parts; sm tightens through the same parts. A linked card gives a
+     little when pressed. */
   .cn-card {
-    @apply bg-card shadow-surface-2 gap-(--density-16) rounded-(--radius-surface) py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12) corner-curve;
+    @apply gap-(--density-16) overflow-hidden rounded-(--radius-card) py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:rounded-(--radius-card-sm) data-[size=sm]:py-(--density-12) active:opacity-90 corner-curve;
+  }
+
+  .cn-card-variant-default {
+    @apply bg-card shadow-surface-2;
+  }
+
+  /* A wash with no shadow. */
+  .cn-card-variant-muted {
+    @apply bg-muted;
+  }
+
+  /* A muted shell around lifted panels; text stays on the card's inset. */
+  .cn-card-variant-tray {
+    @apply bg-muted gap-(--density-4) p-(--density-4) data-[size=sm]:gap-(--density-4) data-[size=sm]:p-(--density-4);
   }
 
   .cn-card-text {
     @apply text-card-foreground text-(length:--density-text-13);
   }
 
+  /* Media, title and action on one row; with no description the title
+     centres on the action. */
   .cn-card-header {
-    @apply gap-(--density-4) px-(--density-16) data-[size=sm]:px-(--density-12);
+    @apply items-center gap-(--density-12) px-(--density-16) data-[description=true]:items-start data-[size=sm]:px-(--density-12) data-[variant=tray]:px-(--density-12) data-[variant=tray]:pt-(--density-12) data-[variant=tray]:pb-(--density-8);
+  }
+
+  .cn-card-header-text {
+    @apply gap-(--density-4);
+  }
+
+  .cn-card-media {
+    @apply self-center;
+  }
+
+  .cn-card-media-variant-default {
+    @apply bg-transparent;
+  }
+
+  .cn-card-media-variant-icon {
+    @apply bg-hover size-(--density-32) rounded-(--radius-control) data-[size=sm]:size-(--density-28) corner-curve;
+  }
+
+  .cn-card-media-variant-image {
+    @apply size-(--density-32) overflow-hidden rounded-(--radius-control) data-[size=sm]:size-(--density-28) corner-curve;
   }
 
   .cn-card-title {
-    @apply text-foreground text-(length:--density-text-14) font-medium leading-snug data-[size=sm]:text-(length:--density-text-13);
+    @apply text-foreground text-(length:--density-text-16) font-medium leading-snug data-[size=sm]:text-(length:--density-text-14);
   }
 
   .cn-card-description {
     @apply text-muted-foreground text-(length:--density-text-13) data-[size=sm]:text-(length:--density-text-12);
   }
 
-  /* The header's top-right corner. */
   .cn-card-action {
-    @apply absolute end-(--density-16) top-0;
+    @apply shrink-0;
+  }
+
+  .cn-card-link {
+    @apply text-foreground;
   }
 
   .cn-card-content {
-    @apply gap-(--density-8) px-(--density-16) data-[size=sm]:px-(--density-12);
+    @apply gap-(--density-8) px-(--density-16) data-[size=sm]:px-(--density-12) data-[variant=tray]:bg-card data-[variant=tray]:shadow-surface-2 data-[variant=tray]:rounded-(--radius-card-inner) data-[variant=tray]:p-(--density-12) data-[variant=tray]:corner-curve;
   }
 
+  /* The metric role: the largest text on the card, medium, tabular. */
+  .cn-card-value {
+    @apply gap-x-(--density-8) gap-y-(--density-4);
+  }
+
+  .cn-card-value-figure {
+    @apply text-foreground text-(length:--density-text-28) font-medium tracking-tight tabular-nums data-[size=sm]:text-(length:--density-text-20);
+  }
+
+  .cn-card-value-caption {
+    @apply text-muted-foreground text-(length:--density-text-14) data-[size=sm]:text-(length:--density-text-13);
+  }
+
+  /* Pinned to the bottom so the footers of a row line up; metadata in grey. */
   .cn-card-footer {
-    @apply gap-(--density-8) px-(--density-16) data-[size=sm]:px-(--density-12);
+    @apply mt-auto gap-(--density-8) px-(--density-16) data-[size=sm]:px-(--density-12) data-[variant=tray]:px-(--density-12) data-[variant=tray]:pt-(--density-8) data-[variant=tray]:pb-(--density-12);
+  }
+
+  .cn-card-footer-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
   }

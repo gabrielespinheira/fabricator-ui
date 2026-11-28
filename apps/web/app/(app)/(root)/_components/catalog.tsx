@@ -49,6 +49,12 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/password-strength-demo"),
   },
   {
+    slug: "delta",
+    title: "Delta",
+    height: "sm",
+    load: () => import("@/examples/__styles__/base-fabricator/delta-demo"),
+  },
+  {
     slug: "segmented-meter",
     title: "Segmented Meter",
     height: "md",
@@ -170,7 +176,7 @@ const SOURCES: CatalogSource[] = [
     slug: "card",
     title: "Card",
     height: "lg",
-    load: () => import("@/examples/__styles__/base-fabricator/card-demo"),
+    load: () => import("@/examples/__styles__/base-fabricator/card-stat"),
   },
   {
     slug: "carousel",

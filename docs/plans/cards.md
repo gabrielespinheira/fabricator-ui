@@ -1,6 +1,18 @@
 # Cards: corner, anatomy, kinds
 
-Status: planned (2026-11-27). Board card: "I would like you to help me improve the Cards component."
+Status: built, uncommitted (2026-11-28). Board card: "I would like you to help me improve the Cards component."
+
+## As built (differs from the plan below)
+
+- **Values as planned:** card corner Rounded 12/16/20, Squircle 16/20/24, Pill 22/26/30 (`--radius-card`, with `--radius-card-sm` and `--radius-card-inner`); title on the 16 step; `CardValue` on new density text steps 28 (24/28/32) and 20 (18/20/22). Phase 0's lab was skipped: the values were tuned on the real examples instead.
+- **No `press-surface` motion role.** A linked card scales to a third of the button press, `calc(1 - (1 - var(--motion-press-scale)) / 3)`, so speeds and Reduce Motion follow with no new token.
+- **No two-line clamp on `CardDescription`:** cutting copy silently hides content. Long descriptions wrap.
+- **Chart and meter kinds live in `card-overview`** instead of their own examples; there is no `card-settings` example yet (DESIGN.md's Settings section covers it).
+- **Native `CardLink` takes `onPress`.** The card registers it and becomes a `Pressable`; the link text is what screen readers focus. No `render`/`asChild` on native.
+- **No `card.browser.mjs` and no perf trace.** Link behaviour, focus, hover, the bleed rules, light and dark, and 390px were checked by hand in the running site; `card.test.tsx` covers slots, variants, upstream exports and `CardLink` per base.
+- **Finance keeps its own delta** for "mo" (runway months), which `Delta` doesn't take; its values moved to `CardValue`. Billing's plan picker is a choice card (a `FieldLabel`), so it keeps its own markup.
+- **A Segmented Meter under a `CardValue`** hides its header visually (new `segmented-meter-header` slot), keeping it for screen readers.
+
 
 ## Goal
 

@@ -38,10 +38,10 @@ A screen has a small budget of emphasis. Spend it in this order and stop at the 
 
 Pages of cards sit on 12 columns with 16px gutters, by container width: 12 columns from a 896px column (`@4xl:`), one below.
 
-| Rhythm (one per page) | Rows it allows | Gutters at |
-| --- | --- | --- |
-| Quarters | 4 stats, 6 + 6, 3 + 3 + 6, 12 | 3, 6 and 9 |
-| Thirds | 3 stats, 8 + 4, 4 + 4 + 4, 12 | 4 and 8 |
+| Rhythm (one per page) | Rows it allows                | Gutters at |
+| --------------------- | ----------------------------- | ---------- |
+| Quarters              | 4 stats, 6 + 6, 3 + 3 + 6, 12 | 3, 6 and 9 |
+| Thirds                | 3 stats, 8 + 4, 4 + 4 + 4, 12 | 4 and 8    |
 
 Gutters continue down the page. Cards in a row share a height and their parts. A half-width card on a laptop is about 480px: design for that. A work page with a main column and a supporting one uses 7 + 5 or 8 + 4 with a 24px gutter, the supporting column sticky.
 
@@ -53,29 +53,29 @@ A card is one discrete thing: a metric, a chart, a list of things to do, a plan,
 - **Content:** the one thing. Lists and tables run to the edges with their text on the inset.
 - **Footer:** only when it has content.
 - Kinds: stat, goal (`Progress` and "62% of $80K"), chart, list (five to seven), table (five rows and "View all"), settings group, checklist, object, plan, connection.
-- Cards don't nest, don't wrap sections, and carry no icon tile, coloured header or border.
+- Cards don't nest, don't wrap sections, and carry no coloured header or border. Only a card that is a thing (an agent, an integration, a project) carries an identity, in `CardMedia`; metric, chart and list cards never do. A card that opens a record has a `CardLink` in its title.
 
 ## Choose a pattern
 
-| The screen is about | Pattern | Regions | Start from |
-| --- | --- | --- | --- |
-| The state of things | Dashboard | Period toolbar, KPI row, hero chart, work, breakdowns | `recipes/dashboard.md`, `finance-01` |
-| Many records | List | View tabs, search, filters, table, selection bar, detail panel | `recipes/list.md` |
-| One record | Detail | Title with status, one primary, views as tabs, metadata panel, activity | `app-shell-01` |
-| A queue to clear | List and detail | List and open item as two panes of the main column, one at a time on phones ([recipe](recipes/app-shell.md#a-queue)), context in a panel; a list people resize is a start panel with `mobile="swap"`; ↑ ↓ to move, act and advance | `mail-01`, `app-shell-05` |
-| Something to configure before it goes live | Setup | One-line answers that open in place, checks and preview beside them | `recipes/setup.md` |
-| Preferences | Settings | Cards of one-line settings that save at once, danger last | `recipes/settings.md` |
-| One small thing to make | Create | Dialog or drawer, three asks | `recipes/create.md` |
-| A first run, a decision tree | Steps | One decision per step, progress on top, review at the end | `Questionnaire` |
-| Work moving through stages | Board | `Kanban` edge to edge under one row, projects and saved views in the sidebar, the open card beside it | `board-01` |
-| Things in time | Calendar | `EventCalendar` filling the column, sources in the sidebar, agenda on phones | `calendar-app-01` |
-| Several open documents | Workbench | `TabStrip`, full-width body, `FileTree`, inspector panels, status bar; compact | `app-shell-02` |
-| One document | Document | Reading-width column, `Editor`, saves itself, comments in a panel | `app-shell-01` |
-| A conversation | Chat | `MessageScroller` above a docked `ChatInput`, conversations in the sidebar | `assistant-01`, `messenger-01` |
-| How something compares | Comparison | Two to four columns of the same rows, differences marked, one action per column | `Table` |
-| What happened | Log | `DataTable` newest first, filters in the URL, a row opens before and after | `recipes/list.md` |
-| Getting in | Sign in | One centred 384px column on `bg-surface-0` | `sign-in-01`, `sign-up-01` |
-| Selling the product | Website | Spacious, smooth; hero, proof, product, pricing, questions, close | |
+| The screen is about                        | Pattern         | Regions                                                                                                                                                                                                                            | Start from                           |
+| ------------------------------------------ | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| The state of things                        | Dashboard       | Period toolbar, KPI row, hero chart, work, breakdowns                                                                                                                                                                              | `recipes/dashboard.md`, `finance-01` |
+| Many records                               | List            | View tabs, search, filters, table, selection bar, detail panel                                                                                                                                                                     | `recipes/list.md`                    |
+| One record                                 | Detail          | Title with status, one primary, views as tabs, metadata panel, activity                                                                                                                                                            | `app-shell-01`                       |
+| A queue to clear                           | List and detail | List and open item as two panes of the main column, one at a time on phones ([recipe](recipes/app-shell.md#a-queue)), context in a panel; a list people resize is a start panel with `mobile="swap"`; ↑ ↓ to move, act and advance | `mail-01`, `app-shell-05`            |
+| Something to configure before it goes live | Setup           | One-line answers that open in place, checks and preview beside them                                                                                                                                                                | `recipes/setup.md`                   |
+| Preferences                                | Settings        | Cards of one-line settings that save at once, danger last                                                                                                                                                                          | `recipes/settings.md`                |
+| One small thing to make                    | Create          | Dialog or drawer, three asks                                                                                                                                                                                                       | `recipes/create.md`                  |
+| A first run, a decision tree               | Steps           | One decision per step, progress on top, review at the end                                                                                                                                                                          | `Questionnaire`                      |
+| Work moving through stages                 | Board           | `Kanban` edge to edge under one row, projects and saved views in the sidebar, the open card beside it                                                                                                                              | `board-01`                           |
+| Things in time                             | Calendar        | `EventCalendar` filling the column, sources in the sidebar, agenda on phones                                                                                                                                                       | `calendar-app-01`                    |
+| Several open documents                     | Workbench       | `TabStrip`, full-width body, `FileTree`, inspector panels, status bar; compact                                                                                                                                                     | `app-shell-02`                       |
+| One document                               | Document        | Reading-width column, `Editor`, saves itself, comments in a panel                                                                                                                                                                  | `app-shell-01`                       |
+| A conversation                             | Chat            | `MessageScroller` above a docked `ChatInput`, conversations in the sidebar                                                                                                                                                         | `assistant-01`, `messenger-01`       |
+| How something compares                     | Comparison      | Two to four columns of the same rows, differences marked, one action per column                                                                                                                                                    | `Table`                              |
+| What happened                              | Log             | `DataTable` newest first, filters in the URL, a row opens before and after                                                                                                                                                         | `recipes/list.md`                    |
+| Getting in                                 | Sign in         | One centred 384px column on `bg-surface-0`                                                                                                                                                                                         | `sign-in-01`, `sign-up-01`           |
+| Selling the product                        | Website         | Spacious, smooth; hero, proof, product, pricing, questions, close                                                                                                                                                                  |                                      |
 
 ## Dashboards
 
@@ -95,37 +95,37 @@ Types: **overview** (default density, quarters), **analytics** (filters, metric 
 
 Each: what is on the page, the component that carries it, how little it asks, and the flows people forget.
 
-**Billing and plan.** Plan card (name, status, price, renewal) beside the payment method with its brand mark; usage as goal cards; invoices in a table card. Change plan is a page of plan cards under monthly and yearly `Tabs`, showing the prorated charge. *Flows:* card declined, trial ending, downgrade that exceeds the new limits (list what must go first), cancel with the end date and what is kept, invoice pending, tax details missing, non-admin view.
+**Billing and plan.** Plan card (name, status, price, renewal) beside the payment method with its brand mark; usage as goal cards; invoices in a table card. Change plan is a page of plan cards under monthly and yearly `Tabs`, showing the prorated charge. _Flows:_ card declined, trial ending, downgrade that exceeds the new limits (list what must go first), cancel with the end date and what is kept, invoice pending, tax details missing, non-admin view.
 
-**Members and roles.** `Table` with coloured avatars, a quiet role picker in the row, last active, "More". Seats in one line of the lead or toolbar. Invite is a dialog with one box that takes a paste ([recipes/create.md](recipes/create.md#many-values-in-one-box)) and role choice cards. Pending invitations are rows with a "Pending" badge, not a second page. Sign-in domains are a setting: one true line in the lead, changed in a `Sheet` from the page menu. *Flows:* seats full, already a member, wrong domain, some invitations failed, expired, resend, last owner, demoting yourself, transferring ownership, removing someone who owns things (choose who gets them), SSO-managed members shown read only.
+**Members and roles.** `Table` with coloured avatars, a quiet role picker in the row, last active, "More". Seats in one line of the lead or toolbar. Invite is a dialog with one box that takes a paste ([recipes/create.md](recipes/create.md#many-values-in-one-box)) and role choice cards. Pending invitations are rows with a "Pending" badge, not a second page. Sign-in domains are a setting: one true line in the lead, changed in a `Sheet` from the page menu. _Flows:_ seats full, already a member, wrong domain, some invitations failed, expired, resend, last owner, demoting yourself, transferring ownership, removing someone who owns things (choose who gets them), SSO-managed members shown read only.
 
-**Integrations.** Connection cards with brand marks, grouped, searchable; state in place (Connect, connecting, connected with `Switch` and Manage, needs attention). *Flows:* consent denied, token expired, missing scope, sync failing since a time with the last success, rate limited, disconnecting (what stops, what is kept).
+**Integrations.** Connection cards with brand marks, grouped, searchable; state in place (Connect, connecting, connected with `Switch` and Manage, needs attention). _Flows:_ consent denied, token expired, missing scope, sync failing since a time with the last success, rate limited, disconnecting (what stops, what is kept).
 
-**API keys and webhooks.** Keys in a table, masked, with last used; the new key shown once in `SyntaxHighlight` with Copy and a reminder it won't show again. Scopes as switch choice cards, expiry as a `Select` with a date. Webhooks list endpoints with a status dot and a success rate; deliveries open in a `Sheet` with payload, response and Redeliver. *Flows:* key never used, expiring soon, revoked while in use, endpoint failing and paused, signature secret rotated with an overlap.
+**API keys and webhooks.** Keys in a table, masked, with last used; the new key shown once in `SyntaxHighlight` with Copy and a reminder it won't show again. Scopes as switch choice cards, expiry as a `Select` with a date. Webhooks list endpoints with a status dot and a success rate; deliveries open in a `Sheet` with payload, response and Redeliver. _Flows:_ key never used, expiring soon, revoked while in use, endpoint failing and paused, signature secret rotated with an overlap.
 
-**Notifications.** An inbox in a `Popover` from a bell; preferences as a matrix of events by channel (`Checkbox` cells, one row per event) with a digest picker. *Flows:* nothing new, marked read across devices, a channel not set up yet, muted until a time.
+**Notifications.** An inbox in a `Popover` from a bell; preferences as a matrix of events by channel (`Checkbox` cells, one row per event) with a digest picker. _Flows:_ nothing new, marked read across devices, a channel not set up yet, muted until a time.
 
-**Onboarding.** A checklist card on the overview until done: `Progress`, an `Item` per step, only the next one filled. Questions are choice cards, one per step, and each visibly changes what comes next. *Flows:* skip, resume later, an invited person who needs half of it, sample data to remove.
+**Onboarding.** A checklist card on the overview until done: `Progress`, an `Item` per step, only the next one filled. Questions are choice cards, one per step, and each visibly changes what comes next. _Flows:_ skip, resume later, an invited person who needs half of it, sample data to remove.
 
-**Import and export.** Drop a file, map columns with suggestions already chosen, preview with problems marked in the rows, import with progress in the background. *Flows:* wrong encoding, duplicates (skip, update, keep both), some rows failed (download them with reasons), undo the import, export ready by toast and email.
+**Import and export.** Drop a file, map columns with suggestions already chosen, preview with problems marked in the rows, import with progress in the background. _Flows:_ wrong encoding, duplicates (skip, update, keep both), some rows failed (download them with reasons), undo the import, export ready by toast and email.
 
-**Search.** ⌘K across everything with recent and suggested before typing, results grouped by kind with their icon, filters that become chips. *Flows:* nothing found (offer creating it), no access to a result, offline.
+**Search.** ⌘K across everything with recent and suggested before typing, results grouped by kind with their icon, filters that become chips. _Flows:_ nothing found (offer creating it), no access to a result, offline.
 
-**Approvals and review.** A queue with the decision in the row for simple cases and a detail panel for the rest; Approve primary, Reject asks for a reason from a few choices. *Flows:* someone decided first, over your limit, delegated while away, bulk, reversing a decision.
+**Approvals and review.** A queue with the decision in the row for simple cases and a detail panel for the rest; Approve primary, Reject asks for a reason from a few choices. _Flows:_ someone decided first, over your limit, delegated while away, bulk, reversing a decision.
 
-**Reports.** A dashboard with a fixed period in its title, saved views, scheduled delivery. *Flows:* period not finished, data delayed, a metric's definition changed (marked on the chart).
+**Reports.** A dashboard with a fixed period in its title, saved views, scheduled delivery. _Flows:_ period not finished, data delayed, a metric's definition changed (marked on the chart).
 
-**Automations and workflows.** Draft-first setup of a trigger, conditions as a sentence, actions as ordered rows; test with a real recent event; a run history. *Flows:* a step fails (retry, skip, pause), loops, a connection it needs is gone, edited while running, paused with a reason.
+**Automations and workflows.** Draft-first setup of a trigger, conditions as a sentence, actions as ordered rows; test with a real recent event; a run history. _Flows:_ a step fails (retry, skip, pause), loops, a connection it needs is gone, edited while running, paused with a reason.
 
-**Scheduling and bookings.** `EventCalendar` with availability as shading; a new event asks for the who and reuses the rest. *Flows:* conflict (with the next free time), time zones named for both sides, recurring edits (this, following, all), cancelled by the other side.
+**Scheduling and bookings.** `EventCalendar` with availability as shading; a new event asks for the who and reuses the rest. _Flows:_ conflict (with the next free time), time zones named for both sides, recurring edits (this, following, all), cancelled by the other side.
 
-**Files and media.** A grid or list with previews, upload by dropping anywhere, details in a panel. *Flows:* too large, wrong type, duplicate name, upload interrupted and resumed, processing, storage full, shared with someone who left.
+**Files and media.** A grid or list with previews, upload by dropping anywhere, details in a panel. _Flows:_ too large, wrong type, duplicate name, upload interrupted and resumed, processing, storage full, shared with someone who left.
 
-**Status and incidents.** Services with a dot and a `StatusBar`, open incidents first, who is on call, response times. Acknowledge, resolve and escalate in the row; silence with a duration. *Flows:* the monitor itself is stale or unreachable, acknowledged by someone else, silenced service still failing, resolved and reopened, nobody on call.
+**Status and incidents.** Services with a dot and a `StatusBar`, open incidents first, who is on call, response times. Acknowledge, resolve and escalate in the row; silence with a duration. _Flows:_ the monitor itself is stale or unreachable, acknowledged by someone else, silenced service still failing, resolved and reopened, nobody on call.
 
-**Feature flags and experiments.** A table with a `Switch` per environment, rollout as a `Slider` with the number of people, the exposure over time. *Flows:* production changes confirmed with their reach, conflicting rules, stale flags, not enough data yet.
+**Feature flags and experiments.** A table with a `Switch` per environment, rollout as a `Slider` with the number of people, the exposure over time. _Flows:_ production changes confirmed with their reach, conflicting rules, stale flags, not enough data yet.
 
-**Audit log.** `DataTable` of time, actor, action, object, source; a row opens before and after in a `Sheet`. *Flows:* retention limit reached, actor deleted, export too large.
+**Audit log.** `DataTable` of time, actor, action, object, source; a row opens before and after in a `Sheet`. _Flows:_ retention limit reached, actor deleted, export too large.
 
 **Account deletion and data.** The last settings card. Numbers in the consequence, an export offered first, a grace period with a way back.
 

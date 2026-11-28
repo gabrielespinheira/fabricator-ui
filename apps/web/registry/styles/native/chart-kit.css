@@ -119,6 +119,15 @@
     @apply rounded-(--radius-inner) corner-curve;
   }
 
+  /* A minimal chart's range under the plot. */
+  .cn-chart-ends {
+    @apply pt-(--density-8);
+  }
+
+  .cn-chart-ends-text {
+    @apply text-muted-foreground text-(length:--density-text-11) tabular-nums;
+  }
+
   .cn-chart-empty {
     @apply p-(--density-16);
   }

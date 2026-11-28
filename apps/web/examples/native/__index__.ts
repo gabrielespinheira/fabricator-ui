@@ -37,6 +37,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "context-menu": () => require("@/examples/native/context-menu-example").ContextMenuExample,
   "data-table": () => require("@/examples/native/data-table-example").DataTableExample,
   "date-picker": () => require("@/examples/native/date-picker-example").DatePickerExample,
+  "delta": () => require("@/examples/native/delta-example").DeltaExample,
   "density": () => require("@/examples/native/density-example").DensityExample,
   "dialog": () => require("@/examples/native/dialog-example").DialogExample,
   "direction": () => require("@/examples/native/direction-example").DirectionExample,

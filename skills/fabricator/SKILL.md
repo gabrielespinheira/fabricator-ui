@@ -90,7 +90,7 @@ These hold on every screen. Each replaces a habit that makes generated UI look g
 - **Text you write takes its type role** ([foundations.md](foundations.md#type)); the browser's 16px is never right in an app.
 - **Every number** has a unit, tabular figures and, where it changed, a signed delta coloured by whether the change is good.
 - **Every action is a verb and its object** ("Invite people"), and the verb follows the action through its dialog and toast.
-- **Icons name actions; they don't decorate titles.** No icon tiles, gradients, glows, glass, coloured bands, greeting banners or illustrations.
+- **Icons name actions; they don't decorate titles.** No icon tiles beside a section or metric title (a card for a thing takes `CardMedia`), no gradients, glows, glass, coloured bands, greeting banners or illustrations.
 - **The frame is the App Shell's primitives,** direct children in their order, one shell per app. Adapt it through data, props and composition ([app-shell.md](app-shell.md)); a wrapper in the wrong place breaks it without an error.
 - **Page actions live in the header,** row actions in the row, selection actions replace the toolbar, rare page settings sit behind the header's ellipsis.
 - **`className` is for layout.** Appearance comes from variants and tokens.
@@ -99,51 +99,52 @@ These hold on every screen. Each replaces a habit that makes generated UI look g
 
 Design references (the first six carry most of the quality):
 
-| Doing | Read |
-| --- | --- |
-| Any screen: which page, regions, layout, or a SaaS feature blueprint | [patterns.md](patterns.md) |
-| The app's frame: sidebar, navigation, header, panels, tabs, status bar, layouts and routes | [app-shell.md](app-shell.md) |
-| Anything that collects values: forms, setup, create, filters | [asking.md](asking.md) |
-| Picking a component for a need | [components.md](components.md) |
-| Errors, warnings, empty, loading, limits, permissions, undo | [states.md](states.md) |
-| Phone, tablet, desktop window, React Native, several platforms | [platforms.md](platforms.md) |
-| Surfaces, colour, type, space, density, shape, motion | [foundations.md](foundations.md) |
-| Any visual change, when it is built; reviewing or improving a screen | [refine.md](refine.md); the judge reads [judge.md](judge.md) |
-| Writing or improving a project's DESIGN.md | [design-md.md](design-md.md) |
+| Doing                                                                                      | Read                                                         |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| Any screen: which page, regions, layout, or a SaaS feature blueprint                       | [patterns.md](patterns.md)                                   |
+| The app's frame: sidebar, navigation, header, panels, tabs, status bar, layouts and routes | [app-shell.md](app-shell.md)                                 |
+| Anything that collects values: forms, setup, create, filters                               | [asking.md](asking.md)                                       |
+| Picking a component for a need                                                             | [components.md](components.md)                               |
+| Errors, warnings, empty, loading, limits, permissions, undo                                | [states.md](states.md)                                       |
+| Phone, tablet, desktop window, React Native, several platforms                             | [platforms.md](platforms.md)                                 |
+| Surfaces, colour, type, space, density, shape, motion                                      | [foundations.md](foundations.md)                             |
+| Any visual change, when it is built; reviewing or improving a screen                       | [refine.md](refine.md); the judge reads [judge.md](judge.md) |
+| Writing or improving a project's DESIGN.md                                                 | [design-md.md](design-md.md)                                 |
 
 Recipes are working code, checked in a running app at phone and desktop widths in both themes. Change the content; keep the layout classes.
 
-| Building | Start from |
-| --- | --- |
+| Building                                                 | Start from                                   |
+| -------------------------------------------------------- | -------------------------------------------- |
 | The app's frame, its navigation, or a page's place in it | [recipes/app-shell.md](recipes/app-shell.md) |
-| A dashboard, overview or page of cards | [recipes/dashboard.md](recipes/dashboard.md) |
-| A list of records with filters, selection, detail | [recipes/list.md](recipes/list.md) |
-| Something with many settings before it goes live | [recipes/setup.md](recipes/setup.md) |
-| A settings page | [recipes/settings.md](recipes/settings.md) |
-| A small create or edit overlay | [recipes/create.md](recipes/create.md) |
-| Card states, limits, offline, jobs, partial success | [recipes/states.md](recipes/states.md) |
+| A dashboard, overview or page of cards                   | [recipes/dashboard.md](recipes/dashboard.md) |
+| A meter, object, connection or plan card                 | [recipes/cards.md](recipes/cards.md)         |
+| A list of records with filters, selection, detail        | [recipes/list.md](recipes/list.md)           |
+| Something with many settings before it goes live         | [recipes/setup.md](recipes/setup.md)         |
+| A settings page                                          | [recipes/settings.md](recipes/settings.md)   |
+| A small create or edit overlay                           | [recipes/create.md](recipes/create.md)       |
+| Card states, limits, offline, jobs, partial success      | [recipes/states.md](recipes/states.md)       |
 
 API rules settle how code is written. Installed source and base-specific docs (`docs <name>`, or the page's `.md` URL) settle any difference.
 
-| Touching | Read |
-| --- | --- |
+| Touching                                              | Read                                             |
+| ----------------------------------------------------- | ------------------------------------------------ |
 | Triggers, controlled values, collections across bases | [rules/base-vs-radix.md](rules/base-vs-radix.md) |
-| Groups, overlays, cards, menus, tabs, avatars | [rules/composition.md](rules/composition.md) |
-| Fields, validation, input groups | [rules/forms.md](rules/forms.md) |
-| Classes, variants, cursors, hover | [rules/styling.md](rules/styling.md) |
-| Icons | [rules/icons.md](rules/icons.md) |
-| Skeletons, refreshes, pending actions | [rules/loading.md](rules/loading.md) |
-| Conversations | [rules/chat.md](rules/chat.md) |
-| Expo and React Native | [rules/react-native.md](rules/react-native.md) |
+| Groups, overlays, cards, menus, tabs, avatars         | [rules/composition.md](rules/composition.md)     |
+| Fields, validation, input groups                      | [rules/forms.md](rules/forms.md)                 |
+| Classes, variants, cursors, hover                     | [rules/styling.md](rules/styling.md)             |
+| Icons                                                 | [rules/icons.md](rules/icons.md)                 |
+| Skeletons, refreshes, pending actions                 | [rules/loading.md](rules/loading.md)             |
+| Conversations                                         | [rules/chat.md](rules/chat.md)                   |
+| Expo and React Native                                 | [rules/react-native.md](rules/react-native.md)   |
 
 Setup is a separate concern, read only for that work:
 
-| Doing | Read |
-| --- | --- |
-| Installing, updating, diffing, presets, `create`, `doctor` | [setup/cli.md](setup/cli.md) |
-| Changing theme variables, dark mode, adding a variant | [setup/theming.md](setup/theming.md) |
-| Registries, namespaces, `components.json` | [setup/registry.md](setup/registry.md) |
-| The MCP server, when asked for or already connected | [setup/mcp.md](setup/mcp.md) |
+| Doing                                                      | Read                                   |
+| ---------------------------------------------------------- | -------------------------------------- |
+| Installing, updating, diffing, presets, `create`, `doctor` | [setup/cli.md](setup/cli.md)           |
+| Changing theme variables, dark mode, adding a variant      | [setup/theming.md](setup/theming.md)   |
+| Registries, namespaces, `components.json`                  | [setup/registry.md](setup/registry.md) |
+| The MCP server, when asked for or already connected        | [setup/mcp.md](setup/mcp.md)           |
 
 ## Commands and trust
 
