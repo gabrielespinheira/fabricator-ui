@@ -10,6 +10,7 @@ import {
   getBlueprintDuration,
   getBlueprintFrame,
   getBlueprintLength,
+  getControlName,
   getDottedDashArray,
   getFieldDotIntensity,
   getFieldDots,
@@ -19,7 +20,7 @@ import {
   getOverlayInsets,
   getPartWindows,
   getRoundedRectPath,
-  hasFieldInside,
+  isComponentSized,
   selectBlueprintParts,
   type BlueprintPartInput,
 } from "./blueprint-model"
@@ -298,14 +299,41 @@ describe("getOverlayInsets", () => {
   })
 })
 
-describe("hasFieldInside", () => {
-  it("fills a component with the dot field", () => {
-    expect(hasFieldInside(130, 130)).toBe(true)
-    expect(hasFieldInside(384, 200)).toBe(true)
+describe("isComponentSized", () => {
+  it("treats a tile, a card or a form as a component", () => {
+    expect(isComponentSized(130, 130)).toBe(true)
+    expect(isComponentSized(384, 200)).toBe(true)
   })
 
-  it("leaves a large block or a whole layout empty, so its parts carry it", () => {
-    expect(hasFieldInside(1280, 720)).toBe(false)
-    expect(hasFieldInside(640, 480)).toBe(false)
+  it("treats a large block or a whole layout as layout", () => {
+    expect(isComponentSized(1280, 720)).toBe(false)
+    expect(isComponentSized(640, 480)).toBe(false)
+  })
+})
+
+describe("getControlName", () => {
+  it("names a base component by its slot", () => {
+    expect(getControlName({ slot: "button", tagName: "BUTTON" })).toBe("BUTTON")
+    expect(getControlName({ slot: "select-trigger", tagName: "BUTTON" })).toBe(
+      "SELECT"
+    )
+    expect(getControlName({ slot: "badge", tagName: "SPAN" })).toBe("BADGE")
+    expect(
+      getControlName({ slot: "radio-group-item", tagName: "BUTTON" })
+    ).toBe("RADIO")
+  })
+
+  it("names a native control without a slot", () => {
+    expect(getControlName({ tagName: "BUTTON" })).toBe("BUTTON")
+    expect(getControlName({ tagName: "TEXTAREA" })).toBe("INPUT")
+    expect(getControlName({ tagName: "DIV", role: "switch" })).toBe("SWITCH")
+    expect(getControlName({ tagName: "IMG" })).toBe("IMAGE")
+  })
+
+  it("leaves layout and structure out", () => {
+    expect(getControlName({ slot: "card", tagName: "DIV" })).toBeNull()
+    expect(getControlName({ slot: "card-content", tagName: "DIV" })).toBeNull()
+    expect(getControlName({ tagName: "DIV" })).toBeNull()
+    expect(getControlName({ tagName: "SECTION" })).toBeNull()
   })
 })

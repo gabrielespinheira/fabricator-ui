@@ -1,19 +1,21 @@
 // Fabricator loader: how a placeholder looks while content loads.
 //
 // Two loaders set the same tokens: skeleton (a quiet block that pulses, the
-// default) and blueprint (the placeholder's own dotted outline, with a pen
+// default) and blueprint. The blueprint is for base components: a
+// placeholder the size of a control (a button, an input, a badge, an
+// avatar, a line of text) is drawn as its own dotted outline, with a pen
 // tracing it from the top centre round both sides to the bottom and erasing
-// it again, as the Blueprint component draws an outline). Each placeholder
-// is drawn as its own shape, so a whole page of them reads as parts being
-// drawn, never as one patterned surface. The default is in :root;
-// `data-loader="<name>"` on <html> or on any element switches everything
-// inside it, and the `loader-<name>` utilities do the same from a class.
+// it again, as the Blueprint component draws an outline. Layout and
+// structure (a panel, a card's content area, a plot, a page) stay calm: the
+// same quiet block as the skeleton. The style maps tell them apart by the
+// placeholder's height (`loader-control` tokens up to LOADER_CONTROL_MAX).
 //
-// Skeleton, the charts' loading plots and every placeholder built from them
-// read these tokens, so one setting changes them all. `--loader` holds the
-// name for code that needs to know it. The trace is timed by the reveal
-// motion role and stops when motion is off; the style maps stop it under
-// Reduce Motion, leaving the outline.
+// The default is in :root; `data-loader="<name>"` on <html> or on any
+// element switches everything inside it, and the `loader-<name>` utilities
+// do the same from a class. `--loader` holds the name for code that needs to
+// know it. The trace is timed by the reveal motion role and stops when
+// motion is off; the style maps stop it under Reduce Motion, leaving the
+// outline.
 
 import type { CssObject } from "@/registry/fabricator/css-object"
 
@@ -38,33 +40,40 @@ const PEN = "color-mix(in oklab, var(--foreground) 34%, transparent)"
 // in-out curve: drawn in the first half, erased in the second.
 const TRACE = `${TRACE_KEYFRAMES} calc(var(--motion-reveal) * 3 * var(--motion-scale, 1)) cubic-bezier(0.65, 0, 0.35, 1) infinite`
 
+/**
+ * The tallest placeholder drawn as a control, in rem: a spacious input
+ * (44px) with room to spare. Taller ones are layout and stay calm.
+ */
+export const LOADER_CONTROL_MAX = "3.5rem"
+
 /** Every loader token, by loader, without the leading `--`. */
 export const LOADERS: Record<LoaderName, Record<string, string>> = {
   skeleton: {
     loader: "skeleton",
+    // Layout and structure: a quiet block that pulses.
     "loader-fill": "var(--hover)",
+    "loader-animation": "var(--animate-pulse)",
+    // Controls: the same block.
+    "loader-control-fill": "var(--hover)",
+    "loader-control-animation": "var(--animate-pulse)",
     "loader-outline": "transparent",
     "loader-outline-width": "0px",
-    "loader-animation": "var(--animate-pulse)",
     // The pen's stroke: not drawn.
     "loader-pen": "transparent",
     "loader-trace": "none",
-    // A loading plot keeps its marks at half strength.
-    "loader-dim": "0.5",
-    "loader-reveal": "calc(var(--motion-feedback) * var(--motion-scale, 1))",
   },
   blueprint: {
     loader: "blueprint",
-    "loader-fill": "transparent",
+    // Layout and structure stay calm: the skeleton's block.
+    "loader-fill": "var(--hover)",
+    "loader-animation": "var(--animate-pulse)",
+    // Controls: no fill, a still outline, and the pen tracing it.
+    "loader-control-fill": "transparent",
+    "loader-control-animation": "none",
     "loader-outline": INK,
     "loader-outline-width": "1.5px",
-    // The outline holds still; the pen moves.
-    "loader-animation": "none",
     "loader-pen": PEN,
     "loader-trace": TRACE,
-    // A loading plot hides its marks; its traced outline stands in for them.
-    "loader-dim": "0",
-    "loader-reveal": "calc(var(--motion-reveal) * var(--motion-scale, 1))",
   },
 }
 

@@ -29,6 +29,7 @@ import {
   getBlueprintFrame,
   getBlueprintLength,
   getBracketPath,
+  getControlName,
   getCorners,
   getDottedDashArray,
   getFieldDotIntensity,
@@ -47,7 +48,7 @@ import {
   getReticle,
   getRoundedRectPath,
   getStrokeProgress,
-  hasFieldInside,
+  isComponentSized,
   mix,
   selectBlueprintParts,
   type BlueprintFrame,
@@ -63,6 +64,14 @@ const SVG_NS = "http://www.w3.org/2000/svg"
 const SKIP = "script, style, template, [data-blueprint-skip]"
 const ICON_SHAPES = "path, circle, ellipse, rect, line, polyline, polygon"
 const ICON_MAX_SIZE = 120
+// Controls that show something rather than take input: never keys.
+const NON_INTERACTIVE_CONTROLS = new Set([
+  "IMAGE",
+  "AVATAR",
+  "BADGE",
+  "KBD",
+  "PROGRESS",
+])
 const MAX_PARTS = 40
 const KEY_COUNT = 4
 /** The most one frame may move the sketch on, in ms: about four frames. */
@@ -117,21 +126,12 @@ function isHidden(element: Element, root: Element) {
   return false
 }
 
-function getPartName(element: Element) {
-  const role = element.getAttribute("role") ?? ""
-  if (/^(INPUT|TEXTAREA|SELECT)$/.test(element.tagName)) return "INPUT"
-  if (element.tagName === "BUTTON" || role === "button") return "BUTTON"
-  if (/^(IMG|CANVAS|VIDEO|PICTURE)$/.test(element.tagName)) return "IMAGE"
-  return "FRAME"
-}
-
 /** Reads the parts worth drawing from the rendered content, relative to it. */
 function measureContent(root: HTMLElement): Measurement {
   const origin = root.getBoundingClientRect()
   // Rects come in screen px; the drawing is in the element's own px, which
   // differ inside a scaled container (a zoomed preview, a scaled frame).
   const scale = root.offsetWidth ? origin.width / root.offsetWidth : 1
-  const area = origin.width * origin.height
   const parts: MeasuredPart[] = []
   const toRect = (rect: DOMRect): BlueprintRect => ({
     x: (rect.left - origin.left) / scale,
@@ -184,30 +184,28 @@ function measureContent(root: HTMLElement): Measurement {
         }
         continue
       }
-      const isBackdrop = box.width * box.height > area * 0.8
-      const isDrawn =
-        getAlpha(style.backgroundColor) > 0.02 ||
-        parseFloat(style.borderTopWidth) > 0 ||
-        style.backgroundImage !== "none" ||
-        /^(IMG|CANVAS|VIDEO|INPUT|BUTTON|TEXTAREA|SELECT)$/.test(
-          element.tagName
-        )
-      if (!isBackdrop && isDrawn) {
+      // Base components are traced, each as one part (its label and icon
+      // belong to it); layout and structure are only walked through for
+      // the text and icons inside them. The element the sketch frames is
+      // never a part of itself.
+      const control = getControlName({
+        slot: element.getAttribute("data-slot") ?? undefined,
+        role: element.getAttribute("role") ?? undefined,
+        tagName: element.tagName,
+      })
+      if (control && !isFullSize) {
         parts.push({
           kind: "box",
-          name: getPartName(element),
+          name: control,
           rect: toRect(box),
           radius: Math.min(
             parseFloat(style.borderTopLeftRadius) || 0,
             box.width / 2,
             box.height / 2
           ),
-          isInteractive:
-            /^(BUTTON|INPUT|A|SELECT|TEXTAREA)$/.test(element.tagName) ||
-            /button|tab|switch|checkbox|slider/.test(
-              element.getAttribute("role") ?? ""
-            ),
+          isInteractive: !NON_INTERACTIVE_CONTROLS.has(control),
         })
+        continue
       }
       for (const node of element.childNodes) {
         if (node.nodeType !== Node.TEXT_NODE || !node.nodeValue?.trim()) {
@@ -461,12 +459,13 @@ function buildDrawing(
     seed,
   })
   const { maxDistance } = fieldDots
-  // Dots past a cut-back side would never show, so they aren't drawn, and a
-  // large element keeps its inside clear (hasFieldInside).
-  const isFieldInside = hasFieldInside(width, height)
+  // Dots past a cut-back side would never show, so they aren't drawn. A
+  // large element is layout: no field, no frame, only the controls in it
+  // are drawn (isComponentSized).
+  const isComponent = isComponentSized(width, height)
   const dots = fieldDots.dots.filter(
     (dot) =>
-      (isFieldInside || !dot.isInside) &&
+      isComponent &&
       dot.x >= -left &&
       dot.x <= width + right &&
       dot.y >= -top &&
@@ -684,7 +683,7 @@ function buildDrawing(
       const scan = {
         ...frame,
         probe: sweep.probe,
-        probeOpacity: isFieldInside ? sweep.probeOpacity : 0,
+        probeOpacity: isComponent ? sweep.probeOpacity : 0,
       }
       const probeX = mix(-margin, width + margin, scan.probe)
       setAttribute(probe, "transform", `translate(${probeX.toFixed(2)} 0)`)
@@ -713,39 +712,43 @@ function buildDrawing(
         context.fill()
       }
 
-      for (const [index, guide] of guides.entries()) {
-        drawStroke(guide, frame.guides[index])
-        setStyle(
-          guide.element,
-          "opacity",
-          frame.guides[index] > 0 ? frame.guideOpacity.toFixed(2) : "0"
-        )
-      }
+      // A component's own frame: guides, size and clock, outline, handles
+      // and the flyers that land on it. Layout has none.
+      if (isComponent) {
+        for (const [index, guide] of guides.entries()) {
+          drawStroke(guide, frame.guides[index])
+          setStyle(
+            guide.element,
+            "opacity",
+            frame.guides[index] > 0 ? frame.guideOpacity.toFixed(2) : "0"
+          )
+        }
 
-      setText(
-        dimension,
-        `${formatBlueprintSize(width * frame.outline, height * frame.outline)} ${formatBlueprintClock(elapsed)}`
-      )
-      setAttribute(dimension, "opacity", frame.dimOpacity.toFixed(2))
-      for (const stroke of outline) drawStroke(stroke, frame.outline)
-      for (const [index, handle] of handles.entries()) {
-        scaleHandle(handle, frame.handleScales[index])
-      }
-
-      for (const { flyer, from, to } of flyers) {
-        const state = getFlyerState(flyer, e)
-        if (!context || state.opacity < 0.01) continue
-        context.globalAlpha = state.opacity * frame.overlayOpacity
-        context.fillStyle = inkColor
-        context.beginPath()
-        context.arc(
-          mix(from.x, to.x, state.travel),
-          mix(from.y, to.y, state.travel),
-          1.6,
-          0,
-          Math.PI * 2
+        setText(
+          dimension,
+          `${formatBlueprintSize(width * frame.outline, height * frame.outline)} ${formatBlueprintClock(elapsed)}`
         )
-        context.fill()
+        setAttribute(dimension, "opacity", frame.dimOpacity.toFixed(2))
+        for (const stroke of outline) drawStroke(stroke, frame.outline)
+        for (const [index, handle] of handles.entries()) {
+          scaleHandle(handle, frame.handleScales[index])
+        }
+
+        for (const { flyer, from, to } of flyers) {
+          const state = getFlyerState(flyer, e)
+          if (!context || state.opacity < 0.01) continue
+          context.globalAlpha = state.opacity * frame.overlayOpacity
+          context.fillStyle = inkColor
+          context.beginPath()
+          context.arc(
+            mix(from.x, to.x, state.travel),
+            mix(from.y, to.y, state.travel),
+            1.6,
+            0,
+            Math.PI * 2
+          )
+          context.fill()
+        }
       }
 
       for (const [index, strokes] of partStrokes.entries()) {

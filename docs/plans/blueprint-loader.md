@@ -12,6 +12,7 @@ Decided (2026-11-27): the loader reaches Skeleton and every component's `loading
 - Each loader is a set of tokens: `--loader` (the name, read by JavaScript), the placeholder fill, its outline, the pen's colour and trace, its animation, and how far a loading plot dims (`--loader-dim`).
 - `LOADER_CSS`: `:root[data-loader=<name>], [data-loader=<name>]` selectors, `loader-<name>` utilities, the pen's `@property` angles and the `fabricator-loader-trace` keyframes, added to `foundations.ts` next to `DENSITY_CSS`. The default's tokens go in `:root` with the other foundation tokens.
 - The trace is timed by the reveal role, stops under Reduce Motion and when motion is `off`.
+- Revised 2026-11-28: the blueprint is for base components. A placeholder up to 3.5rem tall (a control) is traced; taller ones (layout: panels, card content, plots, pages) keep the skeleton's block, decided by the Skeleton querying its own height as a size container. Charts' loading reverts to the half dim in both loaders. Blueprint traces controls (by slot, role or tag), text and icons, never containers, and draws the frame only on component-sized elements; the homepage hero frame no longer uses it.
 - Revised 2026-11-27: no dot field and no sweep line. On a full layout they read as one patterned surface; each placeholder is now its own outline with a pen tracing it, so the loader stays component-oriented. Blueprint likewise fills its dot field only on components up to about a card and drops the probe on larger ones.
 
 ## Components

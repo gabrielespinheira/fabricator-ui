@@ -33,14 +33,22 @@ describe("loaders", () => {
     )
   })
 
-  it("draws the blueprint as an outline, with no fill and no pattern", () => {
-    expect(LOADERS.blueprint["loader-fill"]).toBe("transparent")
-    expect(LOADERS.blueprint["loader-animation"]).toBe("none")
+  it("draws a blueprint control as its outline: no fill, no pattern", () => {
+    expect(LOADERS.blueprint["loader-control-fill"]).toBe("transparent")
+    expect(LOADERS.blueprint["loader-control-animation"]).toBe("none")
+    expect(LOADERS.blueprint["loader-outline"]).not.toBe("transparent")
     expect(Object.keys(LOADERS.blueprint).join(" ")).not.toMatch(/image/)
   })
 
-  it("keeps the skeleton's look: a pulsing fill, no outline, no pen", () => {
-    expect(LOADERS.skeleton["loader-animation"]).toBe("var(--animate-pulse)")
+  it("keeps layout calm with either loader: the skeleton's block", () => {
+    for (const name of LOADER_NAMES) {
+      expect(LOADERS[name]["loader-fill"]).toBe(LOADERS.skeleton["loader-fill"])
+      expect(LOADERS[name]["loader-animation"]).toBe("var(--animate-pulse)")
+    }
+  })
+
+  it("keeps the skeleton's look for controls too: no outline, no pen", () => {
+    expect(LOADERS.skeleton["loader-control-fill"]).toBe("var(--hover)")
     expect(LOADERS.skeleton["loader-outline"]).toBe("transparent")
     expect(LOADERS.skeleton["loader-trace"]).toBe("none")
   })

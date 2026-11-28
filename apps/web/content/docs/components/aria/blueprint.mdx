@@ -132,14 +132,14 @@ Blueprint sketches a component you wrap. To make every placeholder in the projec
 
 ## What it draws
 
-Blueprint reads what it wraps once, as it starts:
+Blueprint draws base components, not layout. It reads what it wraps once, as it starts:
 
-- **The frame**: the wrapped element's box and corner radius, drawn as two dotted halves from the top centre with its size and a clock.
-- **Boxes**: elements with a background, a border or a background image, and every button, input, image, canvas and video. Up to four become keys, controls first and then the largest, with their own guides, corner handles and size.
-- **Text**: one stroke per line of text, at the line's length.
+- **The frame**: the wrapped element's box and corner radius, drawn as two dotted halves from the top centre with its size and a clock, when it is a component (up to about the size of a card). A large block or a whole layout has no frame, no dot field and no probe: only the controls inside it are drawn.
+- **Controls**: every base component, by its slot (Button, Input, Textarea, Select, Checkbox, Switch, Radio, Slider, Toggle, Tabs, Progress, Badge, Avatar, Kbd), and native buttons, fields and images. Each is one part, tagged with its name, its label and icon belonging to it. Up to four become keys, the interactive ones first, with their own guides, corner handles and size.
+- **Text**: one stroke per line of text outside the controls, at the line's length.
 - **Icons**: SVGs up to 120px are traced path by path.
 
-The dot field fills a component up to about the size of a card. A large block or a whole layout keeps its inside clear and has no probe, so its traced parts carry the drawing and it never reads as one patterned surface.
+Cards, panels, sections and plain boxes are walked through for the controls, text and icons inside them, but never traced themselves.
 
 If the content's size changes while it plays (fonts arriving, a container settling, the data landing while it holds), the drawing is measured and built again, and the clock carries on.
 

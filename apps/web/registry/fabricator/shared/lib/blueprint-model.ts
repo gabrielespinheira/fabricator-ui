@@ -57,8 +57,8 @@ export const BLUEPRINT_GEOMETRY = {
   keyOvershoot: 16,
   reticlePadding: 5,
   contentBlur: 3,
-  /** The largest element, in px², the dot field still fills: about a card. */
-  fieldMaxArea: 480 * 360,
+  /** The largest element, in px², drawn as a component: about a card. */
+  componentMaxArea: 480 * 360,
 } as const
 
 /** The corners' handles, clockwise from the top left, and when each pops. */
@@ -244,13 +244,77 @@ export function getPenDistance(length: number, gap: number, progress: number) {
 }
 
 /**
- * Whether the dot field fills the element as well as its margin. A component
- * (a tile, a card, a form) is drawn on the field; a large block or a whole
- * layout isn't, or it reads as one patterned surface: its traced parts
- * carry it.
+ * Whether the element is a component (a tile, a card, a form) rather than a
+ * large block or a whole layout. A component is drawn whole: its frame, its
+ * size and the dot field inside it. Layout isn't; only the controls in it
+ * are traced, or it reads as one patterned surface.
  */
-export function hasFieldInside(width: number, height: number) {
-  return width * height <= BLUEPRINT_GEOMETRY.fieldMaxArea
+export function isComponentSized(width: number, height: number) {
+  return width * height <= BLUEPRINT_GEOMETRY.componentMaxArea
+}
+
+// The base components the sketch traces, by their data-slot. Layout and
+// structure (cards, panels, sections, plain boxes) are left out.
+const CONTROL_SLOTS: Record<string, string> = {
+  button: "BUTTON",
+  toggle: "TOGGLE",
+  "toggle-group-item": "TOGGLE",
+  "tabs-trigger": "TAB",
+  input: "INPUT",
+  textarea: "INPUT",
+  "input-group": "INPUT",
+  "input-otp-slot": "INPUT",
+  "select-trigger": "SELECT",
+  "combobox-trigger": "SELECT",
+  "native-select": "SELECT",
+  checkbox: "CHECKBOX",
+  switch: "SWITCH",
+  "radio-group-item": "RADIO",
+  slider: "SLIDER",
+  progress: "PROGRESS",
+  badge: "BADGE",
+  avatar: "AVATAR",
+  kbd: "KBD",
+}
+
+const CONTROL_ROLES: Record<string, string> = {
+  button: "BUTTON",
+  switch: "SWITCH",
+  checkbox: "CHECKBOX",
+  radio: "RADIO",
+  slider: "SLIDER",
+  tab: "TAB",
+  textbox: "INPUT",
+  combobox: "SELECT",
+}
+
+const CONTROL_TAGS: Record<string, string> = {
+  BUTTON: "BUTTON",
+  INPUT: "INPUT",
+  TEXTAREA: "INPUT",
+  SELECT: "SELECT",
+  IMG: "IMAGE",
+  PICTURE: "IMAGE",
+  VIDEO: "IMAGE",
+  CANVAS: "IMAGE",
+}
+
+/**
+ * What the reticle's tag calls an element the sketch traces as a control,
+ * from its slot, its role or its tag in that order; null for layout and
+ * structure.
+ */
+export function getControlName(element: {
+  slot?: string
+  role?: string
+  tagName: string
+}) {
+  return (
+    (element.slot && CONTROL_SLOTS[element.slot]) ||
+    (element.role && CONTROL_ROLES[element.role]) ||
+    CONTROL_TAGS[element.tagName] ||
+    null
+  )
 }
 
 export type FieldDot = {

@@ -1,6 +1,6 @@
 ---
 title: Loader
-description: How placeholders look while content loads. Skeleton pulses quietly; Blueprint draws each placeholder as its own dotted outline, traced by a pen. Pick one for the project and set it on any container.
+description: How placeholders look while content loads. Skeleton pulses quietly; Blueprint traces the placeholders of base components (buttons, inputs, avatars, lines of text) with a pen, while layout stays calm. Pick one for the project and set it on any container.
 ---
 
 <ComponentPreview
@@ -11,18 +11,18 @@ description: How placeholders look while content loads. Skeleton pulses quietly;
 
 ## Two loaders
 
-| What            | Skeleton (default)                          | Blueprint                                                                                         |
-| --------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| A placeholder   | A quiet block in the hover fill that pulses | Its own dotted outline, no fill, with a pen tracing it from the top and erasing it again          |
-| A loading chart | Its marks at half strength                  | Its marks hidden, the plot traced as a placeholder until the data arrives, then the marks fade in |
-| Feels like      | A calm product screen                       | Something being built for you: a landing page, a showcase, a first load that deserves a moment    |
+| What                                | Skeleton (default)                          | Blueprint                                                                                |
+| ----------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| A control's placeholder             | A quiet block in the hover fill that pulses | Its own dotted outline, no fill, with a pen tracing it from the top and erasing it again |
+| A layout placeholder (panel, block) | The same quiet block                        | The same quiet block: layout stays calm                                                  |
+| A loading chart                     | Its marks at half strength                  | Its marks at half strength: a plot is layout                                             |
+| Feels like                          | A calm product screen                       | The controls being drawn for you while the page settles                                  |
 
-The loader is a foundation like [density](/docs/foundations/density) and [motion](/docs/foundations/motion): a set of CSS variables that every placeholder reads. Changing it changes them all at once:
+The blueprint is for base components. A placeholder no taller than a control (3.5rem: a button, an input, a select, a badge, an avatar, a line of text) is traced; anything taller (a card's content area, a panel, a sidebar, a plot, a page) is layout and keeps the skeleton's block, so a full page of placeholders never turns into a pattern. Each placeholder decides from its own height, with no setup: it is a size container, and its layers query it.
 
-- [Skeleton](/docs/components/base/skeleton), and everything built from it: Data Table's first-load rows, Canvas's loading nodes, block previews.
-- Every chart's `loading` state, Status Bar's and Heat Calendar's.
+The loader is a foundation like [density](/docs/foundations/density) and [motion](/docs/foundations/motion): a set of CSS variables that every placeholder reads. Changing it changes them all at once: [Skeleton](/docs/components/base/skeleton) and everything built from it, such as Data Table's first-load rows and Canvas's loading nodes.
 
-To sketch a real component into place, with every part traced, wrap it in [Blueprint](/docs/components/base/blueprint). Its `loading` prop holds the sketch until the data arrives.
+To sketch a real component into place, with its controls traced, wrap it in [Blueprint](/docs/components/base/blueprint). Its `loading` prop holds the sketch until the data arrives.
 
 ## Pick it for a project
 
@@ -44,27 +44,25 @@ It writes the blueprint tokens into `:root`, next to your colours, density and m
 
 Loaders nest, so `data-loader="skeleton"` keeps one region calm inside a blueprint project. The `loader-skeleton` and `loader-blueprint` utilities do the same from a class, so `md:loader-blueprint` works.
 
-Every placeholder is drawn as its own shape, so a page of them, a full layout included, reads as parts being drawn rather than one patterned surface.
-
 ## Motion
 
 The pen draws both sides of the outline from the top centre to the bottom, the way Blueprint draws an outline, then erases them the same way: one trace every three reveals (2.1s at the default speed), on the soft in-out curve. A project's speed and `data-motion` retime it, and `off` holds it still. Under Reduce Motion the outline stays and the pen stops; the skeleton stops pulsing.
 
 ## Tokens
 
-| Variable                 | Skeleton               | Blueprint                   |
-| ------------------------ | ---------------------- | --------------------------- |
-| `--loader`               | `skeleton`             | `blueprint`                 |
-| `--loader-fill`          | `var(--hover)`         | `transparent`               |
-| `--loader-outline`       | `transparent`          | the muted foreground at 38% |
-| `--loader-outline-width` | `0px`                  | `1.5px`                     |
-| `--loader-animation`     | `var(--animate-pulse)` | `none`                      |
-| `--loader-pen`           | `transparent`          | the foreground at 34%       |
-| `--loader-trace`         | `none`                 | the trace                   |
-| `--loader-dim`           | `0.5`                  | `0`                         |
-| `--loader-reveal`        | the feedback duration  | the reveal duration         |
+| Variable                     | Skeleton               | Blueprint                   |
+| ---------------------------- | ---------------------- | --------------------------- |
+| `--loader`                   | `skeleton`             | `blueprint`                 |
+| `--loader-fill`              | `var(--hover)`         | `var(--hover)`              |
+| `--loader-animation`         | `var(--animate-pulse)` | `var(--animate-pulse)`      |
+| `--loader-control-fill`      | `var(--hover)`         | `transparent`               |
+| `--loader-control-animation` | `var(--animate-pulse)` | `none`                      |
+| `--loader-outline`           | `transparent`          | the muted foreground at 38% |
+| `--loader-outline-width`     | `0px`                  | `1.5px`                     |
+| `--loader-pen`               | `transparent`          | the foreground at 34%       |
+| `--loader-trace`             | `none`                 | the trace                   |
 
-`--loader-head` and `--loader-tail` are the pen's two angles, registered with `@property` so they animate.
+The plain tokens are layout's, the `control` ones a control's. `--loader-head` and `--loader-tail` are the pen's two angles, registered with `@property` so they animate.
 
 `--loader` holds the name, for code that needs to know which loader is on: `getComputedStyle(element).getPropertyValue("--loader")`.
 
