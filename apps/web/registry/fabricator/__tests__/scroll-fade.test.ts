@@ -127,10 +127,49 @@ describe("scroll-fade-inset", () => {
   })
 })
 
+describe("surface-fade", () => {
+  it("paints its surface, solid at the named edge, eased over --surface-fade-size", async () => {
+    const css = await build(["surface-fade-s", "surface-fade-e"])
+    const start = rulesFor(css, "surface-fade-s").join("")
+    expect(start).toContain("linear-gradient(to right")
+    expect(start).toContain("var(--surface-fade-color, var(--background))")
+    expect(start).toContain("calc(100% - var(--surface-fade-size, 100%)")
+    expect(start).toMatch(/\[dir="rtl"\][\s\S]*linear-gradient\(to left/)
+    expect(rulesFor(css, "surface-fade-e").join("")).toContain(
+      "linear-gradient(to left"
+    )
+  })
+
+  it("keeps a row's hover or selection wash over the surface as it fades", async () => {
+    const start = rulesFor(
+      await build(["surface-fade-s"]),
+      "surface-fade-s"
+    ).join("")
+    const wash = start.indexOf("var(--surface-fade-wash, transparent)")
+    expect(wash).toBeGreaterThan(-1)
+    // Listed first, so it paints over the surface.
+    expect(wash).toBeLessThan(start.indexOf("var(--surface-fade-color"))
+  })
+
+  it("is painted, never a mask, so every row's pinned cell stays cheap", async () => {
+    const start = rulesFor(
+      await build(["surface-fade-s"]),
+      "surface-fade-s"
+    ).join("")
+    expect(start).not.toContain("mask")
+  })
+})
+
 describe("sticky-fade", () => {
-  it("paints the page's colour past the sticky element's edge", async () => {
+  it("fades the sticky element's own background past its edge", async () => {
     const css = await build(["sticky-fade-b", "sticky-fade-t"])
-    expect(css).toContain("var(--sticky-fade-color, var(--background))")
+    expect(css).toContain("background-color: inherit")
+    expect(css).toMatch(
+      /mask-image: linear-gradient\(to bottom, rgb\(0 0 0 \/ 1\)/
+    )
+    expect(css).not.toMatch(
+      /--current-surface|--sticky-fade-color|var\(--background\)/
+    )
     expect(css).toMatch(
       /\.sticky-fade-b \{[\s\S]*?&::after|\.sticky-fade-b::after/
     )

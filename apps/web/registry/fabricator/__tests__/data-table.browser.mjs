@@ -350,9 +350,10 @@ try {
   await page.$eval(VIEWPORT, (viewport) => (viewport.scrollTop = 0))
   await loaded(page)
 
-  // Pinned edges: the line and the shadow show only while rows scroll under
-  // the pinned columns. The line belongs to the pinned edge cells, which
-  // are opaque, so the rows under them never show through it.
+  // Pinned edges: the pinned edge cell paints its surface and its row's wash
+  // eased to clear across its far padding, so rows scrolling under it
+  // dissolve into it and a lit row stays lit. Painted, not masked, and no
+  // line or shadow.
   const edges = async () =>
     page.$eval('[data-slot="data-table-content"]', (content) => ({
       start: content.hasAttribute("data-overflow-start"),
@@ -360,12 +361,25 @@ try {
     }))
   const edgeCell = await page.$eval(
     '[data-slot="data-table-cell"][data-pin-edge="start"]',
-    (cell) => ({
-      sticky: getComputedStyle(cell).position,
-      line: getComputedStyle(cell, "::after").width,
-    })
+    (cell) => {
+      const style = getComputedStyle(cell)
+      return {
+        sticky: style.position,
+        fill: style.backgroundColor,
+        fades: (style.backgroundImage.match(/linear-gradient/g) ?? []).length,
+        masked: style.maskImage !== "none",
+        line: getComputedStyle(cell, "::after").content,
+      }
+    }
   )
-  assert.deepEqual(edgeCell, { sticky: "sticky", line: "1px" })
+  assert.deepEqual(edgeCell, {
+    sticky: "sticky",
+    fill: "rgba(0, 0, 0, 0)",
+    fades: 2,
+    masked: false,
+    line: "none",
+  })
+
   await page.$eval(VIEWPORT, (viewport) => (viewport.scrollLeft = 0))
   await settle(page)
   assert.deepEqual(await edges(), { start: false, end: true })

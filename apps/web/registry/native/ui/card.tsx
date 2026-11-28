@@ -2,8 +2,10 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { Pressable, View } from "react-native"
+import { useResolveClassNames } from "uniwind"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
+import { SurfaceColorProvider } from "@/registry/native/lib/surface-color"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 
 type CardSize = "default" | "sm"
@@ -26,6 +28,21 @@ const cardVariants = cva("cn-card flex-col", {
       default: "cn-card-variant-default",
       muted: "cn-card-variant-muted",
       tray: "cn-card-variant-tray",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+})
+
+// The card's surface, for fades painted over its content. A muted card is a
+// wash over what's around it, so it keeps that surface.
+const cardSurfaceVariants = cva("", {
+  variants: {
+    variant: {
+      default: "cn-card-surface-color",
+      muted: "",
+      tray: "cn-card-surface-color",
     },
   },
   defaultVariants: {
@@ -61,29 +78,36 @@ function Card({
     ...props,
   }
   const content = renderTextChildren(children)
+  const { color: surfaceColor } = useResolveClassNames(
+    cardSurfaceVariants({ variant })
+  )
   return (
-    <CardContext value={state}>
-      <CardLinkContext value={register}>
-        <TextStyle className="cn-card-text">
-          {isLinked ? (
-            // The CardLink is what a screen reader focuses; the card only
-            // widens its target, as the link's cover does on the website.
-            <Pressable
-              {...shared}
-              accessible={false}
-              onPress={() => {
-                feedback("tick")
-                pressRef.current?.()
-              }}
-            >
-              {content}
-            </Pressable>
-          ) : (
-            <View {...shared}>{content}</View>
-          )}
-        </TextStyle>
-      </CardLinkContext>
-    </CardContext>
+    <SurfaceColorProvider
+      color={typeof surfaceColor === "string" ? surfaceColor : undefined}
+    >
+      <CardContext value={state}>
+        <CardLinkContext value={register}>
+          <TextStyle className="cn-card-text">
+            {isLinked ? (
+              // The CardLink is what a screen reader focuses; the card only
+              // widens its target, as the link's cover does on the website.
+              <Pressable
+                {...shared}
+                accessible={false}
+                onPress={() => {
+                  feedback("tick")
+                  pressRef.current?.()
+                }}
+              >
+                {content}
+              </Pressable>
+            ) : (
+              <View {...shared}>{content}</View>
+            )}
+          </TextStyle>
+        </CardLinkContext>
+      </CardContext>
+    </SurfaceColorProvider>
   )
 }
 

@@ -12,6 +12,12 @@
     @apply bg-card shadow-surface-2;
   }
 
+  /* The card's surface as a colour, read by fades painted over its content
+     (a ScrollArea inside the card fades to the card, not the page). */
+  .cn-card-surface-color {
+    @apply text-card;
+  }
+
   /* A wash with no shadow. */
   .cn-card-variant-muted {
     @apply bg-muted;

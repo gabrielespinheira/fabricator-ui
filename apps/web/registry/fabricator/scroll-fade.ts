@@ -16,8 +16,17 @@
 //   header, footer or column inside the scroller, so the sticky part stays
 //   solid and content fades as it reaches it.
 // - `sticky-fade-{t,b,s,e}` is for a sticky or fixed element over a scroller
-//   that can't be masked (the page itself): it paints the page's colour past
-//   its edge, eased the same way, while content is scrolled under it.
+//   that can't be masked (the page itself): past its edge it paints its own
+//   background colour (`background-color: inherit`), eased the same way,
+//   while content is scrolled under it. A fade in any other colour reads as
+//   a dark or light band, so it takes whatever surface the element is.
+// - `surface-fade-{t,b,s,e}` paints the same fade as an element's own
+//   background: `--surface-fade-color`, solid at that edge, eased to clear
+//   over its last `--surface-fade-size`, with `--surface-fade-wash` (a row's
+//   hover or selection) on top. A pinned cell uses it so rows scrolling under
+//   it show through its far padding and a lit row stays lit. It is painted,
+//   not masked: a mask on every pinned cell of every row recomposites each
+//   frame and made a fast scroll outrun the rows.
 
 import type { CssObject } from "@/registry/fabricator/css-object"
 
@@ -141,12 +150,11 @@ function toFadeUtility(
 
 const EDGES: Edge[] = ["t", "b", "s", "e"]
 
-// The fade a sticky element paints: the page's colour, eased to clear.
-function toStickyGradient(direction: string) {
-  const color = "var(--sticky-fade-color, var(--background))"
+// A mask, solid at the start of `direction` and eased to clear.
+function toEdgeMask(direction: string) {
   const stops = getFadeRamp().map(({ position, alpha }) => {
-    const cover = Math.round((1 - alpha) * 1000) / 10
-    return `color-mix(in oklab, ${color} ${cover}%, transparent) ${position * 100}%`
+    const shown = Number((1 - alpha).toFixed(3))
+    return `rgb(0 0 0 / ${shown}) ${position * 100}%`
   })
   return `linear-gradient(${direction}, ${stops.join(", ")})`
 }
@@ -217,7 +225,11 @@ function toStickyUtility({
       position: "absolute",
       ...place,
       "pointer-events": "none",
-      "background-image": toStickyGradient(direction),
+      // The element's own surface, whatever it is: a header on a card fades
+      // to the card, a table's head to the table.
+      "background-color": "inherit",
+      "-webkit-mask-image": toEdgeMask(direction),
+      "mask-image": toEdgeMask(direction),
       // Hidden until the scroller has content under the element; a scroller
       // that doesn't overflow has an inactive timeline and stays hidden.
       "@supports (animation-timeline: scroll())": {
@@ -231,7 +243,52 @@ function toStickyUtility({
     },
     ...(rtlDirection && {
       '&:where([dir="rtl"], [dir="rtl"] *)::after': {
-        "background-image": toStickyGradient(rtlDirection),
+        "-webkit-mask-image": toEdgeMask(rtlDirection),
+        "mask-image": toEdgeMask(rtlDirection),
+      },
+    }),
+  }
+}
+
+// A painted fade: `color`, solid at the start of `direction`, eased to clear
+// over the last `size`.
+function toPaintedFade(direction: string, color: string, size: string) {
+  const stops = getFadeRamp().map(({ position, alpha }) => {
+    const cover = Math.round((1 - alpha) * 1000) / 10
+    const at = `calc(100% - ${size} + ${size} * ${position})`
+    return `color-mix(in oklab, ${color} ${cover}%, transparent) ${at}`
+  })
+  return `linear-gradient(${direction}, ${stops.join(", ")})`
+}
+
+const SURFACE_FADE_DIRECTIONS: Record<
+  Edge,
+  { direction: string; rtlDirection?: string }
+> = {
+  t: { direction: "to bottom" },
+  b: { direction: "to top" },
+  s: { direction: "to right", rtlDirection: "to left" },
+  e: { direction: "to left", rtlDirection: "to right" },
+}
+
+// The wash over the surface, on the same ramp.
+const toSurfaceFadeImage = (direction: string) =>
+  [
+    "var(--surface-fade-wash, transparent)",
+    "var(--surface-fade-color, var(--background))",
+  ]
+    .map((color) =>
+      toPaintedFade(direction, color, "var(--surface-fade-size, 100%)")
+    )
+    .join(", ")
+
+function toSurfaceFadeUtility(edge: Edge): CssObject {
+  const { direction, rtlDirection } = SURFACE_FADE_DIRECTIONS[edge]
+  return {
+    "background-image": toSurfaceFadeImage(direction),
+    ...(rtlDirection && {
+      '&:where([dir="rtl"], [dir="rtl"] *)': {
+        "background-image": toSurfaceFadeImage(rtlDirection),
       },
     }),
   }
@@ -318,6 +375,12 @@ export const SCROLL_FADE_CSS: CssObject = {
     EDGES.map((edge) => [
       `@utility scroll-fade-inset-${edge}-*`,
       toSpacingUtility(`--scroll-fade-${edge}-inset`),
+    ])
+  ),
+  ...Object.fromEntries(
+    EDGES.map((edge) => [
+      `@utility surface-fade-${edge}`,
+      toSurfaceFadeUtility(edge),
     ])
   ),
   ...Object.fromEntries(

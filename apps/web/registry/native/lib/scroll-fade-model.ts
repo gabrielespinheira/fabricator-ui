@@ -26,6 +26,25 @@ export function withAlpha(color: string, alpha: number) {
   return channels ? `rgba(${channels.join(", ")}, ${alpha})` : "transparent"
 }
 
+/**
+ * The colour a painted fade takes: one passed in, else the surface the area
+ * sits on (a Card provides it), else the page. A fade in the page's colour
+ * inside a card reads as a dark band.
+ */
+export function pickFadeColor({
+  explicit,
+  surface,
+  theme,
+}: {
+  explicit?: string
+  surface?: string
+  theme: unknown
+}) {
+  return (
+    explicit ?? surface ?? (typeof theme === "string" ? theme : "transparent")
+  )
+}
+
 /** Grows with the distance to an edge, reaching full at the fade's size. */
 export function getFadeOpacity(distance: number, size: number) {
   "worklet"

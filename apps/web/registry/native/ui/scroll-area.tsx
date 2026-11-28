@@ -15,7 +15,9 @@ import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import {
   getEdgeFade,
   getFadeOpacity,
+  pickFadeColor,
 } from "@/registry/native/lib/scroll-fade-model"
+import { useSurfaceColor } from "@/registry/native/lib/surface-color"
 import { renderTextChildren } from "@/registry/native/ui/text"
 
 // Native scrolling, with the edges faded where there is more to scroll. Touch
@@ -75,7 +77,7 @@ function ScrollArea({
   onContentSizeChange,
   ...props
 }: Omit<React.ComponentProps<typeof ScrollView>, "onScroll"> & {
-  /** What's behind the area: the fade paints over the content in this colour. */
+  /** What's behind the area: the fade paints over the content in this colour. Defaults to the surface it sits on (a Card's), then the page. */
   fadeColor?: string
 }) {
   const parts = React.Children.toArray(children)
@@ -90,8 +92,11 @@ function ScrollArea({
   const isHorizontal = Boolean(horizontal ?? hasHorizontalBar)
 
   const { color: themeColor } = useResolveClassNames(fadeColorVariants())
-  const color =
-    fadeColor ?? (typeof themeColor === "string" ? themeColor : "transparent")
+  const color = pickFadeColor({
+    explicit: fadeColor,
+    surface: useSurfaceColor(),
+    theme: themeColor,
+  })
   const fadeSize = parseNumber(useCSSVariable("--density-24"), 24)
 
   const offset = useSharedValue(0)

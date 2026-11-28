@@ -219,7 +219,7 @@ Content that scrolls never stops at a hard line. Where it leaves view it dissolv
 | One edge only ever has more: a log from the top, a chat from the bottom                             | `scroll-fade-t` or `scroll-fade-b`                                                                             |
 
 - **The fade replaces the line.** A sticky part over a faded scroller has no border or shadow under it.
-- **Fade the content, not the frame.** The card's surface and edge go on a wrapper and the fade on the scroller inside it. `sticky-fade-*` paints the page's colour; on a card set `--sticky-fade-color: var(--card)`.
+- **Fade the content, not the frame.** The card's surface and edge go on a wrapper and the fade on the scroller inside it. `sticky-fade-*` fades the sticky part's own background, so it is the surface it sits on, never black or the page's colour.
 - **Keep the default depth.** It scales with the scroller up to 56px. Set one only on a strip under 40px tall (`scroll-fade-6`).
 - **Apply it freely.** A scroller whose content fits shows no fade.
 - **A mask fades everything in the scroller,** sticky parts included, until they have an inset. Popups are portalled, so they never fade.

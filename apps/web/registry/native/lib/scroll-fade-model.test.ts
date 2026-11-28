@@ -5,6 +5,7 @@ import {
   getEdgeFade,
   getFadeOpacity,
   getHeaderFade,
+  pickFadeColor,
   withAlpha,
 } from "@/registry/native/lib/scroll-fade-model"
 
@@ -19,6 +20,29 @@ describe("withAlpha", () => {
 
   it("falls back to transparent for what it can't read", () => {
     expect(withAlpha("oklch(0.5 0.1 200)", 0)).toBe("transparent")
+  })
+})
+
+describe("pickFadeColor", () => {
+  it("paints the surface the area sits on, then the page", () => {
+    expect(pickFadeColor({ surface: "#262626", theme: "#171717" })).toBe(
+      "#262626"
+    )
+    expect(pickFadeColor({ theme: "#171717" })).toBe("#171717")
+  })
+
+  it("lets an explicit colour win", () => {
+    expect(
+      pickFadeColor({
+        explicit: "#ff0000",
+        surface: "#262626",
+        theme: "#171717",
+      })
+    ).toBe("#ff0000")
+  })
+
+  it("paints nothing when no colour resolves", () => {
+    expect(pickFadeColor({ theme: undefined })).toBe("transparent")
   })
 })
 
