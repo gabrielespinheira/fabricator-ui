@@ -1137,7 +1137,6 @@ function DataTableSettings<TData extends RowData>({
   return (
     <Popover>
       <PopoverTrigger
-        render={<Button variant="ghost" size="icon-xs" />}
         aria-label="Table settings"
         data-slot="data-table-settings-trigger"
         className="cn-data-table-settings-trigger"
@@ -1204,10 +1203,13 @@ function DataTableSettings<TData extends RowData>({
           </label>
         </div>
         <Separator />
-        <div className="cn-data-table-section flex flex-col">
-          <div className="flex items-center">
+        <div className="cn-data-table-section cn-data-table-columns flex min-h-0 flex-col">
+          <div className="cn-data-table-columns-header flex items-center">
             <span className="cn-data-table-section-label flex-1">
-              Columns · {shown} of {listed.length}
+              Columns
+            </span>
+            <span className="cn-data-table-columns-count tabular-nums">
+              {shown} of {listed.length}
             </span>
             {hideable.some((column) => !column.getIsVisible()) && (
               <Button
@@ -1221,7 +1223,6 @@ function DataTableSettings<TData extends RowData>({
           </div>
           <DataTableColumnList table={table} />
         </div>
-        <Separator />
         <div className="cn-data-table-panel-actions grid grid-cols-2">
           {hasActiveFilters(table) && (
             <Button
@@ -1308,7 +1309,7 @@ function DataTableColumnList<TData extends RowData>({
     <SortableProvider axis="y" onMove={onMove}>
       <ul
         aria-label="Columns"
-        className="cn-data-table-column-list flex flex-col overflow-y-auto"
+        className="cn-data-table-column-list flex min-h-0 flex-col overflow-y-auto"
       >
         {sides.map(({ side, columns }) =>
           columns.map((column, index) => (
@@ -1358,13 +1359,13 @@ function DataTableColumnItem<TData extends RowData>({
       data-slot="data-table-column-item"
       data-dragging={isDragging ? "" : undefined}
       data-pinned={column.getIsPinned() || undefined}
-      className="cn-data-table-column-row flex min-w-0 items-center"
+      className="cn-data-table-column-row relative flex min-w-0 items-center"
     >
       <span
         ref={attachHandle}
         aria-hidden="true"
         data-slot="data-table-column-handle"
-        className="cn-data-table-column-handle inline-flex shrink-0 touch-none"
+        className="cn-data-table-column-handle absolute inset-y-0 start-0 z-10 grid touch-none place-items-center"
       >
         <IconPlaceholder
           lucide="GripVerticalIcon"
@@ -1376,7 +1377,7 @@ function DataTableColumnItem<TData extends RowData>({
       </span>
       <Button
         variant="ghost"
-        size="sm"
+        size="default"
         aria-pressed={visible}
         aria-label={`Show ${label}`}
         aria-keyshortcuts="Alt+Shift+ArrowUp Alt+Shift+ArrowDown"

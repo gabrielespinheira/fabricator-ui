@@ -80,8 +80,10 @@
     @apply -mx-(--density-4) h-(--density-28) flex-1 gap-(--density-6) rounded-(--radius-inner) px-(--density-4) font-medium enabled:cursor-pointer transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring;
   }
 
+  /* 16px, the label's cap height plus its overshoot. Centred in the head it
+     sits on the line box's middle, a pixel under the caps', so it lifts. */
   .cn-data-table-sort-icon {
-    @apply size-(--density-icon-16) text-muted-foreground [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.75];
+    @apply size-(--density-icon-16) -translate-y-px text-muted-foreground [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
   }
 
   .cn-data-table-sort-type {
@@ -193,9 +195,10 @@
     @apply border-none bg-transparent p-(--density-16);
   }
 
-  /* React Aria's popover holds a dialog: the panel's stack moves into it. */
+  /* React Aria's popover holds a dialog: the panel's stack moves into it,
+     and it shrinks with the popover so the columns list can scroll. */
   .cn-data-table-panel-aria {
-    @apply gap-(--density-10);
+    @apply min-h-0 gap-(--density-10);
   }
 
   .cn-data-table-panel-header {
@@ -346,10 +349,12 @@
     @apply justify-start gap-(--density-8) px-(--density-8) font-normal text-muted-foreground hover:text-foreground aria-disabled:opacity-50 aria-disabled:hover:bg-transparent aria-disabled:hover:text-muted-foreground [&_svg]:text-muted-foreground;
   }
 
-  /* Settings: a sliders button centred over the actions, a density toggle,
-     switches for the footer, numbers, stripes and lines, and the columns. */
+  /* Settings: a bare sliders icon centred over the actions, a density
+     toggle, switches for the footer, numbers, stripes and lines, and the
+     columns. The trigger draws no surface: it spans the column so the whole
+     head end is the target, and only the icon lights up. */
   .cn-data-table-settings-trigger {
-    @apply text-muted-foreground hover:text-foreground data-popup-open:text-foreground data-[state=open]:text-foreground aria-expanded:text-foreground;
+    @apply grid h-(--density-28) w-full cursor-pointer place-items-center rounded-(--radius-inner) text-foreground opacity-60 outline-none transition-opacity duration-feedback ease-feedback hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring data-focus-visible:opacity-100 data-focus-visible:ring-1 data-focus-visible:ring-ring data-popup-open:opacity-100 data-[state=open]:opacity-100 aria-expanded:opacity-100 [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.75];
   }
 
   .cn-data-table-settings {
@@ -360,23 +365,35 @@
     @apply -mx-(--density-6) min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-(--radius-control) px-(--density-6) transition-colors duration-feedback ease-feedback hover:bg-hover;
   }
 
-  /* Columns: a list in the table's order. Each row has a grip, quiet until
-     the row is lit, and is lifted onto surface 4 while dragged. Pinned ones
-     carry a pin; hidden ones read muted. */
-  .cn-data-table-column-list {
-    @apply -mx-(--density-6) max-h-72 gap-px;
+  /* Columns: the one part of the panel that scrolls. It takes the height
+     the other sections leave and fades at the edges content runs past, so
+     more columns read as more. The count sits at the end of its label. */
+  .cn-data-table-columns-header {
+    @apply min-h-(--density-24) gap-(--density-8);
   }
 
+  .cn-data-table-columns-count {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-data-table-column-list {
+    @apply -mx-(--density-6) min-h-24 gap-px overscroll-y-contain scroll-fade [--scroll-fade-size:var(--density-24)];
+  }
+
+  /* Rows line up with the switches above: type icon, label, pin, eye, at
+     the panel's type size. Lit, the type icon gives its place to the grip
+     (always shown on touch); dragged, the row lifts onto surface 4. Hidden
+     columns read muted. */
   .cn-data-table-column-row {
-    @apply gap-px rounded-(--radius-control) data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
+    @apply rounded-(--radius-control) data-dragging:bg-surface-4 data-dragging:shadow-surface-4;
   }
 
   .cn-data-table-column-handle {
-    @apply cursor-grab rounded-(--radius-inner) p-1 text-muted-foreground/0 transition-colors duration-feedback ease-feedback in-[li:hover]:text-muted-foreground/60 in-[li:focus-within]:text-muted-foreground/60 in-data-dragging:text-foreground hover:text-foreground! active:cursor-grabbing pointer-coarse:text-muted-foreground/60 [&_svg]:size-(--density-icon-14);
+    @apply w-[calc(var(--density-6)*2+var(--density-icon-16))] cursor-grab text-muted-foreground opacity-0 transition-[opacity,color] duration-feedback ease-feedback in-[li:hover]:opacity-100 in-data-dragging:text-foreground in-data-dragging:opacity-100 hover:text-foreground active:cursor-grabbing pointer-coarse:opacity-100 [&_svg]:size-(--density-icon-16);
   }
 
   .cn-data-table-column-item {
-    @apply justify-start gap-(--density-8) ps-(--density-4) pe-(--density-6) font-normal text-foreground aria-disabled:cursor-default aria-disabled:hover:bg-transparent data-hidden:text-muted-foreground [&_svg]:text-muted-foreground [&_svg[data-slot=data-table-column-pin]]:size-(--density-icon-14) [&_svg[data-slot=data-table-column-pin]]:opacity-70;
+    @apply h-(--density-32) justify-start gap-(--density-8) px-(--density-6) font-normal text-foreground aria-disabled:cursor-default aria-disabled:hover:bg-transparent data-hidden:text-muted-foreground [&_svg]:text-muted-foreground [&>svg:first-child]:transition-[opacity,stroke-width] in-[li:hover]:[&>svg:first-child]:opacity-0 in-data-dragging:[&>svg:first-child]:opacity-0 pointer-coarse:[&>svg:first-child]:opacity-0 [&_svg[data-slot=data-table-column-pin]]:size-(--density-icon-14) [&_svg[data-slot=data-table-column-pin]]:opacity-70;
   }
 
   /* Moving a column by its head: a copy of the head lifts to surface 5 and
