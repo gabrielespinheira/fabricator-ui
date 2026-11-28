@@ -103,6 +103,8 @@ updated:
   - workspace-switcher
   - /docs/installation/vite
   - /docs/icons
+  - /docs/foundations/density
+  - native-select
 ---
 
 ## Fabricator Icons
@@ -115,9 +117,15 @@ The calendar family has a narrower body and aligned pins and dividers across all
 
 Circle and square letters are optically centred, and Fill uses the same letter strokes as a cutout.
 
+`ShareIcon` has a smaller arrowhead and a lower, wider-open tray, so the arrow's points keep clear of the tray at every size.
+
 The [Icons gallery](/icons) opens on All, where one search covers every icon set. The gallery previews sizes from 14 to 48 px and stroke widths from 0.5 to 3. Icon names appear on hover and keyboard focus. Select a tile to compare sizes and copy or download the icon from a bottom drawer.
 
-**Sidebar.** Navigation icons and dots follow the 14, 16, and 18 px density sizes. Hovered and selected navigation icons keep the same stroke width as resting icons. The Sidebar and App Shell use the packaged `SidebarToggleIcon` on web and React Native. The icon has a narrower, slightly taller frame. The inner panel widens as it opens, and the right panel uses the mirrored drawing. The icon is available in Outline, Fill, Duotone, and Animated. On iPhone, the sidebar renders on the first tap after launch.
+**Icons are never smaller than 16px.** Compact density, small and extra-small buttons, badges, breadcrumb separators, menu chevrons, toasts, chips and every other component now draw icons at 16px or larger, on web and React Native. The icon tokens are floored at 16px: `--density-icon-16` is 16px in compact (was 14px) and `--density-icon-14` is 16px in compact and default (was 12px and 14px), so components that use them grow with no change on your side. Toast's close button grows to 24px to hold its 16px icon. Glyphs inside a control's own indicator keep their size: checkbox and choice checks, an avatar's badge and Kbd keycaps. An explicit `className` such as `size-3` still wins. [Density](/docs/foundations/density).
+
+**Clearer App Shell header.** The header's buttons draw their icons at a 2-unit stroke, and the current page in the breadcrumb reads a weight above its muted parents, on web and React Native.
+
+**Sidebar.** A row's leading icon is larger and heavier: 18 px with a 2-unit stroke at the default density, 16 and 20 px in compact and comfortable. Nested rows use the same icons, and their indent, the collapsed rail, status dots and the App Nav's expand chevron follow the new icon column, on web and React Native. Chevrons and other trailing icons keep their size and stroke, and the up and down chevrons on the Workspace Switcher and User Menu move to the small-icon step. Hovered and selected navigation icons keep the same stroke width as resting icons. The Sidebar and App Shell use the packaged `SidebarToggleIcon` on web and React Native. The icon has a narrower, slightly taller frame and is a little larger, matching the desktop window's toggle. The inner panel widens as it opens, and the right panel uses the mirrored drawing. The icon is available in Outline, Fill, Duotone, and Animated. On iPhone, the sidebar renders on the first tap after launch.
 
 **Animated icons.** Arrows follow their direction, eyelids and menu strokes morph, slider knobs travel along their tracks, and check marks draw themselves. Icons with no clear movement trace their strokes into place. Moving strokes and filled shapes have room beyond the SVG viewport. Preview one shot or loop in the [Animated gallery](/icons?set=animated). Use `open` on `PanelLeftIcon` and `PanelRightIcon` to hold the selected width.
 
